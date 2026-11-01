@@ -124,7 +124,9 @@ Research: [README.md](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b
 
 - [ ] **01.01 — Record scope and supported disc revisions**
 
-  - [ ] **01.01.a — Implement:** List supported disc fingerprints, single-player modes and exclusions in a scope document.
+  Progress: [evidence and remaining work](docs/evidence/01.01.md).
+
+  - [x] **01.01.a — Implement:** List supported disc fingerprints, single-player modes and exclusions in a scope document.
   - [ ] **01.01.b — Verify:** Reject an unknown revision with an actionable message rather than silently decoding it.
   - [ ] **01.01.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/01.01.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
@@ -190,7 +192,9 @@ Research: [README.md](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b
 
 - [ ] **01.12 — Record release acceptance criteria**
 
-  - [ ] **01.12.a — Implement:** Write measurable launch, content, career, stability and performance release criteria.
+  Progress: [evidence and remaining work](docs/evidence/01.12.md).
+
+  - [x] **01.12.a — Implement:** Write measurable launch, content, career, stability and performance release criteria.
   - [ ] **01.12.b — Verify:** Ensure every criterion names a test procedure and an accountable sign-off record.
   - [ ] **01.12.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/01.12.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
@@ -214,25 +218,33 @@ Research: [CMakeLists.txt](https://github.com/arkits/road-rash/blob/7aecf6044f2d
 
 - [ ] **02.01 — Create Cargo workspace and game binary**
 
-  - [ ] **02.01.a — Implement:** Create minimal game, format and simulation boundaries with one-way dependencies.
+  Progress: [evidence and remaining work](docs/evidence/02.01.md).
+
+  - [x] **02.01.a — Implement:** Create minimal game, format and simulation boundaries with one-way dependencies.
   - [ ] **02.01.b — Verify:** Build the game and headless simulation without requiring private assets.
   - [ ] **02.01.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/02.01.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
 - [ ] **02.02 — Pin Rust toolchain and Bevy version**
 
-  - [ ] **02.02.a — Implement:** Select exact engine/toolchain versions and record why they were chosen.
+  Progress: [evidence and remaining work](docs/evidence/02.02.md).
+
+  - [x] **02.02.a — Implement:** Select exact engine/toolchain versions and record why they were chosen.
   - [ ] **02.02.b — Verify:** Build on a clean runner using those versions rather than a developer's cached setup.
   - [ ] **02.02.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/02.02.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
 - [ ] **02.03 — Commit Cargo.lock for the application**
 
-  - [ ] **02.03.a — Implement:** Generate the lockfile from the chosen dependency graph and commit it.
+  Progress: [evidence and remaining work](docs/evidence/02.03.md).
+
+  - [x] **02.03.a — Implement:** Generate the lockfile from the chosen dependency graph and commit it.
   - [ ] **02.03.b — Verify:** Run a locked build and ensure CI fails if dependency resolution would change it.
   - [ ] **02.03.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/02.03.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
 - [ ] **02.04 — Choose explicit Bevy feature set**
 
-  - [ ] **02.04.a — Implement:** Enable only the platform/render/audio features needed for the first slice.
+  Progress: [evidence and remaining work](docs/evidence/02.04.md).
+
+  - [x] **02.04.a — Implement:** Enable only the platform/render/audio features needed for the first slice.
   - [ ] **02.04.b — Verify:** Document which feature enables each subsystem and verify a release build.
   - [ ] **02.04.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/02.04.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
@@ -244,13 +256,17 @@ Research: [CMakeLists.txt](https://github.com/arkits/road-rash/blob/7aecf6044f2d
 
 - [ ] **02.06 — Add rustfmt and Clippy checks**
 
-  - [ ] **02.06.a — Implement:** Configure formatting and lint gates with a justified warning policy.
+  Progress: [evidence and remaining work](docs/evidence/02.06.md).
+
+  - [x] **02.06.a — Implement:** Configure formatting and lint gates with a justified warning policy.
   - [ ] **02.06.b — Verify:** Introduce a temporary formatting violation locally and confirm the documented check detects it.
   - [ ] **02.06.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/02.06.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
 - [ ] **02.07 — Add headless core test job**
 
-  - [ ] **02.07.a — Implement:** Run core tests without a window, GPU or original disc.
+  Progress: [evidence and remaining work](docs/evidence/02.07.md).
+
+  - [x] **02.07.a — Implement:** Run core tests without a window, GPU or original disc.
   - [ ] **02.07.b — Verify:** Prove the job distinguishes skipped private-corpus tests from passing synthetic tests.
   - [ ] **02.07.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/02.07.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
@@ -268,19 +284,25 @@ Research: [CMakeLists.txt](https://github.com/arkits/road-rash/blob/7aecf6044f2d
 
 - [ ] **02.10 — Configure ignored private asset directories**
 
-  - [ ] **02.10.a — Implement:** Ignore source discs, extracted media, generated private textures and local caches.
+  Progress: [evidence and remaining work](docs/evidence/02.10.md).
+
+  - [x] **02.10.a — Implement:** Ignore source discs, extracted media, generated private textures and local caches.
   - [ ] **02.10.b — Verify:** Inspect tracked files and a dry-run package manifest for accidental private content.
   - [ ] **02.10.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/02.10.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
 - [ ] **02.11 — Create architecture decision records**
 
-  - [ ] **02.11.a — Implement:** Add decision records containing context, options, decision and consequences.
+  Progress: [evidence and remaining work](docs/evidence/02.11.md).
+
+  - [x] **02.11.a — Implement:** Add decision records containing context, options, decision and consequences.
   - [ ] **02.11.b — Verify:** Link the first records for simulation arithmetic, renderer boundary and asset identity.
   - [ ] **02.11.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/02.11.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
 - [ ] **02.12 — Document contributor setup from clean clone**
 
-  - [ ] **02.12.a — Implement:** Write clean-clone build and placeholder launch commands with expected output.
+  Progress: [evidence and remaining work](docs/evidence/02.12.md).
+
+  - [x] **02.12.a — Implement:** Write clean-clone build and placeholder launch commands with expected output.
   - [ ] **02.12.b — Verify:** Have a fresh directory complete the instructions with no undocumented local files.
   - [ ] **02.12.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/02.12.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
@@ -304,7 +326,9 @@ Research: [src/importer.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f
 
 - [ ] **03.01 — Implement bounded ISO9660 reader or vetted library adapter**
 
-  - [ ] **03.01.a — Implement:** Parse volume descriptors and directory extents with checked offset arithmetic.
+  Progress: [evidence and remaining work](docs/evidence/03.01.md).
+
+  - [x] **03.01.a — Implement:** Parse volume descriptors and directory extents with checked offset arithmetic.
   - [ ] **03.01.b — Verify:** Reject an extent outside the image and directory recursion beyond a configured bound.
   - [ ] **03.01.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/03.01.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
@@ -316,13 +340,17 @@ Research: [src/importer.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f
 
 - [ ] **03.03 — Verify supported executable hash**
 
-  - [ ] **03.03.a — Implement:** Hash executable bytes before using version-specific tables or offsets.
+  Progress: [evidence and remaining work](docs/evidence/03.03.md).
+
+  - [x] **03.03.a — Implement:** Hash executable bytes before using version-specific tables or offsets.
   - [ ] **03.03.b — Verify:** Test correct bytes, a one-byte modification and a same-size unrelated executable.
   - [ ] **03.03.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/03.03.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
 - [ ] **03.04 — Verify complete required file manifest**
 
-  - [ ] **03.04.a — Implement:** Check each required path against the pinned 341-file manifest.
+  Progress: [evidence and remaining work](docs/evidence/03.04.md).
+
+  - [x] **03.04.a — Implement:** Check each required path against the pinned 341-file manifest.
   - [ ] **03.04.b — Verify:** Produce a complete mismatch report and activate only a fully verified corpus.
   - [ ] **03.04.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/03.04.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
@@ -424,7 +452,9 @@ Research: [src/resource.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f
 
 - [ ] **04.06 — Decode BOB rider and police frames**
 
-  - [ ] **04.06.a — Implement:** Parse width and height per BOB frame and preserve exact frame order.
+  Progress: [evidence and remaining work](docs/evidence/04.06.md).
+
+  - [x] **04.06.a — Implement:** Parse width and height per BOB frame and preserve exact frame order.
   - [ ] **04.06.b — Verify:** Validate the reference 326 rider and 45 police frame expectations against supported inputs.
   - [ ] **04.06.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/04.06.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
@@ -578,11 +608,13 @@ Research: [src/race_state.hpp](https://github.com/arkits/road-rash/blob/7aecf604
   - [ ] **06.01.b — Verify:** Test conversions at negative values, boundaries and maximum supported ranges.
   - [ ] **06.01.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/06.01.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **06.02 — Keep screen coordinates outside simulation**
+- [x] **06.02 — Keep screen coordinates outside simulation**
 
-  - [ ] **06.02.a — Implement:** Restrict simulation interfaces to domain coordinates and dimensions.
-  - [ ] **06.02.b — Verify:** Run simulation with no camera or viewport resource installed.
-  - [ ] **06.02.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/06.02.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  Progress: [evidence and remaining work](docs/evidence/06.02.md).
+
+  - [x] **06.02.a — Implement:** Restrict simulation interfaces to domain coordinates and dimensions.
+  - [x] **06.02.b — Verify:** Run simulation with no camera or viewport resource installed.
+  - [x] **06.02.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/06.02.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
 - [ ] **06.03 — Define stable actor identifiers**
 
@@ -604,8 +636,10 @@ Research: [src/race_state.hpp](https://github.com/arkits/road-rash/blob/7aecf604
 
 - [ ] **06.06 — Define immutable presentation snapshots**
 
+  Progress: [evidence and remaining work](docs/evidence/06.06.md).
+
   - [ ] **06.06.a — Implement:** Build snapshots containing only presentation-required state and stable IDs.
-  - [ ] **06.06.b — Verify:** Read snapshots without mutating the authoritative world.
+  - [x] **06.06.b — Verify:** Read snapshots without mutating the authoritative world.
   - [ ] **06.06.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/06.06.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
 - [ ] **06.07 — Order simulation stages explicitly**

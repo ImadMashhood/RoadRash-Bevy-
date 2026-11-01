@@ -27,3 +27,7 @@ Phase 01 is in progress: scope, platform choice, provenance, partial content inv
 ## Reproduction
 
 See GETTING_STARTED.md for commands. The disc receipt is evidence/disc-corpus.json. Public code and manifests contain no original payload. The parent local prototype has not been modified.
+
+## Checkbox maintenance
+
+README checkboxes now reflect completed children rather than all-or-nothing phase estimates. Checked children link to task evidence; partially implemented tasks keep their parent open. The renderer-independent screen-coordinate boundary (06.02) is complete for the current scaffold. No whole phase is certified complete. Update the applicable checkbox and evidence receipt in the same change as subsequent verified work.
