@@ -23,6 +23,7 @@ struct Race(Simulation);
 struct LaunchOptions {
     smoke_frames: Option<u32>,
     capture: Option<PathBuf>,
+    capture_frame: u32,
     replay: Option<Replay>,
     render_rate: String,
     report: Option<PathBuf>,
@@ -44,6 +45,10 @@ struct LaunchOptions {
     calibration: Option<PathBuf>,
     bike: u32,
     rider_color: u8,
+    practice_riders: u8,
+    fast_recovery: bool,
+    rescue_recovery: bool,
+    effects: bool,
 }
 #[derive(Resource, Default)]
 struct Driver(Option<Playback>);
@@ -67,6 +72,8 @@ fn options() -> Result<LaunchOptions, String> {
         render_rate: "60".into(),
         level: 1,
         bike: 1,
+        effects: true,
+        capture_frame: 30,
         ..Default::default()
     };
     let mut args = std::env::args_os().skip(1);
@@ -75,6 +82,27 @@ fn options() -> Result<LaunchOptions, String> {
             .next()
             .ok_or_else(|| format!("missing value for {}", arg.to_string_lossy()))?;
         match arg.to_str() {
+            Some("--practice-riders") => {
+                options.practice_riders = value
+                    .to_string_lossy()
+                    .parse()
+                    .map_err(|_| "practice riders must be 0..14")?;
+                if options.practice_riders > 14 {
+                    return Err("practice riders must be 0..14".into());
+                }
+            }
+            Some("--fast-recovery" | "--rescue-recovery" | "--effects") => {
+                let enabled = match value.to_str() {
+                    Some("on") => true,
+                    Some("off") => false,
+                    _ => return Err("setting must be on/off".into()),
+                };
+                match arg.to_str() {
+                    Some("--effects") => options.effects = enabled,
+                    Some("--fast-recovery") => options.fast_recovery = enabled,
+                    _ => options.rescue_recovery = enabled,
+                }
+            }
             Some("--bike") => {
                 options.bike = value
                     .to_string_lossy()
@@ -98,6 +126,15 @@ fn options() -> Result<LaunchOptions, String> {
                     return Err("smoke test needs at least 120 frames".into());
                 }
                 options.smoke_frames = Some(count);
+            }
+            Some("--capture-frame") => {
+                options.capture_frame = value
+                    .to_string_lossy()
+                    .parse()
+                    .map_err(|_| "invalid capture frame")?;
+                if options.capture_frame == 0 {
+                    return Err("capture frame must be positive".into());
+                }
             }
             Some("--capture") => options.capture = Some(value.into()),
             Some("--install-root") => {
@@ -273,11 +310,28 @@ fn course_view(
         data.join(format!("DATA/COURSES/{stem}.CRS")),
     )?)?;
     let mut assets = rr_render::source::SourceAssets::load(data, catalog, stem, &course)?;
+    if let Some(default) = &assets.animations {
+        assets.palettes.insert(0, default.clone());
+    }
+    for color in std::iter::once(options.rider_color)
+        .chain((0..options.practice_riders).map(|i| (i + 1) % 15))
+        .chain(
+            options
+                .replay
+                .iter()
+                .filter_map(|r| r.encounter.as_ref())
+                .flat_map(|s| s.seeds.iter().map(|s| s.color)),
+        )
+    {
+        if color != 0 && !assets.palettes.contains_key(&color) {
+            assets.palettes.insert(
+                color,
+                std::sync::Arc::new(rr_render::rider::RiderAssets::load(data, color)?),
+            );
+        }
+    }
     if options.rider_color != 0 {
-        assets.animations = Some(std::sync::Arc::new(rr_render::rider::RiderAssets::load(
-            data,
-            options.rider_color,
-        )?));
+        assets.animations = assets.palettes.get(&options.rider_color).cloned();
     }
     if options.asset.is_some() {
         let blob = visual.native.as_ref().ok_or("no selected rider")?;
@@ -335,15 +389,18 @@ fn main() {
         eprintln!("{m}");
         std::process::exit(2)
     });
-    let playback = options
+    let mut playback = options
         .replay
-        .take()
+        .clone()
         .map(Playback::new)
         .transpose()
         .unwrap_or_else(|e| {
             eprintln!("{e}");
             std::process::exit(2)
         });
+    if let Some(playback) = &mut playback {
+        playback.simulation.set_effects_enabled(options.effects);
+    }
     let (visual, asset_root) = visuals(&options).unwrap_or_else(|e| {
         eprintln!("{e}");
         std::process::exit(2)
@@ -371,7 +428,25 @@ fn main() {
                     _ => 0,
                 };
             }
-            Race(Simulation::with_handling(1, config).unwrap())
+            let exe = std::fs::read(data.join("ROADRASH.EXE")).expect("verified executable");
+            let mut setup = rr_simulation::encounter::Setup::source(
+                &config,
+                &course.scene.course,
+                &course.scene.route,
+                &exe,
+                options.level - 1,
+                options.practice_riders,
+            )
+            .unwrap_or_else(|e| {
+                eprintln!("encounter startup: {e}");
+                std::process::exit(2)
+            });
+            setup.seeds[0].color = options.rider_color;
+            setup.rules.assists.fast_recovery = options.fast_recovery;
+            setup.rules.assists.rescue_unreachable = options.rescue_recovery;
+            let mut sim = Simulation::with_encounters(1, config, setup).unwrap();
+            sim.set_effects_enabled(options.effects);
+            Race(sim)
         } else {
             Race::default()
         }
@@ -492,7 +567,7 @@ fn sample_input(
     race: Option<Res<Race>>,
 ) {
     command.0 = tick_command(&input.0);
-    if race.is_some_and(|race| race.0.schema_version() >= 3) {
+    if let Some(race) = race.filter(|race| race.0.schema_version() >= 3) {
         let actions = bindings.0.active(
             Context::Race,
             bindings.0.contexts[&Context::Race]
@@ -511,6 +586,28 @@ fn sample_input(
         } else {
             None
         };
+        if race.0.schema_version() == 4 {
+            command.0.attack = command
+                .0
+                .pose
+                .take()
+                .and_then(rr_simulation::combat::Request::from_pose)
+                .map(|mut request| {
+                    request.side = rr_simulation::combat::Side::Auto;
+                    request
+                });
+            let drive = &input.0.drive;
+            if !drive.neutral() {
+                command.0.walk = Some(rr_simulation::recovery::Walk {
+                    longitudinal: i8::from(command.0.throttle) - i8::from(command.0.brake),
+                    lateral: command
+                        .0
+                        .steer_q15
+                        .unwrap_or(i16::from(command.0.steer))
+                        .signum() as i8,
+                });
+            }
+        }
     }
 }
 fn pause_input(
@@ -654,7 +751,7 @@ fn smoke_test(
     mut exit: MessageWriter<AppExit>,
 ) {
     *frame += 1;
-    if *frame == 30
+    if *frame == options.capture_frame
         && let Some(path) = &options.capture
     {
         let metadata = serde_json::json!({"calibration_profile":options.calibration,"requested_frame":*frame,"simulation_tick":view.0.tick,"interpolation_alpha":view.2,"window_size":options.window_size.unwrap_or((960,720)),"camera":course.as_ref().map(|c|&c.camera),"source_start_q8":course.as_ref().map(|c|c.start_q8),"course":course.as_ref().map(|c|&c.scene.options.course),"level":options.level,"branch_mask":options.branch_mask,"texture_override_active":options.enhanced ^ options.switch_tick.is_some_and(|t|view.0.tick>=t)});

@@ -1,0 +1,8 @@
+{
+  "outcome": "passed",
+  "changed_files": 63,
+  "commercial_payloads_in_changed_files": false,
+  "closed_parents": 23,
+  "closed_checkboxes": 92,
+  "implementation_revision": "commit containing this audit and source"
+}

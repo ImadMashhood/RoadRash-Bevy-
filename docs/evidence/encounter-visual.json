@@ -1,0 +1,69 @@
+{
+  "outcome": "passed",
+  "review": "Sliding body and independent bike proxies use source frames, registered pivots and shadows. Walking capture shows the source on-foot facing and a readable two-line HUD. Near-camera practice riders can cross and clip the screen edge with the existing classic perspective. Off-selected-route bodies are culled only in presentation; recovery state persists.",
+  "captures": [
+    {
+      "name": "sliding.png",
+      "dimensions": [
+        960,
+        720
+      ],
+      "sha256": "3eacd06995317b521b53728da728cdd74ee324cb9a91df36eb5a2741e8e70c58",
+      "simulation_tick": 79,
+      "requested_frame": 40,
+      "interpolation_alpha": 0.9999992251396179,
+      "review": "source sprite/pivot/shadow placement visible; HUD legible; no canonical state writes"
+    },
+    {
+      "name": "walking.png",
+      "dimensions": [
+        960,
+        720
+      ],
+      "sha256": "40473f0781b2718171e68f5f6b9703a45bf1f5ce801c9b342b0c2b541e790006",
+      "simulation_tick": 299,
+      "requested_frame": 720,
+      "interpolation_alpha": 0.9999808073043823,
+      "review": "source sprite/pivot/shadow placement visible; HUD legible; no canonical state writes"
+    },
+    {
+      "name": "live-practice.png",
+      "dimensions": [
+        960,
+        720
+      ],
+      "sha256": "5150c36eaacfc3d43dc2853f350e338df11f9ad8d8ec30c328ea43410d793af1",
+      "simulation_tick": 46,
+      "requested_frame": 30,
+      "interpolation_alpha": 0.17252831161022186,
+      "review": "source sprite/pivot/shadow placement visible; HUD legible; no canonical state writes"
+    }
+  ],
+  "bevy_runs": [
+    {
+      "rate": "30",
+      "effects_enabled": true,
+      "ticks": 1800,
+      "frames": 901,
+      "state_sha256": "4f7b1aee040a4c651fd05f62e89dfd75df8aae9d65ca2e3c7ca7f3277ddf85df",
+      "all_headless_checkpoints_equal": true
+    },
+    {
+      "rate": "144",
+      "effects_enabled": false,
+      "ticks": 1800,
+      "frames": 4321,
+      "state_sha256": "4f7b1aee040a4c651fd05f62e89dfd75df8aae9d65ca2e3c7ca7f3277ddf85df",
+      "all_headless_checkpoints_equal": true
+    }
+  ],
+  "original_executable_compared": false,
+  "scope": "current engine rendering; assets and captures remain private",
+  "live_factory_smoke": {
+    "outcome": "passed",
+    "frames": 120,
+    "practice_riders": 2,
+    "fast_recovery": true,
+    "rescue_recovery": true
+  }
+}

@@ -3,14 +3,19 @@
 //! while wrapping/rounding helpers have fixed documented integer semantics.
 pub mod animation;
 pub mod arithmetic;
+pub mod combat;
+pub mod encounter;
+pub mod fixtures;
 pub mod handling;
+pub mod recovery;
 pub mod replay;
 pub mod riding;
+pub mod topology;
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 use std::collections::BTreeMap;
 pub const TICKS_PER_SECOND: u32 = 60;
-pub const SIMULATION_SCHEMA: u32 = 3;
+pub const SIMULATION_SCHEMA: u32 = 4;
 macro_rules! id {
     ($name:ident,$t:ty) => {
         #[derive(
@@ -67,6 +72,14 @@ pub struct Command {
     pub weapon: Option<animation::Weapon>,
     #[serde(skip_serializing_if = "is_zero")]
     pub damage: u32,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub attack: Option<combat::Request>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub walk: Option<recovery::Walk>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub impact: Option<recovery::Impact>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub terminal: Option<recovery::Outcome>,
 }
 fn is_zero(v: &u32) -> bool {
     *v == 0
@@ -175,6 +188,8 @@ pub struct ActorSnapshot {
     pub finished: bool,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub rider: Option<riding::Rider>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub encounter: Option<encounter::Unit>,
 }
 #[derive(Default, Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct Snapshot {
@@ -237,6 +252,9 @@ pub struct Simulation {
     gameplay_rng: Random,
     last_stages: Vec<Stage>,
     handling: Option<riding::Configuration>,
+    encounter: Option<encounter::World>,
+    effects: Vec<combat::Effect>,
+    effects_enabled: bool,
 }
 impl Default for Simulation {
     fn default() -> Self {
@@ -263,6 +281,9 @@ impl Simulation {
             gameplay_rng: Random(seed),
             last_stages: vec![],
             handling: None,
+            encounter: None,
+            effects: vec![],
+            effects_enabled: true,
         };
         sim.spawn()?;
         Ok(sim)
@@ -275,12 +296,79 @@ impl Simulation {
         sim.handling = Some(config);
         Ok(sim)
     }
+    pub fn with_encounters(
+        seed: u32,
+        config: riding::Configuration,
+        setup: encounter::Setup,
+    ) -> Result<Self> {
+        setup.validate(&config)?;
+        let count = setup.seeds.len();
+        let mut sim = Self::with_handling(seed, config)?;
+        for _ in 1..count {
+            sim.spawn()?;
+        }
+        let world = encounter::World::new(setup, sim.handling.as_ref().unwrap(), &mut sim.actors)?;
+        sim.schema_version = 4;
+        sim.encounter = Some(world);
+        sim.sync_encounters();
+        Ok(sim)
+    }
+    pub fn encounters(&self) -> Option<&encounter::World> {
+        self.encounter.as_ref()
+    }
+    pub fn effects(&self) -> &[combat::Effect] {
+        &self.effects
+    }
+    pub fn set_effects_enabled(&mut self, enabled: bool) {
+        self.effects_enabled = enabled;
+        if !enabled {
+            self.effects.clear();
+        }
+    }
+    pub fn remove_recovery_bike(&mut self, owner: ActorId) -> Result<()> {
+        let unit = self
+            .encounter
+            .as_mut()
+            .and_then(|w| w.units.get_mut(&owner))
+            .ok_or(Error::MissingActor(owner))?;
+        unit.recovery.bike_available = false;
+        self.sync_encounters();
+        Ok(())
+    }
+    fn sync_encounters(&mut self) {
+        let Some(world) = &self.encounter else {
+            return;
+        };
+        for (id, unit) in &world.units {
+            if let Some(actor) = self.actors.get_mut(id) {
+                let rider = actor.view.rider.as_ref().unwrap();
+                actor.total = rider.bike.distance_q8.max(0) as u64 * 8;
+                actor.view.speed = SpeedMmPerTick((rider.bike.speed.max(0) / 256) as u32);
+                actor.view.position.progress = Millimetres(actor.total as i64);
+                actor.view.position.lateral = Millimetres(i64::from(rider.bike.lateral) * 10 / 256);
+                actor.view.position.elevation =
+                    Millimetres(i64::from(rider.bike.height) * 10 / 256);
+                actor.view.position.branch =
+                    BranchId(world.setup.topology.paths[&unit.recovery.bike_location.path].branch);
+                actor.view.position.section = SectionId(unit.recovery.bike_location.path);
+                actor.view.encounter = Some(unit.clone());
+                actor.view.finished = unit.recovery.outcome.is_some();
+            }
+        }
+    }
     pub fn schema_version(&self) -> u32 {
         self.schema_version
     }
     pub fn spawn(&mut self) -> Result<ActorId> {
+        if self
+            .encounter
+            .as_ref()
+            .is_some_and(|w| w.units.len() >= 256)
+        {
+            return Err(Error::Invalid("encounter actor limit"));
+        }
         let id = ActorId(self.next_actor);
-        self.next_actor = self.next_actor.checked_add(1).ok_or(Error::Overflow)?;
+        let next_actor = self.next_actor.checked_add(1).ok_or(Error::Overflow)?;
         let actor = Actor {
             view: ActorSnapshot {
                 id,
@@ -295,16 +383,31 @@ impl Simulation {
                 speed: SpeedMmPerTick(0),
                 finished: false,
                 rider: self.handling.as_ref().map(riding::Rider::new).transpose()?,
+                encounter: None,
             },
             input: Command::default(),
             total: 0,
             spawn_random: self.spawn_rng.next(),
         };
+        if let Some(world) = &mut self.encounter {
+            world.add(
+                id,
+                actor
+                    .view
+                    .rider
+                    .as_ref()
+                    .ok_or(Error::Invalid("missing spawned source rider"))?,
+            )?;
+        }
         self.actors.insert(id, actor);
+        self.next_actor = next_actor;
         Ok(id)
     }
     pub fn despawn(&mut self, id: ActorId) -> Result<()> {
         self.actors.remove(&id).ok_or(Error::MissingActor(id))?;
+        if let Some(world) = &mut self.encounter {
+            world.remove(id);
+        }
         self.queue.retain(|(_, actor, _), _| *actor != id);
         Ok(())
     }
@@ -323,6 +426,35 @@ impl Simulation {
         }
         if !self.actors.contains_key(&command.actor) {
             return Err(Error::MissingActor(command.actor));
+        }
+        if self.schema_version < 4
+            && (command.input.attack.is_some()
+                || command.input.walk.is_some()
+                || command.input.impact.is_some()
+                || command.input.terminal.is_some())
+        {
+            return Err(Error::Invalid("encounter command requires schema 4"));
+        }
+        if command
+            .input
+            .walk
+            .is_some_and(|w| !(-1..=1).contains(&w.longitudinal) || !(-1..=1).contains(&w.lateral))
+        {
+            return Err(Error::Invalid("walk command range"));
+        }
+        if let Some(impact) = command.input.impact {
+            impact.validate()?;
+        }
+        if let Some(world) = &self.encounter
+            && command.input.weapon.is_some_and(|weapon| {
+                weapon != animation::Weapon::Fists
+                    && world
+                        .inventory
+                        .carried(command.actor)
+                        .is_none_or(|(_, kind)| kind != weapon)
+            })
+        {
+            return Err(Error::Invalid("weapon not owned by actor"));
         }
         if (self.schema_version < 3
             && (command.input.pose.is_some()
@@ -364,6 +496,7 @@ impl Simulation {
     pub fn advance(&mut self) -> Result<()> {
         let next_tick = self.tick.0.checked_add(1).ok_or(Error::Overflow)?;
         self.last_stages.clear();
+        self.effects.clear();
         for stage in STAGES {
             self.last_stages.push(stage);
             match stage {
@@ -381,6 +514,10 @@ impl Simulation {
                     }
                 }
                 Stage::Movement => {
+                    if let (Some(world), Some(config)) = (&mut self.encounter, &self.handling) {
+                        world.movement(&mut self.actors, config, self.tick.0, &mut self.effects)?;
+                        continue;
+                    }
                     for actor in self.actors.values_mut() {
                         if actor.view.finished {
                             continue;
@@ -452,6 +589,10 @@ impl Simulation {
                     }
                 }
                 Stage::Contacts => {
+                    if let (Some(world), Some(config)) = (&mut self.encounter, &self.handling) {
+                        world.contacts(&mut self.actors, config, self.tick.0, &mut self.effects)?;
+                        continue;
+                    }
                     for actor in self.actors.values_mut() {
                         if actor.view.rider.is_none() {
                             actor.view.position.lateral.0 =
@@ -459,15 +600,45 @@ impl Simulation {
                         }
                     }
                 }
-                // Explicit reserved stages: no opponent AI, combat or career rules are claimed here.
-                Stage::Spawn
-                | Stage::Decisions
-                | Stage::Combat
-                | Stage::Progression
-                | Stage::Snapshot => {}
+                Stage::Combat => {
+                    if let (Some(world), Some(config)) = (&mut self.encounter, &self.handling) {
+                        let random = &mut self.gameplay_rng;
+                        world.combat(
+                            &mut self.actors,
+                            config,
+                            self.tick.0,
+                            || random.next(),
+                            &mut self.effects,
+                        )?;
+                    }
+                }
+                Stage::Progression => {
+                    if let (Some(world), Some(config)) = (&mut self.encounter, &self.handling) {
+                        world.progress(&mut self.actors, config, self.tick.0, &mut self.effects);
+                    }
+                }
+                Stage::Snapshot => {
+                    if self.encounter.is_some() {
+                        for a in self.actors.values_mut() {
+                            a.input.attack = None;
+                            a.input.walk = None;
+                            a.input.impact = None;
+                            a.input.terminal = None;
+                            a.input.pose = None;
+                            a.input.weapon = None;
+                            a.input.damage = 0;
+                        }
+                        self.sync_encounters();
+                    }
+                }
+                // Reserved for opponent scheduling and future spawn decisions.
+                Stage::Spawn | Stage::Decisions => {}
             }
         }
         self.tick = Tick(next_tick);
+        if !self.effects_enabled {
+            self.effects.clear();
+        }
         Ok(())
     }
     pub fn snapshot(&self) -> Snapshot {
@@ -493,6 +664,11 @@ impl Simulation {
             let config = serde_json::to_vec(&self.handling).expect("finite integer configuration");
             put!(config.len() as u32);
             b.extend(config);
+        }
+        if self.schema_version >= 4 {
+            let world = serde_json::to_vec(&self.encounter).expect("integer encounter state");
+            put!(world.len() as u32);
+            b.extend(world);
         }
         put!(self.tick.0);
         put!(self.next_actor);

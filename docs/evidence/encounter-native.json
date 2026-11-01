@@ -1,0 +1,20 @@
+{
+  "outcome": "passed",
+  "reference_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+  "executable_sha256": "73d7f9744b5b1a9482b3909950cdf3fe34119fe13d023b031e9c6739a60f18a2",
+  "checks": [
+    {
+      "family": "motion",
+      "rows": 108,
+      "outcome": "passed"
+    },
+    {
+      "family": "damage",
+      "rows": 35,
+      "outcome": "passed"
+    }
+  ],
+  "native_trace_sha256": "e92942df316572efe15d13c204a7823b602620d777ee42c029cbbd970d88c032",
+  "physical_original_game_compared": false,
+  "scope": "generic actor displacement and reason-scaled stamina only; broader gameplay validated by authored regression scenarios"
+}

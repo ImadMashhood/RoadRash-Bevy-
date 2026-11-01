@@ -71,6 +71,7 @@ fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
         route: None,
         expected_hash: None,
         handling: Some(config.clone()),
+        encounter: None,
     };
     let mut baseline = None;
     let mut runs = vec![];
@@ -123,7 +124,7 @@ fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
         }
     }
     std::fs::write(out.join("riding-trace.csv"), trace)?;
-    let receipt = json!({"outcome":"passed","specifications":config.specs.len(),"source_samples":config.ground.len(),"valid_animation_banks":2,"pose_transitions":transitions,"replay_runs":runs,"replay_bytes":std::fs::metadata(out.join("showcase-replay.json"))?.len(),"scope":"native source-port comparison, not original executable parity; combat and crash/recovery decision systems are later phases"});
+    let receipt = json!({"outcome":"passed","specifications":config.specs.len(),"source_samples":config.ground.len(),"valid_animation_banks":2,"pose_transitions":transitions,"replay_runs":runs,"replay_bytes":std::fs::metadata(out.join("showcase-replay.json"))?.len(),"scope":"native source-port comparison, not original executable parity; combat and crash/recovery decisions are verified separately by rr-encounter-check"});
     std::fs::write(
         out.join("receipt.json"),
         serde_json::to_vec_pretty(&receipt)?,

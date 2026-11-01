@@ -522,6 +522,7 @@ impl Player {
 /// Semantic poses are authoritative inputs. Combat hit resolution remains phase 11.
 #[derive(Clone, Copy, Debug, Default, Serialize, Deserialize, PartialEq, Eq)]
 pub enum Pose {
+    HitReact,
     #[default]
     Ride,
     Idle,
@@ -543,6 +544,7 @@ pub enum Pose {
 impl Pose {
     pub fn code(self) -> i8 {
         match self {
+            Self::HitReact => 9,
             Self::Ride => 2,
             Self::Idle => 8,
             Self::Accelerate => 4,

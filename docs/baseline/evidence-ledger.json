@@ -111,6 +111,36 @@
         "inputs": "versioned scripts in tools/reference and rr-riding-check",
         "video_hash": null
       }
+    },
+    {
+      "id": "combat-encounters-rust",
+      "confidence": "verified-local",
+      "claim": "Ordered combat, unique theft, 18 isolated attack/equipment/side cases and effects-independent replays pass; damage primitives match pinned native APIs",
+      "receipt": "../evidence/part-11.md",
+      "upstream_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+      "executable_sha256": "73d7f9744b5b1a9482b3909950cdf3fe34119fe13d023b031e9c6739a60f18a2",
+      "original_runtime_compared": false,
+      "capture_settings": {
+        "status": "native-primitive-and-authored-engine-regression",
+        "seed": 1,
+        "inputs": "crates/simulation/tests/encounters.rs; rr-encounter-check",
+        "video_hash": null
+      }
+    },
+    {
+      "id": "linked-recovery-rust",
+      "confidence": "verified-local",
+      "claim": "Independent rider/bike motion, portal walking, boundary-safe remount, terminal priority and explicit assists pass authored and source-engine scenarios",
+      "receipt": "../evidence/part-12.md",
+      "upstream_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+      "executable_sha256": "73d7f9744b5b1a9482b3909950cdf3fe34119fe13d023b031e9c6739a60f18a2",
+      "original_runtime_compared": false,
+      "capture_settings": {
+        "status": "native-primitive-and-authored-engine-regression",
+        "seed": 1,
+        "inputs": "crates/simulation/tests/encounters.rs; rr-encounter-check",
+        "video_hash": null
+      }
     }
   ]
 }

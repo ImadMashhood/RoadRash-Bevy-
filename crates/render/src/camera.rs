@@ -309,6 +309,55 @@ pub fn project(
     Ok(slices)
 }
 
+/// Project linked recovery entities into disposable drawing proxies. Canonical IDs
+/// and physical state remain in the simulation; the high-bit bike ID is render-only.
+pub fn encounter_snapshot(source: &rr_simulation::Snapshot) -> rr_simulation::Snapshot {
+    use rr_simulation::recovery::Phase;
+    let mut view = source.clone();
+    view.actors.clear();
+    for original in &source.actors {
+        let Some(unit) = &original.encounter else {
+            view.actors.push(original.clone());
+            continue;
+        };
+        let Some(body) = &unit.recovery.body else {
+            view.actors.push(original.clone());
+            continue;
+        };
+        if unit.recovery.phase != Phase::Mounting {
+            let mut bike = original.clone();
+            bike.id.0 |= 1u64 << 63;
+            if let Some(rider) = &mut bike.rider {
+                rider.frame = unit.recovery.bike_frame;
+                rider.mirror = unit.recovery.bike_mirror;
+                rider.roll = 0;
+            }
+            view.actors.push(bike);
+        }
+        let Some(progress) = body.projected else {
+            continue;
+        };
+        let mut rider_view = original.clone();
+        rider_view.position.progress.0 = progress * 8;
+        rider_view.position.lateral.0 = i64::from(body.location.lateral) * 10 / 256;
+        rider_view.position.section = rr_simulation::SectionId(body.location.path);
+        rider_view.position.branch = rr_simulation::BranchId(body.branch);
+        if let Some(rider) = &mut rider_view.rider {
+            rider.bike = body.motion.clone();
+            rider.frame = body.frame;
+            rider.mirror = body.mirror;
+            rider.view_flags = body.view_flags;
+            rider.roll = body.roll;
+        }
+        if original.id.0 == 1 {
+            view.distance_mm = (progress.max(0) * 8) as u64;
+            view.lateral_mm = (i64::from(body.location.lateral) * 10 / 256) as i32;
+        }
+        view.actors.push(rider_view);
+    }
+    view
+}
+
 pub fn interpolated_snapshot(
     previous: &rr_simulation::Snapshot,
     current: &rr_simulation::Snapshot,
@@ -370,8 +419,58 @@ pub fn relative_actor_depth(
     }
     let a = &actor.position;
     let p = &player.position;
-    if (a.route, a.branch, a.section) != (p.route, p.branch, p.section) {
+    if (a.route, a.branch) != (p.route, p.branch)
+        || (a.section != p.section && (actor.encounter.is_none() || player.encounter.is_none()))
+    {
         return None;
     }
     Some(player_depth + (a.progress.0 as f64 - p.progress.0 as f64) / 8.)
+}
+
+#[cfg(test)]
+mod recovery_tests {
+    #[test]
+    fn detached_proxies_follow_body_and_preserve_the_bike_without_domain_writes() {
+        use rr_simulation::{Command, Simulation, encounter::Setup, fixtures, recovery::Impact};
+        let c = fixtures::riding();
+        let setup = Setup::authored(&c).unwrap();
+        let mut sim = Simulation::with_encounters(1, c, setup).unwrap();
+        sim.step(Command {
+            impact: Some(Impact {
+                rider_velocity: Some([5000, 0, 0]),
+                bike_velocity: Some([0, 0, 0]),
+                ..Default::default()
+            }),
+            ..Default::default()
+        })
+        .unwrap();
+        for _ in 0..5 {
+            sim.step(Command::default()).unwrap();
+        }
+        let hash = sim.state_hash();
+        let canonical = sim.snapshot();
+        let view = super::encounter_snapshot(&canonical);
+        assert_eq!(view.actors.len(), 2);
+        let body = view.actors.iter().find(|a| a.id.0 == 1).unwrap();
+        let bike = view
+            .actors
+            .iter()
+            .find(|a| a.id.0 == (1u64 << 63) | 1)
+            .unwrap();
+        assert!(
+            body.rider.as_ref().unwrap().bike.distance_q8
+                > bike.rider.as_ref().unwrap().bike.distance_q8
+        );
+        assert_eq!(
+            bike.rider.as_ref().unwrap().bike,
+            canonical.actors[0].rider.as_ref().unwrap().bike
+        );
+        let camera = super::snapshot_view(&view, &view, 1., 12800.);
+        assert_eq!(
+            camera.position_q8,
+            12800. + body.rider.as_ref().unwrap().bike.distance_q8 as f64
+        );
+        assert_eq!(sim.state_hash(), hash);
+        assert_eq!(sim.snapshot(), canonical);
+    }
 }

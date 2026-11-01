@@ -328,6 +328,7 @@ fn source_animation_loops_match_all_render_schedules() {
             route: None,
             expected_hash: None,
             handling: Some(config()),
+            encounter: None,
         };
         let report = run(r, rate).unwrap();
         if let Some(b) = &baseline {

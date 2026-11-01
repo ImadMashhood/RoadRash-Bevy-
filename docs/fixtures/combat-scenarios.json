@@ -1,0 +1,384 @@
+{
+  "cases": [
+    {
+      "attack": "punch",
+      "side": "left",
+      "tick_4": {
+        "contacts": 1,
+        "recovery": "mounted",
+        "victim_health": 2052,
+        "victim_lean": -3000,
+        "victim_maximum": 2472,
+        "weapon_owner": null
+      },
+      "ticks_0_through_3": {
+        "contacts": 0,
+        "victim_health": 2500
+      },
+      "ticks_5_through_19": {
+        "contacts": 1,
+        "health_regenerates_per_mounted_tick": 1
+      },
+      "weapon": "Fists"
+    },
+    {
+      "attack": "punch",
+      "side": "left",
+      "tick_4": {
+        "contacts": 1,
+        "recovery": "mounted",
+        "victim_health": 1988,
+        "victim_lean": -3000,
+        "victim_maximum": 2468,
+        "weapon_owner": 1
+      },
+      "ticks_0_through_3": {
+        "contacts": 0,
+        "victim_health": 2500
+      },
+      "ticks_5_through_19": {
+        "contacts": 1,
+        "health_regenerates_per_mounted_tick": 1
+      },
+      "weapon": "Club"
+    },
+    {
+      "attack": "punch",
+      "side": "left",
+      "tick_4": {
+        "contacts": 1,
+        "recovery": "mounted",
+        "victim_health": 1860,
+        "victim_lean": -3000,
+        "victim_maximum": 2460,
+        "weapon_owner": 1
+      },
+      "ticks_0_through_3": {
+        "contacts": 0,
+        "victim_health": 2500
+      },
+      "ticks_5_through_19": {
+        "contacts": 1,
+        "health_regenerates_per_mounted_tick": 1
+      },
+      "weapon": "Chain"
+    },
+    {
+      "attack": "punch",
+      "side": "right",
+      "tick_4": {
+        "contacts": 1,
+        "recovery": "mounted",
+        "victim_health": 2052,
+        "victim_lean": 3000,
+        "victim_maximum": 2472,
+        "weapon_owner": null
+      },
+      "ticks_0_through_3": {
+        "contacts": 0,
+        "victim_health": 2500
+      },
+      "ticks_5_through_19": {
+        "contacts": 1,
+        "health_regenerates_per_mounted_tick": 1
+      },
+      "weapon": "Fists"
+    },
+    {
+      "attack": "punch",
+      "side": "right",
+      "tick_4": {
+        "contacts": 1,
+        "recovery": "mounted",
+        "victim_health": 1988,
+        "victim_lean": 3000,
+        "victim_maximum": 2468,
+        "weapon_owner": 1
+      },
+      "ticks_0_through_3": {
+        "contacts": 0,
+        "victim_health": 2500
+      },
+      "ticks_5_through_19": {
+        "contacts": 1,
+        "health_regenerates_per_mounted_tick": 1
+      },
+      "weapon": "Club"
+    },
+    {
+      "attack": "punch",
+      "side": "right",
+      "tick_4": {
+        "contacts": 1,
+        "recovery": "mounted",
+        "victim_health": 1860,
+        "victim_lean": 3000,
+        "victim_maximum": 2460,
+        "weapon_owner": 1
+      },
+      "ticks_0_through_3": {
+        "contacts": 0,
+        "victim_health": 2500
+      },
+      "ticks_5_through_19": {
+        "contacts": 1,
+        "health_regenerates_per_mounted_tick": 1
+      },
+      "weapon": "Chain"
+    },
+    {
+      "attack": "kick",
+      "side": "left",
+      "tick_4": {
+        "contacts": 1,
+        "recovery": "mounted",
+        "victim_health": 2436,
+        "victim_lean": -11000,
+        "victim_maximum": 2496,
+        "weapon_owner": null
+      },
+      "ticks_0_through_3": {
+        "contacts": 0,
+        "victim_health": 2500
+      },
+      "ticks_5_through_19": {
+        "contacts": 1,
+        "health_regenerates_per_mounted_tick": 1
+      },
+      "weapon": "Fists"
+    },
+    {
+      "attack": "kick",
+      "side": "left",
+      "tick_4": {
+        "contacts": 1,
+        "recovery": "mounted",
+        "victim_health": 2436,
+        "victim_lean": -11000,
+        "victim_maximum": 2496,
+        "weapon_owner": 1
+      },
+      "ticks_0_through_3": {
+        "contacts": 0,
+        "victim_health": 2500
+      },
+      "ticks_5_through_19": {
+        "contacts": 1,
+        "health_regenerates_per_mounted_tick": 1
+      },
+      "weapon": "Club"
+    },
+    {
+      "attack": "kick",
+      "side": "left",
+      "tick_4": {
+        "contacts": 1,
+        "recovery": "mounted",
+        "victim_health": 2436,
+        "victim_lean": -11000,
+        "victim_maximum": 2496,
+        "weapon_owner": 1
+      },
+      "ticks_0_through_3": {
+        "contacts": 0,
+        "victim_health": 2500
+      },
+      "ticks_5_through_19": {
+        "contacts": 1,
+        "health_regenerates_per_mounted_tick": 1
+      },
+      "weapon": "Chain"
+    },
+    {
+      "attack": "kick",
+      "side": "right",
+      "tick_4": {
+        "contacts": 1,
+        "recovery": "mounted",
+        "victim_health": 2436,
+        "victim_lean": 11000,
+        "victim_maximum": 2496,
+        "weapon_owner": null
+      },
+      "ticks_0_through_3": {
+        "contacts": 0,
+        "victim_health": 2500
+      },
+      "ticks_5_through_19": {
+        "contacts": 1,
+        "health_regenerates_per_mounted_tick": 1
+      },
+      "weapon": "Fists"
+    },
+    {
+      "attack": "kick",
+      "side": "right",
+      "tick_4": {
+        "contacts": 1,
+        "recovery": "mounted",
+        "victim_health": 2436,
+        "victim_lean": 11000,
+        "victim_maximum": 2496,
+        "weapon_owner": 1
+      },
+      "ticks_0_through_3": {
+        "contacts": 0,
+        "victim_health": 2500
+      },
+      "ticks_5_through_19": {
+        "contacts": 1,
+        "health_regenerates_per_mounted_tick": 1
+      },
+      "weapon": "Club"
+    },
+    {
+      "attack": "kick",
+      "side": "right",
+      "tick_4": {
+        "contacts": 1,
+        "recovery": "mounted",
+        "victim_health": 2436,
+        "victim_lean": 11000,
+        "victim_maximum": 2496,
+        "weapon_owner": 1
+      },
+      "ticks_0_through_3": {
+        "contacts": 0,
+        "victim_health": 2500
+      },
+      "ticks_5_through_19": {
+        "contacts": 1,
+        "health_regenerates_per_mounted_tick": 1
+      },
+      "weapon": "Chain"
+    },
+    {
+      "attack": "backhand",
+      "side": "left",
+      "tick_4": {
+        "contacts": 1,
+        "recovery": "mounted",
+        "victim_health": 2052,
+        "victim_lean": -3000,
+        "victim_maximum": 2472,
+        "weapon_owner": null
+      },
+      "ticks_0_through_3": {
+        "contacts": 0,
+        "victim_health": 2500
+      },
+      "ticks_5_through_19": {
+        "contacts": 1,
+        "health_regenerates_per_mounted_tick": 1
+      },
+      "weapon": "Fists"
+    },
+    {
+      "attack": "backhand",
+      "side": "left",
+      "tick_4": {
+        "contacts": 1,
+        "recovery": "mounted",
+        "victim_health": 1988,
+        "victim_lean": -3000,
+        "victim_maximum": 2468,
+        "weapon_owner": 1
+      },
+      "ticks_0_through_3": {
+        "contacts": 0,
+        "victim_health": 2500
+      },
+      "ticks_5_through_19": {
+        "contacts": 1,
+        "health_regenerates_per_mounted_tick": 1
+      },
+      "weapon": "Club"
+    },
+    {
+      "attack": "backhand",
+      "side": "left",
+      "tick_4": {
+        "contacts": 1,
+        "recovery": "mounted",
+        "victim_health": 1860,
+        "victim_lean": -3000,
+        "victim_maximum": 2460,
+        "weapon_owner": 1
+      },
+      "ticks_0_through_3": {
+        "contacts": 0,
+        "victim_health": 2500
+      },
+      "ticks_5_through_19": {
+        "contacts": 1,
+        "health_regenerates_per_mounted_tick": 1
+      },
+      "weapon": "Chain"
+    },
+    {
+      "attack": "backhand",
+      "side": "right",
+      "tick_4": {
+        "contacts": 1,
+        "recovery": "mounted",
+        "victim_health": 2052,
+        "victim_lean": 3000,
+        "victim_maximum": 2472,
+        "weapon_owner": null
+      },
+      "ticks_0_through_3": {
+        "contacts": 0,
+        "victim_health": 2500
+      },
+      "ticks_5_through_19": {
+        "contacts": 1,
+        "health_regenerates_per_mounted_tick": 1
+      },
+      "weapon": "Fists"
+    },
+    {
+      "attack": "backhand",
+      "side": "right",
+      "tick_4": {
+        "contacts": 1,
+        "recovery": "mounted",
+        "victim_health": 1988,
+        "victim_lean": 3000,
+        "victim_maximum": 2468,
+        "weapon_owner": 1
+      },
+      "ticks_0_through_3": {
+        "contacts": 0,
+        "victim_health": 2500
+      },
+      "ticks_5_through_19": {
+        "contacts": 1,
+        "health_regenerates_per_mounted_tick": 1
+      },
+      "weapon": "Club"
+    },
+    {
+      "attack": "backhand",
+      "side": "right",
+      "tick_4": {
+        "contacts": 1,
+        "recovery": "mounted",
+        "victim_health": 1860,
+        "victim_lean": 3000,
+        "victim_maximum": 2460,
+        "weapon_owner": 1
+      },
+      "ticks_0_through_3": {
+        "contacts": 0,
+        "victim_health": 2500
+      },
+      "ticks_5_through_19": {
+        "contacts": 1,
+        "health_regenerates_per_mounted_tick": 1
+      },
+      "weapon": "Chain"
+    }
+  ],
+  "fixture": "rr_simulation::fixtures (authored)",
+  "test": "all_attack_weapon_side_scenarios_have_tick_range_expectations"
+}

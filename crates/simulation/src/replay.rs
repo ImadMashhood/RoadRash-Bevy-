@@ -11,6 +11,8 @@ pub struct Replay {
     pub expected_hash: Option<String>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub handling: Option<riding::Configuration>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub encounter: Option<encounter::Setup>,
 }
 impl Replay {
     pub fn read_file(
@@ -40,8 +42,11 @@ impl Replay {
         if replay.commands.iter().any(|c| c.tick.0 >= replay.ticks) {
             return Err("command outside replay duration".into());
         }
-        if (replay.schema_version == 3) != replay.handling.is_some() {
+        if (replay.schema_version >= 3) != replay.handling.is_some() {
             return Err("schema-3 replay requires handling configuration".into());
+        }
+        if (replay.schema_version == 4) != replay.encounter.is_some() {
+            return Err("schema-4 encounter setup required".into());
         }
         if replay.schema_version == 1 && replay.commands.iter().any(|c| c.input.steer_q15.is_some())
         {
@@ -62,10 +67,20 @@ pub struct Playback {
 impl Playback {
     pub fn new(replay: Replay) -> Result<Self> {
         let mut simulation = if let Some(config) = replay.handling {
-            if replay.schema_version != 3 {
+            if replay.schema_version < 3 {
                 return Err(Error::Invalid("handling requires schema 3"));
             }
-            Simulation::with_handling(replay.seed, config)?
+            if replay.schema_version == 4 {
+                Simulation::with_encounters(
+                    replay.seed,
+                    config,
+                    replay
+                        .encounter
+                        .ok_or(Error::Invalid("missing encounter setup"))?,
+                )?
+            } else {
+                Simulation::with_handling(replay.seed, config)?
+            }
         } else {
             Simulation::with_schema(
                 replay.seed,

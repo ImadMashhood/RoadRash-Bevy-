@@ -32,3 +32,4 @@ jobs:
       - run: cargo test --locked --release -p rr-presentation --lib
       - run: cargo run --locked --release -p rr-formats --bin rr-format-fuzz -- 1000 /tmp/rr-format-fuzz.json
       - run: cargo run --locked --release -p rr-simulation --bin rr-replay -- docs/fixtures/replay.json irregular /tmp/rr-replay.json
+      - run: cargo run --locked --release -p rr-simulation --bin rr-replay -- docs/fixtures/encounter-replay.json irregular /tmp/rr-encounter-replay.json

@@ -1,0 +1,438 @@
+{
+  "damage_vectors": 35,
+  "motion_vectors": 108,
+  "outcome": "passed",
+  "phases_first_observed": {
+    "GettingUp": 131,
+    "Mounted": 0,
+    "Mounting": 456,
+    "Sliding": 46,
+    "Standing": 221,
+    "Walking": 269
+  },
+  "schedules": [
+    {
+      "hash": "4f7b1aee040a4c651fd05f62e89dfd75df8aae9d65ca2e3c7ca7f3277ddf85df",
+      "rate": "30",
+      "ticks": 1800
+    },
+    {
+      "hash": "4f7b1aee040a4c651fd05f62e89dfd75df8aae9d65ca2e3c7ca7f3277ddf85df",
+      "rate": "60",
+      "ticks": 1800
+    },
+    {
+      "hash": "4f7b1aee040a4c651fd05f62e89dfd75df8aae9d65ca2e3c7ca7f3277ddf85df",
+      "rate": "144",
+      "ticks": 1800
+    },
+    {
+      "hash": "4f7b1aee040a4c651fd05f62e89dfd75df8aae9d65ca2e3c7ca7f3277ddf85df",
+      "rate": "irregular",
+      "ticks": 1800
+    }
+  ],
+  "scope": "Pinned native public API and Rust regression checks; no original Windows runtime parity claim",
+  "source_setups": [
+    {
+      "actors": 15,
+      "choice": 0,
+      "course": "CITY",
+      "level": 1,
+      "obstacles": 25,
+      "paths": 15
+    },
+    {
+      "actors": 15,
+      "choice": 0,
+      "course": "CITY",
+      "level": 2,
+      "obstacles": 23,
+      "paths": 15
+    },
+    {
+      "actors": 15,
+      "choice": 0,
+      "course": "CITY",
+      "level": 3,
+      "obstacles": 26,
+      "paths": 15
+    },
+    {
+      "actors": 15,
+      "choice": 0,
+      "course": "CITY",
+      "level": 4,
+      "obstacles": 26,
+      "paths": 15
+    },
+    {
+      "actors": 15,
+      "choice": 0,
+      "course": "CITY",
+      "level": 5,
+      "obstacles": 25,
+      "paths": 15
+    },
+    {
+      "actors": 15,
+      "choice": 1,
+      "course": "CITY",
+      "level": 1,
+      "obstacles": 25,
+      "paths": 15
+    },
+    {
+      "actors": 15,
+      "choice": 1,
+      "course": "CITY",
+      "level": 2,
+      "obstacles": 23,
+      "paths": 15
+    },
+    {
+      "actors": 15,
+      "choice": 1,
+      "course": "CITY",
+      "level": 3,
+      "obstacles": 26,
+      "paths": 15
+    },
+    {
+      "actors": 15,
+      "choice": 1,
+      "course": "CITY",
+      "level": 4,
+      "obstacles": 26,
+      "paths": 15
+    },
+    {
+      "actors": 15,
+      "choice": 1,
+      "course": "CITY",
+      "level": 5,
+      "obstacles": 25,
+      "paths": 15
+    },
+    {
+      "actors": 15,
+      "choice": 0,
+      "course": "HIWAY",
+      "level": 1,
+      "obstacles": 226,
+      "paths": 26
+    },
+    {
+      "actors": 15,
+      "choice": 0,
+      "course": "HIWAY",
+      "level": 2,
+      "obstacles": 273,
+      "paths": 26
+    },
+    {
+      "actors": 15,
+      "choice": 0,
+      "course": "HIWAY",
+      "level": 3,
+      "obstacles": 309,
+      "paths": 26
+    },
+    {
+      "actors": 15,
+      "choice": 0,
+      "course": "HIWAY",
+      "level": 4,
+      "obstacles": 336,
+      "paths": 26
+    },
+    {
+      "actors": 15,
+      "choice": 0,
+      "course": "HIWAY",
+      "level": 5,
+      "obstacles": 350,
+      "paths": 26
+    },
+    {
+      "actors": 15,
+      "choice": 1,
+      "course": "HIWAY",
+      "level": 1,
+      "obstacles": 226,
+      "paths": 26
+    },
+    {
+      "actors": 15,
+      "choice": 1,
+      "course": "HIWAY",
+      "level": 2,
+      "obstacles": 273,
+      "paths": 26
+    },
+    {
+      "actors": 15,
+      "choice": 1,
+      "course": "HIWAY",
+      "level": 3,
+      "obstacles": 309,
+      "paths": 26
+    },
+    {
+      "actors": 15,
+      "choice": 1,
+      "course": "HIWAY",
+      "level": 4,
+      "obstacles": 336,
+      "paths": 26
+    },
+    {
+      "actors": 15,
+      "choice": 1,
+      "course": "HIWAY",
+      "level": 5,
+      "obstacles": 350,
+      "paths": 26
+    },
+    {
+      "actors": 15,
+      "choice": 0,
+      "course": "MEDLY",
+      "level": 1,
+      "obstacles": 436,
+      "paths": 35
+    },
+    {
+      "actors": 15,
+      "choice": 0,
+      "course": "MEDLY",
+      "level": 2,
+      "obstacles": 508,
+      "paths": 35
+    },
+    {
+      "actors": 15,
+      "choice": 0,
+      "course": "MEDLY",
+      "level": 3,
+      "obstacles": 560,
+      "paths": 35
+    },
+    {
+      "actors": 15,
+      "choice": 0,
+      "course": "MEDLY",
+      "level": 4,
+      "obstacles": 602,
+      "paths": 35
+    },
+    {
+      "actors": 15,
+      "choice": 0,
+      "course": "MEDLY",
+      "level": 5,
+      "obstacles": 659,
+      "paths": 35
+    },
+    {
+      "actors": 15,
+      "choice": 1,
+      "course": "MEDLY",
+      "level": 1,
+      "obstacles": 436,
+      "paths": 35
+    },
+    {
+      "actors": 15,
+      "choice": 1,
+      "course": "MEDLY",
+      "level": 2,
+      "obstacles": 508,
+      "paths": 35
+    },
+    {
+      "actors": 15,
+      "choice": 1,
+      "course": "MEDLY",
+      "level": 3,
+      "obstacles": 560,
+      "paths": 35
+    },
+    {
+      "actors": 15,
+      "choice": 1,
+      "course": "MEDLY",
+      "level": 4,
+      "obstacles": 602,
+      "paths": 35
+    },
+    {
+      "actors": 15,
+      "choice": 1,
+      "course": "MEDLY",
+      "level": 5,
+      "obstacles": 659,
+      "paths": 35
+    },
+    {
+      "actors": 15,
+      "choice": 0,
+      "course": "NAPA",
+      "level": 1,
+      "obstacles": 57,
+      "paths": 15
+    },
+    {
+      "actors": 15,
+      "choice": 0,
+      "course": "NAPA",
+      "level": 2,
+      "obstacles": 71,
+      "paths": 15
+    },
+    {
+      "actors": 15,
+      "choice": 0,
+      "course": "NAPA",
+      "level": 3,
+      "obstacles": 97,
+      "paths": 15
+    },
+    {
+      "actors": 15,
+      "choice": 0,
+      "course": "NAPA",
+      "level": 4,
+      "obstacles": 105,
+      "paths": 15
+    },
+    {
+      "actors": 15,
+      "choice": 0,
+      "course": "NAPA",
+      "level": 5,
+      "obstacles": 116,
+      "paths": 15
+    },
+    {
+      "actors": 15,
+      "choice": 1,
+      "course": "NAPA",
+      "level": 1,
+      "obstacles": 57,
+      "paths": 15
+    },
+    {
+      "actors": 15,
+      "choice": 1,
+      "course": "NAPA",
+      "level": 2,
+      "obstacles": 71,
+      "paths": 15
+    },
+    {
+      "actors": 15,
+      "choice": 1,
+      "course": "NAPA",
+      "level": 3,
+      "obstacles": 97,
+      "paths": 15
+    },
+    {
+      "actors": 15,
+      "choice": 1,
+      "course": "NAPA",
+      "level": 4,
+      "obstacles": 105,
+      "paths": 15
+    },
+    {
+      "actors": 15,
+      "choice": 1,
+      "course": "NAPA",
+      "level": 5,
+      "obstacles": 116,
+      "paths": 15
+    },
+    {
+      "actors": 15,
+      "choice": 0,
+      "course": "CANYN",
+      "level": 1,
+      "obstacles": 82,
+      "paths": 18
+    },
+    {
+      "actors": 15,
+      "choice": 0,
+      "course": "CANYN",
+      "level": 2,
+      "obstacles": 86,
+      "paths": 18
+    },
+    {
+      "actors": 15,
+      "choice": 0,
+      "course": "CANYN",
+      "level": 3,
+      "obstacles": 96,
+      "paths": 18
+    },
+    {
+      "actors": 15,
+      "choice": 0,
+      "course": "CANYN",
+      "level": 4,
+      "obstacles": 101,
+      "paths": 18
+    },
+    {
+      "actors": 15,
+      "choice": 0,
+      "course": "CANYN",
+      "level": 5,
+      "obstacles": 99,
+      "paths": 18
+    },
+    {
+      "actors": 15,
+      "choice": 1,
+      "course": "CANYN",
+      "level": 1,
+      "obstacles": 82,
+      "paths": 18
+    },
+    {
+      "actors": 15,
+      "choice": 1,
+      "course": "CANYN",
+      "level": 2,
+      "obstacles": 86,
+      "paths": 18
+    },
+    {
+      "actors": 15,
+      "choice": 1,
+      "course": "CANYN",
+      "level": 3,
+      "obstacles": 96,
+      "paths": 18
+    },
+    {
+      "actors": 15,
+      "choice": 1,
+      "course": "CANYN",
+      "level": 4,
+      "obstacles": 101,
+      "paths": 18
+    },
+    {
+      "actors": 15,
+      "choice": 1,
+      "course": "CANYN",
+      "level": 5,
+      "obstacles": 99,
+      "paths": 18
+    }
+  ]
+}

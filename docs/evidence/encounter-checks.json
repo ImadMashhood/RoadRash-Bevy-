@@ -1,0 +1,39 @@
+{
+  "outcome": "passed",
+  "implementation_revision": "commit containing this receipt and source",
+  "rust_tests": 208,
+  "headless_tests": 194,
+  "bevy_tests": 14,
+  "new_encounter_scenarios": 44,
+  "new_render_projection_tests": 1,
+  "isolated_attack_side_equipment_cases": 18,
+  "python_tests": 10,
+  "rustfmt": "passed",
+  "clippy_workspace_all_targets_warnings_denied": "passed",
+  "release_workspace_build": "passed",
+  "workflow_guards": {
+    "formatting_violation_rejected": true,
+    "lockfile_mismatch_rejected": true,
+    "repository_modified": false
+  },
+  "source_output_guards": {
+    "outcome": "passed",
+    "checks": [
+      {
+        "tool": "../target/release/rr-encounter-check",
+        "overlap_rejected": true
+      },
+      {
+        "tool": "python3",
+        "overlap_rejected": true
+      }
+    ],
+    "source_executable_unchanged": true
+  },
+  "disc_required_files_matched": 341,
+  "public_authored_replay_hash": "34cc853ad681b7ba53035e2aa6367d195807365c81d54f06ae9337ba4e4abccd",
+  "legacy_schema_3_hash": "b475c015f69bcd555262de0c8c721d969e2c6b362546deb5d0dea9d626f1abff",
+  "legacy_schema_1_2_hash_tests": "passed",
+  "remote_ci_claimed": false,
+  "original_executable_compared": false
+}

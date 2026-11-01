@@ -481,10 +481,15 @@ impl Scene {
                 continue;
             };
             if actor.id.0 == 1 || z > spec.near_q8 {
+                let animation_assets = actor
+                    .encounter
+                    .as_ref()
+                    .and_then(|u| self.assets.palettes.get(&u.color))
+                    .or(self.assets.animations.as_ref());
                 let animated = actor
                     .rider
                     .as_ref()
-                    .and_then(|r| self.assets.animations.as_ref()?.body(r.frame));
+                    .and_then(|r| animation_assets?.body(r.frame));
                 let sprite = animated.unwrap_or(&self.assets.rider);
                 let mirrored = actor.rider.as_ref().is_some_and(|r| r.mirror);
                 let pivot = if mirrored {
@@ -513,12 +518,7 @@ impl Scene {
                 };
                 let mut anchor = actor_anchor(self, &slices, z, lateral, spec, &self.assets.depths);
                 if let Some(rider) = &actor.rider {
-                    if let Some(shadow) = self
-                        .assets
-                        .animations
-                        .as_ref()
-                        .and_then(|a| a.shadow(rider.frame))
-                    {
+                    if let Some(shadow) = animation_assets.and_then(|a| a.shadow(rider.frame)) {
                         billboards.push(Billboard {
                             id: format!("shadow/{:020}", actor.id.0),
                             class: SpriteClass::Shadow,

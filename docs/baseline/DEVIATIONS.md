@@ -9,3 +9,5 @@
 | R001 | Runtime prerequisite | Attempt original EXE in isolated Proton prefix | Launch exits 53; imported executable requires AWEMAN32.dll, absent from verified 341-file corpus | Obtain/prepare compatible original runtime without altering reference executable | Open |
 
 Fidelity and enhancement issues use different templates and categories. Source-derived limitations are not automatically original-game bugs. Each future original defect needs a captured trigger and source hash before classification as verified.
+
+Parts 11–12 intended policies are recorded in [combat](../COMBAT.md) and [recovery](../RECOVERY.md): stable actor-order simultaneous hits, one resolved contact per swing, immediate ride pose after theft, a bounded deterministic bike separator, a remount facing gate, explicit disconnected-target wreck/rescue, and selected-route-only body projection. Full native traffic/collision behavior and original Windows recovery timing remain unmeasured. Fast/rescue recovery are opt-in and canonical. These policies close this phase's engine acceptance without relabeling unknown original behavior as verified.

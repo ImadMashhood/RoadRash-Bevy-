@@ -215,7 +215,7 @@ impl Tables {
         }
         Ok(())
     }
-    fn sin(&self, a: i32) -> i32 {
+    pub(crate) fn sin(&self, a: i32) -> i32 {
         let a = a as usize & 4095;
         let i = a & 1023;
         match a >> 10 {
@@ -532,7 +532,7 @@ impl Bike {
             self.lateral_force = s.brake_steer * self.lateral_force / 256;
         }
     }
-    fn vertical(&mut self, s: &BikeSpec, t: &Tables, g: Ground) {
+    pub(crate) fn vertical(&mut self, s: &BikeSpec, t: &Tables, g: Ground) {
         let ground_move = (g.height - self.previous_ground) * 256 + g.movement;
         let above = (i64::from(self.vertical_speed) - i64::from(ground_move)
             + i64::from(self.height))
