@@ -5,30 +5,82 @@
       "id": "disc-corpus",
       "confidence": "verified-local",
       "claim": "341 required file hashes matched supplied ISO",
-      "receipt": "../../docs/evidence/disc-corpus.json"
+      "receipt": "../../docs/evidence/disc-corpus.json",
+      "executable_sha256": "73d7f9744b5b1a9482b3909950cdf3fe34119fe13d023b031e9c6739a60f18a2",
+      "upstream_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+      "capture_settings": {
+        "status": "not-a-runtime-capture",
+        "seed": null,
+        "inputs": null,
+        "video_hash": null
+      }
     },
     {
       "id": "actor-ids",
       "confidence": "upstream-reported",
       "source": "https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/frontend.cpp",
-      "claim": "15 bike and 8 character asset stems extracted from pinned source"
+      "claim": "15 bike and 8 character asset stems extracted from pinned source",
+      "executable_sha256": "73d7f9744b5b1a9482b3909950cdf3fe34119fe13d023b031e9c6739a60f18a2",
+      "upstream_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+      "capture_settings": {
+        "status": "not-a-runtime-capture",
+        "seed": null,
+        "inputs": null,
+        "video_hash": null
+      }
     },
     {
       "id": "course-mapping",
       "confidence": "upstream-reported",
       "source": "https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/game_main.cpp",
-      "claim": "Original course numbers map to CITY,HIWAY,MEDLY,NAPA,CANYN"
+      "claim": "Original course numbers map to CITY,HIWAY,MEDLY,NAPA,CANYN",
+      "executable_sha256": "73d7f9744b5b1a9482b3909950cdf3fe34119fe13d023b031e9c6739a60f18a2",
+      "upstream_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+      "capture_settings": {
+        "status": "not-a-runtime-capture",
+        "seed": null,
+        "inputs": null,
+        "video_hash": null
+      }
     },
     {
       "id": "scheduler",
       "confidence": "upstream-reported",
       "source": "https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/race_schedule.cpp",
-      "claim": "Reference explicitly documents scheduling and crash-path differences; not assumed original defects"
+      "claim": "Reference explicitly documents scheduling and crash-path differences; not assumed original defects",
+      "executable_sha256": "73d7f9744b5b1a9482b3909950cdf3fe34119fe13d023b031e9c6739a60f18a2",
+      "upstream_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+      "capture_settings": {
+        "status": "not-a-runtime-capture",
+        "seed": null,
+        "inputs": null,
+        "video_hash": null
+      }
     },
     {
       "id": "original-input",
       "confidence": "unknown",
-      "claim": "Original input defaults require capture"
+      "claim": "Original input defaults require capture",
+      "executable_sha256": "73d7f9744b5b1a9482b3909950cdf3fe34119fe13d023b031e9c6739a60f18a2",
+      "upstream_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+      "capture_settings": {
+        "status": "not-a-runtime-capture",
+        "seed": null,
+        "inputs": null,
+        "video_hash": null
+      }
+    },
+    {
+      "id": "executable-menu-metadata",
+      "confidence": "verified-local",
+      "claim": "Read 36 original screen tables, 175 base screen entries, 15 bike name/price records and 22 raw binding words from hash-verified local executable/language files",
+      "executable_sha256": "73d7f9744b5b1a9482b3909950cdf3fe34119fe13d023b031e9c6739a60f18a2",
+      "upstream_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+      "capture_settings": {
+        "status": "static binary inspection; no gameplay capture"
+      },
+      "receipt": "executable/menu-items.json",
+      "limitation": "Dynamic popups, handler behavior and original screen captures remain unverified"
     }
   ]
 }

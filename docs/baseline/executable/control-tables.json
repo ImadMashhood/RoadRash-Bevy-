@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "source": {
+    "exe_sha256": "73d7f9744b5b1a9482b3909950cdf3fe34119fe13d023b031e9c6739a60f18a2",
+    "upstream_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+    "confidence": "verified-local",
+    "method": "static binary metadata inspection",
+    "runtime_observations": "not performed"
+  },
+  "keyboard_words": [
+    37888,
+    38400,
+    37632,
+    33792,
+    28160,
+    34048,
+    3328,
+    8192,
+    25600,
+    38144,
+    33024
+  ],
+  "joystick_words": [
+    37,
+    39,
+    40,
+    37632,
+    28160,
+    1,
+    2,
+    8192,
+    37888,
+    38,
+    38144
+  ],
+  "actions": [
+    "Accelerate",
+    "Brake",
+    "Turn",
+    "Lean",
+    "Nitro boost",
+    "Swing",
+    "Kick",
+    "Backhand",
+    "Dismount"
+  ],
+  "note": "Original internal bindings, not SDL scancodes. Axis/button and held/edge semantics require original capture."
+}

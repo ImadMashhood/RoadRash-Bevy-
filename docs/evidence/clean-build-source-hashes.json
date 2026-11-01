@@ -1,0 +1,19 @@
+{
+  "Cargo.toml": "b6bc984e422d1faac1c6c58eb2b4c19e8788aacd28ba3f0e4001f8c083011263",
+  "Cargo.lock": "a8ec6bff9f11a682a3f3bcba92b5bdde1c22724a25f8fc2ef1cd717c35fc01e7",
+  "rust-toolchain.toml": "5e7517b95a2b4e810124f84091dd4a6e3f2192523fcac7b6d52abc7fc6aff91d",
+  "apps/game/Cargo.toml": "e237fe82f48ec7c8581df622d0bc2d1e4f072a62f10544ab746c19cc19881a50",
+  "apps/game/src/main.rs": "6c85f79a69699160b485318fbfd9fb5ddab833a116ff6d9dbd99c1f13838f48a",
+  "crates/formats/Cargo.toml": "107f0163a499b3cd776896808f52d9311b64d1ae0f6d37493752695a177e8430",
+  "crates/formats/src/lib.rs": "63a129e30a6e85c524b7c3ef4d994df631540d17ebb89ed7f7239a925eeb5ba5",
+  "crates/simulation/Cargo.toml": "a91f9ac9363feb663d9ddcc8bfc0b964b77c316eafcac3c177881fa77b2ea5e0",
+  "crates/simulation/src/lib.rs": "898c594a5eb732acb33e4b4a7869c53944f34d536d6542b129ba5b6024a5725b",
+  "crates/presentation/Cargo.toml": "6e7c8df1bebf5e04afc374ac23e3d88ee43f07a8e2de90b2d10ae7b549cc55db",
+  "crates/presentation/src/lib.rs": "8ae69da4d630949fdd2b5d24bef7a72178fcc06334362648c23ecc13a8239933",
+  "crates/import/Cargo.toml": "e5b2f8e876e18371bf7f86ce33b260e2acef35d5371764ce754b750cbe71c29a",
+  "crates/import/build.rs": "1dfa7618e94aac3f66b1cd66537f2096cbb2fd536b8dae96654dc5ae06c6b5a4",
+  "crates/import/src/iso.rs": "7d8ffaf1bb077df42591831c338cc95476b307bec0d7f0f9aa2298a3122d749e",
+  "crates/import/src/lib.rs": "6de1191c460a5a74195143ae15a4ddf488f453a6988168896786be08200258db",
+  "crates/import/src/main.rs": "ecb11f1e6caa8122a4e55d9aa13fdace64648c2e094bac4e59709c5bdc66f7ea",
+  "crates/import/tests/import.rs": "4ec1e74577a0e54f31af4643a3bbbbdb63c6a45c1263616cb13c505d731aa597"
+}

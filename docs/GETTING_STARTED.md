@@ -3,7 +3,7 @@
 Run commands from the repository root. Rust 1.99.1 is selected by rust-toolchain.toml.
 
 ```sh
-cargo test --locked -p rr-formats -p rr-simulation
+cargo test --locked -p rr-formats -p rr-simulation -p rr-import
 cargo clippy --locked --workspace --all-targets -- -D warnings
 cargo fmt --all --check
 python3 -m unittest discover -s tools -p 'test_*.py' -v
@@ -12,7 +12,7 @@ cargo run --locked -p rr-game
 
 The last command opens an authored classic-style road made of horizontal bands and a red actor placeholder. Up/W accelerates, Down/S brakes, and Left/Right or A/D steers. The logical viewport is 640×480 with resizable presentation. This is a controllable architecture scaffold: it does not yet load original courses or sprites, and its handling constants are authored placeholders.
 
-Linux launch needs an X11/XWayland display, Vulkan-capable graphics driver, linker/compiler tools and Bevy/winit platform development libraries. Hardware launch has not been certified. No 3D rendering, lighting, physics or audio feature is enabled in this foundation.
+Linux launch needs an X11/XWayland display, Vulkan-capable graphics driver, linker/compiler tools and Bevy/winit platform development libraries. The local Linux smoke launch and screenshot are recorded in docs/evidence/parts-01-03.md. Other desktop hardware remains untested. No 3D rendering, lighting, physics or audio feature is enabled in this foundation.
 
 For a read-only corpus audit, select your own extracted ISO:
 
@@ -23,3 +23,16 @@ python3 tools/verify_disc.py /absolute/path/to/source.iso --report /absolute/pat
 This tool validates the ISO directory structure and hashes required files. It does not extract, install or activate assets. Keep source media and captures in ignored `local/` directories. Generated manifests in docs contain hashes and metadata only. Never commit media files to make a test pass.
 
 Workspace dependencies flow from the game composition root to the simulation and presentation crates. Presentation consumes snapshots from the simulation schema. The format and simulation crates have no renderer dependency. The existing local prototype outside this clone is preserved separately.
+
+## Import your own data
+
+```sh
+cargo run --locked -p rr-import -- /absolute/path/source.iso /absolute/path/private-install
+# Or pass the extracted ROADRASH directory instead of the ISO.
+cargo run --locked -p rr-import -- --active /absolute/path/private-install
+cargo run --locked -p rr-game -- --install-root /absolute/path/private-install
+```
+
+Press Ctrl+C to cancel import. The old active install remains selected on pre-activation failure. See [IMPORT.md](IMPORT.md) for layout, recovery and limits. Private game data is optional for the authored placeholder; providing an install currently validates/resolves it but does not imply that original courses or sprites are rendered yet.
+
+For a bounded graphical smoke run, add `--smoke-frames 180 --capture local/foundation.png`. The screenshot is authored placeholder content. Use an ignored local output directory. Run `python3 tools/check_workflow_guards.py` to exercise formatting and lockfile failure cases without changing the repository.

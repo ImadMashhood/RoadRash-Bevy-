@@ -8,3 +8,4 @@ rust-version.workspace = true
 rr-simulation = { path = "../../crates/simulation" }
 rr-presentation = { path = "../../crates/presentation" }
 bevy = { workspace = true }
+rr-import = { path = "../../crates/import" }

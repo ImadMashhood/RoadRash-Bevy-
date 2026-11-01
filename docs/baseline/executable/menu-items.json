@@ -1,0 +1,6329 @@
+{
+  "schema_version": 1,
+  "source": {
+    "exe_sha256": "73d7f9744b5b1a9482b3909950cdf3fe34119fe13d023b031e9c6739a60f18a2",
+    "upstream_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+    "confidence": "verified-local",
+    "method": "static binary metadata inspection",
+    "runtime_observations": "not performed"
+  },
+  "screens": [
+    {
+      "id": 0,
+      "title_id": 0,
+      "title": "",
+      "items": [],
+      "entry_conditions": "runtime-dependent; capture required",
+      "transition_capture": "pending"
+    },
+    {
+      "id": 1,
+      "title_id": 0,
+      "title": "",
+      "items": [],
+      "entry_conditions": "runtime-dependent; capture required",
+      "transition_capture": "pending"
+    },
+    {
+      "id": 2,
+      "title_id": 0,
+      "title": "",
+      "items": [],
+      "entry_conditions": "runtime-dependent; capture required",
+      "transition_capture": "pending"
+    },
+    {
+      "id": 3,
+      "title_id": 0,
+      "title": "",
+      "items": [],
+      "entry_conditions": "runtime-dependent; capture required",
+      "transition_capture": "pending"
+    },
+    {
+      "id": 4,
+      "title_id": 0,
+      "title": "",
+      "items": [],
+      "entry_conditions": "runtime-dependent; capture required",
+      "transition_capture": "pending"
+    },
+    {
+      "id": 5,
+      "title_id": 0,
+      "title": "",
+      "items": [],
+      "entry_conditions": "runtime-dependent; capture required",
+      "transition_capture": "pending"
+    },
+    {
+      "id": 6,
+      "title_id": 0,
+      "title": "",
+      "items": [],
+      "entry_conditions": "runtime-dependent; capture required",
+      "transition_capture": "pending"
+    },
+    {
+      "id": 7,
+      "title_id": 0,
+      "title": "",
+      "items": [
+        {
+          "index": 0,
+          "target": 0,
+          "caption_id": 0,
+          "caption": "",
+          "rect": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "navigation": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "flags": 32800,
+          "enabled": true,
+          "handler": "0x004241e0",
+          "description_id": 0,
+          "escape_item": true,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        }
+      ],
+      "entry_conditions": "runtime-dependent; capture required",
+      "transition_capture": "pending"
+    },
+    {
+      "id": 8,
+      "title_id": 206,
+      "title": "GAME LOADING",
+      "items": [
+        {
+          "index": 0,
+          "target": 0,
+          "caption_id": 207,
+          "caption": "Get ready to race!",
+          "rect": [
+            0,
+            410,
+            640,
+            70
+          ],
+          "navigation": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": true,
+          "handler": "0x00000000",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "direct target"
+        }
+      ],
+      "entry_conditions": "runtime-dependent; capture required",
+      "transition_capture": "pending"
+    },
+    {
+      "id": 9,
+      "title_id": 70,
+      "title": "Game Mode",
+      "items": [
+        {
+          "index": 0,
+          "target": 10,
+          "caption_id": 2,
+          "caption": "Thrash Mode",
+          "rect": [
+            0,
+            420,
+            160,
+            60
+          ],
+          "navigation": [
+            3,
+            1,
+            0,
+            0,
+            1,
+            3,
+            0,
+            0
+          ],
+          "flags": 4,
+          "enabled": true,
+          "handler": "0x00445070",
+          "description_id": 3,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 1,
+          "target": 14,
+          "caption_id": 4,
+          "caption": "Big Game Mode",
+          "rect": [
+            160,
+            420,
+            160,
+            60
+          ],
+          "navigation": [
+            0,
+            2,
+            1,
+            1,
+            2,
+            0,
+            0,
+            0
+          ],
+          "flags": 4,
+          "enabled": true,
+          "handler": "0x004450c0",
+          "description_id": 5,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 2,
+          "target": 11,
+          "caption_id": 13,
+          "caption": "Mano-\u00c0-Mano",
+          "rect": [
+            320,
+            420,
+            160,
+            60
+          ],
+          "navigation": [
+            1,
+            3,
+            2,
+            2,
+            3,
+            1,
+            0,
+            0
+          ],
+          "flags": 4,
+          "enabled": true,
+          "handler": "0x00430140",
+          "description_id": 14,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 3,
+          "target": 16,
+          "caption_id": 6,
+          "caption": "Restroom",
+          "rect": [
+            480,
+            420,
+            160,
+            60
+          ],
+          "navigation": [
+            2,
+            0,
+            3,
+            3,
+            0,
+            2,
+            0,
+            0
+          ],
+          "flags": 32772,
+          "enabled": true,
+          "handler": "0x00000000",
+          "description_id": 7,
+          "escape_item": true,
+          "activation_semantics": "direct target"
+        }
+      ],
+      "entry_conditions": "runtime-dependent; capture required",
+      "transition_capture": "pending"
+    },
+    {
+      "id": 10,
+      "title_id": 0,
+      "title": "",
+      "items": [
+        {
+          "index": 0,
+          "target": 1,
+          "caption_id": 16,
+          "caption": "The City",
+          "rect": [
+            0,
+            420,
+            213,
+            30
+          ],
+          "navigation": [
+            4,
+            2,
+            1,
+            1,
+            1,
+            5,
+            0,
+            0
+          ],
+          "flags": 18453,
+          "enabled": true,
+          "handler": "0x004213c0",
+          "description_id": 1,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 1,
+          "target": 2,
+          "caption_id": 17,
+          "caption": "Sierra Nevada",
+          "rect": [
+            0,
+            450,
+            213,
+            30
+          ],
+          "navigation": [
+            5,
+            3,
+            0,
+            0,
+            2,
+            0,
+            0,
+            0
+          ],
+          "flags": 18453,
+          "enabled": true,
+          "handler": "0x004213c0",
+          "description_id": 1,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 2,
+          "target": 3,
+          "caption_id": 18,
+          "caption": "The Peninsula",
+          "rect": [
+            213,
+            420,
+            213,
+            30
+          ],
+          "navigation": [
+            0,
+            4,
+            3,
+            3,
+            3,
+            1,
+            0,
+            0
+          ],
+          "flags": 18453,
+          "enabled": true,
+          "handler": "0x004213c0",
+          "description_id": 1,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 3,
+          "target": 4,
+          "caption_id": 19,
+          "caption": "Napa Valley",
+          "rect": [
+            213,
+            450,
+            213,
+            30
+          ],
+          "navigation": [
+            1,
+            5,
+            2,
+            2,
+            4,
+            2,
+            0,
+            0
+          ],
+          "flags": 18453,
+          "enabled": true,
+          "handler": "0x004213c0",
+          "description_id": 1,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 4,
+          "target": 5,
+          "caption_id": 20,
+          "caption": "Pacific Highway",
+          "rect": [
+            426,
+            420,
+            214,
+            30
+          ],
+          "navigation": [
+            2,
+            0,
+            5,
+            5,
+            5,
+            3,
+            0,
+            0
+          ],
+          "flags": 18453,
+          "enabled": true,
+          "handler": "0x004213c0",
+          "description_id": 1,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 5,
+          "target": 0,
+          "caption_id": 0,
+          "caption": "",
+          "rect": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "navigation": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": false,
+          "handler": "0x00000000",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "direct target"
+        }
+      ],
+      "entry_conditions": "runtime-dependent; capture required",
+      "transition_capture": "pending"
+    },
+    {
+      "id": 11,
+      "title_id": 13,
+      "title": "Mano-\u00c0-Mano",
+      "items": [
+        {
+          "index": 0,
+          "target": 0,
+          "caption_id": 289,
+          "caption": "Host",
+          "rect": [
+            0,
+            404,
+            320,
+            25
+          ],
+          "navigation": [
+            3,
+            3,
+            2,
+            1,
+            1,
+            5,
+            0,
+            0
+          ],
+          "flags": 5,
+          "enabled": true,
+          "handler": "0x0042fc40",
+          "description_id": 295,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 1,
+          "target": 0,
+          "caption_id": 288,
+          "caption": "Join",
+          "rect": [
+            0,
+            429,
+            320,
+            25
+          ],
+          "navigation": [
+            4,
+            4,
+            0,
+            2,
+            2,
+            0,
+            0,
+            0
+          ],
+          "flags": 5,
+          "enabled": true,
+          "handler": "0x0042fef0",
+          "description_id": 294,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 2,
+          "target": 12,
+          "caption_id": 54,
+          "caption": "Bulletin Board",
+          "rect": [
+            0,
+            454,
+            320,
+            26
+          ],
+          "navigation": [
+            5,
+            5,
+            1,
+            0,
+            3,
+            1,
+            0,
+            0
+          ],
+          "flags": 133125,
+          "enabled": false,
+          "handler": "0x00000000",
+          "description_id": 55,
+          "escape_item": false,
+          "activation_semantics": "direct target"
+        },
+        {
+          "index": 3,
+          "target": 13,
+          "caption_id": 220,
+          "caption": "Chat Messages",
+          "rect": [
+            320,
+            404,
+            320,
+            25
+          ],
+          "navigation": [
+            0,
+            0,
+            5,
+            4,
+            4,
+            2,
+            0,
+            0
+          ],
+          "flags": 133125,
+          "enabled": true,
+          "handler": "0x00430350",
+          "description_id": 221,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 4,
+          "target": 16,
+          "caption_id": 6,
+          "caption": "Restroom",
+          "rect": [
+            320,
+            429,
+            320,
+            25
+          ],
+          "navigation": [
+            1,
+            1,
+            3,
+            5,
+            5,
+            3,
+            0,
+            0
+          ],
+          "flags": 165893,
+          "enabled": true,
+          "handler": "0x00000000",
+          "description_id": 7,
+          "escape_item": true,
+          "activation_semantics": "direct target"
+        },
+        {
+          "index": 5,
+          "target": 0,
+          "caption_id": 290,
+          "caption": "Disconnect",
+          "rect": [
+            320,
+            454,
+            320,
+            26
+          ],
+          "navigation": [
+            2,
+            2,
+            4,
+            3,
+            0,
+            4,
+            0,
+            0
+          ],
+          "flags": 133125,
+          "enabled": false,
+          "handler": "0x00431600",
+          "description_id": 296,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        }
+      ],
+      "entry_conditions": "runtime-dependent; capture required",
+      "transition_capture": "pending"
+    },
+    {
+      "id": 12,
+      "title_id": 0,
+      "title": "",
+      "items": [
+        {
+          "index": 0,
+          "target": 1,
+          "caption_id": 16,
+          "caption": "The City",
+          "rect": [
+            0,
+            420,
+            213,
+            30
+          ],
+          "navigation": [
+            4,
+            2,
+            1,
+            1,
+            1,
+            5,
+            0,
+            0
+          ],
+          "flags": 18453,
+          "enabled": true,
+          "handler": "0x004213c0",
+          "description_id": 1,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 1,
+          "target": 2,
+          "caption_id": 17,
+          "caption": "Sierra Nevada",
+          "rect": [
+            0,
+            450,
+            213,
+            30
+          ],
+          "navigation": [
+            5,
+            3,
+            0,
+            0,
+            2,
+            0,
+            0,
+            0
+          ],
+          "flags": 18453,
+          "enabled": true,
+          "handler": "0x004213c0",
+          "description_id": 1,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 2,
+          "target": 3,
+          "caption_id": 18,
+          "caption": "The Peninsula",
+          "rect": [
+            213,
+            420,
+            213,
+            30
+          ],
+          "navigation": [
+            0,
+            4,
+            3,
+            3,
+            3,
+            1,
+            0,
+            0
+          ],
+          "flags": 18453,
+          "enabled": true,
+          "handler": "0x004213c0",
+          "description_id": 1,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 3,
+          "target": 4,
+          "caption_id": 19,
+          "caption": "Napa Valley",
+          "rect": [
+            213,
+            450,
+            213,
+            30
+          ],
+          "navigation": [
+            1,
+            5,
+            2,
+            2,
+            4,
+            2,
+            0,
+            0
+          ],
+          "flags": 18453,
+          "enabled": true,
+          "handler": "0x004213c0",
+          "description_id": 1,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 4,
+          "target": 5,
+          "caption_id": 20,
+          "caption": "Pacific Highway",
+          "rect": [
+            426,
+            420,
+            214,
+            30
+          ],
+          "navigation": [
+            2,
+            0,
+            5,
+            5,
+            5,
+            3,
+            0,
+            0
+          ],
+          "flags": 18453,
+          "enabled": true,
+          "handler": "0x004213c0",
+          "description_id": 1,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 5,
+          "target": 0,
+          "caption_id": 0,
+          "caption": "",
+          "rect": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "navigation": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": false,
+          "handler": "0x00000000",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "direct target"
+        }
+      ],
+      "entry_conditions": "runtime-dependent; capture required",
+      "transition_capture": "pending"
+    },
+    {
+      "id": 13,
+      "title_id": 220,
+      "title": "Chat Messages",
+      "items": [
+        {
+          "index": 0,
+          "target": 13,
+          "caption_id": 272,
+          "caption": "F1",
+          "rect": [
+            0,
+            120,
+            100,
+            40
+          ],
+          "navigation": [
+            0,
+            0,
+            8,
+            1,
+            1,
+            8,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": true,
+          "handler": "0x00430380",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 1,
+          "target": 13,
+          "caption_id": 273,
+          "caption": "F2",
+          "rect": [
+            0,
+            160,
+            100,
+            40
+          ],
+          "navigation": [
+            1,
+            1,
+            0,
+            2,
+            2,
+            0,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": true,
+          "handler": "0x00430380",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 2,
+          "target": 13,
+          "caption_id": 274,
+          "caption": "F3",
+          "rect": [
+            0,
+            200,
+            100,
+            40
+          ],
+          "navigation": [
+            2,
+            2,
+            1,
+            3,
+            3,
+            1,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": true,
+          "handler": "0x00430380",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 3,
+          "target": 13,
+          "caption_id": 275,
+          "caption": "F4",
+          "rect": [
+            0,
+            240,
+            100,
+            40
+          ],
+          "navigation": [
+            3,
+            3,
+            2,
+            4,
+            4,
+            2,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": true,
+          "handler": "0x00430380",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 4,
+          "target": 13,
+          "caption_id": 276,
+          "caption": "F5",
+          "rect": [
+            0,
+            280,
+            100,
+            40
+          ],
+          "navigation": [
+            4,
+            4,
+            3,
+            5,
+            5,
+            3,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": true,
+          "handler": "0x00430380",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 5,
+          "target": 13,
+          "caption_id": 277,
+          "caption": "F6",
+          "rect": [
+            0,
+            320,
+            100,
+            40
+          ],
+          "navigation": [
+            5,
+            5,
+            4,
+            6,
+            6,
+            4,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": true,
+          "handler": "0x00430380",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 6,
+          "target": 13,
+          "caption_id": 278,
+          "caption": "F7",
+          "rect": [
+            0,
+            360,
+            100,
+            40
+          ],
+          "navigation": [
+            6,
+            6,
+            5,
+            7,
+            7,
+            5,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": true,
+          "handler": "0x00430380",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 7,
+          "target": 13,
+          "caption_id": 279,
+          "caption": "F8",
+          "rect": [
+            0,
+            400,
+            100,
+            40
+          ],
+          "navigation": [
+            7,
+            7,
+            6,
+            8,
+            8,
+            6,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": true,
+          "handler": "0x00430380",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 8,
+          "target": 11,
+          "caption_id": 86,
+          "caption": "Done",
+          "rect": [
+            0,
+            440,
+            100,
+            40
+          ],
+          "navigation": [
+            8,
+            8,
+            7,
+            0,
+            0,
+            7,
+            0,
+            0
+          ],
+          "flags": 32768,
+          "enabled": true,
+          "handler": "0x00000000",
+          "description_id": 0,
+          "escape_item": true,
+          "activation_semantics": "direct target"
+        },
+        {
+          "index": 9,
+          "target": 0,
+          "caption_id": 0,
+          "caption": "",
+          "rect": [
+            0,
+            114,
+            100,
+            6
+          ],
+          "navigation": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": false,
+          "handler": "0x00000000",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "direct target"
+        },
+        {
+          "index": 10,
+          "target": 13,
+          "caption_id": 160,
+          "caption": "*",
+          "rect": [
+            120,
+            120,
+            500,
+            40
+          ],
+          "navigation": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": false,
+          "handler": "0x004303f0",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 11,
+          "target": 13,
+          "caption_id": 161,
+          "caption": "*",
+          "rect": [
+            120,
+            160,
+            500,
+            40
+          ],
+          "navigation": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": false,
+          "handler": "0x004303f0",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 12,
+          "target": 13,
+          "caption_id": 162,
+          "caption": "*",
+          "rect": [
+            120,
+            200,
+            500,
+            40
+          ],
+          "navigation": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": false,
+          "handler": "0x004303f0",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 13,
+          "target": 13,
+          "caption_id": 163,
+          "caption": "*",
+          "rect": [
+            120,
+            240,
+            500,
+            40
+          ],
+          "navigation": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": false,
+          "handler": "0x004303f0",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 14,
+          "target": 13,
+          "caption_id": 164,
+          "caption": "*",
+          "rect": [
+            120,
+            280,
+            500,
+            40
+          ],
+          "navigation": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": false,
+          "handler": "0x004303f0",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 15,
+          "target": 13,
+          "caption_id": 165,
+          "caption": "*",
+          "rect": [
+            120,
+            320,
+            500,
+            40
+          ],
+          "navigation": [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": false,
+          "handler": "0x004303f0",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 16,
+          "target": 13,
+          "caption_id": 166,
+          "caption": "*",
+          "rect": [
+            120,
+            360,
+            500,
+            40
+          ],
+          "navigation": [
+            6,
+            6,
+            6,
+            6,
+            6,
+            6,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": false,
+          "handler": "0x004303f0",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 17,
+          "target": 13,
+          "caption_id": 167,
+          "caption": "*",
+          "rect": [
+            120,
+            400,
+            500,
+            40
+          ],
+          "navigation": [
+            7,
+            7,
+            7,
+            7,
+            7,
+            7,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": false,
+          "handler": "0x004303f0",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        }
+      ],
+      "entry_conditions": "runtime-dependent; capture required",
+      "transition_capture": "pending"
+    },
+    {
+      "id": 14,
+      "title_id": 0,
+      "title": "",
+      "items": [
+        {
+          "index": 0,
+          "target": 1,
+          "caption_id": 32,
+          "caption": "Axle",
+          "rect": [
+            0,
+            402,
+            213,
+            24
+          ],
+          "navigation": [
+            6,
+            3,
+            2,
+            1,
+            1,
+            7,
+            0,
+            0
+          ],
+          "flags": 5,
+          "enabled": true,
+          "handler": "0x0041f5a0",
+          "description_id": 160,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 1,
+          "target": 2,
+          "caption_id": 33,
+          "caption": "Bose Jefferson",
+          "rect": [
+            0,
+            426,
+            213,
+            24
+          ],
+          "navigation": [
+            7,
+            4,
+            0,
+            2,
+            2,
+            0,
+            0,
+            0
+          ],
+          "flags": 5,
+          "enabled": true,
+          "handler": "0x0041f5a0",
+          "description_id": 161,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 2,
+          "target": 3,
+          "caption_id": 34,
+          "caption": "Cydney Bass",
+          "rect": [
+            0,
+            450,
+            213,
+            30
+          ],
+          "navigation": [
+            5,
+            5,
+            1,
+            0,
+            3,
+            1,
+            0,
+            0
+          ],
+          "flags": 5,
+          "enabled": true,
+          "handler": "0x0041f5a0",
+          "description_id": 162,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 3,
+          "target": 4,
+          "caption_id": 35,
+          "caption": "Milwaukee Jon",
+          "rect": [
+            213,
+            402,
+            213,
+            24
+          ],
+          "navigation": [
+            0,
+            6,
+            5,
+            4,
+            4,
+            2,
+            0,
+            0
+          ],
+          "flags": 5,
+          "enabled": true,
+          "handler": "0x0041f5a0",
+          "description_id": 163,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 4,
+          "target": 5,
+          "caption_id": 36,
+          "caption": "Pearl McKurdy",
+          "rect": [
+            213,
+            426,
+            213,
+            24
+          ],
+          "navigation": [
+            1,
+            7,
+            3,
+            5,
+            5,
+            3,
+            0,
+            0
+          ],
+          "flags": 5,
+          "enabled": true,
+          "handler": "0x0041f5a0",
+          "description_id": 164,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 5,
+          "target": 6,
+          "caption_id": 37,
+          "caption": "Rhonda the Rash",
+          "rect": [
+            213,
+            450,
+            213,
+            30
+          ],
+          "navigation": [
+            2,
+            2,
+            4,
+            3,
+            6,
+            4,
+            0,
+            0
+          ],
+          "flags": 5,
+          "enabled": true,
+          "handler": "0x0041f5a0",
+          "description_id": 165,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 6,
+          "target": 7,
+          "caption_id": 38,
+          "caption": "Slim Jim",
+          "rect": [
+            426,
+            402,
+            214,
+            24
+          ],
+          "navigation": [
+            3,
+            0,
+            7,
+            7,
+            7,
+            5,
+            0,
+            0
+          ],
+          "flags": 5,
+          "enabled": true,
+          "handler": "0x0041f5a0",
+          "description_id": 166,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 7,
+          "target": 8,
+          "caption_id": 39,
+          "caption": "Teflon Mike",
+          "rect": [
+            426,
+            426,
+            214,
+            24
+          ],
+          "navigation": [
+            4,
+            1,
+            6,
+            6,
+            0,
+            6,
+            0,
+            0
+          ],
+          "flags": 5,
+          "enabled": true,
+          "handler": "0x0041f5a0",
+          "description_id": 167,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 8,
+          "target": 0,
+          "caption_id": 0,
+          "caption": "",
+          "rect": [
+            426,
+            450,
+            214,
+            30
+          ],
+          "navigation": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "flags": 32784,
+          "enabled": false,
+          "handler": "0x0041f570",
+          "description_id": 0,
+          "escape_item": true,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        }
+      ],
+      "entry_conditions": "runtime-dependent; capture required",
+      "transition_capture": "pending"
+    },
+    {
+      "id": 15,
+      "title_id": 0,
+      "title": "",
+      "items": [
+        {
+          "index": 0,
+          "target": 25,
+          "caption_id": 48,
+          "caption": "Der Panzer Klub",
+          "rect": [
+            0,
+            420,
+            213,
+            60
+          ],
+          "navigation": [
+            2,
+            1,
+            0,
+            0,
+            1,
+            2,
+            0,
+            0
+          ],
+          "flags": 2053,
+          "enabled": true,
+          "handler": "0x00000000",
+          "description_id": 49,
+          "escape_item": false,
+          "activation_semantics": "direct target"
+        },
+        {
+          "index": 1,
+          "target": 20,
+          "caption_id": 50,
+          "caption": "Olley's Skoot-A-Rama",
+          "rect": [
+            213,
+            420,
+            213,
+            60
+          ],
+          "navigation": [
+            0,
+            2,
+            1,
+            1,
+            2,
+            0,
+            0,
+            0
+          ],
+          "flags": 2053,
+          "enabled": true,
+          "handler": "0x00000000",
+          "description_id": 51,
+          "escape_item": false,
+          "activation_semantics": "direct target"
+        },
+        {
+          "index": 2,
+          "target": 6,
+          "caption_id": 8,
+          "caption": "Go Home",
+          "rect": [
+            426,
+            420,
+            214,
+            60
+          ],
+          "navigation": [
+            1,
+            0,
+            2,
+            2,
+            0,
+            1,
+            0,
+            0
+          ],
+          "flags": 2053,
+          "enabled": true,
+          "handler": "0x0041f4f0",
+          "description_id": 9,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        }
+      ],
+      "entry_conditions": "runtime-dependent; capture required",
+      "transition_capture": "pending"
+    },
+    {
+      "id": 16,
+      "title_id": 6,
+      "title": "Restroom",
+      "items": [
+        {
+          "index": 0,
+          "target": 0,
+          "caption_id": 64,
+          "caption": "Load Game",
+          "rect": [
+            0,
+            114,
+            0,
+            28
+          ],
+          "navigation": [
+            0,
+            0,
+            12,
+            1,
+            1,
+            12,
+            0,
+            0
+          ],
+          "flags": 12,
+          "enabled": true,
+          "handler": "0x00445150",
+          "description_id": 65,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 1,
+          "target": 0,
+          "caption_id": 66,
+          "caption": "Save Game",
+          "rect": [
+            0,
+            142,
+            0,
+            28
+          ],
+          "navigation": [
+            1,
+            1,
+            0,
+            2,
+            2,
+            0,
+            0,
+            0
+          ],
+          "flags": 524,
+          "enabled": false,
+          "handler": "0x00445370",
+          "description_id": 67,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 2,
+          "target": 0,
+          "caption_id": 68,
+          "caption": "Save Game As...",
+          "rect": [
+            0,
+            170,
+            0,
+            28
+          ],
+          "navigation": [
+            2,
+            2,
+            1,
+            3,
+            3,
+            1,
+            0,
+            0
+          ],
+          "flags": 12,
+          "enabled": false,
+          "handler": "0x00445310",
+          "description_id": 69,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 3,
+          "target": 0,
+          "caption_id": 70,
+          "caption": "Game Mode",
+          "rect": [
+            0,
+            198,
+            0,
+            28
+          ],
+          "navigation": [
+            3,
+            3,
+            2,
+            4,
+            4,
+            2,
+            0,
+            0
+          ],
+          "flags": 12,
+          "enabled": true,
+          "handler": "0x00445460",
+          "description_id": 71,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 4,
+          "target": 19,
+          "caption_id": 394,
+          "caption": "Graphics Options",
+          "rect": [
+            0,
+            226,
+            0,
+            28
+          ],
+          "navigation": [
+            4,
+            4,
+            3,
+            5,
+            5,
+            3,
+            0,
+            0
+          ],
+          "flags": 12,
+          "enabled": true,
+          "handler": "0x00000000",
+          "description_id": 395,
+          "escape_item": false,
+          "activation_semantics": "direct target"
+        },
+        {
+          "index": 5,
+          "target": 0,
+          "caption_id": 74,
+          "caption": "Player Level",
+          "rect": [
+            0,
+            254,
+            0,
+            28
+          ],
+          "navigation": [
+            5,
+            5,
+            4,
+            6,
+            6,
+            4,
+            0,
+            0
+          ],
+          "flags": 12,
+          "enabled": false,
+          "handler": "0x00445490",
+          "description_id": 75,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 6,
+          "target": 0,
+          "caption_id": 76,
+          "caption": "Player Name",
+          "rect": [
+            0,
+            282,
+            0,
+            28
+          ],
+          "navigation": [
+            6,
+            6,
+            5,
+            7,
+            7,
+            5,
+            0,
+            0
+          ],
+          "flags": 12,
+          "enabled": true,
+          "handler": "0x00445560",
+          "description_id": 77,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 7,
+          "target": 14,
+          "caption_id": 78,
+          "caption": "Select Character",
+          "rect": [
+            0,
+            310,
+            0,
+            28
+          ],
+          "navigation": [
+            7,
+            7,
+            6,
+            8,
+            8,
+            6,
+            0,
+            0
+          ],
+          "flags": 12,
+          "enabled": false,
+          "handler": "0x00445390",
+          "description_id": 79,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 8,
+          "target": 17,
+          "caption_id": 80,
+          "caption": "Jukebox",
+          "rect": [
+            0,
+            338,
+            0,
+            28
+          ],
+          "navigation": [
+            8,
+            8,
+            7,
+            9,
+            9,
+            7,
+            0,
+            0
+          ],
+          "flags": 1036,
+          "enabled": true,
+          "handler": "0x00445590",
+          "description_id": 81,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 9,
+          "target": 0,
+          "caption_id": 82,
+          "caption": "Sound Mix",
+          "rect": [
+            0,
+            366,
+            0,
+            28
+          ],
+          "navigation": [
+            9,
+            9,
+            8,
+            10,
+            10,
+            8,
+            0,
+            0
+          ],
+          "flags": 12,
+          "enabled": true,
+          "handler": "0x00401df0",
+          "description_id": 83,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 10,
+          "target": 18,
+          "caption_id": 84,
+          "caption": "Configure Input",
+          "rect": [
+            0,
+            394,
+            0,
+            28
+          ],
+          "navigation": [
+            10,
+            10,
+            9,
+            11,
+            11,
+            9,
+            0,
+            0
+          ],
+          "flags": 12,
+          "enabled": true,
+          "handler": "0x0040fd90",
+          "description_id": 85,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 11,
+          "target": 0,
+          "caption_id": 86,
+          "caption": "Done",
+          "rect": [
+            0,
+            422,
+            0,
+            28
+          ],
+          "navigation": [
+            11,
+            11,
+            10,
+            12,
+            12,
+            10,
+            0,
+            0
+          ],
+          "flags": 32780,
+          "enabled": true,
+          "handler": "0x004453c0",
+          "description_id": 87,
+          "escape_item": true,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 12,
+          "target": 6,
+          "caption_id": 8,
+          "caption": "Go Home",
+          "rect": [
+            0,
+            450,
+            0,
+            30
+          ],
+          "navigation": [
+            12,
+            12,
+            11,
+            0,
+            0,
+            11,
+            0,
+            0
+          ],
+          "flags": 12,
+          "enabled": true,
+          "handler": "0x0041f4f0",
+          "description_id": 9,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        }
+      ],
+      "entry_conditions": "runtime-dependent; capture required",
+      "transition_capture": "pending"
+    },
+    {
+      "id": 17,
+      "title_id": 80,
+      "title": "Jukebox",
+      "items": [
+        {
+          "index": 0,
+          "target": 0,
+          "caption_id": 225,
+          "caption": "Hammerbox",
+          "rect": [
+            0,
+            134,
+            0,
+            42
+          ],
+          "navigation": [
+            0,
+            0,
+            7,
+            1,
+            1,
+            7,
+            0,
+            0
+          ],
+          "flags": 12,
+          "enabled": true,
+          "handler": "0x00445600",
+          "description_id": 231,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 1,
+          "target": 0,
+          "caption_id": 226,
+          "caption": "Monster Magnet",
+          "rect": [
+            0,
+            176,
+            0,
+            42
+          ],
+          "navigation": [
+            1,
+            1,
+            0,
+            2,
+            2,
+            0,
+            0,
+            0
+          ],
+          "flags": 12,
+          "enabled": true,
+          "handler": "0x00445600",
+          "description_id": 232,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 2,
+          "target": 0,
+          "caption_id": 227,
+          "caption": "Paw",
+          "rect": [
+            0,
+            218,
+            0,
+            42
+          ],
+          "navigation": [
+            2,
+            2,
+            1,
+            3,
+            3,
+            1,
+            0,
+            0
+          ],
+          "flags": 12,
+          "enabled": true,
+          "handler": "0x00445600",
+          "description_id": 233,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 3,
+          "target": 0,
+          "caption_id": 228,
+          "caption": "Soundgarden",
+          "rect": [
+            0,
+            260,
+            0,
+            42
+          ],
+          "navigation": [
+            3,
+            3,
+            2,
+            4,
+            4,
+            2,
+            0,
+            0
+          ],
+          "flags": 12,
+          "enabled": true,
+          "handler": "0x00445600",
+          "description_id": 234,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 4,
+          "target": 0,
+          "caption_id": 229,
+          "caption": "Swervedriver",
+          "rect": [
+            0,
+            302,
+            0,
+            42
+          ],
+          "navigation": [
+            4,
+            4,
+            3,
+            5,
+            5,
+            3,
+            0,
+            0
+          ],
+          "flags": 12,
+          "enabled": true,
+          "handler": "0x00445600",
+          "description_id": 235,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 5,
+          "target": 0,
+          "caption_id": 230,
+          "caption": "Therapy?",
+          "rect": [
+            0,
+            344,
+            0,
+            42
+          ],
+          "navigation": [
+            5,
+            5,
+            4,
+            6,
+            6,
+            4,
+            0,
+            0
+          ],
+          "flags": 12,
+          "enabled": true,
+          "handler": "0x00445600",
+          "description_id": 236,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 6,
+          "target": 0,
+          "caption_id": 431,
+          "caption": "Videos",
+          "rect": [
+            0,
+            386,
+            0,
+            42
+          ],
+          "navigation": [
+            6,
+            6,
+            5,
+            7,
+            7,
+            5,
+            0,
+            0
+          ],
+          "flags": 12,
+          "enabled": true,
+          "handler": "0x00445730",
+          "description_id": 496,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 7,
+          "target": 16,
+          "caption_id": 86,
+          "caption": "Done",
+          "rect": [
+            0,
+            428,
+            0,
+            52
+          ],
+          "navigation": [
+            7,
+            7,
+            6,
+            0,
+            0,
+            6,
+            0,
+            0
+          ],
+          "flags": 32780,
+          "enabled": true,
+          "handler": "0x00000000",
+          "description_id": 87,
+          "escape_item": true,
+          "activation_semantics": "direct target"
+        },
+        {
+          "index": 8,
+          "target": 0,
+          "caption_id": 0,
+          "caption": "",
+          "rect": [
+            0,
+            114,
+            0,
+            20
+          ],
+          "navigation": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": false,
+          "handler": "0x00000000",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "direct target"
+        }
+      ],
+      "entry_conditions": "runtime-dependent; capture required",
+      "transition_capture": "pending"
+    },
+    {
+      "id": 18,
+      "title_id": 84,
+      "title": "Configure Input",
+      "items": [
+        {
+          "index": 0,
+          "target": 0,
+          "caption_id": 256,
+          "caption": "Accelerate",
+          "rect": [
+            0,
+            120,
+            240,
+            30
+          ],
+          "navigation": [
+            0,
+            0,
+            11,
+            1,
+            1,
+            11,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": true,
+          "handler": "0x0040e580",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 1,
+          "target": 0,
+          "caption_id": 257,
+          "caption": "Brake",
+          "rect": [
+            0,
+            150,
+            240,
+            30
+          ],
+          "navigation": [
+            1,
+            1,
+            0,
+            2,
+            2,
+            0,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": true,
+          "handler": "0x0040e580",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 2,
+          "target": 0,
+          "caption_id": 258,
+          "caption": "Turn",
+          "rect": [
+            0,
+            180,
+            240,
+            30
+          ],
+          "navigation": [
+            2,
+            2,
+            1,
+            3,
+            3,
+            1,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": true,
+          "handler": "0x0040e580",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 3,
+          "target": 0,
+          "caption_id": 259,
+          "caption": "Lean",
+          "rect": [
+            0,
+            210,
+            240,
+            30
+          ],
+          "navigation": [
+            3,
+            3,
+            2,
+            4,
+            4,
+            2,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": true,
+          "handler": "0x0040e580",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 4,
+          "target": 0,
+          "caption_id": 260,
+          "caption": "Nitro boost",
+          "rect": [
+            0,
+            240,
+            240,
+            30
+          ],
+          "navigation": [
+            4,
+            4,
+            3,
+            5,
+            5,
+            3,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": true,
+          "handler": "0x0040e580",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 5,
+          "target": 0,
+          "caption_id": 261,
+          "caption": "Swing",
+          "rect": [
+            0,
+            270,
+            240,
+            30
+          ],
+          "navigation": [
+            5,
+            5,
+            4,
+            6,
+            6,
+            4,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": true,
+          "handler": "0x0040e580",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 6,
+          "target": 0,
+          "caption_id": 262,
+          "caption": "Kick",
+          "rect": [
+            0,
+            300,
+            240,
+            30
+          ],
+          "navigation": [
+            6,
+            6,
+            5,
+            7,
+            7,
+            5,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": true,
+          "handler": "0x0040e580",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 7,
+          "target": 0,
+          "caption_id": 263,
+          "caption": "Backhand",
+          "rect": [
+            0,
+            330,
+            240,
+            30
+          ],
+          "navigation": [
+            7,
+            7,
+            6,
+            8,
+            8,
+            6,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": true,
+          "handler": "0x0040e580",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 8,
+          "target": 0,
+          "caption_id": 264,
+          "caption": "Dismount",
+          "rect": [
+            0,
+            360,
+            240,
+            30
+          ],
+          "navigation": [
+            8,
+            8,
+            7,
+            9,
+            9,
+            7,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": true,
+          "handler": "0x0040e580",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 9,
+          "target": 0,
+          "caption_id": 382,
+          "caption": "Keyboard defaults",
+          "rect": [
+            0,
+            390,
+            240,
+            30
+          ],
+          "navigation": [
+            9,
+            9,
+            8,
+            10,
+            10,
+            8,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": true,
+          "handler": "0x0040fdf0",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 10,
+          "target": 0,
+          "caption_id": 383,
+          "caption": "Joystick defaults",
+          "rect": [
+            0,
+            420,
+            240,
+            30
+          ],
+          "navigation": [
+            10,
+            10,
+            9,
+            11,
+            11,
+            9,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": true,
+          "handler": "0x0040fdf0",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 11,
+          "target": 16,
+          "caption_id": 86,
+          "caption": "Done",
+          "rect": [
+            0,
+            450,
+            240,
+            30
+          ],
+          "navigation": [
+            11,
+            11,
+            10,
+            0,
+            0,
+            10,
+            0,
+            0
+          ],
+          "flags": 32768,
+          "enabled": true,
+          "handler": "0x00000000",
+          "description_id": 0,
+          "escape_item": true,
+          "activation_semantics": "direct target"
+        },
+        {
+          "index": 12,
+          "target": 0,
+          "caption_id": 0,
+          "caption": "",
+          "rect": [
+            0,
+            114,
+            240,
+            6
+          ],
+          "navigation": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": false,
+          "handler": "0x00000000",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "direct target"
+        },
+        {
+          "index": 13,
+          "target": 0,
+          "caption_id": 160,
+          "caption": "*",
+          "rect": [
+            260,
+            120,
+            360,
+            30
+          ],
+          "navigation": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "flags": 65536,
+          "enabled": false,
+          "handler": "0x00000000",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "direct target"
+        },
+        {
+          "index": 14,
+          "target": 0,
+          "caption_id": 161,
+          "caption": "*",
+          "rect": [
+            260,
+            150,
+            360,
+            30
+          ],
+          "navigation": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            0,
+            0
+          ],
+          "flags": 65536,
+          "enabled": false,
+          "handler": "0x00000000",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "direct target"
+        },
+        {
+          "index": 15,
+          "target": 0,
+          "caption_id": 162,
+          "caption": "*",
+          "rect": [
+            260,
+            180,
+            360,
+            30
+          ],
+          "navigation": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            0,
+            0
+          ],
+          "flags": 65536,
+          "enabled": false,
+          "handler": "0x00000000",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "direct target"
+        },
+        {
+          "index": 16,
+          "target": 0,
+          "caption_id": 163,
+          "caption": "*",
+          "rect": [
+            260,
+            210,
+            360,
+            30
+          ],
+          "navigation": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            0,
+            0
+          ],
+          "flags": 65536,
+          "enabled": false,
+          "handler": "0x00000000",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "direct target"
+        },
+        {
+          "index": 17,
+          "target": 0,
+          "caption_id": 164,
+          "caption": "*",
+          "rect": [
+            260,
+            240,
+            360,
+            30
+          ],
+          "navigation": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            0,
+            0
+          ],
+          "flags": 65536,
+          "enabled": false,
+          "handler": "0x00000000",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "direct target"
+        },
+        {
+          "index": 18,
+          "target": 0,
+          "caption_id": 165,
+          "caption": "*",
+          "rect": [
+            260,
+            270,
+            360,
+            30
+          ],
+          "navigation": [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            0,
+            0
+          ],
+          "flags": 65536,
+          "enabled": false,
+          "handler": "0x00000000",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "direct target"
+        },
+        {
+          "index": 19,
+          "target": 0,
+          "caption_id": 166,
+          "caption": "*",
+          "rect": [
+            260,
+            300,
+            360,
+            30
+          ],
+          "navigation": [
+            6,
+            6,
+            6,
+            6,
+            6,
+            6,
+            0,
+            0
+          ],
+          "flags": 65536,
+          "enabled": false,
+          "handler": "0x00000000",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "direct target"
+        },
+        {
+          "index": 20,
+          "target": 0,
+          "caption_id": 167,
+          "caption": "*",
+          "rect": [
+            260,
+            330,
+            360,
+            30
+          ],
+          "navigation": [
+            7,
+            7,
+            7,
+            7,
+            7,
+            7,
+            0,
+            0
+          ],
+          "flags": 65536,
+          "enabled": false,
+          "handler": "0x00000000",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "direct target"
+        },
+        {
+          "index": 21,
+          "target": 0,
+          "caption_id": 168,
+          "caption": "*",
+          "rect": [
+            260,
+            360,
+            360,
+            30
+          ],
+          "navigation": [
+            8,
+            8,
+            8,
+            8,
+            8,
+            8,
+            0,
+            0
+          ],
+          "flags": 65536,
+          "enabled": false,
+          "handler": "0x00000000",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "direct target"
+        }
+      ],
+      "entry_conditions": "runtime-dependent; capture required",
+      "transition_capture": "pending"
+    },
+    {
+      "id": 19,
+      "title_id": 394,
+      "title": "Graphics Options",
+      "items": [
+        {
+          "index": 0,
+          "target": 0,
+          "caption_id": 72,
+          "caption": "Race Resolution",
+          "rect": [
+            0,
+            134,
+            180,
+            48
+          ],
+          "navigation": [
+            0,
+            0,
+            6,
+            1,
+            1,
+            6,
+            0,
+            0
+          ],
+          "flags": 12,
+          "enabled": true,
+          "handler": "0x004457b0",
+          "description_id": 73,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 1,
+          "target": 0,
+          "caption_id": 396,
+          "caption": "Biker Resolution",
+          "rect": [
+            0,
+            182,
+            180,
+            48
+          ],
+          "navigation": [
+            1,
+            1,
+            0,
+            2,
+            2,
+            0,
+            0,
+            0
+          ],
+          "flags": 12,
+          "enabled": true,
+          "handler": "0x004458a0",
+          "description_id": 397,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 2,
+          "target": 0,
+          "caption_id": 0,
+          "caption": "",
+          "rect": [
+            0,
+            230,
+            180,
+            48
+          ],
+          "navigation": [
+            2,
+            2,
+            1,
+            3,
+            3,
+            1,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": false,
+          "handler": "0x00000000",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "direct target"
+        },
+        {
+          "index": 3,
+          "target": 0,
+          "caption_id": 431,
+          "caption": "Videos",
+          "rect": [
+            0,
+            278,
+            180,
+            48
+          ],
+          "navigation": [
+            3,
+            3,
+            2,
+            4,
+            4,
+            2,
+            0,
+            0
+          ],
+          "flags": 12,
+          "enabled": true,
+          "handler": "0x00445960",
+          "description_id": 432,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 4,
+          "target": 0,
+          "caption_id": 0,
+          "caption": "",
+          "rect": [
+            0,
+            326,
+            180,
+            48
+          ],
+          "navigation": [
+            4,
+            4,
+            3,
+            5,
+            5,
+            3,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": false,
+          "handler": "0x00000000",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "direct target"
+        },
+        {
+          "index": 5,
+          "target": 0,
+          "caption_id": 0,
+          "caption": "",
+          "rect": [
+            0,
+            374,
+            180,
+            48
+          ],
+          "navigation": [
+            5,
+            5,
+            4,
+            6,
+            6,
+            4,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": false,
+          "handler": "0x00000000",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "direct target"
+        },
+        {
+          "index": 6,
+          "target": 16,
+          "caption_id": 86,
+          "caption": "Done",
+          "rect": [
+            0,
+            422,
+            180,
+            58
+          ],
+          "navigation": [
+            6,
+            6,
+            5,
+            0,
+            0,
+            5,
+            0,
+            0
+          ],
+          "flags": 32780,
+          "enabled": true,
+          "handler": "0x00000000",
+          "description_id": 87,
+          "escape_item": true,
+          "activation_semantics": "direct target"
+        },
+        {
+          "index": 7,
+          "target": 0,
+          "caption_id": 0,
+          "caption": "",
+          "rect": [
+            0,
+            114,
+            180,
+            20
+          ],
+          "navigation": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": false,
+          "handler": "0x00000000",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "direct target"
+        }
+      ],
+      "entry_conditions": "runtime-dependent; capture required",
+      "transition_capture": "pending"
+    },
+    {
+      "id": 20,
+      "title_id": 0,
+      "title": "",
+      "items": [
+        {
+          "index": 0,
+          "target": 21,
+          "caption_id": 58,
+          "caption": "Rat Bikes",
+          "rect": [
+            80,
+            420,
+            200,
+            30
+          ],
+          "navigation": [
+            1,
+            1,
+            2,
+            2,
+            1,
+            3,
+            0,
+            0
+          ],
+          "flags": 5,
+          "enabled": true,
+          "handler": "0x00000000",
+          "description_id": 59,
+          "escape_item": false,
+          "activation_semantics": "direct target"
+        },
+        {
+          "index": 1,
+          "target": 23,
+          "caption_id": 62,
+          "caption": "Super Bikes",
+          "rect": [
+            360,
+            420,
+            200,
+            30
+          ],
+          "navigation": [
+            0,
+            0,
+            3,
+            3,
+            2,
+            0,
+            0,
+            0
+          ],
+          "flags": 5,
+          "enabled": true,
+          "handler": "0x00000000",
+          "description_id": 63,
+          "escape_item": false,
+          "activation_semantics": "direct target"
+        },
+        {
+          "index": 2,
+          "target": 22,
+          "caption_id": 60,
+          "caption": "Sport Bikes",
+          "rect": [
+            80,
+            450,
+            200,
+            30
+          ],
+          "navigation": [
+            3,
+            3,
+            0,
+            0,
+            3,
+            1,
+            0,
+            0
+          ],
+          "flags": 5,
+          "enabled": true,
+          "handler": "0x00000000",
+          "description_id": 61,
+          "escape_item": false,
+          "activation_semantics": "direct target"
+        },
+        {
+          "index": 3,
+          "target": 15,
+          "caption_id": 56,
+          "caption": "The Street",
+          "rect": [
+            360,
+            450,
+            200,
+            30
+          ],
+          "navigation": [
+            2,
+            2,
+            1,
+            1,
+            0,
+            2,
+            0,
+            0
+          ],
+          "flags": 32773,
+          "enabled": true,
+          "handler": "0x00000000",
+          "description_id": 57,
+          "escape_item": true,
+          "activation_semantics": "direct target"
+        },
+        {
+          "index": 4,
+          "target": 0,
+          "caption_id": 0,
+          "caption": "",
+          "rect": [
+            0,
+            420,
+            80,
+            60
+          ],
+          "navigation": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": false,
+          "handler": "0x00000000",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "direct target"
+        },
+        {
+          "index": 5,
+          "target": 0,
+          "caption_id": 0,
+          "caption": "",
+          "rect": [
+            280,
+            420,
+            80,
+            60
+          ],
+          "navigation": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": false,
+          "handler": "0x00000000",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "direct target"
+        },
+        {
+          "index": 6,
+          "target": 0,
+          "caption_id": 0,
+          "caption": "",
+          "rect": [
+            560,
+            420,
+            80,
+            60
+          ],
+          "navigation": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": false,
+          "handler": "0x00000000",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "direct target"
+        }
+      ],
+      "entry_conditions": "runtime-dependent; capture required",
+      "transition_capture": "pending"
+    },
+    {
+      "id": 21,
+      "title_id": 0,
+      "title": "",
+      "items": [
+        {
+          "index": 0,
+          "target": 24,
+          "caption_id": 96,
+          "caption": "Banzai",
+          "rect": [
+            0,
+            420,
+            213,
+            30
+          ],
+          "navigation": [
+            2,
+            1,
+            3,
+            3,
+            1,
+            5,
+            0,
+            0
+          ],
+          "flags": 8466,
+          "enabled": true,
+          "handler": "0x004216e0",
+          "description_id": 128,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 1,
+          "target": 24,
+          "caption_id": 98,
+          "caption": "Kamikaze",
+          "rect": [
+            213,
+            420,
+            213,
+            30
+          ],
+          "navigation": [
+            0,
+            2,
+            4,
+            4,
+            2,
+            0,
+            0,
+            0
+          ],
+          "flags": 8466,
+          "enabled": true,
+          "handler": "0x004216e0",
+          "description_id": 130,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 2,
+          "target": 24,
+          "caption_id": 100,
+          "caption": "Killer Rat",
+          "rect": [
+            426,
+            420,
+            214,
+            30
+          ],
+          "navigation": [
+            1,
+            0,
+            5,
+            5,
+            3,
+            1,
+            0,
+            0
+          ],
+          "flags": 8466,
+          "enabled": true,
+          "handler": "0x004216e0",
+          "description_id": 132,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 3,
+          "target": 24,
+          "caption_id": 97,
+          "caption": "Corsair",
+          "rect": [
+            0,
+            450,
+            213,
+            30
+          ],
+          "navigation": [
+            5,
+            4,
+            0,
+            0,
+            4,
+            2,
+            0,
+            0
+          ],
+          "flags": 8466,
+          "enabled": true,
+          "handler": "0x004216e0",
+          "description_id": 129,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 4,
+          "target": 24,
+          "caption_id": 99,
+          "caption": "Perro",
+          "rect": [
+            213,
+            450,
+            213,
+            30
+          ],
+          "navigation": [
+            3,
+            5,
+            1,
+            1,
+            5,
+            3,
+            0,
+            0
+          ],
+          "flags": 8466,
+          "enabled": true,
+          "handler": "0x004216e0",
+          "description_id": 131,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 5,
+          "target": 20,
+          "caption_id": 90,
+          "caption": "Showroom",
+          "rect": [
+            426,
+            450,
+            214,
+            30
+          ],
+          "navigation": [
+            4,
+            3,
+            2,
+            2,
+            0,
+            4,
+            0,
+            0
+          ],
+          "flags": 33026,
+          "enabled": true,
+          "handler": "0x00000000",
+          "description_id": 0,
+          "escape_item": true,
+          "activation_semantics": "direct target"
+        }
+      ],
+      "entry_conditions": "runtime-dependent; capture required",
+      "transition_capture": "pending"
+    },
+    {
+      "id": 22,
+      "title_id": 0,
+      "title": "",
+      "items": [
+        {
+          "index": 0,
+          "target": 24,
+          "caption_id": 101,
+          "caption": "Diablo",
+          "rect": [
+            0,
+            420,
+            213,
+            30
+          ],
+          "navigation": [
+            2,
+            1,
+            3,
+            3,
+            1,
+            5,
+            0,
+            0
+          ],
+          "flags": 8466,
+          "enabled": true,
+          "handler": "0x004216e0",
+          "description_id": 133,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 1,
+          "target": 24,
+          "caption_id": 102,
+          "caption": "Kamikaze",
+          "rect": [
+            213,
+            420,
+            213,
+            30
+          ],
+          "navigation": [
+            0,
+            2,
+            4,
+            4,
+            2,
+            0,
+            0,
+            0
+          ],
+          "flags": 8466,
+          "enabled": true,
+          "handler": "0x004216e0",
+          "description_id": 134,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 2,
+          "target": 24,
+          "caption_id": 103,
+          "caption": "Stiletto",
+          "rect": [
+            426,
+            420,
+            214,
+            30
+          ],
+          "navigation": [
+            1,
+            0,
+            5,
+            5,
+            3,
+            1,
+            0,
+            0
+          ],
+          "flags": 8466,
+          "enabled": true,
+          "handler": "0x004216e0",
+          "description_id": 135,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 3,
+          "target": 24,
+          "caption_id": 104,
+          "caption": "DMG",
+          "rect": [
+            0,
+            450,
+            213,
+            30
+          ],
+          "navigation": [
+            5,
+            4,
+            0,
+            0,
+            4,
+            2,
+            0,
+            0
+          ],
+          "flags": 8466,
+          "enabled": true,
+          "handler": "0x004216e0",
+          "description_id": 136,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 4,
+          "target": 24,
+          "caption_id": 105,
+          "caption": "Perro",
+          "rect": [
+            213,
+            450,
+            213,
+            30
+          ],
+          "navigation": [
+            3,
+            5,
+            1,
+            1,
+            5,
+            3,
+            0,
+            0
+          ],
+          "flags": 8466,
+          "enabled": true,
+          "handler": "0x004216e0",
+          "description_id": 137,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 5,
+          "target": 20,
+          "caption_id": 90,
+          "caption": "Showroom",
+          "rect": [
+            426,
+            450,
+            214,
+            30
+          ],
+          "navigation": [
+            4,
+            3,
+            2,
+            2,
+            0,
+            4,
+            0,
+            0
+          ],
+          "flags": 33026,
+          "enabled": true,
+          "handler": "0x00000000",
+          "description_id": 0,
+          "escape_item": true,
+          "activation_semantics": "direct target"
+        }
+      ],
+      "entry_conditions": "runtime-dependent; capture required",
+      "transition_capture": "pending"
+    },
+    {
+      "id": 23,
+      "title_id": 0,
+      "title": "",
+      "items": [
+        {
+          "index": 0,
+          "target": 24,
+          "caption_id": 106,
+          "caption": "Banzai",
+          "rect": [
+            0,
+            420,
+            213,
+            30
+          ],
+          "navigation": [
+            2,
+            1,
+            3,
+            3,
+            1,
+            5,
+            0,
+            0
+          ],
+          "flags": 8466,
+          "enabled": true,
+          "handler": "0x004216e0",
+          "description_id": 138,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 1,
+          "target": 24,
+          "caption_id": 107,
+          "caption": "Diablo",
+          "rect": [
+            213,
+            420,
+            213,
+            30
+          ],
+          "navigation": [
+            0,
+            2,
+            4,
+            4,
+            2,
+            0,
+            0,
+            0
+          ],
+          "flags": 8466,
+          "enabled": true,
+          "handler": "0x004216e0",
+          "description_id": 139,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 2,
+          "target": 24,
+          "caption_id": 108,
+          "caption": "Stiletto",
+          "rect": [
+            426,
+            420,
+            214,
+            30
+          ],
+          "navigation": [
+            1,
+            0,
+            5,
+            5,
+            3,
+            1,
+            0,
+            0
+          ],
+          "flags": 8466,
+          "enabled": true,
+          "handler": "0x004216e0",
+          "description_id": 140,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 3,
+          "target": 24,
+          "caption_id": 109,
+          "caption": "Corsair",
+          "rect": [
+            0,
+            450,
+            213,
+            30
+          ],
+          "navigation": [
+            5,
+            4,
+            0,
+            0,
+            4,
+            2,
+            0,
+            0
+          ],
+          "flags": 8466,
+          "enabled": true,
+          "handler": "0x004216e0",
+          "description_id": 141,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 4,
+          "target": 24,
+          "caption_id": 110,
+          "caption": "Kamikaze",
+          "rect": [
+            213,
+            450,
+            213,
+            30
+          ],
+          "navigation": [
+            3,
+            5,
+            1,
+            1,
+            5,
+            3,
+            0,
+            0
+          ],
+          "flags": 8466,
+          "enabled": true,
+          "handler": "0x004216e0",
+          "description_id": 142,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 5,
+          "target": 20,
+          "caption_id": 90,
+          "caption": "Showroom",
+          "rect": [
+            426,
+            450,
+            214,
+            30
+          ],
+          "navigation": [
+            4,
+            3,
+            2,
+            2,
+            0,
+            4,
+            0,
+            0
+          ],
+          "flags": 33026,
+          "enabled": true,
+          "handler": "0x00000000",
+          "description_id": 0,
+          "escape_item": true,
+          "activation_semantics": "direct target"
+        }
+      ],
+      "entry_conditions": "runtime-dependent; capture required",
+      "transition_capture": "pending"
+    },
+    {
+      "id": 24,
+      "title_id": 0,
+      "title": "",
+      "items": [
+        {
+          "index": 0,
+          "target": 20,
+          "caption_id": 217,
+          "caption": "Buy",
+          "rect": [
+            80,
+            450,
+            200,
+            30
+          ],
+          "navigation": [
+            1,
+            1,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "flags": 388,
+          "enabled": true,
+          "handler": "0x004215e0",
+          "description_id": 1,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 1,
+          "target": 20,
+          "caption_id": 218,
+          "caption": "Exit",
+          "rect": [
+            360,
+            450,
+            200,
+            30
+          ],
+          "navigation": [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          "flags": 33156,
+          "enabled": true,
+          "handler": "0x004216d0",
+          "description_id": 1,
+          "escape_item": true,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 2,
+          "target": 0,
+          "caption_id": 0,
+          "caption": "",
+          "rect": [
+            80,
+            420,
+            200,
+            30
+          ],
+          "navigation": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": false,
+          "handler": "0x00000000",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "direct target"
+        },
+        {
+          "index": 3,
+          "target": 0,
+          "caption_id": 0,
+          "caption": "",
+          "rect": [
+            360,
+            420,
+            200,
+            30
+          ],
+          "navigation": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": false,
+          "handler": "0x00000000",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "direct target"
+        },
+        {
+          "index": 4,
+          "target": 0,
+          "caption_id": 0,
+          "caption": "",
+          "rect": [
+            0,
+            420,
+            80,
+            60
+          ],
+          "navigation": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": false,
+          "handler": "0x00000000",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "direct target"
+        },
+        {
+          "index": 5,
+          "target": 0,
+          "caption_id": 0,
+          "caption": "",
+          "rect": [
+            280,
+            420,
+            80,
+            60
+          ],
+          "navigation": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": false,
+          "handler": "0x00000000",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "direct target"
+        },
+        {
+          "index": 6,
+          "target": 0,
+          "caption_id": 0,
+          "caption": "",
+          "rect": [
+            560,
+            420,
+            80,
+            60
+          ],
+          "navigation": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": false,
+          "handler": "0x00000000",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "direct target"
+        }
+      ],
+      "entry_conditions": "runtime-dependent; capture required",
+      "transition_capture": "pending"
+    },
+    {
+      "id": 25,
+      "title_id": 0,
+      "title": "",
+      "items": [
+        {
+          "index": 0,
+          "target": 26,
+          "caption_id": 52,
+          "caption": "Schmooze",
+          "rect": [
+            80,
+            420,
+            200,
+            30
+          ],
+          "navigation": [
+            1,
+            1,
+            2,
+            2,
+            1,
+            3,
+            0,
+            0
+          ],
+          "flags": 2053,
+          "enabled": true,
+          "handler": "0x00420b50",
+          "description_id": 53,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 1,
+          "target": 16,
+          "caption_id": 6,
+          "caption": "Restroom",
+          "rect": [
+            360,
+            420,
+            200,
+            30
+          ],
+          "navigation": [
+            0,
+            0,
+            3,
+            3,
+            2,
+            0,
+            0,
+            0
+          ],
+          "flags": 2053,
+          "enabled": true,
+          "handler": "0x00000000",
+          "description_id": 7,
+          "escape_item": false,
+          "activation_semantics": "direct target"
+        },
+        {
+          "index": 2,
+          "target": 27,
+          "caption_id": 54,
+          "caption": "Bulletin Board",
+          "rect": [
+            80,
+            450,
+            200,
+            30
+          ],
+          "navigation": [
+            3,
+            3,
+            0,
+            0,
+            3,
+            1,
+            0,
+            0
+          ],
+          "flags": 2053,
+          "enabled": true,
+          "handler": "0x00000000",
+          "description_id": 55,
+          "escape_item": false,
+          "activation_semantics": "direct target"
+        },
+        {
+          "index": 3,
+          "target": 15,
+          "caption_id": 56,
+          "caption": "The Street",
+          "rect": [
+            360,
+            450,
+            200,
+            30
+          ],
+          "navigation": [
+            2,
+            2,
+            1,
+            1,
+            0,
+            2,
+            0,
+            0
+          ],
+          "flags": 34821,
+          "enabled": true,
+          "handler": "0x00000000",
+          "description_id": 57,
+          "escape_item": true,
+          "activation_semantics": "direct target"
+        },
+        {
+          "index": 4,
+          "target": 0,
+          "caption_id": 0,
+          "caption": "",
+          "rect": [
+            0,
+            420,
+            80,
+            60
+          ],
+          "navigation": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": false,
+          "handler": "0x00000000",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "direct target"
+        },
+        {
+          "index": 5,
+          "target": 0,
+          "caption_id": 0,
+          "caption": "",
+          "rect": [
+            280,
+            420,
+            80,
+            60
+          ],
+          "navigation": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": false,
+          "handler": "0x00000000",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "direct target"
+        },
+        {
+          "index": 6,
+          "target": 0,
+          "caption_id": 0,
+          "caption": "",
+          "rect": [
+            560,
+            420,
+            80,
+            60
+          ],
+          "navigation": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": false,
+          "handler": "0x00000000",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "direct target"
+        }
+      ],
+      "entry_conditions": "runtime-dependent; capture required",
+      "transition_capture": "pending"
+    },
+    {
+      "id": 26,
+      "title_id": 0,
+      "title": "",
+      "items": [
+        {
+          "index": 0,
+          "target": 25,
+          "caption_id": 0,
+          "caption": "",
+          "rect": [
+            0,
+            410,
+            640,
+            70
+          ],
+          "navigation": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "flags": 36,
+          "enabled": true,
+          "handler": "0x00420b50",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 1,
+          "target": 25,
+          "caption_id": 0,
+          "caption": "",
+          "rect": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "navigation": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "flags": 32800,
+          "enabled": true,
+          "handler": "0x00420b90",
+          "description_id": 0,
+          "escape_item": true,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        }
+      ],
+      "entry_conditions": "runtime-dependent; capture required",
+      "transition_capture": "pending"
+    },
+    {
+      "id": 27,
+      "title_id": 0,
+      "title": "",
+      "items": [
+        {
+          "index": 0,
+          "target": 1,
+          "caption_id": 16,
+          "caption": "The City",
+          "rect": [
+            0,
+            420,
+            213,
+            30
+          ],
+          "navigation": [
+            4,
+            2,
+            1,
+            1,
+            1,
+            5,
+            0,
+            0
+          ],
+          "flags": 18453,
+          "enabled": true,
+          "handler": "0x004213c0",
+          "description_id": 1,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 1,
+          "target": 2,
+          "caption_id": 17,
+          "caption": "Sierra Nevada",
+          "rect": [
+            0,
+            450,
+            213,
+            30
+          ],
+          "navigation": [
+            5,
+            3,
+            0,
+            0,
+            2,
+            0,
+            0,
+            0
+          ],
+          "flags": 18453,
+          "enabled": true,
+          "handler": "0x004213c0",
+          "description_id": 1,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 2,
+          "target": 3,
+          "caption_id": 18,
+          "caption": "The Peninsula",
+          "rect": [
+            213,
+            420,
+            213,
+            30
+          ],
+          "navigation": [
+            0,
+            4,
+            3,
+            3,
+            3,
+            1,
+            0,
+            0
+          ],
+          "flags": 18453,
+          "enabled": true,
+          "handler": "0x004213c0",
+          "description_id": 1,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 3,
+          "target": 4,
+          "caption_id": 19,
+          "caption": "Napa Valley",
+          "rect": [
+            213,
+            450,
+            213,
+            30
+          ],
+          "navigation": [
+            1,
+            5,
+            2,
+            2,
+            4,
+            2,
+            0,
+            0
+          ],
+          "flags": 18453,
+          "enabled": true,
+          "handler": "0x004213c0",
+          "description_id": 1,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 4,
+          "target": 5,
+          "caption_id": 20,
+          "caption": "Pacific Highway",
+          "rect": [
+            426,
+            420,
+            214,
+            30
+          ],
+          "navigation": [
+            2,
+            0,
+            5,
+            5,
+            5,
+            3,
+            0,
+            0
+          ],
+          "flags": 18453,
+          "enabled": true,
+          "handler": "0x004213c0",
+          "description_id": 1,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 5,
+          "target": 0,
+          "caption_id": 0,
+          "caption": "",
+          "rect": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "navigation": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": false,
+          "handler": "0x00000000",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "direct target"
+        }
+      ],
+      "entry_conditions": "runtime-dependent; capture required",
+      "transition_capture": "pending"
+    },
+    {
+      "id": 28,
+      "title_id": 176,
+      "title": "WRECKED!",
+      "items": [
+        {
+          "index": 0,
+          "target": 33,
+          "caption_id": 192,
+          "caption": "Hey, at least you didn't total the sucker!",
+          "rect": [
+            0,
+            410,
+            640,
+            70
+          ],
+          "navigation": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "flags": 32768,
+          "enabled": true,
+          "handler": "0x004214e0",
+          "description_id": 0,
+          "escape_item": true,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        }
+      ],
+      "entry_conditions": "runtime-dependent; capture required",
+      "transition_capture": "pending"
+    },
+    {
+      "id": 29,
+      "title_id": 177,
+      "title": "BUSTED!",
+      "items": [
+        {
+          "index": 0,
+          "target": 33,
+          "caption_id": 195,
+          "caption": "There's no escaping the long arm of the law!",
+          "rect": [
+            0,
+            410,
+            640,
+            70
+          ],
+          "navigation": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "flags": 32768,
+          "enabled": true,
+          "handler": "0x004214e0",
+          "description_id": 0,
+          "escape_item": true,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        }
+      ],
+      "entry_conditions": "runtime-dependent; capture required",
+      "transition_capture": "pending"
+    },
+    {
+      "id": 30,
+      "title_id": 178,
+      "title": "WINNER!",
+      "items": [
+        {
+          "index": 0,
+          "target": 34,
+          "caption_id": 1,
+          "caption": "*",
+          "rect": [
+            0,
+            410,
+            640,
+            70
+          ],
+          "navigation": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "flags": 32768,
+          "enabled": true,
+          "handler": "0x00421290",
+          "description_id": 0,
+          "escape_item": true,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        }
+      ],
+      "entry_conditions": "runtime-dependent; capture required",
+      "transition_capture": "pending"
+    },
+    {
+      "id": 31,
+      "title_id": 179,
+      "title": "LOSER!",
+      "items": [
+        {
+          "index": 0,
+          "target": 34,
+          "caption_id": 199,
+          "caption": "You're a loser, man. Better luck next time.",
+          "rect": [
+            0,
+            410,
+            640,
+            70
+          ],
+          "navigation": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "flags": 32768,
+          "enabled": true,
+          "handler": "0x00421290",
+          "description_id": 0,
+          "escape_item": true,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        }
+      ],
+      "entry_conditions": "runtime-dependent; capture required",
+      "transition_capture": "pending"
+    },
+    {
+      "id": 32,
+      "title_id": 180,
+      "title": "LEVEL PROGRESSION!",
+      "items": [
+        {
+          "index": 0,
+          "target": 0,
+          "caption_id": 200,
+          "caption": "Whoa, you've qualified on every track in the level.\nGuess it's time to move on to bigger and better things.",
+          "rect": [
+            0,
+            410,
+            640,
+            70
+          ],
+          "navigation": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "flags": 32768,
+          "enabled": true,
+          "handler": "0x0041f6d0",
+          "description_id": 0,
+          "escape_item": true,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        }
+      ],
+      "entry_conditions": "runtime-dependent; capture required",
+      "transition_capture": "pending"
+    },
+    {
+      "id": 33,
+      "title_id": 0,
+      "title": "",
+      "items": [
+        {
+          "index": 0,
+          "target": 0,
+          "caption_id": 1,
+          "caption": "*",
+          "rect": [
+            0,
+            410,
+            640,
+            70
+          ],
+          "navigation": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "flags": 32768,
+          "enabled": true,
+          "handler": "0x0041f6d0",
+          "description_id": 0,
+          "escape_item": true,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        }
+      ],
+      "entry_conditions": "runtime-dependent; capture required",
+      "transition_capture": "pending"
+    },
+    {
+      "id": 34,
+      "title_id": 183,
+      "title": "Race Results",
+      "items": [
+        {
+          "index": 0,
+          "target": 0,
+          "caption_id": 160,
+          "caption": "*",
+          "rect": [
+            0,
+            112,
+            640,
+            24
+          ],
+          "navigation": [
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": false,
+          "handler": "0x0041f6d0",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 1,
+          "target": 0,
+          "caption_id": 161,
+          "caption": "*",
+          "rect": [
+            0,
+            135,
+            640,
+            24
+          ],
+          "navigation": [
+            1,
+            1,
+            1,
+            1,
+            2,
+            1,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": false,
+          "handler": "0x0041f6d0",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 2,
+          "target": 0,
+          "caption_id": 162,
+          "caption": "*",
+          "rect": [
+            0,
+            158,
+            640,
+            24
+          ],
+          "navigation": [
+            2,
+            2,
+            2,
+            2,
+            3,
+            2,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": false,
+          "handler": "0x0041f6d0",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 3,
+          "target": 0,
+          "caption_id": 163,
+          "caption": "*",
+          "rect": [
+            0,
+            181,
+            640,
+            24
+          ],
+          "navigation": [
+            3,
+            3,
+            3,
+            3,
+            4,
+            3,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": false,
+          "handler": "0x0041f6d0",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 4,
+          "target": 0,
+          "caption_id": 164,
+          "caption": "*",
+          "rect": [
+            0,
+            204,
+            640,
+            24
+          ],
+          "navigation": [
+            4,
+            4,
+            4,
+            4,
+            5,
+            4,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": false,
+          "handler": "0x0041f6d0",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 5,
+          "target": 0,
+          "caption_id": 165,
+          "caption": "*",
+          "rect": [
+            0,
+            227,
+            640,
+            24
+          ],
+          "navigation": [
+            5,
+            5,
+            5,
+            5,
+            6,
+            5,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": false,
+          "handler": "0x0041f6d0",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 6,
+          "target": 0,
+          "caption_id": 166,
+          "caption": "*",
+          "rect": [
+            0,
+            250,
+            640,
+            24
+          ],
+          "navigation": [
+            6,
+            6,
+            6,
+            6,
+            7,
+            6,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": false,
+          "handler": "0x0041f6d0",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 7,
+          "target": 0,
+          "caption_id": 167,
+          "caption": "*",
+          "rect": [
+            0,
+            273,
+            640,
+            24
+          ],
+          "navigation": [
+            7,
+            7,
+            7,
+            7,
+            8,
+            7,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": false,
+          "handler": "0x0041f6d0",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 8,
+          "target": 0,
+          "caption_id": 168,
+          "caption": "*",
+          "rect": [
+            0,
+            296,
+            640,
+            24
+          ],
+          "navigation": [
+            8,
+            8,
+            8,
+            8,
+            9,
+            8,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": false,
+          "handler": "0x0041f6d0",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 9,
+          "target": 0,
+          "caption_id": 169,
+          "caption": "*",
+          "rect": [
+            0,
+            319,
+            640,
+            24
+          ],
+          "navigation": [
+            9,
+            9,
+            9,
+            9,
+            10,
+            9,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": false,
+          "handler": "0x0041f6d0",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 10,
+          "target": 0,
+          "caption_id": 170,
+          "caption": "*",
+          "rect": [
+            0,
+            342,
+            640,
+            24
+          ],
+          "navigation": [
+            10,
+            10,
+            10,
+            10,
+            11,
+            10,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": false,
+          "handler": "0x0041f6d0",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 11,
+          "target": 0,
+          "caption_id": 171,
+          "caption": "*",
+          "rect": [
+            0,
+            365,
+            640,
+            24
+          ],
+          "navigation": [
+            11,
+            11,
+            11,
+            11,
+            12,
+            11,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": false,
+          "handler": "0x0041f6d0",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 12,
+          "target": 0,
+          "caption_id": 172,
+          "caption": "*",
+          "rect": [
+            0,
+            388,
+            640,
+            24
+          ],
+          "navigation": [
+            12,
+            12,
+            12,
+            12,
+            13,
+            12,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": false,
+          "handler": "0x0041f6d0",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 13,
+          "target": 0,
+          "caption_id": 173,
+          "caption": "*",
+          "rect": [
+            0,
+            411,
+            640,
+            24
+          ],
+          "navigation": [
+            13,
+            13,
+            13,
+            13,
+            14,
+            13,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": false,
+          "handler": "0x0041f6d0",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        },
+        {
+          "index": 14,
+          "target": 0,
+          "caption_id": 174,
+          "caption": "*",
+          "rect": [
+            0,
+            434,
+            640,
+            24
+          ],
+          "navigation": [
+            14,
+            14,
+            14,
+            14,
+            0,
+            14,
+            0,
+            0
+          ],
+          "flags": 0,
+          "enabled": false,
+          "handler": "0x0041f6d0",
+          "description_id": 0,
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        }
+      ],
+      "entry_conditions": "runtime-dependent; capture required",
+      "transition_capture": "pending"
+    },
+    {
+      "id": 35,
+      "title_id": 0,
+      "title": "",
+      "items": [
+        {
+          "index": 0,
+          "target": 0,
+          "caption_id": 0,
+          "caption": "",
+          "rect": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "navigation": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "flags": 32800,
+          "enabled": true,
+          "handler": "0x004241e0",
+          "description_id": 0,
+          "escape_item": true,
+          "activation_semantics": "handler-dependent; requires behavior verification"
+        }
+      ],
+      "entry_conditions": "runtime-dependent; capture required",
+      "transition_capture": "pending"
+    }
+  ],
+  "item_count": 175,
+  "popups": [
+    {
+      "address": "0x004735c0",
+      "items": [
+        {
+          "index": 0,
+          "target": 0,
+          "caption_id": 0,
+          "caption": "",
+          "navigation": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "flags": 32816,
+          "enabled": false,
+          "handler": "0x00445440",
+          "escape_item": true,
+          "activation_semantics": "handler-dependent; runtime verification required"
+        },
+        {
+          "index": 1,
+          "target": 1,
+          "caption_id": 2,
+          "caption": "Thrash Mode",
+          "navigation": [
+            1,
+            1,
+            3,
+            2,
+            2,
+            3,
+            0,
+            0
+          ],
+          "flags": 16,
+          "enabled": true,
+          "handler": "0x00445440",
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; runtime verification required"
+        },
+        {
+          "index": 2,
+          "target": 2,
+          "caption_id": 4,
+          "caption": "Big Game Mode",
+          "navigation": [
+            2,
+            2,
+            1,
+            3,
+            3,
+            1,
+            0,
+            0
+          ],
+          "flags": 16,
+          "enabled": true,
+          "handler": "0x00445440",
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; runtime verification required"
+        },
+        {
+          "index": 3,
+          "target": 3,
+          "caption_id": 13,
+          "caption": "Mano-\u00c0-Mano",
+          "navigation": [
+            3,
+            3,
+            2,
+            1,
+            1,
+            2,
+            0,
+            0
+          ],
+          "flags": 16,
+          "enabled": true,
+          "handler": "0x00445440",
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; runtime verification required"
+        }
+      ]
+    },
+    {
+      "address": "0x004736a0",
+      "items": [
+        {
+          "index": 0,
+          "target": 0,
+          "caption_id": 0,
+          "caption": "",
+          "navigation": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "flags": 32816,
+          "enabled": false,
+          "handler": "0x00445440",
+          "escape_item": true,
+          "activation_semantics": "handler-dependent; runtime verification required"
+        },
+        {
+          "index": 1,
+          "target": 1,
+          "caption_id": 91,
+          "caption": "Level 1",
+          "navigation": [
+            1,
+            1,
+            5,
+            2,
+            2,
+            5,
+            0,
+            0
+          ],
+          "flags": 16,
+          "enabled": true,
+          "handler": "0x00445440",
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; runtime verification required"
+        },
+        {
+          "index": 2,
+          "target": 2,
+          "caption_id": 92,
+          "caption": "Level 2",
+          "navigation": [
+            2,
+            2,
+            1,
+            3,
+            3,
+            1,
+            0,
+            0
+          ],
+          "flags": 16,
+          "enabled": true,
+          "handler": "0x00445440",
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; runtime verification required"
+        },
+        {
+          "index": 3,
+          "target": 3,
+          "caption_id": 93,
+          "caption": "Level 3",
+          "navigation": [
+            3,
+            3,
+            2,
+            4,
+            4,
+            2,
+            0,
+            0
+          ],
+          "flags": 16,
+          "enabled": true,
+          "handler": "0x00445440",
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; runtime verification required"
+        },
+        {
+          "index": 4,
+          "target": 4,
+          "caption_id": 94,
+          "caption": "Level 4",
+          "navigation": [
+            4,
+            4,
+            3,
+            5,
+            5,
+            3,
+            0,
+            0
+          ],
+          "flags": 16,
+          "enabled": true,
+          "handler": "0x00445440",
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; runtime verification required"
+        },
+        {
+          "index": 5,
+          "target": 5,
+          "caption_id": 95,
+          "caption": "Level 5",
+          "navigation": [
+            5,
+            5,
+            4,
+            1,
+            1,
+            4,
+            0,
+            0
+          ],
+          "flags": 16,
+          "enabled": true,
+          "handler": "0x00445440",
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; runtime verification required"
+        }
+      ]
+    },
+    {
+      "address": "0x004737f0",
+      "items": [
+        {
+          "index": 0,
+          "target": 0,
+          "caption_id": 0,
+          "caption": "",
+          "navigation": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "flags": 32816,
+          "enabled": false,
+          "handler": "0x00445440",
+          "escape_item": true,
+          "activation_semantics": "handler-dependent; runtime verification required"
+        },
+        {
+          "index": 1,
+          "target": 0,
+          "caption_id": 184,
+          "caption": "*",
+          "navigation": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            0,
+            0
+          ],
+          "flags": 16,
+          "enabled": true,
+          "handler": "0x004454c0",
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; runtime verification required"
+        }
+      ]
+    },
+    {
+      "address": "0x00474240",
+      "items": [
+        {
+          "index": 0,
+          "target": 0,
+          "caption_id": 0,
+          "caption": "",
+          "navigation": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "flags": 32816,
+          "enabled": false,
+          "handler": "0x00445440",
+          "escape_item": true,
+          "activation_semantics": "handler-dependent; runtime verification required"
+        },
+        {
+          "index": 1,
+          "target": 1,
+          "caption_id": 88,
+          "caption": "320x240 Full screen",
+          "navigation": [
+            1,
+            1,
+            3,
+            2,
+            2,
+            3,
+            0,
+            0
+          ],
+          "flags": 16,
+          "enabled": true,
+          "handler": "0x00445440",
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; runtime verification required"
+        },
+        {
+          "index": 2,
+          "target": 2,
+          "caption_id": 385,
+          "caption": "320x240 Inset",
+          "navigation": [
+            2,
+            2,
+            1,
+            3,
+            3,
+            1,
+            0,
+            0
+          ],
+          "flags": 16,
+          "enabled": true,
+          "handler": "0x00445440",
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; runtime verification required"
+        },
+        {
+          "index": 3,
+          "target": 3,
+          "caption_id": 89,
+          "caption": "640x480 Full screen",
+          "navigation": [
+            3,
+            3,
+            2,
+            1,
+            1,
+            2,
+            0,
+            0
+          ],
+          "flags": 16,
+          "enabled": true,
+          "handler": "0x00445440",
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; runtime verification required"
+        }
+      ]
+    },
+    {
+      "address": "0x00474320",
+      "items": [
+        {
+          "index": 0,
+          "target": 0,
+          "caption_id": 0,
+          "caption": "",
+          "navigation": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "flags": 32816,
+          "enabled": false,
+          "handler": "0x00445440",
+          "escape_item": true,
+          "activation_semantics": "handler-dependent; runtime verification required"
+        },
+        {
+          "index": 1,
+          "target": 1,
+          "caption_id": 400,
+          "caption": "Standard",
+          "navigation": [
+            1,
+            1,
+            2,
+            2,
+            2,
+            2,
+            0,
+            0
+          ],
+          "flags": 16,
+          "enabled": true,
+          "handler": "0x00445440",
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; runtime verification required"
+        },
+        {
+          "index": 2,
+          "target": 2,
+          "caption_id": 401,
+          "caption": "High-Res",
+          "navigation": [
+            2,
+            2,
+            1,
+            1,
+            1,
+            1,
+            0,
+            0
+          ],
+          "flags": 16,
+          "enabled": true,
+          "handler": "0x00445440",
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; runtime verification required"
+        }
+      ]
+    },
+    {
+      "address": "0x004743c8",
+      "items": [
+        {
+          "index": 0,
+          "target": 0,
+          "caption_id": 0,
+          "caption": "",
+          "navigation": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "flags": 32816,
+          "enabled": false,
+          "handler": "0x00445440",
+          "escape_item": true,
+          "activation_semantics": "handler-dependent; runtime verification required"
+        },
+        {
+          "index": 1,
+          "target": 1,
+          "caption_id": 433,
+          "caption": "No videos",
+          "navigation": [
+            1,
+            1,
+            3,
+            2,
+            2,
+            3,
+            0,
+            0
+          ],
+          "flags": 16,
+          "enabled": true,
+          "handler": "0x00445440",
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; runtime verification required"
+        },
+        {
+          "index": 2,
+          "target": 2,
+          "caption_id": 434,
+          "caption": "Small videos",
+          "navigation": [
+            2,
+            2,
+            1,
+            3,
+            3,
+            1,
+            0,
+            0
+          ],
+          "flags": 16,
+          "enabled": true,
+          "handler": "0x00445440",
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; runtime verification required"
+        },
+        {
+          "index": 3,
+          "target": 3,
+          "caption_id": 435,
+          "caption": "Large videos",
+          "navigation": [
+            3,
+            3,
+            2,
+            1,
+            1,
+            2,
+            0,
+            0
+          ],
+          "flags": 16,
+          "enabled": true,
+          "handler": "0x00445440",
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; runtime verification required"
+        }
+      ]
+    },
+    {
+      "address": "0x00473fa0",
+      "items": [
+        {
+          "index": 0,
+          "target": 0,
+          "caption_id": 0,
+          "caption": "",
+          "navigation": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "flags": 32816,
+          "enabled": false,
+          "handler": "0x00445440",
+          "escape_item": true,
+          "activation_semantics": "handler-dependent; runtime verification required"
+        },
+        {
+          "index": 1,
+          "target": 0,
+          "caption_id": 160,
+          "caption": "*",
+          "navigation": [
+            1,
+            1,
+            2,
+            2,
+            2,
+            2,
+            0,
+            0
+          ],
+          "flags": 16,
+          "enabled": true,
+          "handler": "0x004456d0",
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; runtime verification required"
+        },
+        {
+          "index": 2,
+          "target": 1,
+          "caption_id": 161,
+          "caption": "*",
+          "navigation": [
+            2,
+            2,
+            1,
+            1,
+            1,
+            1,
+            0,
+            0
+          ],
+          "flags": 16,
+          "enabled": true,
+          "handler": "0x004456d0",
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; runtime verification required"
+        }
+      ]
+    },
+    {
+      "address": "0x00473b38",
+      "items": [
+        {
+          "index": 0,
+          "target": 0,
+          "caption_id": 0,
+          "caption": "",
+          "navigation": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "flags": 32816,
+          "enabled": false,
+          "handler": "0x00445440",
+          "escape_item": true,
+          "activation_semantics": "handler-dependent; runtime verification required"
+        },
+        {
+          "index": 1,
+          "target": 225,
+          "caption_id": 241,
+          "caption": "Trip",
+          "navigation": [
+            1,
+            1,
+            2,
+            2,
+            2,
+            2,
+            0,
+            0
+          ],
+          "flags": 16,
+          "enabled": true,
+          "handler": "0x004455b0",
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; runtime verification required"
+        },
+        {
+          "index": 2,
+          "target": 225,
+          "caption_id": 242,
+          "caption": "Simple Passing",
+          "navigation": [
+            2,
+            2,
+            1,
+            1,
+            1,
+            1,
+            0,
+            0
+          ],
+          "flags": 16,
+          "enabled": true,
+          "handler": "0x004455b0",
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; runtime verification required"
+        }
+      ]
+    },
+    {
+      "address": "0x00473be0",
+      "items": [
+        {
+          "index": 0,
+          "target": 0,
+          "caption_id": 0,
+          "caption": "",
+          "navigation": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "flags": 32816,
+          "enabled": false,
+          "handler": "0x00445440",
+          "escape_item": true,
+          "activation_semantics": "handler-dependent; runtime verification required"
+        },
+        {
+          "index": 1,
+          "target": 226,
+          "caption_id": 243,
+          "caption": "Dinosaur Vacume",
+          "navigation": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            0,
+            0
+          ],
+          "flags": 16,
+          "enabled": true,
+          "handler": "0x004455b0",
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; runtime verification required"
+        }
+      ]
+    },
+    {
+      "address": "0x00473c50",
+      "items": [
+        {
+          "index": 0,
+          "target": 0,
+          "caption_id": 0,
+          "caption": "",
+          "navigation": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "flags": 32816,
+          "enabled": false,
+          "handler": "0x00445440",
+          "escape_item": true,
+          "activation_semantics": "handler-dependent; runtime verification required"
+        },
+        {
+          "index": 1,
+          "target": 227,
+          "caption_id": 244,
+          "caption": "Pansy",
+          "navigation": [
+            1,
+            1,
+            3,
+            2,
+            2,
+            3,
+            0,
+            0
+          ],
+          "flags": 16,
+          "enabled": true,
+          "handler": "0x004455b0",
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; runtime verification required"
+        },
+        {
+          "index": 2,
+          "target": 227,
+          "caption_id": 245,
+          "caption": "Jessie",
+          "navigation": [
+            2,
+            2,
+            1,
+            3,
+            3,
+            1,
+            0,
+            0
+          ],
+          "flags": 16,
+          "enabled": true,
+          "handler": "0x004455b0",
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; runtime verification required"
+        },
+        {
+          "index": 3,
+          "target": 227,
+          "caption_id": 246,
+          "caption": "The Bridge",
+          "navigation": [
+            3,
+            3,
+            2,
+            1,
+            1,
+            2,
+            0,
+            0
+          ],
+          "flags": 16,
+          "enabled": true,
+          "handler": "0x004455b0",
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; runtime verification required"
+        }
+      ]
+    },
+    {
+      "address": "0x00473d30",
+      "items": [
+        {
+          "index": 0,
+          "target": 0,
+          "caption_id": 0,
+          "caption": "",
+          "navigation": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "flags": 32816,
+          "enabled": false,
+          "handler": "0x00445440",
+          "escape_item": true,
+          "activation_semantics": "handler-dependent; runtime verification required"
+        },
+        {
+          "index": 1,
+          "target": 228,
+          "caption_id": 247,
+          "caption": "Rusty Cage",
+          "navigation": [
+            1,
+            1,
+            4,
+            2,
+            2,
+            4,
+            0,
+            0
+          ],
+          "flags": 16,
+          "enabled": true,
+          "handler": "0x004455b0",
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; runtime verification required"
+        },
+        {
+          "index": 2,
+          "target": 228,
+          "caption_id": 248,
+          "caption": "Outshined",
+          "navigation": [
+            2,
+            2,
+            1,
+            3,
+            3,
+            1,
+            0,
+            0
+          ],
+          "flags": 16,
+          "enabled": true,
+          "handler": "0x004455b0",
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; runtime verification required"
+        },
+        {
+          "index": 3,
+          "target": 228,
+          "caption_id": 249,
+          "caption": "Kickstand",
+          "navigation": [
+            3,
+            3,
+            2,
+            4,
+            4,
+            2,
+            0,
+            0
+          ],
+          "flags": 16,
+          "enabled": true,
+          "handler": "0x004455b0",
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; runtime verification required"
+        },
+        {
+          "index": 4,
+          "target": 228,
+          "caption_id": 250,
+          "caption": "Superunknown",
+          "navigation": [
+            4,
+            4,
+            3,
+            1,
+            1,
+            3,
+            0,
+            0
+          ],
+          "flags": 16,
+          "enabled": true,
+          "handler": "0x004455b0",
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; runtime verification required"
+        }
+      ]
+    },
+    {
+      "address": "0x00473e48",
+      "items": [
+        {
+          "index": 0,
+          "target": 0,
+          "caption_id": 0,
+          "caption": "",
+          "navigation": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "flags": 32816,
+          "enabled": false,
+          "handler": "0x00445440",
+          "escape_item": true,
+          "activation_semantics": "handler-dependent; runtime verification required"
+        },
+        {
+          "index": 1,
+          "target": 229,
+          "caption_id": 251,
+          "caption": "Last Train to Satansville",
+          "navigation": [
+            1,
+            1,
+            2,
+            2,
+            2,
+            2,
+            0,
+            0
+          ],
+          "flags": 16,
+          "enabled": true,
+          "handler": "0x004455b0",
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; runtime verification required"
+        },
+        {
+          "index": 2,
+          "target": 229,
+          "caption_id": 252,
+          "caption": "Duel",
+          "navigation": [
+            2,
+            2,
+            1,
+            1,
+            1,
+            1,
+            0,
+            0
+          ],
+          "flags": 16,
+          "enabled": true,
+          "handler": "0x004455b0",
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; runtime verification required"
+        }
+      ]
+    },
+    {
+      "address": "0x00473ef0",
+      "items": [
+        {
+          "index": 0,
+          "target": 0,
+          "caption_id": 0,
+          "caption": "",
+          "navigation": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "flags": 32816,
+          "enabled": false,
+          "handler": "0x00445440",
+          "escape_item": true,
+          "activation_semantics": "handler-dependent; runtime verification required"
+        },
+        {
+          "index": 1,
+          "target": 230,
+          "caption_id": 253,
+          "caption": "Teethgrinder",
+          "navigation": [
+            1,
+            1,
+            2,
+            2,
+            2,
+            2,
+            0,
+            0
+          ],
+          "flags": 16,
+          "enabled": true,
+          "handler": "0x004455b0",
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; runtime verification required"
+        },
+        {
+          "index": 2,
+          "target": 230,
+          "caption_id": 254,
+          "caption": "Auto Surgery",
+          "navigation": [
+            2,
+            2,
+            1,
+            1,
+            1,
+            1,
+            0,
+            0
+          ],
+          "flags": 16,
+          "enabled": true,
+          "handler": "0x004455b0",
+          "escape_item": false,
+          "activation_semantics": "handler-dependent; runtime verification required"
+        }
+      ]
+    }
+  ],
+  "course_extras": [
+    {
+      "index": 0,
+      "target": 16,
+      "caption_id": 6,
+      "caption": "Restroom",
+      "navigation": [
+        3,
+        1,
+        4,
+        4,
+        0,
+        4,
+        0,
+        0
+      ],
+      "flags": 34821,
+      "enabled": true,
+      "handler": "0x00000000",
+      "escape_item": true,
+      "activation_semantics": "handler-dependent; runtime verification required"
+    },
+    {
+      "index": 1,
+      "target": 11,
+      "caption_id": 290,
+      "caption": "Disconnect",
+      "navigation": [
+        3,
+        1,
+        4,
+        4,
+        0,
+        4,
+        0,
+        0
+      ],
+      "flags": 2053,
+      "enabled": true,
+      "handler": "0x00431600",
+      "escape_item": false,
+      "activation_semantics": "handler-dependent; runtime verification required"
+    },
+    {
+      "index": 2,
+      "target": 25,
+      "caption_id": 48,
+      "caption": "Der Panzer Klub",
+      "navigation": [
+        3,
+        1,
+        4,
+        4,
+        0,
+        4,
+        0,
+        0
+      ],
+      "flags": 34821,
+      "enabled": true,
+      "handler": "0x00000000",
+      "escape_item": true,
+      "activation_semantics": "handler-dependent; runtime verification required"
+    }
+  ],
+  "note": "Static screen, popup and extra-item records; runtime-dependent entry/handler transitions remain pending original capture."
+}

@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "reference_hardware": "Fedora 44 Linux x86_64, NVIDIA RTX 3080 10GB; full driver details in platform receipt",
+  "criteria": [
+    {
+      "id": "launch",
+      "target": "Packaged application reaches an interactive first screen within 10 seconds on declared reference desktop",
+      "procedure": "Launch from a clean profile, measure start-to-first-interactive-frame; record cold/warm results",
+      "gate": "G5",
+      "owner": "Project owner signs release; implementing agent produces receipt",
+      "signoff_record": "docs/evidence/release-signoff.json (future artifact)",
+      "signoff_status": "pending"
+    },
+    {
+      "id": "content",
+      "target": "All 25 course/level setup combinations, 15 bikes and eight characters resolve valid content",
+      "procedure": "Run content matrix and record each selection outcome; no skipped required entry",
+      "gate": "G3",
+      "owner": "Project owner signs release; implementing agent produces receipt",
+      "signoff_record": "docs/evidence/release-signoff.json (future artifact)",
+      "signoff_status": "pending"
+    },
+    {
+      "id": "career",
+      "target": "Complete one Big Game career and all terminal outcome paths without progression corruption",
+      "procedure": "Follow recorded win/loss/bust/wreck/quit scenario scripts and compare save state before/after",
+      "gate": "G3",
+      "owner": "Project owner signs release; implementing agent produces receipt",
+      "signoff_record": "docs/evidence/release-signoff.json (future artifact)",
+      "signoff_status": "pending"
+    },
+    {
+      "id": "stability",
+      "target": "Zero crashes, stuck recovery loops, missing required assets or lost/duplicated transactions in accepted scenarios",
+      "procedure": "Run all regression scenarios and a 60-minute repeated-race soak; inspect logs and saved money/progress",
+      "gate": "G5",
+      "owner": "Project owner signs release; implementing agent produces receipt",
+      "signoff_record": "docs/evidence/release-signoff.json (future artifact)",
+      "signoff_status": "pending"
+    },
+    {
+      "id": "performance",
+      "target": "Target 60 Hz presentation at 640x480 logical output: p95 frame time at most 16.7 ms and p99 at most 50 ms outside documented loading pauses",
+      "procedure": "Measure five-minute race sections on declared desktop per course, native assets; report CPU/GPU separately. These are acceptance targets, not achieved claims",
+      "gate": "G5",
+      "owner": "Project owner signs release; implementing agent produces receipt",
+      "signoff_record": "docs/evidence/release-signoff.json (future artifact)",
+      "signoff_status": "pending"
+    },
+    {
+      "id": "import",
+      "target": "Only complete supported corpus can activate; cancellation/failure retains previous generation",
+      "procedure": "cargo test --locked -p rr-import plus tools/private_import.py on supported user data",
+      "gate": "G0",
+      "owner": "Project owner signs release; implementing agent produces receipt",
+      "signoff_record": "docs/evidence/release-signoff.json (future artifact)",
+      "signoff_status": "pending"
+    },
+    {
+      "id": "privacy",
+      "target": "No disc/executable/audio/video or private derived textures in public package",
+      "procedure": "cargo package --list and public-file audit; review exact artifact manifest",
+      "gate": "G5",
+      "owner": "Project owner signs release; implementing agent produces receipt",
+      "signoff_record": "docs/evidence/release-signoff.json (future artifact)",
+      "signoff_status": "pending"
+    },
+    {
+      "id": "fidelity",
+      "target": "All adopted reference scenarios meet declared exact/toleranced comparisons with no unexplained first divergence",
+      "procedure": "Run versioned comparison manifests; retain failures and explicit approved deviations",
+      "gate": "G2",
+      "owner": "Project owner signs release; implementing agent produces receipt",
+      "signoff_record": "docs/evidence/release-signoff.json (future artifact)",
+      "signoff_status": "pending"
+    }
+  ]
+}

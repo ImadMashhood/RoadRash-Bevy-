@@ -1,5 +1,5 @@
 //! Authored classic-style rendering, consuming a read-only snapshot.
-use bevy::prelude::*;
+use bevy::{camera::Viewport, prelude::*, window::PrimaryWindow};
 use rr_simulation::Snapshot;
 
 #[derive(Resource, Default)]
@@ -9,9 +9,9 @@ pub struct ClassicPresentationPlugin;
 impl Plugin for ClassicPresentationPlugin {
     fn build(&self, app: &mut App) {
         app.init_resource::<PresentedSnapshot>()
-            .insert_resource(ClearColor(Color::srgb(0.35, 0.65, 0.85)))
+            .insert_resource(ClearColor(Color::BLACK))
             .add_systems(Startup, setup)
-            .add_systems(Update, present);
+            .add_systems(Update, (fit_viewport, present));
     }
 }
 
@@ -21,6 +21,10 @@ struct RoadRow(u32);
 struct Player;
 
 fn setup(mut commands: Commands) {
+    commands.spawn((
+        Sprite::from_color(Color::srgb(0.35, 0.65, 0.85), Vec2::new(640.0, 480.0)),
+        Transform::from_xyz(0.0, 0.0, -1.0),
+    ));
     commands.spawn((
         Camera2d,
         Projection::Orthographic(OrthographicProjection {
@@ -69,5 +73,27 @@ fn present(
     }
     for mut transform in &mut player {
         transform.translation.x = snapshot.0.lateral_mm as f32 / 20.0;
+    }
+}
+
+fn fit_viewport(
+    window: Single<&Window, With<PrimaryWindow>>,
+    mut cameras: Query<&mut Camera, With<Camera2d>>,
+) {
+    let size = window.physical_size();
+    if size.x == 0 || size.y == 0 {
+        return;
+    }
+    let scale = (size.x as f32 / 640.0).min(size.y as f32 / 480.0);
+    let extent = UVec2::new(
+        (640.0 * scale).floor().max(1.0) as u32,
+        (480.0 * scale).floor().max(1.0) as u32,
+    );
+    for mut camera in &mut cameras {
+        camera.viewport = Some(Viewport {
+            physical_position: (size - extent) / 2,
+            physical_size: extent,
+            ..default()
+        });
     }
 }

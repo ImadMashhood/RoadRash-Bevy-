@@ -1,0 +1,20 @@
+{
+  "outcome": "passed",
+  "image": "docker.io/library/rust:1.99.1-bookworm",
+  "image_digest": "sha256:0097cc72a939f26665ab11380e995aa9476735ec9516867e14ff5dfa8318b068",
+  "environment": "fresh Debian container, non-root rrbuild user, fresh source directory and target/cache; no private assets copied",
+  "rustc": "rustc 1.99.1 (58cf8f9c3 2026-10-13)",
+  "cargo": "cargo 1.99.1 (5f94df478 2026-08-27)",
+  "checks": [
+    "formatting",
+    "Python fixture/DAG/evidence tests in copied source",
+    "20 Rust headless tests",
+    "workspace Clippy with warnings denied",
+    "linked release workspace build",
+    "Cargo game package listing"
+  ],
+  "source_hashes": "clean-build-source-hashes.json",
+  "log_sha256": "8723fa4d5c526c290c78d114fae831dd2906823e298c3c7efb57c345782c5eeb",
+  "local_log": "local/clean-build/final-log.txt (ignored)",
+  "remote_github_actions": "not claimed"
+}

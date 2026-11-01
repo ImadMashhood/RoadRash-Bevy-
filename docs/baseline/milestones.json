@@ -1,0 +1,8 @@
+{"schema_version":1,"milestones":[
+{"id":"G0","owner":"Implementing agent; project owner accepts","depends_on":[],"requires":"Verified import and asset inspection","blocking_unknowns":["Remaining original format semantics"]},
+{"id":"G1","owner":"Implementing agent; project owner accepts","depends_on":["G0"],"requires":"Measured classic driving slice","blocking_unknowns":["Original camera/input/tick measurements"]},
+{"id":"G2","owner":"Implementing agent; project owner accepts","depends_on":["G1"],"requires":"Full race actors and outcomes","blocking_unknowns":["Behavior parity beyond captured runs"]},
+{"id":"G3","owner":"Implementing agent; project owner accepts","depends_on":["G2"],"requires":"Complete offline career and media","blocking_unknowns":[]},
+{"id":"G4","owner":"Implementing agent; project owner accepts","depends_on":["G0","G2"],"requires":"Approved enhanced assets and mod fallback","blocking_unknowns":["Texture-by-texture owner review"]},
+{"id":"G5","owner":"Project owner; implementing agent prepares acceptance receipts","depends_on":["G3","G4"],"requires":"Packaged release acceptance","blocking_unknowns":["Supported physical hardware coverage"]}
+]}

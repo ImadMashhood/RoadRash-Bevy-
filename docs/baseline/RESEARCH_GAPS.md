@@ -12,3 +12,5 @@ Phase 01 remains open. Original-game execution has not been performed in this ch
 For each capture: record executable hash, OS/Wine or hardware environment, game configuration, initial save hash, course/level/bike/character IDs, input timestamps and timebase, seed if measurable, video/trace hashes and exact observation. Keep captures local and commit metadata only. Repeat measurements before assigning exact timing. Never invent a seed or claim determinism from a video alone.
 
 Confidence labels: `verified-local` (reproduced here), `upstream-reported` (pinned source/document), `inferred` (reasoned interpretation), `unknown` (measurement required). Bugs require trigger, expected/observed result and evidence source; open unknowns are not automatically defects.
+
+The project owner confirmed that no working original installation is available. Original-runtime acceptance remains open; independent development proceeds using verified source data and explicitly labeled research evidence.

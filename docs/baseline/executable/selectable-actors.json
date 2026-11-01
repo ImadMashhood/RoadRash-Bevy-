@@ -1,0 +1,355 @@
+{
+  "schema_version": 1,
+  "source": {
+    "exe_sha256": "73d7f9744b5b1a9482b3909950cdf3fe34119fe13d023b031e9c6739a60f18a2",
+    "upstream_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+    "confidence": "verified-local",
+    "method": "static binary metadata inspection",
+    "runtime_observations": "not performed"
+  },
+  "bikes": [
+    {
+      "bike_id": 0,
+      "spec_resource_id": 1,
+      "showroom_slot": 128,
+      "display_name": "Banzai",
+      "showroom_label": "450cc Banzai Sport 450",
+      "category": "Rat",
+      "source_image": "IMAGES/BIKES/RAT/BANZAI.RRI",
+      "price": 4495,
+      "eligibility": "same-bike purchase returns already-owned; otherwise cash plus half current bike price must cover purchase price",
+      "eligibility_confidence": "upstream-reported"
+    },
+    {
+      "bike_id": 1,
+      "spec_resource_id": 2,
+      "showroom_slot": 129,
+      "display_name": "Corsair",
+      "showroom_label": "400cc Corsair Swallow",
+      "category": "Rat",
+      "source_image": "IMAGES/BIKES/RAT/CORSAIR.RRI",
+      "price": 3249,
+      "eligibility": "same-bike purchase returns already-owned; otherwise cash plus half current bike price must cover purchase price",
+      "eligibility_confidence": "upstream-reported"
+    },
+    {
+      "bike_id": 2,
+      "spec_resource_id": 3,
+      "showroom_slot": 130,
+      "display_name": "Kamikaze",
+      "showroom_label": "250cc Kamikaze ZYX 250",
+      "category": "Rat",
+      "source_image": "IMAGES/BIKES/RAT/KAMIKAZE.RRI",
+      "price": 3497,
+      "eligibility": "same-bike purchase returns already-owned; otherwise cash plus half current bike price must cover purchase price",
+      "eligibility_confidence": "upstream-reported"
+    },
+    {
+      "bike_id": 3,
+      "spec_resource_id": 4,
+      "showroom_slot": 132,
+      "display_name": "Killer Rat",
+      "showroom_label": "500cc Killer Rat",
+      "category": "Rat",
+      "source_image": "IMAGES/BIKES/RAT/KILLER.RRI",
+      "price": 5489,
+      "eligibility": "same-bike purchase returns already-owned; otherwise cash plus half current bike price must cover purchase price",
+      "eligibility_confidence": "upstream-reported"
+    },
+    {
+      "bike_id": 4,
+      "spec_resource_id": 5,
+      "showroom_slot": 131,
+      "display_name": "Perro",
+      "showroom_label": "125cc Perro Pico",
+      "category": "Rat",
+      "source_image": "IMAGES/BIKES/RAT/PERRO.RRI",
+      "price": 2999,
+      "eligibility": "same-bike purchase returns already-owned; otherwise cash plus half current bike price must cover purchase price",
+      "eligibility_confidence": "upstream-reported"
+    },
+    {
+      "bike_id": 5,
+      "spec_resource_id": 6,
+      "showroom_slot": 138,
+      "display_name": "Banzai",
+      "showroom_label": "750/1100cc Banzai Super Sport",
+      "category": "Super",
+      "source_image": "IMAGES/BIKES/SUPER/BANZAI.RRI",
+      "price": 29998,
+      "eligibility": "same-bike purchase returns already-owned; otherwise cash plus half current bike price must cover purchase price",
+      "eligibility_confidence": "upstream-reported"
+    },
+    {
+      "bike_id": 6,
+      "spec_resource_id": 7,
+      "showroom_slot": 141,
+      "display_name": "Corsair",
+      "showroom_label": "600cc Corsair Raven N",
+      "category": "Super",
+      "source_image": "IMAGES/BIKES/SUPER/CORSAIR.RRI",
+      "price": 18999,
+      "eligibility": "same-bike purchase returns already-owned; otherwise cash plus half current bike price must cover purchase price",
+      "eligibility_confidence": "upstream-reported"
+    },
+    {
+      "bike_id": 7,
+      "spec_resource_id": 8,
+      "showroom_slot": 139,
+      "display_name": "Diablo",
+      "showroom_label": "1000cc Diablo Vipera N",
+      "category": "Super",
+      "source_image": "IMAGES/BIKES/SUPER/DIABLO.RRI",
+      "price": 40000,
+      "eligibility": "same-bike purchase returns already-owned; otherwise cash plus half current bike price must cover purchase price",
+      "eligibility_confidence": "upstream-reported"
+    },
+    {
+      "bike_id": 8,
+      "spec_resource_id": 9,
+      "showroom_slot": 142,
+      "display_name": "Kamikaze",
+      "showroom_label": "750cc Kamikaze ZYX 750N",
+      "category": "Super",
+      "source_image": "IMAGES/BIKES/SUPER/KAMIKAZE.RRI",
+      "price": 21789,
+      "eligibility": "same-bike purchase returns already-owned; otherwise cash plus half current bike price must cover purchase price",
+      "eligibility_confidence": "upstream-reported"
+    },
+    {
+      "bike_id": 9,
+      "spec_resource_id": 10,
+      "showroom_slot": 140,
+      "display_name": "Stiletto",
+      "showroom_label": "900cc Stiletto Assassino N",
+      "category": "Super",
+      "source_image": "IMAGES/BIKES/SUPER/STILETTO.RRI",
+      "price": 34888,
+      "eligibility": "same-bike purchase returns already-owned; otherwise cash plus half current bike price must cover purchase price",
+      "eligibility_confidence": "upstream-reported"
+    },
+    {
+      "bike_id": 10,
+      "spec_resource_id": 11,
+      "showroom_slot": 133,
+      "display_name": "Diablo",
+      "showroom_label": "750cc Diablo Vampiro",
+      "category": "Sport",
+      "source_image": "IMAGES/BIKES/SPORT/DIABLO.RRI",
+      "price": 13796,
+      "eligibility": "same-bike purchase returns already-owned; otherwise cash plus half current bike price must cover purchase price",
+      "eligibility_confidence": "upstream-reported"
+    },
+    {
+      "bike_id": 11,
+      "spec_resource_id": 12,
+      "showroom_slot": 136,
+      "display_name": "DMG",
+      "showroom_label": "1000cc DMG M10",
+      "category": "Sport",
+      "source_image": "IMAGES/BIKES/SPORT/DMG.RRI",
+      "price": 16875,
+      "eligibility": "same-bike purchase returns already-owned; otherwise cash plus half current bike price must cover purchase price",
+      "eligibility_confidence": "upstream-reported"
+    },
+    {
+      "bike_id": 12,
+      "spec_resource_id": 13,
+      "showroom_slot": 134,
+      "display_name": "Kamikaze",
+      "showroom_label": "750cc Kamikaze ZYX 750",
+      "category": "Sport",
+      "source_image": "IMAGES/BIKES/SPORT/KAMIKAZE.RRI",
+      "price": 11988,
+      "eligibility": "same-bike purchase returns already-owned; otherwise cash plus half current bike price must cover purchase price",
+      "eligibility_confidence": "upstream-reported"
+    },
+    {
+      "bike_id": 13,
+      "spec_resource_id": 14,
+      "showroom_slot": 137,
+      "display_name": "Perro",
+      "showroom_label": "250cc Perro Grande",
+      "category": "Sport",
+      "source_image": "IMAGES/BIKES/SPORT/PERRO.RRI",
+      "price": 9199,
+      "eligibility": "same-bike purchase returns already-owned; otherwise cash plus half current bike price must cover purchase price",
+      "eligibility_confidence": "upstream-reported"
+    },
+    {
+      "bike_id": 14,
+      "spec_resource_id": 15,
+      "showroom_slot": 135,
+      "display_name": "Stiletto",
+      "showroom_label": "600cc Stiletto Aggressore",
+      "category": "Sport",
+      "source_image": "IMAGES/BIKES/SPORT/STILETTO.RRI",
+      "price": 6994,
+      "eligibility": "same-bike purchase returns already-owned; otherwise cash plus half current bike price must cover purchase price",
+      "eligibility_confidence": "upstream-reported"
+    }
+  ],
+  "characters": [
+    {
+      "character_id": 1,
+      "display_name": "Axle",
+      "personality_id": 8,
+      "starting_cash": 200,
+      "bike_ids_by_level": [
+        1,
+        3,
+        12,
+        8,
+        7
+      ],
+      "source_images": [
+        "IMAGES/CHARS/AXLE-F.RRI",
+        "IMAGES/CHARS/AXLE-N.RRI",
+        "IMAGES/CHARS/AXLE-H.RRI"
+      ],
+      "eligibility": "selection handler accepts IDs 1 through 8; offline characters have no additional unlock test in pinned native source",
+      "eligibility_confidence": "upstream-reported"
+    },
+    {
+      "character_id": 2,
+      "display_name": "Bose Jefferson",
+      "personality_id": 7,
+      "starting_cash": 500,
+      "bike_ids_by_level": [
+        2,
+        14,
+        6,
+        9,
+        7
+      ],
+      "source_images": [
+        "IMAGES/CHARS/BOSE-F.RRI",
+        "IMAGES/CHARS/BOSE-N.RRI",
+        "IMAGES/CHARS/BOSE-H.RRI"
+      ],
+      "eligibility": "selection handler accepts IDs 1 through 8; offline characters have no additional unlock test in pinned native source",
+      "eligibility_confidence": "upstream-reported"
+    },
+    {
+      "character_id": 3,
+      "display_name": "Cydney Bass",
+      "personality_id": 2,
+      "starting_cash": 1000,
+      "bike_ids_by_level": [
+        2,
+        14,
+        10,
+        9,
+        7
+      ],
+      "source_images": [
+        "IMAGES/CHARS/CYDNEY-F.RRI",
+        "IMAGES/CHARS/CYDNEY-N.RRI",
+        "IMAGES/CHARS/CYDNEY-H.RRI"
+      ],
+      "eligibility": "selection handler accepts IDs 1 through 8; offline characters have no additional unlock test in pinned native source",
+      "eligibility_confidence": "upstream-reported"
+    },
+    {
+      "character_id": 4,
+      "display_name": "Milwaukee Jon",
+      "personality_id": 5,
+      "starting_cash": 400,
+      "bike_ids_by_level": [
+        1,
+        3,
+        10,
+        5,
+        7
+      ],
+      "source_images": [
+        "IMAGES/CHARS/JON-F.RRI",
+        "IMAGES/CHARS/JON-N.RRI",
+        "IMAGES/CHARS/JON-H.RRI"
+      ],
+      "eligibility": "selection handler accepts IDs 1 through 8; offline characters have no additional unlock test in pinned native source",
+      "eligibility_confidence": "upstream-reported"
+    },
+    {
+      "character_id": 5,
+      "display_name": "Pearl McKurdy",
+      "personality_id": 4,
+      "starting_cash": 750,
+      "bike_ids_by_level": [
+        4,
+        3,
+        12,
+        8,
+        7
+      ],
+      "source_images": [
+        "IMAGES/CHARS/PEARL-F.RRI",
+        "IMAGES/CHARS/PEARL-N.RRI",
+        "IMAGES/CHARS/PEARL-H.RRI"
+      ],
+      "eligibility": "selection handler accepts IDs 1 through 8; offline characters have no additional unlock test in pinned native source",
+      "eligibility_confidence": "upstream-reported"
+    },
+    {
+      "character_id": 6,
+      "display_name": "Rhonda the Rash",
+      "personality_id": 6,
+      "starting_cash": 800,
+      "bike_ids_by_level": [
+        1,
+        3,
+        12,
+        8,
+        7
+      ],
+      "source_images": [
+        "IMAGES/CHARS/RHONDA-F.RRI",
+        "IMAGES/CHARS/RHONDA-N.RRI",
+        "IMAGES/CHARS/RHONDA-H.RRI"
+      ],
+      "eligibility": "selection handler accepts IDs 1 through 8; offline characters have no additional unlock test in pinned native source",
+      "eligibility_confidence": "upstream-reported"
+    },
+    {
+      "character_id": 7,
+      "display_name": "Slim Jim",
+      "personality_id": 3,
+      "starting_cash": 600,
+      "bike_ids_by_level": [
+        4,
+        14,
+        6,
+        5,
+        7
+      ],
+      "source_images": [
+        "IMAGES/CHARS/JIM-F.RRI",
+        "IMAGES/CHARS/JIM-N.RRI",
+        "IMAGES/CHARS/JIM-H.RRI"
+      ],
+      "eligibility": "selection handler accepts IDs 1 through 8; offline characters have no additional unlock test in pinned native source",
+      "eligibility_confidence": "upstream-reported"
+    },
+    {
+      "character_id": 8,
+      "display_name": "Teflon Mike",
+      "personality_id": 1,
+      "starting_cash": 500,
+      "bike_ids_by_level": [
+        1,
+        3,
+        12,
+        8,
+        7
+      ],
+      "source_images": [
+        "IMAGES/CHARS/MIKE-F.RRI",
+        "IMAGES/CHARS/MIKE-N.RRI",
+        "IMAGES/CHARS/MIKE-H.RRI"
+      ],
+      "eligibility": "selection handler accepts IDs 1 through 8; offline characters have no additional unlock test in pinned native source",
+      "eligibility_confidence": "upstream-reported"
+    }
+  ],
+  "behavior_source": "src/career.cpp and src/frontend.cpp at pinned revision; runtime behavior remains unverified"
+}

@@ -1,0 +1,13 @@
+{
+  "outcome": "passed",
+  "source_files_checked": 101,
+  "blocked_payload_paths": [],
+  "game_package_files": [
+    ".cargo_vcs_info.json",
+    "Cargo.lock",
+    "Cargo.toml",
+    "Cargo.toml.orig",
+    "src/main.rs"
+  ],
+  "scope": "source tree and dry-run Cargo game package; final release artifact audit remains Phase 23"
+}

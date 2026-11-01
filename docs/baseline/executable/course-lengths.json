@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "source": {
+    "exe_sha256": "73d7f9744b5b1a9482b3909950cdf3fe34119fe13d023b031e9c6739a60f18a2",
+    "upstream_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+    "confidence": "verified-local",
+    "method": "static binary metadata inspection",
+    "runtime_observations": "not performed"
+  },
+  "values_tenths_mile": [
+    53,
+    84,
+    115,
+    135,
+    163,
+    53,
+    79,
+    98,
+    129,
+    171,
+    53,
+    80,
+    110,
+    150,
+    168,
+    50,
+    76,
+    106,
+    128,
+    185,
+    55,
+    81,
+    110,
+    126,
+    161
+  ],
+  "note": "Menu distance labels, not finish coordinates. Runtime finish event inventory still required."
+}

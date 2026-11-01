@@ -1,0 +1,26 @@
+{
+  "date": "2026-10-31",
+  "timezone": "America/Chicago",
+  "os": "Linux-7.2.11-200.fc44.x86_64-x86_64-with-glibc2.43",
+  "architecture": "x86_64",
+  "display": "X11 on XWayland :0",
+  "graphics_api": "Vulkan",
+  "enumerated_gpu": "NVIDIA GeForce RTX 3080",
+  "enumerated_driver": "NVIDIA 615.78.08",
+  "vulkan_instance": "1.4.341",
+  "smoke_frames": 180,
+  "logical_viewport": [
+    640,
+    480
+  ],
+  "window_pixels": [
+    1280,
+    720
+  ],
+  "viewport_policy": "4:3 with pillarboxing",
+  "capture_sha256": "53f3fd1855f15e4b7cbca1e5b1bd4f2d8b9d64bbb563831457128805481f8886",
+  "capture_review": "Visually inspected; authored sky/grass/road/player block, black pillarboxes; not original-game parity",
+  "launch_exit_code": 0,
+  "command": "rr-game --install-root local/game-install --smoke-frames 180 --capture local/classic-foundation.png",
+  "local_capture": "local/classic-foundation.png (ignored)"
+}

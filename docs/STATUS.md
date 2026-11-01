@@ -1,33 +1,30 @@
 # Implementation status
 
-The target is sequential implementation through Phase 23. This receipt describes actual completed work, not completion of the game.
+## Parts 01–03
 
-## Current gate
+- **Part 01: 7/12 parent tasks complete.** Scope/revision rejection, selectable actor inventory, deviation categories, evidence ledger, actual desktop launch, milestone DAG and measurable release criteria are complete. Original screenshot/menu/input/course-runtime comparisons and actual texture-mode replay verification remain open. See [acceptance receipt](evidence/parts-01-03.md).
+- **Part 02: complete for the declared Linux foundation.** Pinned Rust/Bevy, linked release build, clean unprivileged container build, local desktop smoke, test/lint/lock guards, authored fixtures, explicit platform matrix, public-file audit and setup/decision records have evidence. This does not claim Windows/macOS or a remote Actions run.
+- **Part 03: complete for Linux.** Rust ISO/folder importer validates all 341 required files, stages immutable generations, atomically activates a pointer, preserves previous data through pre-commit failure/cancellation, recovers interrupted staging, records provenance and rejects unsafe paths. Synthetic and real-process acceptance passed.
 
-Phase 01 is in progress: scope, platform choice, provenance, partial content inventories, confidence labels and acceptance criteria are written. Original menu transitions, original bindings, camera measurements and full behavior capture remain open. Phases 02–04 contain enabling foundation work; they are not certified complete. The simulation/presentation boundaries in Phases 06 and 08 now have an authored scaffold; no original handling or course fidelity is claimed. Remaining phases are unimplemented.
+## Tests and runtime
 
-## Implemented and checked locally
+Current source: 20 Rust tests and 10 Python tests pass. Formatting, workspace Clippy, release build and 180-frame actual graphical smoke pass. Process-level private checks cover Ctrl+C, forced termination, recovery, original EXE modification, read-only folder import and Unicode paths. See [private import receipt](evidence/private-import.json), [platform receipt](evidence/platform-smoke.json), and [clean build receipt](evidence/clean-build.json).
 
-- Standalone Rust workspace and locked dependencies; Rust 1.99.1 and Bevy 0.20.1.
-- Classic-style 2D foundation: road bands, actor placeholder and a 640×480 logical camera. Simulation is a separate Rust crate, presentation is a Bevy plugin crate, and the app composes input/fixed ticks/snapshots. Runtime window/GPU behavior has not been verified.
-- Authored integer-only throttle/brake/steering scenario, with two tests for replay repeatability, command precedence and bounds. Its 60 Hz tick and handling constants are placeholders, not recovered original behavior.
-- Independent BOB reader with bounded frame count and byte slices. Three Rust tests passed, including all frame truncations and invalid-dimension/trailing-data cases. Original corpus sprite decoding remains unverified.
-- Read-only ISO9660 verifier with bounded directory traversal, extent validation and streaming hashes. Six authored Python tests passed. Supported private ISO audit matched 341/341 required files, with zero failures.
-- Formatting and format-crate Clippy passed. CI workflow is authored but no remote CI run is claimed.
-- Source-derived inventories: 15 bike slots, eight character asset stems, five original course mappings × five level selections, and a partial screen index. These are upstream-reported metadata, not original gameplay captures.
+## Remaining original reference work
 
-## Next items, in order
+The original executable was attempted in isolated Proton 11.0 and exited before gameplay (53). It imports AWEMAN32.dll, which is absent from the supplied game-file corpus. A working original installation/runtime is needed for remaining Part 01 original behavior captures. Static binary metadata is explicitly distinguished from runtime verification. Native/enhanced live texture switching is not implemented and is not checked off.
 
-1. Complete original-game capture setup and Phase 01 menu/input/camera evidence. Use baseline/RESEARCH_GAPS.md; do not silently promote source-derived inventories to verified observations.
-2. Verify actual classic app launch and establish a hardware/build CI receipt for Phase 02.
-3. Turn the Phase 03 read-only audit into a complete production importer: extracted-folder support, staging, cancellation, atomic activation and recovery. These are not implemented yet.
-4. Complete format coverage and original-corpus validation before interpreting model/texture extraction as complete.
-5. Continue the phase gates in README through packaged release (Phase 23).
+The app remains a classic-style authored road/player scaffold, with placeholder 60 Hz integer handling. Original courses, sprites, complete physics, combat, AI and career are future work. 3D is deferred. The separate parent-directory prototype is preserved.
 
-## Reproduction
+## Next work
 
-See GETTING_STARTED.md for commands. The disc receipt is evidence/disc-corpus.json. Public code and manifests contain no original payload. The parent local prototype has not been modified.
+1. Complete the original-runtime comparisons when a working reference installation is available.
+2. Continue Phase 04 bounded format decoding and original-corpus validation using installed user data.
+3. Implement catalog and original course/sprite integration; retain existing simulation/presentation boundaries.
+4. Continue later gameplay and release gates; no later whole phase is declared complete.
 
-## Checkbox maintenance
+## Checkbox rule
 
-README checkboxes now reflect completed children rather than all-or-nothing phase estimates. Checked children link to task evidence; partially implemented tasks keep their parent open. The renderer-independent screen-coordinate boundary (06.02) is complete for the current scaffold. No whole phase is certified complete. Update the applicable checkbox and evidence receipt in the same change as subsequent verified work.
+Update README checkbox and task evidence in the same change as verified implementation. Complete a parent only after its implementation, acceptance and evidence children are complete. Build/import completion never substitutes for original gameplay fidelity.
+
+The project owner confirmed that no working original installation is available. Original-runtime acceptance remains open; independent development proceeds using verified source data and explicitly labeled research evidence.

@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "checks": [
+    "full ISO import: 341 files",
+    "cancel: previous pointer and launch preserved",
+    "forced termination: previous pointer and launch preserved",
+    "next import recovers interrupted staging",
+    "one-byte modified original executable rejected with file diagnostic",
+    "read-only extracted folder and Unicode/space destination: 341 files"
+  ],
+  "required_files": 341,
+  "importer_version": "0.1.0",
+  "importer_build_sha256": "783778a8360552a244fa8eb5c752b2cf1fc2cdc28ff562a80a5897995c2a253f",
+  "manifest_sha256": "3e83793fcd5607f3f2c8ca2d3765465b5f4b490ec44add5cc0245d29ed995c9a",
+  "recipe_version": 1,
+  "outcome": "passed"
+}

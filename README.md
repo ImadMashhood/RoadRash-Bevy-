@@ -122,13 +122,13 @@ For every code task, the evidence record must identify affected interfaces, norm
 
 Research: [README.md](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/README.md), [docs/CURRENT_STATUS.md](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/docs/CURRENT_STATUS.md), [docs/PROGRESS.md](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/docs/PROGRESS.md).
 
-- [ ] **01.01 — Record scope and supported disc revisions**
+- [x] **01.01 — Record scope and supported disc revisions**
 
   Progress: [evidence and remaining work](docs/evidence/01.01.md).
 
   - [x] **01.01.a — Implement:** List supported disc fingerprints, single-player modes and exclusions in a scope document.
-  - [ ] **01.01.b — Verify:** Reject an unknown revision with an actionable message rather than silently decoding it.
-  - [ ] **01.01.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/01.01.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **01.01.b — Verify:** Reject an unknown revision with an actionable message rather than silently decoding it.
+  - [x] **01.01.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/01.01.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
 - [ ] **01.02 — Choose classic visual fidelity targets**
 
@@ -148,11 +148,13 @@ Research: [README.md](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b
   - [ ] **01.04.b — Verify:** Open every supported combination and verify it resolves to valid content.
   - [ ] **01.04.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/01.04.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **01.05 — Inventory bikes and playable characters**
+- [x] **01.05 — Inventory bikes and playable characters**
 
-  - [ ] **01.05.a — Implement:** Catalog all bike and character IDs with display names, source records and unlock rules.
-  - [ ] **01.05.b — Verify:** Verify every selectable ID resolves to a complete record without duplicate identities.
-  - [ ] **01.05.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/01.05.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  Evidence: [implementation and verification](docs/evidence/01.05.md).
+
+  - [x] **01.05.a — Implement:** Catalog all bike and character IDs with display names, source records and unlock rules.
+  - [x] **01.05.b — Verify:** Verify every selectable ID resolves to a complete record without duplicate identities.
+  - [x] **01.05.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/01.05.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
 - [ ] **01.06 — Record original control mappings**
 
@@ -160,43 +162,51 @@ Research: [README.md](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b
   - [ ] **01.06.b — Verify:** Replay simultaneous steering, throttle and attack input without dropped commands.
   - [ ] **01.06.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/01.06.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **01.07 — Record observed bugs separately from desired changes**
+- [x] **01.07 — Record observed bugs separately from desired changes**
 
-  - [ ] **01.07.a — Implement:** Assign each deviation an observed trigger, source evidence and proposed treatment.
-  - [ ] **01.07.b — Verify:** Show that fidelity fixes and optional improvements cannot be confused in the issue tracker.
-  - [ ] **01.07.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/01.07.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  Evidence: [implementation and verification](docs/evidence/01.07.md).
 
-- [ ] **01.08 — Create evidence ledger with confidence levels**
+  - [x] **01.07.a — Implement:** Assign each deviation an observed trigger, source evidence and proposed treatment.
+  - [x] **01.07.b — Verify:** Show that fidelity fixes and optional improvements cannot be confused in the issue tracker.
+  - [x] **01.07.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/01.07.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-  - [ ] **01.08.a — Implement:** Record binary hash, upstream revision, capture settings and confidence per claim.
-  - [ ] **01.08.b — Verify:** Ensure inferred claims remain visibly unverified until supported by a reproducible capture.
-  - [ ] **01.08.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/01.08.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+- [x] **01.08 — Create evidence ledger with confidence levels**
 
-- [ ] **01.09 — Choose initial desktop platform**
+  Evidence: [implementation and verification](docs/evidence/01.08.md).
 
-  - [ ] **01.09.a — Implement:** Choose a first operating system, architecture, graphics backend and test machine.
-  - [ ] **01.09.b — Verify:** Run the placeholder build on that machine and record drivers and launch requirements.
-  - [ ] **01.09.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/01.09.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **01.08.a — Implement:** Record binary hash, upstream revision, capture settings and confidence per claim.
+  - [x] **01.08.b — Verify:** Ensure inferred claims remain visibly unverified until supported by a reproducible capture.
+  - [x] **01.08.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/01.08.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+
+- [x] **01.09 — Choose initial desktop platform**
+
+  Evidence: [implementation and verification](docs/evidence/01.09.md).
+
+  - [x] **01.09.a — Implement:** Choose a first operating system, architecture, graphics backend and test machine.
+  - [x] **01.09.b — Verify:** Run the placeholder build on that machine and record drivers and launch requirements.
+  - [x] **01.09.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/01.09.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
 - [ ] **01.10 — Define fidelity and enhanced modes**
 
-  - [ ] **01.10.a — Implement:** Define which settings affect presentation only and which alter simulation.
+  - [x] **01.10.a — Implement:** Define which settings affect presentation only and which alter simulation.
   - [ ] **01.10.b — Verify:** Switch texture modes during the same replay and verify simulation hashes remain equal.
   - [ ] **01.10.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/01.10.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **01.11 — Set milestone owners and dependencies**
+- [x] **01.11 — Set milestone owners and dependencies**
 
-  - [ ] **01.11.a — Implement:** Create a dependency graph with an owner or explicitly unassigned status per milestone.
-  - [ ] **01.11.b — Verify:** Identify blocked work and demonstrate there is no circular prerequisite chain.
-  - [ ] **01.11.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/01.11.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  Evidence: [implementation and verification](docs/evidence/01.11.md).
 
-- [ ] **01.12 — Record release acceptance criteria**
+  - [x] **01.11.a — Implement:** Create a dependency graph with an owner or explicitly unassigned status per milestone.
+  - [x] **01.11.b — Verify:** Identify blocked work and demonstrate there is no circular prerequisite chain.
+  - [x] **01.11.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/01.11.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+
+- [x] **01.12 — Record release acceptance criteria**
 
   Progress: [evidence and remaining work](docs/evidence/01.12.md).
 
   - [x] **01.12.a — Implement:** Write measurable launch, content, career, stability and performance release criteria.
-  - [ ] **01.12.b — Verify:** Ensure every criterion names a test procedure and an accountable sign-off record.
-  - [ ] **01.12.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/01.12.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **01.12.b — Verify:** Ensure every criterion names a test procedure and an accountable sign-off record.
+  - [x] **01.12.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/01.12.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
 
 **Exit evidence:** a reproducible demonstration of project baseline and evidence, linked implementation revision, recorded checks and known limitations. Dependent phases may prototype early, but this gate stays open until its checks pass.
@@ -216,95 +226,101 @@ Research: [README.md](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b
 
 Research: [CMakeLists.txt](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/CMakeLists.txt), [docs/TOOLING.md](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/docs/TOOLING.md).
 
-- [ ] **02.01 — Create Cargo workspace and game binary**
+- [x] **02.01 — Create Cargo workspace and game binary**
 
   Progress: [evidence and remaining work](docs/evidence/02.01.md).
 
   - [x] **02.01.a — Implement:** Create minimal game, format and simulation boundaries with one-way dependencies.
-  - [ ] **02.01.b — Verify:** Build the game and headless simulation without requiring private assets.
-  - [ ] **02.01.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/02.01.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **02.01.b — Verify:** Build the game and headless simulation without requiring private assets.
+  - [x] **02.01.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/02.01.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **02.02 — Pin Rust toolchain and Bevy version**
+- [x] **02.02 — Pin Rust toolchain and Bevy version**
 
   Progress: [evidence and remaining work](docs/evidence/02.02.md).
 
   - [x] **02.02.a — Implement:** Select exact engine/toolchain versions and record why they were chosen.
-  - [ ] **02.02.b — Verify:** Build on a clean runner using those versions rather than a developer's cached setup.
-  - [ ] **02.02.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/02.02.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **02.02.b — Verify:** Build on a clean runner using those versions rather than a developer's cached setup.
+  - [x] **02.02.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/02.02.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **02.03 — Commit Cargo.lock for the application**
+- [x] **02.03 — Commit Cargo.lock for the application**
 
   Progress: [evidence and remaining work](docs/evidence/02.03.md).
 
   - [x] **02.03.a — Implement:** Generate the lockfile from the chosen dependency graph and commit it.
-  - [ ] **02.03.b — Verify:** Run a locked build and ensure CI fails if dependency resolution would change it.
-  - [ ] **02.03.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/02.03.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **02.03.b — Verify:** Run a locked build and ensure CI fails if dependency resolution would change it.
+  - [x] **02.03.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/02.03.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **02.04 — Choose explicit Bevy feature set**
+- [x] **02.04 — Choose explicit Bevy feature set**
 
   Progress: [evidence and remaining work](docs/evidence/02.04.md).
 
   - [x] **02.04.a — Implement:** Enable only the platform/render/audio features needed for the first slice.
-  - [ ] **02.04.b — Verify:** Document which feature enables each subsystem and verify a release build.
-  - [ ] **02.04.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/02.04.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **02.04.b — Verify:** Document which feature enables each subsystem and verify a release build.
+  - [x] **02.04.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/02.04.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **02.05 — Document OS libraries and graphics requirements**
+- [x] **02.05 — Document OS libraries and graphics requirements**
 
-  - [ ] **02.05.a — Implement:** List distro packages, compiler tools, GPU API and audio/display requirements.
-  - [ ] **02.05.b — Verify:** Follow the setup on a clean environment and record any manual step.
-  - [ ] **02.05.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/02.05.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  Evidence: [implementation and verification](docs/evidence/02.05.md).
 
-- [ ] **02.06 — Add rustfmt and Clippy checks**
+  - [x] **02.05.a — Implement:** List distro packages, compiler tools, GPU API and audio/display requirements.
+  - [x] **02.05.b — Verify:** Follow the setup on a clean environment and record any manual step.
+  - [x] **02.05.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/02.05.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+
+- [x] **02.06 — Add rustfmt and Clippy checks**
 
   Progress: [evidence and remaining work](docs/evidence/02.06.md).
 
   - [x] **02.06.a — Implement:** Configure formatting and lint gates with a justified warning policy.
-  - [ ] **02.06.b — Verify:** Introduce a temporary formatting violation locally and confirm the documented check detects it.
-  - [ ] **02.06.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/02.06.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **02.06.b — Verify:** Introduce a temporary formatting violation locally and confirm the documented check detects it.
+  - [x] **02.06.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/02.06.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **02.07 — Add headless core test job**
+- [x] **02.07 — Add headless core test job**
 
   Progress: [evidence and remaining work](docs/evidence/02.07.md).
 
   - [x] **02.07.a — Implement:** Run core tests without a window, GPU or original disc.
-  - [ ] **02.07.b — Verify:** Prove the job distinguishes skipped private-corpus tests from passing synthetic tests.
-  - [ ] **02.07.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/02.07.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **02.07.b — Verify:** Prove the job distinguishes skipped private-corpus tests from passing synthetic tests.
+  - [x] **02.07.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/02.07.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **02.08 — Add desktop build matrix**
+- [x] **02.08 — Add desktop build matrix**
 
-  - [ ] **02.08.a — Implement:** Select supported OS/architecture jobs and separate compile checks from runtime tests.
-  - [ ] **02.08.b — Verify:** Publish a matrix that does not claim hardware testing from cross-compilation alone.
-  - [ ] **02.08.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/02.08.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  Evidence: [implementation and verification](docs/evidence/02.08.md).
 
-- [ ] **02.09 — Create synthetic redistributable fixture pack**
+  - [x] **02.08.a — Implement:** Select supported OS/architecture jobs and separate compile checks from runtime tests.
+  - [x] **02.08.b — Verify:** Publish a matrix that does not claim hardware testing from cross-compilation alone.
+  - [x] **02.08.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/02.08.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-  - [ ] **02.09.a — Implement:** Author tiny indexed images, resource containers and route graphs with known answers.
-  - [ ] **02.09.b — Verify:** Verify fixtures contain no copied game payload and each explains its expected decoding.
-  - [ ] **02.09.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/02.09.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+- [x] **02.09 — Create synthetic redistributable fixture pack**
 
-- [ ] **02.10 — Configure ignored private asset directories**
+  Evidence: [implementation and verification](docs/evidence/02.09.md).
+
+  - [x] **02.09.a — Implement:** Author tiny indexed images, resource containers and route graphs with known answers.
+  - [x] **02.09.b — Verify:** Verify fixtures contain no copied game payload and each explains its expected decoding.
+  - [x] **02.09.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/02.09.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+
+- [x] **02.10 — Configure ignored private asset directories**
 
   Progress: [evidence and remaining work](docs/evidence/02.10.md).
 
   - [x] **02.10.a — Implement:** Ignore source discs, extracted media, generated private textures and local caches.
-  - [ ] **02.10.b — Verify:** Inspect tracked files and a dry-run package manifest for accidental private content.
-  - [ ] **02.10.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/02.10.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **02.10.b — Verify:** Inspect tracked files and a dry-run package manifest for accidental private content.
+  - [x] **02.10.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/02.10.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **02.11 — Create architecture decision records**
+- [x] **02.11 — Create architecture decision records**
 
   Progress: [evidence and remaining work](docs/evidence/02.11.md).
 
   - [x] **02.11.a — Implement:** Add decision records containing context, options, decision and consequences.
-  - [ ] **02.11.b — Verify:** Link the first records for simulation arithmetic, renderer boundary and asset identity.
-  - [ ] **02.11.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/02.11.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **02.11.b — Verify:** Link the first records for simulation arithmetic, renderer boundary and asset identity.
+  - [x] **02.11.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/02.11.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **02.12 — Document contributor setup from clean clone**
+- [x] **02.12 — Document contributor setup from clean clone**
 
   Progress: [evidence and remaining work](docs/evidence/02.12.md).
 
   - [x] **02.12.a — Implement:** Write clean-clone build and placeholder launch commands with expected output.
-  - [ ] **02.12.b — Verify:** Have a fresh directory complete the instructions with no undocumented local files.
-  - [ ] **02.12.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/02.12.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **02.12.b — Verify:** Have a fresh directory complete the instructions with no undocumented local files.
+  - [x] **02.12.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/02.12.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
 
 **Exit evidence:** a reproducible demonstration of repository and rust foundation, linked implementation revision, recorded checks and known limitations. Dependent phases may prototype early, but this gate stays open until its checks pass.
@@ -324,83 +340,101 @@ Research: [CMakeLists.txt](https://github.com/arkits/road-rash/blob/7aecf6044f2d
 
 Research: [src/importer.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/importer.cpp), [src/iso9660.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/iso9660.cpp), [src/reference_hashes.inc](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/reference_hashes.inc).
 
-- [ ] **03.01 — Implement bounded ISO9660 reader or vetted library adapter**
+- [x] **03.01 — Implement bounded ISO9660 reader or vetted library adapter**
 
   Progress: [evidence and remaining work](docs/evidence/03.01.md).
 
   - [x] **03.01.a — Implement:** Parse volume descriptors and directory extents with checked offset arithmetic.
-  - [ ] **03.01.b — Verify:** Reject an extent outside the image and directory recursion beyond a configured bound.
-  - [ ] **03.01.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/03.01.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **03.01.b — Verify:** Reject an extent outside the image and directory recursion beyond a configured bound.
+  - [x] **03.01.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/03.01.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **03.02 — Accept extracted ROADRASH directory**
+- [x] **03.02 — Accept extracted ROADRASH directory**
 
-  - [ ] **03.02.a — Implement:** Normalize an explicitly selected game directory while retaining original path evidence.
-  - [ ] **03.02.b — Verify:** Accept supported case conventions and report ambiguous case-colliding files.
-  - [ ] **03.02.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/03.02.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  Evidence: [implementation and verification](docs/evidence/03.02.md).
 
-- [ ] **03.03 — Verify supported executable hash**
+  - [x] **03.02.a — Implement:** Normalize an explicitly selected game directory while retaining original path evidence.
+  - [x] **03.02.b — Verify:** Accept supported case conventions and report ambiguous case-colliding files.
+  - [x] **03.02.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/03.02.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+
+- [x] **03.03 — Verify supported executable hash**
 
   Progress: [evidence and remaining work](docs/evidence/03.03.md).
 
   - [x] **03.03.a — Implement:** Hash executable bytes before using version-specific tables or offsets.
-  - [ ] **03.03.b — Verify:** Test correct bytes, a one-byte modification and a same-size unrelated executable.
-  - [ ] **03.03.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/03.03.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **03.03.b — Verify:** Test correct bytes, a one-byte modification and a same-size unrelated executable.
+  - [x] **03.03.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/03.03.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **03.04 — Verify complete required file manifest**
+- [x] **03.04 — Verify complete required file manifest**
 
   Progress: [evidence and remaining work](docs/evidence/03.04.md).
 
   - [x] **03.04.a — Implement:** Check each required path against the pinned 341-file manifest.
-  - [ ] **03.04.b — Verify:** Produce a complete mismatch report and activate only a fully verified corpus.
-  - [ ] **03.04.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/03.04.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **03.04.b — Verify:** Produce a complete mismatch report and activate only a fully verified corpus.
+  - [x] **03.04.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/03.04.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **03.05 — Report missing and mismatched files individually**
+- [x] **03.05 — Report missing and mismatched files individually**
 
-  - [ ] **03.05.a — Implement:** Distinguish absent, unreadable, wrong-size and wrong-hash files in diagnostics.
-  - [ ] **03.05.b — Verify:** Test several simultaneous failures and preserve all paths in the report.
-  - [ ] **03.05.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/03.05.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  Evidence: [implementation and verification](docs/evidence/03.05.md).
 
-- [ ] **03.06 — Reject path traversal and escaping symlinks**
+  - [x] **03.05.a — Implement:** Distinguish absent, unreadable, wrong-size and wrong-hash files in diagnostics.
+  - [x] **03.05.b — Verify:** Test several simultaneous failures and preserve all paths in the report.
+  - [x] **03.05.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/03.05.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-  - [ ] **03.06.a — Implement:** Resolve destination paths under a dedicated root and validate archive member names.
-  - [ ] **03.06.b — Verify:** Exercise absolute paths, parent traversal and symlink escape attempts.
-  - [ ] **03.06.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/03.06.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+- [x] **03.06 — Reject path traversal and escaping symlinks**
 
-- [ ] **03.07 — Bound file size and allocation**
+  Evidence: [implementation and verification](docs/evidence/03.06.md).
 
-  - [ ] **03.07.a — Implement:** Apply explicit limits to directory entries, file lengths and total imported bytes.
-  - [ ] **03.07.b — Verify:** Test arithmetic overflow and oversized claims without huge allocations.
-  - [ ] **03.07.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/03.07.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **03.06.a — Implement:** Resolve destination paths under a dedicated root and validate archive member names.
+  - [x] **03.06.b — Verify:** Exercise absolute paths, parent traversal and symlink escape attempts.
+  - [x] **03.06.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/03.06.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **03.08 — Stage import before atomic activation**
+- [x] **03.07 — Bound file size and allocation**
 
-  - [ ] **03.08.a — Implement:** Write to a uniquely named staging directory and commit a verified install atomically.
-  - [ ] **03.08.b — Verify:** Interrupt before activation and confirm no partial installation becomes active.
-  - [ ] **03.08.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/03.08.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  Evidence: [implementation and verification](docs/evidence/03.07.md).
 
-- [ ] **03.09 — Preserve existing installation on failed import**
+  - [x] **03.07.a — Implement:** Apply explicit limits to directory entries, file lengths and total imported bytes.
+  - [x] **03.07.b — Verify:** Test arithmetic overflow and oversized claims without huge allocations.
+  - [x] **03.07.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/03.07.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-  - [ ] **03.09.a — Implement:** Treat an existing verified install as immutable until replacement is complete.
-  - [ ] **03.09.b — Verify:** Simulate failed replacement and verify the old installation still launches.
-  - [ ] **03.09.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/03.09.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+- [x] **03.08 — Stage import before atomic activation**
 
-- [ ] **03.10 — Support cancellation and interrupted import cleanup**
+  Evidence: [implementation and verification](docs/evidence/03.08.md).
 
-  - [ ] **03.10.a — Implement:** Check cancellation between bounded read/copy units and track staging ownership.
-  - [ ] **03.10.b — Verify:** Cancel at multiple stages and remove only this import's temporary files.
-  - [ ] **03.10.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/03.10.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **03.08.a — Implement:** Write to a uniquely named staging directory and commit a verified install atomically.
+  - [x] **03.08.b — Verify:** Interrupt before activation and confirm no partial installation becomes active.
+  - [x] **03.08.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/03.08.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **03.11 — Record source hashes and importer version**
+- [x] **03.09 — Preserve existing installation on failed import**
 
-  - [ ] **03.11.a — Implement:** Write a provenance manifest with source hashes, importer build and schema version.
-  - [ ] **03.11.b — Verify:** Verify a later audit can distinguish source changes from conversion changes.
-  - [ ] **03.11.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/03.11.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  Evidence: [implementation and verification](docs/evidence/03.09.md).
 
-- [ ] **03.12 — Test Unicode paths and read-only sources**
+  - [x] **03.09.a — Implement:** Treat an existing verified install as immutable until replacement is complete.
+  - [x] **03.09.b — Verify:** Simulate failed replacement and verify the old installation still launches.
+  - [x] **03.09.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/03.09.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-  - [ ] **03.12.a — Implement:** Handle non-ASCII filenames, spaces and read-only media without shell interpolation.
-  - [ ] **03.12.b — Verify:** Import from a path with Unicode and spaces and report unwritable output cleanly.
-  - [ ] **03.12.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/03.12.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+- [x] **03.10 — Support cancellation and interrupted import cleanup**
+
+  Evidence: [implementation and verification](docs/evidence/03.10.md).
+
+  - [x] **03.10.a — Implement:** Check cancellation between bounded read/copy units and track staging ownership.
+  - [x] **03.10.b — Verify:** Cancel at multiple stages and remove only this import's temporary files.
+  - [x] **03.10.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/03.10.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+
+- [x] **03.11 — Record source hashes and importer version**
+
+  Evidence: [implementation and verification](docs/evidence/03.11.md).
+
+  - [x] **03.11.a — Implement:** Write a provenance manifest with source hashes, importer build and schema version.
+  - [x] **03.11.b — Verify:** Verify a later audit can distinguish source changes from conversion changes.
+  - [x] **03.11.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/03.11.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+
+- [x] **03.12 — Test Unicode paths and read-only sources**
+
+  Evidence: [implementation and verification](docs/evidence/03.12.md).
+
+  - [x] **03.12.a — Implement:** Handle non-ASCII filenames, spaces and read-only media without shell interpolation.
+  - [x] **03.12.b — Verify:** Import from a path with Unicode and spaces and report unwritable output cleanly.
+  - [x] **03.12.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/03.12.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
 
 **Exit evidence:** a reproducible demonstration of disc import and provenance, linked implementation revision, recorded checks and known limitations. Dependent phases may prototype early, but this gate stays open until its checks pass.
