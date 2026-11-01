@@ -1,0 +1,35 @@
+{
+  "outcome": "passed",
+  "reference_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+  "executable_sha256": "73d7f9744b5b1a9482b3909950cdf3fe34119fe13d023b031e9c6739a60f18a2",
+  "checks": [
+    {
+      "family": "characters",
+      "cases": 8,
+      "outcome": "passed"
+    },
+    {
+      "family": "prices",
+      "cases": 15,
+      "outcome": "passed"
+    },
+    {
+      "family": "prizes",
+      "cases": 15,
+      "outcome": "passed"
+    },
+    {
+      "family": "purchases",
+      "cases": 900,
+      "outcome": "passed"
+    },
+    {
+      "family": "outcomes",
+      "cases": 675,
+      "outcome": "passed"
+    }
+  ],
+  "native_output_sha256": "22f9fe56adef9302d334440803551cd84d504771f9f08705a04a0611765b1662",
+  "original_runtime_compared": false,
+  "scope": "character/default-bike decoding, bike prices, prizes, trade-in and settlement APIs; not visual or full-session trajectory parity"
+}

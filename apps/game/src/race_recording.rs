@@ -59,47 +59,73 @@ impl Recorder {
         }
     }
 }
+impl Recorder {
+    pub fn finish(&mut self, simulation: &Simulation) {
+        if self.finished {
+            return;
+        }
+        self.finished = true;
+        let Some(mut replay) = self.replay.take() else {
+            return;
+        };
+        if simulation.tick().0 == 0 {
+            return;
+        }
+        replay.ticks = simulation.tick().0;
+        replay.expected_hash = Some(simulation.state_hash());
+        let result = (|| -> Result<(), Box<dyn std::error::Error>> {
+            let bytes = serde_json::to_vec(&replay)?;
+            if bytes.len() > 4 * 1024 * 1024 {
+                return Err("recording exceeds 4 MiB replay limit".into());
+            }
+            let path = self.path.as_ref().unwrap();
+            if let Some(parent) = path.parent() {
+                std::fs::create_dir_all(parent)?;
+            }
+            use std::io::Write;
+            std::fs::OpenOptions::new()
+                .write(true)
+                .create_new(true)
+                .open(path)?
+                .write_all(&bytes)?;
+            println!(
+                "Recorded {} live commands to {}",
+                replay.commands.len(),
+                path.display()
+            );
+            Ok(())
+        })();
+        if let Err(e) = result {
+            error!("recording failed: {e}");
+        }
+    }
+    pub fn rebase(
+        &mut self,
+        simulation: &Simulation,
+        data: Option<&Path>,
+        race_id: u64,
+    ) -> Result<(), Box<dyn std::error::Error>> {
+        let path = self.path.clone().map(|p| {
+            if p.exists() {
+                p.with_file_name(format!(
+                    "{}-race-{race_id}.json",
+                    p.file_stem().unwrap().to_string_lossy()
+                ))
+            } else {
+                p
+            }
+        });
+        *self = Self::new(path, simulation, data)?;
+        Ok(())
+    }
+}
 pub fn save(
     mut exits: MessageReader<AppExit>,
     race: Res<super::Race>,
     mut recorder: ResMut<Recorder>,
 ) {
-    if exits.read().next().is_none() || recorder.finished {
-        return;
-    }
-    recorder.finished = true;
-    let Some(mut replay) = recorder.replay.take() else {
-        return;
-    };
-    if race.0.tick().0 == 0 {
-        return;
-    }
-    replay.ticks = race.0.tick().0;
-    replay.expected_hash = Some(race.0.state_hash());
-    let result = (|| -> Result<(), Box<dyn std::error::Error>> {
-        let bytes = serde_json::to_vec(&replay)?;
-        if bytes.len() > 4 * 1024 * 1024 {
-            return Err("recording exceeds 4 MiB replay limit".into());
-        }
-        let path = recorder.path.as_ref().unwrap();
-        if let Some(parent) = path.parent() {
-            std::fs::create_dir_all(parent)?;
-        }
-        use std::io::Write;
-        std::fs::OpenOptions::new()
-            .write(true)
-            .create_new(true)
-            .open(path)?
-            .write_all(&bytes)?;
-        println!(
-            "Recorded {} live commands to {}",
-            replay.commands.len(),
-            path.display()
-        );
-        Ok(())
-    })();
-    if let Err(e) = result {
-        error!("recording failed: {e}");
+    if exits.read().next().is_some() {
+        recorder.finish(&race.0);
     }
 }
 

@@ -1,0 +1,1579 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-01",
+  "reference_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+  "scope": "Exhaustive static-inventory audit of the modern offline frontend; functional equivalents and gaps are distinct.",
+  "inventory_screens": 36,
+  "inventory_items": 175,
+  "all_inventory_items_reviewed": true,
+  "approximate_views": [
+    "Main",
+    "Characters",
+    "Courses",
+    "Street",
+    "Club",
+    "Showroom",
+    "Bike/Purchase",
+    "Restroom",
+    "Settings",
+    "Controls",
+    "Jukebox",
+    "Results/Standings",
+    "LevelUp/Finale"
+  ],
+  "missing_original_screens": [
+    "Mano-\u00e0-Mano lobby/course/chat",
+    "Original artist track submenus",
+    "Original video/credits playback",
+    "Original source-exact Schmooze dialogue and formatting",
+    "Full save-slot/Save As frontend (Phase 17)"
+  ],
+  "functional_gameplay_gaps": [
+    "Original independent nitro/dismount commands are absent from the current simulation input contract."
+  ],
+  "screens": [
+    {
+      "source_screen_id": 0,
+      "source_title": "",
+      "modern_view": null,
+      "original_visual_match": "not claimed",
+      "items": [],
+      "reviewed": true
+    },
+    {
+      "source_screen_id": 1,
+      "source_title": "",
+      "modern_view": null,
+      "original_visual_match": "not claimed",
+      "items": [],
+      "reviewed": true
+    },
+    {
+      "source_screen_id": 2,
+      "source_title": "",
+      "modern_view": null,
+      "original_visual_match": "not claimed",
+      "items": [],
+      "reviewed": true
+    },
+    {
+      "source_screen_id": 3,
+      "source_title": "",
+      "modern_view": null,
+      "original_visual_match": "not claimed",
+      "items": [],
+      "reviewed": true
+    },
+    {
+      "source_screen_id": 4,
+      "source_title": "",
+      "modern_view": null,
+      "original_visual_match": "not claimed",
+      "items": [],
+      "reviewed": true
+    },
+    {
+      "source_screen_id": 5,
+      "source_title": "",
+      "modern_view": null,
+      "original_visual_match": "not claimed",
+      "items": [],
+      "reviewed": true
+    },
+    {
+      "source_screen_id": 6,
+      "source_title": "",
+      "modern_view": null,
+      "original_visual_match": "not claimed",
+      "items": [],
+      "reviewed": true
+    },
+    {
+      "source_screen_id": 7,
+      "source_title": "",
+      "modern_view": null,
+      "original_visual_match": "not claimed",
+      "items": [
+        {
+          "index": 0,
+          "caption": "",
+          "handler": "0x004241e0",
+          "disposition": "research_or_media_gap",
+          "reason": "Startup/attract inventory slot has no verified modern action; original media belongs to Phase 18."
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "source_screen_id": 8,
+      "source_title": "GAME LOADING",
+      "modern_view": "Loading",
+      "original_visual_match": "not claimed",
+      "items": [
+        {
+          "index": 0,
+          "caption": "Get ready to race!",
+          "handler": "0x00000000",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "source_screen_id": 9,
+      "source_title": "Game Mode",
+      "modern_view": "Main",
+      "original_visual_match": "not claimed",
+      "items": [
+        {
+          "index": 0,
+          "caption": "Thrash Mode",
+          "handler": "0x00445070",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 1,
+          "caption": "Big Game Mode",
+          "handler": "0x004450c0",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 2,
+          "caption": "Mano-\u00c0-Mano",
+          "handler": "0x00430140",
+          "disposition": "outside_offline_scope",
+          "reason": "Network Mano-\u00e0-Mano is outside the current offline implementation."
+        },
+        {
+          "index": 3,
+          "caption": "Restroom",
+          "handler": "0x00000000",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "source_screen_id": 10,
+      "source_title": "",
+      "modern_view": "Courses",
+      "original_visual_match": "not claimed",
+      "items": [
+        {
+          "index": 0,
+          "caption": "The City",
+          "handler": "0x004213c0",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 1,
+          "caption": "Sierra Nevada",
+          "handler": "0x004213c0",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 2,
+          "caption": "The Peninsula",
+          "handler": "0x004213c0",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 3,
+          "caption": "Napa Valley",
+          "handler": "0x004213c0",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 4,
+          "caption": "Pacific Highway",
+          "handler": "0x004213c0",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 5,
+          "caption": "",
+          "handler": "0x00000000",
+          "disposition": "dynamic_or_visual_placeholder",
+          "reason": "Original dynamic text/visual slot is represented by owned modern view data where applicable; no original static label is invented."
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "source_screen_id": 11,
+      "source_title": "Mano-\u00c0-Mano",
+      "modern_view": null,
+      "original_visual_match": "not claimed",
+      "items": [
+        {
+          "index": 0,
+          "caption": "Host",
+          "handler": "0x0042fc40",
+          "disposition": "outside_offline_scope",
+          "reason": "Network Mano-\u00e0-Mano is outside the current offline implementation."
+        },
+        {
+          "index": 1,
+          "caption": "Join",
+          "handler": "0x0042fef0",
+          "disposition": "outside_offline_scope",
+          "reason": "Network Mano-\u00e0-Mano is outside the current offline implementation."
+        },
+        {
+          "index": 2,
+          "caption": "Bulletin Board",
+          "handler": "0x00000000",
+          "disposition": "outside_offline_scope",
+          "reason": "Network Mano-\u00e0-Mano is outside the current offline implementation."
+        },
+        {
+          "index": 3,
+          "caption": "Chat Messages",
+          "handler": "0x00430350",
+          "disposition": "outside_offline_scope",
+          "reason": "Network Mano-\u00e0-Mano is outside the current offline implementation."
+        },
+        {
+          "index": 4,
+          "caption": "Restroom",
+          "handler": "0x00000000",
+          "disposition": "outside_offline_scope",
+          "reason": "Network Mano-\u00e0-Mano is outside the current offline implementation."
+        },
+        {
+          "index": 5,
+          "caption": "Disconnect",
+          "handler": "0x00431600",
+          "disposition": "outside_offline_scope",
+          "reason": "Network Mano-\u00e0-Mano is outside the current offline implementation."
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "source_screen_id": 12,
+      "source_title": "",
+      "modern_view": null,
+      "original_visual_match": "not claimed",
+      "items": [
+        {
+          "index": 0,
+          "caption": "The City",
+          "handler": "0x004213c0",
+          "disposition": "outside_offline_scope",
+          "reason": "Network Mano-\u00e0-Mano is outside the current offline implementation."
+        },
+        {
+          "index": 1,
+          "caption": "Sierra Nevada",
+          "handler": "0x004213c0",
+          "disposition": "outside_offline_scope",
+          "reason": "Network Mano-\u00e0-Mano is outside the current offline implementation."
+        },
+        {
+          "index": 2,
+          "caption": "The Peninsula",
+          "handler": "0x004213c0",
+          "disposition": "outside_offline_scope",
+          "reason": "Network Mano-\u00e0-Mano is outside the current offline implementation."
+        },
+        {
+          "index": 3,
+          "caption": "Napa Valley",
+          "handler": "0x004213c0",
+          "disposition": "outside_offline_scope",
+          "reason": "Network Mano-\u00e0-Mano is outside the current offline implementation."
+        },
+        {
+          "index": 4,
+          "caption": "Pacific Highway",
+          "handler": "0x004213c0",
+          "disposition": "outside_offline_scope",
+          "reason": "Network Mano-\u00e0-Mano is outside the current offline implementation."
+        },
+        {
+          "index": 5,
+          "caption": "",
+          "handler": "0x00000000",
+          "disposition": "outside_offline_scope",
+          "reason": "Network Mano-\u00e0-Mano is outside the current offline implementation."
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "source_screen_id": 13,
+      "source_title": "Chat Messages",
+      "modern_view": null,
+      "original_visual_match": "not claimed",
+      "items": [
+        {
+          "index": 0,
+          "caption": "F1",
+          "handler": "0x00430380",
+          "disposition": "outside_offline_scope",
+          "reason": "Network Mano-\u00e0-Mano is outside the current offline implementation."
+        },
+        {
+          "index": 1,
+          "caption": "F2",
+          "handler": "0x00430380",
+          "disposition": "outside_offline_scope",
+          "reason": "Network Mano-\u00e0-Mano is outside the current offline implementation."
+        },
+        {
+          "index": 2,
+          "caption": "F3",
+          "handler": "0x00430380",
+          "disposition": "outside_offline_scope",
+          "reason": "Network Mano-\u00e0-Mano is outside the current offline implementation."
+        },
+        {
+          "index": 3,
+          "caption": "F4",
+          "handler": "0x00430380",
+          "disposition": "outside_offline_scope",
+          "reason": "Network Mano-\u00e0-Mano is outside the current offline implementation."
+        },
+        {
+          "index": 4,
+          "caption": "F5",
+          "handler": "0x00430380",
+          "disposition": "outside_offline_scope",
+          "reason": "Network Mano-\u00e0-Mano is outside the current offline implementation."
+        },
+        {
+          "index": 5,
+          "caption": "F6",
+          "handler": "0x00430380",
+          "disposition": "outside_offline_scope",
+          "reason": "Network Mano-\u00e0-Mano is outside the current offline implementation."
+        },
+        {
+          "index": 6,
+          "caption": "F7",
+          "handler": "0x00430380",
+          "disposition": "outside_offline_scope",
+          "reason": "Network Mano-\u00e0-Mano is outside the current offline implementation."
+        },
+        {
+          "index": 7,
+          "caption": "F8",
+          "handler": "0x00430380",
+          "disposition": "outside_offline_scope",
+          "reason": "Network Mano-\u00e0-Mano is outside the current offline implementation."
+        },
+        {
+          "index": 8,
+          "caption": "Done",
+          "handler": "0x00000000",
+          "disposition": "outside_offline_scope",
+          "reason": "Network Mano-\u00e0-Mano is outside the current offline implementation."
+        },
+        {
+          "index": 9,
+          "caption": "",
+          "handler": "0x00000000",
+          "disposition": "outside_offline_scope",
+          "reason": "Network Mano-\u00e0-Mano is outside the current offline implementation."
+        },
+        {
+          "index": 10,
+          "caption": "*",
+          "handler": "0x004303f0",
+          "disposition": "outside_offline_scope",
+          "reason": "Network Mano-\u00e0-Mano is outside the current offline implementation."
+        },
+        {
+          "index": 11,
+          "caption": "*",
+          "handler": "0x004303f0",
+          "disposition": "outside_offline_scope",
+          "reason": "Network Mano-\u00e0-Mano is outside the current offline implementation."
+        },
+        {
+          "index": 12,
+          "caption": "*",
+          "handler": "0x004303f0",
+          "disposition": "outside_offline_scope",
+          "reason": "Network Mano-\u00e0-Mano is outside the current offline implementation."
+        },
+        {
+          "index": 13,
+          "caption": "*",
+          "handler": "0x004303f0",
+          "disposition": "outside_offline_scope",
+          "reason": "Network Mano-\u00e0-Mano is outside the current offline implementation."
+        },
+        {
+          "index": 14,
+          "caption": "*",
+          "handler": "0x004303f0",
+          "disposition": "outside_offline_scope",
+          "reason": "Network Mano-\u00e0-Mano is outside the current offline implementation."
+        },
+        {
+          "index": 15,
+          "caption": "*",
+          "handler": "0x004303f0",
+          "disposition": "outside_offline_scope",
+          "reason": "Network Mano-\u00e0-Mano is outside the current offline implementation."
+        },
+        {
+          "index": 16,
+          "caption": "*",
+          "handler": "0x004303f0",
+          "disposition": "outside_offline_scope",
+          "reason": "Network Mano-\u00e0-Mano is outside the current offline implementation."
+        },
+        {
+          "index": 17,
+          "caption": "*",
+          "handler": "0x004303f0",
+          "disposition": "outside_offline_scope",
+          "reason": "Network Mano-\u00e0-Mano is outside the current offline implementation."
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "source_screen_id": 14,
+      "source_title": "",
+      "modern_view": "Characters",
+      "original_visual_match": "not claimed",
+      "items": [
+        {
+          "index": 0,
+          "caption": "Axle",
+          "handler": "0x0041f5a0",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 1,
+          "caption": "Bose Jefferson",
+          "handler": "0x0041f5a0",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 2,
+          "caption": "Cydney Bass",
+          "handler": "0x0041f5a0",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 3,
+          "caption": "Milwaukee Jon",
+          "handler": "0x0041f5a0",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 4,
+          "caption": "Pearl McKurdy",
+          "handler": "0x0041f5a0",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 5,
+          "caption": "Rhonda the Rash",
+          "handler": "0x0041f5a0",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 6,
+          "caption": "Slim Jim",
+          "handler": "0x0041f5a0",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 7,
+          "caption": "Teflon Mike",
+          "handler": "0x0041f5a0",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 8,
+          "caption": "",
+          "handler": "0x0041f570",
+          "disposition": "dynamic_or_visual_placeholder",
+          "reason": "Original dynamic text/visual slot is represented by owned modern view data where applicable; no original static label is invented."
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "source_screen_id": 15,
+      "source_title": "",
+      "modern_view": "Street",
+      "original_visual_match": "not claimed",
+      "items": [
+        {
+          "index": 0,
+          "caption": "Der Panzer Klub",
+          "handler": "0x00000000",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 1,
+          "caption": "Olley's Skoot-A-Rama",
+          "handler": "0x00000000",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 2,
+          "caption": "Go Home",
+          "handler": "0x0041f4f0",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "source_screen_id": 16,
+      "source_title": "Restroom",
+      "modern_view": "Restroom",
+      "original_visual_match": "not claimed",
+      "items": [
+        {
+          "index": 0,
+          "caption": "Load Game",
+          "handler": "0x00445150",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 1,
+          "caption": "Save Game",
+          "handler": "0x00445370",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 2,
+          "caption": "Save Game As...",
+          "handler": "0x00445310",
+          "disposition": "phase_17_dependency",
+          "reason": "One validated career snapshot path is implemented; save slots/Save As UI are Phase 17."
+        },
+        {
+          "index": 3,
+          "caption": "Game Mode",
+          "handler": "0x00445460",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 4,
+          "caption": "Graphics Options",
+          "handler": "0x00000000",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 5,
+          "caption": "Player Level",
+          "handler": "0x00445490",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 6,
+          "caption": "Player Name",
+          "handler": "0x00445560",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 7,
+          "caption": "Select Character",
+          "handler": "0x00445390",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 8,
+          "caption": "Jukebox",
+          "handler": "0x00445590",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 9,
+          "caption": "Sound Mix",
+          "handler": "0x00401df0",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 10,
+          "caption": "Configure Input",
+          "handler": "0x0040fd90",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 11,
+          "caption": "Done",
+          "handler": "0x004453c0",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 12,
+          "caption": "Go Home",
+          "handler": "0x0041f4f0",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "source_screen_id": 17,
+      "source_title": "Jukebox",
+      "modern_view": "Jukebox",
+      "original_visual_match": "not claimed",
+      "items": [
+        {
+          "index": 0,
+          "caption": "Hammerbox",
+          "handler": "0x00445600",
+          "disposition": "modern_equivalent",
+          "reason": "Artist selection and owned return/audio state are implemented; original track submenus/playback remain Phase 18."
+        },
+        {
+          "index": 1,
+          "caption": "Monster Magnet",
+          "handler": "0x00445600",
+          "disposition": "modern_equivalent",
+          "reason": "Artist selection and owned return/audio state are implemented; original track submenus/playback remain Phase 18."
+        },
+        {
+          "index": 2,
+          "caption": "Paw",
+          "handler": "0x00445600",
+          "disposition": "modern_equivalent",
+          "reason": "Artist selection and owned return/audio state are implemented; original track submenus/playback remain Phase 18."
+        },
+        {
+          "index": 3,
+          "caption": "Soundgarden",
+          "handler": "0x00445600",
+          "disposition": "modern_equivalent",
+          "reason": "Artist selection and owned return/audio state are implemented; original track submenus/playback remain Phase 18."
+        },
+        {
+          "index": 4,
+          "caption": "Swervedriver",
+          "handler": "0x00445600",
+          "disposition": "modern_equivalent",
+          "reason": "Artist selection and owned return/audio state are implemented; original track submenus/playback remain Phase 18."
+        },
+        {
+          "index": 5,
+          "caption": "Therapy?",
+          "handler": "0x00445600",
+          "disposition": "modern_equivalent",
+          "reason": "Artist selection and owned return/audio state are implemented; original track submenus/playback remain Phase 18."
+        },
+        {
+          "index": 6,
+          "caption": "Videos",
+          "handler": "0x00445730",
+          "disposition": "phase_18_dependency",
+          "reason": "Artist selection is implemented; media decoding/playback is Phase 18."
+        },
+        {
+          "index": 7,
+          "caption": "Done",
+          "handler": "0x00000000",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 8,
+          "caption": "",
+          "handler": "0x00000000",
+          "disposition": "dynamic_or_visual_placeholder",
+          "reason": "Original dynamic text/visual slot is represented by owned modern view data where applicable; no original static label is invented."
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "source_screen_id": 18,
+      "source_title": "Configure Input",
+      "modern_view": "Controls",
+      "original_visual_match": "not claimed",
+      "items": [
+        {
+          "index": 0,
+          "caption": "Accelerate",
+          "handler": "0x0040e580",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 1,
+          "caption": "Brake",
+          "handler": "0x0040e580",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 2,
+          "caption": "Turn",
+          "handler": "0x0040e580",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 3,
+          "caption": "Lean",
+          "handler": "0x0040e580",
+          "disposition": "modern_equivalent",
+          "reason": "Modern steering/lean share the handling command; there is no separate original lean binding."
+        },
+        {
+          "index": 4,
+          "caption": "Nitro boost",
+          "handler": "0x0040e580",
+          "disposition": "gameplay_fidelity_gap",
+          "reason": "These original commands are not in the current simulation command contract. The audit does not represent them as functional."
+        },
+        {
+          "index": 5,
+          "caption": "Swing",
+          "handler": "0x0040e580",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 6,
+          "caption": "Kick",
+          "handler": "0x0040e580",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 7,
+          "caption": "Backhand",
+          "handler": "0x0040e580",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 8,
+          "caption": "Dismount",
+          "handler": "0x0040e580",
+          "disposition": "gameplay_fidelity_gap",
+          "reason": "These original commands are not in the current simulation command contract. The audit does not represent them as functional."
+        },
+        {
+          "index": 9,
+          "caption": "Keyboard defaults",
+          "handler": "0x0040fdf0",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 10,
+          "caption": "Joystick defaults",
+          "handler": "0x0040fdf0",
+          "disposition": "modern_equivalent",
+          "reason": "Existing gamepad routing/calibration supplies default controls; this original separate defaults button is folded into the modern adapter."
+        },
+        {
+          "index": 11,
+          "caption": "Done",
+          "handler": "0x00000000",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 12,
+          "caption": "",
+          "handler": "0x00000000",
+          "disposition": "dynamic_or_visual_placeholder",
+          "reason": "Original dynamic text/visual slot is represented by owned modern view data where applicable; no original static label is invented."
+        },
+        {
+          "index": 13,
+          "caption": "*",
+          "handler": "0x00000000",
+          "disposition": "dynamic_or_visual_placeholder",
+          "reason": "Original dynamic text/visual slot is represented by owned modern view data where applicable; no original static label is invented."
+        },
+        {
+          "index": 14,
+          "caption": "*",
+          "handler": "0x00000000",
+          "disposition": "dynamic_or_visual_placeholder",
+          "reason": "Original dynamic text/visual slot is represented by owned modern view data where applicable; no original static label is invented."
+        },
+        {
+          "index": 15,
+          "caption": "*",
+          "handler": "0x00000000",
+          "disposition": "dynamic_or_visual_placeholder",
+          "reason": "Original dynamic text/visual slot is represented by owned modern view data where applicable; no original static label is invented."
+        },
+        {
+          "index": 16,
+          "caption": "*",
+          "handler": "0x00000000",
+          "disposition": "dynamic_or_visual_placeholder",
+          "reason": "Original dynamic text/visual slot is represented by owned modern view data where applicable; no original static label is invented."
+        },
+        {
+          "index": 17,
+          "caption": "*",
+          "handler": "0x00000000",
+          "disposition": "dynamic_or_visual_placeholder",
+          "reason": "Original dynamic text/visual slot is represented by owned modern view data where applicable; no original static label is invented."
+        },
+        {
+          "index": 18,
+          "caption": "*",
+          "handler": "0x00000000",
+          "disposition": "dynamic_or_visual_placeholder",
+          "reason": "Original dynamic text/visual slot is represented by owned modern view data where applicable; no original static label is invented."
+        },
+        {
+          "index": 19,
+          "caption": "*",
+          "handler": "0x00000000",
+          "disposition": "dynamic_or_visual_placeholder",
+          "reason": "Original dynamic text/visual slot is represented by owned modern view data where applicable; no original static label is invented."
+        },
+        {
+          "index": 20,
+          "caption": "*",
+          "handler": "0x00000000",
+          "disposition": "dynamic_or_visual_placeholder",
+          "reason": "Original dynamic text/visual slot is represented by owned modern view data where applicable; no original static label is invented."
+        },
+        {
+          "index": 21,
+          "caption": "*",
+          "handler": "0x00000000",
+          "disposition": "dynamic_or_visual_placeholder",
+          "reason": "Original dynamic text/visual slot is represented by owned modern view data where applicable; no original static label is invented."
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "source_screen_id": 19,
+      "source_title": "Graphics Options",
+      "modern_view": "Settings",
+      "original_visual_match": "not claimed",
+      "items": [
+        {
+          "index": 0,
+          "caption": "Race Resolution",
+          "handler": "0x004457b0",
+          "disposition": "modern_equivalent",
+          "reason": "Modern enhanced textures/wide framing replace original resolution choices; original layout is not reproduced."
+        },
+        {
+          "index": 1,
+          "caption": "Biker Resolution",
+          "handler": "0x004458a0",
+          "disposition": "modern_equivalent",
+          "reason": "Modern enhanced textures/wide framing replace original resolution choices; original layout is not reproduced."
+        },
+        {
+          "index": 2,
+          "caption": "",
+          "handler": "0x00000000",
+          "disposition": "modern_equivalent",
+          "reason": "Modern enhanced textures/wide framing replace original resolution choices; original layout is not reproduced."
+        },
+        {
+          "index": 3,
+          "caption": "Videos",
+          "handler": "0x00445960",
+          "disposition": "phase_18_dependency",
+          "reason": "Original video toggle and playback remain Phase 18."
+        },
+        {
+          "index": 4,
+          "caption": "",
+          "handler": "0x00000000",
+          "disposition": "modern_equivalent",
+          "reason": "Modern enhanced textures/wide framing replace original resolution choices; original layout is not reproduced."
+        },
+        {
+          "index": 5,
+          "caption": "",
+          "handler": "0x00000000",
+          "disposition": "modern_equivalent",
+          "reason": "Modern enhanced textures/wide framing replace original resolution choices; original layout is not reproduced."
+        },
+        {
+          "index": 6,
+          "caption": "Done",
+          "handler": "0x00000000",
+          "disposition": "modern_equivalent",
+          "reason": "Modern enhanced textures/wide framing replace original resolution choices; original layout is not reproduced."
+        },
+        {
+          "index": 7,
+          "caption": "",
+          "handler": "0x00000000",
+          "disposition": "modern_equivalent",
+          "reason": "Modern enhanced textures/wide framing replace original resolution choices; original layout is not reproduced."
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "source_screen_id": 20,
+      "source_title": "",
+      "modern_view": "Showroom",
+      "original_visual_match": "not claimed",
+      "items": [
+        {
+          "index": 0,
+          "caption": "Rat Bikes",
+          "handler": "0x00000000",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 1,
+          "caption": "Super Bikes",
+          "handler": "0x00000000",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 2,
+          "caption": "Sport Bikes",
+          "handler": "0x00000000",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 3,
+          "caption": "The Street",
+          "handler": "0x00000000",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 4,
+          "caption": "",
+          "handler": "0x00000000",
+          "disposition": "dynamic_or_visual_placeholder",
+          "reason": "Original dynamic text/visual slot is represented by owned modern view data where applicable; no original static label is invented."
+        },
+        {
+          "index": 5,
+          "caption": "",
+          "handler": "0x00000000",
+          "disposition": "dynamic_or_visual_placeholder",
+          "reason": "Original dynamic text/visual slot is represented by owned modern view data where applicable; no original static label is invented."
+        },
+        {
+          "index": 6,
+          "caption": "",
+          "handler": "0x00000000",
+          "disposition": "dynamic_or_visual_placeholder",
+          "reason": "Original dynamic text/visual slot is represented by owned modern view data where applicable; no original static label is invented."
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "source_screen_id": 21,
+      "source_title": "",
+      "modern_view": "Showroom",
+      "original_visual_match": "not claimed",
+      "items": [
+        {
+          "index": 0,
+          "caption": "Banzai",
+          "handler": "0x004216e0",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 1,
+          "caption": "Kamikaze",
+          "handler": "0x004216e0",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 2,
+          "caption": "Killer Rat",
+          "handler": "0x004216e0",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 3,
+          "caption": "Corsair",
+          "handler": "0x004216e0",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 4,
+          "caption": "Perro",
+          "handler": "0x004216e0",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 5,
+          "caption": "Showroom",
+          "handler": "0x00000000",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "source_screen_id": 22,
+      "source_title": "",
+      "modern_view": "Showroom",
+      "original_visual_match": "not claimed",
+      "items": [
+        {
+          "index": 0,
+          "caption": "Diablo",
+          "handler": "0x004216e0",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 1,
+          "caption": "Kamikaze",
+          "handler": "0x004216e0",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 2,
+          "caption": "Stiletto",
+          "handler": "0x004216e0",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 3,
+          "caption": "DMG",
+          "handler": "0x004216e0",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 4,
+          "caption": "Perro",
+          "handler": "0x004216e0",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 5,
+          "caption": "Showroom",
+          "handler": "0x00000000",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "source_screen_id": 23,
+      "source_title": "",
+      "modern_view": "Showroom",
+      "original_visual_match": "not claimed",
+      "items": [
+        {
+          "index": 0,
+          "caption": "Banzai",
+          "handler": "0x004216e0",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 1,
+          "caption": "Diablo",
+          "handler": "0x004216e0",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 2,
+          "caption": "Stiletto",
+          "handler": "0x004216e0",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 3,
+          "caption": "Corsair",
+          "handler": "0x004216e0",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 4,
+          "caption": "Kamikaze",
+          "handler": "0x004216e0",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 5,
+          "caption": "Showroom",
+          "handler": "0x00000000",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "source_screen_id": 24,
+      "source_title": "",
+      "modern_view": "Bike/Purchase",
+      "original_visual_match": "not claimed",
+      "items": [
+        {
+          "index": 0,
+          "caption": "Buy",
+          "handler": "0x004215e0",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 1,
+          "caption": "Exit",
+          "handler": "0x004216d0",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 2,
+          "caption": "",
+          "handler": "0x00000000",
+          "disposition": "dynamic_or_visual_placeholder",
+          "reason": "Original dynamic text/visual slot is represented by owned modern view data where applicable; no original static label is invented."
+        },
+        {
+          "index": 3,
+          "caption": "",
+          "handler": "0x00000000",
+          "disposition": "dynamic_or_visual_placeholder",
+          "reason": "Original dynamic text/visual slot is represented by owned modern view data where applicable; no original static label is invented."
+        },
+        {
+          "index": 4,
+          "caption": "",
+          "handler": "0x00000000",
+          "disposition": "dynamic_or_visual_placeholder",
+          "reason": "Original dynamic text/visual slot is represented by owned modern view data where applicable; no original static label is invented."
+        },
+        {
+          "index": 5,
+          "caption": "",
+          "handler": "0x00000000",
+          "disposition": "dynamic_or_visual_placeholder",
+          "reason": "Original dynamic text/visual slot is represented by owned modern view data where applicable; no original static label is invented."
+        },
+        {
+          "index": 6,
+          "caption": "",
+          "handler": "0x00000000",
+          "disposition": "dynamic_or_visual_placeholder",
+          "reason": "Original dynamic text/visual slot is represented by owned modern view data where applicable; no original static label is invented."
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "source_screen_id": 25,
+      "source_title": "",
+      "modern_view": "Club",
+      "original_visual_match": "not claimed",
+      "items": [
+        {
+          "index": 0,
+          "caption": "Schmooze",
+          "handler": "0x00420b50",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 1,
+          "caption": "Restroom",
+          "handler": "0x00000000",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 2,
+          "caption": "Bulletin Board",
+          "handler": "0x00000000",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 3,
+          "caption": "The Street",
+          "handler": "0x00000000",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 4,
+          "caption": "",
+          "handler": "0x00000000",
+          "disposition": "dynamic_or_visual_placeholder",
+          "reason": "Original dynamic text/visual slot is represented by owned modern view data where applicable; no original static label is invented."
+        },
+        {
+          "index": 5,
+          "caption": "",
+          "handler": "0x00000000",
+          "disposition": "dynamic_or_visual_placeholder",
+          "reason": "Original dynamic text/visual slot is represented by owned modern view data where applicable; no original static label is invented."
+        },
+        {
+          "index": 6,
+          "caption": "",
+          "handler": "0x00000000",
+          "disposition": "dynamic_or_visual_placeholder",
+          "reason": "Original dynamic text/visual slot is represented by owned modern view data where applicable; no original static label is invented."
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "source_screen_id": 26,
+      "source_title": "",
+      "modern_view": "Schmooze",
+      "original_visual_match": "not claimed",
+      "items": [
+        {
+          "index": 0,
+          "caption": "",
+          "handler": "0x00420b50",
+          "disposition": "approximate_dialogue",
+          "reason": "Read-only talk/cancel/visit-cycle behavior uses an independently authored line; exact localized attitude/relationship text is not ported."
+        },
+        {
+          "index": 1,
+          "caption": "",
+          "handler": "0x00420b90",
+          "disposition": "approximate_dialogue",
+          "reason": "Read-only talk/cancel/visit-cycle behavior uses an independently authored line; exact localized attitude/relationship text is not ported."
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "source_screen_id": 27,
+      "source_title": "",
+      "modern_view": "Courses",
+      "original_visual_match": "not claimed",
+      "items": [
+        {
+          "index": 0,
+          "caption": "The City",
+          "handler": "0x004213c0",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 1,
+          "caption": "Sierra Nevada",
+          "handler": "0x004213c0",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 2,
+          "caption": "The Peninsula",
+          "handler": "0x004213c0",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 3,
+          "caption": "Napa Valley",
+          "handler": "0x004213c0",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 4,
+          "caption": "Pacific Highway",
+          "handler": "0x004213c0",
+          "disposition": "modern_equivalent",
+          "reason": "Mapped to typed offline view/action; original layout/format is approximate."
+        },
+        {
+          "index": 5,
+          "caption": "",
+          "handler": "0x00000000",
+          "disposition": "dynamic_or_visual_placeholder",
+          "reason": "Original dynamic text/visual slot is represented by owned modern view data where applicable; no original static label is invented."
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "source_screen_id": 28,
+      "source_title": "WRECKED!",
+      "modern_view": "Results:Wrecked",
+      "original_visual_match": "not claimed",
+      "items": [
+        {
+          "index": 0,
+          "caption": "Hey, at least you didn't total the sucker!",
+          "handler": "0x004214e0",
+          "disposition": "modern_equivalent",
+          "reason": "Immutable outcome/standing/progression data supplies the modern result path; original videos/captions/format remain approximate."
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "source_screen_id": 29,
+      "source_title": "BUSTED!",
+      "modern_view": "Results:Arrested",
+      "original_visual_match": "not claimed",
+      "items": [
+        {
+          "index": 0,
+          "caption": "There's no escaping the long arm of the law!",
+          "handler": "0x004214e0",
+          "disposition": "modern_equivalent",
+          "reason": "Immutable outcome/standing/progression data supplies the modern result path; original videos/captions/format remain approximate."
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "source_screen_id": 30,
+      "source_title": "WINNER!",
+      "modern_view": "Results:Won",
+      "original_visual_match": "not claimed",
+      "items": [
+        {
+          "index": 0,
+          "caption": "*",
+          "handler": "0x00421290",
+          "disposition": "dynamic_or_visual_placeholder",
+          "reason": "Original dynamic text/visual slot is represented by owned modern view data where applicable; no original static label is invented."
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "source_screen_id": 31,
+      "source_title": "LOSER!",
+      "modern_view": "Results:Lost",
+      "original_visual_match": "not claimed",
+      "items": [
+        {
+          "index": 0,
+          "caption": "You're a loser, man. Better luck next time.",
+          "handler": "0x00421290",
+          "disposition": "modern_equivalent",
+          "reason": "Immutable outcome/standing/progression data supplies the modern result path; original videos/captions/format remain approximate."
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "source_screen_id": 32,
+      "source_title": "LEVEL PROGRESSION!",
+      "modern_view": "LevelUp",
+      "original_visual_match": "not claimed",
+      "items": [
+        {
+          "index": 0,
+          "caption": "Whoa, you've qualified on every track in the level.\nGuess it's time to move on to bigger and better things.",
+          "handler": "0x0041f6d0",
+          "disposition": "modern_equivalent",
+          "reason": "Immutable outcome/standing/progression data supplies the modern result path; original videos/captions/format remain approximate."
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "source_screen_id": 33,
+      "source_title": "",
+      "modern_view": "Results:Settlement",
+      "original_visual_match": "not claimed",
+      "items": [
+        {
+          "index": 0,
+          "caption": "*",
+          "handler": "0x0041f6d0",
+          "disposition": "dynamic_or_visual_placeholder",
+          "reason": "Original dynamic text/visual slot is represented by owned modern view data where applicable; no original static label is invented."
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "source_screen_id": 34,
+      "source_title": "Race Results",
+      "modern_view": "Standings",
+      "original_visual_match": "not claimed",
+      "items": [
+        {
+          "index": 0,
+          "caption": "*",
+          "handler": "0x0041f6d0",
+          "disposition": "dynamic_or_visual_placeholder",
+          "reason": "Original dynamic text/visual slot is represented by owned modern view data where applicable; no original static label is invented."
+        },
+        {
+          "index": 1,
+          "caption": "*",
+          "handler": "0x0041f6d0",
+          "disposition": "dynamic_or_visual_placeholder",
+          "reason": "Original dynamic text/visual slot is represented by owned modern view data where applicable; no original static label is invented."
+        },
+        {
+          "index": 2,
+          "caption": "*",
+          "handler": "0x0041f6d0",
+          "disposition": "dynamic_or_visual_placeholder",
+          "reason": "Original dynamic text/visual slot is represented by owned modern view data where applicable; no original static label is invented."
+        },
+        {
+          "index": 3,
+          "caption": "*",
+          "handler": "0x0041f6d0",
+          "disposition": "dynamic_or_visual_placeholder",
+          "reason": "Original dynamic text/visual slot is represented by owned modern view data where applicable; no original static label is invented."
+        },
+        {
+          "index": 4,
+          "caption": "*",
+          "handler": "0x0041f6d0",
+          "disposition": "dynamic_or_visual_placeholder",
+          "reason": "Original dynamic text/visual slot is represented by owned modern view data where applicable; no original static label is invented."
+        },
+        {
+          "index": 5,
+          "caption": "*",
+          "handler": "0x0041f6d0",
+          "disposition": "dynamic_or_visual_placeholder",
+          "reason": "Original dynamic text/visual slot is represented by owned modern view data where applicable; no original static label is invented."
+        },
+        {
+          "index": 6,
+          "caption": "*",
+          "handler": "0x0041f6d0",
+          "disposition": "dynamic_or_visual_placeholder",
+          "reason": "Original dynamic text/visual slot is represented by owned modern view data where applicable; no original static label is invented."
+        },
+        {
+          "index": 7,
+          "caption": "*",
+          "handler": "0x0041f6d0",
+          "disposition": "dynamic_or_visual_placeholder",
+          "reason": "Original dynamic text/visual slot is represented by owned modern view data where applicable; no original static label is invented."
+        },
+        {
+          "index": 8,
+          "caption": "*",
+          "handler": "0x0041f6d0",
+          "disposition": "dynamic_or_visual_placeholder",
+          "reason": "Original dynamic text/visual slot is represented by owned modern view data where applicable; no original static label is invented."
+        },
+        {
+          "index": 9,
+          "caption": "*",
+          "handler": "0x0041f6d0",
+          "disposition": "dynamic_or_visual_placeholder",
+          "reason": "Original dynamic text/visual slot is represented by owned modern view data where applicable; no original static label is invented."
+        },
+        {
+          "index": 10,
+          "caption": "*",
+          "handler": "0x0041f6d0",
+          "disposition": "dynamic_or_visual_placeholder",
+          "reason": "Original dynamic text/visual slot is represented by owned modern view data where applicable; no original static label is invented."
+        },
+        {
+          "index": 11,
+          "caption": "*",
+          "handler": "0x0041f6d0",
+          "disposition": "dynamic_or_visual_placeholder",
+          "reason": "Original dynamic text/visual slot is represented by owned modern view data where applicable; no original static label is invented."
+        },
+        {
+          "index": 12,
+          "caption": "*",
+          "handler": "0x0041f6d0",
+          "disposition": "dynamic_or_visual_placeholder",
+          "reason": "Original dynamic text/visual slot is represented by owned modern view data where applicable; no original static label is invented."
+        },
+        {
+          "index": 13,
+          "caption": "*",
+          "handler": "0x0041f6d0",
+          "disposition": "dynamic_or_visual_placeholder",
+          "reason": "Original dynamic text/visual slot is represented by owned modern view data where applicable; no original static label is invented."
+        },
+        {
+          "index": 14,
+          "caption": "*",
+          "handler": "0x0041f6d0",
+          "disposition": "dynamic_or_visual_placeholder",
+          "reason": "Original dynamic text/visual slot is represented by owned modern view data where applicable; no original static label is invented."
+        }
+      ],
+      "reviewed": true
+    },
+    {
+      "source_screen_id": 35,
+      "source_title": "",
+      "modern_view": "Finale",
+      "original_visual_match": "not claimed",
+      "items": [
+        {
+          "index": 0,
+          "caption": "",
+          "handler": "0x004241e0",
+          "disposition": "dynamic_or_visual_placeholder",
+          "reason": "Original dynamic text/visual slot is represented by owned modern view data where applicable; no original static label is invented."
+        }
+      ],
+      "reviewed": true
+    }
+  ],
+  "original_runtime_compared": false
+}

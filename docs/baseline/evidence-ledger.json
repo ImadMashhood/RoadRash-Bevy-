@@ -171,6 +171,36 @@
         "inputs": "rr-population-check scripts and complete captured live replay",
         "video_hash": null
       }
+    },
+    {
+      "id": "race-session-rust",
+      "confidence": "verified-local",
+      "claim": "Modern session countdown, topology-normalized standings, immutable results, neutral pause/restart and cleanup validated with authored replays, source factories and actual windows.",
+      "receipt": "../evidence/part-15.md",
+      "upstream_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+      "executable_sha256": "73d7f9744b5b1a9482b3909950cdf3fe34119fe13d023b031e9c6739a60f18a2",
+      "original_runtime_compared": false,
+      "capture_settings": {
+        "status": "native-api-and-modern-session-flow-validation",
+        "seed": 1,
+        "inputs": "authored race/UI fixtures, private source factory and window review",
+        "video_hash": null
+      }
+    },
+    {
+      "id": "frontend-career-rust",
+      "confidence": "verified-local",
+      "claim": "Typed offline frontend, career transactions/progression and snapshot resume validated; native money APIs match 1613 cases and every frozen inventory item has an explicit implementation/gap disposition.",
+      "receipt": "../evidence/part-16.md",
+      "upstream_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+      "executable_sha256": "73d7f9744b5b1a9482b3909950cdf3fe34119fe13d023b031e9c6739a60f18a2",
+      "original_runtime_compared": false,
+      "capture_settings": {
+        "status": "native-api-and-modern-session-flow-validation",
+        "seed": 1,
+        "inputs": "authored race/UI fixtures, private source factory and window review",
+        "video_hash": null
+      }
     }
   ]
 }

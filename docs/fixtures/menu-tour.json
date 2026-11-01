@@ -1,0 +1,206 @@
+[
+  {
+    "frame": 1,
+    "action": {
+      "begin": "BigGame"
+    }
+  },
+  {
+    "frame": 3,
+    "action": {
+      "character": 1
+    }
+  },
+  {
+    "frame": 10,
+    "action": {
+      "open": "Club"
+    }
+  },
+  {
+    "frame": 20,
+    "action": {
+      "open": "Schmooze"
+    }
+  },
+  {
+    "frame": 25,
+    "action": "read"
+  },
+  {
+    "frame": 35,
+    "action": "back"
+  },
+  {
+    "frame": 40,
+    "action": "back"
+  },
+  {
+    "frame": 45,
+    "action": {
+      "open": "Showroom"
+    }
+  },
+  {
+    "frame": 55,
+    "action": {
+      "bike": 1
+    }
+  },
+  {
+    "frame": 75,
+    "action": {
+      "open": "Purchase"
+    }
+  },
+  {
+    "frame": 85,
+    "action": "back"
+  },
+  {
+    "frame": 90,
+    "action": "back"
+  },
+  {
+    "frame": 95,
+    "action": "back"
+  },
+  {
+    "frame": 100,
+    "action": {
+      "open": "Restroom"
+    }
+  },
+  {
+    "frame": 105,
+    "action": {
+      "open": "Settings"
+    }
+  },
+  {
+    "frame": 110,
+    "action": "effects"
+  },
+  {
+    "frame": 112,
+    "action": "wide"
+  },
+  {
+    "frame": 115,
+    "action": "back"
+  },
+  {
+    "frame": 120,
+    "action": {
+      "open": "Jukebox"
+    }
+  },
+  {
+    "frame": 125,
+    "action": {
+      "track": 2
+    }
+  },
+  {
+    "frame": 140,
+    "action": "back"
+  },
+  {
+    "frame": 145,
+    "action": "back"
+  },
+  {
+    "frame": 150,
+    "action": {
+      "open": "Courses"
+    }
+  },
+  {
+    "frame": 155,
+    "action": {
+      "course": 1
+    }
+  },
+  {
+    "frame": 210,
+    "action": {
+      "open": "Paused"
+    }
+  },
+  {
+    "frame": 220,
+    "action": {
+      "open": "QuitConfirm"
+    }
+  },
+  {
+    "frame": 230,
+    "action": "quit_race"
+  },
+  {
+    "frame": 250,
+    "action": "continue"
+  },
+  {
+    "frame": 260,
+    "action": "main"
+  },
+  {
+    "frame": 300,
+    "action": {
+      "begin": "Thrash"
+    }
+  },
+  {
+    "frame": 305,
+    "action": {
+      "character": 3
+    }
+  },
+  {
+    "frame": 310,
+    "action": {
+      "level": 5
+    }
+  },
+  {
+    "frame": 315,
+    "action": {
+      "course": 2
+    }
+  },
+  {
+    "frame": 400,
+    "action": {
+      "open": "Paused"
+    }
+  },
+  {
+    "frame": 410,
+    "action": "restart"
+  },
+  {
+    "frame": 460,
+    "action": {
+      "open": "Paused"
+    }
+  },
+  {
+    "frame": 462,
+    "action": {
+      "open": "QuitConfirm"
+    }
+  },
+  {
+    "frame": 465,
+    "action": "quit_race"
+  },
+  {
+    "frame": 480,
+    "action": "continue"
+  },
+  {
+    "frame": 490,
+    "action": "main"
+  }
+]

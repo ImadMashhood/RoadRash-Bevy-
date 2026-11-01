@@ -4,10 +4,10 @@
 
 A Rust and Bevy recreation of the PC Road Rash experience, with a faithful classic presentation, individually reviewed AI-enhanced textures, and a modular design that leaves room for a later 3D version.
 
-Parts 01–14 now have implementation and acceptance evidence: a verified importer, bounded decoders, content catalog/inspector, deterministic simulation/presentation scaffold and validated source course graph/explorer and classic road renderer. This is not a complete playable recreation. Later phases remain open; the separate local prototype is preserved independently.
+Parts 01–16 now have implementation and acceptance evidence: a verified importer, bounded decoders, content catalog/inspector, deterministic simulation/presentation scaffold and validated source course graph/explorer and classic road renderer. This is not a complete playable recreation. Later phases remain open; the separate local prototype is preserved independently.
 
 
-The [Fedora native reference](docs/NATIVE_REFERENCE.md) now validates [source-unit handling](docs/HANDLING.md) and [rider animation/palette fidelity](docs/ANIMATION.md). **Parts 09 and 10 are complete** with 15 source bike specifications, versioned handling/replay, tick-driven animations, ground shadows and an offline animation inspector. **Parts 11 and 12 are complete** with [ordered combat](docs/COMBAT.md), unique equipment/theft, independent crash bodies, portal-based recovery and explicit assists. See [Part 11 evidence](docs/evidence/part-11.md) and [Part 12 evidence](docs/evidence/part-12.md). **Parts 13 and 14 are complete** with [opponent intelligence](docs/OPPONENTS.md), full source field setup, [traffic/pedestrians/police](docs/ROAD_USERS.md), recorded controls and long-run diagnostics. The next open phase is **15: race rules and results**.
+The [Fedora native reference](docs/NATIVE_REFERENCE.md) now validates [source-unit handling](docs/HANDLING.md) and [rider animation/palette fidelity](docs/ANIMATION.md). **Parts 09 and 10 are complete** with 15 source bike specifications, versioned handling/replay, tick-driven animations, ground shadows and an offline animation inspector. **Parts 11 and 12 are complete** with [ordered combat](docs/COMBAT.md), unique equipment/theft, independent crash bodies, portal-based recovery and explicit assists. See [Part 11 evidence](docs/evidence/part-11.md) and [Part 12 evidence](docs/evidence/part-12.md). **Parts 13 and 14 are complete** with [opponent intelligence](docs/OPPONENTS.md), full source field setup, [traffic/pedestrians/police](docs/ROAD_USERS.md), recorded controls and long-run diagnostics. **Parts 15 and 16 are complete** within the declared modern offline scope, with [race lifecycle/results](docs/RACE_RULES.md), [frontend/career/economy](docs/FRONTEND.md), source API comparisons and a complete menu inventory audit. See [Part 15](docs/evidence/part-15.md) and [Part 16 evidence](docs/evidence/part-16.md). The next open phase is **17: saves, settings and migration**.
 
 Run the current source-course view after local import/conversion:
 
@@ -1643,7 +1643,7 @@ Research: [src/traffic.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2
 
 **Inputs:** Race setup, actor progress and terminal events.
 
-**Required outputs:** Race lifecycle, standings and immutable result summary. Names in this roadmap are proposed artifacts until implemented.
+**Required outputs:** [Race/session contract](docs/RACE_RULES.md), immutable standings/results and [Part 15 evidence](docs/evidence/part-15.md).
 
 **Invariant:** Apply outcomes and financial consequences exactly once.
 
@@ -1652,77 +1652,77 @@ Research: [src/traffic.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2
 
 Research: [src/race.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/race.cpp), [src/session.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/session.cpp), [src/race_screen.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/race_screen.cpp).
 
-- [ ] **15.01 — Implement countdown and race start**
+- [x] **15.01 — Implement countdown and race start**
 
-  - [ ] **15.01.a — Implement:** Implement pre-race setup, countdown and control unlock at defined ticks.
-  - [ ] **15.01.b — Verify:** Test held input during countdown and restart.
-  - [ ] **15.01.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/15.01.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **15.01.a — Implement:** Implement pre-race setup, countdown and control unlock at defined ticks.
+  - [x] **15.01.b — Verify:** Test held input during countdown and restart.
+  - [x] **15.01.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in [completion receipt](docs/evidence/15.01.md). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **15.02 — Compute progress across route branches**
+- [x] **15.02 — Compute progress across route branches**
 
-  - [ ] **15.02.a — Implement:** Calculate comparable race progress using route topology and finish rules.
-  - [ ] **15.02.b — Verify:** Test rivals on unequal branches without naive distance ranking.
-  - [ ] **15.02.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/15.02.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **15.02.a — Implement:** Calculate comparable race progress using route topology and finish rules.
+  - [x] **15.02.b — Verify:** Test rivals on unequal branches without naive distance ranking.
+  - [x] **15.02.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in [completion receipt](docs/evidence/15.02.md). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **15.03 — Implement placement and standings**
+- [x] **15.03 — Implement placement and standings**
 
-  - [ ] **15.03.a — Implement:** Maintain rank with stable tie-breaking and finish status.
-  - [ ] **15.03.b — Verify:** Test overtakes, crashes and equal-progress actors.
-  - [ ] **15.03.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/15.03.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **15.03.a — Implement:** Maintain rank with stable tie-breaking and finish status.
+  - [x] **15.03.b — Verify:** Test overtakes, crashes and equal-progress actors.
+  - [x] **15.03.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in [completion receipt](docs/evidence/15.03.md). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **15.04 — Implement finish detection**
+- [x] **15.04 — Implement finish detection**
 
-  - [ ] **15.04.a — Implement:** Detect crossing of the finish condition even with large per-tick travel.
-  - [ ] **15.04.b — Verify:** Test exact-boundary and overshoot cases.
-  - [ ] **15.04.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/15.04.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **15.04.a — Implement:** Detect crossing of the finish condition even with large per-tick travel.
+  - [x] **15.04.b — Verify:** Test exact-boundary and overshoot cases.
+  - [x] **15.04.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in [completion receipt](docs/evidence/15.04.md). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **15.05 — Resolve simultaneous finish events**
+- [x] **15.05 — Resolve simultaneous finish events**
 
-  - [ ] **15.05.a — Implement:** Assign finish order using documented within-tick resolution rules.
-  - [ ] **15.05.b — Verify:** Replay ties and verify consistent rewards/results.
-  - [ ] **15.05.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/15.05.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **15.05.a — Implement:** Assign finish order using documented within-tick resolution rules.
+  - [x] **15.05.b — Verify:** Replay ties and verify consistent rewards/results.
+  - [x] **15.05.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in [completion receipt](docs/evidence/15.05.md). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **15.06 — Implement race failure conditions**
+- [x] **15.06 — Implement race failure conditions**
 
-  - [ ] **15.06.a — Implement:** Define damaged-bike, arrest, timeout or other evidenced failure paths.
-  - [ ] **15.06.b — Verify:** Test each terminal state routes to the correct frontend outcome.
-  - [ ] **15.06.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/15.06.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **15.06.a — Implement:** Define damaged-bike, arrest, timeout or other evidenced failure paths.
+  - [x] **15.06.b — Verify:** Test each terminal state routes to the correct frontend outcome.
+  - [x] **15.06.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in [completion receipt](docs/evidence/15.06.md). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **15.07 — Implement pause resume restart quit**
+- [x] **15.07 — Implement pause resume restart quit**
 
-  - [ ] **15.07.a — Implement:** Specify pause ownership and restart/reset behavior.
-  - [ ] **15.07.b — Verify:** Pause during countdown, combat and results without advancing simulation.
-  - [ ] **15.07.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/15.07.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **15.07.a — Implement:** Specify pause ownership and restart/reset behavior.
+  - [x] **15.07.b — Verify:** Pause during countdown, combat and results without advancing simulation.
+  - [x] **15.07.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in [completion receipt](docs/evidence/15.07.md). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **15.08 — Implement results presentation**
+- [x] **15.08 — Implement results presentation**
 
-  - [ ] **15.08.a — Implement:** Populate results from immutable completed-race data.
-  - [ ] **15.08.b — Verify:** Verify names, positions, rewards and status correspond to the finished run.
-  - [ ] **15.08.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/15.08.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **15.08.a — Implement:** Populate results from immutable completed-race data.
+  - [x] **15.08.b — Verify:** Verify names, positions, rewards and status correspond to the finished run.
+  - [x] **15.08.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in [completion receipt](docs/evidence/15.08.md). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **15.09 — Record race rewards and penalties**
+- [x] **15.09 — Record race rewards and penalties**
 
-  - [ ] **15.09.a — Implement:** Apply rewards and penalties exactly once in a career transaction.
-  - [ ] **15.09.b — Verify:** Revisit results and ensure funds are not duplicated.
-  - [ ] **15.09.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/15.09.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **15.09.a — Implement:** Apply rewards and penalties exactly once in a career transaction.
+  - [x] **15.09.b — Verify:** Revisit results and ensure funds are not duplicated.
+  - [x] **15.09.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in [completion receipt](docs/evidence/15.09.md). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **15.10 — Verify race-to-menu cleanup**
+- [x] **15.10 — Verify race-to-menu cleanup**
 
-  - [ ] **15.10.a — Implement:** Despawn race-scoped entities and stop race-scoped audio on exit.
-  - [ ] **15.10.b — Verify:** Return to menus repeatedly without stale actors or cameras.
-  - [ ] **15.10.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/15.10.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **15.10.a — Implement:** Despawn race-scoped entities and stop race-scoped audio on exit.
+  - [x] **15.10.b — Verify:** Return to menus repeatedly without stale actors or cameras.
+  - [x] **15.10.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in [completion receipt](docs/evidence/15.10.md). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **15.11 — Test repeat races without leaked state**
+- [x] **15.11 — Test repeat races without leaked state**
 
-  - [ ] **15.11.a — Implement:** Run repeated races with changing courses and bikes.
-  - [ ] **15.11.b — Verify:** Compare memory, actor counts and RNG initialization after each reset.
-  - [ ] **15.11.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/15.11.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **15.11.a — Implement:** Run repeated races with changing courses and bikes.
+  - [x] **15.11.b — Verify:** Compare memory, actor counts and RNG initialization after each reset.
+  - [x] **15.11.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in [completion receipt](docs/evidence/15.11.md). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **15.12 — Verify intended outcome and frontend state transitions**
+- [x] **15.12 — Verify intended outcome and frontend state transitions**
 
-  - [ ] **15.12.a — Implement:** Maintain an outcome table for win, loss, arrest and wreck paths.
+  - [x] **15.12.a — Implement:** Maintain an outcome table for win, loss, arrest and wreck paths.
 
-  - [ ] **15.12.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/15.12.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **15.12.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in [completion receipt](docs/evidence/15.12.md). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
 
 **Exit evidence:** a reproducible demonstration of race rules and results, linked implementation revision, recorded checks and known limitations. Dependent phases may prototype early, but this gate stays open until its checks pass.
@@ -1733,7 +1733,7 @@ Research: [src/race.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd7
 
 **Inputs:** Localized content, bike catalog and career records.
 
-**Required outputs:** Frontend state graph, career/economy rules and flow tests. Names in this roadmap are proposed artifacts until implemented.
+**Required outputs:** [Typed frontend/career contract](docs/FRONTEND.md), economy/flow tests, [complete inventory audit](docs/evidence/frontend-menu-audit.json) and [Part 16 evidence](docs/evidence/part-16.md).
 
 **Invariant:** Keep frontend state transitions independent from currently spawned race entities.
 
@@ -1742,77 +1742,77 @@ Research: [src/race.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd7
 
 Research: [src/frontend.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/frontend.cpp), [src/career.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/career.cpp), [src/native_screens.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/native_screens.cpp), [src/native_strings.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/native_strings.cpp).
 
-- [ ] **16.01 — Build explicit frontend state graph**
+- [x] **16.01 — Build explicit frontend state graph**
 
-  - [ ] **16.01.a — Implement:** Describe frontend states, transitions and required context as typed data.
-  - [ ] **16.01.b — Verify:** Test back/cancel behavior from every reachable screen.
-  - [ ] **16.01.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/16.01.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **16.01.a — Implement:** Describe frontend states, transitions and required context as typed data.
+  - [x] **16.01.b — Verify:** Test back/cancel behavior from every reachable screen.
+  - [x] **16.01.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in [completion receipt](docs/evidence/16.01.md). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **16.02 — Implement Thrash flow**
+- [x] **16.02 — Implement Thrash flow**
 
-  - [ ] **16.02.a — Implement:** Implement quick-race/Thrash selection through results and return.
-  - [ ] **16.02.b — Verify:** Complete consecutive races without creating unintended career progress.
-  - [ ] **16.02.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/16.02.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **16.02.a — Implement:** Implement quick-race/Thrash selection through results and return.
+  - [x] **16.02.b — Verify:** Complete consecutive races without creating unintended career progress.
+  - [x] **16.02.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in [completion receipt](docs/evidence/16.02.md). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **16.03 — Implement Big Game career flow**
+- [x] **16.03 — Implement Big Game career flow**
 
-  - [ ] **16.03.a — Implement:** Implement career creation, resume and between-race flow.
-  - [ ] **16.03.b — Verify:** Finish a multi-race progression path and verify persistence.
-  - [ ] **16.03.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/16.03.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **16.03.a — Implement:** Implement career creation, resume and between-race flow.
+  - [x] **16.03.b — Verify:** Finish a multi-race progression path and verify persistence.
+  - [x] **16.03.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in [completion receipt](docs/evidence/16.03.md). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **16.04 — Implement character selection**
+- [x] **16.04 — Implement character selection**
 
-  - [ ] **16.04.a — Implement:** Map character choice to identity, portrait and gameplay data.
-  - [ ] **16.04.b — Verify:** Test every option and invalid saved character IDs.
-  - [ ] **16.04.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/16.04.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **16.04.a — Implement:** Map character choice to identity, portrait and gameplay data.
+  - [x] **16.04.b — Verify:** Test every option and invalid saved character IDs.
+  - [x] **16.04.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in [completion receipt](docs/evidence/16.04.md). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **16.05 — Implement course and level selection**
+- [x] **16.05 — Implement course and level selection**
 
-  - [ ] **16.05.a — Implement:** Apply unlock and selection rules to course/level menus.
-  - [ ] **16.05.b — Verify:** Test locked, newly unlocked and completed states.
-  - [ ] **16.05.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/16.05.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **16.05.a — Implement:** Apply unlock and selection rules to course/level menus.
+  - [x] **16.05.b — Verify:** Test locked, newly unlocked and completed states.
+  - [x] **16.05.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in [completion receipt](docs/evidence/16.05.md). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **16.06 — Implement bike showroom and purchase**
+- [x] **16.06 — Implement bike showroom and purchase**
 
-  - [ ] **16.06.a — Implement:** Display bike specifications, affordability and purchase confirmation.
-  - [ ] **16.06.b — Verify:** Test insufficient funds and selecting the currently owned bike.
-  - [ ] **16.06.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/16.06.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **16.06.a — Implement:** Display bike specifications, affordability and purchase confirmation.
+  - [x] **16.06.b — Verify:** Test insufficient funds and selecting the currently owned bike.
+  - [x] **16.06.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in [completion receipt](docs/evidence/16.06.md). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **16.07 — Implement repair and money changes**
+- [x] **16.07 — Implement repair and money changes**
 
-  - [ ] **16.07.a — Implement:** Apply repair costs, damage changes and money updates atomically.
-  - [ ] **16.07.b — Verify:** Test exact affordability and repeated confirmation inputs.
-  - [ ] **16.07.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/16.07.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **16.07.a — Implement:** Apply repair costs, damage changes and money updates atomically.
+  - [x] **16.07.b — Verify:** Test exact affordability and repeated confirmation inputs.
+  - [x] **16.07.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in [completion receipt](docs/evidence/16.07.md). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **16.08 — Implement Schmooze interactions**
+- [x] **16.08 — Implement Schmooze interactions**
 
-  - [ ] **16.08.a — Implement:** Represent dialogue options and their effect on career state.
-  - [ ] **16.08.b — Verify:** Test cancel, repeat visits and unavailable choices.
-  - [ ] **16.08.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/16.08.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **16.08.a — Implement:** Represent dialogue options and their effect on career state.
+  - [x] **16.08.b — Verify:** Test cancel, repeat visits and unavailable choices.
+  - [x] **16.08.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in [completion receipt](docs/evidence/16.08.md). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **16.09 — Implement unlock and progression rules**
+- [x] **16.09 — Implement unlock and progression rules**
 
-  - [ ] **16.09.a — Implement:** Encode progression thresholds and unlock conditions in testable data.
-  - [ ] **16.09.b — Verify:** Test just-below, exact and above-threshold outcomes.
-  - [ ] **16.09.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/16.09.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **16.09.a — Implement:** Encode progression thresholds and unlock conditions in testable data.
+  - [x] **16.09.b — Verify:** Test just-below, exact and above-threshold outcomes.
+  - [x] **16.09.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in [completion receipt](docs/evidence/16.09.md). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **16.10 — Implement results and return transitions**
+- [x] **16.10 — Implement results and return transitions**
 
-  - [ ] **16.10.a — Implement:** Pass a completed-race summary into the frontend without live-world references.
-  - [ ] **16.10.b — Verify:** Test quit, fail and finish return paths.
-  - [ ] **16.10.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/16.10.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **16.10.a — Implement:** Pass a completed-race summary into the frontend without live-world references.
+  - [x] **16.10.b — Verify:** Test quit, fail and finish return paths.
+  - [x] **16.10.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in [completion receipt](docs/evidence/16.10.md). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **16.11 — Implement settings credits and jukebox**
+- [x] **16.11 — Implement settings credits and jukebox**
 
-  - [ ] **16.11.a — Implement:** Implement settings, credits and music menus with explicit return destinations.
-  - [ ] **16.11.b — Verify:** Test audio state and focus after leaving each screen.
-  - [ ] **16.11.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/16.11.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **16.11.a — Implement:** Implement settings, credits and music menus with explicit return destinations.
+  - [x] **16.11.b — Verify:** Test audio state and focus after leaving each screen.
+  - [x] **16.11.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in [completion receipt](docs/evidence/16.11.md). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **16.12 — Audit every menu item against evidence ledger**
+- [x] **16.12 — Audit every menu item against evidence ledger**
 
-  - [ ] **16.12.a — Implement:** Use the screen inventory to tick off every item and transition.
-  - [ ] **16.12.b — Verify:** Report missing screens separately from approximate visual matches.
-  - [ ] **16.12.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/16.12.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **16.12.a — Implement:** Use the screen inventory to tick off every item and transition.
+  - [x] **16.12.b — Verify:** Report missing screens separately from approximate visual matches.
+  - [x] **16.12.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in [completion receipt](docs/evidence/16.12.md). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
 
 **Exit evidence:** a reproducible demonstration of menus career and economy, linked implementation revision, recorded checks and known limitations. Dependent phases may prototype early, but this gate stays open until its checks pass.

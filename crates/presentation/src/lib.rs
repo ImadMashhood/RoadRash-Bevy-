@@ -63,16 +63,6 @@ fn setup(mut commands: Commands, assets: Res<AssetServer>, visual: Res<VisualAss
         Transform::from_xyz(0.0, 0.0, -1.0),
     ));
     commands.spawn((
-        Camera2d,
-        Projection::Orthographic(OrthographicProjection {
-            scaling_mode: bevy::camera::ScalingMode::Fixed {
-                width: 640.0,
-                height: 480.0,
-            },
-            ..OrthographicProjection::default_2d()
-        }),
-    ));
-    commands.spawn((
         Sprite::from_color(Color::srgb(0.18, 0.42, 0.15), Vec2::new(640.0, 340.0)),
         Transform::from_xyz(0.0, -70.0, 0.0),
     ));
@@ -153,7 +143,7 @@ fn present(
 
 fn fit_viewport(
     window: Single<&Window, With<PrimaryWindow>>,
-    mut cameras: Query<&mut Camera, With<Camera2d>>,
+    mut cameras: Query<(&mut Camera, &mut Projection), With<Camera2d>>,
 ) {
     let size = window.physical_size();
     if size.x == 0 || size.y == 0 {
@@ -164,7 +154,13 @@ fn fit_viewport(
         (640.0 * scale).floor().max(1.0) as u32,
         (480.0 * scale).floor().max(1.0) as u32,
     );
-    for mut camera in &mut cameras {
+    for (mut camera, mut projection) in &mut cameras {
+        if let Projection::Orthographic(ref mut p) = *projection {
+            p.scaling_mode = bevy::camera::ScalingMode::Fixed {
+                width: 640.,
+                height: 480.,
+            };
+        }
         camera.viewport = Some(Viewport {
             physical_position: (size - extent) / 2,
             physical_size: extent,

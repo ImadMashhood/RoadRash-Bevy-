@@ -1,4 +1,5 @@
 //! Composition root: ordered input/fixed simulation/snapshot adapter and optional deterministic playback.
+mod frontend;
 mod gamepad_calibration;
 mod input_adapter;
 mod population_cues;
@@ -21,8 +22,12 @@ use rr_simulation::{
 use std::{num::NonZeroU8, path::PathBuf};
 #[derive(Resource, Default)]
 struct Race(Simulation);
-#[derive(Resource, Default)]
+#[derive(Resource, Default, Clone)]
 struct LaunchOptions {
+    frontend: Option<bool>,
+    career_file: PathBuf,
+    ui_script: Option<PathBuf>,
+    condition_percent: u16,
     smoke_frames: Option<u32>,
     capture: Option<PathBuf>,
     capture_frame: u32,
@@ -73,6 +78,8 @@ struct PauseState {
 struct Previous(rr_simulation::Snapshot);
 fn options() -> Result<LaunchOptions, String> {
     let mut options = LaunchOptions {
+        condition_percent: 100,
+        career_file: "local/career-session.json".into(),
         render_rate: "60".into(),
         level: 1,
         bike: 1,
@@ -87,6 +94,15 @@ fn options() -> Result<LaunchOptions, String> {
             .next()
             .ok_or_else(|| format!("missing value for {}", arg.to_string_lossy()))?;
         match arg.to_str() {
+            Some("--ui-script") => options.ui_script = Some(value.into()),
+            Some("--career-file") => options.career_file = value.into(),
+            Some("--frontend") => {
+                options.frontend = Some(match value.to_str() {
+                    Some("on") => true,
+                    Some("off") => false,
+                    _ => return Err("frontend must be on/off".into()),
+                })
+            }
             Some("--record-replay") => options.record_replay = Some(value.into()),
             Some("--opponents") => {
                 options.opponents = value
@@ -406,6 +422,145 @@ fn course_view(
         start_q8,
     }))
 }
+fn build_race(
+    options: &LaunchOptions,
+    course: Option<&CoursePresentation>,
+    seed: u32,
+    character: Option<u8>,
+) -> Race {
+    if let (Some(data), Some(course)) = (&options.data_root, course) {
+        let mut config = rr_simulation::riding::Configuration::load(
+            data,
+            &course.scene.route,
+            options.bike,
+            (course.start_q8 / 256.) as u32,
+        )
+        .unwrap_or_else(|e| {
+            eprintln!("handling startup: {e}");
+            std::process::exit(2)
+        });
+        for (g, p) in config.ground.iter_mut().zip(&course.scene.route.points) {
+            g.kind = match course.scene.terrain[p.section as usize][p.local as usize].kind {
+                rr_render::scene::TerrainKind::Wall => 1,
+                rr_render::scene::TerrainKind::Building => 4,
+                _ => 0,
+            };
+        }
+        // Derived specification 16 isolates the player's carried damage. Opponents
+        // continue selecting the original 1..15 specs, and replays capture this setup.
+        if options.condition_percent < 100 {
+            let mut derived = config.spec().clone();
+            derived.id = 16;
+            derived.condition =
+                (derived.condition * i32::from(options.condition_percent) / 100).max(1);
+            config.specs.push(derived);
+            config.selected = 16;
+        }
+        let exe = std::fs::read(data.join("ROADRASH.EXE")).expect("verified executable");
+        let mut setup = rr_simulation::encounter::Setup::source(
+            &config,
+            &course.scene.course,
+            &course.scene.route,
+            &exe,
+            options.level - 1,
+            if options.practice_riders > 0 {
+                options.practice_riders
+            } else {
+                options.opponents
+            },
+        )
+        .unwrap_or_else(|e| {
+            eprintln!("encounter startup: {e}");
+            std::process::exit(2)
+        });
+        setup.seeds[0].color = options.rider_color;
+        setup.rules.assists.fast_recovery = options.fast_recovery;
+        setup.rules.assists.rescue_unreachable = options.rescue_recovery;
+        let mut sim = if options.practice_riders > 0 {
+            if let Some(character) = character {
+                apply_character(&exe, character, options.level - 1, &mut setup);
+            }
+            Simulation::with_encounters(seed, config, setup).unwrap()
+        } else {
+            let mut population = rr_simulation::population::Setup::source(
+                &config,
+                &mut setup,
+                &course.scene.course,
+                &exe,
+                options.level - 1,
+                course.scene.assets.vehicles.len() as u16,
+            )
+            .unwrap_or_else(|e| {
+                eprintln!("population startup: {e}");
+                std::process::exit(2)
+            });
+            population.vehicle_masks = course.scene.assets.vehicle_masks.clone();
+            let requested = population.spawns.len();
+            population.spawns.retain(|s| {
+                s.kind != rr_simulation::population::Kind::Pedestrian
+                    || s.family
+                        .and_then(|id| course.scene.assets.families.get(&id))
+                        .and_then(|f| {
+                            f.resolve(2, usize::from(s.selector), Some(0))
+                                .and_then(|at| f.sprites.get(&at))
+                        })
+                        .is_some()
+            });
+            if requested != population.spawns.len() {
+                println!(
+                    "Population: {} unsupported pedestrian appearances retained as research requests, excluded from live collisions",
+                    requested - population.spawns.len()
+                );
+            }
+            if let Some(character) = character {
+                apply_character(&exe, character, options.level - 1, &mut setup);
+            }
+            Simulation::with_population(seed, config, setup, population).unwrap()
+        };
+        sim.set_effects_enabled(options.effects);
+        Race(sim)
+    } else {
+        Race::default()
+    }
+}
+fn apply_character(
+    exe: &[u8],
+    character: u8,
+    level: u8,
+    setup: &mut rr_simulation::encounter::Setup,
+) {
+    let catalog = rr_session::catalog::Catalog::from_exe(exe).expect("verified career catalog");
+    let c = catalog.character(character).expect("validated character");
+    let pe = rr_formats::pe::SupportedExe::read(exe).unwrap();
+    let word = |va| rr_formats::binary::u32le(pe.read_va(va, 4).unwrap(), 0).unwrap() as i32;
+    let row = 0x463c78 + u32::from(c.personality) * 0x40;
+    let seed = &mut setup.seeds[0];
+    seed.stats = rr_simulation::combat::Stats {
+        strength: word(row + 0x30),
+        base: word(row + 0x34),
+        maximum: word(row + 0x34),
+        health: word(row + 0x34),
+    };
+    seed.color = c.personality;
+    let weapon = word(row + (6 + u32::from(level)) * 4);
+    setup
+        .inventory
+        .items
+        .retain(|_, item| item.owner != Some(rr_simulation::ActorId(1)));
+    if (1..=2).contains(&weapon) {
+        setup.inventory.items.insert(
+            rr_simulation::combat::WeaponId(100),
+            rr_simulation::combat::Item {
+                kind: if weapon == 1 {
+                    rr_simulation::animation::Weapon::Club
+                } else {
+                    rr_simulation::animation::Weapon::Chain
+                },
+                owner: Some(rr_simulation::ActorId(1)),
+            },
+        );
+    }
+}
 fn main() {
     let mut options = options().unwrap_or_else(|m| {
         eprintln!("{m}");
@@ -432,84 +587,7 @@ fn main() {
         std::process::exit(2)
     });
     let race = if playback.is_none() {
-        if let (Some(data), Some(course)) = (&options.data_root, &course) {
-            let mut config = rr_simulation::riding::Configuration::load(
-                data,
-                &course.scene.route,
-                options.bike,
-                (course.start_q8 / 256.) as u32,
-            )
-            .unwrap_or_else(|e| {
-                eprintln!("handling startup: {e}");
-                std::process::exit(2)
-            });
-            for (g, p) in config.ground.iter_mut().zip(&course.scene.route.points) {
-                g.kind = match course.scene.terrain[p.section as usize][p.local as usize].kind {
-                    rr_render::scene::TerrainKind::Wall => 1,
-                    rr_render::scene::TerrainKind::Building => 4,
-                    _ => 0,
-                };
-            }
-            let exe = std::fs::read(data.join("ROADRASH.EXE")).expect("verified executable");
-            let mut setup = rr_simulation::encounter::Setup::source(
-                &config,
-                &course.scene.course,
-                &course.scene.route,
-                &exe,
-                options.level - 1,
-                if options.practice_riders > 0 {
-                    options.practice_riders
-                } else {
-                    options.opponents
-                },
-            )
-            .unwrap_or_else(|e| {
-                eprintln!("encounter startup: {e}");
-                std::process::exit(2)
-            });
-            setup.seeds[0].color = options.rider_color;
-            setup.rules.assists.fast_recovery = options.fast_recovery;
-            setup.rules.assists.rescue_unreachable = options.rescue_recovery;
-            let mut sim = if options.practice_riders > 0 {
-                Simulation::with_encounters(1, config, setup).unwrap()
-            } else {
-                let mut population = rr_simulation::population::Setup::source(
-                    &config,
-                    &mut setup,
-                    &course.scene.course,
-                    &exe,
-                    options.level - 1,
-                    course.scene.assets.vehicles.len() as u16,
-                )
-                .unwrap_or_else(|e| {
-                    eprintln!("population startup: {e}");
-                    std::process::exit(2)
-                });
-                population.vehicle_masks = course.scene.assets.vehicle_masks.clone();
-                let requested = population.spawns.len();
-                population.spawns.retain(|s| {
-                    s.kind != rr_simulation::population::Kind::Pedestrian
-                        || s.family
-                            .and_then(|id| course.scene.assets.families.get(&id))
-                            .and_then(|f| {
-                                f.resolve(2, usize::from(s.selector), Some(0))
-                                    .and_then(|at| f.sprites.get(&at))
-                            })
-                            .is_some()
-                });
-                if requested != population.spawns.len() {
-                    println!(
-                        "Population: {} unsupported pedestrian appearances retained as research requests, excluded from live collisions",
-                        requested - population.spawns.len()
-                    );
-                }
-                Simulation::with_population(1, config, setup, population).unwrap()
-            };
-            sim.set_effects_enabled(options.effects);
-            Race(sim)
-        } else {
-            Race::default()
-        }
+        build_race(&options, course.as_ref(), 1, None)
     } else {
         Race::default()
     };
@@ -553,7 +631,10 @@ fn main() {
         eprintln!("recording startup: {e}");
         std::process::exit(2)
     });
+    let shell = frontend::Shell::new(&options, &race.0, playback.is_some());
     let mut app = App::new();
+    app.insert_resource(shell)
+        .add_plugins(frontend::FrontendPlugin);
     app.insert_resource(recorder)
         .init_resource::<population_cues::Warnings>()
         .add_systems(Last, race_recording::save)
@@ -619,10 +700,16 @@ fn main() {
         .add_systems(PreUpdate, playback_frame)
         .add_systems(
             PreUpdate,
-            (poll_input, pause_input)
-                .chain()
+            poll_input
                 .after(bevy::input::InputSystems)
                 .run_if(physical_input),
+        )
+        .add_systems(
+            PreUpdate,
+            pause_input
+                .after(poll_input)
+                .run_if(physical_input)
+                .run_if(frontend::pause_controls),
         )
         .add_systems(
             Update,
@@ -633,8 +720,8 @@ fn main() {
         )
         .run();
 }
-fn live(driver: Res<Driver>, pause: Res<PauseState>) -> bool {
-    driver.0.is_none() && !pause.paused
+fn live(driver: Res<Driver>, pause: Res<PauseState>, shell: Option<Res<frontend::Shell>>) -> bool {
+    driver.0.is_none() && !pause.paused && shell.is_none_or(|s| s.race_active())
 }
 fn physical_input(driver: Res<Driver>) -> bool {
     driver.0.is_none()
@@ -741,14 +828,26 @@ fn advance(
     mut race: ResMut<Race>,
     mut previous: ResMut<Previous>,
     recorder: Option<ResMut<race_recording::Recorder>>,
+    mut shell: Option<ResMut<frontend::Shell>>,
     mut exit: MessageWriter<AppExit>,
 ) {
+    if let Some(shell) = shell.as_mut()
+        && let Some(session) = shell.session.as_mut()
+        && !session.permit_tick()
+    {
+        return;
+    }
     previous.0 = race.0.snapshot();
     if let Some(mut recorder) = recorder {
         recorder.command(race.0.tick().0, command.0);
     }
     if let Err(e) = race.0.step(command.0) {
         failure(e, &mut exit);
+    }
+    if let Some(shell) = shell.as_mut()
+        && let Some(session) = shell.session.as_mut()
+    {
+        session.observe(&race.0.snapshot());
     }
 }
 fn publish(race: Res<Race>, previous: Res<Previous>, mut view: ResMut<PresentedSnapshot>) {
@@ -831,6 +930,7 @@ fn smoke_test(
     mut frame: Local<u32>,
     view: Res<PresentedSnapshot>,
     course: Option<Res<CoursePresentation>>,
+    shell: Option<Res<frontend::Shell>>,
     mut commands: Commands,
     mut exit: MessageWriter<AppExit>,
 ) {
@@ -838,7 +938,7 @@ fn smoke_test(
     if *frame == options.capture_frame
         && let Some(path) = &options.capture
     {
-        let metadata = serde_json::json!({"calibration_profile":options.calibration,"requested_frame":*frame,"simulation_tick":view.0.tick,"interpolation_alpha":view.2,"window_size":options.window_size.unwrap_or((960,720)),"camera":course.as_ref().map(|c|&c.camera),"source_start_q8":course.as_ref().map(|c|c.start_q8),"course":course.as_ref().map(|c|&c.scene.options.course),"level":options.level,"branch_mask":options.branch_mask,"texture_override_active":options.enhanced ^ options.switch_tick.is_some_and(|t|view.0.tick>=t)});
+        let metadata = serde_json::json!({"frontend":shell.as_ref().map(|s|serde_json::json!({"screen":s.frontend.screen,"phase":s.session.as_ref().map(|s|s.phase()),"summary":s.frontend.summary})),"calibration_profile":options.calibration,"requested_frame":*frame,"simulation_tick":view.0.tick,"interpolation_alpha":view.2,"window_size":options.window_size.unwrap_or((960,720)),"camera":course.as_ref().map(|c|&c.camera),"source_start_q8":course.as_ref().map(|c|c.start_q8),"course":course.as_ref().map(|c|&c.scene.options.course),"level":options.level,"branch_mask":options.branch_mask,"texture_override_active":options.enhanced ^ options.switch_tick.is_some_and(|t|view.0.tick>=t)});
         if let Err(e) = serde_json::to_vec_pretty(&metadata)
             .map_err(|e| e.to_string())
             .and_then(|b| {

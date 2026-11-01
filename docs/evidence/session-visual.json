@@ -1,0 +1,183 @@
+{
+  "outcome": "passed",
+  "captures": [
+    {
+      "capture": "characters",
+      "png_sha256": "33affe03214e6fe43c40c6f88456d9599518491c77f281d49573aac4bb73f4af",
+      "metadata": {
+        "branch_mask": 0,
+        "calibration_profile": null,
+        "camera": null,
+        "course": null,
+        "frontend": {
+          "phase": null,
+          "screen": "Characters",
+          "summary": null
+        },
+        "interpolation_alpha": 0.37098172307014465,
+        "level": 1,
+        "requested_frame": 40,
+        "simulation_tick": 0,
+        "source_start_q8": null,
+        "texture_override_active": false,
+        "window_size": [
+          960,
+          720
+        ]
+      },
+      "reviewed": true
+    },
+    {
+      "capture": "bike",
+      "png_sha256": "e40a043e2bbba643204a516c4cec139ac7905142de7c4e6de5065ced1839bf8f",
+      "metadata": {
+        "branch_mask": 0,
+        "calibration_profile": null,
+        "camera": null,
+        "course": null,
+        "frontend": {
+          "phase": null,
+          "screen": "Bike",
+          "summary": null
+        },
+        "interpolation_alpha": 0.9518548846244812,
+        "level": 1,
+        "requested_frame": 40,
+        "simulation_tick": 0,
+        "source_start_q8": null,
+        "texture_override_active": false,
+        "window_size": [
+          960,
+          720
+        ]
+      },
+      "reviewed": true
+    },
+    {
+      "capture": "countdown",
+      "png_sha256": "69dd99c9c1d194a26f1b19e70112d07cf7c5ea60d7e6a615698fb483b8d6ea51",
+      "metadata": {
+        "branch_mask": 0,
+        "calibration_profile": null,
+        "camera": {
+          "camera_height": 150.0,
+          "height": 480,
+          "horizon": 180.0,
+          "integer_scale": false,
+          "near_q8": 1.0,
+          "player_depth_q8": 512.0,
+          "slices": 33,
+          "width": 640
+        },
+        "course": "CITY",
+        "frontend": {
+          "phase": {
+            "Countdown": {
+              "remaining": 101
+            }
+          },
+          "screen": "Racing",
+          "summary": null
+        },
+        "interpolation_alpha": 0.8379960060119629,
+        "level": 1,
+        "requested_frame": 40,
+        "simulation_tick": 0,
+        "source_start_q8": 12800.0,
+        "texture_override_active": false,
+        "window_size": [
+          960,
+          720
+        ]
+      },
+      "reviewed": true
+    },
+    {
+      "capture": "results",
+      "png_sha256": "115b370a194f43d2045d2a86a27f6eabc4ccee9d727b57bade38a9482e7c601f",
+      "metadata": {
+        "branch_mask": 0,
+        "calibration_profile": null,
+        "camera": {
+          "camera_height": 150.0,
+          "height": 480,
+          "horizon": 180.0,
+          "integer_scale": false,
+          "near_q8": 1.0,
+          "player_depth_q8": 512.0,
+          "slices": 33,
+          "width": 640
+        },
+        "course": "CITY",
+        "frontend": {
+          "phase": "Results",
+          "screen": "Results",
+          "summary": {
+            "outcome": "Quit",
+            "elapsed_ticks": 0,
+            "player_place": 15,
+            "bike_condition": 100,
+            "standings_count": 15,
+            "raw_source_positions_published": false
+          }
+        },
+        "interpolation_alpha": 1.0,
+        "level": 1,
+        "requested_frame": 40,
+        "simulation_tick": 0,
+        "source_start_q8": 12800.0,
+        "texture_override_active": false,
+        "window_size": [
+          960,
+          720
+        ]
+      },
+      "reviewed": true
+    },
+    {
+      "capture": "tour-cleanup",
+      "png_sha256": "d49818d0c18bd9a2e56fc5ac6e51f5810ac08776820fbf0bd604e0e50071fa25",
+      "metadata": {
+        "branch_mask": 0,
+        "calibration_profile": null,
+        "camera": null,
+        "course": null,
+        "frontend": {
+          "phase": null,
+          "screen": "Main",
+          "summary": null
+        },
+        "interpolation_alpha": 0.48573797941207886,
+        "level": 5,
+        "requested_frame": 515,
+        "simulation_tick": 0,
+        "source_start_q8": null,
+        "texture_override_active": false,
+        "window_size": [
+          960,
+          720
+        ]
+      },
+      "reviewed": true
+    }
+  ],
+  "tour_fixture_sha256": "435a8009cb54c6c267b721d2b9b85118b645f97ccad9aa5f4220e7b934028b96",
+  "tour_frames": 520,
+  "tour_routes": [
+    {
+      "course": "CITY",
+      "level": 1,
+      "mode": "BigGame"
+    },
+    {
+      "course": "HIWAY",
+      "level": 5,
+      "mode": "Thrash"
+    }
+  ],
+  "tour_includes_wide_framing_and_restart": true,
+  "all_tour_steps_completed_without_logged_error": true,
+  "review": "Portrait and bike previews retain source aspect ratio; readable selection/status text; frozen source countdown; immutable quit standings with unfinished labels; source scene absent at final menu.",
+  "original_visual_match": false,
+  "raw_images_published": false
+}

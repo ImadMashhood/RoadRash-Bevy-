@@ -1,0 +1,161 @@
+{
+  "outcome": "passed",
+  "source_factory_combinations": 15,
+  "each_combination_built_twice": true,
+  "courses": 5,
+  "bike_spec_ids": [
+    1,
+    8,
+    15
+  ],
+  "source_character_options": 8,
+  "all_initialization_hashes_equal_for_same_seed": true,
+  "all_scene_weak_owners_expired": true,
+  "all_stock_opponent_conditions_preserved": true,
+  "carried_player_condition_percent": 50,
+  "measurements": [
+    {
+      "actors": 15,
+      "bike": 1,
+      "course": "CITY",
+      "initial_hash": "66c41a8bc275914a36929396e0f4095a440ac735f79396c290dba420184b73b2",
+      "rss_status": "VmRSS:\t  213372 kB",
+      "same_seed_hash_matches": true,
+      "scene_owners": 1
+    },
+    {
+      "actors": 15,
+      "bike": 8,
+      "course": "CITY",
+      "initial_hash": "63c7534e9ddc48e4a1727138119dff3fde3da940e91f6d89a7cd4d7cf39da7b7",
+      "rss_status": "VmRSS:\t  213784 kB",
+      "same_seed_hash_matches": true,
+      "scene_owners": 1
+    },
+    {
+      "actors": 15,
+      "bike": 15,
+      "course": "CITY",
+      "initial_hash": "2cddd02be6dc7adefb4d03a9e329a6aebead12c3a6f8ae18e24604cebccc267a",
+      "rss_status": "VmRSS:\t  213788 kB",
+      "same_seed_hash_matches": true,
+      "scene_owners": 1
+    },
+    {
+      "actors": 15,
+      "bike": 1,
+      "course": "HIWAY",
+      "initial_hash": "797b886331b2a59fa5c2504b7492d1ce76e53939aa9ff9dc7cbea65f558bb2c7",
+      "rss_status": "VmRSS:\t  213380 kB",
+      "same_seed_hash_matches": true,
+      "scene_owners": 1
+    },
+    {
+      "actors": 15,
+      "bike": 8,
+      "course": "HIWAY",
+      "initial_hash": "42cae148757f2eeedd5f9925f728452a144499fbc634847dca884055f1c41bb0",
+      "rss_status": "VmRSS:\t  213380 kB",
+      "same_seed_hash_matches": true,
+      "scene_owners": 1
+    },
+    {
+      "actors": 15,
+      "bike": 15,
+      "course": "HIWAY",
+      "initial_hash": "f0a81df4587a33dddb98a748b1f597438fce3779d6cef49dc06977727b22ae07",
+      "rss_status": "VmRSS:\t  213380 kB",
+      "same_seed_hash_matches": true,
+      "scene_owners": 1
+    },
+    {
+      "actors": 15,
+      "bike": 1,
+      "course": "MEDLY",
+      "initial_hash": "b7e18f13998a8011ee27360279065228193d2ad3a0162535b69116bd93d0a7ec",
+      "rss_status": "VmRSS:\t  213400 kB",
+      "same_seed_hash_matches": true,
+      "scene_owners": 1
+    },
+    {
+      "actors": 15,
+      "bike": 8,
+      "course": "MEDLY",
+      "initial_hash": "fcc35194869b0be3eefa7e5497293024b85f9c27f199c39ebf3c22f361b4d98d",
+      "rss_status": "VmRSS:\t  213404 kB",
+      "same_seed_hash_matches": true,
+      "scene_owners": 1
+    },
+    {
+      "actors": 15,
+      "bike": 15,
+      "course": "MEDLY",
+      "initial_hash": "b4662af41f2e230862f7274d5a028abb5ca09f6a047d1c0775c693dd69b6decc",
+      "rss_status": "VmRSS:\t  213408 kB",
+      "same_seed_hash_matches": true,
+      "scene_owners": 1
+    },
+    {
+      "actors": 15,
+      "bike": 1,
+      "course": "NAPA",
+      "initial_hash": "b5e7d5045ebe98d32964436bf166da609a87d95c89d4bc0dc9b6564398771c1b",
+      "rss_status": "VmRSS:\t  213408 kB",
+      "same_seed_hash_matches": true,
+      "scene_owners": 1
+    },
+    {
+      "actors": 15,
+      "bike": 8,
+      "course": "NAPA",
+      "initial_hash": "767b4589437398e9d2d3642d8eca04b037b87d0567bfac01cd1f67a22c2ba323",
+      "rss_status": "VmRSS:\t  213408 kB",
+      "same_seed_hash_matches": true,
+      "scene_owners": 1
+    },
+    {
+      "actors": 15,
+      "bike": 15,
+      "course": "NAPA",
+      "initial_hash": "e368eed0b84939356ac5277fb45b1d761fd1aab12404d27e895b50076e5720cc",
+      "rss_status": "VmRSS:\t  213408 kB",
+      "same_seed_hash_matches": true,
+      "scene_owners": 1
+    },
+    {
+      "actors": 15,
+      "bike": 1,
+      "course": "CANYN",
+      "initial_hash": "2ac4550b7fd96f4cd9c978885240ddea317a20898631cd8a3579efebc82aaad4",
+      "rss_status": "VmRSS:\t  213976 kB",
+      "same_seed_hash_matches": true,
+      "scene_owners": 1
+    },
+    {
+      "actors": 15,
+      "bike": 8,
+      "course": "CANYN",
+      "initial_hash": "e53b96a32622af53080a7a4e8fa49f8ea623f3e964587d2d6c4e6c8af44e927d",
+      "rss_status": "VmRSS:\t  213976 kB",
+      "same_seed_hash_matches": true,
+      "scene_owners": 1
+    },
+    {
+      "actors": 15,
+      "bike": 15,
+      "course": "CANYN",
+      "initial_hash": "0aadd8b82f43cd2ce8dc446a7960466694568c548660219057a7267d55c9648e",
+      "rss_status": "VmRSS:\t  213976 kB",
+      "same_seed_hash_matches": true,
+      "scene_owners": 1
+    }
+  ],
+  "memory_scope": "Private test process RSS observations plus scene ownership/drop checks, not an RSS/hardware leak certification.",
+  "preview_census": {
+    "outcome": "passed",
+    "character_previews": 8,
+    "bike_previews": 15,
+    "all_preview_blobs_present_and_hash_valid": true,
+    "source_images_published": false
+  }
+}

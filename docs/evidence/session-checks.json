@@ -1,0 +1,26 @@
+{
+  "outcome": "passed",
+  "date": "2026-11-01",
+  "rust_tests": 287,
+  "headless_tests": 262,
+  "bevy_application_tests": 25,
+  "session_domain_scenarios": 27,
+  "python_tests": 12,
+  "format": "passed",
+  "workspace_clippy_warnings_denied": "passed",
+  "locked_release_workspace_build": "passed",
+  "negative_workflow_guards": {
+    "formatting_violation_rejected": true,
+    "lockfile_mismatch_rejected": true,
+    "repository_modified": false
+  },
+  "source_output_overlap_rejected": true,
+  "native_adapter_output_overlap_rejected": true,
+  "career_source_overlap_rejected_before_directory_creation": true,
+  "disc_required_files": 341,
+  "disc_matched_files": 341,
+  "native_economy_cases": 1613,
+  "original_runtime_compared": false,
+  "remote_ci_claimed": false,
+  "commercial_assets_published": false
+}

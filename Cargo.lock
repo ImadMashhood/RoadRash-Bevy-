@@ -3922,7 +3922,9 @@ dependencies = [
  "rr-input",
  "rr-presentation",
  "rr-render",
+ "rr-session",
  "rr-simulation",
+ "serde",
  "serde_json",
 ]
 
@@ -3963,6 +3965,17 @@ dependencies = [
  "rr-course",
  "rr-formats",
  "rr-import",
+ "rr-simulation",
+ "serde",
+ "serde_json",
+ "sha2",
+]
+
+[[package]]
+name = "rr-session"
+version = "0.1.0"
+dependencies = [
+ "rr-formats",
  "rr-simulation",
  "serde",
  "serde_json",

@@ -1,0 +1,242 @@
+{
+  "outcome": "passed",
+  "public_fixture_sha256": "a58c5ba4ed17cffed82ad2bbdfa71b568de8887067f3dc4109df49cafc10fce9",
+  "runs": [
+    {
+      "rate": "30",
+      "frames": 92,
+      "session_ticks": 182,
+      "simulation_ticks": 2,
+      "state_sha256": "5fdd8cbcfb699f9bf33baf508638a62a4df4b936545461f010373454ad1669bb",
+      "result_sha256": "ff27c8e2ad11d5fe2f0f0987da655a8b0fdf9889a60dbbbf9b520aba393093f6",
+      "summary": {
+        "identity": {
+          "id": 1,
+          "mode": "Thrash",
+          "course": 1,
+          "level": 1,
+          "bike": 0,
+          "seed": 1,
+          "roster": [
+            {
+              "actor": 1,
+              "name": "Rider 1"
+            },
+            {
+              "actor": 2,
+              "name": "Rider 2"
+            }
+          ]
+        },
+        "outcome": "Won",
+        "elapsed_ticks": 2,
+        "standings": [
+          {
+            "actor": 1,
+            "name": "Rider 1",
+            "place": 1,
+            "progress": 204,
+            "terminal": "finished",
+            "completed_at": 1
+          },
+          {
+            "actor": 2,
+            "name": "Rider 2",
+            "place": 2,
+            "progress": 204,
+            "terminal": "finished",
+            "completed_at": 1
+          }
+        ],
+        "player_place": 1,
+        "bike_condition": 100
+      },
+      "checkpoints": [
+        [
+          2,
+          "5fdd8cbcfb699f9bf33baf508638a62a4df4b936545461f010373454ad1669bb"
+        ]
+      ]
+    },
+    {
+      "rate": "60",
+      "frames": 183,
+      "session_ticks": 182,
+      "simulation_ticks": 2,
+      "state_sha256": "5fdd8cbcfb699f9bf33baf508638a62a4df4b936545461f010373454ad1669bb",
+      "result_sha256": "ff27c8e2ad11d5fe2f0f0987da655a8b0fdf9889a60dbbbf9b520aba393093f6",
+      "summary": {
+        "identity": {
+          "id": 1,
+          "mode": "Thrash",
+          "course": 1,
+          "level": 1,
+          "bike": 0,
+          "seed": 1,
+          "roster": [
+            {
+              "actor": 1,
+              "name": "Rider 1"
+            },
+            {
+              "actor": 2,
+              "name": "Rider 2"
+            }
+          ]
+        },
+        "outcome": "Won",
+        "elapsed_ticks": 2,
+        "standings": [
+          {
+            "actor": 1,
+            "name": "Rider 1",
+            "place": 1,
+            "progress": 204,
+            "terminal": "finished",
+            "completed_at": 1
+          },
+          {
+            "actor": 2,
+            "name": "Rider 2",
+            "place": 2,
+            "progress": 204,
+            "terminal": "finished",
+            "completed_at": 1
+          }
+        ],
+        "player_place": 1,
+        "bike_condition": 100
+      },
+      "checkpoints": [
+        [
+          2,
+          "5fdd8cbcfb699f9bf33baf508638a62a4df4b936545461f010373454ad1669bb"
+        ]
+      ]
+    },
+    {
+      "rate": "144",
+      "frames": 437,
+      "session_ticks": 182,
+      "simulation_ticks": 2,
+      "state_sha256": "5fdd8cbcfb699f9bf33baf508638a62a4df4b936545461f010373454ad1669bb",
+      "result_sha256": "ff27c8e2ad11d5fe2f0f0987da655a8b0fdf9889a60dbbbf9b520aba393093f6",
+      "summary": {
+        "identity": {
+          "id": 1,
+          "mode": "Thrash",
+          "course": 1,
+          "level": 1,
+          "bike": 0,
+          "seed": 1,
+          "roster": [
+            {
+              "actor": 1,
+              "name": "Rider 1"
+            },
+            {
+              "actor": 2,
+              "name": "Rider 2"
+            }
+          ]
+        },
+        "outcome": "Won",
+        "elapsed_ticks": 2,
+        "standings": [
+          {
+            "actor": 1,
+            "name": "Rider 1",
+            "place": 1,
+            "progress": 204,
+            "terminal": "finished",
+            "completed_at": 1
+          },
+          {
+            "actor": 2,
+            "name": "Rider 2",
+            "place": 2,
+            "progress": 204,
+            "terminal": "finished",
+            "completed_at": 1
+          }
+        ],
+        "player_place": 1,
+        "bike_condition": 100
+      },
+      "checkpoints": [
+        [
+          2,
+          "5fdd8cbcfb699f9bf33baf508638a62a4df4b936545461f010373454ad1669bb"
+        ]
+      ]
+    },
+    {
+      "rate": "irregular",
+      "frames": 178,
+      "session_ticks": 182,
+      "simulation_ticks": 2,
+      "state_sha256": "5fdd8cbcfb699f9bf33baf508638a62a4df4b936545461f010373454ad1669bb",
+      "result_sha256": "ff27c8e2ad11d5fe2f0f0987da655a8b0fdf9889a60dbbbf9b520aba393093f6",
+      "summary": {
+        "identity": {
+          "id": 1,
+          "mode": "Thrash",
+          "course": 1,
+          "level": 1,
+          "bike": 0,
+          "seed": 1,
+          "roster": [
+            {
+              "actor": 1,
+              "name": "Rider 1"
+            },
+            {
+              "actor": 2,
+              "name": "Rider 2"
+            }
+          ]
+        },
+        "outcome": "Won",
+        "elapsed_ticks": 2,
+        "standings": [
+          {
+            "actor": 1,
+            "name": "Rider 1",
+            "place": 1,
+            "progress": 204,
+            "terminal": "finished",
+            "completed_at": 1
+          },
+          {
+            "actor": 2,
+            "name": "Rider 2",
+            "place": 2,
+            "progress": 204,
+            "terminal": "finished",
+            "completed_at": 1
+          }
+        ],
+        "player_place": 1,
+        "bike_condition": 100
+      },
+      "checkpoints": [
+        [
+          2,
+          "5fdd8cbcfb699f9bf33baf508638a62a4df4b936545461f010373454ad1669bb"
+        ]
+      ]
+    }
+  ],
+  "effects_on_off_equality": "verified by session_replay_preserves_finishes_results_checkpoints_and_effect_independence_at_four_rates",
+  "legacy_fixture_hashes": {
+    "schema_4": "34cc853ad681b7ba53035e2aa6367d195807365c81d54f06ae9337ba4e4abccd",
+    "schema_5": "849b5020f3eb88578e1d0d76ba79c72cb83b68ec1cf1d9655379a4229bbe3d15"
+  },
+  "actual_bevy_legacy_5": {
+    "rate": "144",
+    "ticks": 600,
+    "state_sha256": "5b6472fbfc82818d6e5034a1bd817ec48ccdb63b8428b3005bb71d180f64412e",
+    "every_headless_checkpoint_matches": true
+  },
+  "scope": "integer virtual frame schedules; not a hardware performance benchmark"
+}

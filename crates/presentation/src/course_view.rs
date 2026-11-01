@@ -19,6 +19,8 @@ pub struct CoursePresentation {
 struct CourseSurface(Handle<Image>);
 #[derive(Component)]
 struct RecoveryHud;
+#[derive(Component)]
+struct CourseScreen;
 pub fn has_course(course: Option<Res<CoursePresentation>>) -> bool {
     course.is_some()
 }
@@ -26,7 +28,8 @@ pub fn no_course(course: Option<Res<CoursePresentation>>) -> bool {
     course.is_none()
 }
 pub fn install(app: &mut App) {
-    app.add_systems(Startup, setup.run_if(has_course))
+    app.add_systems(Startup, setup)
+        .add_systems(Update, visibility.in_set(PresentationStage::Prepare))
         .add_systems(
             Update,
             (
@@ -38,10 +41,11 @@ pub fn install(app: &mut App) {
 }
 fn setup(
     mut commands: Commands,
-    course: Res<CoursePresentation>,
+    course: Option<Res<CoursePresentation>>,
     mut images: ResMut<Assets<Image>>,
 ) {
-    let spec = &course.camera;
+    let fallback = rr_render::CameraSpec::new(rr_render::Framing::Classic, false);
+    let spec = course.as_ref().map_or(&fallback, |c| &c.camera);
     let image = Image::new_fill(
         Extent3d {
             width: spec.width,
@@ -54,7 +58,11 @@ fn setup(
         RenderAssetUsages::MAIN_WORLD | RenderAssetUsages::RENDER_WORLD,
     );
     let handle = images.add(image);
-    commands.spawn((Sprite::from_image(handle.clone()), Transform::default()));
+    commands.spawn((
+        CourseScreen,
+        Sprite::from_image(handle.clone()),
+        Transform::from_xyz(0., 0., 5.),
+    ));
     commands.spawn((
         Camera2d,
         Projection::Orthographic(OrthographicProjection {
@@ -67,6 +75,7 @@ fn setup(
     ));
     commands.spawn((
         RecoveryHud,
+        CourseScreen,
         Text2d::new(""),
         TextFont {
             font_size: bevy::text::FontSize::Px(10.),
@@ -77,14 +86,32 @@ fn setup(
     ));
     commands.insert_resource(CourseSurface(handle));
 }
+fn visibility(
+    course: Option<Res<CoursePresentation>>,
+    mut screens: Query<&mut Visibility, With<CourseScreen>>,
+) {
+    for mut visible in &mut screens {
+        *visible = if course.is_some() {
+            Visibility::Visible
+        } else {
+            Visibility::Hidden
+        };
+    }
+}
 fn fit(
     window: Single<&Window, With<PrimaryWindow>>,
     course: Res<CoursePresentation>,
-    mut cameras: Query<&mut Camera, With<Camera2d>>,
+    mut cameras: Query<(&mut Camera, &mut Projection), With<Camera2d>>,
 ) {
     let physical = window.physical_size();
     if let Some((origin, size)) = course.camera.viewport([physical.x, physical.y]) {
-        for mut camera in &mut cameras {
+        for (mut camera, mut projection) in &mut cameras {
+            if let Projection::Orthographic(ref mut p) = *projection {
+                p.scaling_mode = bevy::camera::ScalingMode::Fixed {
+                    width: course.camera.width as f32,
+                    height: course.camera.height as f32,
+                };
+            }
             camera.viewport = Some(Viewport {
                 physical_position: UVec2::from(origin),
                 physical_size: UVec2::from(size),
@@ -147,6 +174,15 @@ fn draw(
     {
         Ok((frame, _)) => {
             if let Some(mut image) = images.get_mut(&surface.0) {
+                if image.texture_descriptor.size.width != frame.image.width
+                    || image.texture_descriptor.size.height != frame.image.height
+                {
+                    image.resize(Extent3d {
+                        width: frame.image.width,
+                        height: frame.image.height,
+                        depth_or_array_layers: 1,
+                    });
+                }
                 image.data = Some(frame.image.pixels)
             }
         }
@@ -204,5 +240,61 @@ mod tests {
         assert_ne!(&first, last);
         assert_eq!(app.world().resource::<PresentedSnapshot>().0, current);
         assert_eq!(simulation.state_hash(), before);
+    }
+}
+#[cfg(test)]
+mod session_surface_tests {
+    use super::*;
+    #[test]
+    fn framing_changes_reuse_one_surface_and_scene_exit_hides_all_source_visuals() {
+        let mut app = App::new();
+        app.init_resource::<Assets<Image>>()
+            .init_resource::<VisualAssets>()
+            .init_resource::<PresentedSnapshot>()
+            .insert_resource(CoursePresentation {
+                scene: Arc::new(rr_render::fixture::scene("bend").unwrap()),
+                camera: CameraSpec::default(),
+                start_q8: 12800.,
+            })
+            .add_systems(Startup, setup)
+            .add_systems(Update, (visibility, draw.run_if(has_course)).chain());
+        app.update();
+        let handle = app.world().resource::<CourseSurface>().0.clone();
+        let first = app.world().resource::<Assets<Image>>().len();
+        for framing in [
+            rr_render::Framing::Wide,
+            rr_render::Framing::Classic,
+            rr_render::Framing::Wide,
+        ] {
+            let camera = CameraSpec::new(framing, false);
+            let expected = [camera.width, camera.height];
+            app.world_mut().resource_mut::<CoursePresentation>().camera = camera;
+            app.update();
+            let image = app
+                .world()
+                .resource::<Assets<Image>>()
+                .get(&handle)
+                .unwrap();
+            assert_eq!(
+                [
+                    image.texture_descriptor.size.width,
+                    image.texture_descriptor.size.height
+                ],
+                expected
+            );
+            assert_eq!(
+                image.data.as_ref().unwrap().len(),
+                expected[0] as usize * expected[1] as usize * 4
+            );
+            assert_eq!(app.world().resource::<Assets<Image>>().len(), first);
+        }
+        app.world_mut().remove_resource::<CoursePresentation>();
+        app.update();
+        let mut query = app
+            .world_mut()
+            .query_filtered::<&Visibility, With<CourseScreen>>();
+        assert!(query.iter(app.world()).all(|v| *v == Visibility::Hidden));
+        let mut cameras = app.world_mut().query::<&Camera2d>();
+        assert_eq!(cameras.iter(app.world()).count(), 1);
     }
 }

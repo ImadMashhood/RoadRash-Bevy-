@@ -12,8 +12,11 @@ rr-presentation = { path = "../../crates/presentation" }
 bevy = { workspace = true }
 rr-import = { path = "../../crates/import" }
 serde_json = "1"
+serde = { version = "1", features = ["derive"] }
 rr-content = { path = "../../crates/content" }
 rr-formats = { path = "../../crates/formats" }
 
 rr-render = { path = "../../crates/render" }
 rr-course = { path = "../../crates/course" }
+
+rr-session = { path = "../../crates/session" }

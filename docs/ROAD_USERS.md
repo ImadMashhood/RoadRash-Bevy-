@@ -34,7 +34,7 @@ The source local arrest predicate requires a found, non-crashed cop; speed below
 
 Arrest enters the existing ordered terminal transaction: Arrested > Finished > Wrecked, exactly once. Recovery movement/swing is stopped and obsolete effects are cleared. Simultaneous attacks, vehicle hits and pursuit cannot open multiple result flows. Full arrest menus/career penalties are Phase 15/17 work.
 
-Siren start/stop and warning cues follow pursuit state. A presentation-side `SirenBus` reconciles owned loop IDs on pause/resume, effects disable, despawn, restart and terminal completion. Actual Bevy adapter tests exercise that lifecycle without changing simulation. The HUD displays pursuit warnings. Phase 16 supplies sound-asset playback; this phase implements cue and loop ownership, not an audible audio engine.
+Siren start/stop and warning cues follow pursuit state. A presentation-side `SirenBus` reconciles owned loop IDs on pause/resume, effects disable, despawn, restart and terminal completion. Actual Bevy adapter tests exercise that lifecycle without changing simulation. The HUD displays pursuit warnings. Phase 18 supplies sound-asset playback; this phase implements cue and loop ownership, not an audible audio engine.
 
 ## Routes, visibility and verification
 

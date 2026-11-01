@@ -13,8 +13,8 @@ jobs:
       - run: python3 tools/private_corpus.py
       - run: python3 tools/check_workflow_guards.py
       - run: cargo fmt --all --check
-      - run: cargo test --locked -p rr-formats -p rr-simulation -p rr-import -p rr-content -p rr-course -p rr-render -p rr-input
-      - run: cargo clippy --locked -p rr-formats -p rr-simulation -p rr-import -p rr-content -p rr-course -p rr-render -p rr-input --all-targets -- -D warnings
+      - run: cargo test --locked -p rr-formats -p rr-simulation -p rr-import -p rr-content -p rr-course -p rr-render -p rr-input -p rr-session
+      - run: cargo clippy --locked -p rr-formats -p rr-simulation -p rr-import -p rr-content -p rr-course -p rr-render -p rr-input -p rr-session --all-targets -- -D warnings
   desktop-check:
     strategy:
       matrix:
@@ -29,8 +29,9 @@ jobs:
       - run: sudo apt-get update && sudo apt-get install -y libx11-dev libxi-dev libxkbcommon-dev libudev-dev
       - run: cargo clippy --locked --workspace --all-targets -- -D warnings
       - run: cargo build --locked --release --workspace
-      - run: cargo test --locked --release -p rr-presentation --lib
+      - run: cargo test --locked --release -p rr-game -p rr-presentation
       - run: cargo run --locked --release -p rr-formats --bin rr-format-fuzz -- 1000 /tmp/rr-format-fuzz.json
       - run: cargo run --locked --release -p rr-simulation --bin rr-replay -- docs/fixtures/replay.json irregular /tmp/rr-replay.json
       - run: cargo run --locked --release -p rr-simulation --bin rr-replay -- docs/fixtures/encounter-replay.json irregular /tmp/rr-encounter-replay.json
       - run: cargo run --locked --release -p rr-simulation --bin rr-replay -- docs/fixtures/population-replay.json irregular /tmp/rr-population-replay.json
+      - run: cargo run --locked --release -p rr-session --bin rr-race-check -- docs/fixtures/race-rules-replay.json irregular /tmp/rr-race-rules.json
