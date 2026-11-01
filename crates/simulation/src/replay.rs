@@ -66,6 +66,7 @@ pub struct Playback {
     pub current: Snapshot,
     pub frames: u64,
     pub checkpoints: Vec<(u64, String)>,
+    pub observations: Vec<(Snapshot, Vec<crate::combat::Effect>)>,
     limit: u64,
     debt: u64,
 }
@@ -114,6 +115,7 @@ impl Playback {
             current,
             frames: 0,
             checkpoints: vec![],
+            observations: vec![],
             limit: replay.ticks,
             debt: 0,
         })
@@ -122,12 +124,15 @@ impl Playback {
         if nanoseconds > 1_000_000_000 {
             return Err(Error::Invalid("frame duration limit"));
         }
+        self.observations.clear();
         self.frames += 1;
         self.debt += nanoseconds * u64::from(TICKS_PER_SECOND);
         while self.debt >= 1_000_000_000 && !self.done() {
             self.previous = self.current.clone();
             self.simulation.advance()?;
             self.current = self.simulation.snapshot();
+            self.observations
+                .push((self.current.clone(), self.simulation.effects().to_vec()));
             if self.current.tick.is_multiple_of(30) || self.current.tick == self.limit {
                 self.checkpoints
                     .push((self.current.tick, self.simulation.state_hash()));

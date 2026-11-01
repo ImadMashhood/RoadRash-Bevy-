@@ -92,4 +92,4 @@ Two independent full exports match in PNG bytes and metadata. The Bevy matrix ad
 
 All original-derived PNGs, decoded data and comparison images stay in ignored local directories. Only code, authored fixture definitions, hashes and metadata receipts are published. Source/output overlap is rejected before writing under an immutable install. See [Part 08 acceptance](evidence/part-08.md).
 
-Source rider frames retain their own pivots, mirroring and size flags, body roll and independent shadow registration. Empty source frame slots are preserved. Generic single-image overrides continue to serve legacy preview snapshots; complete animated enhancement packs remain Phase 19.
+Source rider frames retain their own pivots, mirroring and size flags, body roll and independent shadow registration. Empty source frame slots are preserved. Generic single-image overrides continue to serve legacy preview snapshots; complete animated enhancement packs remain Phase 24.

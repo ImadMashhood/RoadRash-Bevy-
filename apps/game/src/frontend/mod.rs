@@ -9,12 +9,12 @@ use bevy::{prelude::*, sprite::Anchor};
 use input::{load_script, navigate, script};
 use rr_presentation::{CoursePresentation, PresentationStage, PresentedSnapshot, VisualAssets};
 use rr_session::{
-    career::Career,
     catalog::{COURSES, Catalog},
     flow::{Frontend, Screen},
     race::{Entry, Mode, Phase, RaceIdentity, RaceSession},
 };
 use rr_simulation::{ActorId, Simulation};
+use std::path::PathBuf;
 use storage::{flush_recording, save};
 use view::{banner, menu, render};
 #[derive(Resource)]
@@ -24,11 +24,16 @@ pub struct Shell {
     pub session: Option<RaceSession>,
     enabled: bool,
     focus: usize,
-    notice: String,
+    pub(crate) notice: String,
     next_quick: u64,
     quit_app: bool,
     pub awaiting_binding: Option<rr_input::Action>,
     awaiting_name: Option<String>,
+    slot_base: PathBuf,
+    active_slot: u8,
+    save_mode: bool,
+    selected_artist: u8,
+    videos: Vec<String>,
 }
 pub fn pause_controls(shell: Option<Res<Shell>>) -> bool {
     shell.is_none_or(|s| !s.enabled || matches!(s.frontend.screen, Screen::Racing | Screen::Paused))
@@ -51,16 +56,43 @@ impl Shell {
             })
             .unwrap_or_else(Catalog::authored);
         let mut frontend = Frontend::default();
+        frontend.settings.videos = options.video;
+        frontend.settings.effects = options.effects;
+        frontend.settings.enhanced = options.enhanced;
+        frontend.settings.wide = options.framing == rr_render::Framing::Wide;
+        let mut active_slot = 0;
+        if options.settings_file.exists() {
+            match rr_session::persistence::disk::read(&options.settings_file)
+                .and_then(|b| rr_session::persistence::preferences::Preferences::decode(&b))
+            {
+                Ok((p, w)) => {
+                    frontend.settings = p.settings;
+                    active_slot = p.active_slot;
+                    notice = w.join(" ");
+                }
+                Err(e) => notice = format!("Preferences not loaded: {e}"),
+            }
+        }
+        frontend.settings.videos = options.video;
         frontend.settings.effects = options.effects;
         frontend.settings.enhanced = options.enhanced;
         frontend.settings.wide = options.framing == rr_render::Framing::Wide;
         if options.career_file.exists() {
-            match std::fs::read(&options.career_file)
-                .map_err(|e| e.to_string())
-                .and_then(|b| Career::decode(&b, &catalog))
-            {
-                Ok(c) => frontend.career = Some(c),
-                Err(e) => notice = format!("Career could not be loaded: {e}"),
+            match storage::load(&options.career_file, &catalog) {
+                Ok(loaded) => {
+                    frontend.career = Some(loaded.career);
+                    notice = loaded
+                        .migrations
+                        .into_iter()
+                        .chain(loaded.warnings)
+                        .collect::<Vec<_>>()
+                        .join(" ");
+                }
+                Err(e) => {
+                    notice = format!(
+                        "Career was not changed: {e}. Use Restore Backup or choose another slot."
+                    )
+                }
             }
         }
         let menu = options
@@ -91,6 +123,30 @@ impl Shell {
             quit_app: false,
             awaiting_binding: None,
             awaiting_name: None,
+            slot_base: if options.save_base.as_os_str().is_empty() {
+                options.career_file.clone()
+            } else {
+                options.save_base.clone()
+            },
+            active_slot,
+            save_mode: false,
+            selected_artist: 0,
+            videos: options
+                .data_root
+                .as_ref()
+                .and_then(|p| std::fs::read_dir(p.join("VIDEO")).ok())
+                .map(|entries| {
+                    let mut names: Vec<_> = entries
+                        .filter_map(|e| e.ok())
+                        .map(|e| e.path())
+                        .filter(|p| p.extension().is_some_and(|e| e.eq_ignore_ascii_case("avi")))
+                        .filter_map(|p| p.file_stem().and_then(|s| s.to_str()).map(str::to_string))
+                        .collect();
+                    names.sort();
+                    names.truncate(128);
+                    names
+                })
+                .unwrap_or_default(),
         }
     }
     fn make_session(front: &Frontend, catalog: &Catalog, sim: &Simulation, id: u64) -> RaceSession {
@@ -174,6 +230,9 @@ enum Act {
     Repair,
     Read,
     Track(u8),
+    Artist(u8),
+    PlayVideo(String),
+    SkipVideo,
     StopMusic,
     Effects,
     Music,
@@ -186,6 +245,15 @@ enum Act {
     Save,
     Name,
     Load,
+    SaveAs,
+    BrowseLoads,
+    ChooseSlot(u8),
+    RestoreBackup,
+    ResetGraphics,
+    RestorePreferences,
+    MasterVolume,
+    EngineVolume,
+    Videos,
     Continue,
     Resume,
     Restart,
@@ -211,11 +279,17 @@ pub struct FrontendPlugin;
 impl Plugin for FrontendPlugin {
     fn build(&self, app: &mut App) {
         app.init_resource::<Script>()
+            .init_resource::<storage::PreferenceState>()
+            .add_systems(Last, storage::preferences)
             .add_systems(Startup, (banner, load_script, clear_initial_menu))
             .add_systems(Update, script.before(navigate))
             .add_systems(
                 Update,
-                (navigate, coordinate, render)
+                (
+                    navigate.run_if(crate::media::not_playing),
+                    coordinate,
+                    render,
+                )
                     .chain()
                     .before(PresentationStage::Prepare),
             );
@@ -274,9 +348,29 @@ fn apply(world: &mut World, action: Act) {
                     shell.notice =
                         "Keep your bike in shape, watch the bends, and leave room to pass.".into();
                 }
+                Act::Artist(artist) => {
+                    if artist >= 6 {
+                        return Err("Artist unavailable".into());
+                    }
+                    shell.selected_artist = artist;
+                    shell.frontend.open(Screen::Tracks)?;
+                }
+                Act::PlayVideo(name) => {
+                    if !shell.videos.contains(&name) {
+                        return Err("Video unavailable".into());
+                    }
+                    if let Some(mut media) = world.get_resource_mut::<crate::media::Media>() {
+                        media.video_request = Some(name);
+                    }
+                }
+                Act::SkipVideo => {
+                    if let Some(mut media) = world.get_resource_mut::<crate::media::Media>() {
+                        media.skip_video = true;
+                    }
+                }
                 Act::Track(track) => {
                     shell.frontend.choose_track(track)?;
-                    shell.notice = "Track selected | audio preview unavailable.".into();
+                    shell.notice = "Soundtrack selected.".into();
                 }
                 Act::StopMusic => shell.frontend.settings.track = None,
                 Act::Effects => shell.frontend.settings.effects = !shell.frontend.settings.effects,
@@ -319,12 +413,84 @@ fn apply(world: &mut World, action: Act) {
                 }
                 Act::Load => {
                     let p = world.resource::<LaunchOptions>().career_file.clone();
-                    let bytes = std::fs::read(p).map_err(|e| e.to_string())?;
-                    shell.frontend.career = Some(Career::decode(&bytes, &shell.catalog)?);
+                    let loaded = storage::load(&p, &shell.catalog)?;
+                    shell.frontend.career = Some(loaded.career);
                     shell.frontend.mode = Mode::BigGame;
                     shell.frontend.sync_career();
-                    shell.notice = "Big Game loaded.".into();
+                    shell.notice = format!(
+                        "Big Game loaded. {}",
+                        loaded
+                            .migrations
+                            .into_iter()
+                            .chain(loaded.warnings)
+                            .collect::<Vec<_>>()
+                            .join(" ")
+                    );
                 }
+                Act::SaveAs | Act::BrowseLoads => {
+                    shell.save_mode = matches!(action, Act::SaveAs);
+                    shell.frontend.open(Screen::Saves)?;
+                }
+                Act::ChooseSlot(slot) => {
+                    if slot > 4 {
+                        return Err("Slot must be 0..4".into());
+                    }
+                    let path = rr_session::persistence::paths::slot_path(&shell.slot_base, slot)
+                        .expect("bounded slot");
+                    if shell.save_mode {
+                        let previous = world.resource::<LaunchOptions>().career_file.clone();
+                        world.resource_mut::<LaunchOptions>().career_file = path;
+                        let result = save(world, &shell);
+                        if result.is_err() {
+                            world.resource_mut::<LaunchOptions>().career_file = previous;
+                        }
+                        result?;
+                        shell.notice = "Career saved to selected slot.".into();
+                    } else {
+                        let loaded = storage::load(&path, &shell.catalog)?;
+                        shell.frontend.career = Some(loaded.career);
+                        shell.frontend.mode = Mode::BigGame;
+                        shell.frontend.sync_career();
+                        world.resource_mut::<LaunchOptions>().career_file = path;
+                        shell.notice = "Career loaded from selected slot.".into();
+                    }
+                    shell.active_slot = slot;
+                    shell.frontend.back();
+                }
+                Act::RestoreBackup => {
+                    storage::restore(world, &shell)?;
+                    let path = world.resource::<LaunchOptions>().career_file.clone();
+                    let loaded = storage::load(&path, &shell.catalog)?;
+                    shell.frontend.career = Some(loaded.career);
+                    shell.frontend.mode = Mode::BigGame;
+                    shell.frontend.sync_career();
+                    shell.notice = "Backup restored. Damaged primary retained separately.".into();
+                }
+                Act::ResetGraphics => shell.frontend.settings.reset_graphics(),
+                Act::RestorePreferences => {
+                    let options = world.resource::<LaunchOptions>();
+                    rr_session::persistence::disk::restore(
+                        &options.settings_file,
+                        options.data_root.as_deref(),
+                        |b| {
+                            rr_session::persistence::preferences::Preferences::decode(b).map(|_| ())
+                        },
+                    )?;
+                    let bytes = rr_session::persistence::disk::read(&options.settings_file)?;
+                    let (p, _) = rr_session::persistence::preferences::Preferences::decode(&bytes)?;
+                    shell.frontend.settings = p.settings;
+                    world.resource_mut::<crate::Bindings>().0 = p.bindings;
+                    shell.notice = "Preferences backup restored.".into();
+                }
+                Act::MasterVolume => {
+                    shell.frontend.settings.master_volume =
+                        (shell.frontend.settings.master_volume + 10) % 110
+                }
+                Act::EngineVolume => {
+                    shell.frontend.settings.engine_volume =
+                        (shell.frontend.settings.engine_volume + 10) % 110
+                }
+                Act::Videos => shell.frontend.settings.videos = !shell.frontend.settings.videos,
                 Act::Continue => {
                     shell.frontend.return_from_results()?;
                     release_race(world, &mut shell);

@@ -19,9 +19,12 @@ pub enum Screen {
     Schmooze,
     Restroom,
     Settings,
+    Saves,
     Controls,
     Credits,
     Jukebox,
+    Tracks,
+    Videos,
     Results,
     Standings,
     LevelUp,
@@ -32,9 +35,13 @@ pub enum Screen {
     QuitConfirm,
 }
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(default, deny_unknown_fields)]
 pub struct Settings {
     pub effects: bool,
     pub music: bool,
+    pub master_volume: u8,
+    pub engine_volume: u8,
+    pub videos: bool,
     pub music_volume: u8,
     pub effect_volume: u8,
     pub track: Option<u8>,
@@ -46,12 +53,36 @@ impl Default for Settings {
         Self {
             effects: true,
             music: true,
+            master_volume: 100,
+            engine_volume: 80,
+            videos: true,
             music_volume: 80,
             effect_volume: 80,
             track: None,
             enhanced: false,
             wide: false,
         }
+    }
+}
+impl Settings {
+    pub fn validate(&self) -> Result<()> {
+        if [
+            self.master_volume,
+            self.engine_volume,
+            self.music_volume,
+            self.effect_volume,
+        ]
+        .iter()
+        .any(|v| *v > 100)
+            || self.track.is_some_and(|t| t >= 14)
+        {
+            return Err("Invalid volume (0..100) or soundtrack ID".into());
+        }
+        Ok(())
+    }
+    pub fn reset_graphics(&mut self) {
+        self.enhanced = false;
+        self.wide = false;
     }
 }
 #[derive(Clone)]
@@ -108,11 +139,12 @@ impl Frontend {
                 Characters | Courses | Restroom | Credits | QuitConfirm
             ) | (Street, Courses | Club | Showroom | Restroom | Repair)
                 | (Club, Schmooze | Restroom | Courses)
+                | (Jukebox, Tracks | Videos)
                 | (Showroom, Bike)
                 | (Bike, Purchase)
                 | (
                     Restroom,
-                    Settings | Controls | Jukebox | Characters | Courses | Credits
+                    Settings | Controls | Jukebox | Characters | Courses | Credits | Saves
                 )
                 | (Results, Standings)
                 | (Racing, Paused)
@@ -322,7 +354,7 @@ impl Frontend {
         Ok(())
     }
     pub fn choose_track(&mut self, track: u8) -> Result<()> {
-        if self.screen != Screen::Jukebox || track >= 6 {
+        if !matches!(self.screen, Screen::Jukebox | Screen::Tracks) || track >= 14 {
             return Err("track unavailable".into());
         }
         self.settings.track = Some(track);

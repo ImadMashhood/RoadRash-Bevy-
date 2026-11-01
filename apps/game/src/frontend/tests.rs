@@ -431,3 +431,104 @@ fn real_keyboard_menu_edges_and_return_focus_are_owned_by_the_frontend() {
     );
     assert_eq!(app.world().resource::<Shell>().focus, 0);
 }
+#[test]
+fn slots_save_load_and_explicit_backup_restore_use_validated_records() {
+    let mut app = app();
+    apply(app.world_mut(), Act::Begin(Mode::BigGame));
+    apply(app.world_mut(), Act::Character(1));
+    apply(app.world_mut(), Act::Open(Screen::Restroom));
+    apply(app.world_mut(), Act::SaveAs);
+    assert_eq!(
+        app.world().resource::<Shell>().frontend.screen,
+        Screen::Saves
+    );
+    apply(app.world_mut(), Act::ChooseSlot(1));
+    let path = app.world().resource::<LaunchOptions>().career_file.clone();
+    assert!(path.exists());
+    let raw: serde_json::Value = serde_json::from_slice(&std::fs::read(&path).unwrap()).unwrap();
+    assert_eq!(raw["schema_version"], 2);
+    let original = app.world().resource::<Shell>().frontend.career.clone();
+    app.world_mut()
+        .resource_mut::<Shell>()
+        .frontend
+        .career
+        .as_mut()
+        .unwrap()
+        .cash = 123;
+    apply(app.world_mut(), Act::Save);
+    let modified = app.world().resource::<Shell>().frontend.career.clone();
+    std::fs::write(&path, b"truncated").unwrap();
+    apply(app.world_mut(), Act::Load);
+    assert_eq!(app.world().resource::<Shell>().frontend.career, modified);
+    apply(app.world_mut(), Act::RestoreBackup);
+    assert_eq!(app.world().resource::<Shell>().frontend.career, original);
+    assert_eq!(app.world().resource::<Shell>().active_slot, 1);
+    let base = path.file_name().unwrap().to_string_lossy().to_string();
+    for e in std::fs::read_dir(path.parent().unwrap()).unwrap() {
+        let p = e.unwrap().path();
+        if p.file_name().unwrap().to_string_lossy().starts_with(&base) {
+            std::fs::remove_file(p).unwrap();
+        }
+    }
+}
+#[test]
+fn preference_adapter_persists_bindings_audio_and_graphics_independently_from_career() {
+    let mut app = app();
+    let path = app
+        .world()
+        .resource::<LaunchOptions>()
+        .career_file
+        .with_file_name(format!(
+            "rr-pref-{}-{}.json",
+            std::process::id(),
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+    app.world_mut()
+        .resource_mut::<LaunchOptions>()
+        .settings_file = path.clone();
+    app.init_resource::<storage::PreferenceState>();
+    storage::preferences(app.world_mut());
+    let career = app.world().resource::<Shell>().frontend.career.clone();
+    app.world_mut()
+        .resource_mut::<Shell>()
+        .frontend
+        .settings
+        .music_volume = 37;
+    app.world_mut()
+        .resource_mut::<Shell>()
+        .frontend
+        .settings
+        .wide = true;
+    app.world_mut()
+        .resource_mut::<crate::Bindings>()
+        .0
+        .rebind(
+            rr_input::Context::Race,
+            rr_input::Action::Accelerate,
+            vec![rr_input::Key::KeyQ],
+        )
+        .unwrap();
+    storage::preferences(app.world_mut());
+    let (p, _) =
+        rr_session::persistence::preferences::Preferences::decode(&std::fs::read(&path).unwrap())
+            .unwrap();
+    assert_eq!(p.settings.music_volume, 37);
+    assert!(p.settings.wide);
+    assert_eq!(
+        p.bindings.contexts[&rr_input::Context::Race][&rr_input::Action::Accelerate],
+        vec![rr_input::Key::KeyQ]
+    );
+    apply(app.world_mut(), Act::ResetGraphics);
+    storage::preferences(app.world_mut());
+    assert_eq!(app.world().resource::<Shell>().frontend.career, career);
+    let (p, _) =
+        rr_session::persistence::preferences::Preferences::decode(&std::fs::read(&path).unwrap())
+            .unwrap();
+    assert!(!p.settings.wide);
+    assert_eq!(p.settings.music_volume, 37);
+    std::fs::remove_file(&path).unwrap();
+    std::fs::remove_file(rr_session::persistence::disk::sidecar(&path, ".bak")).unwrap();
+}

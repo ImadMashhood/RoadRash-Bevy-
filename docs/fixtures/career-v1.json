@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "career": {
+    "character": 1, "alias": "Authored rider", "level": 1, "qualified": 0,
+    "bike": 0, "cash": 1000, "condition": 100, "maximum_condition": 100,
+    "completed": false, "revision": 0, "next_race": 1, "last_settled": 0
+  }
+}

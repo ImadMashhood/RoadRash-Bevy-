@@ -1,0 +1,170 @@
+[
+  {
+    "frame": 1,
+    "action": {
+      "begin": "BigGame"
+    }
+  },
+  {
+    "frame": 3,
+    "action": {
+      "character": 1
+    }
+  },
+  {
+    "frame": 8,
+    "action": {
+      "open": "Restroom"
+    }
+  },
+  {
+    "frame": 10,
+    "action": "save_as"
+  },
+  {
+    "frame": 15,
+    "action": {
+      "choose_slot": 1
+    }
+  },
+  {
+    "frame": 21,
+    "action": "save"
+  },
+  {
+    "frame": 25,
+    "action": {
+      "open": "Settings"
+    }
+  },
+  {
+    "frame": 30,
+    "action": "wide"
+  },
+  {
+    "frame": 32,
+    "action": "master_volume"
+  },
+  {
+    "frame": 33,
+    "action": "master_volume"
+  },
+  {
+    "frame": 35,
+    "action": "music_volume"
+  },
+  {
+    "frame": 40,
+    "action": "back"
+  },
+  {
+    "frame": 45,
+    "action": "browse_loads"
+  },
+  {
+    "frame": 50,
+    "action": {
+      "choose_slot": 1
+    }
+  },
+  {
+    "frame": 55,
+    "action": "restore_backup"
+  },
+  {
+    "frame": 60,
+    "action": {
+      "open": "Jukebox"
+    }
+  },
+  {
+    "frame": 65,
+    "action": {
+      "artist": 3
+    }
+  },
+  {
+    "frame": 70,
+    "action": {
+      "track": 6
+    }
+  },
+  {
+    "frame": 80,
+    "action": "back"
+  },
+  {
+    "frame": 90,
+    "action": {
+      "open": "Videos"
+    }
+  },
+  {
+    "frame": 100,
+    "action": {
+      "play_video": "WRECK1"
+    }
+  },
+  {
+    "frame": 320,
+    "action": "skip_video"
+  },
+  {
+    "frame": 330,
+    "action": "back"
+  },
+  {
+    "frame": 340,
+    "action": "back"
+  },
+  {
+    "frame": 350,
+    "action": "back"
+  },
+  {
+    "frame": 360,
+    "action": {
+      "open": "Courses"
+    }
+  },
+  {
+    "frame": 365,
+    "action": {
+      "course": 1
+    }
+  },
+  {
+    "frame": 480,
+    "action": {
+      "open": "Paused"
+    }
+  },
+  {
+    "frame": 490,
+    "action": "resume"
+  },
+  {
+    "frame": 510,
+    "action": {
+      "open": "Paused"
+    }
+  },
+  {
+    "frame": 520,
+    "action": {
+      "open": "QuitConfirm"
+    }
+  },
+  {
+    "frame": 525,
+    "action": "quit_race"
+  },
+  {
+    "frame": 540,
+    "action": "continue"
+  },
+  {
+    "frame": 550,
+    "action": "main"
+  }
+]

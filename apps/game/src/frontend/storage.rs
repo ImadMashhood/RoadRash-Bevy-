@@ -5,48 +5,78 @@ pub(super) fn save(world: &World, shell: &Shell) -> Result<(), String> {
         .career
         .as_ref()
         .ok_or("No Big Game career to save.")?;
-    let bytes = c.encode()?;
     let options = world.resource::<LaunchOptions>();
-    let p = std::path::absolute(&options.career_file).map_err(|e| e.to_string())?;
-    if p.extension().is_none_or(|e| e != "json")
-        || options
-            .career_file
-            .components()
-            .any(|c| matches!(c, std::path::Component::ParentDir))
-    {
-        return Err("career output requires .json without parent traversal".into());
-    }
-    let mut ancestor = p.as_path();
-    while !ancestor.exists() {
-        ancestor = ancestor.parent().ok_or("career output ancestor")?;
-    }
-    let resolved = ancestor
-        .canonicalize()
-        .map_err(|e| e.to_string())?
-        .join(p.strip_prefix(ancestor).map_err(|e| e.to_string())?);
-    if let Some(data) = &options.data_root {
-        let data = data.canonicalize().map_err(|e| e.to_string())?;
-        if resolved.starts_with(&data) || data.starts_with(&resolved) {
-            return Err("career path overlaps immutable source".into());
-        }
-    }
-    let p = resolved;
-    if let Some(parent) = p.parent() {
-        std::fs::create_dir_all(parent).map_err(|e| e.to_string())?;
-    }
-    // Phase 16 snapshot bridge. Phase 17 extends disk migration/recovery/backup contracts.
-    let tmp = p.with_extension("json.new");
-    let mut file = std::fs::OpenOptions::new()
-        .write(true)
-        .create_new(true)
-        .open(&tmp)
-        .map_err(|e| e.to_string())?;
-    use std::io::Write;
-    file.write_all(&bytes)
-        .and_then(|_| file.sync_all())
-        .map_err(|e| e.to_string())?;
-    std::fs::rename(&tmp, &p).map_err(|e| e.to_string())
+    let requirements = rr_session::persistence::Requirements::base(&shell.catalog);
+    let bytes = rr_session::persistence::encode(c, &shell.catalog, &requirements)?;
+    rr_session::persistence::disk::write(
+        &options.career_file,
+        options.data_root.as_deref(),
+        &bytes,
+        |b| rr_session::persistence::decode(b, &shell.catalog, &requirements).map(|_| ()),
+        rr_session::persistence::disk::Fault::None,
+    )
 }
+pub(super) fn load(
+    path: &std::path::Path,
+    catalog: &Catalog,
+) -> Result<rr_session::persistence::Loaded, String> {
+    let requirements = rr_session::persistence::Requirements::base(catalog);
+    let bytes = rr_session::persistence::disk::read(path)?;
+    rr_session::persistence::decode(&bytes, catalog, &requirements)
+}
+pub(super) fn restore(world: &World, shell: &Shell) -> Result<(), String> {
+    let options = world.resource::<LaunchOptions>();
+    let required = rr_session::persistence::Requirements::base(&shell.catalog);
+    rr_session::persistence::disk::restore(
+        &options.career_file,
+        options.data_root.as_deref(),
+        |b| rr_session::persistence::decode(b, &shell.catalog, &required).map(|_| ()),
+    )
+    .map(|_| ())
+}
+#[derive(Resource, Default)]
+pub(super) struct PreferenceState {
+    last: Option<Vec<u8>>,
+}
+pub(super) fn preferences(world: &mut World) {
+    let options = world.resource::<LaunchOptions>();
+    if options.settings_file.as_os_str().is_empty() {
+        return;
+    }
+    let shell = world.resource::<Shell>();
+    let mut settings = shell.frontend.settings.clone();
+    settings.track = None;
+    let p = rr_session::persistence::preferences::Preferences {
+        schema_version: 1,
+        settings,
+        bindings: world.resource::<crate::Bindings>().0.clone(),
+        active_slot: shell.active_slot,
+    };
+    let Ok(bytes) = p.encode() else {
+        return;
+    };
+    let mut state = world.resource_mut::<PreferenceState>();
+    if state.last.is_none() {
+        state.last = Some(bytes);
+        return;
+    }
+    if state.last.as_ref() == Some(&bytes) {
+        return;
+    }
+    state.last = Some(bytes.clone());
+    let options = world.resource::<LaunchOptions>();
+    let result = rr_session::persistence::disk::write(
+        &options.settings_file,
+        options.data_root.as_deref(),
+        &bytes,
+        |b| rr_session::persistence::preferences::Preferences::decode(b).map(|_| ()),
+        rr_session::persistence::disk::Fault::None,
+    );
+    if let Err(e) = result {
+        world.resource_mut::<Shell>().notice = format!("Preferences were not saved: {e}");
+    }
+}
+
 pub(super) fn flush_recording(world: &mut World) {
     let snapshot = world.remove_resource::<Race>();
     if let Some(race) = snapshot {

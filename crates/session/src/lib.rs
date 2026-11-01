@@ -5,4 +5,5 @@ pub mod catalog;
 pub mod flow;
 pub mod race;
 pub type Result<T> = std::result::Result<T, String>;
+pub mod persistence;
 pub mod playback;

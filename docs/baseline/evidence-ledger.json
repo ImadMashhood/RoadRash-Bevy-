@@ -201,6 +201,34 @@
         "inputs": "authored race/UI fixtures, private source factory and window review",
         "video_hash": null
       }
+    },
+    {
+      "id": "modern-persistence",
+      "confidence": "verified-local",
+      "claim": "Versioned bounded saves/preferences, six interrupted-write stages, explicit backup recovery and v1 JSON migration pass authored tests and isolated Linux UI acceptance.",
+      "receipt": "../evidence/part-17.md",
+      "executable_sha256": "73d7f9744b5b1a9482b3909950cdf3fe34119fe13d023b031e9c6739a60f18a2",
+      "upstream_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+      "capture_settings": {
+        "status": "Modern engine acceptance; private source captures retained locally, public aggregate receipt only",
+        "seed": null,
+        "inputs": "docs/fixtures/persistence-media-tour.json",
+        "video_hash": null
+      }
+    },
+    {
+      "id": "native-media",
+      "confidence": "verified-local",
+      "claim": "502 source PCM/RPM/pitch/AVI comparisons pass; source movie GPU display and dedicated virtual-sink transport pass. Full native mixer scheduling and original Windows parity are not claimed.",
+      "receipt": "../evidence/part-18.md",
+      "executable_sha256": "73d7f9744b5b1a9482b3909950cdf3fe34119fe13d023b031e9c6739a60f18a2",
+      "upstream_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+      "capture_settings": {
+        "status": "Modern engine acceptance; private source captures retained locally, public aggregate receipt only",
+        "seed": null,
+        "inputs": "docs/fixtures/persistence-media-tour.json",
+        "video_hash": null
+      }
     }
   ]
 }

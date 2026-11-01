@@ -22,14 +22,13 @@
     "LevelUp/Finale"
   ],
   "missing_original_screens": [
-    "Mano-\u00e0-Mano lobby/course/chat",
-    "Original artist track submenus",
-    "Original video/credits playback",
-    "Original source-exact Schmooze dialogue and formatting",
-    "Full save-slot/Save As frontend (Phase 17)"
+    "Mano-\u00e0-Mano lobby/course/chat (outside offline scope)",
+    "Source-exact credits layout/roll and complete movie invocation (19.06/19.07)",
+    "Original source-exact Schmooze dialogue and formatting (19.06)"
   ],
   "functional_gameplay_gaps": [
-    "Original independent nitro/dismount commands are absent from the current simulation input contract."
+    "Independent nitro/dismount controls (19.02)",
+    "Required full pedestrian/traffic behavior and native media invocation coverage (19.03/19.04/19.07)"
   ],
   "screens": [
     {
@@ -98,8 +97,8 @@
           "index": 0,
           "caption": "",
           "handler": "0x004241e0",
-          "disposition": "research_or_media_gap",
-          "reason": "Startup/attract inventory slot has no verified modern action; original media belongs to Phase 18."
+          "disposition": "implemented modern equivalent",
+          "reason": "Six-artist/fourteen-track jukebox and bounded local AVI playback with pause/skip are implemented in Part 18. Complete source invocation/variant coverage remains 19.07."
         }
       ],
       "reviewed": true
@@ -571,8 +570,8 @@
           "index": 2,
           "caption": "Save Game As...",
           "handler": "0x00445310",
-          "disposition": "phase_17_dependency",
-          "reason": "One validated career snapshot path is implemented; save slots/Save As UI are Phase 17."
+          "disposition": "implemented modern equivalent",
+          "reason": "Validated five-slot save/load/Save As, explicit backup recovery and independent preferences are implemented in Part 17; see SAVES.md. Original visual match is not claimed."
         },
         {
           "index": 3,
@@ -657,50 +656,50 @@
           "index": 0,
           "caption": "Hammerbox",
           "handler": "0x00445600",
-          "disposition": "modern_equivalent",
-          "reason": "Artist selection and owned return/audio state are implemented; original track submenus/playback remain Phase 18."
+          "disposition": "implemented modern equivalent",
+          "reason": "Six-artist/fourteen-track jukebox and bounded local AVI playback with pause/skip are implemented in Part 18. Complete source invocation/variant coverage remains 19.07."
         },
         {
           "index": 1,
           "caption": "Monster Magnet",
           "handler": "0x00445600",
-          "disposition": "modern_equivalent",
-          "reason": "Artist selection and owned return/audio state are implemented; original track submenus/playback remain Phase 18."
+          "disposition": "implemented modern equivalent",
+          "reason": "Six-artist/fourteen-track jukebox and bounded local AVI playback with pause/skip are implemented in Part 18. Complete source invocation/variant coverage remains 19.07."
         },
         {
           "index": 2,
           "caption": "Paw",
           "handler": "0x00445600",
-          "disposition": "modern_equivalent",
-          "reason": "Artist selection and owned return/audio state are implemented; original track submenus/playback remain Phase 18."
+          "disposition": "implemented modern equivalent",
+          "reason": "Six-artist/fourteen-track jukebox and bounded local AVI playback with pause/skip are implemented in Part 18. Complete source invocation/variant coverage remains 19.07."
         },
         {
           "index": 3,
           "caption": "Soundgarden",
           "handler": "0x00445600",
-          "disposition": "modern_equivalent",
-          "reason": "Artist selection and owned return/audio state are implemented; original track submenus/playback remain Phase 18."
+          "disposition": "implemented modern equivalent",
+          "reason": "Six-artist/fourteen-track jukebox and bounded local AVI playback with pause/skip are implemented in Part 18. Complete source invocation/variant coverage remains 19.07."
         },
         {
           "index": 4,
           "caption": "Swervedriver",
           "handler": "0x00445600",
-          "disposition": "modern_equivalent",
-          "reason": "Artist selection and owned return/audio state are implemented; original track submenus/playback remain Phase 18."
+          "disposition": "implemented modern equivalent",
+          "reason": "Six-artist/fourteen-track jukebox and bounded local AVI playback with pause/skip are implemented in Part 18. Complete source invocation/variant coverage remains 19.07."
         },
         {
           "index": 5,
           "caption": "Therapy?",
           "handler": "0x00445600",
-          "disposition": "modern_equivalent",
-          "reason": "Artist selection and owned return/audio state are implemented; original track submenus/playback remain Phase 18."
+          "disposition": "implemented modern equivalent",
+          "reason": "Six-artist/fourteen-track jukebox and bounded local AVI playback with pause/skip are implemented in Part 18. Complete source invocation/variant coverage remains 19.07."
         },
         {
           "index": 6,
           "caption": "Videos",
           "handler": "0x00445730",
-          "disposition": "phase_18_dependency",
-          "reason": "Artist selection is implemented; media decoding/playback is Phase 18."
+          "disposition": "implemented modern equivalent",
+          "reason": "Six-artist/fourteen-track jukebox and bounded local AVI playback with pause/skip are implemented in Part 18. Complete source invocation/variant coverage remains 19.07."
         },
         {
           "index": 7,
@@ -913,8 +912,8 @@
           "index": 3,
           "caption": "Videos",
           "handler": "0x00445960",
-          "disposition": "phase_18_dependency",
-          "reason": "Original video toggle and playback remain Phase 18."
+          "disposition": "implemented modern equivalent",
+          "reason": "Six-artist/fourteen-track jukebox and bounded local AVI playback with pause/skip are implemented in Part 18. Complete source invocation/variant coverage remains 19.07."
         },
         {
           "index": 4,

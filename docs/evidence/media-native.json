@@ -1,0 +1,31 @@
+{
+  "outcome": "passed",
+  "reference_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+  "executable_sha256": "73d7f9744b5b1a9482b3909950cdf3fe34119fe13d023b031e9c6739a60f18a2",
+  "checks": [
+    {
+      "family": "wav",
+      "cases": 86,
+      "outcome": "passed"
+    },
+    {
+      "family": "rpm",
+      "cases": 384,
+      "outcome": "passed"
+    },
+    {
+      "family": "pitch",
+      "cases": 28,
+      "outcome": "passed"
+    },
+    {
+      "family": "avi",
+      "cases": 4,
+      "outcome": "passed"
+    }
+  ],
+  "native_output_sha256": "2f692d91c20058d48f61eded3813c10e2c1c68f528d9d9563481258ac3754f43",
+  "decoder": "ffmpeg version 8.1.3 Copyright (c) 2000-2026 the FFmpeg developers",
+  "original_runtime_compared": false,
+  "scope": "source PCM, native RPM/pitch, AVI metadata and IMA audio samples; subjective mix/timbre and complete native mixer scheduling are not claimed"
+}

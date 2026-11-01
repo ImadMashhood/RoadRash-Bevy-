@@ -123,7 +123,10 @@ fn fit(
 fn draw(
     course: Res<CoursePresentation>,
     view: Res<PresentedSnapshot>,
-    surface: Res<CourseSurface>,
+    (mut surface, mut surfaces): (
+        ResMut<CourseSurface>,
+        Query<&mut Sprite, With<CourseScreen>>,
+    ),
     visual: Res<VisualAssets>,
     mut images: ResMut<Assets<Image>>,
     mut last_mode: Local<Option<bool>>,
@@ -173,17 +176,16 @@ fn draw(
         .draw(&course.camera, &camera, &snapshot, enhanced)
     {
         Ok((frame, _)) => {
-            if let Some(mut image) = images.get_mut(&surface.0) {
-                if image.texture_descriptor.size.width != frame.image.width
-                    || image.texture_descriptor.size.height != frame.image.height
-                {
-                    image.resize(Extent3d {
-                        width: frame.image.width,
-                        height: frame.image.height,
-                        depth_or_array_layers: 1,
-                    });
+            if crate::upload_rgba(
+                &mut images,
+                &mut surface.0,
+                frame.image.width,
+                frame.image.height,
+                frame.image.pixels,
+            ) {
+                for mut sprite in &mut surfaces {
+                    sprite.image = surface.0.clone();
                 }
-                image.data = Some(frame.image.pixels)
             }
         }
         Err(e) => error!("classic rendering failed: {e}"),
@@ -259,7 +261,6 @@ mod session_surface_tests {
             .add_systems(Startup, setup)
             .add_systems(Update, (visibility, draw.run_if(has_course)).chain());
         app.update();
-        let handle = app.world().resource::<CourseSurface>().0.clone();
         let first = app.world().resource::<Assets<Image>>().len();
         for framing in [
             rr_render::Framing::Wide,
@@ -270,6 +271,7 @@ mod session_surface_tests {
             let expected = [camera.width, camera.height];
             app.world_mut().resource_mut::<CoursePresentation>().camera = camera;
             app.update();
+            let handle = app.world().resource::<CourseSurface>().0.clone();
             let image = app
                 .world()
                 .resource::<Assets<Image>>()

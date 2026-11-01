@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-01",
+  "implementation_revision": "Commit containing this receipt and the checked Part 17\u201318 roadmap",
+  "platform": "Fedora Linux; native x86_64 desktop and headless",
+  "rust_tests": {
+    "headless": 285,
+    "desktop": 34,
+    "total": 319
+  },
+  "python_tests": 15,
+  "formatting": "passed",
+  "workspace_clippy_warnings_denied": "passed",
+  "locked_release_workspace_build": "passed",
+  "workflow_negative_guards": "passed",
+  "private_disc_required_files": {
+    "matched": 341,
+    "required": 341
+  },
+  "original_runtime_compared": false,
+  "remote_ci_run_claimed": false,
+  "scope": "Modern persistence/media adapters and measured native primitives; full native game acceptance remains Parts 19\u201322. Physical device hotplug and other OSs untested."
+}

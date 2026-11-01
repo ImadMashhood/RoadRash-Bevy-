@@ -2,6 +2,7 @@
 mod frontend;
 mod gamepad_calibration;
 mod input_adapter;
+mod media;
 mod population_cues;
 mod race_recording;
 use bevy::{
@@ -26,6 +27,9 @@ struct Race(Simulation);
 struct LaunchOptions {
     frontend: Option<bool>,
     career_file: PathBuf,
+    save_base: PathBuf,
+    settings_file: PathBuf,
+    explicit: std::collections::BTreeSet<String>,
     ui_script: Option<PathBuf>,
     condition_percent: u16,
     smoke_frames: Option<u32>,
@@ -58,6 +62,9 @@ struct LaunchOptions {
     fast_recovery: bool,
     rescue_recovery: bool,
     effects: bool,
+    audio: bool,
+    video: bool,
+    media_report: Option<PathBuf>,
 }
 #[derive(Resource, Default)]
 struct Driver(Option<Playback>);
@@ -77,14 +84,21 @@ struct PauseState {
 #[derive(Resource, Default)]
 struct Previous(rr_simulation::Snapshot);
 fn options() -> Result<LaunchOptions, String> {
+    let paths = rr_session::persistence::paths::UserPaths::system().unwrap_or_else(|_| {
+        rr_session::persistence::paths::UserPaths::profile(std::path::Path::new("local/user"))
+    });
     let mut options = LaunchOptions {
         condition_percent: 100,
-        career_file: "local/career-session.json".into(),
+        career_file: paths.career(0)?,
+        save_base: paths.career(0)?,
+        settings_file: paths.settings(),
         render_rate: "60".into(),
         level: 1,
         bike: 1,
         opponents: 14,
         effects: true,
+        audio: true,
+        video: true,
         capture_frame: 30,
         ..Default::default()
     };
@@ -93,9 +107,38 @@ fn options() -> Result<LaunchOptions, String> {
         let value = args
             .next()
             .ok_or_else(|| format!("missing value for {}", arg.to_string_lossy()))?;
+        if let Some(name) = arg.to_str() {
+            options.explicit.insert(name.into());
+        }
         match arg.to_str() {
             Some("--ui-script") => options.ui_script = Some(value.into()),
-            Some("--career-file") => options.career_file = value.into(),
+            Some("--profile-root") => {
+                let paths =
+                    rr_session::persistence::paths::UserPaths::profile(&PathBuf::from(value));
+                options.career_file = paths.career(0)?;
+                options.save_base = paths.career(0)?;
+                options.settings_file = paths.settings();
+            }
+            Some("--settings-file") => options.settings_file = value.into(),
+            Some("--career-file") => {
+                options.career_file = value.into();
+                options.save_base = options.career_file.clone();
+            }
+            Some("--media-report") => options.media_report = Some(value.into()),
+            Some("--videos") => {
+                options.video = match value.to_str() {
+                    Some("on") => true,
+                    Some("off") => false,
+                    _ => return Err("videos must be on/off".into()),
+                }
+            }
+            Some("--audio") => {
+                options.audio = match value.to_str() {
+                    Some("on") => true,
+                    Some("off") => false,
+                    _ => return Err("audio must be on/off".into()),
+                }
+            }
             Some("--frontend") => {
                 options.frontend = Some(match value.to_str() {
                     Some("on") => true,
@@ -258,6 +301,40 @@ fn options() -> Result<LaunchOptions, String> {
             }
             Some("--report") => options.report = Some(value.into()),
             _ => return Err(format!("unknown argument: {}", arg.to_string_lossy())),
+        }
+    }
+    if options.settings_file.exists() {
+        match rr_session::persistence::disk::read(&options.settings_file)
+            .and_then(|b| rr_session::persistence::preferences::Preferences::decode(&b))
+        {
+            Ok((p, warnings)) => {
+                for w in warnings {
+                    eprintln!("Preferences: {w}");
+                }
+                if !options.explicit.contains("--videos") {
+                    options.video = p.settings.videos;
+                }
+                if !options.explicit.contains("--effects") {
+                    options.effects = p.settings.effects;
+                }
+                if !options.explicit.contains("--texture-mode") {
+                    options.enhanced = p.settings.enhanced;
+                }
+                if !options.explicit.contains("--framing") {
+                    options.framing = if p.settings.wide {
+                        rr_render::Framing::Wide
+                    } else {
+                        rr_render::Framing::Classic
+                    };
+                }
+                if !options.explicit.contains("--career-file") && p.active_slot != 0 {
+                    options.career_file = rr_session::persistence::paths::slot_path(
+                        &options.save_base,
+                        p.active_slot,
+                    )?;
+                }
+            }
+            Err(e) => eprintln!("Preferences retained without applying invalid data: {e}"),
         }
     }
     Ok(options)
@@ -601,7 +678,12 @@ fn main() {
             eprintln!("{e}");
             std::process::exit(2)
         })
-        .unwrap_or_default();
+        .unwrap_or_else(|| {
+            rr_session::persistence::disk::read(&options.settings_file)
+                .and_then(|b| rr_session::persistence::preferences::Preferences::decode(&b))
+                .map(|(p, _)| p.bindings)
+                .unwrap_or_default()
+        });
     if options.calibration.is_none() {
         let path = PathBuf::from("local/controller-calibration.json");
         if path.exists() {
@@ -634,7 +716,8 @@ fn main() {
     let shell = frontend::Shell::new(&options, &race.0, playback.is_some());
     let mut app = App::new();
     app.insert_resource(shell)
-        .add_plugins(frontend::FrontendPlugin);
+        .add_plugins(frontend::FrontendPlugin)
+        .add_plugins(media::MediaPlugin);
     app.insert_resource(recorder)
         .init_resource::<population_cues::Warnings>()
         .add_systems(Last, race_recording::save)
@@ -695,7 +778,10 @@ fn main() {
         )
         .add_systems(
             FixedUpdate,
-            publish.in_set(FixedStage::Snapshot).run_if(live),
+            (publish, media::capture)
+                .chain()
+                .in_set(FixedStage::Snapshot)
+                .run_if(live),
         )
         .add_systems(PreUpdate, playback_frame)
         .add_systems(
@@ -720,8 +806,16 @@ fn main() {
         )
         .run();
 }
-fn live(driver: Res<Driver>, pause: Res<PauseState>, shell: Option<Res<frontend::Shell>>) -> bool {
-    driver.0.is_none() && !pause.paused && shell.is_none_or(|s| s.race_active())
+fn live(
+    driver: Res<Driver>,
+    pause: Res<PauseState>,
+    shell: Option<Res<frontend::Shell>>,
+    media: Option<Res<media::Media>>,
+) -> bool {
+    driver.0.is_none()
+        && !pause.paused
+        && shell.is_none_or(|s| s.race_active())
+        && media::not_playing(media)
 }
 fn physical_input(driver: Res<Driver>) -> bool {
     driver.0.is_none()
@@ -930,7 +1024,7 @@ fn smoke_test(
     mut frame: Local<u32>,
     view: Res<PresentedSnapshot>,
     course: Option<Res<CoursePresentation>>,
-    shell: Option<Res<frontend::Shell>>,
+    (shell, media): (Option<Res<frontend::Shell>>, Option<Res<media::Media>>),
     mut commands: Commands,
     mut exit: MessageWriter<AppExit>,
 ) {
@@ -938,7 +1032,7 @@ fn smoke_test(
     if *frame == options.capture_frame
         && let Some(path) = &options.capture
     {
-        let metadata = serde_json::json!({"frontend":shell.as_ref().map(|s|serde_json::json!({"screen":s.frontend.screen,"phase":s.session.as_ref().map(|s|s.phase()),"summary":s.frontend.summary})),"calibration_profile":options.calibration,"requested_frame":*frame,"simulation_tick":view.0.tick,"interpolation_alpha":view.2,"window_size":options.window_size.unwrap_or((960,720)),"camera":course.as_ref().map(|c|&c.camera),"source_start_q8":course.as_ref().map(|c|c.start_q8),"course":course.as_ref().map(|c|&c.scene.options.course),"level":options.level,"branch_mask":options.branch_mask,"texture_override_active":options.enhanced ^ options.switch_tick.is_some_and(|t|view.0.tick>=t)});
+        let metadata = serde_json::json!({"media":media.as_ref().map(|m|&m.metrics),"frontend":shell.as_ref().map(|s|serde_json::json!({"screen":s.frontend.screen,"phase":s.session.as_ref().map(|s|s.phase()),"summary":s.frontend.summary})),"calibration_profile":options.calibration,"requested_frame":*frame,"simulation_tick":view.0.tick,"interpolation_alpha":view.2,"window_size":options.window_size.unwrap_or((960,720)),"camera":course.as_ref().map(|c|&c.camera),"source_start_q8":course.as_ref().map(|c|c.start_q8),"course":course.as_ref().map(|c|&c.scene.options.course),"level":options.level,"branch_mask":options.branch_mask,"texture_override_active":options.enhanced ^ options.switch_tick.is_some_and(|t|view.0.tick>=t)});
         if let Err(e) = serde_json::to_vec_pretty(&metadata)
             .map_err(|e| e.to_string())
             .and_then(|b| {

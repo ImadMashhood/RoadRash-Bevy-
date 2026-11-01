@@ -4,10 +4,10 @@
 
 A Rust and Bevy recreation of the PC Road Rash experience, with a faithful classic presentation, individually reviewed AI-enhanced textures, and a modular design that leaves room for a later 3D version.
 
-Parts 01–16 now have implementation and acceptance evidence: a verified importer, bounded decoders, content catalog/inspector, deterministic simulation/presentation scaffold and validated source course graph/explorer and classic road renderer. This is not a complete playable recreation. Later phases remain open; the separate local prototype is preserved independently.
+Parts 01–18 now have implementation and acceptance evidence: a verified importer, bounded decoders, content catalog/inspector, deterministic simulation/presentation scaffold and validated source course graph/explorer and classic road renderer. This is not a complete playable recreation. Later phases remain open; the separate local prototype is preserved independently.
 
 
-The [Fedora native reference](docs/NATIVE_REFERENCE.md) now validates [source-unit handling](docs/HANDLING.md) and [rider animation/palette fidelity](docs/ANIMATION.md). **Parts 09 and 10 are complete** with 15 source bike specifications, versioned handling/replay, tick-driven animations, ground shadows and an offline animation inspector. **Parts 11 and 12 are complete** with [ordered combat](docs/COMBAT.md), unique equipment/theft, independent crash bodies, portal-based recovery and explicit assists. See [Part 11 evidence](docs/evidence/part-11.md) and [Part 12 evidence](docs/evidence/part-12.md). **Parts 13 and 14 are complete** with [opponent intelligence](docs/OPPONENTS.md), full source field setup, [traffic/pedestrians/police](docs/ROAD_USERS.md), recorded controls and long-run diagnostics. **Parts 15 and 16 are complete** within the declared modern offline scope, with [race lifecycle/results](docs/RACE_RULES.md), [frontend/career/economy](docs/FRONTEND.md), source API comparisons and a complete menu inventory audit. See [Part 15](docs/evidence/part-15.md) and [Part 16 evidence](docs/evidence/part-16.md). The next open phase is **17: saves, settings and migration**.
+The [Fedora native reference](docs/NATIVE_REFERENCE.md) now validates [source-unit handling](docs/HANDLING.md) and [rider animation/palette fidelity](docs/ANIMATION.md). **Parts 09 and 10 are complete** with 15 source bike specifications, versioned handling/replay, tick-driven animations, ground shadows and an offline animation inspector. **Parts 11 and 12 are complete** with [ordered combat](docs/COMBAT.md), unique equipment/theft, independent crash bodies, portal-based recovery and explicit assists. See [Part 11 evidence](docs/evidence/part-11.md) and [Part 12 evidence](docs/evidence/part-12.md). **Parts 13 and 14 are complete** with [opponent intelligence](docs/OPPONENTS.md), full source field setup, [traffic/pedestrians/police](docs/ROAD_USERS.md), recorded controls and long-run diagnostics. **Parts 15 and 16 are complete** within the declared modern offline scope, with [race lifecycle/results](docs/RACE_RULES.md), [frontend/career/economy](docs/FRONTEND.md), source API comparisons and a complete menu inventory audit. See [Part 15](docs/evidence/part-15.md) and [Part 16 evidence](docs/evidence/part-16.md). **Parts 17–18 are complete** with [validated save slots, backups and preferences](docs/SAVES.md), [bounded audio/music/video playback](docs/AUDIO.md) and native media comparisons. See [Part 17](docs/evidence/part-17.md) and [Part 18](docs/evidence/part-18.md). The next open phase is **19: complete the native-asset offline game**.
 
 Run the current source-course view after local import/conversion:
 
@@ -15,13 +15,13 @@ Run the current source-course view after local import/conversion:
 cargo run --locked --release -p rr-game -- --install-root local/game-install --catalog local/catalog --course CITY
 ```
 
-[Classic renderer controls, camera policy and checkpoints](docs/RENDERING.md). Imported races now use schema-5 source handling, combat, linked recovery, 14 opponents and bounded traffic/pedestrian/police systems. Use `--opponents 0` for solo population testing or `--practice-riders 2` for the earlier constant-drive mode. Z/X/C attack; arrows walk during recovery. `--record-replay local/my-race.json` records a live session. The data-free fallback retains its authored model. Race results, career and audio playback remain later work.
+[Classic renderer controls, camera policy and checkpoints](docs/RENDERING.md). Imported races now use schema-5 source handling, combat, linked recovery, 14 opponents and bounded traffic/pedestrian/police systems. Use `--opponents 0` for solo population testing or `--practice-riders 2` for the earlier constant-drive mode. Z/X/C attack; arrows walk during recovery. `--record-replay local/my-race.json` records a live session. The data-free fallback retains its authored model. Race results, career, save slots and audio/video playback are available; remaining required gameplay/content gaps are explicit in Part 19.
 
 ## 1. Scope and definition of complete
 
 **Owner scope update:** Running the original executable and matching its runtime captures are no longer required. Source-disc hash verification, bounded parsing, static research and tests of this engine remain required. Original-runtime checklist gates 01.02.b, 01.03.b, 01.04.b, 01.06.b, 08.01.b, 15.12.b and task 11.12 are retired without renumbering other IDs. Part 01 now accepts documented static metadata and current-engine validation. See [scope decision](docs/SCOPE_CHANGES.md).
 
-The first release covers local single-player racing, original courses and progression, handling, combat, opponents, traffic, pedestrians, police, menus, saves, audio/video, and an optional enhanced texture pack. Multiplayer, mobile/browser delivery, and a full 3D remake are separate projects. Preserve classic behavior first; record intentional changes as selectable enhancements. Completion means a clean install from user-supplied data, full campaign completion, all required content covered, reproducible validation, and no unresolved release-blocking defects.
+The first release covers local single-player racing, original courses and progression, handling, combat, opponents, traffic, pedestrians, police, menus, saves, audio/video, using native assets. An optional enhanced texture pack follows the accepted functional native release. Multiplayer, mobile/browser delivery, and a full 3D remake are separate projects. Preserve classic behavior first; record intentional changes as selectable enhancements. Completion means a clean install from user-supplied data, full campaign completion, all required content covered, reproducible validation, and no unresolved release-blocking defects.
 
 ## 2. Inspection receipt
 
@@ -58,13 +58,15 @@ crates/content        IDs, schemas, catalogs, mod resolution
 crates/course         source-unit course graph, traversal and inspector
 crates/render         classic projection, surfaces, raster and visual checkpoints
 crates/simulation     race rules, actors, commands, replay
-crates/presentation   classic renderer, animations, HUD/audio
-crates/platform       input, persistence, filesystem adapters
+crates/presentation   classic renderer, animations and HUD
+crates/input          validated bindings and input state
+crates/session        race lifecycle, career, menus and persistence
+crates/media          bounded PCM/video readers, cue planning and media clock
 tools/import          local disc verification and conversion
 tools/asset-review    export, candidate review, pack validation
 ```
 
-The import, formats, content, course, render, simulation, presentation and game packages exist. Platform and enhancement-review boundaries remain future work. Simulation owns gameplay truth. Rendering consumes snapshots and never determines hit results. Use explicit Bevy system ordering for input consumption, spawning, AI, movement, collisions, combat, progression and snapshot extraction. Retain legacy integer/fixed-point arithmetic wherever necessary for parity. A fixed timestep alone does not establish determinism: update order, RNG calls, numeric behavior and content versions also matter.
+All listed runtime crates exist; enhancement production remains gated future work. The game shell composes platform input, storage and Rodio/CPAL playback adapters with the pure domain crates. Simulation owns gameplay truth. Rendering consumes snapshots and never determines hit results. Use explicit Bevy system ordering for input consumption, spawning, AI, movement, collisions, combat, progression and snapshot extraction. Retain legacy integer/fixed-point arithmetic wherever necessary for parity. A fixed timestep alone does not establish determinism: update order, RNG calls, numeric behavior and content versions also matter.
 
 Represent a position as route/branch identity plus longitudinal progress, lateral displacement and elevation. A classic projection adapter and a future world-space adapter can consume the same course data. Keep sprite pivots, UV rectangles and screen scaling out of physics. Do not replace legacy handling with a general rigid-body solver merely because one is available. The local prototype's Rapier/Avian experiments need separate evaluation before reuse.
 
@@ -78,10 +80,12 @@ Use typed IDs and errors, bounded parsers, data-driven configuration, narrow plu
 | G1 | One course with faithful player driving | G0, simulation, road, input |
 | G2 | Complete race with combat and opponents | G1, actors, recovery, traffic |
 | G3 | Complete career and audiovisual frontend | G2, menus, saves, media |
-| G4 | Reviewed enhanced textures and mod overrides | G0, stable catalog, G2 rendering |
-| G5 | Tested desktop release | G3, G4, verification, packaging |
+| G3F | Complete native-asset functional candidate | G3, Part 19 required-feature/gap closure |
+| G5 | Accepted native-asset desktop release | G3F, Part 20 UI/localization, Part 21 verification, Part 22 packaging |
+| G4 | Reviewed enhanced textures and stable mod overrides | **G5 accepted first**, Part 23 mod contracts, Part 24 per-asset approval |
+| G6 | Optional enhanced-art release | G4 and the unchanged native-only fallback |
 
-G1 should use original textures and one validated course before mass upscaling. Each gate needs an executable revision, repeatable test recipe, recorded results, and documented remaining differences. No calendar estimate is implied.
+Original textures remain the baseline through functional completion, UI/localization, verification and native release. Existing override/registration experiments are infrastructure tests, not authorization to start enhancement production. **No AI upscaling or enhanced candidate production begins until G5 has a recorded acceptance signoff.** G5 does not depend on G4. Each gate needs an executable revision, repeatable test recipe, recorded results and explicit remaining differences. No calendar estimate is implied.
 
 ## 6. Detailed implementation checklists
 
@@ -89,7 +93,7 @@ Each parent item is a deliverable with independently checkable implementation, a
 
 ### How to use the task hierarchy
 
-A parent checkbox represents one complete deliverable. All remaining implementation, acceptance and evidence children must be complete before the parent is checked. Retired original-runtime children are removed, not marked as passed. A finished implementation with an unresolved reference mismatch remains open. IDs are stable so issues, commits and evidence can point to the same task even if sections move.
+A parent checkbox represents one complete deliverable. All remaining implementation, acceptance and evidence children must be complete before the parent is checked. Retired original-runtime children are removed, not marked as passed. A finished implementation with an unresolved reference mismatch remains open. Completed IDs 01–18 remain unchanged. This user-requested reorder creates roadmap revision 2 for future work; [the migration map](docs/ROADMAP_REORDER.md) preserves every previous future-ticket identity and its replacement. Record roadmap revision plus ticket ID when creating new issues.
 
 The steps describe required results rather than asserting that unknown behavior has already been recovered. Constants and binary field meanings must be supported by static evidence or explicitly labeled design choices. Original-runtime measurement is not a completion gate. Phase prerequisites, inputs, outputs and invariants apply to every task in that phase. Within a phase, data/schema tasks generally precede their consumers; document any additional dependency when turning a task into an issue.
 
@@ -115,14 +119,18 @@ For every code task, the evidence record must identify affected interfaces, norm
 - [Phase 16: Menus career and economy](#phase-16--menus-career-and-economy)
 - [Phase 17: Saves settings and migration](#phase-17--saves-settings-and-migration)
 - [Phase 18: Audio music and video](#phase-18--audio-music-and-video)
-- [Phase 19: Texture-by-texture enhancement](#phase-19--texture-by-texture-enhancement)
-- [Phase 20: Mod support and content contracts](#phase-20--mod-support-and-content-contracts)
-- [Phase 21: UI accessibility and localization](#phase-21--ui-accessibility-and-localization)
-- [Phase 22: Verification and performance](#phase-22--verification-and-performance)
-- [Phase 23: Packaging and release](#phase-23--packaging-and-release)
-- [Phase 24: Future 3D preparation only](#phase-24--future-3d-preparation-only)
+- [Phase 19: Complete the native-asset offline game](#phase-19--complete-the-native-asset-offline-game)
+- [Phase 20: UI accessibility and localization](#phase-20--ui-accessibility-and-localization)
+- [Phase 21: Verification and performance](#phase-21--verification-and-performance)
+- [Phase 22: Packaging and native-asset release](#phase-22--packaging-and-native-asset-release)
+- [Phase 23: Mod support and content contracts](#phase-23--mod-support-and-content-contracts)
+- [Phase 24: Texture-by-texture enhancement](#phase-24--texture-by-texture-enhancement)
+- [Phase 25: Future 3D preparation only](#phase-25--future-3d-preparation-only)
 
 ### Phase 01 — Project baseline and evidence
+
+<details>
+<summary>Completed — expand checklist and evidence</summary>
 
 **Prerequisites:** None; this establishes the evidence baseline. These are phase-entry dependencies, not a requirement to finish every numbered phase strictly in order.
 
@@ -250,7 +258,12 @@ Research: [README.md](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b
 
 **Exit evidence:** a reproducible demonstration of project baseline and evidence, linked implementation revision, recorded checks and known limitations. Dependent phases may prototype early, but this gate stays open until its checks pass.
 
+</details>
+
 ### Phase 02 — Repository and Rust foundation
+
+<details>
+<summary>Completed — expand checklist and evidence</summary>
 
 **Prerequisites:** 01.01, 01.09 and 01.11. These are phase-entry dependencies, not a requirement to finish every numbered phase strictly in order.
 
@@ -364,7 +377,12 @@ Research: [CMakeLists.txt](https://github.com/arkits/road-rash/blob/7aecf6044f2d
 
 **Exit evidence:** a reproducible demonstration of repository and rust foundation, linked implementation revision, recorded checks and known limitations. Dependent phases may prototype early, but this gate stays open until its checks pass.
 
+</details>
+
 ### Phase 03 — Disc import and provenance
+
+<details>
+<summary>Completed — expand checklist and evidence</summary>
 
 **Prerequisites:** 02.01, 02.09 and supported revision decision in 01.01. These are phase-entry dependencies, not a requirement to finish every numbered phase strictly in order.
 
@@ -478,7 +496,12 @@ Research: [src/importer.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f
 
 **Exit evidence:** a reproducible demonstration of disc import and provenance, linked implementation revision, recorded checks and known limitations. Dependent phases may prototype early, but this gate stays open until its checks pass.
 
+</details>
+
 ### Phase 04 — Binary formats and asset decoding
+
+<details>
+<summary>Completed — expand checklist and evidence</summary>
 
 **Prerequisites:** 03.03–03.04 for private corpus; 02.09 for public tests. These are phase-entry dependencies, not a requirement to finish every numbered phase strictly in order.
 
@@ -594,7 +617,12 @@ Research: [src/resource.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f
 
 **Exit evidence:** a reproducible demonstration of binary formats and asset decoding, linked implementation revision, recorded checks and known limitations. Dependent phases may prototype early, but this gate stays open until its checks pass.
 
+</details>
+
 ### Phase 05 — Content catalog and tooling
+
+<details>
+<summary>Completed — expand checklist and evidence</summary>
 
 **Prerequisites:** 04 decoder outputs and 02.10 private-directory policy. These are phase-entry dependencies, not a requirement to finish every numbered phase strictly in order.
 
@@ -708,7 +736,12 @@ Research: [src/assets.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2d
 
 **Exit evidence:** a reproducible demonstration of content catalog and tooling, linked implementation revision, recorded checks and known limitations. Dependent phases may prototype early, but this gate stays open until its checks pass.
 
+</details>
+
 ### Phase 06 — Simulation architecture
+
+<details>
+<summary>Completed — expand checklist and evidence</summary>
 
 **Prerequisites:** 01 fidelity policy and 02 foundation; use synthetic content initially. These are phase-entry dependencies, not a requirement to finish every numbered phase strictly in order.
 
@@ -826,7 +859,12 @@ Research: [src/race_state.hpp](https://github.com/arkits/road-rash/blob/7aecf604
 
 **Exit evidence:** a reproducible demonstration of simulation architecture, linked implementation revision, recorded checks and known limitations. Dependent phases may prototype early, but this gate stays open until its checks pass.
 
+</details>
+
 ### Phase 07 — Course reconstruction
+
+<details>
+<summary>Completed — expand checklist and evidence</summary>
 
 **Prerequisites:** 04 resource readers and 06 domain unit/route definitions. These are phase-entry dependencies, not a requirement to finish every numbered phase strictly in order.
 
@@ -940,7 +978,12 @@ Research: [src/course.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2d
 
 **Exit evidence:** a reproducible demonstration of course reconstruction, linked implementation revision, recorded checks and known limitations. Dependent phases may prototype early, but this gate stays open until its checks pass.
 
+</details>
+
 ### Phase 08 — Classic road rendering
+
+<details>
+<summary>Completed — expand checklist and evidence</summary>
 
 **Prerequisites:** 05 content catalog, 07 course data and 06 snapshots. These are phase-entry dependencies, not a requirement to finish every numbered phase strictly in order.
 
@@ -1054,7 +1097,12 @@ Research: [src/road.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd7
 
 **Exit evidence:** a reproducible demonstration of classic road rendering, linked implementation revision, recorded checks and known limitations. Dependent phases may prototype early, but this gate stays open until its checks pass.
 
+</details>
+
 ### Phase 09 — Input and player handling
+
+<details>
+<summary>Completed — expand checklist and evidence</summary>
 
 **Prerequisites:** 06 command/tick model and 04 bike table decoding. These are phase-entry dependencies, not a requirement to finish every numbered phase strictly in order.
 
@@ -1168,7 +1216,12 @@ Research: [src/input.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd
 
 **Exit evidence:** a reproducible demonstration of input and player handling, linked implementation revision, recorded checks and known limitations. Dependent phases may prototype early, but this gate stays open until its checks pass.
 
+</details>
+
 ### Phase 10 — Rider animation and palette fidelity
+
+<details>
+<summary>Completed — expand checklist and evidence</summary>
 
 **Prerequisites:** 04 BOB/remap readers, 05 frame metadata and 06 actor state model. These are phase-entry dependencies, not a requirement to finish every numbered phase strictly in order.
 
@@ -1282,7 +1335,12 @@ Research: [src/rider_sprites.cpp](https://github.com/arkits/road-rash/blob/7aecf
 
 **Exit evidence:** a reproducible demonstration of rider animation and palette fidelity, linked implementation revision, recorded checks and known limitations. Dependent phases may prototype early, but this gate stays open until its checks pass.
 
+</details>
+
 ### Phase 11 — Combat and contact
+
+<details>
+<summary>Completed — expand checklist and evidence</summary>
 
 **Prerequisites:** 06 stable scheduling, 09 movement and actor state definitions. These are phase-entry dependencies, not a requirement to finish every numbered phase strictly in order.
 
@@ -1367,7 +1425,12 @@ Research: [src/race_actions.cpp](https://github.com/arkits/road-rash/blob/7aecf6
 
 **Exit evidence:** a reproducible demonstration of combat and contact, linked implementation revision, recorded checks and known limitations. Dependent phases may prototype early, but this gate stays open until its checks pass.
 
+</details>
+
 ### Phase 12 — Crashes and recovery
+
+<details>
+<summary>Completed — expand checklist and evidence</summary>
 
 **Prerequisites:** 09 handling, 11 impacts and 07 route topology. These are phase-entry dependencies, not a requirement to finish every numbered phase strictly in order.
 
@@ -1457,7 +1520,12 @@ Research: [src/crash.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd
 
 **Exit evidence:** a reproducible demonstration of crashes and recovery, linked implementation revision, recorded checks and known limitations. Dependent phases may prototype early, but this gate stays open until its checks pass.
 
+</details>
+
 ### Phase 13 — Opponent intelligence
+
+<details>
+<summary>Completed — expand checklist and evidence</summary>
 
 **Prerequisites:** 06 ordering/RNG, 09 handling, 11 combat and 12 recovery. These are phase-entry dependencies, not a requirement to finish every numbered phase strictly in order.
 
@@ -1547,7 +1615,12 @@ Research: [src/race.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd7
 
 **Exit evidence:** a reproducible demonstration of opponent intelligence, linked implementation revision, recorded checks and known limitations. Dependent phases may prototype early, but this gate stays open until its checks pass.
 
+</details>
+
 ### Phase 14 — Traffic pedestrians and police
+
+<details>
+<summary>Completed — expand checklist and evidence</summary>
 
 **Prerequisites:** 07 course events, 06 scheduling and 09/12 actor interaction contracts. These are phase-entry dependencies, not a requirement to finish every numbered phase strictly in order.
 
@@ -1637,7 +1710,12 @@ Research: [src/traffic.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2
 
 **Exit evidence:** a reproducible demonstration of traffic pedestrians and police, linked implementation revision, recorded checks and known limitations. Dependent phases may prototype early, but this gate stays open until its checks pass.
 
+</details>
+
 ### Phase 15 — Race rules and results
+
+<details>
+<summary>Completed — expand checklist and evidence</summary>
 
 **Prerequisites:** 09–14 race actors and 07 finish/progress semantics. These are phase-entry dependencies, not a requirement to finish every numbered phase strictly in order.
 
@@ -1727,7 +1805,12 @@ Research: [src/race.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd7
 
 **Exit evidence:** a reproducible demonstration of race rules and results, linked implementation revision, recorded checks and known limitations. Dependent phases may prototype early, but this gate stays open until its checks pass.
 
+</details>
+
 ### Phase 16 — Menus career and economy
+
+<details>
+<summary>Completed — expand checklist and evidence</summary>
 
 **Prerequisites:** 01 screen inventory, 15 result contract and 17 save schema coordination. These are phase-entry dependencies, not a requirement to finish every numbered phase strictly in order.
 
@@ -1817,13 +1900,18 @@ Research: [src/frontend.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f
 
 **Exit evidence:** a reproducible demonstration of menus career and economy, linked implementation revision, recorded checks and known limitations. Dependent phases may prototype early, but this gate stays open until its checks pass.
 
+</details>
+
 ### Phase 17 — Saves settings and migration
+
+<details>
+<summary>Completed — expand checklist and evidence</summary>
 
 **Prerequisites:** 01 progression scope and 05 stable IDs; coordinate schema with 16. These are phase-entry dependencies, not a requirement to finish every numbered phase strictly in order.
 
 **Inputs:** Versioned domain records and user settings.
 
-**Required outputs:** Persistence adapter, schema migrations and recovery fixtures. Names in this roadmap are proposed artifacts until implemented.
+**Required outputs:** Persistence adapter, schema migrations and recovery fixtures. Implemented: see [Part 17 evidence](docs/evidence/part-17.md).
 
 **Invariant:** Validate before mutation and preserve old valid data through write failure.
 
@@ -1832,88 +1920,93 @@ Research: [src/frontend.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f
 
 Research: [src/career.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/career.cpp), [src/settings.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/settings.cpp), [src/atomic_file.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/atomic_file.cpp).
 
-- [ ] **17.01 — Define versioned save schema**
+- [x] **17.01 — Define versioned save schema**
 
-  - [ ] **17.01.a — Implement:** Define save records with schema version, stable IDs and bounded collections.
-  - [ ] **17.01.b — Verify:** Round-trip a representative career without engine entity IDs.
-  - [ ] **17.01.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/17.01.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **17.01.a — Implement:** Define save records with schema version, stable IDs and bounded collections.
+  - [x] **17.01.b — Verify:** Round-trip a representative career without engine entity IDs.
+  - [x] **17.01.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/17.01.md` . For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **17.02 — Separate settings from career progress**
+- [x] **17.02 — Separate settings from career progress**
 
-  - [ ] **17.02.a — Implement:** Store preferences separately from progression and per-run state.
-  - [ ] **17.02.b — Verify:** Reset graphics settings without deleting the player's career.
-  - [ ] **17.02.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/17.02.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **17.02.a — Implement:** Store preferences separately from progression and per-run state.
+  - [x] **17.02.b — Verify:** Reset graphics settings without deleting the player's career.
+  - [x] **17.02.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/17.02.md` . For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **17.03 — Use atomic save writes**
+- [x] **17.03 — Use atomic save writes**
 
-  - [ ] **17.03.a — Implement:** Write a temporary save, flush as required and replace safely.
-  - [ ] **17.03.b — Verify:** Simulate failures before replacement and retain the prior valid file.
-  - [ ] **17.03.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/17.03.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **17.03.a — Implement:** Write a temporary save, flush as required and replace safely.
+  - [x] **17.03.b — Verify:** Simulate failures before replacement and retain the prior valid file.
+  - [x] **17.03.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/17.03.md` . For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **17.04 — Keep recoverable backup**
+- [x] **17.04 — Keep recoverable backup**
 
-  - [ ] **17.04.a — Implement:** Keep a documented backup rotation and recovery choice.
-  - [ ] **17.04.b — Verify:** Corrupt the newest save and demonstrate restoration without silent data loss.
-  - [ ] **17.04.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/17.04.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **17.04.a — Implement:** Keep a documented backup rotation and recovery choice.
+  - [x] **17.04.b — Verify:** Corrupt the newest save and demonstrate restoration without silent data loss.
+  - [x] **17.04.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/17.04.md` . For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **17.05 — Validate loaded data before world mutation**
+- [x] **17.05 — Validate loaded data before world mutation**
 
-  - [ ] **17.05.a — Implement:** Validate money, IDs, progression and collection limits before applying state.
-  - [ ] **17.05.b — Verify:** Reject malformed values with a useful diagnostic.
-  - [ ] **17.05.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/17.05.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **17.05.a — Implement:** Validate money, IDs, progression and collection limits before applying state.
+  - [x] **17.05.b — Verify:** Reject malformed values with a useful diagnostic.
+  - [x] **17.05.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/17.05.md` . For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **17.06 — Test truncated and corrupt saves**
+- [x] **17.06 — Test truncated and corrupt saves**
 
-  - [ ] **17.06.a — Implement:** Create short, invalid and partially encoded save fixtures.
-  - [ ] **17.06.b — Verify:** Load them without panic or modifying the active session.
-  - [ ] **17.06.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/17.06.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **17.06.a — Implement:** Create short, invalid and partially encoded save fixtures.
+  - [x] **17.06.b — Verify:** Load them without panic or modifying the active session.
+  - [x] **17.06.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/17.06.md` . For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **17.07 — Implement explicit schema migrations**
+- [x] **17.07 — Implement explicit schema migrations**
 
-  - [ ] **17.07.a — Implement:** Write explicit migrations for each supported older schema.
-  - [ ] **17.07.b — Verify:** Test old-to-current conversion and avoid reapplying a migration twice.
-  - [ ] **17.07.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/17.07.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **17.07.a — Implement:** Write explicit migrations for each supported older schema.
+  - [x] **17.07.b — Verify:** Test old-to-current conversion and avoid reapplying a migration twice.
+  - [x] **17.07.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/17.07.md` . For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **17.08 — Record content pack compatibility**
+- [x] **17.08 — Record content pack compatibility**
 
-  - [ ] **17.08.a — Implement:** Record required content IDs and pack versions/hashes where necessary.
-  - [ ] **17.08.b — Verify:** Load with a missing mod and present a defined recovery policy.
-  - [ ] **17.08.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/17.08.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **17.08.a — Implement:** Record required content IDs and pack versions/hashes where necessary.
+  - [x] **17.08.b — Verify:** Load with a missing mod and present a defined recovery policy.
+  - [x] **17.08.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/17.08.md` . For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **17.09 — Persist input bindings and audio levels**
+- [x] **17.09 — Persist input bindings and audio levels**
 
-  - [ ] **17.09.a — Implement:** Persist bindings, volume and presentation settings with defaults.
-  - [ ] **17.09.b — Verify:** Test absent fields and unsupported old key names.
-  - [ ] **17.09.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/17.09.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **17.09.a — Implement:** Persist bindings, volume and presentation settings with defaults.
+  - [x] **17.09.b — Verify:** Test absent fields and unsupported old key names.
+  - [x] **17.09.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/17.09.md` . For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **17.10 — Test interrupted writes**
+- [x] **17.10 — Test interrupted writes**
 
-  - [ ] **17.10.a — Implement:** Inject failure at each save stage using a controlled test adapter.
-  - [ ] **17.10.b — Verify:** Verify resulting files are either old-valid or new-valid.
-  - [ ] **17.10.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/17.10.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **17.10.a — Implement:** Inject failure at each save stage using a controlled test adapter.
+  - [x] **17.10.b — Verify:** Verify resulting files are either old-valid or new-valid.
+  - [x] **17.10.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/17.10.md` . For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **17.11 — Decide original-save import scope**
+- [x] **17.11 — Decide original-save import scope**
 
-  - [ ] **17.11.a — Implement:** Decide whether original save import is a release requirement or later feature.
-  - [ ] **17.11.b — Verify:** Document the decision and avoid claiming binary compatibility without tests.
-  - [ ] **17.11.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/17.11.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **17.11.a — Implement:** Decide whether original save import is a release requirement or later feature.
+  - [x] **17.11.b — Verify:** Document the decision and avoid claiming binary compatibility without tests.
+  - [x] **17.11.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/17.11.md` . For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **17.12 — Document save location and reset procedure**
+- [x] **17.12 — Document save location and reset procedure**
 
-  - [ ] **17.12.a — Implement:** Document per-platform paths, backups, migration and reset operations.
-  - [ ] **17.12.b — Verify:** Follow recovery instructions in a clean user profile.
-  - [ ] **17.12.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/17.12.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **17.12.a — Implement:** Document per-platform paths, backups, migration and reset operations.
+  - [x] **17.12.b — Verify:** Follow recovery instructions in a clean user profile.
+  - [x] **17.12.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/17.12.md` . For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
 
-**Exit evidence:** a reproducible demonstration of saves settings and migration, linked implementation revision, recorded checks and known limitations. Dependent phases may prototype early, but this gate stays open until its checks pass.
+**Exit evidence:** [Part 17 completed receipt](docs/evidence/part-17.md), linked task proofs, tests, source comparison and declared limits. Required full-game gaps remain in Part 19.
+
+</details>
 
 ### Phase 18 — Audio music and video
+
+<details>
+<summary>Completed — expand checklist and evidence</summary>
 
 **Prerequisites:** 04 media readers, 05 catalog and 06/15 event lifecycles. These are phase-entry dependencies, not a requirement to finish every numbered phase strictly in order.
 
 **Inputs:** Original local media and resolved gameplay/frontend events.
 
-**Required outputs:** Audio/video adapters, cue map and synchronization scenarios. Names in this roadmap are proposed artifacts until implemented.
+**Required outputs:** Audio/video adapters, cue map and synchronization scenarios. Implemented: see [Part 18 evidence](docs/evidence/part-18.md).
 
 **Invariant:** Missing devices and skipped video must not corrupt race or menu state.
 
@@ -1922,264 +2015,172 @@ Research: [src/career.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2d
 
 Research: [src/sound.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/sound.cpp), [src/mixer.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/mixer.cpp), [src/race_music.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/race_music.cpp), [src/avi.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/avi.cpp), [src/cinepak.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/cinepak.cpp), [src/ima_adpcm.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/ima_adpcm.cpp).
 
-- [ ] **18.01 — Inventory sound effects and cue mappings**
+- [x] **18.01 — Inventory sound effects and cue mappings**
 
-  - [ ] **18.01.a — Implement:** Catalog effect IDs, source WAVs, loop flags and triggering gameplay events.
-  - [ ] **18.01.b — Verify:** Verify every required cue resolves and duplicates are intentional.
-  - [ ] **18.01.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/18.01.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **18.01.a — Implement:** Catalog effect IDs, source WAVs, loop flags and triggering gameplay events.
+  - [x] **18.01.b — Verify:** Verify every required cue resolves and duplicates are intentional.
+  - [x] **18.01.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/18.01.md` . For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **18.02 — Implement engine pitch and throttle response**
+- [x] **18.02 — Implement engine pitch and throttle response**
 
-  - [ ] **18.02.a — Implement:** Drive engine loops/pitch from speed, gear and throttle with bounded transitions.
-  - [ ] **18.02.b — Verify:** Compare idle, acceleration, shifting and deceleration without audible discontinuity.
-  - [ ] **18.02.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/18.02.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **18.02.a — Implement:** Drive engine loops/pitch from speed, gear and throttle with bounded transitions.
+  - [x] **18.02.b — Verify:** Compare idle, acceleration, shifting and deceleration without audible discontinuity.
+  - [x] **18.02.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/18.02.md` . For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **18.03 — Implement collision and combat cues**
+- [x] **18.03 — Implement collision and combat cues**
 
-  - [ ] **18.03.a — Implement:** Map hit/crash categories to cues with controlled overlap and priority.
-  - [ ] **18.03.b — Verify:** Test simultaneous impacts without clipping or repeated retrigger storms.
-  - [ ] **18.03.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/18.03.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **18.03.a — Implement:** Map hit/crash categories to cues with controlled overlap and priority.
+  - [x] **18.03.b — Verify:** Test simultaneous impacts without clipping or repeated retrigger storms.
+  - [x] **18.03.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/18.03.md` . For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **18.04 — Implement police siren lifecycle**
+- [x] **18.04 — Implement police siren lifecycle**
 
-  - [ ] **18.04.a — Implement:** Tie siren voices to police IDs and pursuit state.
-  - [ ] **18.04.b — Verify:** Stop every voice when pursuit ends, a race exits or audio resets.
-  - [ ] **18.04.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/18.04.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **18.04.a — Implement:** Tie siren voices to police IDs and pursuit state.
+  - [x] **18.04.b — Verify:** Stop every voice when pursuit ends, a race exits or audio resets.
+  - [x] **18.04.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/18.04.md` . For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **18.05 — Implement music selection and looping**
+- [x] **18.05 — Implement music selection and looping**
 
-  - [ ] **18.05.a — Implement:** Implement soundtrack selection, advancement and loop policy.
-  - [ ] **18.05.b — Verify:** Test end-of-track, missing media and menu/race transitions.
-  - [ ] **18.05.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/18.05.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **18.05.a — Implement:** Implement soundtrack selection, advancement and loop policy.
+  - [x] **18.05.b — Verify:** Test end-of-track, missing media and menu/race transitions.
+  - [x] **18.05.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/18.05.md` . For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **18.06 — Expose independent volume buses**
+- [x] **18.06 — Expose independent volume buses**
 
-  - [ ] **18.06.a — Implement:** Create master, music, effects and engine volume controls.
-  - [ ] **18.06.b — Verify:** Verify mute and restore affect only the intended buses.
-  - [ ] **18.06.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/18.06.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **18.06.a — Implement:** Create master, music, effects and engine volume controls.
+  - [x] **18.06.b — Verify:** Verify mute and restore affect only the intended buses.
+  - [x] **18.06.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/18.06.md` . For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **18.07 — Pause and resume audio consistently**
+- [x] **18.07 — Pause and resume audio consistently**
 
-  - [ ] **18.07.a — Implement:** Preserve playback policy across pause and resume.
-  - [ ] **18.07.b — Verify:** Test repeated pauses without duplicated sources or lost loop state.
-  - [ ] **18.07.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/18.07.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **18.07.a — Implement:** Preserve playback policy across pause and resume.
+  - [x] **18.07.b — Verify:** Test repeated pauses without duplicated sources or lost loop state.
+  - [x] **18.07.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/18.07.md` . For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **18.08 — Handle missing audio devices**
+- [x] **18.08 — Handle missing audio devices**
 
-  - [ ] **18.08.a — Implement:** Handle device loss and initialization failure without stopping gameplay.
-  - [ ] **18.08.b — Verify:** Test a system with no available audio output.
-  - [ ] **18.08.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/18.08.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **18.08.a — Implement:** Handle device loss and initialization failure without stopping gameplay.
+  - [x] **18.08.b — Verify:** Test a system with no available audio output.
+  - [x] **18.08.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/18.08.md` . For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **18.09 — Decode supported video and audio tracks**
+- [x] **18.09 — Decode supported video and audio tracks**
 
-  - [ ] **18.09.a — Implement:** Decode supported AVI video/audio streams through a bounded adapter.
-  - [ ] **18.09.b — Verify:** Compare frame count, duration and decoded samples on selected fixtures.
-  - [ ] **18.09.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/18.09.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **18.09.a — Implement:** Decode supported AVI video/audio streams through a bounded adapter.
+  - [x] **18.09.b — Verify:** Compare frame count, duration and decoded samples on selected fixtures.
+  - [x] **18.09.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/18.09.md` . For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **18.10 — Synchronize video playback timing**
+- [x] **18.10 — Synchronize video playback timing**
 
-  - [ ] **18.10.a — Implement:** Use a media clock and defined frame-drop policy for synchronization.
-  - [ ] **18.10.b — Verify:** Test slow decoding and long playback for drift.
-  - [ ] **18.10.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/18.10.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **18.10.a — Implement:** Use a media clock and defined frame-drop policy for synchronization.
+  - [x] **18.10.b — Verify:** Test slow decoding and long playback for drift.
+  - [x] **18.10.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/18.10.md` . For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **18.11 — Implement skip and return flow**
+- [x] **18.11 — Implement skip and return flow**
 
-  - [ ] **18.11.a — Implement:** Allow skip only through documented transition points and cleanup media resources.
-  - [ ] **18.11.b — Verify:** Skip immediately, near the end and after pause.
-  - [ ] **18.11.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/18.11.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **18.11.a — Implement:** Allow skip only through documented transition points and cleanup media resources.
+  - [x] **18.11.b — Verify:** Skip immediately, near the end and after pause.
+  - [x] **18.11.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/18.11.md` . For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **18.12 — Compare cues and audiovisual timing**
+- [x] **18.12 — Compare cues and audiovisual timing**
 
-  - [ ] **18.12.a — Implement:** Record versioned engine cue timestamps and source-media playback durations.
-  - [ ] **18.12.b — Verify:** Compare timing separately from subjective timbre differences.
-  - [ ] **18.12.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/18.12.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **18.12.a — Implement:** Record versioned engine cue timestamps and source-media playback durations.
+  - [x] **18.12.b — Verify:** Compare timing separately from subjective timbre differences.
+  - [x] **18.12.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/18.12.md` . For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
 
-**Exit evidence:** a reproducible demonstration of audio music and video, linked implementation revision, recorded checks and known limitations. Dependent phases may prototype early, but this gate stays open until its checks pass.
+**Exit evidence:** [Part 18 completed receipt](docs/evidence/part-18.md), linked task proofs, tests, source comparison and declared limits. Required full-game gaps remain in Part 19.
 
-### Phase 19 — Texture-by-texture enhancement
+</details>
 
-**Prerequisites:** 05 stable catalog and 08/10 faithful original-asset presentation. These are phase-entry dependencies, not a requirement to finish every numbered phase strictly in order.
+### Phase 19 — Complete the native-asset offline game
 
-**Inputs:** Source assets plus per-candidate generation metadata.
+**Prerequisites:** Parts 01–18 provide implemented subsystems; their declared fidelity and functionality gaps are inputs to this completion gate. Original Windows execution remains optional under the owner's earlier scope decision.
 
-**Required outputs:** Immutable masters, review ledger, approved pack and fallback demonstration. Names in this roadmap are proposed artifacts until implemented.
+**Inputs:** The source corpus, current gap/audit records, real input/replay tools and a fresh profile. Use original textures throughout.
 
-**Invariant:** Approve by semantic asset/family; never silently overwrite native masters.
+**Required outputs:** A complete offline functional candidate, a closed required-feature manifest and a native-only end-to-end career demonstration. This gate is not complete merely because subsystem scaffolds have checked boxes.
 
-**Execution rule:** Resolve each task's exact constants and file layout from the pinned references below and the evidence ledger. If original behavior is unmeasured, create a research result before declaring implementation parity. The `.a` item creates the deliverable, `.b` specifies its task-specific acceptance, and `.c` records reproducible proof.
+**Invariant:** No AI-generated or enhanced texture is necessary for any required game feature. Required functionality cannot be silently reclassified as visual polish.
 
+**Execution rule:** Every required feature must have code, a command-driven or ordinary-input scenario, expected results and a completion receipt. Compare against the pinned source/native APIs and recorded intended rules; do not reintroduce waived original-executable comparisons.
 
-Research: [src/upscale_import.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/upscale_import.cpp), [src/upscale_cache.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/upscale_cache.cpp), [src/mmpx.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/mmpx.cpp).
+- [ ] **19.01 — Freeze the native-only functional acceptance manifest**
 
-- [ ] **19.01 — Export immutable native-resolution masters**
+  - [ ] **19.01.a — Implement:** Enumerate every offline feature, all 25 course/level combinations, all 15 bikes, eight riders, required menu items, media, save paths and supported controls. Link every known gap from Parts 01–18; distinguish intentional documented policy from an absent required function.
+  - [ ] **19.01.b — Verify:** Run the manifest with all enhanced packs disabled. Each required entry has an executable scenario and an expected result; unresolved required functions remain open.
+  - [ ] **19.01.c — Attach completion evidence:** Link interfaces, exact native/authored fixtures or recorded input, expected/actual results, error paths and implementation revision in `docs/evidence/19.01.md`. Keep raw commercial assets private. Leave this task open while a required acceptance fails.
 
-  - [ ] **19.01.a — Implement:** Export native masters with original palette, alpha and provenance intact.
-  - [ ] **19.01.b — Verify:** Verify their hashes never change when candidates are regenerated.
-  - [ ] **19.01.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/19.01.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+- [ ] **19.02 — Complete the original player action set**
 
-- [ ] **19.02 — Prioritize high-visibility assets**
+  - [ ] **19.02.a — Implement:** Implement and bind remaining required controls, including nitro/boost and intentional dismount; resolve steering/lean semantics, inventory limits, ground/air/recovery eligibility and pause/input ownership from the pinned source or an explicit approved rule.
+  - [ ] **19.02.b — Verify:** Exercise press, hold, release, depletion, simultaneous controls and crash/remount transitions. Verify actions through the real input adapter and include their state in replays.
+  - [ ] **19.02.c — Attach completion evidence:** Link interfaces, exact native/authored fixtures or recorded input, expected/actual results, error paths and implementation revision in `docs/evidence/19.02.md`. Keep raw commercial assets private. Leave this task open while a required acceptance fails.
 
-  - [ ] **19.02.a — Implement:** Rank candidates by screen coverage, frequency, gameplay importance and family dependencies.
-  - [ ] **19.02.b — Verify:** Complete a small pilot before committing to full-corpus scaling.
-  - [ ] **19.02.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/19.02.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+- [ ] **19.03 — Complete actor appearances and animation states**
 
-- [ ] **19.03 — Create one review item per texture or animation family**
+  - [ ] **19.03.a — Implement:** Replace first-drawable pedestrian previews with state-appropriate CANS timing; audit all rider, vehicle, cop and pedestrian appearances, mirrors, pivots, shadows and interaction poses. Preserve the seven confirmed absent native appearances as evidenced exclusions.
+  - [ ] **19.03.b — Verify:** Run the complete actor/state matrix on every course. No invisible collidable actor, missing required transition, incorrect ground contact or unexplained animation gap remains.
+  - [ ] **19.03.c — Attach completion evidence:** Link interfaces, exact native/authored fixtures or recorded input, expected/actual results, error paths and implementation revision in `docs/evidence/19.03.md`. Keep raw commercial assets private. Leave this task open while a required acceptance fails.
 
-  - [ ] **19.03.a — Implement:** Create review records keyed by asset ID and linked animation family.
-  - [ ] **19.03.b — Verify:** Ensure each candidate has an explicit owner/status and no ambiguous filename-only identity.
-  - [ ] **19.03.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/19.03.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+- [ ] **19.04 — Close traffic and police functional gaps**
 
-- [ ] **19.04 — Record AI model version and generation settings**
+  - [ ] **19.04.a — Implement:** Audit and complete required zone/controller, lane-change, crossing, pedestrian avoidance, pursuit, cop-hit/recovery and arrest behaviors. Resolve the current simplified policies explicitly, retaining topology ownership and bounded pools.
+  - [ ] **19.04.b — Verify:** Drive scripted dense, split-route, intersection and simultaneous-incident cases. Required behaviors work with native graphics, deterministic identities and no stale contacts or sirens.
+  - [ ] **19.04.c — Attach completion evidence:** Link interfaces, exact native/authored fixtures or recorded input, expected/actual results, error paths and implementation revision in `docs/evidence/19.04.md`. Keep raw commercial assets private. Leave this task open while a required acceptance fails.
 
-  - [ ] **19.04.a — Implement:** Record model/service revision, scale, denoise and relevant generation options.
-  - [ ] **19.04.b — Verify:** Reopen a candidate record and identify exactly how it was produced.
-  - [ ] **19.04.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/19.04.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+- [ ] **19.05 — Close complete race and terminal outcome flows**
 
-- [ ] **19.05 — Record prompt seed and input hash**
+  - [ ] **19.05.a — Implement:** Verify full-length route progress, unequal branches, finish overshoot/order, combat/recovery, timeout policy and every win/loss/arrest/wreck/quit return. Remove required debug-only/manual shortcuts from the normal player flow.
+  - [ ] **19.05.b — Verify:** Complete real command-driven races from countdown through results on the native setup matrix; do not substitute fabricated terminal requests for the end-to-end finish acceptance.
+  - [ ] **19.05.c — Attach completion evidence:** Link interfaces, exact native/authored fixtures or recorded input, expected/actual results, error paths and implementation revision in `docs/evidence/19.05.md`. Keep raw commercial assets private. Leave this task open while a required acceptance fails.
 
-  - [ ] **19.05.a — Implement:** Store prompt, seed when available, source hash and output hash.
-  - [ ] **19.05.b — Verify:** Mark unavailable generation metadata explicitly instead of inventing reproducibility.
-  - [ ] **19.05.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/19.05.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+- [ ] **19.06 — Complete offline frontend and source dialogue**
 
-- [ ] **19.06 — Preserve alpha edges and pivot metadata**
+  - [ ] **19.06.a — Implement:** Audit every source offline menu/control after the save/media work. Implement remaining required screen paths, complete credits, source dialogue/attitude/relationship selection and character/showroom data; make disabled or outside-scope network items explicit.
+  - [ ] **19.06.b — Verify:** Run every offline item and Back/cancel route from a clean profile. Report source-art layout differences separately, but leave no required item inert or replaced by placeholder advice.
+  - [ ] **19.06.c — Attach completion evidence:** Link interfaces, exact native/authored fixtures or recorded input, expected/actual results, error paths and implementation revision in `docs/evidence/19.06.md`. Keep raw commercial assets private. Leave this task open while a required acceptance fails.
 
-  - [ ] **19.06.a — Implement:** Retain logical dimensions, pivot and alpha boundaries outside generated pixels.
-  - [ ] **19.06.b — Verify:** Compare ground contact and silhouette before/after replacement.
-  - [ ] **19.06.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/19.06.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+- [ ] **19.07 — Complete source media invocation coverage**
 
-- [ ] **19.07 — Preserve palette-remap masks separately**
+  - [ ] **19.07.a — Implement:** Audit intro, career level/finale and all result video variants, artist/track submenus, ambient/race soundtrack choices and actor-specific effects. Resolve source MIDI/SBK or alternative media requirements explicitly; retain skip, mute, missing-device and native fallback behavior.
+  - [ ] **19.07.b — Verify:** Exercise each required invocation with the original local corpus. Verify owner/return screen, cue timing, audio completion, subtitle hooks and cleanup; unsupported required media stays open.
+  - [ ] **19.07.c — Attach completion evidence:** Link interfaces, exact native/authored fixtures or recorded input, expected/actual results, error paths and implementation revision in `docs/evidence/19.07.md`. Keep raw commercial assets private. Leave this task open while a required acceptance fails.
 
-  - [ ] **19.07.a — Implement:** Keep semantic recoloring masks independent of enhanced RGB detail.
-  - [ ] **19.07.b — Verify:** Preview every rider remap and reject color leakage across clothing regions.
-  - [ ] **19.07.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/19.07.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+- [ ] **19.08 — Finish save recovery and user-profile usability**
 
-- [ ] **19.08 — Reject invented text and changed silhouettes**
+  - [ ] **19.08.a — Implement:** Verify all career slots, new/resume/save-as, content compatibility, settings/bindings, backups, migrations and restart recovery through the packaged player flow. State original binary-save import scope without implying compatibility.
+  - [ ] **19.08.b — Verify:** Complete profile creation, several races, close/reopen, purchase/repair, corruption recovery and settings reset while preserving funds, unlocks and bindings exactly once.
+  - [ ] **19.08.c — Attach completion evidence:** Link interfaces, exact native/authored fixtures or recorded input, expected/actual results, error paths and implementation revision in `docs/evidence/19.08.md`. Keep raw commercial assets private. Leave this task open while a required acceptance fails.
 
-  - [ ] **19.08.a — Implement:** Compare signs, logos, faces and recognizable silhouettes at native and target size.
-  - [ ] **19.08.b — Verify:** Reject hallucinated letters, altered pose or changed bike geometry.
-  - [ ] **19.08.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/19.08.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+- [ ] **19.09 — Complete a genuine native-asset Big Game career**
 
-- [ ] **19.09 — Review tiled textures for seams**
+  - [ ] **19.09.a — Implement:** Record a complete 25-race progression path using real driving/combat commands, source setups and original textures. Include inter-race save/resume, different bikes and failure/recovery branches.
+  - [ ] **19.09.b — Verify:** Reach level-five finale and reopen the final career. Compare saved money, qualifications and purchases against the transaction ledger; accept no missing required content or synthetic finish shortcut.
+  - [ ] **19.09.c — Attach completion evidence:** Link interfaces, exact native/authored fixtures or recorded input, expected/actual results, error paths and implementation revision in `docs/evidence/19.09.md`. Keep raw commercial assets private. Leave this task open while a required acceptance fails.
 
-  - [ ] **19.09.a — Implement:** Preview repeated road/terrain tiles across several repeats and mip levels.
-  - [ ] **19.09.b — Verify:** Reject edge seams, directional discontinuities and excessive high-frequency noise.
-  - [ ] **19.09.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/19.09.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+- [ ] **19.10 — Burn down required functionality defects**
 
-- [ ] **19.10 — Review animation sequences for flicker**
+  - [ ] **19.10.a — Implement:** Maintain a defect register with reproducer, subsystem owner, severity and regression scenario. Import all earlier declared missing functionality and distinguish required fixes from optional visual polish or source-layout differences.
+  - [ ] **19.10.b — Verify:** No blocker or required functional gap remains unassigned, waived implicitly or hidden under a completed scaffold receipt. Closed defects have passing regression evidence.
+  - [ ] **19.10.c — Attach completion evidence:** Link interfaces, exact native/authored fixtures or recorded input, expected/actual results, error paths and implementation revision in `docs/evidence/19.10.md`. Keep raw commercial assets private. Leave this task open while a required acceptance fails.
 
-  - [ ] **19.10.a — Implement:** Play complete animation cycles with native/enhanced toggle at gameplay speed.
-  - [ ] **19.10.b — Verify:** Reject frame-to-frame changing details and pivot/outline shimmer.
-  - [ ] **19.10.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/19.10.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+- [ ] **19.11 — Demonstrate the game without development tools**
 
-- [ ] **19.11 — Approve or reject each candidate explicitly**
+  - [ ] **19.11.a — Implement:** Exercise installer/import, menus, a full race, career, media, recovery and exit using ordinary keyboard/controller navigation on the first supported platform, with no console, inspector, test-only command or enhanced pack required.
+  - [ ] **19.11.b — Verify:** Have a reviewer follow the written clean-profile route and record failures. Resolve every required interruption before handing the candidate to UI and release verification.
+  - [ ] **19.11.c — Attach completion evidence:** Link interfaces, exact native/authored fixtures or recorded input, expected/actual results, error paths and implementation revision in `docs/evidence/19.11.md`. Keep raw commercial assets private. Leave this task open while a required acceptance fails.
 
-  - [ ] **19.11.a — Implement:** Require a recorded decision, rationale and approved output hash per asset.
-  - [ ] **19.11.b — Verify:** Ensure rejected/superseded candidates cannot be packaged accidentally.
-  - [ ] **19.11.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/19.11.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+- [ ] **19.12 — Freeze the functional candidate for native release verification**
 
-- [ ] **19.12 — Package approved overrides with native fallback**
+  - [ ] **19.12.a — Implement:** Freeze the native-only feature manifest, content identity, regression recipes and remaining nonblocking differences. Hand the candidate to Parts 20–22; keep G5 pending until the packaged native release is accepted.
+  - [ ] **19.12.b — Verify:** Confirm every required feature has implementation and evidence, that Parts 20–22 have explicit acceptance owners, and that Part 24 production is still locked until G5 signoff.
+  - [ ] **19.12.c — Attach completion evidence:** Link interfaces, exact native/authored fixtures or recorded input, expected/actual results, error paths and implementation revision in `docs/evidence/19.12.md`. Keep raw commercial assets private. Leave this task open while a required acceptance fails.
 
-  - [ ] **19.12.a — Implement:** Build override packs from approved records and validate source identity.
-  - [ ] **19.12.b — Verify:** Remove an override and confirm native rendering continues without missing assets.
-  - [ ] **19.12.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/19.12.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+**Exit evidence:** a native-asset functional candidate for UI/localization, independent verification and packaging. Final native-only release signoff is G5 in Part 22. Texture enhancement production in Part 24 remains locked until then.
 
+### Phase 20 — UI accessibility and localization
 
-**Exit evidence:** a reproducible demonstration of texture-by-texture enhancement, linked implementation revision, recorded checks and known limitations. Dependent phases may prototype early, but this gate stays open until its checks pass.
-
-### Phase 20 — Mod support and content contracts
-
-**Prerequisites:** 05 catalog schemas, 06 replay identity and stable 07/09 data contracts. These are phase-entry dependencies, not a requirement to finish every numbered phase strictly in order.
-
-**Inputs:** Base catalog plus explicitly enabled content packs.
-
-**Required outputs:** Mod manifest/resolver, validation reports and authored example pack. Names in this roadmap are proposed artifacts until implemented.
-
-**Invariant:** Resolve the complete content graph before activating gameplay-affecting changes.
-
-**Execution rule:** Resolve each task's exact constants and file layout from the pinned references below and the evidence ledger. If original behavior is unmeasured, create a research result before declaring implementation parity. The `.a` item creates the deliverable, `.b` specifies its task-specific acceptance, and `.c` records reproducible proof.
-
-
-Research: [src/assets.hpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/assets.hpp), [src/upscale_cache.hpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/upscale_cache.hpp).
-
-- [ ] **20.01 — Define versioned mod manifest**
-
-  - [ ] **20.01.a — Implement:** Define manifest fields for ID, version, dependencies, engine range and content entries.
-  - [ ] **20.01.b — Verify:** Validate unknown required fields and malformed versions predictably.
-  - [ ] **20.01.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/20.01.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
-
-- [ ] **20.02 — Define stable content IDs**
-
-  - [ ] **20.02.a — Implement:** Use namespaced IDs with stable semantics for base and mod content.
-  - [ ] **20.02.b — Verify:** Rename a file without breaking saves or references to the same ID.
-  - [ ] **20.02.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/20.02.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
-
-- [ ] **20.03 — Implement deterministic load priority**
-
-  - [ ] **20.03.a — Implement:** Define base-to-mod precedence and dependency ordering.
-  - [ ] **20.03.b — Verify:** Load the same mod set in different filesystem enumeration orders with equal results.
-  - [ ] **20.03.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/20.03.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
-
-- [ ] **20.04 — Report conflicts with winning source**
-
-  - [ ] **20.04.a — Implement:** Produce a conflict report listing every candidate and selected winner.
-  - [ ] **20.04.b — Verify:** Test two mods replacing the same texture and expose the override chain.
-  - [ ] **20.04.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/20.04.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
-
-- [ ] **20.05 — Validate dependency and engine version requirements**
-
-  - [ ] **20.05.a — Implement:** Resolve dependencies before asset loading with clear incompatibility diagnostics.
-  - [ ] **20.05.b — Verify:** Reject missing dependencies and dependency cycles.
-  - [ ] **20.05.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/20.05.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
-
-- [ ] **20.06 — Support texture replacement first**
-
-  - [ ] **20.06.a — Implement:** Implement texture overrides through the catalog rather than hardcoded file probing.
-  - [ ] **20.06.b — Verify:** Replace one texture and preserve its original pivot and gameplay bounds.
-  - [ ] **20.06.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/20.06.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
-
-- [ ] **20.07 — Support bike and handling data overrides**
-
-  - [ ] **20.07.a — Implement:** Expose constrained bike data overrides through versioned schemas.
-  - [ ] **20.07.b — Verify:** Test invalid mass/speed values and record modified simulation configuration.
-  - [ ] **20.07.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/20.07.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
-
-- [ ] **20.08 — Support courses after schema stabilizes**
-
-  - [ ] **20.08.a — Implement:** Define course graph schema only after core traversal semantics stabilize.
-  - [ ] **20.08.b — Verify:** Load an authored tiny course and reject dangling graph links.
-  - [ ] **20.08.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/20.08.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
-
-- [ ] **20.09 — Validate all numeric ranges and references**
-
-  - [ ] **20.09.a — Implement:** Validate dimensions, numbers, IDs and referenced files before activation.
-  - [ ] **20.09.b — Verify:** Report all actionable errors without partially applying the pack.
-  - [ ] **20.09.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/20.09.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
-
-- [ ] **20.10 — Provide authored example mod**
-
-  - [ ] **20.10.a — Implement:** Create an original placeholder texture/bike mod with setup documentation.
-  - [ ] **20.10.b — Verify:** Install it on a clean clone and confirm no commercial content is required.
-  - [ ] **20.10.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/20.10.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
-
-- [ ] **20.11 — Include active mod hashes in replay metadata**
-
-  - [ ] **20.11.a — Implement:** Include resolved load order and content hashes in replay manifests.
-  - [ ] **20.11.b — Verify:** Reject or clearly label a replay with mismatched simulation-affecting mods.
-  - [ ] **20.11.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/20.11.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
-
-- [ ] **20.12 — Document unsupported script and native-code loading**
-
-  - [ ] **20.12.a — Implement:** State that initial mod support is data/assets only unless separately approved.
-  - [ ] **20.12.b — Verify:** Verify content loading cannot execute arbitrary scripts or native libraries.
-  - [ ] **20.12.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/20.12.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
-
-
-**Exit evidence:** a reproducible demonstration of mod support and content contracts, linked implementation revision, recorded checks and known limitations. Dependent phases may prototype early, but this gate stays open until its checks pass.
-
-### Phase 21 — UI accessibility and localization
-
-**Prerequisites:** 16 frontend graph, 15 HUD data and 05 language inventory. These are phase-entry dependencies, not a requirement to finish every numbered phase strictly in order.
+**Prerequisites:** Functional offline candidate from 19, 16 frontend graph, 15 HUD data and 05 language inventory. These are phase-entry dependencies, not a requirement to finish every numbered phase strictly in order.
 
 **Inputs:** Stable text keys, focus graph and presentation settings.
 
@@ -2192,84 +2193,84 @@ Research: [src/assets.hpp](https://github.com/arkits/road-rash/blob/7aecf6044f2d
 
 Research: [src/hud.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/hud.cpp), [src/text.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/text.cpp), [src/native_strings.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/native_strings.cpp).
 
-- [ ] **21.01 — Implement HUD speed health damage and rank**
+- [ ] **20.01 — Implement HUD speed health damage and rank**
 
-  - [ ] **21.01.a — Implement:** Read speed, health, bike damage and rank from snapshots with defined formatting.
-  - [ ] **21.01.b — Verify:** Compare displayed values against simulation at checkpoints.
-  - [ ] **21.01.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/21.01.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [ ] **20.01.a — Implement:** Read speed, health, bike damage and rank from snapshots with defined formatting.
+  - [ ] **20.01.b — Verify:** Compare displayed values against simulation at checkpoints.
+  - [ ] **20.01.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/20.01.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **21.02 — Support scalable UI and safe areas**
+- [ ] **20.02 — Support scalable UI and safe areas**
 
-  - [ ] **21.02.a — Implement:** Anchor UI to safe areas with scale rules for window sizes and DPI.
-  - [ ] **21.02.b — Verify:** Test minimum window size, ultrawide and high-DPI layouts.
-  - [ ] **21.02.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/21.02.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [ ] **20.02.a — Implement:** Anchor UI to safe areas with scale rules for window sizes and DPI.
+  - [ ] **20.02.b — Verify:** Test minimum window size, ultrawide and high-DPI layouts.
+  - [ ] **20.02.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/20.02.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **21.03 — Support keyboard navigation and controller focus**
+- [ ] **20.03 — Support keyboard navigation and controller focus**
 
-  - [ ] **21.03.a — Implement:** Define focus order, selected state and navigation actions for every menu.
-  - [ ] **21.03.b — Verify:** Complete selection and confirmation flows using keyboard and controller only.
-  - [ ] **21.03.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/21.03.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [ ] **20.03.a — Implement:** Define focus order, selected state and navigation actions for every menu.
+  - [ ] **20.03.b — Verify:** Complete selection and confirmation flows using keyboard and controller only.
+  - [ ] **20.03.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/20.03.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **21.04 — Expose readable modern text option**
+- [ ] **20.04 — Expose readable modern text option**
 
-  - [ ] **21.04.a — Implement:** Provide readable text sizing/contrast while retaining optional classic artwork.
-  - [ ] **21.04.b — Verify:** Test long labels and minimum supported UI scale.
-  - [ ] **21.04.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/21.04.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [ ] **20.04.a — Implement:** Provide readable text sizing/contrast while retaining optional classic artwork.
+  - [ ] **20.04.b — Verify:** Test long labels and minimum supported UI scale.
+  - [ ] **20.04.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/20.04.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **21.05 — Audit color-dependent information**
+- [ ] **20.05 — Audit color-dependent information**
 
-  - [ ] **21.05.a — Implement:** Identify health/rank/status cues conveyed only by color.
-  - [ ] **21.05.b — Verify:** Add shape, icon or text equivalents and verify grayscale readability.
-  - [ ] **21.05.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/21.05.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [ ] **20.05.a — Implement:** Identify health/rank/status cues conveyed only by color.
+  - [ ] **20.05.b — Verify:** Add shape, icon or text equivalents and verify grayscale readability.
+  - [ ] **20.05.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/20.05.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **21.06 — Provide reduced flashes and camera motion**
+- [ ] **20.06 — Provide reduced flashes and camera motion**
 
-  - [ ] **21.06.a — Implement:** Expose reduction settings for flashing, shake and motion where relevant.
-  - [ ] **21.06.b — Verify:** Verify disabled effects do not alter simulation or hide required state.
-  - [ ] **21.06.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/21.06.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [ ] **20.06.a — Implement:** Expose reduction settings for flashing, shake and motion where relevant.
+  - [ ] **20.06.b — Verify:** Verify disabled effects do not alter simulation or hide required state.
+  - [ ] **20.06.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/20.06.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **21.07 — Implement subtitle policy for dialogue**
+- [ ] **20.07 — Implement subtitle policy for dialogue**
 
-  - [ ] **21.07.a — Implement:** Catalog spoken content and decide subtitle coverage and timing.
-  - [ ] **21.07.b — Verify:** Test subtitles at the longest line and during skipped media.
-  - [ ] **21.07.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/21.07.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [ ] **20.07.a — Implement:** Catalog spoken content and decide subtitle coverage and timing.
+  - [ ] **20.07.b — Verify:** Test subtitles at the longest line and during skipped media.
+  - [ ] **20.07.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/20.07.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **21.08 — Inventory five supplied language resources**
+- [ ] **20.08 — Inventory five supplied language resources**
 
-  - [ ] **21.08.a — Implement:** Inventory strings and assets for each supplied language independently.
-  - [ ] **21.08.b — Verify:** Record gaps rather than assuming all screens are translated.
-  - [ ] **21.08.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/21.08.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [ ] **20.08.a — Implement:** Inventory strings and assets for each supplied language independently.
+  - [ ] **20.08.b — Verify:** Record gaps rather than assuming all screens are translated.
+  - [ ] **20.08.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/20.08.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **21.09 — Separate text keys from layouts**
+- [ ] **20.09 — Separate text keys from layouts**
 
-  - [ ] **21.09.a — Implement:** Use stable localization keys with parameterized values.
-  - [ ] **21.09.b — Verify:** Test plural/number formatting and avoid string-concatenation layout assumptions.
-  - [ ] **21.09.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/21.09.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [ ] **20.09.a — Implement:** Use stable localization keys with parameterized values.
+  - [ ] **20.09.b — Verify:** Test plural/number formatting and avoid string-concatenation layout assumptions.
+  - [ ] **20.09.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/20.09.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **21.10 — Test long translated strings and glyph coverage**
+- [ ] **20.10 — Test long translated strings and glyph coverage**
 
-  - [ ] **21.10.a — Implement:** Render long translated labels with actual selected fonts.
-  - [ ] **21.10.b — Verify:** Verify missing glyph handling and wrapping without clipped controls.
-  - [ ] **21.10.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/21.10.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [ ] **20.10.a — Implement:** Render long translated labels with actual selected fonts.
+  - [ ] **20.10.b — Verify:** Verify missing glyph handling and wrapping without clipped controls.
+  - [ ] **20.10.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/20.10.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **21.11 — Persist accessibility settings**
+- [ ] **20.11 — Persist accessibility settings**
 
-  - [ ] **21.11.a — Implement:** Persist accessibility preferences independently from career data.
-  - [ ] **21.11.b — Verify:** Restart the game and verify every option remains active.
-  - [ ] **21.11.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/21.11.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [ ] **20.11.a — Implement:** Persist accessibility preferences independently from career data.
+  - [ ] **20.11.b — Verify:** Restart the game and verify every option remains active.
+  - [ ] **20.11.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/20.11.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **21.12 — Run complete flow without mouse**
+- [ ] **20.12 — Run complete flow without mouse**
 
-  - [ ] **21.12.a — Implement:** Navigate import, menus, race, pause and results without mouse input.
-  - [ ] **21.12.b — Verify:** Record any inaccessible control as a release-blocking UI issue for the chosen target.
-  - [ ] **21.12.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/21.12.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [ ] **20.12.a — Implement:** Navigate import, menus, race, pause and results without mouse input.
+  - [ ] **20.12.b — Verify:** Record any inaccessible control as a release-blocking UI issue for the chosen target.
+  - [ ] **20.12.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/20.12.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
 
 **Exit evidence:** a reproducible demonstration of ui accessibility and localization, linked implementation revision, recorded checks and known limitations. Dependent phases may prototype early, but this gate stays open until its checks pass.
 
-### Phase 22 — Verification and performance
+### Phase 21 — Verification and performance
 
-**Prerequisites:** 06 replay harness and each system under comparison. These are phase-entry dependencies, not a requirement to finish every numbered phase strictly in order.
+**Prerequisites:** Native-only functional candidate from 19, UI/localization from 20, the 06 replay harness and each system under comparison. These are phase-entry dependencies, not a requirement to finish every numbered phase strictly in order.
 
 **Inputs:** Versioned engine fixtures and built game on declared hardware.
 
@@ -2282,88 +2283,88 @@ Research: [src/hud.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd77
 
 Research: [docs/VERIFICATION.md](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/docs/VERIFICATION.md), [docs/PERFORMANCE.md](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/docs/PERFORMANCE.md), [tests/road_test.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/tests/road_test.cpp).
 
-- [ ] **22.01 — Build internal regression capture protocol**
+- [ ] **21.01 — Build internal regression capture protocol**
 
-  - [ ] **22.01.a — Implement:** Specify engine build/content hashes, capture environment, replay commands and timing method.
-  - [ ] **22.01.b — Verify:** Repeat an engine baseline capture and quantify measurement variance.
-  - [ ] **22.01.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/22.01.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [ ] **21.01.a — Implement:** Specify engine build/content hashes, capture environment, replay commands and timing method.
+  - [ ] **21.01.b — Verify:** Repeat an engine baseline capture and quantify measurement variance.
+  - [ ] **21.01.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/21.01.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **22.02 — Record engine/content build, course, bike, seed and inputs**
+- [ ] **21.02 — Record engine/content build, course, bike, seed and inputs**
 
-  - [ ] **22.02.a — Implement:** Store course, level, bike, rider, seed and initial state with each run.
-  - [ ] **22.02.b — Verify:** Reject comparisons whose initial conditions do not match.
-  - [ ] **22.02.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/22.02.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [ ] **21.02.a — Implement:** Store course, level, bike, rider, seed and initial state with each run.
+  - [ ] **21.02.b — Verify:** Reject comparisons whose initial conditions do not match.
+  - [ ] **21.02.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/21.02.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **22.03 — Compare first divergent simulation tick**
+- [ ] **21.03 — Compare first divergent simulation tick**
 
-  - [ ] **22.03.a — Implement:** Compare canonical state at successive ticks and report first differing fields.
-  - [ ] **22.03.b — Verify:** Classify arithmetic, scheduling, RNG and content mismatches separately.
-  - [ ] **22.03.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/22.03.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [ ] **21.03.a — Implement:** Compare canonical state at successive ticks and report first differing fields.
+  - [ ] **21.03.b — Verify:** Classify arithmetic, scheduling, RNG and content mismatches separately.
+  - [ ] **21.03.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/21.03.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **22.04 — Compare fixed-camera image regions**
+- [ ] **21.04 — Compare fixed-camera image regions**
 
-  - [ ] **22.04.a — Implement:** Capture identical viewport/camera/tick regions for native and enhanced modes.
-  - [ ] **22.04.b — Verify:** Justify every mask and avoid masking actual fidelity defects.
-  - [ ] **22.04.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/22.04.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [ ] **21.04.a — Implement:** Capture identical viewport/camera/tick regions using only original assets and fixed native presentation settings.
+  - [ ] **21.04.b — Verify:** Justify every mask and avoid masking actual fidelity defects.
+  - [ ] **21.04.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/21.04.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **22.05 — Set explicit numerical tolerances**
+- [ ] **21.05 — Set explicit numerical tolerances**
 
-  - [ ] **22.05.a — Implement:** Choose exact equality for integer state and justified tolerances for measurements.
-  - [ ] **22.05.b — Verify:** Record units and reasons for every nonzero tolerance.
-  - [ ] **22.05.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/22.05.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [ ] **21.05.a — Implement:** Choose exact equality for integer state and justified tolerances for measurements.
+  - [ ] **21.05.b — Verify:** Record units and reasons for every nonzero tolerance.
+  - [ ] **21.05.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/21.05.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **22.06 — Run all courses and levels in coverage matrix**
+- [ ] **21.06 — Run all courses and levels in coverage matrix**
 
-  - [ ] **22.06.a — Implement:** Track every course-level combination with scenario status and evidence path.
-  - [ ] **22.06.b — Verify:** Distinguish untested, skipped, failed and passed cases.
-  - [ ] **22.06.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/22.06.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [ ] **21.06.a — Implement:** Track every course-level combination with scenario status and evidence path.
+  - [ ] **21.06.b — Verify:** Distinguish untested, skipped, failed and passed cases.
+  - [ ] **21.06.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/21.06.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **22.07 — Measure CPU and GPU frame times separately**
+- [ ] **21.07 — Measure CPU and GPU frame times separately**
 
-  - [ ] **22.07.a — Implement:** Measure simulation, extraction, rendering and GPU work with representative scenes.
-  - [ ] **22.07.b — Verify:** Report percentiles and hardware rather than a single average FPS.
-  - [ ] **22.07.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/22.07.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [ ] **21.07.a — Implement:** Measure simulation, extraction, rendering and GPU work with representative scenes.
+  - [ ] **21.07.b — Verify:** Report percentiles and hardware rather than a single average FPS.
+  - [ ] **21.07.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/21.07.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **22.08 — Measure memory and texture residency**
+- [ ] **21.08 — Measure memory and texture residency**
 
-  - [ ] **22.08.a — Implement:** Track CPU heap, GPU textures, atlas size and streaming peaks.
-  - [ ] **22.08.b — Verify:** Run native and enhanced packs and identify the largest contributors.
-  - [ ] **22.08.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/22.08.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [ ] **21.08.a — Implement:** Track CPU heap, GPU textures, atlas size and streaming peaks.
+  - [ ] **21.08.b — Verify:** Run the native asset set on every course, identify the largest contributors and freeze the native residency budget. Enhanced-pack comparisons belong to Part 24 after G5.
+  - [ ] **21.08.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/21.08.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **22.09 — Test repeated import race and unload cycles**
+- [ ] **21.09 — Test repeated native import race and unload cycles**
 
-  - [ ] **22.09.a — Implement:** Loop import/start/race/exit and inspect retained allocations and resources.
-  - [ ] **22.09.b — Verify:** Confirm counts stabilize instead of increasing after every cycle.
-  - [ ] **22.09.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/22.09.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [ ] **21.09.a — Implement:** Loop import/start/race/exit and inspect retained allocations and resources.
+  - [ ] **21.09.b — Verify:** Confirm counts stabilize instead of increasing after every cycle.
+  - [ ] **21.09.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/21.09.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **22.10 — Test loading stalls and shader warmup**
+- [ ] **21.10 — Test loading stalls and shader warmup**
 
-  - [ ] **22.10.a — Implement:** Profile loading, first-use pipelines and texture upload stalls.
-  - [ ] **22.10.b — Verify:** Repeat on cold and warm caches and set measured budgets.
-  - [ ] **22.10.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/22.10.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [ ] **21.10.a — Implement:** Profile loading, first-use pipelines and texture upload stalls.
+  - [ ] **21.10.b — Verify:** Repeat on cold and warm caches and set measured budgets.
+  - [ ] **21.10.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/21.10.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **22.11 — Run soak tests on declared hardware**
+- [ ] **21.11 — Run soak tests on declared hardware**
 
-  - [ ] **22.11.a — Implement:** Run long races on declared physical hardware with detailed logs.
-  - [ ] **22.11.b — Verify:** Document thermal/power settings and any driver-specific failures.
-  - [ ] **22.11.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/22.11.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [ ] **21.11.a — Implement:** Run long races on declared physical hardware with detailed logs.
+  - [ ] **21.11.b — Verify:** Document thermal/power settings and any driver-specific failures.
+  - [ ] **21.11.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/21.11.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **22.12 — Publish results with skips and limitations**
+- [ ] **21.12 — Publish results with skips and limitations**
 
-  - [ ] **22.12.a — Implement:** Publish commands, build revision, environment and failures alongside successes.
-  - [ ] **22.12.b — Verify:** Avoid claiming coverage for checks that were not actually executed.
-  - [ ] **22.12.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/22.12.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [ ] **21.12.a — Implement:** Publish commands, build revision, environment and failures alongside successes.
+  - [ ] **21.12.b — Verify:** Avoid claiming coverage for checks that were not actually executed.
+  - [ ] **21.12.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/21.12.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
 
 **Exit evidence:** a reproducible demonstration of verification and performance, linked implementation revision, recorded checks and known limitations. Dependent phases may prototype early, but this gate stays open until its checks pass.
 
-### Phase 23 — Packaging and release
+### Phase 22 — Packaging and native-asset release
 
-**Prerequisites:** G3/G4 and 22 acceptance evidence. These are phase-entry dependencies, not a requirement to finish every numbered phase strictly in order.
+**Prerequisites:** Functional completion in 19, UI/localization in 20, verification in 21 and G3. Enhanced art and mod production are not prerequisites. These are phase-entry dependencies, not a requirement to finish every numbered phase strictly in order.
 
-**Inputs:** Tagged source, locked dependencies and approved packaging manifest.
+**Inputs:** Tagged source, locked dependencies, the native-only acceptance manifest and an approved packaging manifest.
 
-**Required outputs:** Clean distributable, checksums, notices and release acceptance record. Names in this roadmap are proposed artifacts until implemented.
+**Required outputs:** Native-asset distributable, checksums, notices and signed G5 functional release acceptance; all required game functions must work with no enhancement pack. Names in this roadmap are proposed artifacts until implemented.
 
 **Invariant:** Test shipped artifacts from a fresh profile without development caches.
 
@@ -2372,84 +2373,264 @@ Research: [docs/VERIFICATION.md](https://github.com/arkits/road-rash/blob/7aecf6
 
 Research: [docs/USER_GUIDE.md](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/docs/USER_GUIDE.md), [docs/CURRENT_STATUS.md](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/docs/CURRENT_STATUS.md).
 
-- [ ] **23.01 — Package clean desktop application**
+- [ ] **22.01 — Package clean desktop application**
 
-  - [ ] **23.01.a — Implement:** Build application packages from a tagged source and locked dependencies.
-  - [ ] **23.01.b — Verify:** Launch the packaged binary rather than only a development build.
-  - [ ] **23.01.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/23.01.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [ ] **22.01.a — Implement:** Build application packages from a tagged source and locked dependencies.
+  - [ ] **22.01.b — Verify:** Launch the packaged binary rather than only a development build.
+  - [ ] **22.01.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/22.01.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **23.02 — Run first-launch import on clean machine**
+- [ ] **22.02 — Run first-launch import on clean machine**
 
-  - [ ] **23.02.a — Implement:** Test import and initial play under a fresh user account.
-  - [ ] **23.02.b — Verify:** Verify missing-disc instructions and successful import without development paths.
-  - [ ] **23.02.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/23.02.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [ ] **22.02.a — Implement:** Test import and initial play under a fresh user account.
+  - [ ] **22.02.b — Verify:** Verify missing-disc instructions and successful import without development paths.
+  - [ ] **22.02.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/22.02.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **23.03 — Verify package contains no private game files**
+- [ ] **22.03 — Verify package contains no private game files**
 
-  - [ ] **23.03.a — Implement:** Scan package manifests for original files and derived private artwork.
-  - [ ] **23.03.b — Verify:** Verify only permitted authored fixtures and application resources ship.
-  - [ ] **23.03.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/23.03.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [ ] **22.03.a — Implement:** Scan package manifests for original files and derived private artwork.
+  - [ ] **22.03.b — Verify:** Verify only permitted authored fixtures and application resources ship.
+  - [ ] **22.03.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/22.03.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **23.04 — Include applicable third-party notices**
+- [ ] **22.04 — Include applicable third-party notices**
 
-  - [ ] **23.04.a — Implement:** Generate dependency notices from actual packaged dependencies.
-  - [ ] **23.04.b — Verify:** Check required texts and distinguish source licensing from game data.
-  - [ ] **23.04.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/23.04.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [ ] **22.04.a — Implement:** Generate dependency notices from actual packaged dependencies.
+  - [ ] **22.04.b — Verify:** Check required texts and distinguish source licensing from game data.
+  - [ ] **22.04.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/22.04.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **23.05 — Verify save and settings paths**
+- [ ] **22.05 — Verify save and settings paths**
 
-  - [ ] **23.05.a — Implement:** Use platform-appropriate user directories and document overrides.
-  - [ ] **23.05.b — Verify:** Test unwritable install directory and multiple user accounts.
-  - [ ] **23.05.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/23.05.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [ ] **22.05.a — Implement:** Use platform-appropriate user directories and document overrides.
+  - [ ] **22.05.b — Verify:** Test unwritable install directory and multiple user accounts.
+  - [ ] **22.05.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/22.05.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **23.06 — Document minimum tested hardware**
+- [ ] **22.06 — Document minimum tested hardware**
 
-  - [ ] **23.06.a — Implement:** Publish the lowest hardware configuration actually tested.
-  - [ ] **23.06.b — Verify:** Record resolution, settings and frame-time evidence for that configuration.
-  - [ ] **23.06.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/23.06.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [ ] **22.06.a — Implement:** Publish the lowest hardware configuration actually tested.
+  - [ ] **22.06.b — Verify:** Record resolution, settings and frame-time evidence for that configuration.
+  - [ ] **22.06.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/22.06.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **23.07 — Test upgrade and uninstall behavior**
+- [ ] **22.07 — Test upgrade and uninstall behavior**
 
-  - [ ] **23.07.a — Implement:** Test install over old version, save migration and uninstall retention policy.
-  - [ ] **23.07.b — Verify:** Verify user saves and separately imported data follow documented behavior.
-  - [ ] **23.07.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/23.07.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [ ] **22.07.a — Implement:** Test install over old version, save migration and uninstall retention policy.
+  - [ ] **22.07.b — Verify:** Verify user saves and separately imported data follow documented behavior.
+  - [ ] **22.07.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/22.07.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **23.08 — Provide troubleshooting and log collection**
+- [ ] **22.08 — Provide troubleshooting and log collection**
 
-  - [ ] **23.08.a — Implement:** Document common graphics/audio/import errors and log locations.
-  - [ ] **23.08.b — Verify:** Reproduce each troubleshooting step without exposing private data unnecessarily.
-  - [ ] **23.08.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/23.08.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [ ] **22.08.a — Implement:** Document common graphics/audio/import errors and log locations.
+  - [ ] **22.08.b — Verify:** Reproduce each troubleshooting step without exposing private data unnecessarily.
+  - [ ] **22.08.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/22.08.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **23.09 — Create release notes and known issues**
+- [ ] **22.09 — Create release notes and known issues**
 
-  - [ ] **23.09.a — Implement:** Summarize supported features, known deviations and open hardware gaps.
-  - [ ] **23.09.b — Verify:** Link each material limitation to a tracked issue or evidence record.
-  - [ ] **23.09.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/23.09.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [ ] **22.09.a — Implement:** Summarize supported features, known deviations and open hardware gaps.
+  - [ ] **22.09.b — Verify:** Link each material limitation to a tracked issue or evidence record.
+  - [ ] **22.09.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/22.09.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **23.10 — Tag reproducible source revision**
+- [ ] **22.10 — Tag reproducible source revision**
 
-  - [ ] **23.10.a — Implement:** Tag the release commit and record build toolchain/dependency identities.
-  - [ ] **23.10.b — Verify:** Rebuild from the tag and compare intended reproducibility outputs.
-  - [ ] **23.10.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/23.10.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [ ] **22.10.a — Implement:** Tag the release commit and record build toolchain/dependency identities.
+  - [ ] **22.10.b — Verify:** Rebuild from the tag and compare intended reproducibility outputs.
+  - [ ] **22.10.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/22.10.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **23.11 — Attach checksums to release artifacts**
+- [ ] **22.11 — Attach checksums to release artifacts**
 
-  - [ ] **23.11.a — Implement:** Hash final downloadable artifacts after packaging/signing steps.
-  - [ ] **23.11.b — Verify:** Verify downloaded bytes against published checksums.
-  - [ ] **23.11.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/23.11.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [ ] **22.11.a — Implement:** Hash final downloadable artifacts after packaging/signing steps.
+  - [ ] **22.11.b — Verify:** Verify downloaded bytes against published checksums.
+  - [ ] **22.11.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/22.11.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **23.12 — Complete full career and all release acceptance checks**
+- [ ] **22.12 — Complete native-only full career and functional release acceptance**
 
-  - [ ] **23.12.a — Implement:** Complete the campaign and release matrix using packaged builds.
-  - [ ] **23.12.b — Verify:** Leave the release gate open for any unresolved blocking scenario.
-  - [ ] **23.12.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/23.12.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [ ] **22.12.a — Implement:** Complete the campaign and release matrix using packaged builds.
+  - [ ] **22.12.b — Verify:** Leave the release gate open for any unresolved blocking scenario.
+  - [ ] **22.12.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/22.12.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
 
 **Exit evidence:** a reproducible demonstration of packaging and release, linked implementation revision, recorded checks and known limitations. Dependent phases may prototype early, but this gate stays open until its checks pass.
 
-### Phase 24 — Future 3D preparation only
+### Phase 23 — Mod support and content contracts
 
-**Prerequisites:** 05 asset semantics, 06 domain boundary and 07 topology. These are phase-entry dependencies, not a requirement to finish every numbered phase strictly in order.
+**Prerequisites:** G5 native-only functional release in 22; stable 05/06/07/09/17 content, replay and save contracts. Data-only examples may use independently authored placeholder art; production enhancements remain gated in 24. These are phase-entry dependencies, not a requirement to finish every numbered phase strictly in order.
+
+**Inputs:** Base catalog plus explicitly enabled content packs.
+
+**Required outputs:** Mod manifest/resolver, validation reports and authored example pack. Names in this roadmap are proposed artifacts until implemented.
+
+**Invariant:** Resolve the complete content graph before activating gameplay-affecting changes.
+
+**Execution rule:** Resolve each task's exact constants and file layout from the pinned references below and the evidence ledger. If original behavior is unmeasured, create a research result before declaring implementation parity. The `.a` item creates the deliverable, `.b` specifies its task-specific acceptance, and `.c` records reproducible proof.
+
+
+Research: [src/assets.hpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/assets.hpp), [src/upscale_cache.hpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/upscale_cache.hpp).
+
+- [ ] **23.01 — Define versioned mod manifest**
+
+  - [ ] **23.01.a — Implement:** Define manifest fields for ID, version, dependencies, engine range and content entries.
+  - [ ] **23.01.b — Verify:** Validate unknown required fields and malformed versions predictably.
+  - [ ] **23.01.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/23.01.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+
+- [ ] **23.02 — Define stable content IDs**
+
+  - [ ] **23.02.a — Implement:** Use namespaced IDs with stable semantics for base and mod content.
+  - [ ] **23.02.b — Verify:** Rename a file without breaking saves or references to the same ID.
+  - [ ] **23.02.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/23.02.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+
+- [ ] **23.03 — Implement deterministic load priority**
+
+  - [ ] **23.03.a — Implement:** Define base-to-mod precedence and dependency ordering.
+  - [ ] **23.03.b — Verify:** Load the same mod set in different filesystem enumeration orders with equal results.
+  - [ ] **23.03.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/23.03.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+
+- [ ] **23.04 — Report conflicts with winning source**
+
+  - [ ] **23.04.a — Implement:** Produce a conflict report listing every candidate and selected winner.
+  - [ ] **23.04.b — Verify:** Test two mods replacing the same texture and expose the override chain.
+  - [ ] **23.04.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/23.04.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+
+- [ ] **23.05 — Validate dependency and engine version requirements**
+
+  - [ ] **23.05.a — Implement:** Resolve dependencies before asset loading with clear incompatibility diagnostics.
+  - [ ] **23.05.b — Verify:** Reject missing dependencies and dependency cycles.
+  - [ ] **23.05.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/23.05.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+
+- [ ] **23.06 — Support texture replacement first**
+
+  - [ ] **23.06.a — Implement:** Implement texture overrides through the catalog rather than hardcoded file probing.
+  - [ ] **23.06.b — Verify:** Replace one texture and preserve its original pivot and gameplay bounds.
+  - [ ] **23.06.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/23.06.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+
+- [ ] **23.07 — Support bike and handling data overrides**
+
+  - [ ] **23.07.a — Implement:** Expose constrained bike data overrides through versioned schemas.
+  - [ ] **23.07.b — Verify:** Test invalid mass/speed values and record modified simulation configuration.
+  - [ ] **23.07.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/23.07.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+
+- [ ] **23.08 — Support courses after schema stabilizes**
+
+  - [ ] **23.08.a — Implement:** Define course graph schema only after core traversal semantics stabilize.
+  - [ ] **23.08.b — Verify:** Load an authored tiny course and reject dangling graph links.
+  - [ ] **23.08.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/23.08.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+
+- [ ] **23.09 — Validate all numeric ranges and references**
+
+  - [ ] **23.09.a — Implement:** Validate dimensions, numbers, IDs and referenced files before activation.
+  - [ ] **23.09.b — Verify:** Report all actionable errors without partially applying the pack.
+  - [ ] **23.09.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/23.09.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+
+- [ ] **23.10 — Provide authored example mod**
+
+  - [ ] **23.10.a — Implement:** Create an original placeholder texture/bike mod with setup documentation.
+  - [ ] **23.10.b — Verify:** Install it on a clean clone and confirm no commercial content is required.
+  - [ ] **23.10.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/23.10.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+
+- [ ] **23.11 — Include active mod hashes in replay metadata**
+
+  - [ ] **23.11.a — Implement:** Include resolved load order and content hashes in replay manifests.
+  - [ ] **23.11.b — Verify:** Reject or clearly label a replay with mismatched simulation-affecting mods.
+  - [ ] **23.11.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/23.11.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+
+- [ ] **23.12 — Document unsupported script and native-code loading**
+
+  - [ ] **23.12.a — Implement:** State that initial mod support is data/assets only unless separately approved.
+  - [ ] **23.12.b — Verify:** Verify content loading cannot execute arbitrary scripts or native libraries.
+  - [ ] **23.12.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/23.12.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+
+
+**Exit evidence:** a reproducible demonstration of mod support and content contracts, linked implementation revision, recorded checks and known limitations. Dependent phases may prototype early, but this gate stays open until its checks pass.
+
+### Phase 24 — Texture-by-texture enhancement
+
+**Prerequisites:** G5 native-asset release is accepted after 19 functional completion, 20 UI/localization, 21 verification and 22 packaging; 23 mod contracts are stable. **Hard gate:** no AI upscaling, candidate generation, texture enhancement production or enhanced-art release before that native-only acceptance. This production gate is mandatory; enhanced-art work must wait for accepted G5.
+
+**Inputs:** Source assets plus per-candidate generation metadata.
+
+**Required outputs:** Immutable masters, review ledger, approved pack and fallback demonstration. Names in this roadmap are proposed artifacts until implemented.
+
+**Invariant:** Approve by semantic asset/family; never silently overwrite native masters.
+
+**Execution rule:** Resolve each task's exact constants and file layout from the pinned references below and the evidence ledger. If original behavior is unmeasured, create a research result before declaring implementation parity. The `.a` item creates the deliverable, `.b` specifies its task-specific acceptance, and `.c` records reproducible proof.
+
+
+Research: [src/upscale_import.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/upscale_import.cpp), [src/upscale_cache.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/upscale_cache.cpp), [src/mmpx.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/mmpx.cpp).
+
+- [ ] **24.01 — Export immutable native-resolution masters**
+
+  - [ ] **24.01.a — Implement:** Export native masters with original palette, alpha and provenance intact.
+  - [ ] **24.01.b — Verify:** Verify their hashes never change when candidates are regenerated.
+  - [ ] **24.01.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/24.01.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+
+- [ ] **24.02 — Prioritize high-visibility assets**
+
+  - [ ] **24.02.a — Implement:** Rank candidates by screen coverage, frequency, gameplay importance and family dependencies.
+  - [ ] **24.02.b — Verify:** Complete a small pilot before committing to full-corpus scaling.
+  - [ ] **24.02.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/24.02.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+
+- [ ] **24.03 — Create one review item per texture or animation family**
+
+  - [ ] **24.03.a — Implement:** Create review records keyed by asset ID and linked animation family.
+  - [ ] **24.03.b — Verify:** Ensure each candidate has an explicit owner/status and no ambiguous filename-only identity.
+  - [ ] **24.03.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/24.03.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+
+- [ ] **24.04 — Record AI model version and generation settings**
+
+  - [ ] **24.04.a — Implement:** Record model/service revision, scale, denoise and relevant generation options.
+  - [ ] **24.04.b — Verify:** Reopen a candidate record and identify exactly how it was produced.
+  - [ ] **24.04.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/24.04.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+
+- [ ] **24.05 — Record prompt seed and input hash**
+
+  - [ ] **24.05.a — Implement:** Store prompt, seed when available, source hash and output hash.
+  - [ ] **24.05.b — Verify:** Mark unavailable generation metadata explicitly instead of inventing reproducibility.
+  - [ ] **24.05.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/24.05.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+
+- [ ] **24.06 — Preserve alpha edges and pivot metadata**
+
+  - [ ] **24.06.a — Implement:** Retain logical dimensions, pivot and alpha boundaries outside generated pixels.
+  - [ ] **24.06.b — Verify:** Compare ground contact and silhouette before/after replacement.
+  - [ ] **24.06.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/24.06.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+
+- [ ] **24.07 — Preserve palette-remap masks separately**
+
+  - [ ] **24.07.a — Implement:** Keep semantic recoloring masks independent of enhanced RGB detail.
+  - [ ] **24.07.b — Verify:** Preview every rider remap and reject color leakage across clothing regions.
+  - [ ] **24.07.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/24.07.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+
+- [ ] **24.08 — Reject invented text and changed silhouettes**
+
+  - [ ] **24.08.a — Implement:** Compare signs, logos, faces and recognizable silhouettes at native and target size.
+  - [ ] **24.08.b — Verify:** Reject hallucinated letters, altered pose or changed bike geometry.
+  - [ ] **24.08.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/24.08.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+
+- [ ] **24.09 — Review tiled textures for seams**
+
+  - [ ] **24.09.a — Implement:** Preview repeated road/terrain tiles across several repeats and mip levels.
+  - [ ] **24.09.b — Verify:** Reject edge seams, directional discontinuities and excessive high-frequency noise.
+  - [ ] **24.09.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/24.09.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+
+- [ ] **24.10 — Review animation sequences for flicker**
+
+  - [ ] **24.10.a — Implement:** Play complete animation cycles with native/enhanced toggle at gameplay speed.
+  - [ ] **24.10.b — Verify:** Reject frame-to-frame changing details and pivot/outline shimmer.
+  - [ ] **24.10.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/24.10.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+
+- [ ] **24.11 — Approve or reject each candidate explicitly**
+
+  - [ ] **24.11.a — Implement:** Require a recorded decision, rationale and approved output hash per asset.
+  - [ ] **24.11.b — Verify:** Ensure rejected/superseded candidates cannot be packaged accidentally.
+  - [ ] **24.11.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/24.11.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+
+- [ ] **24.12 — Package approved overrides with native fallback**
+
+  - [ ] **24.12.a — Implement:** Build override packs from approved records and validate source identity.
+  - [ ] **24.12.b — Verify:** Remove an override and confirm native rendering continues without missing assets.
+  - [ ] **24.12.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/24.12.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+
+
+**Exit evidence:** a reproducible demonstration of texture-by-texture enhancement, linked implementation revision, recorded checks and known limitations. Dependent phases may prototype early, but this gate stays open until its checks pass.
+
+### Phase 25 — Future 3D preparation only
+
+**Prerequisites:** 05 asset semantics, 06 domain boundary and 07 topology. This entire future 3D phase remains deferred and outside the current implementation scope.
 
 **Inputs:** Recovered course data, source views and uncertainty annotations.
 
@@ -2462,82 +2643,82 @@ Research: [docs/USER_GUIDE.md](https://github.com/arkits/road-rash/blob/7aecf604
 
 Research: [src/course.hpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/course.hpp), [src/actor_descriptors.hpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/actor_descriptors.hpp).
 
-- [ ] **24.01 — Document coordinate axes and handedness**
+- [ ] **25.01 — Document coordinate axes and handedness**
 
-  - [ ] **24.01.a — Implement:** Define domain forward/right/up directions and adapter handedness explicitly.
-  - [ ] **24.01.b — Verify:** Test a canonical straight road and left turn in the classic adapter.
-  - [ ] **24.01.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/24.01.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [ ] **25.01.a — Implement:** Define domain forward/right/up directions and adapter handedness explicitly.
+  - [ ] **25.01.b — Verify:** Test a canonical straight road and left turn in the classic adapter.
+  - [ ] **25.01.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/25.01.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **24.02 — Preserve route elevation and branch topology**
+- [ ] **25.02 — Preserve route elevation and branch topology**
 
-  - [ ] **24.02.a — Implement:** Retain sampled heights, node links and semantic branches in source-independent data.
-  - [ ] **24.02.b — Verify:** Export/import a course fixture without flattening topology.
-  - [ ] **24.02.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/24.02.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [ ] **25.02.a — Implement:** Retain sampled heights, node links and semantic branches in source-independent data.
+  - [ ] **25.02.b — Verify:** Export/import a course fixture without flattening topology.
+  - [ ] **25.02.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/25.02.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **24.03 — Keep visual representation separate from collision semantics**
+- [ ] **25.03 — Keep visual representation separate from collision semantics**
 
-  - [ ] **24.03.a — Implement:** Define collision and surface categories independently from visual meshes/sprites.
-  - [ ] **24.03.b — Verify:** Replace a renderer placeholder and verify unchanged contact results.
-  - [ ] **24.03.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/24.03.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [ ] **25.03.a — Implement:** Define collision and surface categories independently from visual meshes/sprites.
+  - [ ] **25.03.b — Verify:** Replace a renderer placeholder and verify unchanged contact results.
+  - [ ] **25.03.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/25.03.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **24.04 — Store physical dimensions separately from pixel size**
+- [ ] **25.04 — Store physical dimensions separately from pixel size**
 
-  - [ ] **24.04.a — Implement:** Store logical world dimensions separately from pixel rectangles.
-  - [ ] **24.04.b — Verify:** Resize an enhanced sprite without changing physical reach or obstacle width.
-  - [ ] **24.04.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/24.04.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [ ] **25.04.a — Implement:** Store logical world dimensions separately from pixel rectangles.
+  - [ ] **25.04.b — Verify:** Resize an enhanced sprite without changing physical reach or obstacle width.
+  - [ ] **25.04.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/25.04.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **24.05 — Record sprite view direction and camera assumptions**
+- [ ] **25.05 — Record sprite view direction and camera assumptions**
 
-  - [ ] **24.05.a — Implement:** Record view angle, camera assumption and uncertainty for each source view.
-  - [ ] **24.05.b — Verify:** Mark inferred angles rather than presenting them as measured geometry.
-  - [ ] **24.05.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/24.05.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [ ] **25.05.a — Implement:** Record view angle, camera assumption and uncertainty for each source view.
+  - [ ] **25.05.b — Verify:** Mark inferred angles rather than presenting them as measured geometry.
+  - [ ] **25.05.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/25.05.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **24.06 — Preserve neutral texture masters and masks**
+- [ ] **25.06 — Preserve neutral texture masters and masks**
 
-  - [ ] **24.06.a — Implement:** Keep source pixels, alpha, remap masks and approved derivatives separate.
-  - [ ] **24.06.b — Verify:** Show a future material tool can access masters without undoing atlas packing.
-  - [ ] **24.06.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/24.06.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [ ] **25.06.a — Implement:** Keep source pixels, alpha, remap masks and approved derivatives separate.
+  - [ ] **25.06.b — Verify:** Show a future material tool can access masters without undoing atlas packing.
+  - [ ] **25.06.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/25.06.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **24.07 — Record material meaning and baked lighting**
+- [ ] **25.07 — Record material meaning and baked lighting**
 
-  - [ ] **24.07.a — Implement:** Label baked shading, specular highlights and uncertain material regions.
-  - [ ] **24.07.b — Verify:** Prevent a sprite crop from being silently classified as clean PBR albedo.
-  - [ ] **24.07.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/24.07.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [ ] **25.07.a — Implement:** Label baked shading, specular highlights and uncertain material regions.
+  - [ ] **25.07.b — Verify:** Prevent a sprite crop from being silently classified as clean PBR albedo.
+  - [ ] **25.07.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/25.07.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **24.08 — Reserve optional mesh and rig fields in content schema**
+- [ ] **25.08 — Reserve optional mesh and rig fields in content schema**
 
-  - [ ] **24.08.a — Implement:** Allow optional future mesh/rig references without requiring them at runtime.
-  - [ ] **24.08.b — Verify:** Load the same asset schema with those fields absent.
-  - [ ] **24.08.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/24.08.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [ ] **25.08.a — Implement:** Allow optional future mesh/rig references without requiring them at runtime.
+  - [ ] **25.08.b — Verify:** Load the same asset schema with those fields absent.
+  - [ ] **25.08.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/25.08.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **24.09 — Specify glTF import conventions when needed**
+- [ ] **25.09 — Specify glTF import conventions when needed**
 
-  - [ ] **24.09.a — Implement:** Write a future convention note for glTF units, axes and texture color spaces.
-  - [ ] **24.09.b — Verify:** Validate the convention with an authored cube only if the later project begins.
-  - [ ] **24.09.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/24.09.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [ ] **25.09.a — Implement:** Write a future convention note for glTF units, axes and texture color spaces.
+  - [ ] **25.09.b — Verify:** Validate the convention with an authored cube only if the later project begins.
+  - [ ] **25.09.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/25.09.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **24.10 — Define attachment semantics for grips feet and weapons**
+- [ ] **25.10 — Define attachment semantics for grips feet and weapons**
 
-  - [ ] **24.10.a — Implement:** Define semantic grip, foot, weapon and seat attachment names.
-  - [ ] **24.10.b — Verify:** Map names to current sprite semantics without building a full rig now.
-  - [ ] **24.10.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/24.10.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [ ] **25.10.a — Implement:** Define semantic grip, foot, weapon and seat attachment names.
+  - [ ] **25.10.b — Verify:** Map names to current sprite semantics without building a full rig now.
+  - [ ] **25.10.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/25.10.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **24.11 — Document hidden surfaces as unknown reconstructions**
+- [ ] **25.11 — Document hidden surfaces as unknown reconstructions**
 
-  - [ ] **24.11.a — Implement:** Record hidden surfaces and depth as unknown or authored interpretations.
-  - [ ] **24.11.b — Verify:** Keep inferred 3D material separate from recovered source evidence.
-  - [ ] **24.11.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/24.11.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [ ] **25.11.a — Implement:** Record hidden surfaces and depth as unknown or authored interpretations.
+  - [ ] **25.11.b — Verify:** Keep inferred 3D material separate from recovered source evidence.
+  - [ ] **25.11.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/25.11.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **24.12 — Defer mesh production 3D physics and full 3D renderer to separate scope**
+- [ ] **25.12 — Defer mesh production 3D physics and full 3D renderer to separate scope**
 
-  - [ ] **24.12.a — Implement:** List mesh production, rigging, 3D camera and physics as deferred deliverables.
-  - [ ] **24.12.b — Verify:** Ensure no current release gate depends on those deferred systems.
-  - [ ] **24.12.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/24.12.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [ ] **25.12.a — Implement:** List mesh production, rigging, 3D camera and physics as deferred deliverables.
+  - [ ] **25.12.b — Verify:** Ensure no current release gate depends on those deferred systems.
+  - [ ] **25.12.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/25.12.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
 
 **Exit evidence:** a reproducible demonstration of future 3d preparation only, linked implementation revision, recorded checks and known limitations. Dependent phases may prototype early, but this gate stays open until its checks pass.
 
-## 7. One-texture-at-a-time production procedure
+## 7. One-texture-at-a-time production procedure — locked until G5
 
 1. Select a stable asset ID from the catalog. Record its source file, resource/frame index, palette variant, native dimensions, transparency and pivot.
 2. Export an immutable lossless master. Keep indexed pixels and palettes where applicable. Hash the master before generation.
@@ -2596,16 +2777,13 @@ Known deviations:
 
 Do not report upstream's tests as this project's tests. Do not label the local prototype as a faithful implementation merely because similar systems exist. Preserve failed comparisons and update the known-differences ledger.
 
-## 10. First implementation sprint
+## 10. Next work: complete the native-only game
 
-- [x] Establish the workspace, pinned toolchain and CI using an authored placeholder scene.
-- [x] Implement local import validation for the confirmed 341-file corpus.
-- [x] Decode one RRI image, one rider animation family and one course section.
-- [x] Build a catalog/inspection tool that exposes IDs, palettes and pivots.
-- [x] Implement a headless command-driven player simulation.
-- [x] Render one decoded course segment with original sprites.
-- [ ] Export one texture, review one enhanced candidate and demonstrate fallback.
-- [x] Publish the evidence report before widening content coverage.
+- [ ] Close the required-feature manifest and known gaps in Part 19, including missing controls, complete actor states, source dialogue and media invocation coverage.
+- [ ] Complete a real command-driven 25-race career using original textures, with save/resume and all terminal flows.
+- [ ] Finish UI/accessibility/localization in Part 20 and independent native verification/performance acceptance in Part 21.
+- [ ] Package and accept the native-only desktop release in Part 22 (G5).
+- [ ] Stabilize optional mod contracts in Part 23, then start Part 24 enhancement production only after recorded G5 acceptance.
 
 ## 11. Authoritative technology references
 

@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "outcome": "passed",
+  "fixture": "docs/fixtures/persistence-media-tour.json",
+  "profile_policy": "New isolated local profiles; user OS default profile untouched",
+  "window": [
+    960,
+    720
+  ],
+  "video_review": {
+    "source": "WRECK1",
+    "capture_frame": 280,
+    "displayed_frame": 41,
+    "clock_us": 2773696,
+    "audio_position_us": 2773696,
+    "mean_rgb": 109.85194227430556,
+    "procedure": "Inspect actual Bevy GPU screenshot after dimension-changing image upload; verify source crash scene, aspect-preserving letterbox and readable pause/skip controls. Capture/report remain private.",
+    "result": "Visible source movie, stable aspect and controls; no black surface after image-handle fix",
+    "decoded_frames": 52,
+    "dropped_frames": 1,
+    "skips": 1,
+    "peak_voices": 2,
+    "voices_after_menu_exit": 0,
+    "diagnostics": []
+  },
+  "digital_output": {
+    "route": "Only the dedicated rr_codex_media virtual PipeWire sink monitor; no microphone/ambient capture",
+    "raw_pcm_sha256": "17dda0b16c96f4cd92dc893794fefbc797e944103e2b71fa70007ad3a342f7fd",
+    "nonzero_samples": 840583,
+    "peak_abs_s16": 1465,
+    "subjective_timbre_certified": false
+  },
+  "cold_profile_reopen": {
+    "screen": "Street",
+    "active_slot": 1,
+    "master": 10,
+    "music": 90,
+    "result": "Previously selected career slot resumes and stored levels reload"
+  },
+  "source_replay": {
+    "render_hz": 144,
+    "ticks": 600,
+    "state_sha256": "5b6472fbfc82818d6e5034a1bd817ec48ccdb63b8428b3005bb71d180f64412e",
+    "all_tick_checkpoints_equal_to_headless": true,
+    "audio_connected_vs_missing_equal": true,
+    "cue_trace_equal": true,
+    "cue_count": 3,
+    "connected_peak_voices": 4,
+    "controlled_missing_output_peak_voices": 0
+  },
+  "private_payloads_committed": false,
+  "original_runtime_compared": false
+}

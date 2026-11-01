@@ -20,3 +20,6 @@ rr-render = { path = "../../crates/render" }
 rr-course = { path = "../../crates/course" }
 
 rr-session = { path = "../../crates/session" }
+
+rr-media = { path = "../../crates/media" }
+rodio = { version = "=0.22.2", default-features = false, features = ["playback"] }

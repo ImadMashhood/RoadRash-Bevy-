@@ -59,13 +59,13 @@ pub(super) fn navigate(
             ))
         {
             commands.queue(move |world: &mut World| {
-                world
-                    .resource_mut::<crate::Bindings>()
-                    .0
-                    .contexts
-                    .get_mut(&rr_input::Context::Race)
-                    .unwrap()
-                    .insert(action, vec![key]);
+                if let Err(e) = world.resource_mut::<crate::Bindings>().0.rebind(
+                    rr_input::Context::Race,
+                    action,
+                    vec![key],
+                ) {
+                    world.resource_mut::<Shell>().notice = e.to_string();
+                }
             });
             shell.awaiting_binding = None;
             shell.notice = format!("{action:?} bound to {code:?}");

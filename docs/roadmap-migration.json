@@ -1,0 +1,451 @@
+{
+  "schema_version": 1,
+  "roadmap_revision": 2,
+  "completed_ids_unchanged": "01\u201318",
+  "new_functional_phase": 19,
+  "future_phase_mapping": {
+    "19": 24,
+    "20": 23,
+    "21": 20,
+    "22": 21,
+    "23": 22,
+    "24": 25
+  },
+  "ticket_mapping": [
+    {
+      "old_revision": 1,
+      "old_id": "19.01",
+      "new_revision": 2,
+      "new_id": "24.01"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "19.02",
+      "new_revision": 2,
+      "new_id": "24.02"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "19.03",
+      "new_revision": 2,
+      "new_id": "24.03"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "19.04",
+      "new_revision": 2,
+      "new_id": "24.04"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "19.05",
+      "new_revision": 2,
+      "new_id": "24.05"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "19.06",
+      "new_revision": 2,
+      "new_id": "24.06"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "19.07",
+      "new_revision": 2,
+      "new_id": "24.07"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "19.08",
+      "new_revision": 2,
+      "new_id": "24.08"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "19.09",
+      "new_revision": 2,
+      "new_id": "24.09"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "19.10",
+      "new_revision": 2,
+      "new_id": "24.10"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "19.11",
+      "new_revision": 2,
+      "new_id": "24.11"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "19.12",
+      "new_revision": 2,
+      "new_id": "24.12"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "20.01",
+      "new_revision": 2,
+      "new_id": "23.01"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "20.02",
+      "new_revision": 2,
+      "new_id": "23.02"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "20.03",
+      "new_revision": 2,
+      "new_id": "23.03"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "20.04",
+      "new_revision": 2,
+      "new_id": "23.04"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "20.05",
+      "new_revision": 2,
+      "new_id": "23.05"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "20.06",
+      "new_revision": 2,
+      "new_id": "23.06"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "20.07",
+      "new_revision": 2,
+      "new_id": "23.07"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "20.08",
+      "new_revision": 2,
+      "new_id": "23.08"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "20.09",
+      "new_revision": 2,
+      "new_id": "23.09"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "20.10",
+      "new_revision": 2,
+      "new_id": "23.10"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "20.11",
+      "new_revision": 2,
+      "new_id": "23.11"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "20.12",
+      "new_revision": 2,
+      "new_id": "23.12"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "21.01",
+      "new_revision": 2,
+      "new_id": "20.01"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "21.02",
+      "new_revision": 2,
+      "new_id": "20.02"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "21.03",
+      "new_revision": 2,
+      "new_id": "20.03"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "21.04",
+      "new_revision": 2,
+      "new_id": "20.04"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "21.05",
+      "new_revision": 2,
+      "new_id": "20.05"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "21.06",
+      "new_revision": 2,
+      "new_id": "20.06"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "21.07",
+      "new_revision": 2,
+      "new_id": "20.07"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "21.08",
+      "new_revision": 2,
+      "new_id": "20.08"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "21.09",
+      "new_revision": 2,
+      "new_id": "20.09"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "21.10",
+      "new_revision": 2,
+      "new_id": "20.10"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "21.11",
+      "new_revision": 2,
+      "new_id": "20.11"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "21.12",
+      "new_revision": 2,
+      "new_id": "20.12"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "22.01",
+      "new_revision": 2,
+      "new_id": "21.01"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "22.02",
+      "new_revision": 2,
+      "new_id": "21.02"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "22.03",
+      "new_revision": 2,
+      "new_id": "21.03"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "22.04",
+      "new_revision": 2,
+      "new_id": "21.04"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "22.05",
+      "new_revision": 2,
+      "new_id": "21.05"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "22.06",
+      "new_revision": 2,
+      "new_id": "21.06"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "22.07",
+      "new_revision": 2,
+      "new_id": "21.07"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "22.08",
+      "new_revision": 2,
+      "new_id": "21.08"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "22.09",
+      "new_revision": 2,
+      "new_id": "21.09"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "22.10",
+      "new_revision": 2,
+      "new_id": "21.10"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "22.11",
+      "new_revision": 2,
+      "new_id": "21.11"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "22.12",
+      "new_revision": 2,
+      "new_id": "21.12"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "23.01",
+      "new_revision": 2,
+      "new_id": "22.01"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "23.02",
+      "new_revision": 2,
+      "new_id": "22.02"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "23.03",
+      "new_revision": 2,
+      "new_id": "22.03"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "23.04",
+      "new_revision": 2,
+      "new_id": "22.04"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "23.05",
+      "new_revision": 2,
+      "new_id": "22.05"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "23.06",
+      "new_revision": 2,
+      "new_id": "22.06"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "23.07",
+      "new_revision": 2,
+      "new_id": "22.07"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "23.08",
+      "new_revision": 2,
+      "new_id": "22.08"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "23.09",
+      "new_revision": 2,
+      "new_id": "22.09"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "23.10",
+      "new_revision": 2,
+      "new_id": "22.10"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "23.11",
+      "new_revision": 2,
+      "new_id": "22.11"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "23.12",
+      "new_revision": 2,
+      "new_id": "22.12"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "24.01",
+      "new_revision": 2,
+      "new_id": "25.01"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "24.02",
+      "new_revision": 2,
+      "new_id": "25.02"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "24.03",
+      "new_revision": 2,
+      "new_id": "25.03"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "24.04",
+      "new_revision": 2,
+      "new_id": "25.04"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "24.05",
+      "new_revision": 2,
+      "new_id": "25.05"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "24.06",
+      "new_revision": 2,
+      "new_id": "25.06"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "24.07",
+      "new_revision": 2,
+      "new_id": "25.07"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "24.08",
+      "new_revision": 2,
+      "new_id": "25.08"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "24.09",
+      "new_revision": 2,
+      "new_id": "25.09"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "24.10",
+      "new_revision": 2,
+      "new_id": "25.10"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "24.11",
+      "new_revision": 2,
+      "new_id": "25.11"
+    },
+    {
+      "old_revision": 1,
+      "old_id": "24.12",
+      "new_revision": 2,
+      "new_id": "25.12"
+    }
+  ],
+  "enhancement_phase": 24,
+  "enhancement_requires": "accepted G5 native-asset release after Parts 19\u201322; stable Part 23 mod contracts",
+  "enhancement_production_enabled": false
+}

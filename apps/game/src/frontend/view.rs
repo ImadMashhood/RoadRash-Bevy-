@@ -121,7 +121,9 @@ pub(super) fn menu(shell: &Shell) -> (String, Vec<(String, Act)>) {
         }
         Restroom => {
             item!("SAVE BIG GAME", Act::Save);
-            item!("LOAD BIG GAME", Act::Load);
+            item!("LOAD BIG GAME", Act::BrowseLoads);
+            item!("SAVE AS / SLOTS", Act::SaveAs);
+            item!("RESTORE CAREER BACKUP", Act::RestoreBackup);
             item!("SELECT CHARACTER / NEW RIDER", Act::Open(Characters));
             item!("PLAYER NAME", Act::Name);
             item!("DISPLAY & SOUND", Act::Open(Settings));
@@ -131,6 +133,20 @@ pub(super) fn menu(shell: &Shell) -> (String, Vec<(String, Act)>) {
             item!("DONE", Act::Back);
             item!("GO HOME", Act::Main);
             "RESTROOM".into()
+        }
+        Saves => {
+            for slot in 0..5 {
+                let path = rr_session::persistence::paths::slot_path(&shell.slot_base, slot)
+                    .expect("bounded slot");
+                let status = if path.exists() { "occupied" } else { "empty" };
+                item!(format!("SLOT {slot}: {status}"), Act::ChooseSlot(slot));
+            }
+            item!("CANCEL", Act::Back);
+            if shell.save_mode {
+                "SAVE CAREER TO SLOT".into()
+            } else {
+                "LOAD CAREER FROM SLOT".into()
+            }
         }
         Settings => {
             item!(
@@ -148,6 +164,20 @@ pub(super) fn menu(shell: &Shell) -> (String, Vec<(String, Act)>) {
                 format!("EFFECT VOLUME: {}", f.settings.effect_volume),
                 Act::EffectVolume
             );
+            item!(
+                format!("MASTER VOLUME: {}", f.settings.master_volume),
+                Act::MasterVolume
+            );
+            item!(
+                format!("ENGINE VOLUME: {}", f.settings.engine_volume),
+                Act::EngineVolume
+            );
+            item!(
+                format!("AUTOPLAY VIDEOS: {}", f.settings.videos),
+                Act::Videos
+            );
+            item!("RESET GRAPHICS", Act::ResetGraphics);
+            item!("RESTORE PREFERENCES BACKUP", Act::RestorePreferences);
             item!("DONE", Act::Back);
             "SETTINGS".into()
         }
@@ -184,11 +214,28 @@ pub(super) fn menu(shell: &Shell) -> (String, Vec<(String, Act)>) {
             .iter()
             .enumerate()
             {
-                item!(*name, Act::Track(i as u8));
+                item!(*name, Act::Artist(i as u8));
             }
+            item!("VIDEOS", Act::Open(Videos));
             item!("STOP", Act::StopMusic);
             item!("DONE", Act::Back);
             "JUKEBOX".into()
+        }
+        Tracks => {
+            let (artist, start, count) =
+                rr_media::cues::ARTISTS[usize::from(shell.selected_artist)];
+            for index in start..start + count {
+                item!(rr_media::cues::TRACKS[index], Act::Track(index as u8));
+            }
+            item!("BACK", Act::Back);
+            format!("{artist} | SELECT TRACK")
+        }
+        Videos => {
+            for name in &shell.videos {
+                item!(name, Act::PlayVideo(name.clone()));
+            }
+            item!("BACK", Act::Back);
+            "VIDEOS".into()
         }
         Results | Standings => {
             if f.screen == Results {
@@ -292,7 +339,20 @@ pub(super) fn render(
             c.level, c.cash, c.condition, c.maximum_condition
         ));
     }
-    for (i, (label, _)) in items.iter().enumerate() {
+    let first = if items.len() > 16 {
+        shell
+            .focus
+            .saturating_sub(6)
+            .min(items.len().saturating_sub(12))
+    } else {
+        0
+    };
+    for (i, (label, _)) in items
+        .iter()
+        .enumerate()
+        .skip(first)
+        .take(if items.len() > 16 { 12 } else { 16 })
+    {
         body.push_str(&format!(
             "{} {}\n",
             if i == shell.focus { ">" } else { " " },

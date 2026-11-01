@@ -660,7 +660,7 @@ fn jukebox_and_settings_return_to_owner_with_selection_preserved() {
         f.open(screen).unwrap();
         if screen == Screen::Jukebox {
             f.choose_track(5).unwrap();
-            assert!(f.choose_track(6).is_err());
+            assert!(f.choose_track(14).is_err());
         }
         f.back();
         assert_eq!(f.screen, Screen::Restroom);

@@ -9,12 +9,13 @@ jobs:
         with:
           toolchain: 1.99.1
           components: rustfmt, clippy
+      - run: sudo apt-get update && sudo apt-get install -y ffmpeg
       - run: python3 -m unittest discover -s tools -p 'test_*.py' -v
       - run: python3 tools/private_corpus.py
       - run: python3 tools/check_workflow_guards.py
       - run: cargo fmt --all --check
-      - run: cargo test --locked -p rr-formats -p rr-simulation -p rr-import -p rr-content -p rr-course -p rr-render -p rr-input -p rr-session
-      - run: cargo clippy --locked -p rr-formats -p rr-simulation -p rr-import -p rr-content -p rr-course -p rr-render -p rr-input -p rr-session --all-targets -- -D warnings
+      - run: cargo test --locked -p rr-formats -p rr-simulation -p rr-import -p rr-content -p rr-course -p rr-render -p rr-input -p rr-session -p rr-media
+      - run: cargo clippy --locked -p rr-formats -p rr-simulation -p rr-import -p rr-content -p rr-course -p rr-render -p rr-input -p rr-session -p rr-media --all-targets -- -D warnings
   desktop-check:
     strategy:
       matrix:
@@ -26,7 +27,7 @@ jobs:
         with:
           toolchain: 1.99.1
           components: clippy
-      - run: sudo apt-get update && sudo apt-get install -y libx11-dev libxi-dev libxkbcommon-dev libudev-dev
+      - run: sudo apt-get update && sudo apt-get install -y libx11-dev libxi-dev libxkbcommon-dev libudev-dev libasound2-dev ffmpeg
       - run: cargo clippy --locked --workspace --all-targets -- -D warnings
       - run: cargo build --locked --release --workspace
       - run: cargo test --locked --release -p rr-game -p rr-presentation

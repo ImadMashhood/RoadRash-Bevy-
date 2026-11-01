@@ -1,8 +1,10 @@
 //! Classic presentation from immutable snapshots; authored fallback without local data.
 mod course_view;
+mod surface;
 use bevy::{camera::Viewport, prelude::*, window::PrimaryWindow};
 pub use course_view::CoursePresentation;
 use rr_simulation::Snapshot;
+pub use surface::upload_rgba;
 
 #[derive(Resource, Default)]
 pub struct PresentedSnapshot(pub Snapshot, pub Snapshot, pub f32);
