@@ -2,7 +2,7 @@
 
 ## Product direction
 
-The user has authorized implementation through roadmap Phase 23. Build a Rust/Bevy game with a shared deterministic simulation and a 3D presentation, using the original PC game as the behavior/content reference. A classic presentation remains an architectural option and a useful fidelity oracle. Full character/mesh production is additional work relative to the original README's deferred Phase 24. The local 3D prototype is research input, not imported or certified production code.
+The user has authorized implementation through roadmap Phase 23 and has now explicitly deferred 3D. Build the classic PC game experience in Rust/Bevy with modern module boundaries, validated content loading, deterministic simulation and replaceable 2D presentation. The separate local 3D prototype is historical research input. Current work has no mesh, rig, lighting or 3D physics requirements.
 
 First target: Linux x86_64 desktop, X11/XWayland and Vulkan-capable GPU. Windows and macOS are later targets until compile and hardware receipts exist. Initial modes: offline Thrash and Big Game. Online multiplayer, mobile, browser, and realistic motorcycle physics are outside initial release scope.
 
@@ -14,9 +14,9 @@ Reference source revision: `7aecf6044f2dd773b925b325823f30d648d61c89` from https
 
 ## Fidelity policy
 
-Simulation targets observed original handling, combat, schedules, progression and outcomes. Presentation-only texture changes must leave tick hashes unchanged. Optional assists and changed rules require explicit configuration and replay metadata. Keep native indexed images, palette/remap masks and upscaled derivatives distinct. 3D meshes, hidden surfaces and PBR materials are authored interpretations of sprite references.
+Simulation targets observed original handling, combat, schedules, progression and outcomes. Presentation-only texture changes must leave tick hashes unchanged. Optional assists and changed rules require explicit configuration and replay metadata. Keep native indexed images, palette/remap masks and upscaled derivatives distinct. 3D production is deferred.
 
-Classic comparison target: 640×480, 4:3, original assets and controlled camera checkpoints; this is an initial comparison convention, not a measured claim about every original display mode. 3D target: resizable window, explicit world axes/units, chase camera, original arcade behavior. Camera calibration and actual graphics/device acceptance are unverified.
+Classic comparison target: 640×480, 4:3, original assets and controlled camera checkpoints; this is an initial comparison convention, not a measured claim about every original display mode. Current presentation target: resizable window and classic road projection with original sprites and optional approved texture replacements. Camera calibration and actual graphics/device acceptance are unverified.
 
 ## Execution policy
 

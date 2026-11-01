@@ -1,38 +1,38 @@
-//! Authored placeholder: no game data or original artwork required.
+//! Composition root: input adapter -> fixed simulation -> presentation snapshot.
 use bevy::prelude::*;
+use rr_presentation::{ClassicPresentationPlugin, PresentedSnapshot};
+use rr_simulation::{Command, Simulation, TICKS_PER_SECOND};
+
+#[derive(Resource, Default)]
+struct Race(Simulation);
 
 fn main() {
     App::new()
         .add_plugins(DefaultPlugins.set(WindowPlugin {
             primary_window: Some(Window {
-                title: "RoadRash Rust — foundation scene".into(),
+                title: "RoadRash Rust — classic foundation".into(),
                 ..default()
             }),
             ..default()
         }))
-        .add_systems(Startup, setup)
+        .insert_resource(Time::<Fixed>::from_hz(f64::from(TICKS_PER_SECOND)))
+        .init_resource::<Race>()
+        .add_plugins(ClassicPresentationPlugin)
+        .add_systems(FixedUpdate, tick)
         .run();
 }
-fn setup(
-    mut commands: Commands,
-    mut meshes: ResMut<Assets<Mesh>>,
-    mut materials: ResMut<Assets<StandardMaterial>>,
+
+fn tick(
+    keys: Res<ButtonInput<KeyCode>>,
+    mut race: ResMut<Race>,
+    mut presented: ResMut<PresentedSnapshot>,
 ) {
-    commands.spawn((
-        Mesh3d(meshes.add(Cuboid::new(8.0, 0.1, 40.0))),
-        MeshMaterial3d(materials.add(Color::srgb(0.15, 0.15, 0.18))),
-    ));
-    commands.spawn((
-        Mesh3d(meshes.add(Cuboid::new(0.6, 1.0, 1.8))),
-        MeshMaterial3d(materials.add(Color::srgb(0.8, 0.15, 0.1))),
-        Transform::from_xyz(0.0, 0.6, 0.0),
-    ));
-    commands.spawn((
-        DirectionalLight::default(),
-        Transform::from_rotation(Quat::from_euler(EulerRot::XYZ, -0.8, -0.4, 0.0)),
-    ));
-    commands.spawn((
-        Camera3d::default(),
-        Transform::from_xyz(5.0, 5.0, 9.0).looking_at(Vec3::ZERO, Vec3::Y),
-    ));
+    let left = keys.pressed(KeyCode::ArrowLeft) || keys.pressed(KeyCode::KeyA);
+    let right = keys.pressed(KeyCode::ArrowRight) || keys.pressed(KeyCode::KeyD);
+    race.0.step(Command {
+        throttle: keys.pressed(KeyCode::ArrowUp) || keys.pressed(KeyCode::KeyW),
+        brake: keys.pressed(KeyCode::ArrowDown) || keys.pressed(KeyCode::KeyS),
+        steer: i8::from(right) - i8::from(left),
+    });
+    presented.0 = race.0.snapshot();
 }

@@ -5,7 +5,7 @@ Every result records build revision, platform, input corpus, scenario and comman
 | Gate | Required executable evidence | Current status |
 | --- | --- | --- |
 | G0 | Import supported ISO/directory, reject corrupted corpus, inspect all required assets | Not complete |
-| G1 | One measured course, controlled driving replay, faithful timing and working 3D test section | Not complete |
+| G1 | One measured course, controlled driving replay, faithful timing and working classic presentation test section | Not complete |
 | G2 | Full rider field, combat, crashes/recovery, traffic and police through all terminal outcomes | Not complete |
 | G3 | Complete offline career, menus, economy, saves and required media | Not complete |
 | G4 | One approved enhancement pilot, animation-family review, validated mod override/fallback | Not complete |

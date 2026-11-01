@@ -1,0 +1,9 @@
+[package]
+name = "rr-presentation"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+rr-simulation = { path = "../simulation" }
+bevy = { workspace = true }

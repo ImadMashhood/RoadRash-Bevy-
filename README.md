@@ -1,5 +1,7 @@
 # RoadRash-Rust — complete recreation roadmap
 
+> **Current implementation:** 3D is deferred. The active target is the classic game in Rust/Bevy using separate bounded format readers, a renderer-independent simulation, and a 2D presentation plugin. See [implementation status](docs/STATUS.md), [build instructions](docs/GETTING_STARTED.md), and [architecture](docs/ARCHITECTURE.md). The detailed roadmap below includes future preparation; those items do not expand the current scope.
+
 A Rust and Bevy recreation of the PC Road Rash experience, with a faithful classic presentation, individually reviewed AI-enhanced textures, and a modular design that leaves room for a later 3D version.
 
 This repository currently contains a plan, not a playable Rust release. All implementation checkboxes below are open until their acceptance evidence exists. The separate local Bevy prototype is exploratory work and has not been imported or certified against this roadmap.

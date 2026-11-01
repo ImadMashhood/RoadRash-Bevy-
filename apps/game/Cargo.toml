@@ -5,5 +5,6 @@ edition.workspace = true
 rust-version.workspace = true
 
 [dependencies]
-rr-formats = { path = "../../crates/formats" }
-bevy = { version = "=0.20.1", default-features = false, features = ["std", "default_app", "3d_bevy_render", "bevy_winit", "x11", "multi_threaded"] }
+rr-simulation = { path = "../../crates/simulation" }
+rr-presentation = { path = "../../crates/presentation" }
+bevy = { workspace = true }
