@@ -1,0 +1,533 @@
+{
+  "input_provenance": "authored keyboard-equivalent controls; no human calibration claim",
+  "long_run_seconds": 180,
+  "outcome": "passed",
+  "reference_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+  "rng_draws_traced": 88,
+  "runs": [
+    {
+      "hash": "0616aa6108db2f99daf128a847e7df9f53615680f7e178cf4a56557413b6059a",
+      "rate": "30",
+      "ticks": 10800
+    },
+    {
+      "hash": "0616aa6108db2f99daf128a847e7df9f53615680f7e178cf4a56557413b6059a",
+      "rate": "60",
+      "ticks": 10800
+    },
+    {
+      "hash": "0616aa6108db2f99daf128a847e7df9f53615680f7e178cf4a56557413b6059a",
+      "rate": "144",
+      "ticks": 10800
+    },
+    {
+      "hash": "0616aa6108db2f99daf128a847e7df9f53615680f7e178cf4a56557413b6059a",
+      "rate": "irregular",
+      "ticks": 10800
+    }
+  ],
+  "scope": "source primitives plus intended population policy, not full native scheduler/AI parity",
+  "source_setups": [
+    {
+      "actor_requests": 356,
+      "brains": 14,
+      "choice": 0,
+      "course": "CITY",
+      "level": 1,
+      "riders": 15,
+      "vehicle_types": 12,
+      "zones": 115
+    },
+    {
+      "actor_requests": 385,
+      "brains": 14,
+      "choice": 0,
+      "course": "CITY",
+      "level": 2,
+      "riders": 15,
+      "vehicle_types": 12,
+      "zones": 115
+    },
+    {
+      "actor_requests": 394,
+      "brains": 14,
+      "choice": 0,
+      "course": "CITY",
+      "level": 3,
+      "riders": 15,
+      "vehicle_types": 12,
+      "zones": 115
+    },
+    {
+      "actor_requests": 406,
+      "brains": 14,
+      "choice": 0,
+      "course": "CITY",
+      "level": 4,
+      "riders": 15,
+      "vehicle_types": 12,
+      "zones": 115
+    },
+    {
+      "actor_requests": 414,
+      "brains": 14,
+      "choice": 0,
+      "course": "CITY",
+      "level": 5,
+      "riders": 15,
+      "vehicle_types": 12,
+      "zones": 115
+    },
+    {
+      "actor_requests": 356,
+      "brains": 14,
+      "choice": 1,
+      "course": "CITY",
+      "level": 1,
+      "riders": 15,
+      "vehicle_types": 12,
+      "zones": 115
+    },
+    {
+      "actor_requests": 385,
+      "brains": 14,
+      "choice": 1,
+      "course": "CITY",
+      "level": 2,
+      "riders": 15,
+      "vehicle_types": 12,
+      "zones": 115
+    },
+    {
+      "actor_requests": 394,
+      "brains": 14,
+      "choice": 1,
+      "course": "CITY",
+      "level": 3,
+      "riders": 15,
+      "vehicle_types": 12,
+      "zones": 115
+    },
+    {
+      "actor_requests": 406,
+      "brains": 14,
+      "choice": 1,
+      "course": "CITY",
+      "level": 4,
+      "riders": 15,
+      "vehicle_types": 12,
+      "zones": 115
+    },
+    {
+      "actor_requests": 414,
+      "brains": 14,
+      "choice": 1,
+      "course": "CITY",
+      "level": 5,
+      "riders": 15,
+      "vehicle_types": 12,
+      "zones": 115
+    },
+    {
+      "actor_requests": 33,
+      "brains": 14,
+      "choice": 0,
+      "course": "HIWAY",
+      "level": 1,
+      "riders": 15,
+      "vehicle_types": 10,
+      "zones": 121
+    },
+    {
+      "actor_requests": 43,
+      "brains": 14,
+      "choice": 0,
+      "course": "HIWAY",
+      "level": 2,
+      "riders": 15,
+      "vehicle_types": 10,
+      "zones": 121
+    },
+    {
+      "actor_requests": 45,
+      "brains": 14,
+      "choice": 0,
+      "course": "HIWAY",
+      "level": 3,
+      "riders": 15,
+      "vehicle_types": 10,
+      "zones": 121
+    },
+    {
+      "actor_requests": 57,
+      "brains": 14,
+      "choice": 0,
+      "course": "HIWAY",
+      "level": 4,
+      "riders": 15,
+      "vehicle_types": 10,
+      "zones": 121
+    },
+    {
+      "actor_requests": 66,
+      "brains": 14,
+      "choice": 0,
+      "course": "HIWAY",
+      "level": 5,
+      "riders": 15,
+      "vehicle_types": 10,
+      "zones": 121
+    },
+    {
+      "actor_requests": 33,
+      "brains": 14,
+      "choice": 1,
+      "course": "HIWAY",
+      "level": 1,
+      "riders": 15,
+      "vehicle_types": 10,
+      "zones": 121
+    },
+    {
+      "actor_requests": 43,
+      "brains": 14,
+      "choice": 1,
+      "course": "HIWAY",
+      "level": 2,
+      "riders": 15,
+      "vehicle_types": 10,
+      "zones": 121
+    },
+    {
+      "actor_requests": 45,
+      "brains": 14,
+      "choice": 1,
+      "course": "HIWAY",
+      "level": 3,
+      "riders": 15,
+      "vehicle_types": 10,
+      "zones": 121
+    },
+    {
+      "actor_requests": 57,
+      "brains": 14,
+      "choice": 1,
+      "course": "HIWAY",
+      "level": 4,
+      "riders": 15,
+      "vehicle_types": 10,
+      "zones": 121
+    },
+    {
+      "actor_requests": 66,
+      "brains": 14,
+      "choice": 1,
+      "course": "HIWAY",
+      "level": 5,
+      "riders": 15,
+      "vehicle_types": 10,
+      "zones": 121
+    },
+    {
+      "actor_requests": 272,
+      "brains": 14,
+      "choice": 0,
+      "course": "MEDLY",
+      "level": 1,
+      "riders": 15,
+      "vehicle_types": 11,
+      "zones": 129
+    },
+    {
+      "actor_requests": 323,
+      "brains": 14,
+      "choice": 0,
+      "course": "MEDLY",
+      "level": 2,
+      "riders": 15,
+      "vehicle_types": 11,
+      "zones": 129
+    },
+    {
+      "actor_requests": 362,
+      "brains": 14,
+      "choice": 0,
+      "course": "MEDLY",
+      "level": 3,
+      "riders": 15,
+      "vehicle_types": 11,
+      "zones": 129
+    },
+    {
+      "actor_requests": 403,
+      "brains": 14,
+      "choice": 0,
+      "course": "MEDLY",
+      "level": 4,
+      "riders": 15,
+      "vehicle_types": 11,
+      "zones": 129
+    },
+    {
+      "actor_requests": 439,
+      "brains": 14,
+      "choice": 0,
+      "course": "MEDLY",
+      "level": 5,
+      "riders": 15,
+      "vehicle_types": 11,
+      "zones": 129
+    },
+    {
+      "actor_requests": 272,
+      "brains": 14,
+      "choice": 1,
+      "course": "MEDLY",
+      "level": 1,
+      "riders": 15,
+      "vehicle_types": 11,
+      "zones": 129
+    },
+    {
+      "actor_requests": 323,
+      "brains": 14,
+      "choice": 1,
+      "course": "MEDLY",
+      "level": 2,
+      "riders": 15,
+      "vehicle_types": 11,
+      "zones": 129
+    },
+    {
+      "actor_requests": 362,
+      "brains": 14,
+      "choice": 1,
+      "course": "MEDLY",
+      "level": 3,
+      "riders": 15,
+      "vehicle_types": 11,
+      "zones": 129
+    },
+    {
+      "actor_requests": 403,
+      "brains": 14,
+      "choice": 1,
+      "course": "MEDLY",
+      "level": 4,
+      "riders": 15,
+      "vehicle_types": 11,
+      "zones": 129
+    },
+    {
+      "actor_requests": 439,
+      "brains": 14,
+      "choice": 1,
+      "course": "MEDLY",
+      "level": 5,
+      "riders": 15,
+      "vehicle_types": 11,
+      "zones": 129
+    },
+    {
+      "actor_requests": 49,
+      "brains": 14,
+      "choice": 0,
+      "course": "NAPA",
+      "level": 1,
+      "riders": 15,
+      "vehicle_types": 10,
+      "zones": 85
+    },
+    {
+      "actor_requests": 60,
+      "brains": 14,
+      "choice": 0,
+      "course": "NAPA",
+      "level": 2,
+      "riders": 15,
+      "vehicle_types": 10,
+      "zones": 85
+    },
+    {
+      "actor_requests": 64,
+      "brains": 14,
+      "choice": 0,
+      "course": "NAPA",
+      "level": 3,
+      "riders": 15,
+      "vehicle_types": 10,
+      "zones": 85
+    },
+    {
+      "actor_requests": 71,
+      "brains": 14,
+      "choice": 0,
+      "course": "NAPA",
+      "level": 4,
+      "riders": 15,
+      "vehicle_types": 10,
+      "zones": 85
+    },
+    {
+      "actor_requests": 73,
+      "brains": 14,
+      "choice": 0,
+      "course": "NAPA",
+      "level": 5,
+      "riders": 15,
+      "vehicle_types": 10,
+      "zones": 85
+    },
+    {
+      "actor_requests": 49,
+      "brains": 14,
+      "choice": 1,
+      "course": "NAPA",
+      "level": 1,
+      "riders": 15,
+      "vehicle_types": 10,
+      "zones": 85
+    },
+    {
+      "actor_requests": 60,
+      "brains": 14,
+      "choice": 1,
+      "course": "NAPA",
+      "level": 2,
+      "riders": 15,
+      "vehicle_types": 10,
+      "zones": 85
+    },
+    {
+      "actor_requests": 64,
+      "brains": 14,
+      "choice": 1,
+      "course": "NAPA",
+      "level": 3,
+      "riders": 15,
+      "vehicle_types": 10,
+      "zones": 85
+    },
+    {
+      "actor_requests": 71,
+      "brains": 14,
+      "choice": 1,
+      "course": "NAPA",
+      "level": 4,
+      "riders": 15,
+      "vehicle_types": 10,
+      "zones": 85
+    },
+    {
+      "actor_requests": 73,
+      "brains": 14,
+      "choice": 1,
+      "course": "NAPA",
+      "level": 5,
+      "riders": 15,
+      "vehicle_types": 10,
+      "zones": 85
+    },
+    {
+      "actor_requests": 29,
+      "brains": 14,
+      "choice": 0,
+      "course": "CANYN",
+      "level": 1,
+      "riders": 15,
+      "vehicle_types": 11,
+      "zones": 93
+    },
+    {
+      "actor_requests": 35,
+      "brains": 14,
+      "choice": 0,
+      "course": "CANYN",
+      "level": 2,
+      "riders": 15,
+      "vehicle_types": 11,
+      "zones": 93
+    },
+    {
+      "actor_requests": 32,
+      "brains": 14,
+      "choice": 0,
+      "course": "CANYN",
+      "level": 3,
+      "riders": 15,
+      "vehicle_types": 11,
+      "zones": 93
+    },
+    {
+      "actor_requests": 40,
+      "brains": 14,
+      "choice": 0,
+      "course": "CANYN",
+      "level": 4,
+      "riders": 15,
+      "vehicle_types": 11,
+      "zones": 93
+    },
+    {
+      "actor_requests": 41,
+      "brains": 14,
+      "choice": 0,
+      "course": "CANYN",
+      "level": 5,
+      "riders": 15,
+      "vehicle_types": 11,
+      "zones": 93
+    },
+    {
+      "actor_requests": 29,
+      "brains": 14,
+      "choice": 1,
+      "course": "CANYN",
+      "level": 1,
+      "riders": 15,
+      "vehicle_types": 11,
+      "zones": 93
+    },
+    {
+      "actor_requests": 35,
+      "brains": 14,
+      "choice": 1,
+      "course": "CANYN",
+      "level": 2,
+      "riders": 15,
+      "vehicle_types": 11,
+      "zones": 93
+    },
+    {
+      "actor_requests": 32,
+      "brains": 14,
+      "choice": 1,
+      "course": "CANYN",
+      "level": 3,
+      "riders": 15,
+      "vehicle_types": 11,
+      "zones": 93
+    },
+    {
+      "actor_requests": 40,
+      "brains": 14,
+      "choice": 1,
+      "course": "CANYN",
+      "level": 4,
+      "riders": 15,
+      "vehicle_types": 11,
+      "zones": 93
+    },
+    {
+      "actor_requests": 41,
+      "brains": 14,
+      "choice": 1,
+      "course": "CANYN",
+      "level": 5,
+      "riders": 15,
+      "vehicle_types": 11,
+      "zones": 93
+    }
+  ],
+  "trace_samples": 36
+}

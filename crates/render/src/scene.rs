@@ -476,6 +476,75 @@ impl Scene {
                 }
             }
         }
+        if snapshot.actors.iter().any(|a| a.id.0 == 1) {
+            for agent in &snapshot.road_users {
+                let Some(z) = crate::camera::road_user_depth(snapshot, agent, spec.player_depth_q8)
+                else {
+                    continue;
+                };
+                if z <= 256. || z > 8192. {
+                    continue;
+                }
+                use rr_simulation::population::{AgentState, Kind};
+                let sprite = match agent.kind {
+                    Kind::Vehicle => self
+                        .assets
+                        .vehicles
+                        .get(usize::from(agent.selector))
+                        .and_then(|v| {
+                            v.get(if agent.state == AgentState::Crossing {
+                                1
+                            } else if agent.direction < 0 {
+                                0
+                            } else {
+                                2
+                            })
+                        })
+                        .and_then(Option::as_ref),
+                    Kind::Pedestrian => agent
+                        .family
+                        .and_then(|id| self.assets.families.get(&id))
+                        .and_then(|f| {
+                            f.resolve(2, usize::from(agent.selector), Some(0))
+                                .and_then(|at| f.sprites.get(&at))
+                        }),
+                    Kind::Police => self.assets.police.get(agent.frame).and_then(Option::as_ref),
+                };
+                let Some(sprite) = sprite else {
+                    continue;
+                };
+                let anchor = actor_anchor(
+                    self,
+                    &slices,
+                    z,
+                    f64::from(agent.location.lateral) / 256.,
+                    spec,
+                    &self.assets.depths,
+                );
+                billboards.push(Billboard {
+                    id: format!("population/{:020}", agent.id),
+                    class: if agent.kind == Kind::Vehicle {
+                        SpriteClass::Traffic
+                    } else {
+                        SpriteClass::Racer
+                    },
+                    x: anchor[0],
+                    ground: anchor[1],
+                    z,
+                    width: sprite.logical[0] * 2.,
+                    height: sprite.logical[1] * 2.,
+                    pivot: sprite.pivot,
+                    texture: sprite.texture.clone(),
+                    mirror: agent.direction < 0 && agent.kind == Kind::Pedestrian,
+                    rotation: if agent.state == AgentState::Hit {
+                        std::f64::consts::FRAC_PI_2
+                    } else {
+                        0.
+                    },
+                    clip_ground: true,
+                });
+            }
+        }
         for actor in &snapshot.actors {
             let Some(z) = relative_actor_depth(snapshot, actor, spec.player_depth_q8) else {
                 continue;

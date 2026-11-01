@@ -1,6 +1,8 @@
 //! Composition root: ordered input/fixed simulation/snapshot adapter and optional deterministic playback.
 mod gamepad_calibration;
 mod input_adapter;
+mod population_cues;
+mod race_recording;
 use bevy::{
     app::AppExit,
     prelude::*,
@@ -46,6 +48,8 @@ struct LaunchOptions {
     bike: u32,
     rider_color: u8,
     practice_riders: u8,
+    opponents: u8,
+    record_replay: Option<PathBuf>,
     fast_recovery: bool,
     rescue_recovery: bool,
     effects: bool,
@@ -72,6 +76,7 @@ fn options() -> Result<LaunchOptions, String> {
         render_rate: "60".into(),
         level: 1,
         bike: 1,
+        opponents: 14,
         effects: true,
         capture_frame: 30,
         ..Default::default()
@@ -82,6 +87,16 @@ fn options() -> Result<LaunchOptions, String> {
             .next()
             .ok_or_else(|| format!("missing value for {}", arg.to_string_lossy()))?;
         match arg.to_str() {
+            Some("--record-replay") => options.record_replay = Some(value.into()),
+            Some("--opponents") => {
+                options.opponents = value
+                    .to_string_lossy()
+                    .parse()
+                    .map_err(|_| "opponents must be 0..14")?;
+                if options.opponents > 14 {
+                    return Err("opponents must be 0..14".into());
+                }
+            }
             Some("--practice-riders") => {
                 options.practice_riders = value
                     .to_string_lossy()
@@ -314,7 +329,14 @@ fn course_view(
         assets.palettes.insert(0, default.clone());
     }
     for color in std::iter::once(options.rider_color)
-        .chain((0..options.practice_riders).map(|i| (i + 1) % 15))
+        .chain(
+            (0..if options.replay.is_none() && options.practice_riders == 0 {
+                options.opponents
+            } else {
+                options.practice_riders
+            })
+                .map(|i| (i + 1) % 15),
+        )
         .chain(
             options
                 .replay
@@ -435,7 +457,11 @@ fn main() {
                 &course.scene.route,
                 &exe,
                 options.level - 1,
-                options.practice_riders,
+                if options.practice_riders > 0 {
+                    options.practice_riders
+                } else {
+                    options.opponents
+                },
             )
             .unwrap_or_else(|e| {
                 eprintln!("encounter startup: {e}");
@@ -444,7 +470,41 @@ fn main() {
             setup.seeds[0].color = options.rider_color;
             setup.rules.assists.fast_recovery = options.fast_recovery;
             setup.rules.assists.rescue_unreachable = options.rescue_recovery;
-            let mut sim = Simulation::with_encounters(1, config, setup).unwrap();
+            let mut sim = if options.practice_riders > 0 {
+                Simulation::with_encounters(1, config, setup).unwrap()
+            } else {
+                let mut population = rr_simulation::population::Setup::source(
+                    &config,
+                    &mut setup,
+                    &course.scene.course,
+                    &exe,
+                    options.level - 1,
+                    course.scene.assets.vehicles.len() as u16,
+                )
+                .unwrap_or_else(|e| {
+                    eprintln!("population startup: {e}");
+                    std::process::exit(2)
+                });
+                population.vehicle_masks = course.scene.assets.vehicle_masks.clone();
+                let requested = population.spawns.len();
+                population.spawns.retain(|s| {
+                    s.kind != rr_simulation::population::Kind::Pedestrian
+                        || s.family
+                            .and_then(|id| course.scene.assets.families.get(&id))
+                            .and_then(|f| {
+                                f.resolve(2, usize::from(s.selector), Some(0))
+                                    .and_then(|at| f.sprites.get(&at))
+                            })
+                            .is_some()
+                });
+                if requested != population.spawns.len() {
+                    println!(
+                        "Population: {} unsupported pedestrian appearances retained as research requests, excluded from live collisions",
+                        requested - population.spawns.len()
+                    );
+                }
+                Simulation::with_population(1, config, setup, population).unwrap()
+            };
             sim.set_effects_enabled(options.effects);
             Race(sim)
         } else {
@@ -480,7 +540,27 @@ fn main() {
             std::process::exit(2)
         })
         .unwrap_or_default();
+    let recorder = race_recording::Recorder::new(
+        if playback.is_none() {
+            options.record_replay.clone()
+        } else {
+            None
+        },
+        &race.0,
+        options.data_root.as_deref(),
+    )
+    .unwrap_or_else(|e| {
+        eprintln!("recording startup: {e}");
+        std::process::exit(2)
+    });
     let mut app = App::new();
+    app.insert_resource(recorder)
+        .init_resource::<population_cues::Warnings>()
+        .add_systems(Last, race_recording::save)
+        .add_systems(
+            Update,
+            population_cues::update.after(PresentationStage::Prepare),
+        );
     app.insert_resource(input_adapter::CalibrationProfiles(profiles));
     input_adapter::install_calibration(&mut app);
     if let Some(course) = course {
@@ -586,7 +666,7 @@ fn sample_input(
         } else {
             None
         };
-        if race.0.schema_version() == 4 {
+        if race.0.schema_version() >= 4 {
             command.0.attack = command
                 .0
                 .pose
@@ -660,9 +740,13 @@ fn advance(
     command: Res<InputCommand>,
     mut race: ResMut<Race>,
     mut previous: ResMut<Previous>,
+    recorder: Option<ResMut<race_recording::Recorder>>,
     mut exit: MessageWriter<AppExit>,
 ) {
     previous.0 = race.0.snapshot();
+    if let Some(mut recorder) = recorder {
+        recorder.command(race.0.tick().0, command.0);
+    }
     if let Err(e) = race.0.step(command.0) {
         failure(e, &mut exit);
     }

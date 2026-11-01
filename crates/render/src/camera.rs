@@ -395,6 +395,23 @@ pub fn interpolated_snapshot(
                 .round() as i64;
         }
     }
+    for agent in &mut out.road_users {
+        if let Some(old) = previous
+            .road_users
+            .iter()
+            .find(|old| old.id == agent.id && old.location.path == agent.location.path)
+        {
+            agent.location.progress = (old.location.progress as f64
+                + (agent.location.progress - old.location.progress) as f64 * a)
+                .round() as i64;
+            agent.location.lateral = (f64::from(old.location.lateral)
+                + f64::from(agent.location.lateral - old.location.lateral) * a)
+                .round() as i32;
+            if let (Some(old), Some(current)) = (old.projected, agent.projected) {
+                agent.projected = Some((old as f64 + (current - old) as f64 * a).round() as i64);
+            }
+        }
+    }
     out.distance_mm = (previous.distance_mm as f64
         + (current.distance_mm as f64 - previous.distance_mm as f64) * a)
         .round() as u64;
@@ -408,6 +425,17 @@ pub fn interpolated_snapshot(
 /// progress within the same route/branch/section. A later race adapter must
 /// provide cross-section visibility rather than treating unrelated local Zs
 /// as global distance.
+/// A selected-route projection remains valid across section boundaries; unknown
+/// off-route locations have no projection and are never treated as a shortcut.
+pub fn road_user_depth(
+    snapshot: &rr_simulation::Snapshot,
+    agent: &rr_simulation::population::Agent,
+    player_depth: f64,
+) -> Option<f64> {
+    let player = snapshot.actors.iter().find(|a| a.id.0 == 1)?;
+    Some(player_depth + agent.projected? as f64 - player.position.progress.0 as f64 / 8.)
+}
+
 pub fn relative_actor_depth(
     snapshot: &rr_simulation::Snapshot,
     actor: &rr_simulation::ActorSnapshot,
@@ -472,5 +500,56 @@ mod recovery_tests {
         );
         assert_eq!(sim.state_hash(), hash);
         assert_eq!(sim.snapshot(), canonical);
+    }
+}
+
+#[cfg(test)]
+mod population_tests {
+    #[test]
+    fn road_users_interpolate_in_copies_without_stepping_physics() {
+        use rr_simulation::{population::*, topology::*, *};
+        let mut s = Simulation::with_population(
+            1,
+            fixtures::riding(),
+            encounter::Setup::authored(&fixtures::riding()).unwrap(),
+            Setup {
+                traffic: false,
+                periodic_police: false,
+                ..Default::default()
+            },
+        )
+        .unwrap();
+        s.spawn_road_user(&Spawn {
+            id: 1,
+            location: Location {
+                progress: 2000,
+                lateral: 64000,
+                ..Default::default()
+            },
+            kind: Kind::Vehicle,
+            family: None,
+            selector: 0,
+            subtype: 0,
+            speed: 8000,
+            direction: 1,
+        })
+        .unwrap();
+        let before = s.snapshot();
+        s.advance().unwrap();
+        let current = s.snapshot();
+        let hash = s.state_hash();
+        let middle = super::interpolated_snapshot(&before, &current, 0.5);
+        let progress = middle.road_users[0].location.progress;
+        assert!(
+            progress > before.road_users[0].location.progress
+                && progress < current.road_users[0].location.progress
+        );
+        assert_eq!(s.state_hash(), hash);
+        assert_eq!(s.snapshot(), current);
+        let mut across = current.road_users[0].clone();
+        across.location.path = 999;
+        assert!(super::road_user_depth(&current, &across, 512.).is_some());
+        across.projected = None;
+        assert_eq!(super::road_user_depth(&current, &across, 512.), None);
     }
 }

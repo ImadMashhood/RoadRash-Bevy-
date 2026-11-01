@@ -906,6 +906,7 @@ fn replay_schedules_and_effect_switch_preserve_checkpoints() {
         expected_hash: None,
         handling: Some(c),
         encounter: Some(s),
+        population: None,
     };
     let encoded = serde_json::to_vec(&replay).unwrap();
     let mut expected = None;

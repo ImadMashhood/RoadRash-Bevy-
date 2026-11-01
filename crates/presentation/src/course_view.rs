@@ -117,6 +117,11 @@ fn draw(
                 }
             )
         });
+        let status = if view.0.road_users.iter().any(|a| a.siren) {
+            format!("{status}\nPOLICE PURSUIT")
+        } else {
+            status
+        };
         for mut text in &mut hud {
             text.0.clone_from(&status);
         }

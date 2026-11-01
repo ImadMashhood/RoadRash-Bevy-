@@ -73,6 +73,7 @@ fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
         expected_hash: None,
         handling: Some(config.clone()),
         encounter: Some(setup),
+        population: None,
     };
     let mut baseline = None;
     let mut runs = vec![];
@@ -213,6 +214,7 @@ fn authored(out: &std::path::Path) -> std::result::Result<(), Box<dyn std::error
         expected_hash: None,
         handling: Some(config),
         encounter: Some(setup),
+        population: None,
     };
     let report = run(replay.clone(), "60")?;
     replay.expected_hash = Some(report.state_sha256.clone());

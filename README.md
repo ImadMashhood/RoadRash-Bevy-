@@ -4,10 +4,10 @@
 
 A Rust and Bevy recreation of the PC Road Rash experience, with a faithful classic presentation, individually reviewed AI-enhanced textures, and a modular design that leaves room for a later 3D version.
 
-Parts 01–12 now have implementation and acceptance evidence: a verified importer, bounded decoders, content catalog/inspector, deterministic simulation/presentation scaffold and validated source course graph/explorer and classic road renderer. This is not a complete playable recreation. Later phases remain open; the separate local prototype is preserved independently.
+Parts 01–14 now have implementation and acceptance evidence: a verified importer, bounded decoders, content catalog/inspector, deterministic simulation/presentation scaffold and validated source course graph/explorer and classic road renderer. This is not a complete playable recreation. Later phases remain open; the separate local prototype is preserved independently.
 
 
-The [Fedora native reference](docs/NATIVE_REFERENCE.md) now validates [source-unit handling](docs/HANDLING.md) and [rider animation/palette fidelity](docs/ANIMATION.md). **Parts 09 and 10 are complete** with 15 source bike specifications, versioned handling/replay, tick-driven animations, ground shadows and an offline animation inspector. **Parts 11 and 12 are complete** with [ordered combat](docs/COMBAT.md), unique equipment/theft, independent crash bodies, portal-based recovery and explicit assists. See [Part 11 evidence](docs/evidence/part-11.md) and [Part 12 evidence](docs/evidence/part-12.md). The next open phase is **13: opponent intelligence**.
+The [Fedora native reference](docs/NATIVE_REFERENCE.md) now validates [source-unit handling](docs/HANDLING.md) and [rider animation/palette fidelity](docs/ANIMATION.md). **Parts 09 and 10 are complete** with 15 source bike specifications, versioned handling/replay, tick-driven animations, ground shadows and an offline animation inspector. **Parts 11 and 12 are complete** with [ordered combat](docs/COMBAT.md), unique equipment/theft, independent crash bodies, portal-based recovery and explicit assists. See [Part 11 evidence](docs/evidence/part-11.md) and [Part 12 evidence](docs/evidence/part-12.md). **Parts 13 and 14 are complete** with [opponent intelligence](docs/OPPONENTS.md), full source field setup, [traffic/pedestrians/police](docs/ROAD_USERS.md), recorded controls and long-run diagnostics. The next open phase is **15: race rules and results**.
 
 Run the current source-course view after local import/conversion:
 
@@ -15,7 +15,7 @@ Run the current source-course view after local import/conversion:
 cargo run --locked --release -p rr-game -- --install-root local/game-install --catalog local/catalog --course CITY
 ```
 
-[Classic renderer controls, camera policy and checkpoints](docs/RENDERING.md). Imported races now use schema-4 source handling, combat and linked recovery. Add `--practice-riders 2` for constant-drive combat practice; Z/X/C attack, and arrows walk while recovering. The data-free fallback retains its authored model. Opponent intelligence, traffic/police and career remain later work.
+[Classic renderer controls, camera policy and checkpoints](docs/RENDERING.md). Imported races now use schema-5 source handling, combat, linked recovery, 14 opponents and bounded traffic/pedestrian/police systems. Use `--opponents 0` for solo population testing or `--practice-riders 2` for the earlier constant-drive mode. Z/X/C attack; arrows walk during recovery. `--record-replay local/my-race.json` records a live session. The data-free fallback retains its authored model. Race results, career and audio playback remain later work.
 
 ## 1. Scope and definition of complete
 
@@ -1463,7 +1463,7 @@ Research: [src/crash.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd
 
 **Inputs:** Rider traits, routes, nearby actors and seeded randomness.
 
-**Required outputs:** Opponent decision systems and full-field replay coverage. Names in this roadmap are proposed artifacts until implemented.
+**Required outputs:** Opponent decision systems and full-field replay coverage. Completed: [Part 13 evidence](docs/evidence/part-13.md), [opponent contract](docs/OPPONENTS.md).
 
 **Invariant:** Track decisions and scheduling independently; a plausible race is not parity evidence.
 
@@ -1472,77 +1472,77 @@ Research: [src/crash.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd
 
 Research: [src/race.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/race.cpp), [src/race_schedule.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/race_schedule.cpp), [src/race_helpers.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/race_helpers.cpp).
 
-- [ ] **13.01 — Recover rider scheduling intervals**
+- [x] **13.01 — Recover rider scheduling intervals**
 
-  - [ ] **13.01.a — Implement:** Define player/opponent cadence from source research and explicit scheduling policy.
-  - [ ] **13.01.b — Verify:** Test due-tick boundaries and first update after spawn.
-  - [ ] **13.01.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/13.01.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **13.01.a — Implement:** Define player/opponent cadence from source research and explicit scheduling policy.
+  - [x] **13.01.b — Verify:** Test due-tick boundaries and first update after spawn.
+  - [x] **13.01.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/13.01.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **13.02 — Preserve meaningful actor update order**
+- [x] **13.02 — Preserve meaningful actor update order**
 
-  - [ ] **13.02.a — Implement:** Use a stable scheduling key instead of arbitrary ECS iteration order.
-  - [ ] **13.02.b — Verify:** Verify insertions of cosmetic entities cannot reorder AI updates.
-  - [ ] **13.02.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/13.02.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **13.02.a — Implement:** Use a stable scheduling key instead of arbitrary ECS iteration order.
+  - [x] **13.02.b — Verify:** Verify insertions of cosmetic entities cannot reorder AI updates.
+  - [x] **13.02.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/13.02.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **13.03 — Implement route following**
+- [x] **13.03 — Implement route following**
 
-  - [ ] **13.03.a — Implement:** Track route choice and desired lateral path per opponent.
-  - [ ] **13.03.b — Verify:** Test both branch options and lane transitions.
-  - [ ] **13.03.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/13.03.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **13.03.a — Implement:** Track route choice and desired lateral path per opponent.
+  - [x] **13.03.b — Verify:** Test both branch options and lane transitions.
+  - [x] **13.03.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/13.03.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **13.04 — Implement speed and cornering decisions**
+- [x] **13.04 — Implement speed and cornering decisions**
 
-  - [ ] **13.04.a — Implement:** Compute target speed from bike capability, curve and state evidence.
-  - [ ] **13.04.b — Verify:** Compare braking/acceleration decisions around a known corner.
-  - [ ] **13.04.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/13.04.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **13.04.a — Implement:** Compute target speed from bike capability, curve and state evidence.
+  - [x] **13.04.b — Verify:** Compare braking/acceleration decisions around a known corner.
+  - [x] **13.04.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/13.04.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **13.05 — Implement overtaking and avoidance**
+- [x] **13.05 — Implement overtaking and avoidance**
 
-  - [ ] **13.05.a — Implement:** Model candidate overtakes with clearance and relative-speed constraints.
-  - [ ] **13.05.b — Verify:** Test blocked lanes, slow traffic and two rivals attempting the same gap.
-  - [ ] **13.05.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/13.05.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **13.05.a — Implement:** Model candidate overtakes with clearance and relative-speed constraints.
+  - [x] **13.05.b — Verify:** Test blocked lanes, slow traffic and two rivals attempting the same gap.
+  - [x] **13.05.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/13.05.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **13.06 — Implement aggression and target choice**
+- [x] **13.06 — Implement aggression and target choice**
 
-  - [ ] **13.06.a — Implement:** Represent aggression/personality parameters separately from render assets.
-  - [ ] **13.06.b — Verify:** Test target eligibility when a rival crashes or leaves range.
-  - [ ] **13.06.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/13.06.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **13.06.a — Implement:** Represent aggression/personality parameters separately from render assets.
+  - [x] **13.06.b — Verify:** Test target eligibility when a rival crashes or leaves range.
+  - [x] **13.06.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/13.06.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **13.07 — Implement combat decisions**
+- [x] **13.07 — Implement combat decisions**
 
-  - [ ] **13.07.a — Implement:** Select attack type and timing from explicit decision rules.
-  - [ ] **13.07.b — Verify:** Test cooldowns and ensure AI cannot attack while an invalid state is active.
-  - [ ] **13.07.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/13.07.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **13.07.a — Implement:** Select attack type and timing from explicit decision rules.
+  - [x] **13.07.b — Verify:** Test cooldowns and ensure AI cannot attack while an invalid state is active.
+  - [x] **13.07.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/13.07.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **13.08 — Implement crash recovery decisions**
+- [x] **13.08 — Implement crash recovery decisions**
 
-  - [ ] **13.08.a — Implement:** Give crashed opponents the same defined recovery states as applicable.
-  - [ ] **13.08.b — Verify:** Test prolonged recovery and re-entry into traffic.
-  - [ ] **13.08.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/13.08.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **13.08.a — Implement:** Give crashed opponents the same defined recovery states as applicable.
+  - [x] **13.08.b — Verify:** Test prolonged recovery and re-entry into traffic.
+  - [x] **13.08.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/13.08.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **13.09 — Match rider personalities where evidenced**
+- [x] **13.09 — Match rider personalities where evidenced**
 
-  - [ ] **13.09.a — Implement:** Map observed personality differences to documented data fields.
-  - [ ] **13.09.b — Verify:** Leave unsupported traits unknown rather than inventing faithful-sounding values.
-  - [ ] **13.09.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/13.09.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **13.09.a — Implement:** Map observed personality differences to documented data fields.
+  - [x] **13.09.b — Verify:** Leave unsupported traits unknown rather than inventing faithful-sounding values.
+  - [x] **13.09.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/13.09.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **13.10 — Audit RNG consumption per behavior**
+- [x] **13.10 — Audit RNG consumption per behavior**
 
-  - [ ] **13.10.a — Implement:** Trace RNG calls by actor, tick and decision category in debug mode.
-  - [ ] **13.10.b — Verify:** Locate first divergence without changing release simulation behavior.
-  - [ ] **13.10.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/13.10.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **13.10.a — Implement:** Trace RNG calls by actor, tick and decision category in debug mode.
+  - [x] **13.10.b — Verify:** Locate first divergence without changing release simulation behavior.
+  - [x] **13.10.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/13.10.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **13.11 — Test full original field size**
+- [x] **13.11 — Test full original field size**
 
-  - [ ] **13.11.a — Implement:** Run the measured original field size with all riders active.
-  - [ ] **13.11.b — Verify:** Verify placement, scheduling and asset identity across the whole field.
-  - [ ] **13.11.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/13.11.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **13.11.a — Implement:** Run the measured original field size with all riders active.
+  - [x] **13.11.b — Verify:** Verify placement, scheduling and asset identity across the whole field.
+  - [x] **13.11.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/13.11.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **13.12 — Compare long-run position and behavior traces**
+- [x] **13.12 — Compare long-run position and behavior traces**
 
-  - [ ] **13.12.a — Implement:** Compare multi-minute seeded runs and recorded human inputs.
-  - [ ] **13.12.b — Verify:** Separate scheduler, RNG and arithmetic divergence in the evidence report.
-  - [ ] **13.12.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/13.12.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **13.12.a — Implement:** Compare multi-minute seeded runs and recorded human inputs.
+  - [x] **13.12.b — Verify:** Separate scheduler, RNG and arithmetic divergence in the evidence report.
+  - [x] **13.12.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/13.12.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
 
 **Exit evidence:** a reproducible demonstration of opponent intelligence, linked implementation revision, recorded checks and known limitations. Dependent phases may prototype early, but this gate stays open until its checks pass.
@@ -1553,7 +1553,7 @@ Research: [src/race.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd7
 
 **Inputs:** Event intervals, actor definitions and pursuit conditions.
 
-**Required outputs:** Traffic/pedestrian/police systems with scenario coverage. Names in this roadmap are proposed artifacts until implemented.
+**Required outputs:** Traffic/pedestrian/police systems with scenario coverage. Completed: [Part 14 evidence](docs/evidence/part-14.md), [road-user contract](docs/ROAD_USERS.md).
 
 **Invariant:** Keep spawn order, branch assignment and terminal-event ordering explicit.
 
@@ -1562,77 +1562,77 @@ Research: [src/race.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd7
 
 Research: [src/traffic.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/traffic.cpp), [src/pedestrians.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/pedestrians.cpp), [src/police.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/police.cpp).
 
-- [ ] **14.01 — Decode traffic spawn and density events**
+- [x] **14.01 — Decode traffic spawn and density events**
 
-  - [ ] **14.01.a — Implement:** Decode traffic density, speed and intersection event parameters.
-  - [ ] **14.01.b — Verify:** Test entry and exit of each event zone without duplicate spawning.
-  - [ ] **14.01.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/14.01.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **14.01.a — Implement:** Decode traffic density, speed and intersection event parameters.
+  - [x] **14.01.b — Verify:** Test entry and exit of each event zone without duplicate spawning.
+  - [x] **14.01.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/14.01.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **14.02 — Implement lane following and crossing traffic**
+- [x] **14.02 — Implement lane following and crossing traffic**
 
-  - [ ] **14.02.a — Implement:** Implement route-aware traffic lane movement and intersection controllers.
-  - [ ] **14.02.b — Verify:** Test crossing vehicles against approaching racers on both branches.
-  - [ ] **14.02.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/14.02.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **14.02.a — Implement:** Implement route-aware traffic lane movement and intersection controllers.
+  - [x] **14.02.b — Verify:** Test crossing vehicles against approaching racers on both branches.
+  - [x] **14.02.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/14.02.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **14.03 — Implement traffic collision responses**
+- [x] **14.03 — Implement traffic collision responses**
 
-  - [ ] **14.03.a — Implement:** Resolve rider/vehicle impacts with documented speed and orientation effects.
-  - [ ] **14.03.b — Verify:** Test rear, head-on and lateral contacts separately.
-  - [ ] **14.03.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/14.03.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **14.03.a — Implement:** Resolve rider/vehicle impacts with documented speed and orientation effects.
+  - [x] **14.03.b — Verify:** Test rear, head-on and lateral contacts separately.
+  - [x] **14.03.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/14.03.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **14.04 — Implement pedestrian spawning and crossing**
+- [x] **14.04 — Implement pedestrian spawning and crossing**
 
-  - [ ] **14.04.a — Implement:** Spawn pedestrians from source rules and assign crossing trajectories.
-  - [ ] **14.04.b — Verify:** Test route boundaries and pedestrians interrupted by traffic.
-  - [ ] **14.04.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/14.04.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **14.04.a — Implement:** Spawn pedestrians from source rules and assign crossing trajectories.
+  - [x] **14.04.b — Verify:** Test route boundaries and pedestrians interrupted by traffic.
+  - [x] **14.04.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/14.04.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **14.05 — Implement pedestrian hit outcomes**
+- [x] **14.05 — Implement pedestrian hit outcomes**
 
-  - [ ] **14.05.a — Implement:** Implement pedestrian reactions and relevant scoring/state effects.
-  - [ ] **14.05.b — Verify:** Verify one contact does not repeatedly trigger consequences each frame.
-  - [ ] **14.05.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/14.05.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **14.05.a — Implement:** Implement pedestrian reactions and relevant scoring/state effects.
+  - [x] **14.05.b — Verify:** Verify one contact does not repeatedly trigger consequences each frame.
+  - [x] **14.05.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/14.05.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **14.06 — Implement police patrol and pursuit**
+- [x] **14.06 — Implement police patrol and pursuit**
 
-  - [ ] **14.06.a — Implement:** Model police patrol, detection, chase and disengagement states.
-  - [ ] **14.06.b — Verify:** Test suspect entering and leaving detection conditions.
-  - [ ] **14.06.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/14.06.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **14.06.a — Implement:** Model police patrol, detection, chase and disengagement states.
+  - [x] **14.06.b — Verify:** Test suspect entering and leaving detection conditions.
+  - [x] **14.06.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/14.06.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **14.07 — Implement siren and warning cues**
+- [x] **14.07 — Implement siren and warning cues**
 
-  - [ ] **14.07.a — Implement:** Emit siren start/stop events based on pursuit lifecycle.
-  - [ ] **14.07.b — Verify:** Pause, restart and despawn police without orphaned looping audio.
-  - [ ] **14.07.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/14.07.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **14.07.a — Implement:** Emit siren start/stop events based on pursuit lifecycle.
+  - [x] **14.07.b — Verify:** Pause, restart and despawn police without orphaned looping audio.
+  - [x] **14.07.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/14.07.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **14.08 — Implement arrest conditions**
+- [x] **14.08 — Implement arrest conditions**
 
-  - [ ] **14.08.a — Implement:** Specify arrest eligibility by speed, distance and player state.
-  - [ ] **14.08.b — Verify:** Test near-threshold cases and simultaneous police contact.
-  - [ ] **14.08.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/14.08.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **14.08.a — Implement:** Specify arrest eligibility by speed, distance and player state.
+  - [x] **14.08.b — Verify:** Test near-threshold cases and simultaneous police contact.
+  - [x] **14.08.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/14.08.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **14.09 — Implement arrest while on foot**
+- [x] **14.09 — Implement arrest while on foot**
 
-  - [ ] **14.09.a — Implement:** Handle arrest during standing, walking, get-up and remount states.
-  - [ ] **14.09.b — Verify:** Verify the result transition cleans up the recovery state.
-  - [ ] **14.09.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/14.09.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **14.09.a — Implement:** Handle arrest during standing, walking, get-up and remount states.
+  - [x] **14.09.b — Verify:** Verify the result transition cleans up the recovery state.
+  - [x] **14.09.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/14.09.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **14.10 — Handle route splits for all actors**
+- [x] **14.10 — Handle route splits for all actors**
 
-  - [ ] **14.10.a — Implement:** Preserve branch ownership for vehicles, pedestrians and pursuit targets.
-  - [ ] **14.10.b — Verify:** Test actors near merges without teleporting across disconnected roads.
-  - [ ] **14.10.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/14.10.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **14.10.a — Implement:** Preserve branch ownership for vehicles, pedestrians and pursuit targets.
+  - [x] **14.10.b — Verify:** Test actors near merges without teleporting across disconnected roads.
+  - [x] **14.10.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/14.10.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **14.11 — Match spawn ordering and RNG use**
+- [x] **14.11 — Match spawn ordering and RNG use**
 
-  - [ ] **14.11.a — Implement:** Record traffic/pedestrian/police scheduling and random choices.
-  - [ ] **14.11.b — Verify:** Compare seeded dense scenes and identify update-order differences.
-  - [ ] **14.11.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/14.11.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **14.11.a — Implement:** Record traffic/pedestrian/police scheduling and random choices.
+  - [x] **14.11.b — Verify:** Compare seeded dense scenes and identify update-order differences.
+  - [x] **14.11.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/14.11.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **14.12 — Test dense scenes and simultaneous incidents**
+- [x] **14.12 — Test dense scenes and simultaneous incidents**
 
-  - [ ] **14.12.a — Implement:** Create stress cases combining attacks, traffic collision and police pursuit.
-  - [ ] **14.12.b — Verify:** Verify bounded actor counts and deterministic outcome ordering.
-  - [ ] **14.12.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/14.12.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **14.12.a — Implement:** Create stress cases combining attacks, traffic collision and police pursuit.
+  - [x] **14.12.b — Verify:** Verify bounded actor counts and deterministic outcome ordering.
+  - [x] **14.12.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/14.12.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
 
 **Exit evidence:** a reproducible demonstration of traffic pedestrians and police, linked implementation revision, recorded checks and known limitations. Dependent phases may prototype early, but this gate stays open until its checks pass.

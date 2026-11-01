@@ -72,6 +72,7 @@ fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
         expected_hash: None,
         handling: Some(config.clone()),
         encounter: None,
+        population: None,
     };
     let mut baseline = None;
     let mut runs = vec![];

@@ -1,0 +1,76 @@
+{
+  "outcome": "passed",
+  "runs": [
+    {
+      "rate": "30",
+      "ticks": 600,
+      "state_sha256": "5b6472fbfc82818d6e5034a1bd817ec48ccdb63b8428b3005bb71d180f64412e",
+      "all_tick_hashes_match_headless": true,
+      "effects_enabled": true,
+      "capture": {
+        "branch_mask": 0,
+        "calibration_profile": null,
+        "camera": {
+          "camera_height": 150.0,
+          "height": 480,
+          "horizon": 180.0,
+          "integer_scale": false,
+          "near_q8": 1.0,
+          "player_depth_q8": 512.0,
+          "slices": 33,
+          "width": 640
+        },
+        "course": "CITY",
+        "interpolation_alpha": 0.9999995827674866,
+        "level": 1,
+        "requested_frame": 20,
+        "simulation_tick": 39,
+        "source_start_q8": 12800.0,
+        "texture_override_active": false,
+        "window_size": [
+          960,
+          720
+        ]
+      },
+      "png_sha256": "52564559095a8bed5c1a5e9f00a95ad92f8cffde46dd6083bba89a1b997fc403",
+      "visually_reviewed": true
+    },
+    {
+      "rate": "144",
+      "ticks": 600,
+      "state_sha256": "5b6472fbfc82818d6e5034a1bd817ec48ccdb63b8428b3005bb71d180f64412e",
+      "all_tick_hashes_match_headless": true,
+      "effects_enabled": false,
+      "capture": {
+        "branch_mask": 0,
+        "calibration_profile": null,
+        "camera": {
+          "camera_height": 150.0,
+          "height": 480,
+          "horizon": 180.0,
+          "integer_scale": false,
+          "near_q8": 1.0,
+          "player_depth_q8": 512.0,
+          "slices": 33,
+          "width": 640
+        },
+        "course": "CITY",
+        "interpolation_alpha": 0.9999974370002747,
+        "level": 1,
+        "requested_frame": 96,
+        "simulation_tick": 39,
+        "source_start_q8": 12800.0,
+        "texture_override_active": false,
+        "window_size": [
+          960,
+          720
+        ]
+      },
+      "png_sha256": "52564559095a8bed5c1a5e9f00a95ad92f8cffde46dd6083bba89a1b997fc403",
+      "visually_reviewed": true
+    }
+  ],
+  "review": "Full field, left traffic vehicle, right pedestrian, adjacent source police rider and pursuit HUD visible. Source hot spots and depth projection reviewed.",
+  "scope": "Virtual schedule determinism and graphical review; not a hardware frame-rate or original-game fidelity benchmark.",
+  "raw_assets_published": false
+}

@@ -1,0 +1,237 @@
+//! Stable opponent decisions, gap reservations and command emission.
+use super::*;
+impl World {
+    pub(crate) fn decisions(
+        &mut self,
+        e: &mut Encounters,
+        actors: &mut BTreeMap<ActorId, Actor>,
+        c: &riding::Configuration,
+        tick: u64,
+        mut random: impl FnMut() -> u32,
+    ) -> Result<()> {
+        let mut ids: Vec<_> = self
+            .brains
+            .keys()
+            .copied()
+            .filter(|id| actors.contains_key(id) && e.units.contains_key(id))
+            .collect();
+        ids.sort_by_key(|id| {
+            (
+                std::cmp::Reverse(actors[id].view.rider.as_ref().unwrap().bike.distance_q8),
+                std::cmp::Reverse(*id),
+            )
+        });
+        let mut reservations: Vec<(u32, i64, i32)> = vec![];
+        self.navigation.clear();
+        for id in ids {
+            let mut brain = self.brains[&id].clone();
+            let unit = &e.units[&id];
+            let rider = actors[&id].view.rider.as_ref().unwrap();
+            let at = unit.recovery.bike_location;
+            let invalid = unit.recovery.phase != Phase::Mounted
+                || unit.recovery.outcome.is_some()
+                || unit.fighter.stats.health == 0
+                || tick < unit.fighter.stun_until;
+            if invalid {
+                brain.target = None;
+                let previous = actors[&id].input;
+                actors.get_mut(&id).unwrap().input = Command {
+                    impact: previous.impact,
+                    terminal: previous.terminal,
+                    damage: previous.damage,
+                    walk: previous.walk,
+                    ..Default::default()
+                };
+                brain.command = actors[&id].input;
+                self.brains.insert(id, brain);
+                continue;
+            }
+            if let Some(choice) = brain.traits.branch_choice {
+                let mut portals: Vec<_> = e.setup.topology.paths[&at.path]
+                    .portals
+                    .iter()
+                    .filter(|p| p.end)
+                    .copied()
+                    .collect();
+                portals.sort_by_key(|p| p.target);
+                if let Some(p) =
+                    portals.get(usize::from(choice).min(portals.len().saturating_sub(1)))
+                {
+                    self.navigation.insert(id, *p);
+                }
+            }
+            if tick < brain.next_tick {
+                reservations.push((at.path, at.progress, brain.desired_lane));
+                continue;
+            }
+            brain.interval = live_interval(
+                (rider.bike.distance_q8
+                    - actors[&ActorId(1)]
+                        .view
+                        .rider
+                        .as_ref()
+                        .unwrap()
+                        .bike
+                        .distance_q8)
+                    .abs()
+                    < 25600,
+                rider.bike.distance_q8 as i32,
+                actors[&ActorId(1)]
+                    .view
+                    .rider
+                    .as_ref()
+                    .unwrap()
+                    .bike
+                    .distance_q8 as i32,
+                rider.bike.speed,
+                tick.min(i64::from(i32::MAX) as u64) as i32,
+                false,
+            );
+            brain.next_tick = tick + u64::from(brain.interval);
+            brain.last_tick = Some(tick);
+            brain.decisions += 1;
+            let sample = (i64::from(c.start_sample) + (rider.bike.distance_q8 >> 8))
+                .clamp(0, c.ground.len() as i64 - 1) as usize;
+            let bend = c
+                .ground
+                .iter()
+                .skip(sample)
+                .take(12)
+                .map(|g| g.bend.abs())
+                .max()
+                .unwrap_or(0);
+            let spec = c.specs.iter().find(|s| s.id == brain.traits.bike).unwrap();
+            brain.target_speed = speed_from_pace(if bend > 2 {
+                brain.traits.corner_pace
+            } else {
+                brain.traits.pace
+            })
+            .min(spec.gears.last().unwrap().up.max(1000));
+            let center = (c.ground[sample].left + c.ground[sample].right) * 128;
+            let lanes = [center - 64000, center, center + 64000];
+            let mut obstacles: Vec<(i64, i32, i32)> = e
+                .units
+                .iter()
+                .filter(|(other, u)| {
+                    **other != id
+                        && u.recovery.outcome.is_none()
+                        && u.recovery.bike_location.path == at.path
+                })
+                .map(|(other, u)| {
+                    (
+                        u.recovery.bike_location.progress,
+                        u.recovery.bike_location.lateral,
+                        actors[other].view.rider.as_ref().unwrap().bike.speed,
+                    )
+                })
+                .collect();
+            obstacles.extend(
+                self.agents
+                    .values()
+                    .filter(|a| a.location.path == at.path)
+                    .map(|a| {
+                        (
+                            a.location.progress,
+                            a.location.lateral,
+                            if a.kind == Kind::Vehicle {
+                                a.speed * i32::from(a.direction)
+                            } else {
+                                0
+                            },
+                        )
+                    }),
+            );
+            let blocked = |lane: i32| {
+                obstacles
+                    .iter()
+                    .any(|(p, l, _)| (*p - at.progress).abs() < 384 && (*l - lane).abs() < 32000)
+                    || reservations.iter().any(|(path, p, l)| {
+                        *path == at.path
+                            && (*p - at.progress).abs() < 512
+                            && (*l - lane).abs() < 32000
+                    })
+            };
+            let slow = obstacles
+                .iter()
+                .filter(|(p, l, s)| {
+                    *p >= at.progress
+                        && *p - at.progress < 512
+                        && (*l - rider.bike.lateral).abs() < 32000
+                        && *s < rider.bike.speed + 1000
+                })
+                .min_by_key(|(p, _, _)| *p);
+            brain.desired_lane = lanes
+                .into_iter()
+                .filter(|l| !blocked(*l))
+                .min_by_key(|l| (*l - rider.bike.lateral).abs())
+                .unwrap_or(rider.bike.lateral);
+            brain.yielding = slow.is_some() && blocked(brain.desired_lane);
+            if let Some((_, _, speed)) = slow.filter(|_| brain.yielding) {
+                brain.target_speed = brain.target_speed.min((*speed - 500).max(0));
+            }
+            let error = brain.desired_lane - rider.bike.lateral;
+            let steer = if error.abs() < 2048 {
+                0
+            } else {
+                (error / 8).clamp(-32767, 32767) as i16
+            };
+            let mut command = Command {
+                throttle: rider.bike.speed < brain.target_speed - 100,
+                brake: rider.bike.speed > brain.target_speed + 300,
+                steer_q15: Some(steer),
+                ..Default::default()
+            };
+            brain.target = e
+                .units
+                .iter()
+                .filter(|(other, u)| {
+                    **other != id
+                        && u.recovery.phase == Phase::Mounted
+                        && u.recovery.outcome.is_none()
+                        && u.fighter.stats.health > 0
+                        && u.recovery.bike_location.path == at.path
+                        && (u.recovery.bike_location.progress - at.progress).abs() < 64
+                        && (u.recovery.bike_location.lateral - at.lateral).abs() < 20480
+                })
+                .min_by_key(|(other, u)| {
+                    (
+                        (u.recovery.bike_location.progress - at.progress).abs(),
+                        **other,
+                    )
+                })
+                .map(|(id, _)| *id);
+            if let Some(target) = brain
+                .target
+                .filter(|_| tick >= brain.attack_after && unit.fighter.swing.is_none())
+            {
+                let gate = self.draw(tick, id.0, "attack_gate", &mut random) & 255;
+                if gate < u32::from(brain.traits.aggression.unwrap_or(64)) {
+                    let roll = self.draw(tick, id.0, "attack_kind", &mut random) % 3;
+                    let kind = match roll {
+                        0 => AttackKind::Punch,
+                        1 => AttackKind::Kick,
+                        _ => AttackKind::Backhand,
+                    };
+                    command.attack = Some(Request {
+                        kind,
+                        side: if e.units[&target].recovery.bike_location.lateral >= at.lateral {
+                            Side::Right
+                        } else {
+                            Side::Left
+                        },
+                    });
+                    brain.attack_after = tick + u64::from(brain.traits.cooldown);
+                }
+            }
+            reservations.push((at.path, at.progress, brain.desired_lane));
+            let previous = actors[&id].input;
+            command.impact = previous.impact;
+            command.terminal = previous.terminal;
+            command.damage = previous.damage;
+            actors.get_mut(&id).unwrap().input = command;
+            brain.command = command;
+            self.brains.insert(id, brain);
+        }
+        Ok(())
+    }
+}

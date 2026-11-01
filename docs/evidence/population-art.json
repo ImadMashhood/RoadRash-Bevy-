@@ -1,0 +1,16 @@
+{
+  "outcome": "passed",
+  "reference_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+  "vehicle_models": 54,
+  "vehicle_view_cases": 162,
+  "all_vehicle_views_nontransparent": true,
+  "police_slots": 45,
+  "police_nonempty": 33,
+  "pedestrian_requests_level_1": 719,
+  "drawable_pedestrian_requests_level_1": 712,
+  "reference_absent_appearance_cases": 7,
+  "all_absences_match_native": true,
+  "native_queries_sha256": "c8b6d599a011d806b531682bc31f3ce56cd46ac44423c46a87f4e00966b19641",
+  "rust_census_sha256": "f7b45c48b5113d07cd7d6ffa53e6afea709d4f797e21e451c3352b93f50648a3",
+  "scope": "static source lookup and drawable preview census; full pedestrian CANS timing and original runtime residency are unmeasured"
+}

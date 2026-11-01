@@ -1,0 +1,36 @@
+{
+  "outcome": "passed",
+  "input_provenance": "unattended live Bevy input recording; no human driving calibration claim",
+  "schema": 5,
+  "ticks": 218,
+  "commands": 218,
+  "complete_initial_setup_recorded": false,
+  "recording_sha256": "cd7078f7d87a933a349239e0a8e5c141c5d14865c28d72304236a600da2a7072",
+  "expected_hash": "e43816da82f98aeacfaa5d547e14a60edc1ac1ea9f9776dcba7bd44e9f405373",
+  "playback_hash": "e43816da82f98aeacfaa5d547e14a60edc1ac1ea9f9776dcba7bd44e9f405373",
+  "extended_run_seconds": 180,
+  "extension_policy": "hold final recorded controls; preserve complete captured setup",
+  "extended_runs": [
+    {
+      "hash": "5d23b011fa99021d718d13736a6ffbb2559501d2027a47fe52cae430bb2a50d2",
+      "rate": "30",
+      "ticks": 10800
+    },
+    {
+      "hash": "5d23b011fa99021d718d13736a6ffbb2559501d2027a47fe52cae430bb2a50d2",
+      "rate": "60",
+      "ticks": 10800
+    },
+    {
+      "hash": "5d23b011fa99021d718d13736a6ffbb2559501d2027a47fe52cae430bb2a50d2",
+      "rate": "144",
+      "ticks": 10800
+    },
+    {
+      "hash": "5d23b011fa99021d718d13736a6ffbb2559501d2027a47fe52cae430bb2a50d2",
+      "rate": "irregular",
+      "ticks": 10800
+    }
+  ],
+  "raw_recording_published": false
+}

@@ -1,0 +1,26 @@
+{
+  "outcome": "passed",
+  "date": "2026-11-01",
+  "rust_tests": 251,
+  "headless_tests": 235,
+  "bevy_application_tests": 16,
+  "population_integration_scenarios": 38,
+  "python_tests": 11,
+  "format": "passed",
+  "clippy_warnings_denied": "passed",
+  "release_workspace_build": "passed",
+  "negative_workflow_guards": "passed",
+  "source_overlap_output_guards": "passed",
+  "disc_verified_files": 341,
+  "native_scalar_decoder_cases": 3416,
+  "native_absent_appearance_queries": 7,
+  "legacy_hashes": {
+    "3": "b475c015f69bcd555262de0c8c721d969e2c6b362546deb5d0dea9d626f1abff",
+    "4": "34cc853ad681b7ba53035e2aa6367d195807365c81d54f06ae9337ba4e4abccd"
+  },
+  "public_fixture_sha256": "e59da9dc2fd7c3e3efd4bed43cd8a11b77b901997af33b4101782740c7c544c0",
+  "public_fixture_expected_hash": "849b5020f3eb88578e1d0d76ba79c72cb83b68ec1cf1d9655379a4229bbe3d15",
+  "remote_ci_claimed": false,
+  "original_runtime_compared": false,
+  "raw_imported_payloads_published": false
+}

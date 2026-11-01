@@ -300,12 +300,16 @@ pub struct Unit {
     pub drive: bool,
     pub terminal_request: Option<Outcome>,
 }
-#[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Eq)]
+#[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct World {
     pub setup: Setup,
     pub units: BTreeMap<ActorId, Unit>,
     pub inventory: Inventory,
     pub active_contacts: BTreeSet<(u64, u64)>,
+    #[serde(skip)]
+    pub(crate) configs: BTreeMap<ActorId, Configuration>,
+    #[serde(skip)]
+    pub(crate) navigation: BTreeMap<ActorId, crate::topology::Portal>,
 }
 impl World {
     pub(crate) fn new(
@@ -325,7 +329,7 @@ impl World {
                 .rider
                 .as_mut()
                 .ok_or(Error::Invalid("missing source rider"))?;
-            rider.bike.distance_q8 = seed.distance;
+            rider.bike.distance_q8 = setup.topology.projected(at).unwrap_or(seed.distance);
             rider.bike.lateral = at.lateral;
             rider.bike.height = at.height;
             rider.bike.speed = seed.speed;
@@ -361,6 +365,8 @@ impl World {
             setup,
             units,
             active_contacts: BTreeSet::new(),
+            configs: BTreeMap::new(),
+            navigation: BTreeMap::new(),
         })
     }
     pub(crate) fn add(&mut self, id: ActorId, rider: &riding::Rider) -> Result<()> {
@@ -401,6 +407,8 @@ impl World {
     pub(crate) fn remove(&mut self, id: ActorId) {
         self.inventory.drop(id);
         self.units.remove(&id);
+        self.configs.remove(&id);
+        self.navigation.remove(&id);
         self.active_contacts
             .retain(|(a, b)| *a != id.0 && *b != id.0);
     }
@@ -458,6 +466,7 @@ impl World {
             .map(|(id, _)| *id)
             .collect();
         for (id, u) in &mut self.units {
+            let c = self.configs.get(id).unwrap_or(c);
             let a = actors.get_mut(id).ok_or(Error::MissingActor(*id))?;
             let r = a
                 .view
@@ -587,9 +596,11 @@ impl World {
             r.step(c, command, tick as u32)?;
 
             let delta = r.bike.distance_q8 - positions[id].progress;
-            self.setup
-                .topology
-                .advance(&mut u.recovery.bike_location, delta, None)?;
+            self.setup.topology.advance(
+                &mut u.recovery.bike_location,
+                delta,
+                self.navigation.get(id).copied(),
+            )?;
             u.recovery.bike_location.lateral = r.bike.lateral;
             u.recovery.bike_location.height = r.bike.height;
             if r.bike.crashed {
@@ -610,7 +621,7 @@ impl World {
     }
     // One transaction carries its tick and presentation-only event sink explicitly.
     #[allow(clippy::too_many_arguments)]
-    fn hit(
+    pub(crate) fn hit(
         &mut self,
         actors: &mut BTreeMap<ActorId, crate::Actor>,
         c: &Configuration,
@@ -620,6 +631,7 @@ impl World {
         force: bool,
         events: &mut Vec<Effect>,
     ) -> Result<bool> {
+        let c = self.configs.get(&target).unwrap_or(c);
         let unit = self
             .units
             .get_mut(&target)
@@ -824,7 +836,7 @@ impl World {
         actors: &mut BTreeMap<ActorId, crate::Actor>,
         c: &Configuration,
         tick: u64,
-        mut random: impl FnMut() -> u32,
+        mut random: impl FnMut(ActorId, &'static str) -> u32,
         events: &mut Vec<Effect>,
     ) -> Result<()> {
         let ids: Vec<_> = self.units.keys().copied().collect();
@@ -885,7 +897,7 @@ impl World {
                         .as_ref()
                         .is_some_and(|s| s.definition.frame(tick - s.started) < 2)
             });
-            if let Some((item, kind)) = theft.filter(|_| random() & 3 == 3)
+            if let Some((item, kind)) = theft.filter(|_| random(id, "weapon_theft") & 3 == 3)
                 && self.inventory.transfer(item, target, id)
             {
                 self.units.get_mut(&id).unwrap().fighter.steal_until = tick + 300;

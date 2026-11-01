@@ -128,6 +128,9 @@ impl FamilyAssets {
 pub struct SourceAssets {
     pub animations: Option<Arc<crate::rider::RiderAssets>>,
     pub palettes: BTreeMap<u8, Arc<crate::rider::RiderAssets>>,
+    pub vehicles: Vec<Vec<Option<SpriteAsset>>>,
+    pub vehicle_masks: Vec<u32>,
+    pub police: Vec<Option<SpriteAsset>>,
     pub depths: DepthTable,
     pub road: Vec<Texture>,
     pub ground: Vec<Texture>,
@@ -166,6 +169,14 @@ fn resource<'a>(dir: &Directory, bytes: &'a [u8], tag: &str, id: u32) -> Result<
         .map_err(Into::into)
 }
 pub fn scenery_sprite(bytes: &[u8], base: usize, palette: &Palette) -> Result<Option<SpriteAsset>> {
+    animation_sprite(bytes, base, palette, 2)
+}
+fn animation_sprite(
+    bytes: &[u8],
+    base: usize,
+    palette: &Palette,
+    index: usize,
+) -> Result<Option<SpriteAsset>> {
     if u32le(bytes, base)? != 0x5252414e
         || u32le(bytes, base + 4)? != 20
         || u32le(bytes, base + 20)? != 0x52524644
@@ -191,7 +202,7 @@ pub fn scenery_sprite(bytes: &[u8], base: usize, palette: &Palette) -> Result<Op
     // Static scenery requests the third view. Three-frame source aliases place
     // actual pixels there. A flagged first texture aliases its three view rows;
     // hotspots remain view-specific. Animation playback is a later phase.
-    let index = 2.min(count - 1);
+    let index = index.min(count - 1);
     let frame = base + 28 + index * 28;
     let mut pixel_frame = frame;
     if u32le(bytes, base + 32)? != 0 {
@@ -199,6 +210,11 @@ pub fn scenery_sprite(bytes: &[u8], base: usize, palette: &Palette) -> Result<Op
         if u32le(bytes, first_body)? == 0xbc614e && u32le(bytes, first_body + 12)? & 1 != 0 {
             pixel_frame = base + 28;
         }
+    }
+    // Three-view resources may store pixels only in the third view. Keep each
+    // requested hotspot while sharing that texture, matching native RRAN aliases.
+    if count == 3 && u32le(bytes, base + 32)? == 0 {
+        pixel_frame = base + 28 + 2 * 28;
     }
     if u32le(bytes, pixel_frame + 4)? == 0 {
         return Ok(None);
@@ -385,17 +401,90 @@ impl SourceAssets {
                     }
                 }
             }
-            families.insert(
-                id,
-                FamilyAssets {
-                    definition: Arc::new(definition),
-                    groups,
-                    sprites,
-                },
-            );
+            let mut family = FamilyAssets {
+                definition: Arc::new(definition),
+                groups,
+                sprites,
+            };
+            let mut checked = BTreeSet::new();
+            for selector in 0..64 {
+                if let Some(at) = family.resolve(2, selector, Some(0))
+                    && checked.insert(at)
+                    && !family.sprites.contains_key(&at)
+                {
+                    if u32le(&bytes, at as usize)? != 0x5252414e {
+                        continue;
+                    }
+                    let count = (u32le(&bytes, at as usize + 24)? as usize).saturating_sub(8) / 28;
+                    for frame in 0..count.min(4096) {
+                        if let Some(sprite) =
+                            animation_sprite(&bytes, at as usize, &palette, frame)?
+                        {
+                            pixel_budget += sprite
+                                .texture
+                                .mipmaps
+                                .iter()
+                                .map(|m| m.pixels.len())
+                                .sum::<usize>();
+                            if pixel_budget > 256 * 1024 * 1024 {
+                                return Err("renderer pedestrian pixel budget".into());
+                            }
+                            family.sprites.insert(at, sprite);
+                            break;
+                        }
+                    }
+                }
+            }
+            families.insert(id, family);
+        }
+        let car_bytes = fs::read(data.join(format!("DATA/CARS/{stem}.CAR")))?;
+        let car_directory = Directory::read(&car_bytes)?;
+        let vehicle_masks = rr_simulation::population::vehicle_masks(&car_bytes)?;
+        let mut vehicles = vec![];
+        let mut animations: Vec<_> = car_directory
+            .entries
+            .iter()
+            .filter(|e| e.tag == "ANIM")
+            .collect();
+        animations.sort_by_key(|e| e.id);
+        for entry in animations.into_iter().take(vehicle_masks.len()) {
+            let bytes = range(&car_bytes, entry.offset as usize, entry.length as usize)?;
+            let mut views = vec![];
+            for index in 0..3 {
+                views.push(animation_sprite(bytes, 0, &palette, index)?);
+            }
+            vehicles.push(views);
+        }
+        let cop_bytes = fs::read(data.join("DATA/BIKERS/LOCOP.DAT"))?;
+        let cop_frames = rr_formats::decode_bob(&cop_bytes, 45)?;
+        let cop_metadata = resource(&Directory::read(&global)?, &global, "ANIM", 2)?;
+        let mut police = vec![];
+        for (index, frame) in cop_frames.iter().enumerate() {
+            if frame.width == 0 || frame.height == 0 {
+                police.push(None);
+                continue;
+            }
+            let image = palette
+                .rgba(
+                    u32::from(frame.width),
+                    u32::from(frame.height),
+                    frame.pixels,
+                    true,
+                    None,
+                )?
+                .ok_or("cop pixels")?;
+            let (logical, pivot) = rider_frame_registration(cop_metadata, index as u32)?;
+            police.push(Some(SpriteAsset {
+                texture: Texture::new(image, false)?,
+                logical,
+                pivot,
+            }));
         }
         Ok(Self {
             palettes: BTreeMap::new(),
+            vehicles,
+            vehicle_masks,
+            police,
             animations: Some(Arc::new(crate::rider::RiderAssets::load(data, 0)?)),
             depths,
             road: road.into_iter().map(Option::unwrap).collect(),
@@ -412,6 +501,9 @@ impl SourceAssets {
         let image = |c| Texture::solid(c);
         Self {
             palettes: BTreeMap::new(),
+            vehicles: vec![],
+            vehicle_masks: vec![],
+            police: vec![],
             animations: None,
             depths: DepthTable::authored(),
             road: (0..8)
@@ -437,5 +529,63 @@ impl SourceAssets {
         }
         self.enhanced = Some(Texture::new(Rgba::from_png(&fs::read(path)?)?, false)?);
         Ok(())
+    }
+}
+
+#[cfg(test)]
+mod vehicle_alias_tests {
+    #[test]
+    fn third_view_texture_alias_keeps_each_view_hotspot() {
+        let mut bytes = vec![0u8; 300];
+        let word =
+            |b: &mut [u8], at: usize, v: u32| b[at..at + 4].copy_from_slice(&v.to_le_bytes());
+        for (at, value) in [
+            (0, 0x5252414e),
+            (4, 20),
+            (8, 112),
+            (20, 0x52524644),
+            (24, 92),
+            (112, 0x414e494d),
+            (116, 20),
+            (128, 3),
+            (36, 284),
+            (88, 212),
+            (92, 292),
+            (220, 0xbc614e),
+            (252, 2),
+            (256, 2),
+            (260, 1),
+            (276, 32),
+            (284, 0),
+            (288, 1),
+            (292, 1),
+            (296, 2),
+        ] {
+            word(&mut bytes, at, value);
+        }
+        bytes[228..230].copy_from_slice(&2i16.to_le_bytes());
+        bytes[230..232].copy_from_slice(&2i16.to_le_bytes());
+        bytes[280..284].copy_from_slice(&[0, 1, 1, 0]);
+        let mut palette = rr_formats::pixels::Palette([[0; 4]; 256]);
+        palette.0[1] = [255, 10, 20, 0];
+        let first = super::animation_sprite(&bytes, 0, &palette, 0)
+            .unwrap()
+            .unwrap();
+        let third = super::animation_sprite(&bytes, 0, &palette, 2)
+            .unwrap()
+            .unwrap();
+        assert_eq!(first.texture.image.pixels, third.texture.image.pixels);
+        assert_eq!(first.pivot, [0., 0.5]);
+        assert_eq!(third.pivot, [0.5, 1.]);
+        assert!(
+            first
+                .texture
+                .image
+                .pixels
+                .as_chunks::<4>()
+                .0
+                .iter()
+                .any(|p| p[3] != 0)
+        );
     }
 }

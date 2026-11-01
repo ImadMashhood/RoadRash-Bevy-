@@ -141,6 +141,36 @@
         "inputs": "crates/simulation/tests/encounters.rs; rr-encounter-check",
         "video_hash": null
       }
+    },
+    {
+      "id": "opponents-rust",
+      "confidence": "verified-local",
+      "claim": "Source 15-rider setup, stable decisions and tagged RNG, safe overtaking/combat/recovery, recorded controls and 180-second scheduled replays verified within explicit policy boundaries",
+      "receipt": "../evidence/part-13.md",
+      "upstream_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+      "executable_sha256": "73d7f9744b5b1a9482b3909950cdf3fe34119fe13d023b031e9c6739a60f18a2",
+      "original_runtime_compared": false,
+      "capture_settings": {
+        "status": "native-api-and-intended-engine-policy-validation",
+        "seed": 7,
+        "inputs": "rr-population-check scripts and complete captured live replay",
+        "video_hash": null
+      }
+    },
+    {
+      "id": "road-users-rust",
+      "confidence": "verified-local",
+      "claim": "Bounded traffic/pedestrian/police systems, native scalar/chooser and absence lookups, alias-safe source graphics and terminal/siren ownership verified",
+      "receipt": "../evidence/part-14.md",
+      "upstream_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+      "executable_sha256": "73d7f9744b5b1a9482b3909950cdf3fe34119fe13d023b031e9c6739a60f18a2",
+      "original_runtime_compared": false,
+      "capture_settings": {
+        "status": "native-api-and-intended-engine-policy-validation",
+        "seed": 7,
+        "inputs": "rr-population-check scripts and complete captured live replay",
+        "video_hash": null
+      }
     }
   ]
 }

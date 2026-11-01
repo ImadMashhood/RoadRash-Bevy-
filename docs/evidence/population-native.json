@@ -1,0 +1,35 @@
+{
+  "outcome": "passed",
+  "reference_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+  "executable_sha256": "73d7f9744b5b1a9482b3909950cdf3fe34119fe13d023b031e9c6739a60f18a2",
+  "checks": [
+    {
+      "family": "cadence",
+      "rows": 480,
+      "outcome": "passed"
+    },
+    {
+      "family": "timers",
+      "rows": 6,
+      "outcome": "passed"
+    },
+    {
+      "family": "arrest",
+      "rows": 2240,
+      "outcome": "passed"
+    },
+    {
+      "family": "personalities",
+      "rows": 50,
+      "outcome": "passed"
+    },
+    {
+      "family": "vehicle_choices",
+      "rows": 640,
+      "outcome": "passed"
+    }
+  ],
+  "native_trace_sha256": "9bdf322fa463eb091ce0c1a2fb3bfd96d76faea5fa9eb58162b6938c7adda481",
+  "original_runtime_compared": false,
+  "scope": "cadence, traffic density initialization, arrest predicate, personality decoding and vehicle identity filters; full native behavior/RNG interleaving is not claimed"
+}

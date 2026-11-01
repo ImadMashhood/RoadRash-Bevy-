@@ -7,6 +7,7 @@ pub mod combat;
 pub mod encounter;
 pub mod fixtures;
 pub mod handling;
+pub mod population;
 pub mod recovery;
 pub mod replay;
 pub mod riding;
@@ -15,7 +16,7 @@ use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 use std::collections::BTreeMap;
 pub const TICKS_PER_SECOND: u32 = 60;
-pub const SIMULATION_SCHEMA: u32 = 4;
+pub const SIMULATION_SCHEMA: u32 = 5;
 macro_rules! id {
     ($name:ident,$t:ty) => {
         #[derive(
@@ -198,6 +199,8 @@ pub struct Snapshot {
     pub distance_mm: u64,
     pub lateral_mm: i32,
     pub actors: Vec<ActorSnapshot>,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub road_users: Vec<population::Agent>,
 }
 #[derive(Clone)]
 struct Actor {
@@ -255,6 +258,7 @@ pub struct Simulation {
     encounter: Option<encounter::World>,
     effects: Vec<combat::Effect>,
     effects_enabled: bool,
+    population: Option<population::World>,
 }
 impl Default for Simulation {
     fn default() -> Self {
@@ -284,6 +288,7 @@ impl Simulation {
             encounter: None,
             effects: vec![],
             effects_enabled: true,
+            population: None,
         };
         sim.spawn()?;
         Ok(sim)
@@ -313,6 +318,90 @@ impl Simulation {
         sim.sync_encounters();
         Ok(sim)
     }
+    pub fn with_population(
+        seed: u32,
+        config: riding::Configuration,
+        encounters: encounter::Setup,
+        population: population::Setup,
+    ) -> Result<Self> {
+        config.validate()?;
+        population.validate(&config, &encounters)?;
+        let mut sim = Self::with_encounters(seed, config, encounters)?;
+        for (id, traits) in &population.brains {
+            let mut config = sim.handling.as_ref().unwrap().clone();
+            config.selected = traits.bike;
+            let bike = handling::Bike::new(config.spec(), &config.tables)?;
+            let rider = sim.actors.get_mut(id).unwrap().view.rider.as_mut().unwrap();
+            let (distance, lateral, height, speed) = (
+                rider.bike.distance_q8,
+                rider.bike.lateral,
+                rider.bike.height,
+                rider.bike.speed,
+            );
+            rider.bike = bike;
+            rider.bike.distance_q8 = distance;
+            rider.bike.lateral = lateral;
+            rider.bike.height = height;
+            rider.bike.speed = speed;
+            sim.encounter.as_mut().unwrap().configs.insert(*id, config);
+            sim.encounter
+                .as_mut()
+                .unwrap()
+                .units
+                .get_mut(id)
+                .unwrap()
+                .drive = false;
+        }
+        sim.population = Some(population::World::new(population));
+        sim.schema_version = 5;
+        sim.sync_encounters();
+        Ok(sim)
+    }
+    /// Validated domain spawn entry for scenario/event adapters. The resulting
+    /// entity is canonical; callers must record their external event stream.
+    pub fn spawn_road_user(&mut self, spawn: &population::Spawn) -> Result<Option<u64>> {
+        let p = self
+            .population
+            .as_mut()
+            .ok_or(Error::Invalid("population requires schema 5"))?;
+        p.spawn(
+            spawn,
+            self.tick.0,
+            &self.encounter.as_ref().unwrap().setup.topology,
+        )
+    }
+    pub fn recording_setup(&self, seed: u32) -> Result<replay::Replay> {
+        if self.tick.0 != 0 {
+            return Err(Error::Invalid("recording must start at tick zero"));
+        }
+        Ok(replay::Replay {
+            schema_version: self.schema_version,
+            seed,
+            ticks: 1,
+            commands: vec![],
+            route: if self.schema_version < 3 {
+                Some(self.route.clone())
+            } else {
+                None
+            },
+            expected_hash: None,
+            handling: self.handling.clone(),
+            encounter: self.encounter.as_ref().map(|e| e.setup.clone()),
+            population: self.population.as_ref().map(|p| p.setup.clone()),
+        })
+    }
+    pub fn population(&self) -> Option<&population::World> {
+        self.population.as_ref()
+    }
+    pub fn set_rng_tracing(&mut self, enabled: bool) {
+        if let Some(p) = &mut self.population {
+            p.trace_enabled = enabled;
+            p.trace.clear();
+        }
+    }
+    pub fn population_cues(&self) -> &[population::Cue] {
+        self.population.as_ref().map_or(&[], |p| p.cues.as_slice())
+    }
     pub fn encounters(&self) -> Option<&encounter::World> {
         self.encounter.as_ref()
     }
@@ -323,6 +412,9 @@ impl Simulation {
         self.effects_enabled = enabled;
         if !enabled {
             self.effects.clear();
+            if let Some(p) = &mut self.population {
+                p.cues.clear();
+            }
         }
     }
     pub fn remove_recovery_bike(&mut self, owner: ActorId) -> Result<()> {
@@ -407,6 +499,10 @@ impl Simulation {
         self.actors.remove(&id).ok_or(Error::MissingActor(id))?;
         if let Some(world) = &mut self.encounter {
             world.remove(id);
+        }
+        if let Some(p) = &mut self.population {
+            p.brains.remove(&id);
+            p.navigation.remove(&id);
         }
         self.queue.retain(|(_, actor, _), _| *actor != id);
         Ok(())
@@ -513,9 +609,33 @@ impl Simulation {
                             .input = input;
                     }
                 }
+                Stage::Spawn => {
+                    if let (Some(p), Some(e)) = (&mut self.population, &self.encounter) {
+                        let rng = &mut self.gameplay_rng;
+                        p.spawn_tick(e, &self.actors, self.tick.0, || rng.next())?;
+                    }
+                }
+                Stage::Decisions => {
+                    if let (Some(p), Some(e), Some(c)) =
+                        (&mut self.population, &mut self.encounter, &self.handling)
+                    {
+                        let rng = &mut self.gameplay_rng;
+                        p.decisions(e, &mut self.actors, c, self.tick.0, || rng.next())?;
+                    }
+                }
                 Stage::Movement => {
+                    if let Some(e) = &mut self.encounter {
+                        e.navigation = self
+                            .population
+                            .as_ref()
+                            .map_or_else(BTreeMap::new, |p| p.navigation.clone());
+                    }
                     if let (Some(world), Some(config)) = (&mut self.encounter, &self.handling) {
                         world.movement(&mut self.actors, config, self.tick.0, &mut self.effects)?;
+                        if let Some(p) = &mut self.population {
+                            p.movement(world, self.tick.0)?;
+                            p.animate(config, self.tick.0 as u32)?;
+                        }
                         continue;
                     }
                     for actor in self.actors.values_mut() {
@@ -590,6 +710,15 @@ impl Simulation {
                 }
                 Stage::Contacts => {
                     if let (Some(world), Some(config)) = (&mut self.encounter, &self.handling) {
+                        if let Some(p) = &mut self.population {
+                            p.contacts(
+                                world,
+                                &mut self.actors,
+                                config,
+                                self.tick.0,
+                                &mut self.effects,
+                            )?;
+                        }
                         world.contacts(&mut self.actors, config, self.tick.0, &mut self.effects)?;
                         continue;
                     }
@@ -603,18 +732,39 @@ impl Simulation {
                 Stage::Combat => {
                     if let (Some(world), Some(config)) = (&mut self.encounter, &self.handling) {
                         let random = &mut self.gameplay_rng;
+                        let population = &mut self.population;
+                        let tick = self.tick.0;
                         world.combat(
                             &mut self.actors,
                             config,
                             self.tick.0,
-                            || random.next(),
+                            |actor, category| {
+                                let value = random.next();
+                                if let Some(p) = population
+                                    && p.trace_enabled
+                                {
+                                    p.trace.push(population::Draw {
+                                        tick,
+                                        actor: actor.0,
+                                        category,
+                                        value,
+                                    });
+                                }
+                                value
+                            },
                             &mut self.effects,
                         )?;
                     }
                 }
                 Stage::Progression => {
                     if let (Some(world), Some(config)) = (&mut self.encounter, &self.handling) {
+                        if let Some(p) = &mut self.population {
+                            p.progression(world, &self.actors);
+                        }
                         world.progress(&mut self.actors, config, self.tick.0, &mut self.effects);
+                        if let Some(p) = &mut self.population {
+                            p.after_progress(world);
+                        }
                     }
                 }
                 Stage::Snapshot => {
@@ -631,13 +781,14 @@ impl Simulation {
                         self.sync_encounters();
                     }
                 }
-                // Reserved for opponent scheduling and future spawn decisions.
-                Stage::Spawn | Stage::Decisions => {}
             }
         }
         self.tick = Tick(next_tick);
         if !self.effects_enabled {
             self.effects.clear();
+            if let Some(p) = &mut self.population {
+                p.cues.clear();
+            }
         }
         Ok(())
     }
@@ -649,6 +800,10 @@ impl Simulation {
             distance_mm: player.map_or(0, |p| p.total),
             lateral_mm: player.map_or(0, |p| p.view.position.lateral.0 as i32),
             actors: self.actors.values().map(|a| a.view.clone()).collect(),
+            road_users: self
+                .population
+                .as_ref()
+                .map_or_else(Vec::new, |p| p.agents.values().cloned().collect()),
         }
     }
     /// Fixed-width little-endian fields in stable ID order. Excludes rendering and allocation addresses.
@@ -669,6 +824,11 @@ impl Simulation {
             let world = serde_json::to_vec(&self.encounter).expect("integer encounter state");
             put!(world.len() as u32);
             b.extend(world);
+        }
+        if self.schema_version >= 5 {
+            let state = serde_json::to_vec(&self.population).expect("integer population");
+            put!(state.len() as u32);
+            b.extend(state);
         }
         put!(self.tick.0);
         put!(self.next_actor);
