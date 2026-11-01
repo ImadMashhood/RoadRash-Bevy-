@@ -1,30 +1,11 @@
 # Implementation status
 
-## Parts 01–03
+Parts 01–06 are complete within the current declared scope and first-platform Linux support. Part 01 original-runtime comparisons were removed by the owner; their deletion is documented in [scope changes](SCOPE_CHANGES.md), not recorded as successful original comparisons.
 
-- **Part 01: 7/12 parent tasks complete.** Scope/revision rejection, selectable actor inventory, deviation categories, evidence ledger, actual desktop launch, milestone DAG and measurable release criteria are complete. Original screenshot/menu/input/course-runtime comparisons and actual texture-mode replay verification remain open. See [acceptance receipt](evidence/parts-01-03.md).
-- **Part 02: complete for the declared Linux foundation.** Pinned Rust/Bevy, linked release build, clean unprivileged container build, local desktop smoke, test/lint/lock guards, authored fixtures, explicit platform matrix, public-file audit and setup/decision records have evidence. This does not claim Windows/macOS or a remote Actions run.
-- **Part 03: complete for Linux.** Rust ISO/folder importer validates all 341 required files, stages immutable generations, atomically activates a pointer, preserves previous data through pre-commit failure/cancellation, recovers interrupted staging, records provenance and rejects unsafe paths. Synthetic and real-process acceptance passed.
+Parts 02–03 supply the pinned foundation and verified transactional importer. Parts 04–06 add bounded decoders, a reproducible semantic content catalog and browser inspector, typed deterministic simulation, headless replay, canonical checkpoints, interpolated Bevy presentation and texture overrides. All 341 required source files are represented: 164 decoded sources and 177 retained for later subsystems, 2,975 semantic entries, no conversion errors. Fine unknown semantics remain explicitly unreviewed.
 
-## Tests and runtime
+Current verification: 53 Rust tests, 10 Python tests, formatting, workspace Clippy, release build, bounded mutation fuzzing, real-disc conversion, byte-identical warm rebuild, actual graphical replay runs and browser inspector review. Checkpoint hashes match across four controlled presentation schedules and a live texture switch. See [Parts 04–06 evidence](evidence/parts-04-06.md). Historical clean-container receipts cover the earlier source hashes only; a fresh remote Actions run is not claimed.
 
-Current source: 20 Rust tests and 10 Python tests pass. Formatting, workspace Clippy, release build and 180-frame actual graphical smoke pass. Process-level private checks cover Ctrl+C, forced termination, recovery, original EXE modification, read-only folder import and Unicode paths. See [private import receipt](evidence/private-import.json), [platform receipt](evidence/platform-smoke.json), and [clean build receipt](evidence/clean-build.json).
+The app is an authored road/handling scaffold that can display imported rider frames. Original course reconstruction, complete handling/animation/combat/AI, career, saves, audio/video playback and reviewed AI enhancement packs remain future work. 3D is deferred. The next phase is **07: course reconstruction**. No complete playable recreation or original-runtime parity is claimed.
 
-## Remaining original reference work
-
-The original executable was attempted in isolated Proton 11.0 and exited before gameplay (53). It imports AWEMAN32.dll, which is absent from the supplied game-file corpus. A working original installation/runtime is needed for remaining Part 01 original behavior captures. Static binary metadata is explicitly distinguished from runtime verification. Native/enhanced live texture switching is not implemented and is not checked off.
-
-The app remains a classic-style authored road/player scaffold, with placeholder 60 Hz integer handling. Original courses, sprites, complete physics, combat, AI and career are future work. 3D is deferred. The separate parent-directory prototype is preserved.
-
-## Next work
-
-1. Complete the original-runtime comparisons when a working reference installation is available.
-2. Continue Phase 04 bounded format decoding and original-corpus validation using installed user data.
-3. Implement catalog and original course/sprite integration; retain existing simulation/presentation boundaries.
-4. Continue later gameplay and release gates; no later whole phase is declared complete.
-
-## Checkbox rule
-
-Update README checkbox and task evidence in the same change as verified implementation. Complete a parent only after its implementation, acceptance and evidence children are complete. Build/import completion never substitutes for original gameplay fidelity.
-
-The project owner confirmed that no working original installation is available. Original-runtime acceptance remains open; independent development proceeds using verified source data and explicitly labeled research evidence.
+README parents close only when their remaining children and linked evidence pass. The removed original-runtime children retain stable retired IDs; later phases remain open.

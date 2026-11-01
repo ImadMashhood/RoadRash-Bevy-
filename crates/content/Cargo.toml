@@ -1,0 +1,16 @@
+[package]
+name = "rr-content"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+rr-formats = { path = "../formats" }
+rr-import = { path = "../import" }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sha2 = "0.10"
+
+[dev-dependencies]
+tempfile = "3"
+image = { version = "0.25", default-features = false, features = ["jpeg"] }

@@ -21,3 +21,5 @@ Classic comparison target: 640×480, 4:3, original assets and controlled camera 
 ## Execution policy
 
 Work task-by-task. Do not claim a phase complete while its behavioral evidence is missing. Dependencies may be prototyped to unblock measurement, but remain labeled as partial. Commits and evidence use stable README task IDs. The implementing agent owns active work; release acceptance belongs to the project owner. No calendar commitment is implied.
+
+Owner scope update: running the original program and matching original runtime captures are no longer acceptance requirements. See ../SCOPE_CHANGES.md. Current-engine fixtures/replays and static source validation are the acceptance basis.

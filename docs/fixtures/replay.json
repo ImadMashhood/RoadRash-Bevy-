@@ -1,0 +1,1 @@
+{"schema_version":1,"seed":12345,"ticks":120,"route":null,"expected_hash":null,"commands":[{"tick":0,"actor":1,"sequence":0,"input":{"throttle":true}},{"tick":20,"actor":1,"sequence":1,"input":{"throttle":true,"steer":1}},{"tick":60,"actor":1,"sequence":2,"input":{"throttle":true,"steer":-1}},{"tick":100,"actor":1,"sequence":3,"input":{"brake":true}}]}

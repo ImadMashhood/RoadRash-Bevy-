@@ -1,8 +1,21 @@
+#![forbid(unsafe_code)]
 //! Independently implemented bounded readers. No graphics or private data dependencies.
 use std::fmt;
+pub mod binary;
+pub mod family;
+pub mod pe;
+pub mod pixels;
+pub mod resource;
+pub const DECODER_VERSION: &str = concat!(
+    env!("CARGO_PKG_VERSION"),
+    "-",
+    env!("RR_FORMATS_BUILD_SHA256")
+);
+pub type Result<T> = std::result::Result<T, DecodeError>;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum DecodeError {
+    Invalid(&'static str),
     Truncated { offset: usize, length: usize },
     InvalidDimensions,
     UnexpectedTrailingData,
@@ -25,7 +38,7 @@ pub struct IndexedFrame<'a> {
 /// Decode width-byte, height-byte, palette-index pixels per BOB frame.
 /// Palette application and rider remaps are deliberately separate.
 /// Exact consumption is required; source-version adapters handle any future padding.
-pub fn decode_bob(bytes: &[u8], frame_count: usize) -> Result<Vec<IndexedFrame<'_>>, DecodeError> {
+pub fn decode_bob(bytes: &[u8], frame_count: usize) -> Result<Vec<IndexedFrame<'_>>> {
     if frame_count > 4096 {
         return Err(DecodeError::TooManyFrames);
     }
@@ -36,9 +49,6 @@ pub fn decode_bob(bytes: &[u8], frame_count: usize) -> Result<Vec<IndexedFrame<'
             .get(offset..offset + 2)
             .ok_or(DecodeError::Truncated { offset, length: 2 })?;
         let (width, height) = (header[0], header[1]);
-        if width == 0 || height == 0 {
-            return Err(DecodeError::InvalidDimensions);
-        }
         offset += 2;
         let length = usize::from(width) * usize::from(height);
         let pixels = bytes
@@ -82,8 +92,8 @@ mod tests {
         }
     }
     #[test]
-    fn rejects_zero_dimensions_trailing_bytes_and_excessive_count() {
-        assert_eq!(decode_bob(&[0, 1], 1), Err(DecodeError::InvalidDimensions));
+    fn preserves_empty_frames_and_rejects_trailing_bytes_and_excessive_count() {
+        assert!(decode_bob(&[0, 1], 1).unwrap()[0].pixels.is_empty());
         assert_eq!(
             decode_bob(&[1, 1, 4, 8], 1),
             Err(DecodeError::UnexpectedTrailingData)

@@ -13,8 +13,8 @@ jobs:
       - run: python3 tools/private_corpus.py
       - run: python3 tools/check_workflow_guards.py
       - run: cargo fmt --all --check
-      - run: cargo test --locked -p rr-formats -p rr-simulation -p rr-import
-      - run: cargo clippy --locked -p rr-formats -p rr-simulation -p rr-import --all-targets -- -D warnings
+      - run: cargo test --locked -p rr-formats -p rr-simulation -p rr-import -p rr-content
+      - run: cargo clippy --locked -p rr-formats -p rr-simulation -p rr-import -p rr-content --all-targets -- -D warnings
   desktop-check:
     strategy:
       matrix:
@@ -29,3 +29,6 @@ jobs:
       - run: sudo apt-get update && sudo apt-get install -y libx11-dev libxi-dev libxkbcommon-dev
       - run: cargo clippy --locked --workspace --all-targets -- -D warnings
       - run: cargo build --locked --release --workspace
+      - run: cargo test --locked --release -p rr-presentation --lib
+      - run: cargo run --locked --release -p rr-formats --bin rr-format-fuzz -- 1000 /tmp/rr-format-fuzz.json
+      - run: cargo run --locked --release -p rr-simulation --bin rr-replay -- docs/fixtures/replay.json irregular /tmp/rr-replay.json

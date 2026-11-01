@@ -67,8 +67,8 @@
     },
     {
       "id": "fidelity",
-      "target": "All adopted reference scenarios meet declared exact/toleranced comparisons with no unexplained first divergence",
-      "procedure": "Run versioned comparison manifests; retain failures and explicit approved deviations",
+      "target": "All adopted internal regression scenarios meet declared exact/toleranced expectations with no unexplained first divergence; original-runtime comparison is optional",
+      "procedure": "Run versioned authored/source-derived fixture manifests and current-engine replay/capture comparisons; retain failures and explicit approved deviations",
       "gate": "G2",
       "owner": "Project owner signs release; implementing agent produces receipt",
       "signoff_record": "docs/evidence/release-signoff.json (future artifact)",

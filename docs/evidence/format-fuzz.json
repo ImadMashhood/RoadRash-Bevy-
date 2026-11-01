@@ -1,0 +1,11 @@
+{
+  "decoded_family_limit_bytes": 67108864,
+  "input_limit": 4096,
+  "iterations": 10000,
+  "max_input_bytes": 639,
+  "method": "deterministic mutation fuzzing; authored/codec-generated seeds",
+  "outcome": "passed",
+  "panics": 0,
+  "seed": "0x524f414452415348",
+  "targets": 10
+}

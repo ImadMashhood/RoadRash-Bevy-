@@ -1,3 +1,7 @@
+# Historical Parts 01–03 receipt
+
+This receipt describes the earlier commit. Original-runtime blockers below were subsequently retired by the [owner scope amendment](../SCOPE_CHANGES.md); current Part 01 closure and texture-switch evidence are in [Parts 04–06](parts-04-06.md). Earlier test totals and unimplemented-feature statements are historical.
+
 # Parts 01–03 implementation and acceptance receipt
 
 Scope: classic Rust/Bevy recreation. 3D remains deferred. The app is still an authored architecture scaffold, not a complete recreation.

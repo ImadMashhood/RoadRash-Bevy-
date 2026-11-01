@@ -3,3 +3,15 @@ name = "rr-formats"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+sha2 = "0.10"
+image = { version = "0.25", default-features = false, features = ["png", "jpeg"] }
+explode = "=0.1.2"
+crc32fast = "1"
+
+serde_json = "1"
+
+[build-dependencies]
+sha2 = "0.10"

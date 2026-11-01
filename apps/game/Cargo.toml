@@ -9,3 +9,6 @@ rr-simulation = { path = "../../crates/simulation" }
 rr-presentation = { path = "../../crates/presentation" }
 bevy = { workspace = true }
 rr-import = { path = "../../crates/import" }
+serde_json = "1"
+rr-content = { path = "../../crates/content" }
+rr-formats = { path = "../../crates/formats" }
