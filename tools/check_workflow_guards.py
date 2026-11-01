@@ -7,6 +7,9 @@ import subprocess
 import tempfile
 
 root = Path(__file__).resolve().parents[1]
+# Warm the *valid locked graph* first. A cold registry cache otherwise makes
+# --offline fail for an unrelated missing package before it can test the lock.
+subprocess.run(['cargo', 'fetch', '--locked'], cwd=root, check=True)
 with tempfile.TemporaryDirectory(prefix='rr-ci-guards-') as directory:
     copy = Path(directory)
     for name in ('Cargo.toml', 'Cargo.lock', 'rust-toolchain.toml'):
