@@ -55,6 +55,7 @@ pub struct Scene {
 }
 #[derive(Default, Serialize)]
 pub struct RenderReceipt {
+    pub rider_bounds: Option<[f64; 4]>,
     pub stats: Statistics,
     pub source_samples: usize,
     pub terrain_categories: BTreeMap<String, usize>,
@@ -166,11 +167,7 @@ impl Scene {
                         continue;
                     }
                     let family = family_slots[si][j][usize::from(selector >> 6)];
-                    let category = if geometry.kind == TerrainKind::Wall {
-                        3
-                    } else {
-                        1
-                    };
+                    let category = 1;
                     let available = assets
                         .families
                         .get(&family)
@@ -326,8 +323,12 @@ impl Scene {
                                     .material(
                                         b,
                                         t.selectors[side],
-                                        if t.kind == TerrainKind::Wall { 3 } else { 1 },
-                                        Some(band),
+                                        1,
+                                        Some(if t.kind == TerrainKind::Wall {
+                                            usize::from(band == 2)
+                                        } else {
+                                            band
+                                        }),
                                     )
                                     .map(|m| &m.texture)
                                     .unwrap_or(fallback);
@@ -492,14 +493,25 @@ impl Scene {
                     actor.position.lateral.0 as f64 / 10.
                 };
                 let anchor = actor_anchor(self, &slices, z, lateral, spec, &self.assets.depths);
+                if actor.id.0 == 1 {
+                    let scale = self.assets.depths.scale(z);
+                    let [width, height] = self.assets.rider.logical.map(|n| n * 2. * scale);
+                    let x = spec.width as f64 / 2. + anchor[0] * scale;
+                    let y = spec.horizon + (spec.camera_height - anchor[1]) * scale;
+                    let left = x - width * self.assets.rider.pivot[0];
+                    let top = y - height * self.assets.rider.pivot[1];
+                    receipt.rider_bounds = Some([left, top, left + width, top + height]);
+                }
                 billboards.push(Billboard {
                     id: format!("actor/{:020}", actor.id.0),
                     class: SpriteClass::Racer,
                     x: anchor[0],
                     ground: anchor[1],
                     z,
-                    width: self.assets.rider.logical[0] * 0.5,
-                    height: self.assets.rider.logical[1] * 0.5,
+                    // Source actor size 512: (size >> 6) / 4 = 2.
+                    // Logical dimensions come from RRAN, never bitmap size.
+                    width: self.assets.rider.logical[0] * 2.,
+                    height: self.assets.rider.logical[1] * 2.,
                     pivot: self.assets.rider.pivot,
                     texture: texture.clone(),
                     mirror: false,

@@ -1,0 +1,297 @@
+{
+  "scope": "Native C++ port throughput only; not the original executable and not a Rust/full-feature equivalence comparison",
+  "host": {
+    "os": "Fedora Linux 44 KDE",
+    "architecture": "x86_64",
+    "cpu": "AMD Ryzen 5 3600 6-Core Processor",
+    "logical_cpus": 12
+  },
+  "revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+  "configuration": "Release, GCC 16.2.1, system SDL 3.4.18, OpenGL, 640x480, 8 render workers, vsync off, original enhancement settings",
+  "scenario": "City level 1, bike 0, all 14 opponents, traffic/pedestrian/ring systems enabled, autopilot; 4000 warmup frames then 3000 measured frames per run",
+  "measurement_policy": "desktop machine timing, not an isolated hardware laboratory; three repeats; no GPU temperature/clock or display-latency claim",
+  "runs": [
+    {
+      "label": "fedora44-city-full-field-original-1",
+      "build": "release",
+      "renderer": "opengl",
+      "course": 1,
+      "window": [
+        640,
+        480
+      ],
+      "window_pixels": [
+        640,
+        480
+      ],
+      "render_scale": 1,
+      "logical_width": 320,
+      "surface": [
+        640,
+        480
+      ],
+      "render_threads": 8,
+      "vsync": 0,
+      "settings": {
+        "hires": 0,
+        "render_scale": 1,
+        "widescreen": 0,
+        "texture_detail": 0,
+        "filter": 0,
+        "interpolate": 0,
+        "perspective": 0,
+        "full_colour": 0,
+        "enh_filter": 0,
+        "fog": 0,
+        "grade": 0,
+        "draw_slices": 33,
+        "bloom": 0,
+        "vignette": 0,
+        "motion_blur": 0
+      },
+      "frames": 3000,
+      "warmup": 4000,
+      "sim_ticks": 590,
+      "fps_mean": 306.26,
+      "frame_ms": {
+        "mean": 3.265,
+        "p50": 3.175,
+        "p95": 3.889,
+        "p99": 4.518,
+        "max": 8.516
+      },
+      "phases_ms_mean": {
+        "sim": 0.012,
+        "scene_nodes": 0.066,
+        "horizon": 0.945,
+        "raster": 0.326,
+        "grade": 0.0,
+        "post": 0.0,
+        "dash": 0.239,
+        "remap": 0.413,
+        "upload": 0.087,
+        "sprites_hud": 0.003,
+        "present": 0.118
+      },
+      "phases_ms_max": {
+        "sim": 2.386,
+        "scene_nodes": 0.282,
+        "horizon": 3.244,
+        "raster": 4.663,
+        "grade": 0.0,
+        "post": 0.0,
+        "dash": 0.788,
+        "remap": 1.719,
+        "upload": 0.391,
+        "sprites_hud": 0.046,
+        "present": 2.546
+      },
+      "pacing": {
+        "wall_s": 9.843,
+        "expected_ticks": 590.59,
+        "drift_ticks": -0.0,
+        "interval_ms": {
+          "p50": 3.187,
+          "p99": 4.566,
+          "max": 8.56
+        },
+        "step_frames": [
+          2410,
+          590,
+          0,
+          0
+        ],
+        "clock_resets": 0
+      },
+      "slow_frames": []
+    },
+    {
+      "label": "fedora44-city-full-field-original-2",
+      "build": "release",
+      "renderer": "opengl",
+      "course": 1,
+      "window": [
+        640,
+        480
+      ],
+      "window_pixels": [
+        640,
+        480
+      ],
+      "render_scale": 1,
+      "logical_width": 320,
+      "surface": [
+        640,
+        480
+      ],
+      "render_threads": 8,
+      "vsync": 0,
+      "settings": {
+        "hires": 0,
+        "render_scale": 1,
+        "widescreen": 0,
+        "texture_detail": 0,
+        "filter": 0,
+        "interpolate": 0,
+        "perspective": 0,
+        "full_colour": 0,
+        "enh_filter": 0,
+        "fog": 0,
+        "grade": 0,
+        "draw_slices": 33,
+        "bloom": 0,
+        "vignette": 0,
+        "motion_blur": 0
+      },
+      "frames": 3000,
+      "warmup": 4000,
+      "sim_ticks": 603,
+      "fps_mean": 299.82,
+      "frame_ms": {
+        "mean": 3.335,
+        "p50": 3.223,
+        "p95": 4.058,
+        "p99": 4.805,
+        "max": 7.08
+      },
+      "phases_ms_mean": {
+        "sim": 0.013,
+        "scene_nodes": 0.07,
+        "horizon": 0.948,
+        "raster": 0.348,
+        "grade": 0.0,
+        "post": 0.0,
+        "dash": 0.247,
+        "remap": 0.422,
+        "upload": 0.09,
+        "sprites_hud": 0.004,
+        "present": 0.128
+      },
+      "phases_ms_max": {
+        "sim": 2.348,
+        "scene_nodes": 0.289,
+        "horizon": 2.559,
+        "raster": 3.41,
+        "grade": 0.0,
+        "post": 0.0,
+        "dash": 1.522,
+        "remap": 2.052,
+        "upload": 0.343,
+        "sprites_hud": 0.084,
+        "present": 2.343
+      },
+      "pacing": {
+        "wall_s": 10.06,
+        "expected_ticks": 603.61,
+        "drift_ticks": -0.0,
+        "interval_ms": {
+          "p50": 3.239,
+          "p99": 4.851,
+          "max": 7.104
+        },
+        "step_frames": [
+          2397,
+          603,
+          0,
+          0
+        ],
+        "clock_resets": 0
+      },
+      "slow_frames": []
+    },
+    {
+      "label": "fedora44-city-full-field-original-3",
+      "build": "release",
+      "renderer": "opengl",
+      "course": 1,
+      "window": [
+        640,
+        480
+      ],
+      "window_pixels": [
+        640,
+        480
+      ],
+      "render_scale": 1,
+      "logical_width": 320,
+      "surface": [
+        640,
+        480
+      ],
+      "render_threads": 8,
+      "vsync": 0,
+      "settings": {
+        "hires": 0,
+        "render_scale": 1,
+        "widescreen": 0,
+        "texture_detail": 0,
+        "filter": 0,
+        "interpolate": 0,
+        "perspective": 0,
+        "full_colour": 0,
+        "enh_filter": 0,
+        "fog": 0,
+        "grade": 0,
+        "draw_slices": 33,
+        "bloom": 0,
+        "vignette": 0,
+        "motion_blur": 0
+      },
+      "frames": 3000,
+      "warmup": 4000,
+      "sim_ticks": 602,
+      "fps_mean": 300.77,
+      "frame_ms": {
+        "mean": 3.325,
+        "p50": 3.216,
+        "p95": 4.016,
+        "p99": 4.642,
+        "max": 7.304
+      },
+      "phases_ms_mean": {
+        "sim": 0.013,
+        "scene_nodes": 0.07,
+        "horizon": 0.946,
+        "raster": 0.341,
+        "grade": 0.0,
+        "post": 0.0,
+        "dash": 0.248,
+        "remap": 0.418,
+        "upload": 0.092,
+        "sprites_hud": 0.004,
+        "present": 0.131
+      },
+      "phases_ms_max": {
+        "sim": 2.667,
+        "scene_nodes": 1.039,
+        "horizon": 2.154,
+        "raster": 2.912,
+        "grade": 0.0,
+        "post": 0.0,
+        "dash": 1.173,
+        "remap": 1.79,
+        "upload": 0.417,
+        "sprites_hud": 0.078,
+        "present": 2.312
+      },
+      "pacing": {
+        "wall_s": 10.031,
+        "expected_ticks": 601.856,
+        "drift_ticks": -0.0,
+        "interval_ms": {
+          "p50": 3.232,
+          "p99": 4.69,
+          "max": 7.351
+        },
+        "step_frames": [
+          2398,
+          602,
+          0,
+          0
+        ],
+        "clock_resets": 0
+      },
+      "slow_frames": []
+    }
+  ]
+}

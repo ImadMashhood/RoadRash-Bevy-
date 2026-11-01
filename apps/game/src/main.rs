@@ -1,9 +1,12 @@
 //! Composition root: ordered input/fixed simulation/snapshot adapter and optional deterministic playback.
+mod input_adapter;
 use bevy::{
     app::AppExit,
     prelude::*,
     render::view::screenshot::{Screenshot, save_to_disk},
 };
+use input_adapter::{Bindings, key_code};
+use rr_input::{Action, Context};
 use rr_presentation::{
     ClassicPresentationPlugin, CoursePresentation, PresentationStage, PresentedSnapshot,
     VisualAssets,
@@ -36,6 +39,7 @@ struct LaunchOptions {
     integer_scale: bool,
     camera_sample: Option<f64>,
     window_size: Option<(u32, u32)>,
+    bindings: Option<PathBuf>,
 }
 #[derive(Resource, Default)]
 struct Driver(Option<Playback>);
@@ -47,6 +51,11 @@ enum FixedStage {
 }
 #[derive(Resource, Default)]
 struct InputCommand(Command);
+#[derive(Resource, Default)]
+struct PauseState {
+    paused: bool,
+    release_required: bool,
+}
 #[derive(Resource, Default)]
 struct Previous(rr_simulation::Snapshot);
 fn options() -> Result<LaunchOptions, String> {
@@ -61,6 +70,7 @@ fn options() -> Result<LaunchOptions, String> {
             .next()
             .ok_or_else(|| format!("missing value for {}", arg.to_string_lossy()))?;
         match arg.to_str() {
+            Some("--bindings") => options.bindings = Some(value.into()),
             Some("--smoke-frames") => {
                 let count: u32 = value
                     .to_string_lossy()
@@ -253,8 +263,18 @@ fn course_view(
             )?)?,
             false,
         )?;
-        assets.rider.logical = visual.size.map(f64::from);
-        assets.rider.pivot = [0.5, 1.];
+        let entries = rr_content::Catalog::read(&catalog.join("catalog.json"))?;
+        let entry = entries
+            .entries
+            .iter()
+            .find(|e| Some(&e.id.0) == options.asset.as_ref())
+            .ok_or("selected rider metadata")?;
+        let (logical, pivot) = rr_render::source::rider_registration(
+            &std::fs::read(data.join("DATA/GLOBAL.RSC"))?,
+            entry.frame.ok_or("selected rider frame")?,
+        )?;
+        assets.rider.logical = logical;
+        assets.rider.pivot = pivot;
     }
     if let Some(path) = &options.override_image {
         assets.set_override(path)?
@@ -309,11 +329,22 @@ fn main() {
         std::process::exit(2)
     });
     let window_size = options.window_size.unwrap_or((960, 720));
+    let bindings = options
+        .bindings
+        .as_ref()
+        .map(|path| rr_input::ActionMap::read(path))
+        .transpose()
+        .unwrap_or_else(|e| {
+            eprintln!("{e}");
+            std::process::exit(2)
+        })
+        .unwrap_or_default();
     let mut app = App::new();
     if let Some(course) = course {
         app.insert_resource(course);
     }
     app.insert_resource(visual)
+        .insert_resource(Bindings(bindings))
         .insert_resource(options)
         .insert_resource(Driver(playback))
         .add_plugins(
@@ -336,6 +367,7 @@ fn main() {
         .init_resource::<Race>()
         .init_resource::<Previous>()
         .init_resource::<InputCommand>()
+        .init_resource::<PauseState>()
         .add_plugins(ClassicPresentationPlugin)
         .configure_sets(
             FixedUpdate,
@@ -358,7 +390,7 @@ fn main() {
             FixedUpdate,
             publish.in_set(FixedStage::Snapshot).run_if(live),
         )
-        .add_systems(PreUpdate, playback_frame)
+        .add_systems(PreUpdate, (playback_frame, pause_input))
         .add_systems(
             Update,
             (
@@ -368,18 +400,87 @@ fn main() {
         )
         .run();
 }
-fn live(driver: Res<Driver>) -> bool {
-    driver.0.is_none()
+fn live(driver: Res<Driver>, pause: Res<PauseState>) -> bool {
+    driver.0.is_none() && !pause.paused
 }
-fn sample_input(keys: Res<ButtonInput<KeyCode>>, mut command: ResMut<InputCommand>) {
-    let left = keys.pressed(KeyCode::ArrowLeft) || keys.pressed(KeyCode::KeyA);
-    let right = keys.pressed(KeyCode::ArrowRight) || keys.pressed(KeyCode::KeyD);
+fn active_actions(
+    bindings: &Bindings,
+    context: Context,
+    pressed: impl Fn(KeyCode) -> bool,
+) -> std::collections::BTreeSet<Action> {
+    bindings.0.active(
+        context,
+        bindings.0.contexts[&context]
+            .values()
+            .flatten()
+            .copied()
+            .filter(|key| pressed(key_code(*key))),
+    )
+}
+fn sample_input(
+    keys: Res<ButtonInput<KeyCode>>,
+    bindings: Res<Bindings>,
+    mut command: ResMut<InputCommand>,
+) {
+    let actions = active_actions(&bindings, Context::Race, |key| keys.pressed(key));
+    let left = actions.contains(&Action::SteerLeft);
+    let right = actions.contains(&Action::SteerRight);
     command.0 = Command {
-        throttle: keys.pressed(KeyCode::ArrowUp) || keys.pressed(KeyCode::KeyW),
-        brake: keys.pressed(KeyCode::ArrowDown) || keys.pressed(KeyCode::KeyS),
+        throttle: actions.contains(&Action::Accelerate),
+        brake: actions.contains(&Action::Brake),
         steer: i8::from(right) - i8::from(left),
         ..Default::default()
     };
+}
+fn pause_input(
+    driver: Res<Driver>,
+    keys: Res<ButtonInput<KeyCode>>,
+    bindings: Res<Bindings>,
+    mut pause: ResMut<PauseState>,
+    mut command: ResMut<InputCommand>,
+    mut window: Single<&mut Window, With<bevy::window::PrimaryWindow>>,
+) {
+    if driver.0.is_some() {
+        return;
+    }
+    let actions = active_actions(&bindings, Context::Race, |key| keys.pressed(key));
+    let was_paused = pause.paused;
+    if !window.focused
+        || (!pause.paused
+            && active_actions(&bindings, Context::Race, |key| keys.just_pressed(key))
+                .contains(&Action::Pause))
+    {
+        pause.paused = true;
+        pause.release_required = true;
+    }
+    if pause.paused {
+        command.0 = Command::default();
+        if !actions.iter().any(|a| {
+            matches!(
+                a,
+                Action::Accelerate | Action::Brake | Action::SteerLeft | Action::SteerRight
+            )
+        }) {
+            pause.release_required = false;
+        }
+        if window.focused
+            && !pause.release_required
+            && active_actions(&bindings, Context::Paused, |key| keys.just_pressed(key))
+                .contains(&Action::Resume)
+        {
+            pause.paused = false;
+        }
+    }
+    if pause.paused != was_paused {
+        window.title = if pause.paused {
+            format!(
+                "RoadRash Rust — paused (resume: {:?})",
+                bindings.0.contexts[&Context::Paused][&Action::Resume]
+            )
+        } else {
+            "RoadRash Rust — classic renderer".into()
+        };
+    }
 }
 fn failure(message: impl std::fmt::Display, exit: &mut MessageWriter<AppExit>) {
     eprintln!("{message}");
@@ -400,9 +501,18 @@ fn publish(race: Res<Race>, previous: Res<Previous>, mut view: ResMut<PresentedS
     view.0 = race.0.snapshot();
     view.1 = previous.0.clone();
 }
-fn interpolate(driver: Res<Driver>, time: Res<Time<Fixed>>, mut view: ResMut<PresentedSnapshot>) {
+fn interpolate(
+    driver: Res<Driver>,
+    pause: Res<PauseState>,
+    time: Res<Time<Fixed>>,
+    mut view: ResMut<PresentedSnapshot>,
+) {
     if driver.0.is_none() {
-        view.2 = time.overstep_fraction();
+        view.2 = if pause.paused {
+            1.
+        } else {
+            time.overstep_fraction()
+        };
     }
 }
 fn playback_frame(
@@ -488,5 +598,87 @@ fn smoke_test(
     if options.smoke_frames.is_some_and(|limit| *frame >= limit) {
         println!("foundation smoke completed after {} frames", *frame);
         exit.write(AppExit::Success);
+    }
+}
+
+#[cfg(test)]
+mod input_tests {
+    use super::*;
+    #[test]
+    fn remapped_controls_reach_tick_commands_and_opposed_steering_cancels() {
+        let mut bindings = rr_input::ActionMap::default();
+        bindings
+            .rebind(
+                Context::Race,
+                Action::Accelerate,
+                vec![rr_input::Key::Space],
+            )
+            .unwrap();
+        let mut app = App::new();
+        app.insert_resource(Bindings(bindings))
+            .init_resource::<ButtonInput<KeyCode>>()
+            .init_resource::<InputCommand>()
+            .add_systems(Update, sample_input);
+        {
+            let mut keys = app.world_mut().resource_mut::<ButtonInput<KeyCode>>();
+            keys.press(KeyCode::KeyW);
+        }
+        app.update();
+        assert!(!app.world().resource::<InputCommand>().0.throttle);
+        {
+            let mut keys = app.world_mut().resource_mut::<ButtonInput<KeyCode>>();
+            keys.press(KeyCode::Space);
+            keys.press(KeyCode::ArrowLeft);
+            keys.press(KeyCode::ArrowRight);
+        }
+        app.update();
+        let command = app.world().resource::<InputCommand>().0;
+        assert!(command.throttle);
+        assert_eq!(command.steer, 0);
+    }
+    #[test]
+    fn focus_pause_requires_neutral_controls_and_explicit_resume() {
+        let mut app = App::new();
+        app.init_resource::<Bindings>()
+            .init_resource::<Driver>()
+            .init_resource::<PauseState>()
+            .init_resource::<InputCommand>()
+            .init_resource::<ButtonInput<KeyCode>>()
+            .add_systems(Update, pause_input);
+        let window = app
+            .world_mut()
+            .spawn((
+                Window {
+                    focused: false,
+                    ..Default::default()
+                },
+                bevy::window::PrimaryWindow,
+            ))
+            .id();
+        app.world_mut().resource_mut::<InputCommand>().0.throttle = true;
+        app.world_mut()
+            .resource_mut::<ButtonInput<KeyCode>>()
+            .press(KeyCode::KeyW);
+        app.update();
+        assert!(app.world().resource::<PauseState>().paused);
+        assert!(!app.world().resource::<InputCommand>().0.throttle);
+        app.world_mut().get_mut::<Window>(window).unwrap().focused = true;
+        app.world_mut()
+            .resource_mut::<ButtonInput<KeyCode>>()
+            .press(KeyCode::Enter);
+        app.update();
+        assert!(app.world().resource::<PauseState>().paused);
+        {
+            let mut keys = app.world_mut().resource_mut::<ButtonInput<KeyCode>>();
+            keys.release(KeyCode::KeyW);
+            keys.clear();
+        }
+        app.update();
+        assert!(app.world().resource::<PauseState>().paused);
+        app.world_mut()
+            .resource_mut::<ButtonInput<KeyCode>>()
+            .press(KeyCode::KeyP);
+        app.update();
+        assert!(!app.world().resource::<PauseState>().paused);
     }
 }

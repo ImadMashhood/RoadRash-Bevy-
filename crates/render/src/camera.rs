@@ -32,7 +32,9 @@ impl CameraSpec {
             camera_height: 150.,
             near_q8: 1.,
             slices: 33,
-            player_depth_q8: 420.,
+            // The first road boundary is at 256; the player's sample is
+            // one boundary farther on (the source camera trails by 256).
+            player_depth_q8: 512.,
             integer_scale,
         }
     }

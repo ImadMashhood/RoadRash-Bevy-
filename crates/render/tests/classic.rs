@@ -710,3 +710,140 @@ fn actor_projection_never_compares_unrelated_branch_local_coordinates() {
         Some(420.)
     );
 }
+
+#[test]
+fn rran_rider_registration_does_not_use_bitmap_dimensions() {
+    let mut bytes = vec![0u8; 72];
+    for (at, word) in [
+        (0, 0x5252414eu32),
+        (4, 20),
+        (20, 0x52524644),
+        (24, 36),
+        (36, 64),
+        (48, 29),
+        (52, 64),
+        (64, 19),
+        (68, 52),
+    ] {
+        bytes[at..at + 4].copy_from_slice(&word.to_le_bytes());
+    }
+    let (logical, pivot) = rr_render::source::rider_frame_registration(&bytes, 0).unwrap();
+    assert_eq!(logical, [29., 64.]);
+    assert_eq!(pivot, [19. / 29., 52. / 64.]);
+    assert!(rr_render::source::rider_frame_registration(&bytes, 1).is_err());
+    for end in 0..bytes.len() {
+        assert!(
+            rr_render::source::rider_frame_registration(&bytes[..end], 0).is_err(),
+            "prefix {end}"
+        );
+    }
+    bytes[48..52].copy_from_slice(&0u32.to_le_bytes());
+    assert!(rr_render::source::rider_frame_registration(&bytes, 0).is_err());
+}
+
+#[test]
+fn non_bottom_hotspot_keeps_full_sprite_below_ground_without_ignoring_hills() {
+    let spec = CameraSpec::default();
+    let depths = DepthTable::authored();
+    let mut frame = Frame::new(640, 480).unwrap();
+    frame.clear([0; 4]);
+    for y in 0..480 {
+        for x in 0..640 {
+            frame.depth[y * 640 + x] = if y < 330 { 600. } else { 450. };
+        }
+    }
+    let mut b = sprite("registered", SpriteClass::Racer, [255; 4], 512.);
+    b.width = 58.;
+    b.height = 128.;
+    b.pivot = [19. / 29., 52. / 64.];
+    draw_billboards(&mut frame, &mut [b.clone()], &spec, &depths);
+    let positions = frame
+        .image
+        .pixels
+        .as_chunks::<4>()
+        .0
+        .iter()
+        .enumerate()
+        .filter(|(_, p)| p[0] == 255)
+        .map(|(i, _)| (i % 640, i / 640))
+        .collect::<Vec<_>>();
+    assert_eq!(positions.iter().map(|p| p.0).min(), Some(282));
+    assert_eq!(positions.iter().map(|p| p.0).max(), Some(339));
+    assert_eq!(positions.iter().map(|p| p.1).min(), Some(226));
+    assert_eq!(positions.iter().map(|p| p.1).max(), Some(353));
+    frame.clear([0; 4]);
+    frame.depth.fill(400.);
+    draw_billboards(&mut frame, &mut [b], &spec, &depths);
+    assert_eq!(frame.stats.pixels, 0, "nearer hill occludes the sprite");
+}
+
+#[test]
+fn cliff_surfaces_keep_landscape_art_when_tunnel_art_is_available() {
+    use rr_formats::family::FamilyNode;
+    use std::sync::Arc;
+    let mut scene = rr_render::fixture::scene("wall").unwrap();
+    let family = scene.assets.families.get_mut(&1).unwrap();
+    let mut definition = (*family.definition).clone();
+    // Category 3 is tunnel geometry, deliberately bright magenta. Cliff
+    // landscape remains in category 1, with the authored checker texture.
+    definition
+        .nodes
+        .iter_mut()
+        .find(|n| n.offset == 0)
+        .unwrap()
+        .children[3] = 300;
+    definition.nodes.push(FamilyNode {
+        offset: 300,
+        tag: 1,
+        children: vec![400],
+        raw_header: vec![],
+    });
+    definition.nodes.push(FamilyNode {
+        offset: 400,
+        tag: 0x434c4750,
+        children: vec![],
+        raw_header: vec![0; 32],
+    });
+    definition.nodes.sort_by_key(|n| n.offset);
+    family.definition = Arc::new(definition);
+    family.groups.insert(
+        400,
+        rr_render::source::Material {
+            texture: Texture::solid([255, 0, 255, 255]),
+            height: 300.,
+        },
+    );
+    let (frame, _) = scene
+        .draw(&CameraSpec::default(), &view(), &snap(), false)
+        .unwrap();
+    assert!(
+        !frame
+            .image
+            .pixels
+            .as_chunks::<4>()
+            .0
+            .contains(&[255, 0, 255, 255])
+    );
+    assert!(
+        frame
+            .image
+            .pixels
+            .as_chunks::<4>()
+            .0
+            .iter()
+            .any(|p| p[0] == 150 && p[1] == 90 && p[2] == 55),
+        "landscape checker is visible"
+    );
+}
+
+#[test]
+fn repeated_capture_can_replace_its_existing_output_file() {
+    let dir = std::env::temp_dir().join(format!("rr-existing-capture-{}", std::process::id()));
+    std::fs::create_dir_all(dir.join("install")).unwrap();
+    let file = dir.join("frame.png");
+    std::fs::write(&file, b"old capture").unwrap();
+    let out = rr_render::suite::output_path(&dir.join("install"), &file).unwrap();
+    std::fs::write(out, b"new capture").unwrap();
+    assert_eq!(std::fs::read(file).unwrap(), b"new capture");
+    std::fs::remove_dir_all(dir).unwrap();
+}

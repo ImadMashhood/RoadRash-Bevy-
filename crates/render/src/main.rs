@@ -49,10 +49,27 @@ fn frame(a: &[String]) -> Result<()> {
         fs::create_dir_all(parent)?;
     }
     fs::write(&out, frame.image.png()?)?;
+    let projection = project(
+        &scene.route,
+        &spec,
+        &scene.assets.depths,
+        &View {
+            position_q8: sample * 256.,
+            ..View::default()
+        },
+    )?
+    .iter()
+    .map(|s| {
+        let r = &s.roads[s.own as usize];
+        serde_json::json!({"z":r.z,"scale":r.scale,"x":r.x,"y":r.y,
+            "screen_y":spec.horizon+(spec.camera_height-r.y)*r.scale,
+            "left":-r.path.width[0],"right":r.path.width[1]})
+    })
+    .collect::<Vec<_>>();
     fs::write(
         out.with_extension("json"),
         serde_json::to_vec_pretty(
-            &serde_json::json!({"render":receipt,"notes":scene.notes,"source_sha256":scene.course.source_sha256}),
+            &serde_json::json!({"render":receipt,"projection":projection,"notes":scene.notes,"source_sha256":scene.course.source_sha256}),
         )?,
     )?;
     println!("{}", out.display());

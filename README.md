@@ -7,6 +7,8 @@ A Rust and Bevy recreation of the PC Road Rash experience, with a faithful class
 Parts 01–08 now have implementation and acceptance evidence: a verified importer, bounded decoders, content catalog/inspector, deterministic simulation/presentation scaffold and validated source course graph/explorer and classic road renderer. This is not a complete playable recreation. Later phases remain open; the separate local prototype is preserved independently.
 
 
+The [Fedora native reference and sizing measurements](docs/NATIVE_REFERENCE.md) now calibrate rider/road presentation. Part 9 has started with [remappable input](docs/INPUT.md); 09.01 is complete, and the remaining device/handling tasks stay open.
+
 Run the current source-course view after local import/conversion:
 
 ```sh
@@ -1067,11 +1069,13 @@ Research: [src/road.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd7
 
 Research: [src/input.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/input.cpp), [src/bike.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/bike.cpp), [src/race_actions.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/race_actions.cpp).
 
-- [ ] **09.01 — Implement remappable action map**
+- [x] **09.01 — Implement remappable action map**
 
-  - [ ] **09.01.a — Implement:** Define action IDs separate from physical keys and persist binding contexts.
-  - [ ] **09.01.b — Verify:** Detect duplicate/conflicting bindings and support restoring defaults.
-  - [ ] **09.01.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/09.01.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  Completed: [implementation and acceptance evidence](docs/evidence/09.01.md).
+
+  - [x] **09.01.a — Implement:** Define action IDs separate from physical keys and persist binding contexts.
+  - [x] **09.01.b — Verify:** Detect duplicate/conflicting bindings and support restoring defaults.
+  - [x] **09.01.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/09.01.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
 - [ ] **09.02 — Implement keyboard and gamepad input**
 

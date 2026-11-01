@@ -63,6 +63,9 @@ pub struct Frame {
     pub image: Rgba,
     pub depth: Vec<f32>,
     pub stats: Statistics,
+    // Below a 2.5D sprite's hotspot, road pixels must not cut off the
+    // bitmap extension. Probe occlusion at its ground anchor instead.
+    sprite_ground_row: Option<u32>,
 }
 impl Frame {
     pub fn new(width: u32, height: u32) -> Result<Self> {
@@ -77,6 +80,7 @@ impl Frame {
             },
             depth: vec![f32::INFINITY; width as usize * height as usize],
             stats: Statistics::default(),
+            sprite_ground_row: None,
         })
     }
     pub fn clear(&mut self, c: [u8; 4]) {
@@ -205,7 +209,11 @@ impl Frame {
                 }
                 let z = (1. / inv) as f32;
                 let index = (y * self.image.width + x) as usize;
-                if z > self.depth[index] + 0.01 {
+                let occlusion_index = self
+                    .sprite_ground_row
+                    .filter(|row| y >= *row)
+                    .map_or(index, |row| (row * self.image.width + x) as usize);
+                if z > self.depth[occlusion_index] + 0.01 {
                     continue;
                 }
                 let uv = |axis| {
@@ -303,7 +311,10 @@ pub fn draw_billboards(
             continue;
         }
         let x = b.x - b.pivot[0] * b.width;
-        let y = b.ground + (1. - b.pivot[1]) * b.height;
+        let y = b.ground - (1. - b.pivot[1]) * b.height;
+        let ground_row = spec.horizon + (spec.camera_height - b.ground) * depths.scale(b.z);
+        frame.sprite_ground_row = (ground_row.is_finite() && ground_row < spec.height as f64)
+            .then(|| (ground_row - 1.).max(0.).floor() as u32);
         let (u0, u1) = if b.mirror { (1., 0.) } else { (0., 1.) };
         frame.quad(
             [
@@ -341,5 +352,6 @@ pub fn draw_billboards(
             depths,
         );
         frame.stats.sprites += 1;
+        frame.sprite_ground_row = None;
     }
 }

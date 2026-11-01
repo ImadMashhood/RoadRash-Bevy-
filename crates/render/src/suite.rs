@@ -22,9 +22,12 @@ pub fn output_path(install: &Path, out: &Path) -> Result<PathBuf> {
     while !ancestor.exists() {
         ancestor = ancestor.parent().ok_or("output ancestor")?
     }
-    let resolved = ancestor
-        .canonicalize()?
-        .join(absolute.strip_prefix(ancestor)?);
+    let suffix = absolute.strip_prefix(ancestor)?;
+    let resolved = if suffix.as_os_str().is_empty() {
+        ancestor.canonicalize()?
+    } else {
+        ancestor.canonicalize()?.join(suffix)
+    };
     if resolved.starts_with(&input) || input.starts_with(&resolved) {
         return Err("render output overlaps immutable install".into());
     }

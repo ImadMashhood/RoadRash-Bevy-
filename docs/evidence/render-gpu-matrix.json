@@ -34,7 +34,7 @@
         ]
       ],
       "frames": 61,
-      "png_sha256": "a5504e9627695c773795fabd0c9f5c7e8cbc527b545bafd2733f07f787c68fdd",
+      "png_sha256": "c191d7f0ec53a78173bac253d7a23adbd272f0897395f6b3dc1efaf1581d21dc",
       "pixel_dimensions": [
         960,
         720
@@ -56,7 +56,7 @@
           "horizon": 180.0,
           "integer_scale": false,
           "near_q8": 1.0,
-          "player_depth_q8": 420.0,
+          "player_depth_q8": 512.0,
           "slices": 33,
           "width": 640
         },
@@ -105,7 +105,7 @@
         ]
       ],
       "frames": 121,
-      "png_sha256": "74abef7ffd54349b6147626da624aa89d7817daebdd9f5db3a6d6d3e56b9e54a",
+      "png_sha256": "533f0cb9f20a8cfdf09a5a82bff1c9b54cc281b7bd858584ff0f1dd378dde244",
       "pixel_dimensions": [
         960,
         720
@@ -127,7 +127,7 @@
           "horizon": 180.0,
           "integer_scale": false,
           "near_q8": 1.0,
-          "player_depth_q8": 420.0,
+          "player_depth_q8": 512.0,
           "slices": 33,
           "width": 640
         },
@@ -176,7 +176,7 @@
         ]
       ],
       "frames": 289,
-      "png_sha256": "6f73151f737dfc44c310b6caa524247cd7e7beb2eb1a9bcaf87eb33b1fa10dcc",
+      "png_sha256": "73a729ade17ee8fd3875196b35e18490faf204b3ad57f4a9c484c4410261c0d0",
       "pixel_dimensions": [
         960,
         720
@@ -198,7 +198,7 @@
           "horizon": 180.0,
           "integer_scale": false,
           "near_q8": 1.0,
-          "player_depth_q8": 420.0,
+          "player_depth_q8": 512.0,
           "slices": 33,
           "width": 640
         },
@@ -247,7 +247,7 @@
         ]
       ],
       "frames": 118,
-      "png_sha256": "1feb99ceeb4007a7e0f06325cfae46e3e8dfe5c448bb969b18480fdd2e343620",
+      "png_sha256": "3743ed8e97399f9d55ff8e21d9d6afd590030cbfd9a3fe2e47735307607f2c70",
       "pixel_dimensions": [
         960,
         720
@@ -269,7 +269,7 @@
           "horizon": 180.0,
           "integer_scale": false,
           "near_q8": 1.0,
-          "player_depth_q8": 420.0,
+          "player_depth_q8": 512.0,
           "slices": 33,
           "width": 640
         },
@@ -316,7 +316,7 @@
         ]
       ],
       "frames": 121,
-      "png_sha256": "a73f230c732a9e0643c3cc276187859b0e020a17319f342b4622745e2ebe18b2",
+      "png_sha256": "3af0ceb532f008a3a6c97935b5310dffeaa0639a7e439b45ed5dc1087168ed23",
       "pixel_dimensions": [
         1280,
         720
@@ -338,7 +338,7 @@
           "horizon": 180.0,
           "integer_scale": false,
           "near_q8": 1.0,
-          "player_depth_q8": 420.0,
+          "player_depth_q8": 512.0,
           "slices": 33,
           "width": 852
         },
@@ -385,7 +385,7 @@
         ]
       ],
       "frames": 121,
-      "png_sha256": "a082605b3a9ab3c3be49a59910494e9f2c7f9f0f863c50421917a901dd427e88",
+      "png_sha256": "44b7c78c53d1fb9e9c967d9da4dccad41cbadbf22de798c6af7aa68da1caeae2",
       "pixel_dimensions": [
         1280,
         960
@@ -407,7 +407,7 @@
           "horizon": 180.0,
           "integer_scale": true,
           "near_q8": 1.0,
-          "player_depth_q8": 420.0,
+          "player_depth_q8": 512.0,
           "slices": 33,
           "width": 640
         },
@@ -454,7 +454,7 @@
         ]
       ],
       "frames": 121,
-      "png_sha256": "6c174e03f665fbf2ee765c5bcc1af889f8fe72f017d94b00eb1ca64eb2d19fc7",
+      "png_sha256": "633b8311ca6cc94c3490c3dd1383afdd4de33f9af15c3d88f42d48f9a578cc2d",
       "pixel_dimensions": [
         800,
         971
@@ -476,7 +476,7 @@
           "horizon": 180.0,
           "integer_scale": true,
           "near_q8": 1.0,
-          "player_depth_q8": 420.0,
+          "player_depth_q8": 512.0,
           "slices": 33,
           "width": 640
         },
@@ -521,7 +521,7 @@
         ]
       ],
       "frames": 121,
-      "png_sha256": "a418b635c019a95318de9da71314228d508b28b84f65b38bf15b5c28eba29bb1",
+      "png_sha256": "d53d2af6bf63535ec703fb077aae09c182b2a0ec48fe2b785cdf949da10e29b9",
       "pixel_dimensions": [
         640,
         480
@@ -543,7 +543,7 @@
           "horizon": 180.0,
           "integer_scale": false,
           "near_q8": 1.0,
-          "player_depth_q8": 420.0,
+          "player_depth_q8": 512.0,
           "slices": 33,
           "width": 640
         },
@@ -592,7 +592,7 @@
         ]
       ],
       "frames": 121,
-      "png_sha256": "74abef7ffd54349b6147626da624aa89d7817daebdd9f5db3a6d6d3e56b9e54a",
+      "png_sha256": "533f0cb9f20a8cfdf09a5a82bff1c9b54cc281b7bd858584ff0f1dd378dde244",
       "pixel_dimensions": [
         960,
         720
@@ -614,7 +614,7 @@
           "horizon": 180.0,
           "integer_scale": false,
           "near_q8": 1.0,
-          "player_depth_q8": 420.0,
+          "player_depth_q8": 512.0,
           "slices": 33,
           "width": 640
         },
@@ -663,7 +663,7 @@
         ]
       ],
       "frames": 121,
-      "png_sha256": "2930269dbe0165d1d9806dc511fcecb7db598147cc64d22052368fa3f5c00e8b",
+      "png_sha256": "3bb97d5c2e71cc8c932f4498b2b5ecff67bf025f72575877a5389ad2eee3453f",
       "pixel_dimensions": [
         960,
         720
@@ -685,7 +685,7 @@
           "horizon": 180.0,
           "integer_scale": false,
           "near_q8": 1.0,
-          "player_depth_q8": 420.0,
+          "player_depth_q8": 512.0,
           "slices": 33,
           "width": 640
         },
@@ -730,7 +730,7 @@
         ]
       ],
       "frames": 121,
-      "png_sha256": "f4a59dbdfe8c9a51ea2ee3119063219a10e2baccd78e24a9c4e9bf8f3402c38c",
+      "png_sha256": "a401f7713033c95ea68f2c337efcafe192498a62884536c299a5cf8f58babf81",
       "pixel_dimensions": [
         960,
         720
@@ -752,7 +752,7 @@
           "horizon": 180.0,
           "integer_scale": false,
           "near_q8": 1.0,
-          "player_depth_q8": 420.0,
+          "player_depth_q8": 512.0,
           "slices": 33,
           "width": 640
         },
@@ -797,7 +797,7 @@
         ]
       ],
       "frames": 121,
-      "png_sha256": "c40dd575ff1abd13cb1d79824c4efb76a797ef2c1e117a801cad33adf3804d8e",
+      "png_sha256": "ac2a8ff014a4f9b68074feb4c779acf254d3cf37ca54a1fc1780467dfe0d51bb",
       "pixel_dimensions": [
         960,
         720
@@ -819,7 +819,7 @@
           "horizon": 180.0,
           "integer_scale": false,
           "near_q8": 1.0,
-          "player_depth_q8": 420.0,
+          "player_depth_q8": 512.0,
           "slices": 33,
           "width": 640
         },
@@ -864,7 +864,7 @@
         ]
       ],
       "frames": 121,
-      "png_sha256": "933bd78bef40a80a7eced5469e44f3105a53bcd804afc657b8657ef28e1e63b4",
+      "png_sha256": "d0b88b3ad156355265d3f694715fcf3375ad16292a57449e4155ef9c3b62ab7b",
       "pixel_dimensions": [
         960,
         720
@@ -886,7 +886,7 @@
           "horizon": 180.0,
           "integer_scale": false,
           "near_q8": 1.0,
-          "player_depth_q8": 420.0,
+          "player_depth_q8": 512.0,
           "slices": 33,
           "width": 640
         },
@@ -931,7 +931,7 @@
         ]
       ],
       "frames": 121,
-      "png_sha256": "c70d19e185b3e0143539c8e77fb2906f82119d181bba39c7c671df8efba40d76",
+      "png_sha256": "c2b73d0eb7a1f7d4a8489a8b09f8d639010e07f40afdd84c3cd0cb61bd69183e",
       "pixel_dimensions": [
         960,
         720
@@ -953,7 +953,7 @@
           "horizon": 180.0,
           "integer_scale": false,
           "near_q8": 1.0,
-          "player_depth_q8": 420.0,
+          "player_depth_q8": 512.0,
           "slices": 33,
           "width": 640
         },

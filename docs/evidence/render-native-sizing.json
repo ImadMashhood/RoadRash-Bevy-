@@ -1,0 +1,551 @@
+{
+  "outcome": "passed",
+  "native_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+  "native_patch": "two missing <climits> includes for GCC 16; no gameplay/render changes",
+  "reference": "compiled native C++ port, not the original EXE",
+  "coverage": "15 fixed integer-sample poses, 495 road slice vectors and rider registration/projection; full image equality not asserted",
+  "geometry_tolerance": 0.0009765625,
+  "tolerance_reason": "native diagnostic JSON prints six significant digits",
+  "records": [
+    {
+      "case": "CITY-50",
+      "camera_sample": 50,
+      "course": "CITY",
+      "camera_height": 150,
+      "dimensions": [
+        640,
+        480
+      ],
+      "rider_depth_q8": 512,
+      "rider_logical": [
+        29,
+        64
+      ],
+      "rider_hotspot": [
+        19,
+        52
+      ],
+      "native_bounds": [
+        287,
+        198,
+        345,
+        326
+      ],
+      "rust_bounds": [
+        287.0,
+        198.0,
+        345.0,
+        326.0
+      ],
+      "road_slices": 33,
+      "maximum_road_geometry_error": 0.00047265624999681677,
+      "maximum_rider_bounds_error": 0.0,
+      "native_png_sha256": "4be5ee596b6e405c98607f6d6e3bc5178b2404493dc526471e68c6849824b793",
+      "rust_png_sha256": "7ab98d5618a5ca3b876dff1c8b60d0edc23f645428c7616a48d17007aa8f1449"
+    },
+    {
+      "case": "CITY-75",
+      "camera_sample": 75,
+      "course": "CITY",
+      "camera_height": 150,
+      "dimensions": [
+        640,
+        480
+      ],
+      "rider_depth_q8": 512,
+      "rider_logical": [
+        29,
+        64
+      ],
+      "rider_hotspot": [
+        19,
+        52
+      ],
+      "native_bounds": [
+        287,
+        198,
+        345,
+        326
+      ],
+      "rust_bounds": [
+        287.0,
+        198.0,
+        345.0,
+        326.0
+      ],
+      "road_slices": 33,
+      "maximum_road_geometry_error": 0.00048583984374772626,
+      "maximum_rider_bounds_error": 0.0,
+      "native_png_sha256": "6565524bffc6cff45f80b4d6550cd9a8e36c41f95207e2f007f305c2d89dd2fe",
+      "rust_png_sha256": "894cc0ff18a42d2a42fe28906156635274955b55f81f60ccd27f7bf5e1b34a3a"
+    },
+    {
+      "case": "CITY-120",
+      "camera_sample": 120,
+      "course": "CITY",
+      "camera_height": 150,
+      "dimensions": [
+        640,
+        480
+      ],
+      "rider_depth_q8": 512,
+      "rider_logical": [
+        29,
+        64
+      ],
+      "rider_hotspot": [
+        19,
+        52
+      ],
+      "native_bounds": [
+        261,
+        251,
+        319,
+        379
+      ],
+      "rust_bounds": [
+        261.0,
+        251.0,
+        319.0,
+        379.0
+      ],
+      "road_slices": 33,
+      "maximum_road_geometry_error": 0.0004999999999881766,
+      "maximum_rider_bounds_error": 0.0,
+      "native_png_sha256": "11479d6898d61135cab69b8e69984626e02f7ae101866e6725cba05c903061bb",
+      "rust_png_sha256": "3bbbdb1fb4358cc6ff54bf45a1a5a962567edf5d90ab4ad0e03e032970c9a63c"
+    },
+    {
+      "case": "HIWAY-50",
+      "camera_sample": 50,
+      "course": "HIWAY",
+      "camera_height": 150,
+      "dimensions": [
+        640,
+        480
+      ],
+      "rider_depth_q8": 512,
+      "rider_logical": [
+        29,
+        64
+      ],
+      "rider_hotspot": [
+        19,
+        52
+      ],
+      "native_bounds": [
+        280,
+        229,
+        338,
+        357
+      ],
+      "rust_bounds": [
+        280.0,
+        229.0,
+        338.0,
+        357.0
+      ],
+      "road_slices": 33,
+      "maximum_road_geometry_error": 0.0004697265624997726,
+      "maximum_rider_bounds_error": 0.0,
+      "native_png_sha256": "6cad789f765a2340fcac422505a9b85005a84431cc327264ea0f0fd48830807e",
+      "rust_png_sha256": "506a35345118c67180612efbaf102800f0e59c897913557af0c51275b9b57983"
+    },
+    {
+      "case": "HIWAY-75",
+      "camera_sample": 75,
+      "course": "HIWAY",
+      "camera_height": 150,
+      "dimensions": [
+        640,
+        480
+      ],
+      "rider_depth_q8": 512,
+      "rider_logical": [
+        29,
+        64
+      ],
+      "rider_hotspot": [
+        19,
+        52
+      ],
+      "native_bounds": [
+        286,
+        258,
+        344,
+        386
+      ],
+      "rust_bounds": [
+        286.0,
+        258.0,
+        344.0,
+        386.0
+      ],
+      "road_slices": 33,
+      "maximum_road_geometry_error": 0.0004912109374970441,
+      "maximum_rider_bounds_error": 0.0,
+      "native_png_sha256": "139783a54dd9ab3d8431df3ff113d35311097d5f5e9698ac19978a8f175518c7",
+      "rust_png_sha256": "2b08643511c24afa6f6e5ead85d269f167909038695a099de38d768f49be3feb"
+    },
+    {
+      "case": "HIWAY-120",
+      "camera_sample": 120,
+      "course": "HIWAY",
+      "camera_height": 150,
+      "dimensions": [
+        640,
+        480
+      ],
+      "rider_depth_q8": 512,
+      "rider_logical": [
+        29,
+        64
+      ],
+      "rider_hotspot": [
+        19,
+        52
+      ],
+      "native_bounds": [
+        266,
+        215,
+        324,
+        343
+      ],
+      "rust_bounds": [
+        266.0,
+        215.0,
+        324.0,
+        343.0
+      ],
+      "road_slices": 33,
+      "maximum_road_geometry_error": 0.000484130859376819,
+      "maximum_rider_bounds_error": 0.0,
+      "native_png_sha256": "4aa93a60ae736c99753c693af89edda6e1ea0f92a120cd5ff59e7e72ffc90a30",
+      "rust_png_sha256": "5aaf7fa66fc419983b576bc661931b84696b7501e339322d795e827a8c343e8c"
+    },
+    {
+      "case": "MEDLY-50",
+      "camera_sample": 50,
+      "course": "MEDLY",
+      "camera_height": 150,
+      "dimensions": [
+        640,
+        480
+      ],
+      "rider_depth_q8": 512,
+      "rider_logical": [
+        29,
+        64
+      ],
+      "rider_hotspot": [
+        19,
+        52
+      ],
+      "native_bounds": [
+        288,
+        222,
+        346,
+        350
+      ],
+      "rust_bounds": [
+        288.0,
+        222.0,
+        346.0,
+        350.0
+      ],
+      "road_slices": 33,
+      "maximum_road_geometry_error": 0.0004960937500015916,
+      "maximum_rider_bounds_error": 0.0,
+      "native_png_sha256": "eac70e7c697b9e25d22c84fbe05eb096828185e056697200920f2c1d71437fc0",
+      "rust_png_sha256": "6641ce6ec3818c694e967760424780c15ddb143e40c0a83f49cbc50101912fd2"
+    },
+    {
+      "case": "MEDLY-75",
+      "camera_sample": 75,
+      "course": "MEDLY",
+      "camera_height": 150,
+      "dimensions": [
+        640,
+        480
+      ],
+      "rider_depth_q8": 512,
+      "rider_logical": [
+        29,
+        64
+      ],
+      "rider_hotspot": [
+        19,
+        52
+      ],
+      "native_bounds": [
+        294,
+        218,
+        352,
+        346
+      ],
+      "rust_bounds": [
+        294.0,
+        218.0,
+        352.0,
+        346.0
+      ],
+      "road_slices": 33,
+      "maximum_road_geometry_error": 0.00047534179688568656,
+      "maximum_rider_bounds_error": 0.0,
+      "native_png_sha256": "c6f799799f3a28c33ddea2674d1b988a5344e4ed49414f9866654a856b2b1f6d",
+      "rust_png_sha256": "cfc9c28640132314504b48189be8c62d992c010b90f6462c3792429067dda673"
+    },
+    {
+      "case": "MEDLY-120",
+      "camera_sample": 120,
+      "course": "MEDLY",
+      "camera_height": 150,
+      "dimensions": [
+        640,
+        480
+      ],
+      "rider_depth_q8": 512,
+      "rider_logical": [
+        29,
+        64
+      ],
+      "rider_hotspot": [
+        19,
+        52
+      ],
+      "native_bounds": [
+        287,
+        166,
+        345,
+        294
+      ],
+      "rust_bounds": [
+        287.0,
+        166.0,
+        345.0,
+        294.0
+      ],
+      "road_slices": 33,
+      "maximum_road_geometry_error": 0.0004985351562538654,
+      "maximum_rider_bounds_error": 0.0,
+      "native_png_sha256": "44b91e4450813d14883404f5e1e18a91db027f46d4162f39b6a8eebeee4c4b52",
+      "rust_png_sha256": "175f678840885bd8f69db5658844360ed579800372b2a7ba130662a739f9f308"
+    },
+    {
+      "case": "NAPA-50",
+      "camera_sample": 50,
+      "course": "NAPA",
+      "camera_height": 150,
+      "dimensions": [
+        640,
+        480
+      ],
+      "rider_depth_q8": 512,
+      "rider_logical": [
+        29,
+        64
+      ],
+      "rider_hotspot": [
+        19,
+        52
+      ],
+      "native_bounds": [
+        283,
+        199,
+        341,
+        327
+      ],
+      "rust_bounds": [
+        283.0,
+        199.0,
+        341.0,
+        327.0
+      ],
+      "road_slices": 33,
+      "maximum_road_geometry_error": 0.0004931640625045475,
+      "maximum_rider_bounds_error": 0.0,
+      "native_png_sha256": "bdc538215042b407117a6ea1e209668d30c619d7979382d120a2172309c088cc",
+      "rust_png_sha256": "723c3963c61dd07e5b36566c272fd43105cd874e26def2e480cb05aab12d7a41"
+    },
+    {
+      "case": "NAPA-75",
+      "camera_sample": 75,
+      "course": "NAPA",
+      "camera_height": 150,
+      "dimensions": [
+        640,
+        480
+      ],
+      "rider_depth_q8": 512,
+      "rider_logical": [
+        29,
+        64
+      ],
+      "rider_hotspot": [
+        19,
+        52
+      ],
+      "native_bounds": [
+        290,
+        235,
+        348,
+        363
+      ],
+      "rust_bounds": [
+        290.0,
+        235.0,
+        348.0,
+        363.0
+      ],
+      "road_slices": 33,
+      "maximum_road_geometry_error": 0.00048828125,
+      "maximum_rider_bounds_error": 0.0,
+      "native_png_sha256": "a6ff913d1f3f9106e24706e018e0188c9dae22b0466b9afb1436172a0e9f9781",
+      "rust_png_sha256": "24a22095b020ddf0cb96933829c539a210ea72c474c85b78cf14803c8cadf856"
+    },
+    {
+      "case": "NAPA-120",
+      "camera_sample": 120,
+      "course": "NAPA",
+      "camera_height": 150,
+      "dimensions": [
+        640,
+        480
+      ],
+      "rider_depth_q8": 512,
+      "rider_logical": [
+        29,
+        64
+      ],
+      "rider_hotspot": [
+        19,
+        52
+      ],
+      "native_bounds": [
+        272,
+        192,
+        330,
+        320
+      ],
+      "rust_bounds": [
+        272.0,
+        192.0,
+        330.0,
+        320.0
+      ],
+      "road_slices": 33,
+      "maximum_road_geometry_error": 0.0004975585937359028,
+      "maximum_rider_bounds_error": 0.0,
+      "native_png_sha256": "2e72844aafdd1a8493d9ade1b4891d8030f5eca0a5ff6c17082e1e8271e912ba",
+      "rust_png_sha256": "7badce9f3c5f43e09b08a4ac9b0a4aaf06170a9a082bdb80ee8eafb3eb8ecbe2"
+    },
+    {
+      "case": "CANYN-50",
+      "camera_sample": 50,
+      "course": "CANYN",
+      "camera_height": 150,
+      "dimensions": [
+        640,
+        480
+      ],
+      "rider_depth_q8": 512,
+      "rider_logical": [
+        29,
+        64
+      ],
+      "rider_hotspot": [
+        19,
+        52
+      ],
+      "native_bounds": [
+        282,
+        227,
+        340,
+        355
+      ],
+      "rust_bounds": [
+        282.0,
+        227.0,
+        340.0,
+        355.0
+      ],
+      "road_slices": 33,
+      "maximum_road_geometry_error": 0.00048828125,
+      "maximum_rider_bounds_error": 0.0,
+      "native_png_sha256": "e3603fe34aa0a88112b04bee6195da64a56700458eabd529292af0a439aa646d",
+      "rust_png_sha256": "b138ed6f279df68faaf4be29299379899c4a1ee43833be2be01dbf8e0034e91a"
+    },
+    {
+      "case": "CANYN-75",
+      "camera_sample": 75,
+      "course": "CANYN",
+      "camera_height": 150,
+      "dimensions": [
+        640,
+        480
+      ],
+      "rider_depth_q8": 512,
+      "rider_logical": [
+        29,
+        64
+      ],
+      "rider_hotspot": [
+        19,
+        52
+      ],
+      "native_bounds": [
+        282,
+        244,
+        340,
+        372
+      ],
+      "rust_bounds": [
+        282.0,
+        244.0,
+        340.0,
+        372.0
+      ],
+      "road_slices": 33,
+      "maximum_road_geometry_error": 0.0004687500000102318,
+      "maximum_rider_bounds_error": 0.0,
+      "native_png_sha256": "934929a7e0213c9b911aee19fb589aa84cd1774ed78c39ef35ec908b117b0e41",
+      "rust_png_sha256": "aa1f991d1994002b7495e1ca5241e3e385efc8f5badbd3dd877fc7e327cb9b31"
+    },
+    {
+      "case": "CANYN-120",
+      "camera_sample": 120,
+      "course": "CANYN",
+      "camera_height": 150,
+      "dimensions": [
+        640,
+        480
+      ],
+      "rider_depth_q8": 512,
+      "rider_logical": [
+        29,
+        64
+      ],
+      "rider_hotspot": [
+        19,
+        52
+      ],
+      "native_bounds": [
+        294,
+        209,
+        352,
+        337
+      ],
+      "rust_bounds": [
+        294.0,
+        209.0,
+        352.0,
+        337.0
+      ],
+      "road_slices": 33,
+      "maximum_road_geometry_error": 0.000479980468753638,
+      "maximum_rider_bounds_error": 0.0,
+      "native_png_sha256": "a0fc78894adf1faf286e3348c66e5a03127f8d5d6ce22a08ae6d666a57e60513",
+      "rust_png_sha256": "a8c899ad965c92efd8e64025b6e5faad7164ebabec0bb06f050af706be856caf"
+    }
+  ]
+}

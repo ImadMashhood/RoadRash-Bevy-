@@ -1,0 +1,24 @@
+diff --git a/src/hud.cpp b/src/hud.cpp
+index 1bd76e6..4566dd1 100644
+--- a/src/hud.cpp
++++ b/src/hud.cpp
+@@ -2,6 +2,7 @@
+ #include <cstdlib>
+ #include "exe_tables.hpp"
+ #include <algorithm>
++#include <climits>
+ #include <cstdio>
+ #include <cstring>
+ #include <string>
+diff --git a/tests/hud_test.cpp b/tests/hud_test.cpp
+index f7ef265..a8af15a 100644
+--- a/tests/hud_test.cpp
++++ b/tests/hud_test.cpp
+@@ -7,6 +7,7 @@
+ #include <vector>
+ #include <iostream>
+ #include <utility>
++#include <climits>
+ static uint8_t brute_index(uint32_t c, const rr::Palette& pal) {
+     uint8_t best = 0;
+     int best_d = INT_MAX;

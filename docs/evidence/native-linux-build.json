@@ -1,0 +1,48 @@
+{
+  "outcome": "passed",
+  "upstream": "https://github.com/arkits/road-rash",
+  "build_info": {
+    "build_configuration": {},
+    "commit": "7aecf6044f2dd773b925b325823f30d648d61c89",
+    "compiler": "GNU-16.2.1",
+    "configuration": "Release",
+    "configuration_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "dirty": true,
+    "input_count": 499,
+    "source_sha256": "d270f2c98e137fff9a09d633df59bd8791d0696c94f6ae205204242acf529ad8"
+  },
+  "binary_sha256": "c951bff71e3ca7a7f4de6a9287c4a332243a1b589b4533354069dbeac2b6317b",
+  "portability_patch": "tools/reference/fedora-gcc16.patch: add <climits> to src/hud.cpp and tests/hud_test.cpp; rendering/gameplay unchanged",
+  "build": "tools/reference/build.sh; local extracted Fedora development packages, no sudo or system package install",
+  "native_tests": {
+    "registered": 134,
+    "passed": 119,
+    "failed": 0,
+    "skipped": [
+      "oracle-sim",
+      "oracle-sim-field",
+      "oracle-sim-field-schema2",
+      "oracle-sim-field-l5",
+      "oracle-road",
+      "oracle-scene",
+      "oracle-terrain",
+      "oracle-terrain-medly",
+      "oracle-raster",
+      "hires-render",
+      "raster-rgb",
+      "widescreen",
+      "polygon",
+      "text",
+      "career-save-corpus"
+    ],
+    "reason": "private original-executable oracle/image/font/save capture fixtures unavailable; skipped is not passed parity"
+  },
+  "runtime": [
+    "rr-game --ticks 0 capture",
+    "City level 1 --ticks 120 native window capture",
+    "15 independent fixed-pose captures in 5 courses",
+    "3 full-field native-window timing runs"
+  ],
+  "assets": "existing verified local import; no media redistributed",
+  "original_executable_executed": false
+}

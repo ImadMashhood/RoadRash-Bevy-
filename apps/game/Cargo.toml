@@ -5,6 +5,7 @@ edition.workspace = true
 rust-version.workspace = true
 
 [dependencies]
+rr-input = { path = "../../crates/input" }
 rr-simulation = { path = "../../crates/simulation" }
 rr-presentation = { path = "../../crates/presentation" }
 bevy = { workspace = true }

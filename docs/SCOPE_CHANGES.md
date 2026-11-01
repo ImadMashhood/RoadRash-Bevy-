@@ -7,3 +7,7 @@ Retired checklist gates: 01.02.b, 01.03.b, 01.04.b, 01.06.b, 08.01.b, 15.12.b, a
 Still required: supported disc hashes, file provenance, bounded parsing, preserved palette indices/remaps, explicit arithmetic semantics, reproducible content builds, tests of intended engine behavior, replay/state determinism and internal screenshot regressions. Native/enhanced texture switching is tested against this engine's replay state. No claim of original runtime parity is made.
 
 Historical receipts describing failed Proton launch or incomplete original captures remain research history. They impose no ongoing task or release prerequisite. 3D remains deferred.
+
+## 2026-11-01 — Native port reference
+
+The owner requested investigation of rendering sizes using internet captures or a Linux build of the C++ port, then continuation to the next step. The native-port route was completed on Fedora with the existing verified import. This adds reproducible native-port captures, geometry measurements and timing baselines; it does not reinstate original Windows executable gates or certify upstream parity outside measured cases. Part 09 starts with the remappable-input task while device/handling checks stay open.

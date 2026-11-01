@@ -3827,6 +3827,7 @@ dependencies = [
  "rr-course",
  "rr-formats",
  "rr-import",
+ "rr-input",
  "rr-presentation",
  "rr-render",
  "rr-simulation",
@@ -3843,6 +3844,14 @@ dependencies = [
  "serde_json",
  "sha2",
  "tempfile",
+]
+
+[[package]]
+name = "rr-input"
+version = "0.1.0"
+dependencies = [
+ "serde",
+ "serde_json",
 ]
 
 [[package]]

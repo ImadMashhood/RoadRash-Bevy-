@@ -1,0 +1,241 @@
+{
+  "outcome": "passed",
+  "policy": "Only UTF-8 source, separately authored native API probe/tooling, two-include portability patch, authored config/goldens, docs and metadata/hashes. No source game files, native builds/RPMs, decoded pixels, captures or diffs are published. Audit excludes itself.",
+  "files": [
+    {
+      "path": ".github/workflows/ci.yml",
+      "sha256": "ef5fec56b9889343f40e292ffaae121dcbfefcbde904858a4f948180269cf07e",
+      "bytes": 1558
+    },
+    {
+      "path": "Cargo.lock",
+      "sha256": "382f161dd8516f09238f4a908582e28601f0985830bb3d7bdd17f57893b34525",
+      "bytes": 128761
+    },
+    {
+      "path": "Cargo.toml",
+      "sha256": "03f8a07a3de89194469737a8dbf8f316e011d521ca0cac8936fc17a74c489f1b",
+      "bytes": 470
+    },
+    {
+      "path": "README.md",
+      "sha256": "f5bf32dac59129baf1eaf512136346dd4b086aea6a03586dbb39c3fd19d27aa0",
+      "bytes": 266079
+    },
+    {
+      "path": "apps/game/Cargo.toml",
+      "sha256": "313552d16860ccc50e94d7beeb2b4a2d04a7c036d057e17004cad836e39305c0",
+      "bytes": 551
+    },
+    {
+      "path": "apps/game/src/input_adapter.rs",
+      "sha256": "2e3c399c969d81a19757b24bbc6fa4277adac9eb9f162ed198cd7542415ea880",
+      "bytes": 2640
+    },
+    {
+      "path": "apps/game/src/main.rs",
+      "sha256": "55320b571d2f69aebfac5e302ae79651430f13bedb9aaea06e60c36558530705",
+      "bytes": 24180
+    },
+    {
+      "path": "crates/input/Cargo.toml",
+      "sha256": "776e1eaa3d7fca08d56f9733fb6617a273d52a80451df89298c8356588f0c7c8",
+      "bytes": 190
+    },
+    {
+      "path": "crates/input/src/lib.rs",
+      "sha256": "390544a6d29daa8d0b08295491c951c07ff59f1f171671eac646eb8206fca59f",
+      "bytes": 8122
+    },
+    {
+      "path": "crates/input/src/main.rs",
+      "sha256": "37798aa0735345caf552b798f48865624ef68004a43c65537496953316a2f15a",
+      "bytes": 1403
+    },
+    {
+      "path": "crates/input/tests/bindings.rs",
+      "sha256": "af002c3bc9ff9bcc0a49f944c61b982013c5da7a77fbc22c193fdf06793a449c",
+      "bytes": 3172
+    },
+    {
+      "path": "crates/render/src/camera.rs",
+      "sha256": "20d17d194722939b52b177e66e36b0a791685fb6602558e876340e25b2cca3a9",
+      "bytes": 11197
+    },
+    {
+      "path": "crates/render/src/main.rs",
+      "sha256": "888d9eeebaa86a21e9be7a7ea74afbbf8d57df910b560047f865bf44123d6205",
+      "bytes": 4978
+    },
+    {
+      "path": "crates/render/src/raster.rs",
+      "sha256": "a8d8b5bc1db5ef4656a8498085565ac0406688db05509775f63cd9ef6682accb",
+      "bytes": 11113
+    },
+    {
+      "path": "crates/render/src/scene.rs",
+      "sha256": "4c262ea48aaf111c297ac05f818a3e56bc395d4eaab18b9d20fe15a1d5943ce6",
+      "bytes": 34995
+    },
+    {
+      "path": "crates/render/src/source.rs",
+      "sha256": "b1a9a6c1e7d55ac5ab1575c6c9b85cc1ab569291fc73c12cb135cc770c72b904",
+      "bytes": 16024
+    },
+    {
+      "path": "crates/render/src/suite.rs",
+      "sha256": "f97ab36a00c096a10055471cf3b0ba07a8b50242ee4cc6f79454317dae2e4877",
+      "bytes": 6607
+    },
+    {
+      "path": "crates/render/tests/classic.rs",
+      "sha256": "f9d845b4db4e3a482f89a5b10588b67246120b5beafa38b515eee7940e9e1aa3",
+      "bytes": 27197
+    },
+    {
+      "path": "docs/ARCHITECTURE.md",
+      "sha256": "ac754f1dccf517b03ef7b1772a0abed5f2d66b55f4287fa17aad26c3a29a7dc6",
+      "bytes": 3269
+    },
+    {
+      "path": "docs/GETTING_STARTED.md",
+      "sha256": "dedd3b81180fd1f3ecb81592c52063eb34d696968dbdb4f3a2a8841efbc83911",
+      "bytes": 6250
+    },
+    {
+      "path": "docs/INPUT.md",
+      "sha256": "70ee13ecf937e1d46e9d800059dad04694e0c445964a290be0a7ac796e1d4a1e",
+      "bytes": 3411
+    },
+    {
+      "path": "docs/NATIVE_REFERENCE.md",
+      "sha256": "3b5406c6e6467cfa245bdd63abbd598389d832e79cd55f17d1d132b3b13f849a",
+      "bytes": 7524
+    },
+    {
+      "path": "docs/RENDERING.md",
+      "sha256": "7170f57df6505e12b84e61d273e5741afd0ce920a19c355f50fd627887a21a26",
+      "bytes": 14439
+    },
+    {
+      "path": "docs/SCOPE_CHANGES.md",
+      "sha256": "77992c29781cb98db9553e3b4b5f15d70c23808615bc939e3b09d2aa8e7db617",
+      "bytes": 1885
+    },
+    {
+      "path": "docs/STATUS.md",
+      "sha256": "ef3ebd05f00efc8b5838191f1b8e799e882f8eb0277496c6ab177c5cd4ede199",
+      "bytes": 3633
+    },
+    {
+      "path": "docs/evidence/08.01.md",
+      "sha256": "cd3e79ae2b2e26d4130975f7512a8dac606f8da7e8ccdb9bcda726a7d784d361",
+      "bytes": 1435
+    },
+    {
+      "path": "docs/evidence/08.08.md",
+      "sha256": "f820ad12a92d04678ca6da7fb172f699e6fb90db41f1deb802e4ce41b6ca45aa",
+      "bytes": 1629
+    },
+    {
+      "path": "docs/evidence/09.01.md",
+      "sha256": "11580f71fbc74d262c3c08ad7d33b53e8092329f5d9f718e860d8f0b23963a48",
+      "bytes": 2023
+    },
+    {
+      "path": "docs/evidence/input-bindings-cli.json",
+      "sha256": "0474bbeae955a189a698b111b653fa7268d964833a04b72f2799ff68a888f504",
+      "bytes": 528
+    },
+    {
+      "path": "docs/evidence/native-linux-benchmark.json",
+      "sha256": "371771f8e1b2357ba61861a8f60933e6f973facca39e7eee34e80d35159d1315",
+      "bytes": 6804
+    },
+    {
+      "path": "docs/evidence/native-linux-build.json",
+      "sha256": "087752a25b13de72e664763c2b4bd16bf38ceca4cf733f55628743ee811944ca",
+      "bytes": 1731
+    },
+    {
+      "path": "docs/evidence/part-08.md",
+      "sha256": "68882088d4d0ca0de7a441f14ceb6872b5220217687bc26b90512924bfe8f8b6",
+      "bytes": 8711
+    },
+    {
+      "path": "docs/evidence/render-calibration.md",
+      "sha256": "3c8789a24a86e026aa2b4dce00bb9b1a732095dc3291d7d4d2a2f93d1a1df932",
+      "bytes": 6297
+    },
+    {
+      "path": "docs/evidence/render-checkpoints.json",
+      "sha256": "a083cba031d47cb3340a59622fcab9729c23f493bcaf72b842b06960219dd43d",
+      "bytes": 751063
+    },
+    {
+      "path": "docs/evidence/render-gpu-matrix.json",
+      "sha256": "f7d779b11867ba4d210e1e29b44b067e507f63fbe0d6d573d9b2ae5034aa47a7",
+      "bytes": 24048
+    },
+    {
+      "path": "docs/evidence/render-native-sizing.json",
+      "sha256": "603f6609e83ab96db9cd52be32fbc280c93b900522df15e8074181cc0240e54a",
+      "bytes": 12609
+    },
+    {
+      "path": "docs/evidence/render-reproducibility.json",
+      "sha256": "670047b2e157dc9f3506bc89af8c65a1858e6a9867b231220e2062b5b3212a6f",
+      "bytes": 634
+    },
+    {
+      "path": "docs/fixtures/default-bindings.json",
+      "sha256": "9e1aed28bf2513f93d5ea341be87fa3e8e672650e40df87c09d5947da1ebbef4",
+      "bytes": 912
+    },
+    {
+      "path": "docs/fixtures/render-goldens.json",
+      "sha256": "1d91d055a90c93f4a531af14330282fb64d4bebc82245cf3e1e3b3421bb2ed21",
+      "bytes": 662
+    },
+    {
+      "path": "tools/ci/clean_build.sh",
+      "sha256": "e1f01a0eab4151e7f136d542234093e16529e34cc967339bc4e000e12b153dea",
+      "bytes": 1134
+    },
+    {
+      "path": "tools/reference/benchmark.py",
+      "sha256": "84bf65284049de4816f42f4542707dae4711df7e5dde772ac37c402b15125aa8",
+      "bytes": 1817
+    },
+    {
+      "path": "tools/reference/bootstrap-fedora.py",
+      "sha256": "09ca3704691d5b82ae4b1e281f46820a4c6d307a27a405fe7f808266baaff882",
+      "bytes": 2334
+    },
+    {
+      "path": "tools/reference/build.sh",
+      "sha256": "89713af6240c43a4e4d80623a7f82a5ec0a377a202053c630ce6170a32b04c5c",
+      "bytes": 1716
+    },
+    {
+      "path": "tools/reference/compare.py",
+      "sha256": "93cd97b56f59a360b4244df406a42a68f3d8d0049370af72ede17fb1d0aa5aef",
+      "bytes": 2680
+    },
+    {
+      "path": "tools/reference/fedora-gcc16.patch",
+      "sha256": "c872dc581c662f2896aea5cfa8d18ea8a398e9a589c758119546daff6da9b353",
+      "bytes": 613
+    },
+    {
+      "path": "tools/reference/measure.cpp",
+      "sha256": "8ca0a7c5c747495b5c23e0ad8f126b3b4e1c2b366cda4e877766b66fb257065a",
+      "bytes": 2355
+    },
+    {
+      "path": "tools/reference/run.sh",
+      "sha256": "6cecde4e57a173ca9a4c67d0696fc8d0e1022824a133dc1998c34c5a0eff4b17",
+      "bytes": 840
+    }
+  ]
+}

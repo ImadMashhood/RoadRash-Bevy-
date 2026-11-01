@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "contexts": {
+    "race": {
+      "accelerate": [
+        "ArrowUp",
+        "KeyW"
+      ],
+      "brake": [
+        "ArrowDown",
+        "KeyS"
+      ],
+      "steer_left": [
+        "ArrowLeft",
+        "KeyA"
+      ],
+      "steer_right": [
+        "ArrowRight",
+        "KeyD"
+      ],
+      "pause": [
+        "Escape",
+        "KeyP"
+      ]
+    },
+    "menu": {
+      "confirm": [
+        "Enter",
+        "Space"
+      ],
+      "back": [
+        "Escape"
+      ],
+      "navigate_up": [
+        "ArrowUp",
+        "KeyW"
+      ],
+      "navigate_down": [
+        "ArrowDown",
+        "KeyS"
+      ],
+      "navigate_left": [
+        "ArrowLeft",
+        "KeyA"
+      ],
+      "navigate_right": [
+        "ArrowRight",
+        "KeyD"
+      ]
+    },
+    "paused": {
+      "resume": [
+        "Enter",
+        "KeyP"
+      ],
+      "back": [
+        "Escape"
+      ]
+    }
+  }
+}

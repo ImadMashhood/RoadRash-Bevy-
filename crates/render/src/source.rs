@@ -18,6 +18,48 @@ pub struct SpriteAsset {
     pub logical: [f64; 2],
     pub pivot: [f64; 2],
 }
+/// Source RRAN geometry is independent of the HI/LO BOB pixel resolution.
+pub fn rider_registration(global: &[u8], frame: u32) -> Result<([f64; 2], [f64; 2])> {
+    let directory = Directory::read(global)?;
+    rider_frame_registration(resource(&directory, global, "ANIM", 1)?, frame)
+}
+pub fn rider_frame_registration(bytes: &[u8], frame: u32) -> Result<([f64; 2], [f64; 2])> {
+    if u32le(bytes, 0)? != 0x5252414e || u32le(bytes, 20)? != 0x52524644 {
+        return Err("rider RRAN/RRFD header".into());
+    }
+    let extent = u32le(bytes, 24)? as usize;
+    if extent < 8 || !(extent - 8).is_multiple_of(28) {
+        return Err("rider frame extent".into());
+    }
+    range(bytes, 20, extent)?;
+    if frame as usize >= (extent - 8) / 28 {
+        return Err("rider registration frame out of range".into());
+    }
+    let at = 28 + frame as usize * 28;
+    let logical = [
+        u32le(bytes, at + 20)? & 65535,
+        u32le(bytes, at + 24)? & 65535,
+    ];
+    if logical.contains(&0) || logical.iter().any(|n| *n > 1024) {
+        return Err("rider logical dimensions".into());
+    }
+    let hotspot = u32le(bytes, at + 8)? as usize;
+    let pivot = [
+        u32le(bytes, hotspot)? as i32,
+        u32le(bytes, hotspot + 4)? as i32,
+    ];
+    if pivot.iter().any(|n| n.unsigned_abs() > 4096) {
+        return Err("rider hotspot bounds".into());
+    }
+    let logical = logical.map(f64::from);
+    Ok((
+        logical,
+        [
+            f64::from(pivot[0]) / logical[0],
+            f64::from(pivot[1]) / logical[1],
+        ],
+    ))
+}
 #[derive(Clone)]
 pub struct Material {
     pub texture: Texture,
@@ -275,17 +317,12 @@ impl SourceAssets {
             Rgba::from_png(&fs::read(catalog_root.join("objects").join(blob))?)?,
             false,
         )?;
-        let logical = [
-            f64::from(entry.logical_size[0]),
-            f64::from(entry.logical_size[1]),
-        ];
+        let (logical, pivot) =
+            rider_registration(&global, entry.frame.ok_or("rider frame index")?)?;
         let rider = SpriteAsset {
             texture,
             logical,
-            pivot: [
-                f64::from(entry.pivot_twice[0]) / 2. / logical[0],
-                f64::from(entry.pivot_twice[1]) / 2. / logical[1],
-            ],
+            pivot,
         };
         let family_file = fs::read(data.join("DATA/FAMILIES.RSC"))?;
         let family_dir = Directory::read(&family_file)?;

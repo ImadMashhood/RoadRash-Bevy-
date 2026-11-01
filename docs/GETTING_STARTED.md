@@ -76,3 +76,5 @@ cargo run --locked --release -p rr-render -- diff local/expected.png local/actua
 ```
 
 Authored scenes work without commercial data. Source-derived captures/diffs stay ignored; public CI checks authored pixel hashes and bounded rendering behavior.
+
+Use [native Fedora build/comparison commands](NATIVE_REFERENCE.md) for the C++ reference and [action bindings](INPUT.md) for `rr-input` configuration. The Rust game accepts `--bindings local/bindings.json`; default keyboard controls remain available without a file.

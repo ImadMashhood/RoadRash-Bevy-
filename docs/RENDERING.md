@@ -17,15 +17,15 @@ The renderer consumes immutable `rr-course` graphs/routes and read-only simulati
 | Projection | 4,352 source Q16 scale words at EXE VA 0x0046f098, indexed by depth/2 |
 | Supported binary | Existing SHA-256-gated SupportedExe contract; arbitrary EXEs cannot supply addresses |
 | Player image | Catalog rider frame 2 by default; `--asset` may select another typed rider ID |
-| Player visual depth | Authored foreground proxy at Q8 depth 420; separate from gameplay position |
-| Sprite size/contact | Native logical dimensions and pivot, independent of replacement PNG dimensions |
+| Player visual depth | Q8 depth 512, derived from the source one-sample camera trail and first-boundary convention |
+| Sprite size/contact | Source RRAN logical dimensions/hotspot and actor size 512, independent of HI/LO/enhanced bitmap dimensions |
 | Pixel sampling | Nearest; original indexed mip levels selected for minified source textures |
 | Viewport | Aspect-preserving fit, centered letterbox/pillarbox; optional integer scale when it fits |
 | HUD | Authored speed digits anchored 16 pixels inside the centered classic-safe 640-pixel region |
 
 The source depth table has a nonlinear near region: it is **not** replaced by a generic focal-length/depth formula. A regression found that generic interpolation could push the foreground rider off-screen. `contact_anchor` now binds the sprite foot to the same projected strip and inverse-depth convention as the road. Source scale clamps and perspective contact have separate acceptance vectors.
 
-The current simulation still uses authored handling in millimetres. Until Phase 09 recovers the handling/coordinate contract, the explicit visual adapter maps eight scenario millimetres to one source Q8 unit and ten scenario lateral millimetres to one source world unit. The default source start is sample 50 (Q8 12,800), matching the supported offline grid start. `--camera-sample` chooses an inspection/start offset. These conversion policies and the foreground proxy are authored, not claims about original motorcycle physics. The simulation's own route/progress is not silently rewritten to make a picture agree.
+The current simulation still uses authored handling in millimetres. Until Phase 09 recovers the handling/coordinate contract, the explicit visual adapter maps eight scenario millimetres to one source Q8 unit and ten scenario lateral millimetres to one source world unit. The default source start is sample 50 (Q8 12,800), matching the supported offline grid start. `--camera-sample` chooses an inspection/start offset. These millimetre conversion policies are authored, not claims about original motorcycle physics. The player projection depth and sprite registration are now measured against the native port; see [native calibration](NATIVE_REFERENCE.md). The simulation's own route/progress is not silently rewritten to make a picture agree.
 
 Camera lateral position follows interpolated player lateral position. Course bend accumulates source heading for horizon scrolling; `View.heading` is an additional presentation offset. Infinity-distance horizon imagery does not shift under pure lateral translation. Source-course selection and branch-mask selection are launch configuration in this phase; a complete gameplay branch/input controller is later handling/race work.
 
@@ -57,7 +57,7 @@ Billboards sort far-to-near, then by class (shadow, scenery, traffic, racer), th
 
 Actor positions are interpolated only within the same route/branch/section domain; domain changes retain the new pose until a race-aware transition adapter exists. Other actors compare local progress only within the player's domain; cross-section/branch visibility is deferred rather than flattening unrelated coordinates. Ground contact follows the actually rendered shoulder ramp as well as the road.
 
-Rider/art dimensions come from logical metadata rather than image storage dimensions. A larger native/enhanced PNG therefore cannot enlarge collision bounds, move the pivot or change gameplay. `--enhanced-image` is a renderer override; missing enhanced art falls back to native. The test override is authored checker art, not an AI-enhanced or approved pack.
+Rider dimensions/hotspots come from GLOBAL.RSC ANIM 1 RRAN frame records rather than catalog BOB storage dimensions. Frame 2 is 29×64 with hotspot (19,52); its source actor size factor is 2. The general billboard pivot uses world-up coordinates, and the image portion below a hotspot uses ground-anchor occlusion so road depth cannot amputate it. Nearer hills still occlude it. Other art uses its decoded source logical metadata. A larger native/enhanced PNG therefore cannot enlarge collision bounds, move the pivot or change gameplay. `--enhanced-image` is a renderer override; missing enhanced art falls back to native. The test override is authored checker art, not an AI-enhanced or approved pack.
 
 Bevy input, simulation and snapshot publication keep their existing explicit ordering. Presentation interpolates owned previous/current visual positions using accumulator alpha, prepares the classic frame, uploads it, and requests screenshots after drawing. A headless Bevy adapter test exercises actual image updates while asserting unchanged authoritative snapshots and simulation hashes. Render-frequency, aspect ratio and texture selection are independently tested against the same command replay.
 

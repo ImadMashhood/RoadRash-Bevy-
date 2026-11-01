@@ -1,0 +1,24 @@
+{
+  "outcome": "passed",
+  "commands": [
+    [
+      "init",
+      "local/input-bindings.json"
+    ],
+    [
+      "set",
+      "local/input-bindings.json",
+      "race",
+      "accelerate",
+      "Space"
+    ],
+    [
+      "validate",
+      "local/input-bindings.json"
+    ]
+  ],
+  "conflict_rejected": true,
+  "failed_rebind_preserved_file": true,
+  "restore_defaults_passed": true,
+  "window_input": "two Bevy adapter tests cover actual remapped tick commands and focus/neutral/resume; physical gamepad hardware not tested"
+}
