@@ -997,3 +997,166 @@ fn source_event_mapping_keeps_lane_density_flags_and_runtime_type_distinct() {
     );
     assert_eq!((zone.start, zone.end), (768, 2560));
 }
+
+#[test]
+fn functional_cross_traffic_stays_crosswise_instead_of_becoming_longitudinal() {
+    let (c, e, mut p) = setup(1);
+    p.functional_traffic = true;
+    p.spawns.push(Spawn {
+        subtype: 1,
+        ..user(Kind::Vehicle, 2000, -200000, 8000)
+    });
+    let mut s = Simulation::with_population(1, c, e, p).unwrap();
+    s.advance().unwrap();
+    let a = s.population().unwrap().agents.values().next().unwrap();
+    assert_eq!(a.state, AgentState::Crossing);
+    assert_eq!(a.location.progress, 2000);
+    assert_eq!(a.location.lateral, -198000);
+}
+
+#[test]
+fn functional_vehicle_yields_at_red_then_restores_its_cruise_speed() {
+    let (c, e, mut p) = setup(1);
+    p.functional_traffic = true;
+    p.zones.push(Zone {
+        id: 1,
+        path: 0,
+        start: 900,
+        end: 1800,
+        density: 1,
+        variant: 1,
+        lanes: 2,
+        flags: 0,
+    });
+    p.spawns.push(user(Kind::Vehicle, 1100, 64000, 2560));
+    let mut s = Simulation::with_population(1, c, e, p).unwrap();
+    s.advance().unwrap();
+    let a = s
+        .population()
+        .unwrap()
+        .agents
+        .values()
+        .find(|a| a.kind == Kind::Vehicle)
+        .unwrap();
+    assert_eq!((a.speed, a.state), (0, AgentState::Waiting));
+    assert_eq!(a.cruise_speed, Some(2560));
+    for _ in 0..780 {
+        s.advance().unwrap();
+    }
+    let a = s
+        .population()
+        .unwrap()
+        .agents
+        .values()
+        .find(|a| a.kind == Kind::Vehicle)
+        .unwrap();
+    assert_eq!(a.state, AgentState::Cruise);
+    assert_eq!(a.speed, 2560);
+    assert!(a.location.progress > 1100);
+}
+
+#[test]
+fn functional_vehicle_chooses_clear_lane_and_pedestrian_waits_for_approaching_car() {
+    let (c, e, mut p) = setup(1);
+    p.functional_traffic = true;
+    p.spawns = vec![
+        user(Kind::Vehicle, 2000, 0, 2560),
+        Spawn {
+            id: 2,
+            subtype: 5,
+            ..user(Kind::Pedestrian, 3000, 250000, 1000)
+        },
+    ];
+    let mut s = Simulation::with_population(1, c, e, p).unwrap();
+    s.advance().unwrap();
+    let w = s.population().unwrap();
+    assert_eq!(
+        w.agents
+            .values()
+            .find(|a| a.kind == Kind::Pedestrian)
+            .unwrap()
+            .state,
+        AgentState::Waiting
+    );
+    // Two blocked lanes force the moving vehicle toward the remaining open one.
+    let (c, e, mut p) = setup(1);
+    p.functional_traffic = true;
+    p.spawns = vec![
+        user(Kind::Vehicle, 2000, -64000, 2560),
+        Spawn {
+            id: 2,
+            ..user(Kind::Vehicle, 2250, -64000, 0)
+        },
+        Spawn {
+            id: 3,
+            ..user(Kind::Vehicle, 2250, 0, 0)
+        },
+    ];
+    let mut s = Simulation::with_population(1, c, e, p).unwrap();
+    s.advance().unwrap();
+    let a = s
+        .population()
+        .unwrap()
+        .agents
+        .values()
+        .find(|a| a.cruise_speed == Some(2560))
+        .unwrap();
+    assert_eq!(a.location.lateral, -62976);
+    assert_eq!(
+        a.speed, 0,
+        "hold forward motion until the current lane is clear"
+    );
+    assert_eq!(a.location.progress, 2000);
+    for _ in 0..150 {
+        s.advance().unwrap();
+    }
+    let a = s
+        .population()
+        .unwrap()
+        .agents
+        .values()
+        .find(|a| a.cruise_speed == Some(2560))
+        .unwrap();
+    assert_eq!(a.speed, 2560, "{:?}", s.population().unwrap().agents);
+    assert!(a.location.progress > 2000);
+}
+
+#[test]
+fn modern_opponent_passes_stationary_traffic_instead_of_remaining_queued_forever() {
+    let (c, mut e, mut p) = setup(2);
+    p.functional_traffic = true;
+    e.seeds[0].lateral = 180000;
+    e.seeds[1].distance = 1000;
+    e.seeds[1].lateral = 64000;
+    for (i, lateral) in [-64000, 0, 64000].into_iter().enumerate() {
+        p.spawns.push(Spawn {
+            id: i as u64 + 1,
+            ..user(Kind::Vehicle, 1800, lateral, 0)
+        });
+    }
+    let mut sim = Simulation::with_population(7, c, e, p).unwrap();
+    for _ in 0..3000 {
+        sim.advance().unwrap();
+    }
+    assert!(
+        rider(&sim, 2).bike.distance_q8 > 15000,
+        "{:?}",
+        brain(&sim, 2)
+    );
+    assert!(brain(&sim, 2).decisions > 20);
+}
+
+#[test]
+fn unused_native_gear_slots_do_not_cap_modern_opponents_at_walking_speed() {
+    let (mut c, e, mut p) = setup(2);
+    *c.specs[0].gears.last_mut().unwrap() = rr_simulation::handling::Gear {
+        ratio: 0,
+        force: 0,
+        up: 0,
+        down: 0,
+    };
+    p.functional_traffic = true;
+    let mut sim = Simulation::with_population(1, c, e, p).unwrap();
+    sim.advance().unwrap();
+    assert_eq!(brain(&sim, 2).target_speed, 6000);
+}

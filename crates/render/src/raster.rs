@@ -66,6 +66,7 @@ pub struct Frame {
     // Below a 2.5D sprite's hotspot, road pixels must not cut off the
     // bitmap extension. Probe occlusion at its ground anchor instead.
     sprite_ground_row: Option<u32>,
+    pub(crate) columns: std::ops::Range<u32>,
 }
 impl Frame {
     pub fn new(width: u32, height: u32) -> Result<Self> {
@@ -81,6 +82,7 @@ impl Frame {
             depth: vec![f32::INFINITY; width as usize * height as usize],
             stats: Statistics::default(),
             sprite_ground_row: None,
+            columns: 0..width,
         })
     }
     pub fn clear(&mut self, c: [u8; 4]) {
@@ -192,7 +194,7 @@ impl Frame {
             .ceil()
             .clamp(0., f64::from(self.image.height)) as u32;
         for y in min_y..max_y {
-            for x in min_x..max_x {
+            for x in min_x.max(self.columns.start)..max_x.min(self.columns.end) {
                 let fx = f64::from(x) + 0.5;
                 let fy = f64::from(y) + 0.5;
                 let w = [

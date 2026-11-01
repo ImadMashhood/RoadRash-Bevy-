@@ -32,6 +32,7 @@ impl<T> Inbox<T> {
 pub(crate) struct Media {
     requested_track: Option<usize>,
     pub(crate) metrics: serde_json::Value,
+    pub(crate) caption: String,
     sounds: BTreeMap<String, Arc<Pcm>>,
     specs: Vec<rr_simulation::handling::BikeSpec>,
     bank: Option<Inbox<BankResult>>,
@@ -51,6 +52,7 @@ pub(crate) struct Media {
     pending_video: Option<String>,
     movie_target: Option<rr_session::flow::Screen>,
     seen_result: Option<(u64, rr_session::race::Outcome)>,
+    seen_race: Option<u64>,
     pub(crate) video_frames: u64,
     pub(crate) video_drops: u64,
     pub(crate) movies_completed: u64,
@@ -73,8 +75,9 @@ impl Plugin for MediaPlugin {
 pub(crate) fn not_playing(media: Option<Res<Media>>) -> bool {
     media.is_none_or(|m| m.movie.is_none() && m.movie_target.is_none())
 }
-fn load_bank(options: Res<LaunchOptions>, mut media: ResMut<Media>) {
+fn load_bank(options: Res<LaunchOptions>, shell: Res<Shell>, mut media: ResMut<Media>) {
     if options.video
+        && !shell.frontend.settings.reduced_flashes
         && options.smoke_frames.is_none()
         && options.ui_script.is_none()
         && options.replay.is_none()
@@ -309,6 +312,33 @@ fn update(world: &mut World) {
             device.music = None;
             media.loaded_track = None;
         }
+        media.caption = if front.settings.subtitles {
+            if media
+                .planner
+                .loops
+                .keys()
+                .any(|id| matches!(id, rr_media::cues::LoopId::Siren(_)))
+            {
+                "[Police siren]".into()
+            } else if let Some(event) = media
+                .cue_trace
+                .last()
+                .filter(|event| media.last_tick.saturating_sub(event.tick) < 120)
+            {
+                match event.name.as_str() {
+                    "SWISHGEN" | "SWISHCHA" => "[Swing]",
+                    "PUNCHHEA" | "KICK_MW4" => "[Impact]",
+                    "CRASHHAR" | "CRASHMED" | "CRASHLIT" => "[Crash]",
+                    "M_YEAH" => "[Cheer]",
+                    _ => "[Game sound]",
+                }
+                .into()
+            } else {
+                String::new()
+            }
+        } else {
+            String::new()
+        };
         movie::update(world, &mut media, &mut device);
         let levels = Levels {
             master: front.settings.master_volume,
@@ -321,7 +351,7 @@ fn update(world: &mut World) {
             levels,
             front.settings.effects,
             front.settings.music,
-            paused,
+            paused || media.movie_target.is_some(),
             movie_paused,
         );
         media.metrics = serde_json::json!({

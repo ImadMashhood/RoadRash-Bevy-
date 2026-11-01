@@ -7,6 +7,8 @@ use serde::{Deserialize, Serialize};
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct Career {
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub relationships: Option<[[i32; 3]; 10]>,
     pub character: u8,
     #[serde(default)]
     pub alias: String,
@@ -41,6 +43,7 @@ impl Career {
     pub fn new(catalog: &Catalog, character: u8) -> Result<Self> {
         let c = catalog.character(character)?;
         Ok(Self {
+            relationships: None,
             character,
             alias: String::new(),
             level: 1,
@@ -58,7 +61,11 @@ impl Career {
     pub fn validate(&self, catalog: &Catalog) -> Result<()> {
         catalog.character(self.character)?;
         catalog.bike(self.bike)?;
-        if !(1..=5).contains(&self.level)
+        if self
+            .relationships
+            .as_ref()
+            .is_some_and(|rows| rows.iter().flatten().any(|v| v.unsigned_abs() > 0x100000))
+            || !(1..=5).contains(&self.level)
             || self.alias.len() > 19
             || self.alias.chars().any(char::is_control)
             || self.qualified > 31
@@ -200,6 +207,7 @@ impl Career {
                     next.cash = reset.cash;
                     next.condition = reset.condition;
                     next.completed = false;
+                    next.relationships = None;
                 }
             }
             Outcome::Quit | Outcome::TimedOut => {}

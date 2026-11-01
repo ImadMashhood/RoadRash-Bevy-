@@ -122,6 +122,9 @@ pub struct Zone {
     #[serde(default, skip_serializing_if = "byte_zero")]
     pub flags: u8,
 }
+fn false_value(value: &bool) -> bool {
+    !value
+}
 fn byte_zero(value: &u8) -> bool {
     *value == 0
 }
@@ -142,8 +145,18 @@ impl Zone {
     }
 }
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Eq)]
+pub struct PedestrianAppearance {
+    pub family: u16,
+    pub selector: u8,
+    pub animation: animation::Library,
+}
+#[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(deny_unknown_fields)]
 pub struct Setup {
+    #[serde(default, skip_serializing_if = "false_value")]
+    pub functional_traffic: bool,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub pedestrian_appearances: Vec<PedestrianAppearance>,
     pub brains: BTreeMap<ActorId, Traits>,
     pub zones: Vec<Zone>,
     pub spawns: Vec<Spawn>,
@@ -158,6 +171,8 @@ pub struct Setup {
 impl Default for Setup {
     fn default() -> Self {
         Self {
+            functional_traffic: false,
+            pedestrian_appearances: vec![],
             brains: BTreeMap::new(),
             zones: vec![],
             spawns: vec![],
@@ -172,6 +187,22 @@ impl Default for Setup {
 }
 impl Setup {
     pub fn validate(&self, c: &riding::Configuration, e: &encounter::Setup) -> Result<()> {
+        if self.pedestrian_appearances.len() > 256 {
+            return Err(Error::Invalid("Pedestrian appearance budget"));
+        }
+        let mut appearances = BTreeSet::new();
+        for appearance in &self.pedestrian_appearances {
+            if appearance.family == 0
+                || appearance.selector > 63
+                || !appearances.insert((appearance.family, appearance.selector))
+            {
+                return Err(Error::Invalid("Pedestrian appearance identity"));
+            }
+            appearance
+                .animation
+                .validate()
+                .map_err(|_| Error::Invalid("Pedestrian animation bank"))?;
+        }
         if self.brains.len() > 14
             || self.zones.len() > 20000
             || self.spawns.len() > 20000
@@ -229,6 +260,8 @@ impl Setup {
 }
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Eq)]
 pub struct Agent {
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub cruise_speed: Option<i32>,
     pub id: u64,
     pub kind: Kind,
     pub state: AgentState,
@@ -377,6 +410,7 @@ impl World {
         self.agents.insert(
             id,
             Agent {
+                cruise_speed: None,
                 id,
                 kind: s.kind,
                 state: match s.kind {

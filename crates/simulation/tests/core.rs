@@ -475,3 +475,22 @@ fn schema_two_analog_fixture_has_identical_checkpoints_at_all_schedules() {
     invalid["schema_version"] = serde_json::json!(1);
     assert!(Replay::read(&serde_json::to_vec(&invalid).unwrap()).is_err());
 }
+#[test]
+fn forensic_channels_are_schedule_invariant_and_do_not_change_authority() {
+    use rr_simulation::replay::{Replay, run_with_tick_hashes};
+    let replay = Replay::read(include_bytes!("../../../docs/fixtures/replay.json")).unwrap();
+    let ordinary = run_with_tick_hashes(replay.clone(), "60", false).unwrap();
+    let a = run_with_tick_hashes(replay.clone(), "30", true).unwrap();
+    let b = run_with_tick_hashes(replay.clone(), "144", true).unwrap();
+    assert!(ordinary.forensic.is_empty());
+    assert_eq!(ordinary.state_sha256, a.state_sha256);
+    assert_eq!(a.tick_hashes, b.tick_hashes);
+    assert_eq!(a.forensic.len() as u64, replay.ticks);
+    assert_eq!(
+        serde_json::to_value(a.forensic).unwrap(),
+        serde_json::to_value(b.forensic).unwrap()
+    );
+    let mut oversized = replay;
+    oversized.ticks = 100_001;
+    assert!(run_with_tick_hashes(oversized, "60", true).is_err());
+}

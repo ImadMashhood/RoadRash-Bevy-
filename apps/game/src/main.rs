@@ -1,8 +1,10 @@
 //! Composition root: ordered input/fixed simulation/snapshot adapter and optional deterministic playback.
+mod acceptance;
 mod frontend;
 mod gamepad_calibration;
 mod input_adapter;
 mod media;
+mod performance;
 mod population_cues;
 mod race_recording;
 use bevy::{
@@ -65,6 +67,12 @@ struct LaunchOptions {
     audio: bool,
     video: bool,
     media_report: Option<PathBuf>,
+    functional_check: Option<PathBuf>,
+    performance_report: Option<PathBuf>,
+    benchmark_seconds: Option<u32>,
+    benchmark_pilot: bool,
+    benchmark_tour: bool,
+    vsync: bool,
 }
 #[derive(Resource, Default)]
 struct Driver(Option<Playback>);
@@ -124,6 +132,39 @@ fn options() -> Result<LaunchOptions, String> {
                 options.career_file = value.into();
                 options.save_base = options.career_file.clone();
             }
+            Some("--vsync") => {
+                options.vsync = match value.to_str() {
+                    Some("on") => true,
+                    Some("off") => false,
+                    _ => return Err("vsync must be on/off".into()),
+                }
+            }
+            Some("--performance-report") => options.performance_report = Some(value.into()),
+            Some("--benchmark-seconds") => {
+                let seconds = value
+                    .to_string_lossy()
+                    .parse::<u32>()
+                    .map_err(|_| "benchmark-seconds must be 1..7200")?;
+                if !(1..=7200).contains(&seconds) {
+                    return Err("benchmark-seconds must be 1..7200".into());
+                }
+                options.benchmark_seconds = Some(seconds);
+            }
+            Some("--benchmark-tour") => {
+                options.benchmark_tour = match value.to_str() {
+                    Some("on") => true,
+                    Some("off") => false,
+                    _ => return Err("benchmark-tour must be on/off".into()),
+                }
+            }
+            Some("--benchmark-pilot") => {
+                options.benchmark_pilot = match value.to_str() {
+                    Some("on") => true,
+                    Some("off") => false,
+                    _ => return Err("benchmark-pilot must be on/off".into()),
+                }
+            }
+            Some("--functional-check") => options.functional_check = Some(value.into()),
             Some("--media-report") => options.media_report = Some(value.into()),
             Some("--videos") => {
                 options.video = match value.to_str() {
@@ -311,6 +352,9 @@ fn options() -> Result<LaunchOptions, String> {
                 for w in warnings {
                     eprintln!("Preferences: {w}");
                 }
+                if !options.explicit.contains("--vsync") {
+                    options.vsync = p.settings.vsync;
+                }
                 if !options.explicit.contains("--videos") {
                     options.video = p.settings.videos;
                 }
@@ -336,6 +380,19 @@ fn options() -> Result<LaunchOptions, String> {
             }
             Err(e) => eprintln!("Preferences retained without applying invalid data: {e}"),
         }
+    }
+    if (options.benchmark_pilot || options.benchmark_seconds.is_some())
+        && options.performance_report.is_none()
+    {
+        return Err("benchmark options require --performance-report".into());
+    }
+    if options.benchmark_tour
+        && (!options.benchmark_pilot || options.benchmark_seconds.is_none_or(|s| s < 25))
+    {
+        return Err("benchmark-tour requires imported pilot and at least 25 seconds".into());
+    }
+    if options.benchmark_pilot && options.data_root.is_none() {
+        return Err("benchmark-pilot requires a verified imported game".into());
     }
     Ok(options)
 }
@@ -571,15 +628,18 @@ fn build_race(
                 eprintln!("population startup: {e}");
                 std::process::exit(2)
             });
+            population.functional_traffic = true;
             population.vehicle_masks = course.scene.assets.vehicle_masks.clone();
+            population.pedestrian_appearances = course.scene.assets.pedestrian_appearances.clone();
             let requested = population.spawns.len();
             population.spawns.retain(|s| {
                 s.kind != rr_simulation::population::Kind::Pedestrian
                     || s.family
                         .and_then(|id| course.scene.assets.families.get(&id))
                         .and_then(|f| {
-                            f.resolve(2, usize::from(s.selector), Some(0))
-                                .and_then(|at| f.sprites.get(&at))
+                            f.pedestrian_frames
+                                .get(&s.selector)
+                                .and_then(|frames| frames.iter().find_map(Option::as_ref))
                         })
                         .is_some()
             });
@@ -592,6 +652,13 @@ fn build_race(
             if let Some(character) = character {
                 apply_character(&exe, character, options.level - 1, &mut setup);
             }
+            config.actions = Some(
+                rr_simulation::actions::Config::read(
+                    &std::fs::read(data.join("DATA/BIKESPEC.RSC")).expect("verified bike data"),
+                    options.bike,
+                )
+                .expect("validated player actions"),
+            );
             Simulation::with_population(seed, config, setup, population).unwrap()
         };
         sim.set_effects_enabled(options.effects);
@@ -639,10 +706,28 @@ fn apply_character(
     }
 }
 fn main() {
+    let launch_started = std::time::Instant::now();
     let mut options = options().unwrap_or_else(|m| {
         eprintln!("{m}");
         std::process::exit(2)
     });
+    if let Some(output) = &options.functional_check {
+        if let Err(error) = acceptance::run(&options, output) {
+            eprintln!("Functional acceptance failed: {error}");
+            std::process::exit(1);
+        }
+        return;
+    }
+    if options.benchmark_pilot {
+        options.frontend = Some(false);
+        options.video = false;
+    }
+    let perf_enabled = options.performance_report.is_some();
+    let present_mode = if options.vsync {
+        bevy::window::PresentMode::AutoVsync
+    } else {
+        bevy::window::PresentMode::AutoNoVsync
+    };
     let mut playback = options
         .replay
         .clone()
@@ -715,6 +800,7 @@ fn main() {
     });
     let shell = frontend::Shell::new(&options, &race.0, playback.is_some());
     let mut app = App::new();
+    app.insert_resource(performance::LaunchStart(launch_started));
     app.insert_resource(shell)
         .add_plugins(frontend::FrontendPlugin)
         .add_plugins(media::MediaPlugin);
@@ -744,6 +830,7 @@ fn main() {
                 .set(ImagePlugin::default_nearest())
                 .set(WindowPlugin {
                     primary_window: Some(Window {
+                        present_mode,
                         title: "RoadRash Rust — classic renderer".into(),
                         resolution: (window_size.0, window_size.1).into(),
                         ..default()
@@ -770,7 +857,10 @@ fn main() {
         )
         .add_systems(
             FixedUpdate,
-            sample_input.in_set(FixedStage::Input).run_if(live),
+            (sample_input, performance::pilot)
+                .chain()
+                .in_set(FixedStage::Input)
+                .run_if(live),
         )
         .add_systems(
             FixedUpdate,
@@ -803,8 +893,11 @@ fn main() {
                 interpolate.in_set(PresentationStage::Prepare),
                 smoke_test.after(PresentationStage::Draw),
             ),
-        )
-        .run();
+        );
+    if perf_enabled {
+        app.add_plugins(performance::PerformancePlugin);
+    }
+    app.run();
 }
 fn live(
     driver: Res<Driver>,
@@ -817,36 +910,27 @@ fn live(
         && shell.is_none_or(|s| s.race_active())
         && media::not_playing(media)
 }
-fn physical_input(driver: Res<Driver>) -> bool {
-    driver.0.is_none()
+fn physical_input(driver: Res<Driver>, options: Res<LaunchOptions>) -> bool {
+    driver.0.is_none() && !options.benchmark_pilot
 }
-fn sample_input(
-    input: Res<LiveInput>,
-    mut command: ResMut<InputCommand>,
-    keys: Res<ButtonInput<KeyCode>>,
-    bindings: Res<Bindings>,
-    race: Option<Res<Race>>,
-) {
+fn sample_input(input: Res<LiveInput>, mut command: ResMut<InputCommand>, race: Option<Res<Race>>) {
     command.0 = tick_command(&input.0);
     if let Some(race) = race.filter(|race| race.0.schema_version() >= 3) {
-        let actions = bindings.0.active(
-            Context::Race,
-            bindings.0.contexts[&Context::Race]
-                .values()
-                .flatten()
-                .copied()
-                .filter(|key| keys.pressed(input_adapter::key_code(*key))),
-        );
         use rr_simulation::animation::Pose;
-        command.0.pose = if actions.contains(&Action::Punch) {
+        command.0.pose = if input.0.buttons.punch {
             Some(Pose::PunchLeft)
-        } else if actions.contains(&Action::Kick) {
+        } else if input.0.buttons.kick {
             Some(Pose::KickLeft)
-        } else if actions.contains(&Action::Backhand) {
+        } else if input.0.buttons.backhand {
             Some(Pose::BackhandLeft)
         } else {
             None
         };
+        if race.0.schema_version() >= 6 {
+            command.0.nitro = input.0.buttons.nitro;
+            command.0.dismount = input.0.buttons.dismount;
+            command.0.lean = input.0.buttons.lean;
+        }
         if race.0.schema_version() >= 4 {
             command.0.attack = command
                 .0
@@ -889,13 +973,14 @@ fn pause_input(
     }
     if pause.paused {
         command.0 = Command::default();
-        if input.0.drive.neutral() {
+        if input.0.drive.neutral() && input.0.buttons.neutral() {
             pause.release_required = false;
         }
         if was_paused
             && window.focused
             && !pause.release_required
             && input.0.drive.neutral()
+            && input.0.buttons.neutral()
             && input.0.resume_pressed
             && !input.0.active_disconnected
         {
@@ -937,6 +1022,9 @@ fn advance(
     }
     if let Err(e) = race.0.step(command.0) {
         failure(e, &mut exit);
+    }
+    if let Some(shell) = shell.as_mut() {
+        frontend::observe_social(shell, &race.0);
     }
     if let Some(shell) = shell.as_mut()
         && let Some(session) = shell.session.as_mut()
@@ -994,6 +1082,7 @@ fn playback_frame(
             state_sha256: playback.simulation.state_hash(),
             final_snapshot: playback.current.clone(),
             tick_hashes: playback.checkpoints.clone(),
+            forensic: vec![],
         };
         if options
             .expected_hash
@@ -1019,20 +1108,28 @@ fn playback_frame(
         exit.write(AppExit::Success);
     }
 }
+type SmokeQueries<'w, 's> = (
+    Query<'w, 's, &'static bevy::text::TextLayoutInfo, With<frontend::MenuEntity>>,
+    Query<'w, 's, &'static Window, With<bevy::window::PrimaryWindow>>,
+);
 fn smoke_test(
     options: Res<LaunchOptions>,
     mut frame: Local<u32>,
     view: Res<PresentedSnapshot>,
     course: Option<Res<CoursePresentation>>,
     (shell, media): (Option<Res<frontend::Shell>>, Option<Res<media::Media>>),
-    mut commands: Commands,
-    mut exit: MessageWriter<AppExit>,
+    (menu_layout, windows): SmokeQueries,
+    (mut commands, mut exit): (Commands, MessageWriter<AppExit>),
 ) {
     *frame += 1;
     if *frame == options.capture_frame
         && let Some(path) = &options.capture
     {
-        let metadata = serde_json::json!({"media":media.as_ref().map(|m|&m.metrics),"frontend":shell.as_ref().map(|s|serde_json::json!({"screen":s.frontend.screen,"phase":s.session.as_ref().map(|s|s.phase()),"summary":s.frontend.summary})),"calibration_profile":options.calibration,"requested_frame":*frame,"simulation_tick":view.0.tick,"interpolation_alpha":view.2,"window_size":options.window_size.unwrap_or((960,720)),"camera":course.as_ref().map(|c|&c.camera),"source_start_q8":course.as_ref().map(|c|c.start_q8),"course":course.as_ref().map(|c|&c.scene.options.course),"level":options.level,"branch_mask":options.branch_mask,"texture_override_active":options.enhanced ^ options.switch_tick.is_some_and(|t|view.0.tick>=t)});
+        let menu_sizes: Vec<_> = menu_layout
+            .iter()
+            .map(|l| [l.size.x / l.scale_factor, l.size.y / l.scale_factor])
+            .collect();
+        let metadata = serde_json::json!({"actual_window":windows.iter().next().map(|w|serde_json::json!({"logical":[w.width(),w.height()],"physical":[w.physical_width(),w.physical_height()],"scale_factor":w.scale_factor()})),"menu_logical_sizes":menu_sizes,"media":media.as_ref().map(|m|&m.metrics),"frontend":shell.as_ref().map(|s|serde_json::json!({"screen":s.frontend.screen,"phase":s.session.as_ref().map(|s|s.phase()),"summary":s.frontend.summary})),"calibration_profile":options.calibration,"requested_frame":*frame,"simulation_tick":view.0.tick,"interpolation_alpha":view.2,"window_size":options.window_size.unwrap_or((960,720)),"camera":course.as_ref().map(|c|&c.camera),"source_start_q8":course.as_ref().map(|c|c.start_q8),"course":course.as_ref().map(|c|&c.scene.options.course),"level":options.level,"branch_mask":options.branch_mask,"texture_override_active":options.enhanced ^ options.switch_tick.is_some_and(|t|view.0.tick>=t)});
         if let Err(e) = serde_json::to_vec_pretty(&metadata)
             .map_err(|e| e.to_string())
             .and_then(|b| {

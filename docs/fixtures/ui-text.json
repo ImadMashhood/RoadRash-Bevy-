@@ -1,0 +1,854 @@
+{
+  "entries": [
+    {
+      "key": "back",
+      "labels": [
+        "BACK",
+        "RETOUR",
+        "ZURÜCK",
+        "VOLVER",
+        "INDIETRO"
+      ]
+    },
+    {
+      "key": "done",
+      "labels": [
+        "DONE",
+        "TERMINÉ",
+        "FERTIG",
+        "LISTO",
+        "FINE"
+      ]
+    },
+    {
+      "key": "cancel",
+      "labels": [
+        "CANCEL",
+        "ANNULER",
+        "ABBRECHEN",
+        "CANCELAR",
+        "ANNULLA"
+      ]
+    },
+    {
+      "key": "quick",
+      "labels": [
+        "THRASH / QUICK RACE",
+        "COURSE RAPIDE",
+        "SCHNELLES RENNEN",
+        "CARRERA RÁPIDA",
+        "GARA VELOCE"
+      ]
+    },
+    {
+      "key": "resume_career",
+      "labels": [
+        "RESUME BIG GAME",
+        "REPRENDRE LA CARRIÈRE",
+        "KARRIERE FORTSETZEN",
+        "CONTINUAR CARRERA",
+        "RIPRENDI CARRIERA"
+      ]
+    },
+    {
+      "key": "new_career",
+      "labels": [
+        "NEW BIG GAME",
+        "NOUVELLE CARRIÈRE",
+        "NEUE KARRIERE",
+        "NUEVA CARRERA",
+        "NUOVA CARRIERA"
+      ]
+    },
+    {
+      "key": "options",
+      "labels": [
+        "RESTROOM / OPTIONS",
+        "OPTIONS",
+        "OPTIONEN",
+        "OPCIONES",
+        "OPZIONI"
+      ]
+    },
+    {
+      "key": "credits",
+      "labels": [
+        "CREDITS",
+        "GÉNÉRIQUE",
+        "MITWIRKENDE",
+        "CRÉDITOS",
+        "RICONOSCIMENTI"
+      ]
+    },
+    {
+      "key": "exit",
+      "labels": [
+        "EXIT",
+        "QUITTER",
+        "BEENDEN",
+        "SALIR",
+        "ESCI"
+      ]
+    },
+    {
+      "key": "rider",
+      "labels": [
+        "CHOOSE YOUR RIDER",
+        "CHOISIR LE PILOTE",
+        "FAHRER WÄHLEN",
+        "ELEGIR PILOTO",
+        "SCEGLI PILOTA"
+      ]
+    },
+    {
+      "key": "race",
+      "labels": [
+        "RACE",
+        "COURSE",
+        "RENNEN",
+        "CARRERA",
+        "GARA"
+      ]
+    },
+    {
+      "key": "courses",
+      "labels": [
+        "CHOOSE COURSE",
+        "CHOISIR LE PARCOURS",
+        "STRECKE WÄHLEN",
+        "ELEGIR CIRCUITO",
+        "SCEGLI PERCORSO"
+      ]
+    },
+    {
+      "key": "language",
+      "labels": [
+        "LANGUAGE",
+        "LANGUE",
+        "SPRACHE",
+        "IDIOMA",
+        "LINGUA"
+      ]
+    },
+    {
+      "key": "size",
+      "labels": [
+        "TEXT SIZE",
+        "TAILLE DU TEXTE",
+        "TEXTGRÖSSE",
+        "TAMAÑO DEL TEXTO",
+        "DIMENSIONE TESTO"
+      ]
+    },
+    {
+      "key": "contrast",
+      "labels": [
+        "HIGH CONTRAST",
+        "CONTRASTE ÉLEVÉ",
+        "HOHER KONTRAST",
+        "ALTO CONTRASTE",
+        "CONTRASTO ELEVATO"
+      ]
+    },
+    {
+      "key": "motion",
+      "labels": [
+        "REDUCED CAMERA MOTION",
+        "MOUVEMENT DE CAMÉRA RÉDUIT",
+        "REDUZIERTE KAMERABEWEGUNG",
+        "MOVIMIENTO DE CÁMARA REDUCIDO",
+        "MOVIMENTO TELECAMERA RIDOTTO"
+      ]
+    },
+    {
+      "key": "flashes",
+      "labels": [
+        "REDUCED FLASHES",
+        "FLASHES RÉDUITS",
+        "REDUZIERTE BLITZE",
+        "DESTELLOS REDUCIDOS",
+        "LAMPEGGI RIDOTTI"
+      ]
+    },
+    {
+      "key": "subtitles",
+      "labels": [
+        "SOUND CAPTIONS",
+        "LÉGENDES SONORES",
+        "GERÄUSCHUNTERTITEL",
+        "LEYENDAS DE SONIDO",
+        "DIDASCALIE AUDIO"
+      ]
+    },
+    {
+      "key": "textures",
+      "labels": [
+        "ENHANCED TEXTURES",
+        "TEXTURES AMÉLIORÉES",
+        "VERBESSERTE TEXTUREN",
+        "TEXTURAS MEJORADAS",
+        "TEXTURE MIGLIORATE"
+      ]
+    },
+    {
+      "key": "wide",
+      "labels": [
+        "WIDE FRAMING",
+        "AFFICHAGE LARGE",
+        "BREITBILDFORMAT",
+        "PANTALLA ANCHA",
+        "SCHERMO LARGO"
+      ]
+    },
+    {
+      "key": "effects",
+      "labels": [
+        "EFFECTS",
+        "EFFETS",
+        "EFFEKTE",
+        "EFECTOS",
+        "EFFETTI"
+      ]
+    },
+    {
+      "key": "music",
+      "labels": [
+        "MUSIC",
+        "MUSIQUE",
+        "MUSIK",
+        "MÚSICA",
+        "MUSICA"
+      ]
+    },
+    {
+      "key": "music_volume",
+      "labels": [
+        "MUSIC VOLUME",
+        "VOLUME DE LA MUSIQUE",
+        "MUSIKLAUTSTÄRKE",
+        "VOLUMEN DE MÚSICA",
+        "VOLUME MUSICA"
+      ]
+    },
+    {
+      "key": "effect_volume",
+      "labels": [
+        "EFFECT VOLUME",
+        "VOLUME DES EFFETS",
+        "EFFEKTE-LAUTSTÄRKE",
+        "VOLUMEN DE EFECTOS",
+        "VOLUME EFFETTI"
+      ]
+    },
+    {
+      "key": "master_volume",
+      "labels": [
+        "MASTER VOLUME",
+        "VOLUME GÉNÉRAL",
+        "GESAMTLAUTSTÄRKE",
+        "VOLUMEN GENERAL",
+        "VOLUME GENERALE"
+      ]
+    },
+    {
+      "key": "engine_volume",
+      "labels": [
+        "ENGINE VOLUME",
+        "VOLUME DU MOTEUR",
+        "MOTORLAUTSTÄRKE",
+        "VOLUMEN DEL MOTOR",
+        "VOLUME MOTORE"
+      ]
+    },
+    {
+      "key": "autoplay",
+      "labels": [
+        "AUTOPLAY VIDEOS",
+        "LECTURE VIDÉO AUTOMATIQUE",
+        "VIDEOS AUTOMATISCH ABSPIELEN",
+        "REPRODUCIR VÍDEOS AUTOMÁTICAMENTE",
+        "RIPRODUZIONE VIDEO AUTOMATICA"
+      ]
+    },
+    {
+      "key": "reset_graphics",
+      "labels": [
+        "RESET GRAPHICS",
+        "RÉINITIALISER L’AFFICHAGE",
+        "GRAFIK ZURÜCKSETZEN",
+        "RESTABLECER GRÁFICOS",
+        "RIPRISTINA GRAFICA"
+      ]
+    },
+    {
+      "key": "restore_settings",
+      "labels": [
+        "RESTORE PREFERENCES BACKUP",
+        "RESTAURER LES OPTIONS SAUVEGARDÉES",
+        "OPTIONEN AUS SICHERUNG WIEDERHERSTELLEN",
+        "RESTAURAR COPIA DE OPCIONES",
+        "RIPRISTINA COPIA OPZIONI"
+      ]
+    },
+    {
+      "key": "save",
+      "labels": [
+        "SAVE",
+        "SAUVEGARDER",
+        "SPEICHERN",
+        "GUARDAR",
+        "SALVA"
+      ]
+    },
+    {
+      "key": "load",
+      "labels": [
+        "LOAD",
+        "CHARGER",
+        "LADEN",
+        "CARGAR",
+        "CARICA"
+      ]
+    },
+    {
+      "key": "save_as",
+      "labels": [
+        "SAVE AS / SLOTS",
+        "SAUVEGARDER SOUS / EMPLACEMENTS",
+        "SPEICHERN UNTER / SPIELSTÄNDE",
+        "GUARDAR COMO / RANURAS",
+        "SALVA COME / SLOT"
+      ]
+    },
+    {
+      "key": "restore_career",
+      "labels": [
+        "RESTORE CAREER BACKUP",
+        "RESTAURER LA CARRIÈRE",
+        "KARRIERESICHERUNG WIEDERHERSTELLEN",
+        "RESTAURAR COPIA DE CARRERA",
+        "RIPRISTINA COPIA CARRIERA"
+      ]
+    },
+    {
+      "key": "name",
+      "labels": [
+        "PLAYER NAME",
+        "NOM DU JOUEUR",
+        "SPIELERNAME",
+        "NOMBRE DEL JUGADOR",
+        "NOME GIOCATORE"
+      ]
+    },
+    {
+      "key": "sound",
+      "labels": [
+        "DISPLAY & SOUND",
+        "AFFICHAGE ET SON",
+        "BILD UND TON",
+        "PANTALLA Y SONIDO",
+        "VIDEO E AUDIO"
+      ]
+    },
+    {
+      "key": "input",
+      "labels": [
+        "CONFIGURE INPUT",
+        "CONFIGURER LES COMMANDES",
+        "STEUERUNG KONFIGURIEREN",
+        "CONFIGURAR CONTROLES",
+        "CONFIGURA COMANDI"
+      ]
+    },
+    {
+      "key": "jukebox",
+      "labels": [
+        "JUKEBOX",
+        "JUKE-BOX",
+        "JUKEBOX",
+        "ROCOLA",
+        "JUKEBOX"
+      ]
+    },
+    {
+      "key": "home",
+      "labels": [
+        "GO HOME",
+        "RETOUR À L’ACCUEIL",
+        "ZUM HAUPTMENÜ",
+        "IR AL INICIO",
+        "TORNA AL MENU"
+      ]
+    },
+    {
+      "key": "next",
+      "labels": [
+        "NEXT PAGE",
+        "PAGE SUIVANTE",
+        "NÄCHSTE SEITE",
+        "PÁGINA SIGUIENTE",
+        "PAGINA SUCCESSIVA"
+      ]
+    },
+    {
+      "key": "previous",
+      "labels": [
+        "PREVIOUS PAGE",
+        "PAGE PRÉCÉDENTE",
+        "VORHERIGE SEITE",
+        "PÁGINA ANTERIOR",
+        "PAGINA PRECEDENTE"
+      ]
+    },
+    {
+      "key": "resume",
+      "labels": [
+        "RESUME",
+        "REPRENDRE",
+        "FORTSETZEN",
+        "CONTINUAR",
+        "RIPRENDI"
+      ]
+    },
+    {
+      "key": "restart",
+      "labels": [
+        "RESTART RACE",
+        "RECOMMENCER LA COURSE",
+        "RENNEN NEU STARTEN",
+        "REINICIAR CARRERA",
+        "RIAVVIA GARA"
+      ]
+    },
+    {
+      "key": "quit_race",
+      "labels": [
+        "QUIT RACE",
+        "QUITTER LA COURSE",
+        "RENNEN VERLASSEN",
+        "ABANDONAR CARRERA",
+        "ABBANDONA GARA"
+      ]
+    },
+    {
+      "key": "paused",
+      "labels": [
+        "PAUSED",
+        "PAUSE",
+        "PAUSIERT",
+        "PAUSA",
+        "PAUSA"
+      ]
+    },
+    {
+      "key": "continue",
+      "labels": [
+        "CONTINUE",
+        "CONTINUER",
+        "WEITER",
+        "CONTINUAR",
+        "CONTINUA"
+      ]
+    },
+    {
+      "key": "standings",
+      "labels": [
+        "STANDINGS",
+        "CLASSEMENT",
+        "PLATZIERUNGEN",
+        "CLASIFICACIÓN",
+        "CLASSIFICA"
+      ]
+    },
+    {
+      "key": "repair",
+      "labels": [
+        "REPAIR",
+        "RÉPARER",
+        "REPARIEREN",
+        "REPARAR",
+        "RIPARA"
+      ]
+    },
+    {
+      "key": "talk",
+      "labels": [
+        "TALK ABOUT RACING",
+        "PARLER DE COURSE",
+        "ÜBER RENNEN SPRECHEN",
+        "HABLAR DE CARRERAS",
+        "PARLA DI GARE"
+      ]
+    },
+    {
+      "key": "club_return",
+      "labels": [
+        "RETURN TO CLUB",
+        "RETOUR AU CLUB",
+        "ZURÜCK ZUM CLUB",
+        "VOLVER AL CLUB",
+        "TORNA AL CLUB"
+      ]
+    },
+    {
+      "key": "defaults",
+      "labels": [
+        "KEYBOARD DEFAULTS",
+        "CLAVIER PAR DÉFAUT",
+        "STANDARDTASTEN",
+        "TECLAS PREDETERMINADAS",
+        "TASTI PREDEFINITI"
+      ]
+    },
+    {
+      "key": "career_summary",
+      "labels": [
+        "BIG GAME   Level {level}   ${cash}   Bike {condition}/{maximum}",
+        "CARRIÈRE   Niveau {level}   ${cash}   Moto {condition}/{maximum}",
+        "KARRIERE   Stufe {level}   ${cash}   Motorrad {condition}/{maximum}",
+        "CARRERA   Nivel {level}   ${cash}   Moto {condition}/{maximum}",
+        "CARRIERA   Livello {level}   ${cash}   Moto {condition}/{maximum}"
+      ]
+    },
+    {
+      "key": "vsync",
+      "labels": [
+        "VERTICAL SYNC",
+        "SYNCHRONISATION VERTICALE",
+        "VERTIKALE SYNCHRONISATION",
+        "SINCRONIZACIÓN VERTICAL",
+        "SINCRONIZZAZIONE VERTICALE"
+      ]
+    },
+    {
+      "key": "on",
+      "labels": [
+        "ON",
+        "OUI",
+        "EIN",
+        "SÍ",
+        "SÌ"
+      ]
+    },
+    {
+      "key": "off",
+      "labels": [
+        "OFF",
+        "NON",
+        "AUS",
+        "NO",
+        "NO"
+      ]
+    },
+    {
+      "key": "more_text",
+      "labels": [
+        "MORE TEXT",
+        "LIRE LA SUITE",
+        "WEITERLESEN",
+        "MÁS TEXTO",
+        "ALTRO TESTO"
+      ]
+    },
+    {
+      "key": "next_racers",
+      "labels": [
+        "NEXT RACERS",
+        "PILOTES SUIVANTS",
+        "NÄCHSTE FAHRER",
+        "SIGUIENTES PILOTOS",
+        "PILOTI SUCCESSIVI"
+      ]
+    },
+    {
+      "key": "previous_racers",
+      "labels": [
+        "PREVIOUS RACERS",
+        "PILOTES PRÉCÉDENTS",
+        "VORHERIGE FAHRER",
+        "PILOTOS ANTERIORES",
+        "PILOTI PRECEDENTI"
+      ]
+    },
+    {
+      "key": "save_game",
+      "labels": [
+        "SAVE BIG GAME",
+        "SAUVEGARDER LA CARRIÈRE",
+        "KARRIERE SPEICHERN",
+        "GUARDAR CARRERA",
+        "SALVA CARRIERA"
+      ]
+    },
+    {
+      "key": "load_game",
+      "labels": [
+        "LOAD BIG GAME",
+        "CHARGER LA CARRIÈRE",
+        "KARRIERE LADEN",
+        "CARGAR CARRERA",
+        "CARICA CARRIERA"
+      ]
+    },
+    {
+      "key": "new_rider",
+      "labels": [
+        "SELECT CHARACTER / NEW RIDER",
+        "CHOISIR UN NOUVEAU PILOTE",
+        "NEUEN FAHRER WÄHLEN",
+        "ELEGIR NUEVO PILOTO",
+        "SCEGLI NUOVO PILOTA"
+      ]
+    },
+    {
+      "key": "restroom",
+      "labels": [
+        "RESTROOM",
+        "OPTIONS",
+        "OPTIONEN",
+        "OPCIONES",
+        "OPZIONI"
+      ]
+    },
+    {
+      "key": "street",
+      "labels": [
+        "THE STREET",
+        "LA RUE",
+        "DIE STRASSE",
+        "LA CALLE",
+        "LA STRADA"
+      ]
+    },
+    {
+      "key": "repair_bike",
+      "labels": [
+        "REPAIR BIKE",
+        "RÉPARER LA MOTO",
+        "MOTORRAD REPARIEREN",
+        "REPARAR MOTO",
+        "RIPARA MOTO"
+      ]
+    },
+    {
+      "key": "bulletin",
+      "labels": [
+        "BULLETIN BOARD / COURSES",
+        "TABLEAU / PARCOURS",
+        "AUSHANG / STRECKEN",
+        "TABLÓN / CIRCUITOS",
+        "BACHECA / PERCORSI"
+      ]
+    },
+    {
+      "key": "bike_video",
+      "labels": [
+        "VIEW BIKE VIDEO",
+        "VOIR LA VIDÉO MOTO",
+        "MOTORRADVIDEO ANSEHEN",
+        "VER VÍDEO DE MOTO",
+        "GUARDA VIDEO MOTO"
+      ]
+    },
+    {
+      "key": "buy_review",
+      "labels": [
+        "BUY / REVIEW QUOTE",
+        "ACHETER / VOIR LE DEVIS",
+        "KAUFEN / ANGEBOT PRÜFEN",
+        "COMPRAR / VER PRECIO",
+        "COMPRA / VEDI PREVENTIVO"
+      ]
+    },
+    {
+      "key": "buy_confirm",
+      "labels": [
+        "CONFIRM PURCHASE",
+        "CONFIRMER L’ACHAT",
+        "KAUF BESTÄTIGEN",
+        "CONFIRMAR COMPRA",
+        "CONFERMA ACQUISTO"
+      ]
+    },
+    {
+      "key": "quit_results",
+      "labels": [
+        "QUIT TO RESULTS",
+        "QUITTER VERS LES RÉSULTATS",
+        "ZU ERGEBNISSEN BEENDEN",
+        "SALIR A RESULTADOS",
+        "ESCI AI RISULTATI"
+      ]
+    },
+    {
+      "key": "exit_app",
+      "labels": [
+        "EXIT APPLICATION",
+        "QUITTER LE JEU",
+        "ANWENDUNG BEENDEN",
+        "SALIR DEL JUEGO",
+        "ESCI DAL GIOCO"
+      ]
+    },
+    {
+      "key": "quit_confirm",
+      "labels": [
+        "CONFIRM QUIT",
+        "CONFIRMER LA SORTIE",
+        "BEENDEN BESTÄTIGEN",
+        "CONFIRMAR SALIDA",
+        "CONFERMA USCITA"
+      ]
+    },
+    {
+      "key": "loading",
+      "labels": [
+        "LOADING",
+        "CHARGEMENT",
+        "WIRD GELADEN",
+        "CARGANDO",
+        "CARICAMENTO"
+      ]
+    },
+    {
+      "key": "buy_question",
+      "labels": [
+        "BUY BIKE?",
+        "ACHETER LA MOTO ?",
+        "MOTORRAD KAUFEN?",
+        "¿COMPRAR MOTO?",
+        "COMPRARE LA MOTO?"
+      ]
+    },
+    {
+      "key": "showroom",
+      "labels": [
+        "SHOWROOM",
+        "SALLE D’EXPOSITION",
+        "AUSSTELLUNG",
+        "EXPOSICIÓN",
+        "SALONE"
+      ]
+    },
+    {
+      "key": "settings",
+      "labels": [
+        "SETTINGS",
+        "PARAMÈTRES",
+        "EINSTELLUNGEN",
+        "AJUSTES",
+        "IMPOSTAZIONI"
+      ]
+    },
+    {
+      "key": "bike_specs",
+      "labels": [
+        "BIKE SPECIFICATIONS",
+        "CARACTÉRISTIQUES MOTO",
+        "MOTORRADDATEN",
+        "DATOS DE LA MOTO",
+        "SPECIFICHE MOTO"
+      ]
+    },
+    {
+      "key": "hud",
+      "labels": [
+        "SPEED {speed} G{gear} | HP {health}/{maximum} | BIKE {condition}% | N{nitro}",
+        "VIT {speed} V{gear} | PV {health}/{maximum} | MOTO {condition}% | N{nitro}",
+        "TEMPO {speed} G{gear} | LP {health}/{maximum} | MOTO {condition}% | N{nitro}",
+        "VEL {speed} M{gear} | PV {health}/{maximum} | MOTO {condition}% | N{nitro}",
+        "VEL {speed} M{gear} | PV {health}/{maximum} | MOTO {condition}% | N{nitro}"
+      ]
+    },
+    {
+      "key": "hud_small",
+      "labels": [
+        "SPD {speed} G{gear} N{nitro}\nHP {health}/{maximum}\nBIKE {condition}%",
+        "VIT {speed} V{gear} N{nitro}\nPV {health}/{maximum}\nMOTO {condition}%",
+        "TEMPO {speed} G{gear} N{nitro}\nLP {health}/{maximum}\nMOTO {condition}%",
+        "VEL {speed} M{gear} N{nitro}\nPV {health}/{maximum}\nMOTO {condition}%",
+        "VEL {speed} M{gear} N{nitro}\nPV {health}/{maximum}\nMOTO {condition}%"
+      ]
+    },
+    {
+      "key": "racer_one",
+      "labels": [
+        "{count} rider",
+        "{count} pilote",
+        "{count} Fahrer",
+        "{count} piloto",
+        "{count} pilota"
+      ]
+    },
+    {
+      "key": "racer_other",
+      "labels": [
+        "{count} riders",
+        "{count} pilotes",
+        "{count} Fahrer",
+        "{count} pilotos",
+        "{count} piloti"
+      ]
+    },
+    {
+      "key": "impact_caption",
+      "labels": [
+        "[Impact]",
+        "[Choc]",
+        "[Aufprall]",
+        "[Impacto]",
+        "[Impatto]"
+      ]
+    },
+    {
+      "key": "swing_caption",
+      "labels": [
+        "[Swing]",
+        "[Coup]",
+        "[Schlag]",
+        "[Golpe]",
+        "[Colpo]"
+      ]
+    },
+    {
+      "key": "crash_caption",
+      "labels": [
+        "[Crash]",
+        "[Chute]",
+        "[Sturz]",
+        "[Caída]",
+        "[Caduta]"
+      ]
+    },
+    {
+      "key": "siren_caption",
+      "labels": [
+        "[Police siren]",
+        "[Sirène de police]",
+        "[Polizeisirene]",
+        "[Sirena policial]",
+        "[Sirena della polizia]"
+      ]
+    },
+    {
+      "key": "sound_caption",
+      "labels": [
+        "[Game sound]",
+        "[Son du jeu]",
+        "[Spielgeräusch]",
+        "[Sonido del juego]",
+        "[Suono del gioco]"
+      ]
+    },
+    {
+      "key": "cheer_caption",
+      "labels": [
+        "[Cheer]",
+        "[Acclamation]",
+        "[Jubel]",
+        "[Vítores]",
+        "[Esultanza]"
+      ]
+    }
+  ]
+}

@@ -42,8 +42,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 p.family
                     .and_then(|id| assets.families.get(&id))
                     .and_then(|f| {
-                        f.resolve(2, usize::from(p.selector & 63), Some(0))
-                            .and_then(|at| f.sprites.get(&at))
+                        f.pedestrian_frames
+                            .get(&(p.selector & 63))
+                            .and_then(|frames| frames.iter().flatten().next())
                     })
                     .is_some()
             })
@@ -54,14 +55,15 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 p.family
                     .and_then(|id| assets.families.get(&id))
                     .and_then(|f| {
-                        f.resolve(2, usize::from(p.selector & 63), Some(0))
-                            .and_then(|at| f.sprites.get(&at))
+                        f.pedestrian_frames
+                            .get(&(p.selector & 63))
+                            .and_then(|frames| frames.iter().flatten().next())
                     })
                     .is_none()
             })
             .map(|p| json!([stem, p.section, p.sample, p.selector]))
             .collect();
-        rows.push(json!({"course":stem,"vehicles":cars,"police_slots":assets.police.len(),"police_nonempty":assets.police.iter().flatten().count(),"pedestrian_requests":pedestrians.len(),"drawable_pedestrian_requests":resolved,"missing_queries":missing}));
+        rows.push(json!({"course":stem,"vehicles":cars,"police_slots":assets.police.len(),"police_nonempty":assets.police.iter().flatten().count(),"pedestrian_animated_appearances":assets.pedestrian_appearances.len(),"notes":assets.notes,"pedestrian_requests":pedestrians.len(),"drawable_pedestrian_requests":resolved,"missing_queries":missing}));
     }
     println!(
         "{}",

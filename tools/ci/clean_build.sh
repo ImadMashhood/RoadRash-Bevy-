@@ -2,7 +2,7 @@
 # Run inside the pinned official Rust container with /source read-only and /evidence writable.
 set -eu
 apt-get update
-apt-get install -y --no-install-recommends libx11-dev libxi-dev libxkbcommon-dev libudev-dev pkg-config python3
+apt-get install -y --no-install-recommends libx11-dev libxi-dev libxkbcommon-dev libudev-dev libasound2-dev ffmpeg pkg-config python3
 mkdir -p /build
 cp /source/Cargo.toml /source/Cargo.lock /source/rust-toolchain.toml /build/
 cp -r /source/apps /source/crates /source/docs /source/tools /build/
@@ -18,7 +18,7 @@ rustc --version
 cargo --version
 cargo fmt --all --check
 python3 -m unittest discover -s tools -p "test_*.py" -v
-cargo test --locked -p rr-formats -p rr-simulation -p rr-import -p rr-content -p rr-course -p rr-render -p rr-input
+cargo test --locked -p rr-formats -p rr-simulation -p rr-import -p rr-content -p rr-course -p rr-render -p rr-input -p rr-session -p rr-media
 cargo clippy --locked --workspace --all-targets -- -D warnings
 CARGO_BUILD_JOBS=4 cargo build --locked --release --workspace
 cargo package --list --allow-dirty -p rr-game > /evidence/game-package-files.txt

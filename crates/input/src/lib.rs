@@ -90,6 +90,10 @@ pub enum Action {
     Punch,
     Kick,
     Backhand,
+    Nitro,
+    Dismount,
+    LeanLeft,
+    LeanRight,
     Accelerate,
     Brake,
     SteerLeft,
@@ -152,6 +156,10 @@ impl Default for ActionMap {
                         (Punch, vec![KeyZ]),
                         (Kick, vec![KeyX]),
                         (Backhand, vec![KeyC]),
+                        (Nitro, vec![ShiftLeft]),
+                        (Dismount, vec![KeyV]),
+                        (LeanLeft, vec![KeyQ]),
+                        (LeanRight, vec![KeyE]),
                     ]),
                 ),
                 (
@@ -188,7 +196,16 @@ impl ActionMap {
             if map.keys().any(|a| {
                 !context.required().contains(a)
                     && !(context == Context::Race
-                        && [Action::Punch, Action::Kick, Action::Backhand].contains(a))
+                        && [
+                            Action::Punch,
+                            Action::Kick,
+                            Action::Backhand,
+                            Action::Nitro,
+                            Action::Dismount,
+                            Action::LeanLeft,
+                            Action::LeanRight,
+                        ]
+                        .contains(a))
             }) || context.required().iter().any(|a| !map.contains_key(a))
             {
                 return Err(Error(format!("missing or invalid actions in {context:?}")));

@@ -354,6 +354,17 @@ impl Bike {
         g: Ground,
         resolve: impl FnOnce(i64, i64) -> Ground,
     ) {
+        self.step_with_boost(s, t, input, g, 256, resolve);
+    }
+    pub(crate) fn step_with_boost(
+        &mut self,
+        s: &BikeSpec,
+        t: &Tables,
+        input: Command,
+        g: Ground,
+        boost_q8: i32,
+        resolve: impl FnOnce(i64, i64) -> Ground,
+    ) {
         // 60 Hz host bridge: original physics receives dt=1; source scheduler ticks are 60 Hz.
         let mass = s.mass + 75;
         let weight = mass;
@@ -401,17 +412,26 @@ impl Bike {
                 ((i64::from(s.gears[self.gear].force) * i64::from(self.force)) >> 16) as i32
             };
         }
+        if self.drive > 0 {
+            self.drive = ((i64::from(self.drive) * i64::from(boost_q8.clamp(0, 1024))) >> 8) as i32;
+        }
         if self.speed <= 0 {
             self.lateral_force = 0;
             self.lateral_speed = 0;
         } else {
-            let steering = input
+            let mut steering = input
                 .steer_q15
                 .map_or(i32::from(input.steer) * 32767, i32::from);
+            let mut lean = i32::from(input.lean);
+            if steering == 0 && lean != 0 {
+                steering = lean * 32767;
+                lean = -lean;
+            }
+            let limit = 0x2e00 + if lean != 0 { 0x2e00 / 4 } else { 0 };
             let sn = t.sin((((i64::from(steering) * 0x200000 / 32767) * 16) >> 16) as i32);
             let target = ((i64::from(sn / 256) * i64::from(self.speed) / i64::from(s.steer_scale))
                 as i32)
-                .clamp(-0x2e00, 0x2e00);
+                .clamp(-limit, limit);
             self.previous_lean = self.lean;
             let on = s.steer_on * mass / (s.mass + 75 / 4);
             let off = s.steer_off * mass / (s.mass + 75 / 4);
@@ -421,7 +441,25 @@ impl Bike {
                 } else {
                     on
                 };
-            self.lean += (target - self.lean).clamp(-rate, rate);
+            let delta = target - self.lean;
+            let next = if delta < -rate {
+                let current = self.lean - if lean < 0 { s.lean_on * rate / 256 } else { 0 };
+                if lean < 1 {
+                    current - rate
+                } else {
+                    current - s.lean_off * rate / 256
+                }
+            } else if delta > rate {
+                let current = self.lean + if lean > 0 { s.lean_on * rate / 256 } else { 0 };
+                if lean < 0 {
+                    current + s.lean_off * rate / 256
+                } else {
+                    current + rate
+                }
+            } else {
+                target
+            };
+            self.lean = next;
             self.lateral_speed = (self.lean / 256) * s.steer_scale;
         }
         let surface = g.surface(self.lateral);

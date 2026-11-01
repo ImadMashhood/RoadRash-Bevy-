@@ -481,7 +481,33 @@ impl World {
                 a.input.terminal
             };
             if u.recovery.outcome.is_some() {
+                if let Some(state) = &mut r.actions {
+                    state.active = false;
+                }
                 continue;
+            }
+            if let Some(state) = &mut r.actions {
+                let pressed = a.input.dismount && !state.dismount_held;
+                state.dismount_held = a.input.dismount;
+                if u.recovery.phase != Phase::Mounted {
+                    state.active = false;
+                } else if pressed && r.bike.speed.abs() < 300 && r.bike.height < 101 {
+                    state.active = false;
+                    u.fighter.swing = None;
+                    u.recovery.begin(
+                        *id,
+                        &mut r.bike,
+                        c,
+                        u.recovery.bike_location,
+                        Impact {
+                            reason: 4,
+                            rider_velocity: Some([0, 0, 0]),
+                            bike_velocity: Some([0, 0, 0]),
+                            ..Default::default()
+                        },
+                        &self.setup.topology,
+                    );
+                }
             }
             if u.recovery.phase != Phase::Mounted {
                 // Contacts follow movement. Reserve an interrupted recovery transition

@@ -34,6 +34,14 @@ pub struct Shell {
     save_mode: bool,
     selected_artist: u8,
     videos: Vec<String>,
+    texts: std::collections::BTreeMap<rr_session::text::Language, rr_session::text::SourceText>,
+    credits_page: usize,
+    notice_page: usize,
+    standings_page: usize,
+    layout: rr_session::ui::Layout,
+    social_events: Vec<(u8, u8)>,
+    ui_text: rr_session::ui::Catalog,
+    hud_capacity: i32,
 }
 pub fn pause_controls(shell: Option<Res<Shell>>) -> bool {
     shell.is_none_or(|s| !s.enabled || matches!(s.frontend.screen, Screen::Racing | Screen::Paused))
@@ -56,6 +64,7 @@ impl Shell {
             })
             .unwrap_or_else(Catalog::authored);
         let mut frontend = Frontend::default();
+        frontend.settings.vsync = options.vsync;
         frontend.settings.videos = options.video;
         frontend.settings.effects = options.effects;
         frontend.settings.enhanced = options.enhanced;
@@ -73,6 +82,7 @@ impl Shell {
                 Err(e) => notice = format!("Preferences not loaded: {e}"),
             }
         }
+        frontend.settings.vsync = options.vsync;
         frontend.settings.videos = options.video;
         frontend.settings.effects = options.effects;
         frontend.settings.enhanced = options.enhanced;
@@ -92,6 +102,20 @@ impl Shell {
                     notice = format!(
                         "Career was not changed: {e}. Use Restore Backup or choose another slot."
                     )
+                }
+            }
+        }
+        let mut texts = std::collections::BTreeMap::new();
+        if let Some(data) = &options.data_root {
+            for language in rr_session::text::Language::ALL {
+                match rr_session::text::SourceText::load(data, language) {
+                    Ok(text) => {
+                        texts.insert(language, text);
+                    }
+                    Err(error) => {
+                        notice =
+                            format!("Source language {} unavailable: {error}", language.name());
+                    }
                 }
             }
         }
@@ -131,32 +155,64 @@ impl Shell {
             active_slot,
             save_mode: false,
             selected_artist: 0,
+            texts,
+            credits_page: 0,
+            notice_page: 0,
+            standings_page: 0,
+            layout: rr_session::ui::Layout::default(),
+            social_events: vec![],
+            ui_text: rr_session::ui::Catalog::built_in(),
+            hud_capacity: simulation
+                .recording_setup(simulation.initial_seed())
+                .ok()
+                .and_then(|r| r.handling)
+                .and_then(|c| c.specs.into_iter().find(|s| s.id == options.bike))
+                .map_or(100, |s| s.condition),
             videos: options
                 .data_root
                 .as_ref()
-                .and_then(|p| std::fs::read_dir(p.join("VIDEO")).ok())
-                .map(|entries| {
-                    let mut names: Vec<_> = entries
-                        .filter_map(|e| e.ok())
-                        .map(|e| e.path())
-                        .filter(|p| p.extension().is_some_and(|e| e.eq_ignore_ascii_case("avi")))
-                        .filter_map(|p| p.file_stem().and_then(|s| s.to_str()).map(str::to_string))
-                        .collect();
-                    names.sort();
-                    names.truncate(128);
-                    names
-                })
+                .and_then(|data| rr_media::video::catalog(data).ok())
                 .unwrap_or_default(),
         }
     }
-    fn make_session(front: &Frontend, catalog: &Catalog, sim: &Simulation, id: u64) -> RaceSession {
+    fn credit_lines(&self) -> Vec<String> {
+        let columns = self.layout.columns;
+        self.texts
+            .get(&self.frontend.settings.language)
+            .map_or_else(Vec::new, |text| {
+                [
+                    "Rust recreation: Imad Mashhood",
+                    "Engine: Bevy",
+                    "Research: arkits/road-rash",
+                ]
+                .into_iter()
+                .flat_map(|s| rr_session::ui::wrap(s, columns))
+                .chain(
+                    text.credits
+                        .iter()
+                        .flat_map(|set| set.iter().skip(1))
+                        .flat_map(|line| {
+                            // Native credits reserve the first character for color.
+                            let body = line.chars().next().map_or("", |c| &line[c.len_utf8()..]);
+                            rr_session::ui::wrap(&rr_session::text::readable(body), columns)
+                        }),
+                )
+                .collect()
+            })
+    }
+    pub(super) fn make_session(
+        front: &Frontend,
+        catalog: &Catalog,
+        sim: &Simulation,
+        id: u64,
+    ) -> RaceSession {
         let identity = RaceIdentity {
             id,
             mode: front.mode,
             course: front.course,
             level: front.level,
             bike: front.bike,
-            seed: 1,
+            seed: sim.initial_seed(),
             roster: sim
                 .snapshot()
                 .actors
@@ -196,7 +252,7 @@ impl Shell {
         )
         .expect("validated race session")
         .with_condition_capacity(
-            sim.recording_setup(1)
+            sim.recording_setup(sim.initial_seed())
                 .ok()
                 .and_then(|r| r.handling)
                 .and_then(|c| {
@@ -227,6 +283,7 @@ enum Act {
     Level(u8),
     Bike(u8),
     Buy,
+    BikeDetails,
     Repair,
     Read,
     Track(u8),
@@ -237,6 +294,18 @@ enum Act {
     Effects,
     Music,
     Enhanced,
+    Vsync,
+    Language,
+    TextScale,
+    HighContrast,
+    ReducedMotion,
+    ReducedFlashes,
+    Subtitles,
+    CreditsNext,
+    NextText,
+    RacersNext,
+    RacersPrevious,
+    CreditsPrevious,
     Wide,
     MusicVolume,
     EffectVolume,
@@ -261,9 +330,11 @@ enum Act {
     Exit,
 }
 #[derive(Component)]
-struct MenuEntity;
+pub(crate) struct MenuEntity;
 #[derive(Component)]
 struct RaceBanner;
+#[derive(Component)]
+struct HudBackdrop;
 #[derive(serde::Deserialize)]
 #[serde(deny_unknown_fields)]
 struct ScriptStep {
@@ -288,6 +359,7 @@ impl Plugin for FrontendPlugin {
                 (
                     navigate.run_if(crate::media::not_playing),
                     coordinate,
+                    presentation_preferences,
                     render,
                 )
                     .chain()
@@ -321,6 +393,32 @@ fn apply(world: &mut World, action: Act) {
                     let catalog = shell.catalog.clone();
                     shell.frontend.choose_character(&catalog, id)?;
                 }
+                Act::BikeDetails => {
+                    let data = world
+                        .resource::<LaunchOptions>()
+                        .data_root
+                        .as_ref()
+                        .ok_or("Import game data to view specifications")?;
+                    let specs = rr_simulation::handling::BikeSpec::read(
+                        &std::fs::read(data.join("DATA/BIKESPEC.RSC"))
+                            .map_err(|e| e.to_string())?,
+                    )
+                    .map_err(|e| e.to_string())?;
+                    let spec = specs
+                        .iter()
+                        .find(|s| s.id == u32::from(shell.frontend.selected_bike) + 1)
+                        .ok_or("Missing bike specifications")?;
+                    shell.notice = format!(
+                        "Mass: {}  Gears: {}\nThrottle: {}  Brake: {}\nGrip: {}  Condition: {}",
+                        spec.mass,
+                        spec.gears.len(),
+                        spec.throttle,
+                        spec.brake,
+                        spec.grip_scale,
+                        spec.condition
+                    );
+                    shell.notice_page = 0;
+                }
                 Act::Course(course) => shell.frontend.select_course(course)?,
                 Act::Level(level) => {
                     let catalog = shell.catalog.clone();
@@ -344,9 +442,24 @@ fn apply(world: &mut World, action: Act) {
                     save(world, &shell)?;
                 }
                 Act::Read => {
+                    shell.notice_page = 0;
                     shell.frontend.read_dialogue()?;
-                    shell.notice =
-                        "Keep your bike in shape, watch the bends, and leave room to pass.".into();
+                    let f = &shell.frontend;
+                    shell.notice = if let Some(text) = shell.texts.get(&f.settings.language) {
+                        let character = f.career.as_ref().map_or(f.character, |c| c.character);
+                        let (_, line) = text
+                            .spoken(
+                                f.level,
+                                f.dialogue_partner.unwrap_or(0),
+                                character,
+                                f.career.as_ref().and_then(|c| c.relationships.as_ref()),
+                                u32::from(f.dialogue_seen),
+                            )
+                            .map_err(|e| e.to_string())?;
+                        line
+                    } else {
+                        "Source dialogue requires an imported language pack.".into()
+                    };
                 }
                 Act::Artist(artist) => {
                     if artist >= 6 {
@@ -375,6 +488,67 @@ fn apply(world: &mut World, action: Act) {
                 Act::StopMusic => shell.frontend.settings.track = None,
                 Act::Effects => shell.frontend.settings.effects = !shell.frontend.settings.effects,
                 Act::Music => shell.frontend.settings.music = !shell.frontend.settings.music,
+                Act::Vsync => shell.frontend.settings.vsync = !shell.frontend.settings.vsync,
+                Act::Language => {
+                    shell.frontend.settings.language = shell.frontend.settings.language.next()
+                }
+                Act::TextScale => {
+                    shell.frontend.settings.text_scale =
+                        if shell.frontend.settings.text_scale >= 150 {
+                            75
+                        } else {
+                            shell.frontend.settings.text_scale + 25
+                        }
+                }
+                Act::HighContrast => {
+                    shell.frontend.settings.high_contrast = !shell.frontend.settings.high_contrast
+                }
+                Act::ReducedMotion => {
+                    shell.frontend.settings.reduced_motion = !shell.frontend.settings.reduced_motion
+                }
+                Act::ReducedFlashes => {
+                    shell.frontend.settings.reduced_flashes =
+                        !shell.frontend.settings.reduced_flashes
+                }
+                Act::Subtitles => {
+                    shell.frontend.settings.subtitles = !shell.frontend.settings.subtitles
+                }
+                Act::NextText => {
+                    let columns = shell.layout.columns;
+                    let pages = rr_session::ui::wrap(&shell.notice, columns)
+                        .len()
+                        .div_ceil(shell.layout.notice_rows)
+                        .max(1);
+                    shell.notice_page = (shell.notice_page + 1) % pages;
+                }
+                Act::RacersNext => {
+                    let pages = shell
+                        .frontend
+                        .summary
+                        .as_ref()
+                        .map_or(1, |s| s.standings().len().div_ceil(shell.layout.table_rows))
+                        .max(1);
+                    shell.standings_page = (shell.standings_page + 1) % pages;
+                }
+                Act::RacersPrevious => {
+                    shell.standings_page = shell.standings_page.saturating_sub(1)
+                }
+                Act::CreditsNext => {
+                    let pages = shell
+                        .credit_lines()
+                        .len()
+                        .div_ceil(shell.layout.credit_rows)
+                        .max(1);
+                    shell.credits_page = (shell.credits_page + 1) % pages;
+                }
+                Act::CreditsPrevious => {
+                    let pages = shell
+                        .credit_lines()
+                        .len()
+                        .div_ceil(shell.layout.credit_rows)
+                        .max(1);
+                    shell.credits_page = (shell.credits_page + pages - 1) % pages;
+                }
                 Act::Enhanced => {
                     shell.frontend.settings.enhanced = !shell.frontend.settings.enhanced
                 }
@@ -519,7 +693,9 @@ fn apply(world: &mut World, action: Act) {
     });
 }
 fn resume(world: &mut World, shell: &mut Shell) -> Result<(), String> {
-    if !world.resource::<super::LiveInput>().0.drive.neutral() {
+    if !world.resource::<super::LiveInput>().0.drive.neutral()
+        || !world.resource::<super::LiveInput>().0.buttons.neutral()
+    {
         return Err("Release driving controls to resume.".into());
     }
     shell.frontend.back();
@@ -559,6 +735,37 @@ fn coordinate(world: &mut World) {
             let catalog = shell.catalog.clone();
             match shell.frontend.completed(&catalog, summary) {
                 Ok(()) => {
+                    if shell.frontend.mode == Mode::BigGame {
+                        let mut events = std::mem::take(&mut shell.social_events);
+                        if shell
+                            .frontend
+                            .settlement
+                            .as_ref()
+                            .is_some_and(|s| s.game_over)
+                        {
+                            events.clear();
+                        }
+                        let language = shell.frontend.settings.language;
+                        let character = shell.frontend.character;
+                        let mut relations =
+                            shell.frontend.career.as_ref().and_then(|c| c.relationships);
+                        if let Some(text) = shell.texts.get(&language) {
+                            if relations.is_none() {
+                                relations = text.dialogue.relations(character).ok();
+                            }
+                            if let Some(values) = &mut relations {
+                                for (partner, event) in events {
+                                    text.dialogue
+                                        .react(values, partner, event)
+                                        .map_err(|e| e.to_string())
+                                        .unwrap_or_else(|e| warn!("Social event: {e}"));
+                                }
+                            }
+                        }
+                        if let Some(career) = shell.frontend.career.as_mut() {
+                            career.relationships = relations;
+                        }
+                    }
                     if shell.frontend.mode == Mode::BigGame
                         && let Err(e) = save(world, &shell)
                     {
@@ -624,6 +831,7 @@ fn coordinate(world: &mut World) {
                     shell.next_quick += 1;
                     id
                 };
+                shell.social_events.clear();
                 shell.session = Some(Shell::make_session(
                     &shell.frontend,
                     &shell.catalog,
@@ -665,4 +873,105 @@ fn clear_initial_menu(world: &mut World) {
             release_race(world, &mut shell);
         }
     });
+}
+
+fn presentation_preferences(
+    mut shell: ResMut<Shell>,
+    mut windows: Query<&mut Window, With<bevy::window::PrimaryWindow>>,
+    mut accessibility: Option<ResMut<rr_presentation::Accessibility>>,
+) {
+    for mut window in &mut windows {
+        let layout = rr_session::ui::Layout::new(
+            window.width(),
+            window.height(),
+            shell.frontend.settings.text_scale,
+        );
+        if shell.layout != layout {
+            shell.layout = layout;
+        }
+        let mode = if shell.frontend.settings.vsync {
+            bevy::window::PresentMode::AutoVsync
+        } else {
+            bevy::window::PresentMode::AutoNoVsync
+        };
+        if window.present_mode != mode {
+            window.present_mode = mode;
+        }
+    }
+    if let Some(accessibility) = accessibility.as_deref_mut() {
+        accessibility.reduced_motion = shell.frontend.settings.reduced_motion;
+    }
+}
+
+/// Social effects are presentation/career observations; they never draw gameplay RNG.
+pub(crate) fn observe_social(shell: &mut Shell, simulation: &Simulation) {
+    use rr_simulation::combat::EffectKind;
+    if shell.frontend.mode != Mode::BigGame {
+        return;
+    }
+    let Some(population) = simulation.population() else {
+        return;
+    };
+    for effect in simulation.effects().iter().filter(|e| {
+        matches!(
+            e.kind,
+            EffectKind::Swing | EffectKind::Hit | EffectKind::Kick
+        )
+    }) {
+        let Some(other) = effect.other else {
+            continue;
+        };
+        let (rival, event) = if effect.actor == ActorId(1) {
+            (
+                other,
+                if effect.kind == EffectKind::Swing {
+                    0
+                } else {
+                    2
+                },
+            )
+        } else if other == ActorId(1) {
+            (
+                effect.actor,
+                if effect.kind == EffectKind::Swing {
+                    3
+                } else {
+                    4
+                },
+            )
+        } else {
+            continue;
+        };
+        if let Some(partner) = population
+            .brains
+            .get(&rival)
+            .and_then(|b| b.traits.personality)
+            && partner < 10
+            && shell.social_events.len() < 4096
+        {
+            // Native event 1 fires on an attack while the target's relationship
+            // score still equals its initial score; event 0 follows it.
+            if event == 0
+                && let Some(text) = shell.texts.get(&shell.frontend.settings.language)
+                && let Ok(initial) = text.dialogue.relations(shell.frontend.character)
+            {
+                let mut current = shell
+                    .frontend
+                    .career
+                    .as_ref()
+                    .and_then(|c| c.relationships)
+                    .unwrap_or(initial);
+                for &(person, event) in &shell.social_events {
+                    let _ = text.dialogue.react(&mut current, person, event);
+                }
+                let score = |v: [i32; 3]| i64::from(v[1]) - i64::from(v[0]) + i64::from(v[2]);
+                if score(current[usize::from(partner)]) == score(initial[usize::from(partner)])
+                    && shell.social_events.len() < 4095
+                {
+                    shell.social_events.push((partner, 1));
+                }
+            }
+            shell.social_events.push((partner, event));
+        }
+    }
 }

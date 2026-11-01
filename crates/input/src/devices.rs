@@ -14,8 +14,23 @@ impl DriveInput {
         !self.throttle && !self.brake && self.steer_q15 == 0
     }
 }
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Serialize)]
+pub struct Buttons {
+    pub punch: bool,
+    pub kick: bool,
+    pub backhand: bool,
+    pub nitro: bool,
+    pub dismount: bool,
+    pub lean: i8,
+}
+impl Buttons {
+    pub fn neutral(self) -> bool {
+        self == Self::default()
+    }
+}
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct DeviceSample {
+    pub buttons: Buttons,
     pub drive: DriveInput,
     pub pause: bool,
     pub resume: bool,
@@ -27,6 +42,7 @@ pub struct DeviceSample {
 impl DeviceSample {
     pub fn neutral(self) -> bool {
         self.drive.neutral()
+            && self.buttons.neutral()
             && !self.pause
             && !self.resume
             && !self.pause_edge
@@ -36,6 +52,7 @@ impl DeviceSample {
 }
 #[derive(Clone, Copy, Debug, Default)]
 pub struct PadState {
+    pub buttons: Buttons,
     pub stick_x: f32,
     pub right_trigger: f32,
     pub left_trigger: f32,
@@ -64,6 +81,7 @@ impl PadState {
             },
         };
         DeviceSample {
+            buttons: self.buttons,
             drive,
             pause: self.start,
             resume: self.start,
@@ -81,6 +99,7 @@ pub enum Device {
 }
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Serialize)]
 pub struct RoutedInput {
+    pub buttons: Buttons,
     pub device: Device,
     pub drive: DriveInput,
     pub pause_pressed: bool,
@@ -124,7 +143,8 @@ impl InputRouter {
                 history.armed = true;
             }
             // 1.5% change avoids tiny stick jitter stealing another device.
-            let changed = sample.drive.throttle != history.sample.drive.throttle
+            let changed = sample.buttons != history.sample.buttons
+                || sample.drive.throttle != history.sample.drive.throttle
                 || sample.drive.brake != history.sample.drive.brake
                 || (i32::from(sample.drive.steer_q15) - i32::from(history.activity_steer_q15))
                     .abs()
@@ -158,6 +178,7 @@ impl InputRouter {
         let same_device = self.active == previous_device;
         let routed = RoutedInput {
             device: self.active,
+            buttons: sample.buttons,
             drive: sample.drive,
             pause_pressed: sample.pause_edge
                 || (sample.pause && !old.pause && (same_device || !lost)),

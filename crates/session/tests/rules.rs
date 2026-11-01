@@ -639,8 +639,8 @@ fn dialogue_cancel_repeat_and_unavailable_choice_are_safe() {
     f.open(Screen::Club).unwrap();
     f.open(Screen::Schmooze).unwrap();
     f.back();
-    assert_eq!(f.dialogue_seen, 0);
-    for i in 0..8 {
+    assert_eq!(f.dialogue_seen, 1);
+    for i in 1..8 {
         f.open(Screen::Schmooze).unwrap();
         assert_eq!(f.dialogue_partner, Some(i));
         f.read_dialogue().unwrap();
@@ -649,7 +649,7 @@ fn dialogue_cancel_repeat_and_unavailable_choice_are_safe() {
     }
     assert_eq!(f.dialogue_seen, 255);
     f.open(Screen::Schmooze).unwrap();
-    assert_eq!(f.dialogue_partner, Some(0));
+    assert_eq!(f.dialogue_partner, Some(1));
     assert_eq!(f.career, career);
 }
 #[test]

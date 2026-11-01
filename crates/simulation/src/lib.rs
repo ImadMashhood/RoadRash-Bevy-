@@ -1,6 +1,7 @@
 #![forbid(unsafe_code)]
 //! Renderer-independent simulation contract. Current handling is explicitly authored,
 //! while wrapping/rounding helpers have fixed documented integer semantics.
+pub mod actions;
 pub mod animation;
 pub mod arithmetic;
 pub mod combat;
@@ -16,7 +17,7 @@ use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 use std::collections::BTreeMap;
 pub const TICKS_PER_SECOND: u32 = 60;
-pub const SIMULATION_SCHEMA: u32 = 5;
+pub const SIMULATION_SCHEMA: u32 = 6;
 macro_rules! id {
     ($name:ident,$t:ty) => {
         #[derive(
@@ -59,6 +60,12 @@ pub type Result<T> = std::result::Result<T, Error>;
 #[derive(Default, Clone, Copy, Debug, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(default, deny_unknown_fields)]
 pub struct Command {
+    #[serde(skip_serializing_if = "is_false")]
+    pub nitro: bool,
+    #[serde(skip_serializing_if = "is_false")]
+    pub dismount: bool,
+    #[serde(skip_serializing_if = "is_zero_i8")]
+    pub lean: i8,
     pub throttle: bool,
     pub brake: bool,
     pub steer: i8,
@@ -81,6 +88,12 @@ pub struct Command {
     pub impact: Option<recovery::Impact>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub terminal: Option<recovery::Outcome>,
+}
+fn is_false(v: &bool) -> bool {
+    !v
+}
+fn is_zero_i8(v: &i8) -> bool {
+    *v == 0
 }
 fn is_zero(v: &u32) -> bool {
     *v == 0
@@ -245,6 +258,7 @@ impl Random {
     }
 }
 pub struct Simulation {
+    initial_seed: u32,
     schema_version: u32,
     tick: Tick,
     route: Route,
@@ -275,6 +289,7 @@ impl Simulation {
         }
         route.validate()?;
         let mut sim = Self {
+            initial_seed: seed,
             schema_version,
             tick: Tick(0),
             route,
@@ -298,6 +313,16 @@ impl Simulation {
         let mut sim = Self::with_schema(seed, Route::straight(), 2)?;
         sim.schema_version = 3;
         sim.actors.get_mut(&ActorId(1)).unwrap().view.rider = Some(riding::Rider::new(&config)?);
+        if let Some(actions) = config.actions {
+            sim.actors
+                .get_mut(&ActorId(1))
+                .unwrap()
+                .view
+                .rider
+                .as_mut()
+                .unwrap()
+                .actions = Some(actions::State::new(actions));
+        }
         sim.handling = Some(config);
         Ok(sim)
     }
@@ -353,7 +378,11 @@ impl Simulation {
                 .drive = false;
         }
         sim.population = Some(population::World::new(population));
-        sim.schema_version = 5;
+        sim.schema_version = if sim.handling.as_ref().is_some_and(|c| c.actions.is_some()) {
+            6
+        } else {
+            5
+        };
         sim.sync_encounters();
         Ok(sim)
     }
@@ -370,7 +399,13 @@ impl Simulation {
             &self.encounter.as_ref().unwrap().setup.topology,
         )
     }
+    pub fn initial_seed(&self) -> u32 {
+        self.initial_seed
+    }
     pub fn recording_setup(&self, seed: u32) -> Result<replay::Replay> {
+        if seed != self.initial_seed {
+            return Err(Error::Invalid("recording seed differs from initial setup"));
+        }
         if self.tick.0 != 0 {
             return Err(Error::Invalid("recording must start at tick zero"));
         }
@@ -523,6 +558,14 @@ impl Simulation {
         if !self.actors.contains_key(&command.actor) {
             return Err(Error::MissingActor(command.actor));
         }
+        if !(-1..=1).contains(&command.input.lean) {
+            return Err(Error::Invalid("lean command range"));
+        }
+        if self.schema_version < 6
+            && (command.input.nitro || command.input.dismount || command.input.lean != 0)
+        {
+            return Err(Error::Invalid("player actions require schema 6"));
+        }
         if self.schema_version < 4
             && (command.input.attack.is_some()
                 || command.input.walk.is_some()
@@ -633,7 +676,7 @@ impl Simulation {
                     if let (Some(world), Some(config)) = (&mut self.encounter, &self.handling) {
                         world.movement(&mut self.actors, config, self.tick.0, &mut self.effects)?;
                         if let Some(p) = &mut self.population {
-                            p.movement(world, self.tick.0)?;
+                            p.movement(world, config, self.tick.0)?;
                             p.animate(config, self.tick.0 as u32)?;
                         }
                         continue;

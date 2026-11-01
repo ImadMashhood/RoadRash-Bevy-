@@ -37,6 +37,13 @@ pub enum Screen {
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(default, deny_unknown_fields)]
 pub struct Settings {
+    pub vsync: bool,
+    pub language: crate::text::Language,
+    pub text_scale: u16,
+    pub high_contrast: bool,
+    pub reduced_motion: bool,
+    pub reduced_flashes: bool,
+    pub subtitles: bool,
     pub effects: bool,
     pub music: bool,
     pub master_volume: u8,
@@ -51,6 +58,13 @@ pub struct Settings {
 impl Default for Settings {
     fn default() -> Self {
         Self {
+            vsync: false,
+            language: crate::text::Language::English,
+            text_scale: 100,
+            high_contrast: false,
+            reduced_motion: false,
+            reduced_flashes: false,
+            subtitles: true,
             effects: true,
             music: true,
             master_volume: 100,
@@ -66,14 +80,15 @@ impl Default for Settings {
 }
 impl Settings {
     pub fn validate(&self) -> Result<()> {
-        if [
-            self.master_volume,
-            self.engine_volume,
-            self.music_volume,
-            self.effect_volume,
-        ]
-        .iter()
-        .any(|v| *v > 100)
+        if !(75..=150).contains(&self.text_scale)
+            || [
+                self.master_volume,
+                self.engine_volume,
+                self.music_volume,
+                self.effect_volume,
+            ]
+            .iter()
+            .any(|v| *v > 100)
             || self.track.is_some_and(|t| t >= 14)
         {
             return Err("Invalid volume (0..100) or soundtrack ID".into());
@@ -169,9 +184,11 @@ impl Frontend {
             self.quote_revision = Some(self.career.as_ref().ok_or("career required")?.revision());
         }
         if next == Schmooze {
+            let own = 1u8 << self.character.saturating_sub(1).min(7);
             if self.dialogue_seen == 255 {
-                self.dialogue_seen = 0;
+                self.dialogue_seen = own;
             }
+            self.dialogue_seen |= own;
             let partner = (0..8).find(|i| self.dialogue_seen & (1 << i) == 0).unwrap();
             self.dialogue_partner = Some(partner);
             self.dialogue_read = false;

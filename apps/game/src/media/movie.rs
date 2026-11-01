@@ -75,17 +75,37 @@ pub(super) fn update(world: &mut World, media: &mut Media, device: &mut Device) 
         let key = (summary.identity().id, summary.outcome());
         if media.seen_result != Some(key) {
             media.seen_result = Some(key);
-            if front.settings.videos {
-                let prefix = match summary.outcome() {
-                    Outcome::Won => Some("WIN"),
-                    Outcome::Lost => Some("LOSE"),
-                    Outcome::Arrested => Some("BUSTED"),
-                    Outcome::Wrecked => Some("WRECK"),
-                    _ => None,
+            if front.settings.videos && !front.settings.reduced_flashes {
+                use rr_media::cues::{MovieResult, result_movie};
+                let result = match summary.outcome() {
+                    Outcome::Won => MovieResult::Win,
+                    Outcome::Lost => MovieResult::Lose,
+                    Outcome::Arrested => MovieResult::Busted,
+                    Outcome::Wrecked => MovieResult::Wreck,
+                    _ => MovieResult::Quiet,
                 };
-                if let Some(prefix) = prefix {
-                    media.video_request = Some(format!("{prefix}1"));
-                }
+                let advance = front.settlement.as_ref().is_some_and(|s| s.level_advanced);
+                let finale = front.settlement.as_ref().is_some_and(|s| s.finale);
+                let draw = (summary.identity().id as u32)
+                    .wrapping_mul(1664525)
+                    .wrapping_add(1013904223);
+                media.video_request = result_movie(result, advance, finale, draw);
+            }
+        }
+    }
+    if front.screen == Screen::Racing {
+        let id = world
+            .resource::<Shell>()
+            .session
+            .as_ref()
+            .map(|s| s.identity().id);
+        if media.seen_race != id {
+            media.seen_race = id;
+            if let Some(id) = id
+                && front.settings.videos
+                && !front.settings.reduced_flashes
+            {
+                media.video_request = Some(format!("START{}", id % 6 + 1));
             }
         }
     }
@@ -94,10 +114,10 @@ pub(super) fn update(world: &mut World, media: &mut Media, device: &mut Device) 
         clear(media, device);
         if options.data_root.is_some()
             && !name.is_empty()
-            && name.len() <= 40
+            && name.len() <= 80
             && name
                 .bytes()
-                .all(|c| c.is_ascii_alphanumeric() || b"_-".contains(&c))
+                .all(|c| c.is_ascii_alphanumeric() || b"_-/".contains(&c))
         {
             media.pending_video = Some(name);
             media.movie_target = Some(front.screen);

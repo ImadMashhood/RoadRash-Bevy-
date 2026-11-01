@@ -101,14 +101,37 @@ impl World {
                 .max()
                 .unwrap_or(0);
             let spec = c.specs.iter().find(|s| s.id == brain.traits.bike).unwrap();
+            // Native specifications retain unused trailing gear slots (up=0).
+            // Those slots are not a 1000-unit top-speed limit.
+            let speed_cap = if self.setup.functional_traffic {
+                spec.gears
+                    .iter()
+                    .map(|g| g.up)
+                    .filter(|up| *up > 0)
+                    .max()
+                    .unwrap_or(1000)
+            } else {
+                spec.gears.last().unwrap().up.max(1000)
+            };
             brain.target_speed = speed_from_pace(if bend > 2 {
                 brain.traits.corner_pace
             } else {
                 brain.traits.pace
             })
-            .min(spec.gears.last().unwrap().up.max(1000));
+            .min(speed_cap);
             let center = (c.ground[sample].left + c.ground[sample].right) * 128;
-            let lanes = [center - 64000, center, center + 64000];
+            let lanes: Vec<_> = if self.setup.functional_traffic {
+                [-96000, -48000, 0, 48000, 96000]
+                    .into_iter()
+                    .map(|l| center + l)
+                    .filter(|l| {
+                        *l > (c.ground[sample].left + 50) * 256
+                            && *l < (c.ground[sample].right - 50) * 256
+                    })
+                    .collect()
+            } else {
+                vec![center - 64000, center, center + 64000]
+            };
             let mut obstacles: Vec<(i64, i32, i32)> = e
                 .units
                 .iter()
@@ -175,9 +198,17 @@ impl World {
             } else {
                 (error / 8).clamp(-32767, 32767) as i16
             };
+            let throttle = rider.bike.speed < brain.target_speed - 100;
+            let brake = rider.bike.speed > brain.target_speed + 300;
+            let steer = if self.setup.functional_traffic {
+                let config = e.configs.get(&id).unwrap_or(c);
+                predictive_steering(rider, config, brain.desired_lane, throttle, brake, tick)
+            } else {
+                steer
+            };
             let mut command = Command {
-                throttle: rider.bike.speed < brain.target_speed - 100,
-                brake: rider.bike.speed > brain.target_speed + 300,
+                throttle,
+                brake,
                 steer_q15: Some(steer),
                 ..Default::default()
             };
@@ -234,4 +265,55 @@ impl World {
         }
         Ok(())
     }
+}
+
+/// Modern lane controller: bounded integer prediction on a copy of the assigned
+/// source bike. It consumes no RNG and never advances another actor's authority.
+fn predictive_steering(
+    rider: &riding::Rider,
+    c: &riding::Configuration,
+    target: i32,
+    throttle: bool,
+    brake: bool,
+    tick: u64,
+) -> i16 {
+    let current = (i64::from(c.start_sample) + (rider.bike.distance_q8 >> 8))
+        .clamp(0, c.ground.len() as i64 - 1) as usize;
+    let center = (c.ground[current].left + c.ground[current].right) * 128;
+    let mut best = (i128::MAX, 0i16);
+    for steer in [-32767i16, -16384, -8192, -4096, 0, 4096, 8192, 16384, 32767] {
+        let mut predicted = rider.clone();
+        let mut score = 0i128;
+        let input = Command {
+            throttle,
+            brake,
+            steer_q15: Some(steer),
+            ..Default::default()
+        };
+        for ahead in 1..=18 {
+            if predicted.step(c, input, (tick + ahead) as u32).is_err() {
+                score += 1_000_000_000;
+                break;
+            }
+            let b = &predicted.bike;
+            let sample = (i64::from(c.start_sample) + (b.distance_q8 >> 8))
+                .clamp(0, c.ground.len() as i64 - 1) as usize;
+            let ground = c.ground[sample];
+            let next_center = (ground.left + ground.right) * 128;
+            score += i128::from(
+                (i64::from(b.lateral) - i64::from(target) - i64::from(next_center - center)).abs(),
+            );
+            if b.crashed || b.failed {
+                score += 1_000_000_000;
+            }
+            if b.lateral < (ground.left + 50) * 256 || b.lateral > (ground.right - 50) * 256 {
+                score += 20_000_000;
+            }
+        }
+        score += i128::from(predicted.bike.lateral_speed.unsigned_abs()) * 4;
+        if score < best.0 {
+            best = (score, steer);
+        }
+    }
+    best.1
 }

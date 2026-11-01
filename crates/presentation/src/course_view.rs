@@ -18,8 +18,6 @@ pub struct CoursePresentation {
 #[derive(Resource)]
 struct CourseSurface(Handle<Image>);
 #[derive(Component)]
-struct RecoveryHud;
-#[derive(Component)]
 struct CourseScreen;
 pub fn has_course(course: Option<Res<CoursePresentation>>) -> bool {
     course.is_some()
@@ -73,17 +71,6 @@ fn setup(
             ..OrthographicProjection::default_2d()
         }),
     ));
-    commands.spawn((
-        RecoveryHud,
-        CourseScreen,
-        Text2d::new(""),
-        TextFont {
-            font_size: bevy::text::FontSize::Px(10.),
-            ..default()
-        },
-        TextColor(Color::BLACK),
-        Transform::from_xyz(0., spec.height as f32 / 2. - 18., 10.),
-    ));
     commands.insert_resource(CourseSurface(handle));
 }
 fn visibility(
@@ -127,41 +114,29 @@ fn draw(
         ResMut<CourseSurface>,
         Query<&mut Sprite, With<CourseScreen>>,
     ),
-    visual: Res<VisualAssets>,
+    (visual, accessibility, mut timing): (
+        Res<VisualAssets>,
+        Option<Res<super::Accessibility>>,
+        Option<ResMut<super::RenderTiming>>,
+    ),
     mut images: ResMut<Assets<Image>>,
     mut last_mode: Local<Option<bool>>,
-    mut hud: Query<&mut Text2d, With<RecoveryHud>>,
 ) {
-    if let Some(actor) = view.0.actors.iter().find(|a| a.id.0 == 1) {
-        let status = actor.encounter.as_ref().map_or(String::new(), |u| {
-            format!(
-                "Health {} / {}   Bike {}   {:?}{}",
-                u.fighter.stats.health,
-                u.fighter.stats.maximum,
-                actor.rider.as_ref().map_or(0, |r| r.bike.condition),
-                u.recovery.phase,
-                if u.recovery.phase == rr_simulation::recovery::Phase::Walking {
-                    "\nArrows: walk / release: return to bike"
-                } else {
-                    ""
-                }
-            )
-        });
-        let status = if view.0.road_users.iter().any(|a| a.siren) {
-            format!("{status}\nPOLICE PURSUIT")
-        } else {
-            status
-        };
-        for mut text in &mut hud {
-            text.0.clone_from(&status);
-        }
-    }
     let previous = rr_render::camera::encounter_snapshot(&view.1);
     let current = rr_render::camera::encounter_snapshot(&view.0);
     let mut camera = snapshot_view(&previous, &current, view.2, course.start_q8);
     camera.position_q8 = camera
         .position_q8
         .clamp(0., course.scene.route.len_q8() as f64 - 1.);
+    if accessibility.is_some_and(|a| a.reduced_motion) {
+        let sample = (camera.position_q8.max(0.) / 256.) as usize;
+        camera.lateral = course
+            .scene
+            .route
+            .points
+            .get(sample)
+            .map_or(0., |p| f64::from(p.offset));
+    }
     let enhanced = visual.initially_enhanced ^ visual.switch_tick.is_some_and(|t| view.0.tick >= t);
     if last_mode.is_some_and(|mode| mode != enhanced) {
         println!(
@@ -171,10 +146,17 @@ fn draw(
     }
     *last_mode = Some(enhanced);
     let snapshot = rr_render::camera::interpolated_snapshot(&previous, &current, view.2);
-    match course
-        .scene
-        .draw(&course.camera, &camera, &snapshot, enhanced)
-    {
+    let start = std::time::Instant::now();
+    let workers = std::thread::available_parallelism().map_or(1, |n| n.get().min(6));
+    let rendered =
+        course
+            .scene
+            .draw_parallel(&course.camera, &camera, &snapshot, enhanced, workers);
+    if let Some(timing) = timing.as_deref_mut() {
+        timing.cpu_draw_ms = start.elapsed().as_secs_f64() * 1000.;
+        timing.draws += 1;
+    }
+    match rendered {
         Ok((frame, _)) => {
             if crate::upload_rgba(
                 &mut images,

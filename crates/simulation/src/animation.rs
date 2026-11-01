@@ -18,7 +18,7 @@ pub struct Cell {
     pub frame: usize,
     pub flags: u32,
 }
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Eq)]
 pub struct Library {
     pub banks: [Vec<Option<Vec<Frame>>>; 2],
     pub views: [Vec<Vec<Cell>>; 2],
@@ -228,6 +228,43 @@ impl Layout {
     }
 }
 impl Library {
+    /// Native pedestrian CANS layout plus the seven executable sequence tables.
+    pub fn pedestrian(exe: &[u8], cans: &[u8]) -> Result<Self> {
+        let pe = SupportedExe::read(exe)?;
+        let layout = Layout::read(cans)?;
+        let mut bank = vec![None; 52];
+        for (code, (va, count)) in [
+            (0x46de48, 6),
+            (0x46de78, 1),
+            (0x46de80, 2),
+            (0x46de90, 6),
+            (0x46dec0, 2),
+            (0x46ded0, 6),
+            (0x46df00, 6),
+        ]
+        .into_iter()
+        .enumerate()
+        {
+            bank[code] = layout.sequence(pe.read_va(va, count * 8)?)?;
+        }
+        if bank[1].is_none() {
+            return Err("Pedestrian idle sequence is absent".into());
+        }
+        let mut fallback = vec![-1; 52];
+        for code in 0..52 {
+            if bank[code].is_none() {
+                fallback[code] = 1;
+            }
+        }
+        let value = Self {
+            banks: [bank, vec![None; 52]],
+            views: [layout.views, vec![vec![Cell { frame: 0, flags: 0 }]]],
+            fallback,
+            attacks: [[[0; 4]; 2]; 2],
+        };
+        value.validate()?;
+        Ok(value)
+    }
     pub fn read(exe: &[u8], global: &[u8]) -> Result<Self> {
         let pe = SupportedExe::read(exe)?;
         let dir = Directory::read(global)?;

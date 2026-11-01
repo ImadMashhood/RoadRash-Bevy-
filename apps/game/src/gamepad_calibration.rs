@@ -25,6 +25,15 @@ pub fn configure_gamepads(mut pads: Query<&mut GamepadSettings, Added<Gamepad>>)
 }
 pub fn pad_state(pad: &Gamepad) -> PadState {
     PadState {
+        buttons: rr_input::devices::Buttons {
+            punch: pad.pressed(GamepadButton::West),
+            kick: pad.pressed(GamepadButton::North),
+            backhand: pad.pressed(GamepadButton::LeftTrigger),
+            nitro: pad.pressed(GamepadButton::RightTrigger),
+            dismount: pad.pressed(GamepadButton::Select),
+            lean: i8::from(pad.pressed(GamepadButton::DPadUp))
+                - i8::from(pad.pressed(GamepadButton::DPadDown)),
+        },
         stick_x: pad.get(GamepadAxis::LeftStickX).unwrap_or(0.),
         right_trigger: pad.get(GamepadButton::RightTrigger2).unwrap_or(0.),
         left_trigger: pad.get(GamepadButton::LeftTrigger2).unwrap_or(0.),

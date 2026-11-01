@@ -201,3 +201,29 @@ fn gradual_axis_motion_can_reclaim_ownership_without_a_sudden_flick() {
     assert_eq!(last.device, Device::Gamepad(2));
     assert!(!last.drive.throttle);
 }
+
+#[test]
+fn combat_boost_and_dismount_buttons_follow_arbitration_and_disconnect_cleanup() {
+    let mut router = InputRouter::default();
+    let buttons = Buttons {
+        punch: true,
+        nitro: true,
+        dismount: true,
+        lean: -1,
+        ..Default::default()
+    };
+    let held = PadState {
+        buttons,
+        ..Default::default()
+    }
+    .sample();
+    assert_eq!(
+        router.update(neutral(), [(1, held)]).device,
+        Device::Keyboard
+    );
+    router.update(neutral(), [(1, neutral())]);
+    let routed = router.update(neutral(), [(1, held)]);
+    assert_eq!(routed.device, Device::Gamepad(1));
+    assert_eq!(routed.buttons, buttons);
+    assert!(router.update(neutral(), []).buttons.neutral());
+}

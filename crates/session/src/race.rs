@@ -263,6 +263,9 @@ impl RaceSession {
         self.condition_capacity = capacity;
         Ok(self)
     }
+    pub fn condition_capacity(&self) -> i32 {
+        self.condition_capacity
+    }
     pub fn identity(&self) -> &RaceIdentity {
         &self.identity
     }

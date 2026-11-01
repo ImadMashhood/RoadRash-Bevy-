@@ -8,7 +8,14 @@ pub(super) fn banner(mut commands: Commands) {
             ..default()
         },
         TextColor(Color::WHITE),
-        Transform::from_xyz(0., 120., 45.),
+        Anchor::TOP_LEFT,
+        Transform::from_xyz(-300., 220., 45.),
+    ));
+    commands.spawn((
+        HudBackdrop,
+        Sprite::from_color(Color::BLACK, Vec2::new(600., 60.)),
+        Transform::from_xyz(0., 190., 44.),
+        Visibility::Hidden,
     ));
 }
 pub(super) fn menu(shell: &Shell) -> (String, Vec<(String, Act)>) {
@@ -87,6 +94,16 @@ pub(super) fn menu(shell: &Shell) -> (String, Vec<(String, Act)>) {
             "SHOWROOM | TRADE-IN AT HALF PRICE".into()
         }
         Bike => {
+            item!("BIKE SPECIFICATIONS", Act::BikeDetails);
+            if let Ok(bike) = shell.catalog.bike(f.selected_bike)
+                && let Some(name) = bike
+                    .source_image
+                    .strip_prefix("IMAGES/BIKES/")
+                    .and_then(|s| s.strip_suffix(".RRI"))
+                && shell.videos.iter().any(|v| v == name)
+            {
+                item!("VIEW BIKE VIDEO", Act::PlayVideo(name.into()));
+            }
             item!("BUY / REVIEW QUOTE", Act::Open(Purchase));
             item!("SHOWROOM", Act::Back);
             shell
@@ -149,6 +166,31 @@ pub(super) fn menu(shell: &Shell) -> (String, Vec<(String, Act)>) {
             }
         }
         Settings => {
+            item!(format!("VERTICAL SYNC: {}", f.settings.vsync), Act::Vsync);
+            item!(
+                format!("LANGUAGE: {}", f.settings.language.name()),
+                Act::Language
+            );
+            item!(
+                format!("TEXT SIZE: {}%", f.settings.text_scale),
+                Act::TextScale
+            );
+            item!(
+                format!("HIGH CONTRAST: {}", f.settings.high_contrast),
+                Act::HighContrast
+            );
+            item!(
+                format!("REDUCED CAMERA MOTION: {}", f.settings.reduced_motion),
+                Act::ReducedMotion
+            );
+            item!(
+                format!("REDUCED FLASHES: {}", f.settings.reduced_flashes),
+                Act::ReducedFlashes
+            );
+            item!(
+                format!("SOUND CAPTIONS: {}", f.settings.subtitles),
+                Act::Subtitles
+            );
             item!(
                 format!("ENHANCED TEXTURES: {}", f.settings.enhanced),
                 Act::Enhanced
@@ -190,6 +232,10 @@ pub(super) fn menu(shell: &Shell) -> (String, Vec<(String, Act)>) {
                 rr_input::Action::Punch,
                 rr_input::Action::Kick,
                 rr_input::Action::Backhand,
+                rr_input::Action::Nitro,
+                rr_input::Action::Dismount,
+                rr_input::Action::LeanLeft,
+                rr_input::Action::LeanRight,
                 rr_input::Action::Pause,
             ] {
                 item!(format!("REBIND {a:?}"), Act::Bind(a));
@@ -199,6 +245,8 @@ pub(super) fn menu(shell: &Shell) -> (String, Vec<(String, Act)>) {
             "CONFIGURE INPUT".into()
         }
         Credits => {
+            item!("NEXT PAGE", Act::CreditsNext);
+            item!("PREVIOUS PAGE", Act::CreditsPrevious);
             item!("BACK", Act::Back);
             "ROAD RASH RUST | CREDITS".into()
         }
@@ -275,15 +323,47 @@ pub(super) fn menu(shell: &Shell) -> (String, Vec<(String, Act)>) {
         Loading => "LOADING".into(),
         Racing => "".into(),
     };
-    (title, items)
+    let columns = shell.layout.columns;
+    if rr_session::ui::wrap(&shell.notice, columns).len() > shell.layout.notice_rows {
+        item!("MORE TEXT", Act::NextText);
+    }
+    if matches!(f.screen, Results | Standings)
+        && f.summary
+            .as_ref()
+            .is_some_and(|s| s.standings().len() > shell.layout.table_rows)
+    {
+        item!("NEXT RACERS", Act::RacersNext);
+        item!("PREVIOUS RACERS", Act::RacersPrevious);
+    }
+    let language = f.settings.language;
+    (
+        shell.ui_text.label(&title, language),
+        items
+            .into_iter()
+            .map(|(label, action)| (shell.ui_text.label(&label, language), action))
+            .collect(),
+    )
 }
+type HudQueries<'w, 's> = (
+    Query<'w, 's, (&'static mut Text2d, &'static mut TextFont), With<RaceBanner>>,
+    Query<
+        'w,
+        's,
+        (
+            &'static mut Sprite,
+            &'static mut Transform,
+            &'static mut Visibility,
+        ),
+        With<HudBackdrop>,
+    >,
+);
 pub(super) fn render(
     mut commands: Commands,
     shell: Res<Shell>,
-    assets: Res<AssetServer>,
-    options: Res<LaunchOptions>,
+    media: Option<Res<crate::media::Media>>,
+    (assets, options, snapshot): (Res<AssetServer>, Res<LaunchOptions>, Res<PresentedSnapshot>),
     existing: Query<Entity, With<MenuEntity>>,
-    mut banner: Query<&mut Text2d, With<RaceBanner>>,
+    (mut banner, mut backdrops): HudQueries,
     mut last: Local<String>,
 ) {
     let countdown = shell
@@ -292,29 +372,102 @@ pub(super) fn render(
         .map_or(String::new(), |s| match s.phase() {
             Phase::Countdown { remaining } => format!("{}", remaining.div_ceil(60)),
             _ => format!(
-                "Place {} / {}",
+                "#{} | {}",
                 s.standings()
                     .iter()
                     .find(|r| r.actor == ActorId(1))
                     .map_or(0, |r| r.place),
-                s.standings().len()
+                shell
+                    .ui_text
+                    .counted(
+                        "racer",
+                        s.standings().len() as u64,
+                        shell.frontend.settings.language
+                    )
+                    .expect("racer count")
             ),
         });
-    for mut text in &mut banner {
-        text.0 = if shell.enabled && shell.frontend.screen == Screen::Racing {
-            countdown.clone()
+    let capacity = shell
+        .session
+        .as_ref()
+        .map_or(shell.hud_capacity, RaceSession::condition_capacity);
+    let hud = rr_session::ui::HudValues::from_snapshot(&snapshot.0, capacity);
+    let shown = shell.race_active() && hud.is_some();
+    let mut status = String::new();
+    if shown && let Some(hud) = hud {
+        let values = std::collections::BTreeMap::from([
+            ("speed", hud.speed.to_string()),
+            ("gear", hud.gear.to_string()),
+            ("health", hud.health.to_string()),
+            ("maximum", hud.maximum.to_string()),
+            ("condition", hud.condition_percent.to_string()),
+            ("nitro", hud.nitro.to_string()),
+        ]);
+        status = shell
+            .ui_text
+            .message(
+                if shell.layout.columns < 32 {
+                    "hud_small"
+                } else {
+                    "hud"
+                },
+                shell.frontend.settings.language,
+                &values,
+            )
+            .expect("HUD parameters");
+        if !countdown.is_empty() {
+            status.push('\n');
+            status.push_str(&countdown);
+        }
+        if snapshot.0.road_users.iter().any(|a| a.siren) {
+            status.push_str("\nPOLICE");
+        }
+        let caption = media.as_ref().map_or("", |m| m.caption.as_str());
+        if !caption.is_empty() {
+            status.push('\n');
+            status.push_str(
+                &shell
+                    .ui_text
+                    .label(caption, shell.frontend.settings.language),
+            );
+        }
+        status = rr_session::ui::wrap(&status, shell.layout.columns).join("\n");
+    }
+    for (mut text, mut font) in &mut banner {
+        text.0.clone_from(&status);
+        font.font_size = bevy::text::FontSize::Px(shell.layout.font);
+    }
+    for (mut sprite, mut transform, mut visibility) in &mut backdrops {
+        let height = (status.lines().count() as f32 * shell.layout.font * 1.25 + 8.).min(430.);
+        sprite.custom_size = Some(Vec2::new(600., height));
+        sprite.color = Color::srgba(
+            0.,
+            0.,
+            0.,
+            if shell.frontend.settings.high_contrast {
+                1.
+            } else {
+                0.85
+            },
+        );
+        transform.translation.y = 224. - height / 2.;
+        *visibility = if shown {
+            Visibility::Visible
         } else {
-            String::new()
+            Visibility::Hidden
         };
     }
     let key = format!(
-        "{:?}|{}|{}|{}|{:?}|{:?}",
+        "{:?}|{}|{}|{}|{:?}|{:?}|{}|{}|{:?}",
         shell.frontend.screen,
         shell.focus,
         shell.notice,
         shell.frontend.level,
         shell.frontend.settings,
-        shell.frontend.career
+        shell.frontend.career,
+        shell.credits_page,
+        shell.standings_page,
+        shell.layout
     );
     if *last == key {
         return;
@@ -332,27 +485,54 @@ pub(super) fn render(
         Sprite::from_color(Color::srgb(0.025, 0.035, 0.055), Vec2::new(2000., 1000.)),
         Transform::from_xyz(0., 0., 40.),
     ));
-    let mut body = format!("{title}\n\n");
-    if let Some(c) = &shell.frontend.career {
-        body.push_str(&format!(
-            "BIG GAME   Level {}   ${}   Bike {}/{}\n\n",
-            c.level, c.cash, c.condition, c.maximum_condition
-        ));
+    let title = if shell.layout.compact && shell.frontend.screen == Screen::Credits {
+        shell
+            .ui_text
+            .label("CREDITS", shell.frontend.settings.language)
+    } else {
+        title
+    };
+    let mut body = if shell.layout.compact {
+        format!("{title}\n")
+    } else {
+        format!("{title}\n\n")
+    };
+    if let Some(c) = &shell.frontend.career
+        && shell.frontend.screen != Screen::Credits
+    {
+        if shell.layout.compact {
+            if shell.frontend.screen != Screen::Credits {
+                body.push_str(&format!("L{} ${} B{}%\n", c.level, c.cash, c.condition));
+            }
+        } else {
+            let values = std::collections::BTreeMap::from([
+                ("level", c.level.to_string()),
+                (
+                    "cash",
+                    rr_session::ui::number(c.cash, shell.frontend.settings.language),
+                ),
+                ("condition", c.condition.to_string()),
+                ("maximum", c.maximum_condition.to_string()),
+            ]);
+            body.push_str(
+                &shell
+                    .ui_text
+                    .message("career_summary", shell.frontend.settings.language, &values)
+                    .expect("complete interface parameters"),
+            );
+            body.push_str("\n\n");
+        }
     }
-    let first = if items.len() > 16 {
+    let visible = shell.layout.menu_rows;
+    let first = if items.len() > visible {
         shell
             .focus
-            .saturating_sub(6)
-            .min(items.len().saturating_sub(12))
+            .saturating_sub(visible / 2)
+            .min(items.len().saturating_sub(visible))
     } else {
         0
     };
-    for (i, (label, _)) in items
-        .iter()
-        .enumerate()
-        .skip(first)
-        .take(if items.len() > 16 { 12 } else { 16 })
-    {
+    for (i, (label, _)) in items.iter().enumerate().skip(first).take(visible) {
         body.push_str(&format!(
             "{} {}\n",
             if i == shell.focus { ">" } else { " " },
@@ -362,12 +542,32 @@ pub(super) fn render(
     if matches!(shell.frontend.screen, Screen::Results | Screen::Standings)
         && let Some(s) = &shell.frontend.summary
     {
-        body.push_str(&format!(
-            "\nPlace {}   Time {:.2}s\n",
-            s.place(),
-            s.elapsed_ticks() as f64 / 60.
-        ));
-        for row in s.standings().iter().take(15) {
+        if shell.layout.compact {
+            body.push_str(&format!(
+                "#{} {:.1}s\n",
+                s.place(),
+                s.elapsed_ticks() as f64 / 60.
+            ));
+        } else {
+            body.push_str(&format!(
+                "\nPlace {}   Time {:.2}s\n",
+                s.place(),
+                s.elapsed_ticks() as f64 / 60.
+            ));
+        }
+        let pages = s.standings().len().div_ceil(shell.layout.table_rows).max(1);
+        let page = shell.standings_page.min(pages - 1);
+        for row in s
+            .standings()
+            .iter()
+            .skip(page * shell.layout.table_rows)
+            .take(shell.layout.table_rows)
+        {
+            if shell.layout.compact {
+                let name: String = row.name.chars().take(14).collect();
+                body.push_str(&format!("{}. {}\n", row.place, name));
+                continue;
+            }
             body.push_str(&format!(
                 "{:2}. {} | {}\n",
                 row.place,
@@ -381,67 +581,101 @@ pub(super) fn render(
             ));
         }
         if let Some(t) = &shell.frontend.settlement {
-            body.push_str(&format!(
-                "Prize ${}   Penalty ${}{}\n",
-                t.prize,
-                t.penalty,
-                if t.game_over { "   Career reset" } else { "" }
-            ));
+            if shell.layout.compact {
+                body.push_str(&format!("+${} -${}\n", t.prize, t.penalty));
+            } else {
+                body.push_str(&format!(
+                    "Prize ${}   Penalty ${}{}\n",
+                    t.prize,
+                    t.penalty,
+                    if t.game_over { "   Career reset" } else { "" }
+                ));
+            }
         }
     }
     if shell.frontend.screen == Screen::Credits {
-        body.push_str("\nRust recreation by Imad Mashhood\nEngine: Bevy | Original game: Electronic Arts\nResearch: arkits/road-rash (pinned reference)\nImported original assets belong to their owners.\n");
+        if shell.texts.contains_key(&shell.frontend.settings.language) {
+            let lines = shell.credit_lines();
+            let pages = lines.len().div_ceil(shell.layout.credit_rows).max(1);
+            let page = shell.credits_page.min(pages - 1);
+            if shell.layout.compact {
+                body.push_str(&format!("{}/{}\n", page + 1, pages));
+            } else {
+                body.push_str(&format!("Original game credits — {}/{}\n", page + 1, pages));
+            }
+            for line in lines
+                .iter()
+                .skip(page * shell.layout.credit_rows)
+                .take(shell.layout.credit_rows)
+            {
+                body.push_str(&rr_session::text::readable(line));
+                body.push('\n');
+            }
+        } else {
+            body.push_str("Import game data to view the original credits.\n");
+        }
     }
     if shell.frontend.screen == Screen::Characters && shell.focus < shell.catalog.characters.len() {
         let c = &shell.catalog.characters[shell.focus];
-        body.push_str(&format!(
-            "\nStarting cash: ${}\nPersonality {} | Bike {}\n",
-            c.starting_cash,
-            c.personality,
-            u16::from(c.bikes[usize::from(shell.frontend.level - 1)]) + 1
-        ));
-    }
-    if shell.frontend.screen == Screen::Bike
-        && let Some(data) = &options.data_root
-        && let Ok(bytes) = std::fs::read(data.join("DATA/BIKESPEC.RSC"))
-        && let Ok(specs) = rr_simulation::handling::BikeSpec::read(&bytes)
-        && let Some(spec) = specs
-            .iter()
-            .find(|s| s.id == u32::from(shell.frontend.selected_bike) + 1)
-    {
-        body.push_str(&format!(
-            "\nMass: {}  Gears: {}\nThrottle: {}  Brake: {}\nGrip: {}  Condition: {}\n",
-            spec.mass,
-            spec.gears.len(),
-            spec.throttle,
-            spec.brake,
-            spec.grip_scale,
-            spec.condition
-        ));
+        if shell.layout.compact {
+            body.push_str(&format!(
+                "${} / B{}\n",
+                c.starting_cash,
+                u16::from(c.bikes[usize::from(shell.frontend.level - 1)]) + 1
+            ));
+        } else {
+            body.push_str(&format!(
+                "\nStarting cash: ${}\nPersonality {} | Bike {}\n",
+                c.starting_cash,
+                c.personality,
+                u16::from(c.bikes[usize::from(shell.frontend.level - 1)]) + 1
+            ));
+        }
     }
     if !shell.notice.is_empty() {
-        body.push_str(&format!("\n{}\n", shell.notice));
+        let columns = shell.layout.columns;
+        let lines = rr_session::ui::wrap(&shell.notice, columns);
+        let pages = lines.len().div_ceil(shell.layout.notice_rows).max(1);
+        let page = shell.notice_page.min(pages - 1);
+        if !shell.layout.compact {
+            body.push('\n');
+        }
+        for line in lines
+            .iter()
+            .skip(page * shell.layout.notice_rows)
+            .take(shell.layout.notice_rows)
+        {
+            body.push_str(line);
+            body.push('\n');
+        }
+        if pages > 1 {
+            body.push_str(&format!("({}/{})\n", page + 1, pages));
+        }
     }
-    body.push_str("\nUp/Down / D-pad | Enter / A | Esc / B");
-    let font = if matches!(
-        shell.frontend.screen,
-        Screen::Standings | Screen::Results | Screen::Showroom
-    ) {
-        12.
+    body.push_str(if shell.layout.compact {
+        "U/D Enter/A Esc/B"
     } else {
-        14.
-    };
+        "\nUp/Down / D-pad | Enter / A | Esc / B"
+    });
+    let font = shell.layout.font;
     commands.spawn((
         MenuEntity,
-        Text2d::new(body),
+        Text2d::new(rr_session::ui::wrap(&body, shell.layout.columns).join("\n")),
         TextFont {
             font_size: bevy::text::FontSize::Px(font),
             ..default()
         },
-        TextColor(Color::srgb(0.9, 0.92, 0.95)),
+        TextColor(if shell.frontend.settings.high_contrast {
+            Color::WHITE
+        } else {
+            Color::srgb(0.9, 0.92, 0.95)
+        }),
         Anchor::TOP_LEFT,
         Transform::from_xyz(-300., 220., 42.),
     ));
+    if shell.layout.compact {
+        return;
+    }
     // A preview is presentation-only; family identity and gameplay stats remain typed domain records.
     let path = if shell.frontend.screen == Screen::Characters {
         shell

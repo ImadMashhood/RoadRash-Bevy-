@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "defects": [
+    {
+      "id": "player-actions",
+      "task": "19.02",
+      "severity": "required",
+      "status": "open",
+      "owner": "Implementing agent",
+      "reproducer": "Nitro/intentional dismount and controller combat commands absent",
+      "regression": null
+    },
+    {
+      "id": "pedestrian-animation",
+      "task": "19.03",
+      "severity": "required",
+      "status": "open",
+      "owner": "Implementing agent",
+      "reproducer": "Pedestrian rendering picks a static first frame",
+      "regression": null
+    },
+    {
+      "id": "road-user-coverage",
+      "task": "19.04",
+      "severity": "required",
+      "status": "open",
+      "owner": "Implementing agent",
+      "reproducer": "Traffic/controller/police policy audit and regression coverage incomplete",
+      "regression": null
+    },
+    {
+      "id": "full-race-career",
+      "task": "19.05",
+      "severity": "required",
+      "status": "open",
+      "owner": "Implementing agent",
+      "reproducer": "Full source-race terminal and 25-race ordinary-command evidence missing",
+      "regression": null
+    },
+    {
+      "id": "dialogue-credits",
+      "task": "19.06",
+      "severity": "required",
+      "status": "open",
+      "owner": "Implementing agent",
+      "reproducer": "Source dialogue and credits replaced by placeholders",
+      "regression": null
+    },
+    {
+      "id": "media-invocation",
+      "task": "19.07",
+      "severity": "required",
+      "status": "open",
+      "owner": "Implementing agent",
+      "reproducer": "Source video variants, finale, contextual effects and MIDI scope incomplete",
+      "regression": null
+    },
+    {
+      "id": "profile-e2e",
+      "task": "19.08",
+      "severity": "required",
+      "status": "open",
+      "owner": "Implementing agent",
+      "reproducer": "Packaged multi-race save/recovery flow not yet exercised",
+      "regression": null
+    },
+    {
+      "id": "accessible-ui",
+      "task": "20.02",
+      "severity": "required",
+      "status": "open",
+      "owner": "Implementing agent",
+      "reproducer": "Small-window, text scaling and translated-layout verification missing",
+      "regression": null
+    },
+    {
+      "id": "release-verification",
+      "task": "21.01",
+      "severity": "required",
+      "status": "open",
+      "owner": "Implementing agent",
+      "reproducer": "Unified release regression/performance/soak receipt missing",
+      "regression": null
+    },
+    {
+      "id": "packaging",
+      "task": "22.01",
+      "severity": "required",
+      "status": "open",
+      "owner": "Implementing agent",
+      "reproducer": "Standalone clean-profile importer/launcher package missing",
+      "regression": null
+    }
+  ]
+}

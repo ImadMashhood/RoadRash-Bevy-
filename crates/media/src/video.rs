@@ -449,3 +449,52 @@ impl Clock {
         }
     }
 }
+
+/// Enumerate original root/result and one-level showroom clips without following
+/// symlinks outside the immutable imported video root.
+pub fn catalog(data: &Path) -> Result<Vec<String>> {
+    let root = data
+        .join("VIDEO")
+        .canonicalize()
+        .map_err(|e| e.to_string())?;
+    let mut names = vec![];
+    for entry in std::fs::read_dir(&root).map_err(|e| e.to_string())? {
+        let path = entry.map_err(|e| e.to_string())?.path();
+        let paths = if path.is_dir() {
+            std::fs::read_dir(path)
+                .map_err(|e| e.to_string())?
+                .filter_map(|e| e.ok().map(|e| e.path()))
+                .collect()
+        } else {
+            vec![path]
+        };
+        for path in paths {
+            if path
+                .extension()
+                .is_none_or(|e| !e.eq_ignore_ascii_case("avi"))
+            {
+                continue;
+            }
+            let relative = path.strip_prefix(&root).map_err(|e| e.to_string())?;
+            resolve(&root, relative)?;
+            let name = relative
+                .with_extension("")
+                .to_str()
+                .ok_or("Non-UTF-8 video identity")?
+                .replace('\\', "/");
+            if !name
+                .bytes()
+                .all(|b| b.is_ascii_alphanumeric() || b"_- /".contains(&b))
+                || name.len() > 80
+            {
+                return Err("Unsupported video identity".into());
+            }
+            names.push(name);
+            if names.len() > 128 {
+                return Err("Video catalog limit".into());
+            }
+        }
+    }
+    names.sort();
+    Ok(names)
+}

@@ -327,3 +327,29 @@ fn immediate_skip_reaps_decoder_and_rejects_escape_paths() {
     assert!(probe(std::path::Path::new("https://invalid/video.avi")).is_err());
     std::fs::remove_dir_all(root).unwrap();
 }
+
+#[test]
+fn result_video_families_cover_every_native_variant_and_progression_without_gameplay_rng() {
+    for (outcome, prefix, count) in [
+        (MovieResult::Win, "WIN", 6),
+        (MovieResult::Lose, "LOSE", 10),
+        (MovieResult::Busted, "BUSTED", 6),
+        (MovieResult::Wreck, "WRECK", 6),
+    ] {
+        for draw in 0..100u32 {
+            assert_eq!(
+                result_movie(outcome, false, false, draw),
+                Some(format!("{prefix}{}", draw % count + 1))
+            );
+        }
+    }
+    assert_eq!(
+        result_movie(MovieResult::Win, true, false, 5),
+        Some("LEVEL6".into())
+    );
+    assert_eq!(
+        result_movie(MovieResult::Win, true, true, 5),
+        Some("FINALWIN".into())
+    );
+    assert_eq!(result_movie(MovieResult::Quiet, false, false, 5), None);
+}

@@ -508,7 +508,7 @@ fn preference_adapter_persists_bindings_audio_and_graphics_independently_from_ca
         .rebind(
             rr_input::Context::Race,
             rr_input::Action::Accelerate,
-            vec![rr_input::Key::KeyQ],
+            vec![rr_input::Key::F10],
         )
         .unwrap();
     storage::preferences(app.world_mut());
@@ -519,7 +519,7 @@ fn preference_adapter_persists_bindings_audio_and_graphics_independently_from_ca
     assert!(p.settings.wide);
     assert_eq!(
         p.bindings.contexts[&rr_input::Context::Race][&rr_input::Action::Accelerate],
-        vec![rr_input::Key::KeyQ]
+        vec![rr_input::Key::F10]
     );
     apply(app.world_mut(), Act::ResetGraphics);
     storage::preferences(app.world_mut());
@@ -531,4 +531,67 @@ fn preference_adapter_persists_bindings_audio_and_graphics_independently_from_ca
     assert_eq!(p.settings.music_volume, 37);
     std::fs::remove_file(&path).unwrap();
     std::fs::remove_file(rr_session::persistence::disk::sidecar(&path, ".bak")).unwrap();
+}
+
+#[test]
+fn keyboard_and_controller_navigate_the_same_menu_actions_without_a_mouse() {
+    for controller in [false, true] {
+        let mut app = app();
+        app.init_resource::<ButtonInput<KeyCode>>();
+        let pad = app.world_mut().spawn(Gamepad::default()).id();
+        app.add_systems(Update, navigate);
+        // Main -> Options using down, down, confirm.
+        for press in [0, 0, 1] {
+            if controller {
+                app.world_mut()
+                    .get_mut::<Gamepad>(pad)
+                    .unwrap()
+                    .digital_mut()
+                    .press(if press == 0 {
+                        GamepadButton::DPadDown
+                    } else {
+                        GamepadButton::South
+                    });
+            } else {
+                app.world_mut()
+                    .resource_mut::<ButtonInput<KeyCode>>()
+                    .press(if press == 0 {
+                        KeyCode::ArrowDown
+                    } else {
+                        KeyCode::Enter
+                    });
+            }
+            app.update();
+            app.world_mut()
+                .resource_mut::<ButtonInput<KeyCode>>()
+                .reset_all();
+            app.world_mut()
+                .get_mut::<Gamepad>(pad)
+                .unwrap()
+                .digital_mut()
+                .reset_all();
+            app.update();
+        }
+        assert_eq!(
+            app.world().resource::<Shell>().frontend.screen,
+            Screen::Restroom
+        );
+        // Back returns through the actual navigation adapter.
+        if controller {
+            app.world_mut()
+                .get_mut::<Gamepad>(pad)
+                .unwrap()
+                .digital_mut()
+                .press(GamepadButton::East);
+        } else {
+            app.world_mut()
+                .resource_mut::<ButtonInput<KeyCode>>()
+                .press(KeyCode::Escape);
+        }
+        app.update();
+        assert_eq!(
+            app.world().resource::<Shell>().frontend.screen,
+            Screen::Main
+        );
+    }
 }

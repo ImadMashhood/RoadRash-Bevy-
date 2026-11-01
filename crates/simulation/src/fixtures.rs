@@ -93,6 +93,7 @@ pub fn library() -> Library {
 }
 pub fn riding() -> Configuration {
     Configuration {
+        actions: None,
         specs: vec![spec()],
         selected: 1,
         tables: tables(),

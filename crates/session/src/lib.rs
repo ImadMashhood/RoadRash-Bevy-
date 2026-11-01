@@ -7,3 +7,7 @@ pub mod race;
 pub type Result<T> = std::result::Result<T, String>;
 pub mod persistence;
 pub mod playback;
+
+pub mod text;
+
+pub mod ui;

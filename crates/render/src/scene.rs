@@ -226,8 +226,64 @@ impl Scene {
         snapshot: &rr_simulation::Snapshot,
         enhanced: bool,
     ) -> Result<(Frame, RenderReceipt)> {
+        self.draw_columns(spec, view, snapshot, enhanced, 0..spec.width)
+    }
+    /// Independent vertical stripes retain ground-anchor occlusion within each
+    /// stripe. Every worker uses the same draw order and absolute pixel math.
+    pub fn draw_parallel(
+        &self,
+        spec: &CameraSpec,
+        view: &View,
+        snapshot: &rr_simulation::Snapshot,
+        enhanced: bool,
+        workers: usize,
+    ) -> Result<(Frame, RenderReceipt)> {
+        let workers = workers.clamp(1, 8).min((spec.width / 32).max(1) as usize);
+        if workers == 1 {
+            return self.draw(spec, view, snapshot, enhanced);
+        }
+        std::thread::scope(|scope| {
+            let mut jobs = vec![];
+            for worker in 0..workers {
+                let columns = (spec.width * worker as u32 / workers as u32)
+                    ..(spec.width * (worker + 1) as u32 / workers as u32);
+                let region = columns.clone();
+                jobs.push((
+                    columns,
+                    scope.spawn(move || {
+                        self.draw_columns(spec, view, snapshot, enhanced, region)
+                            .map_err(|error| error.to_string())
+                    }),
+                ));
+            }
+            let (_, first) = jobs.remove(0);
+            let (mut frame, mut receipt) = first.join().map_err(|_| "Raster worker panicked")??;
+            for (columns, job) in jobs {
+                let (stripe, _) = job.join().map_err(|_| "Raster worker panicked")??;
+                for y in 0..spec.height {
+                    let a = (y * spec.width + columns.start) as usize;
+                    let b = (y * spec.width + columns.end) as usize;
+                    frame.image.pixels[a * 4..b * 4]
+                        .copy_from_slice(&stripe.image.pixels[a * 4..b * 4]);
+                    frame.depth[a..b].copy_from_slice(&stripe.depth[a..b]);
+                }
+                frame.stats.pixels += stripe.stats.pixels;
+            }
+            receipt.stats = frame.stats;
+            Ok((frame, receipt))
+        })
+    }
+    fn draw_columns(
+        &self,
+        spec: &CameraSpec,
+        view: &View,
+        snapshot: &rr_simulation::Snapshot,
+        enhanced: bool,
+        columns: std::ops::Range<u32>,
+    ) -> Result<(Frame, RenderReceipt)> {
         let slices = project(&self.route, spec, &self.assets.depths, view)?;
         let mut frame = Frame::new(spec.width, spec.height)?;
+        frame.columns = columns;
         frame.clear([112, 150, 196, 255]);
         let first = (view.position_q8 / 256.).floor() as usize;
         let heading = self.headings[first]
@@ -505,14 +561,38 @@ impl Scene {
                         .family
                         .and_then(|id| self.assets.families.get(&id))
                         .and_then(|f| {
-                            f.resolve(2, usize::from(agent.selector), Some(0))
-                                .and_then(|at| f.sprites.get(&at))
+                            f.pedestrian_frames
+                                .get(&agent.selector)
+                                .and_then(|frames| frames.get(agent.frame))
+                                .and_then(Option::as_ref)
                         }),
                     Kind::Police => self.assets.police.get(agent.frame).and_then(Option::as_ref),
                 };
                 let Some(sprite) = sprite else {
                     continue;
                 };
+                let library = match agent.kind {
+                    Kind::Pedestrian => self
+                        .assets
+                        .pedestrian_appearances
+                        .iter()
+                        .find(|a| Some(a.family) == agent.family && a.selector == agent.selector)
+                        .map(|a| &a.animation),
+                    Kind::Police => self.assets.police_animation.as_deref(),
+                    Kind::Vehicle => None,
+                };
+                let bank = usize::from(agent.kind == Kind::Police);
+                let view_flags = library
+                    .and_then(|lib| {
+                        let (code, index) = agent.animation.selected?;
+                        let frame = lib.banks.get(bank)?.get(code)?.as_ref()?.get(index)?;
+                        lib.select(bank, frame, 0, 0)
+                            .ok()
+                            .map(|(cell, _)| cell.flags)
+                    })
+                    .unwrap_or(0);
+                let size = (if view_flags & 0x10000 != 0 { 2. } else { 1. })
+                    * (if view_flags & 0x20000 != 0 { 4. } else { 1. });
                 let anchor = actor_anchor(
                     self,
                     &slices,
@@ -531,11 +611,12 @@ impl Scene {
                     x: anchor[0],
                     ground: anchor[1],
                     z,
-                    width: sprite.logical[0] * 2.,
-                    height: sprite.logical[1] * 2.,
+                    width: sprite.logical[0] * 2. * size,
+                    height: sprite.logical[1] * 2. * size,
                     pivot: sprite.pivot,
                     texture: sprite.texture.clone(),
-                    mirror: agent.direction < 0 && agent.kind == Kind::Pedestrian,
+                    mirror: (agent.direction < 0 && agent.kind == Kind::Pedestrian)
+                        ^ (view_flags & 1 != 0),
                     rotation: if agent.state == AgentState::Hit {
                         std::f64::consts::FRAC_PI_2
                     } else {
@@ -682,7 +763,7 @@ pub fn draw_horizon(frame: &mut Frame, texture: &Texture, heading: i32) {
     let image = &texture.image;
     let xoff = (i64::from(image.width) - i64::from(width)) / 2;
     for y in 0..320.min(frame.image.height) {
-        for x in 0..width {
+        for x in frame.columns.clone() {
             let sx =
                 (i64::from(x) + xoff - i64::from(scroll)).rem_euclid(i64::from(image.width)) as u32;
             let sy = y.min(image.height - 1);

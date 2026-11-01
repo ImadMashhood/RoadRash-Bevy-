@@ -102,6 +102,15 @@ pub fn keyboard_sample(keys: &ButtonInput<KeyCode>, bindings: &Bindings) -> Devi
     let pause = race.contains(&Action::Pause);
     let resume = paused.contains(&Action::Resume);
     DeviceSample {
+        buttons: Buttons {
+            punch: race.contains(&Action::Punch),
+            kick: race.contains(&Action::Kick),
+            backhand: race.contains(&Action::Backhand),
+            nitro: race.contains(&Action::Nitro),
+            dismount: race.contains(&Action::Dismount),
+            lean: i8::from(race.contains(&Action::LeanRight))
+                - i8::from(race.contains(&Action::LeanLeft)),
+        },
         drive,
         pause,
         resume,
@@ -394,5 +403,28 @@ mod calibration_tests {
             "saved trigger threshold must apply below the engine's digital press threshold"
         );
         std::fs::remove_dir_all(root).unwrap();
+    }
+}
+
+#[cfg(test)]
+mod action_acceptance {
+    use super::*;
+    #[test]
+    fn physical_keyboard_routes_new_actions_and_held_controls_are_not_neutral() {
+        let mut keys = ButtonInput::default();
+        for key in [
+            KeyCode::ShiftLeft,
+            KeyCode::KeyV,
+            KeyCode::KeyQ,
+            KeyCode::KeyZ,
+        ] {
+            keys.press(key);
+        }
+        let sample = keyboard_sample(&keys, &Bindings::default());
+        assert!(sample.buttons.nitro && sample.buttons.dismount && sample.buttons.punch);
+        assert_eq!(sample.buttons.lean, -1);
+        assert!(!sample.neutral());
+        keys.release_all();
+        assert!(keyboard_sample(&keys, &Bindings::default()).neutral());
     }
 }

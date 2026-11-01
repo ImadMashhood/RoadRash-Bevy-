@@ -69,6 +69,22 @@ impl Preferences {
                             )),
                         }
                     }
+                    let explicit: std::collections::BTreeSet<Action> = actions
+                        .keys()
+                        .filter_map(|name| serde_json::from_value(name.clone().into()).ok())
+                        .collect();
+                    let occupied: std::collections::BTreeSet<Key> = candidate.contexts[&context]
+                        .iter()
+                        .filter(|(a, _)| explicit.contains(a))
+                        .flat_map(|(_, keys)| keys.iter().copied())
+                        .collect();
+                    candidate.contexts.get_mut(&context).ok_or("Input context")?.retain(|action,keys| {
+                        if explicit.contains(action) || !keys.iter().any(|key|occupied.contains(key)) { true }
+                        else {
+                            warnings.push(format!("New optional {action:?} binding left unassigned to preserve existing controls."));
+                            false
+                        }
+                    });
                     if candidate.validate().is_ok() {
                         map = candidate;
                     } else {

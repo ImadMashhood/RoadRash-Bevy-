@@ -1,0 +1,382 @@
+{
+  "outcome": "passed",
+  "base_revision": "23a7d8982ed605b386b62b96d79da1612d4324ef",
+  "policy": "UTF-8 implementation, authored fixtures/translations and redacted evidence only; the single binary exception is the OFL Fira Mono font with verified hash and provenance. No game resources, derived source setups, frames, screenshots, raw audio, disc, private logs or executable payloads. Audit excludes itself.",
+  "files": [
+    {
+      "path": "apps/game/src/acceptance.rs",
+      "bytes": 24717,
+      "sha256": "68b7d137f03424d315bb0a545241662890d1fc61096f68c68a5785e6b668e6d8"
+    },
+    {
+      "path": "apps/game/src/frontend/mod.rs",
+      "bytes": 38953,
+      "sha256": "448caf2f4c564ffbdfad46ac59f3cd3681faed76fc0febeb012abeb3ca11a075"
+    },
+    {
+      "path": "apps/game/src/frontend/tests.rs",
+      "bytes": 21571,
+      "sha256": "b8543f4ba75ed4dfb02d064d5da4dcbda1eb163aec710abd652e2f856a3bb9ce"
+    },
+    {
+      "path": "apps/game/src/frontend/view.rs",
+      "bytes": 25424,
+      "sha256": "326222c2672ac798639b3c01f7fc9b584f624c8c2254aaf80f0069bcf778d3ec"
+    },
+    {
+      "path": "apps/game/src/gamepad_calibration.rs",
+      "bytes": 2201,
+      "sha256": "539df48d802c23634f048d485fa6fc6fdcef1db7dec23337631a63a250522ea4"
+    },
+    {
+      "path": "apps/game/src/input_adapter.rs",
+      "bytes": 15938,
+      "sha256": "70ce1dbabba928de4eac0c210382eadef630605a36d2fd7de0b51541ab56afae"
+    },
+    {
+      "path": "apps/game/src/main.rs",
+      "bytes": 51223,
+      "sha256": "b2245d0ab87071c9e46255e8c66d008513d5edc1353a8e7f034bb34055fbe1e5"
+    },
+    {
+      "path": "apps/game/src/media/mod.rs",
+      "bytes": 15665,
+      "sha256": "e6d45b3e55489b81cef944f7cd2db935e87d5b09a965548fd7595feb4afe36a3"
+    },
+    {
+      "path": "apps/game/src/media/movie.rs",
+      "bytes": 11880,
+      "sha256": "895f97431f887400d1d57688c111e222e4a6b7b629095102646a57c7d2dd9bd4"
+    },
+    {
+      "path": "apps/game/src/performance.rs",
+      "bytes": 13603,
+      "sha256": "d41b54c48769265ee481685b5dbb8a72ad72756958f995e66206d497b3106994"
+    },
+    {
+      "path": "apps/game/src/race_recording.rs",
+      "bytes": 7378,
+      "sha256": "b7721431319b1c9d187be151f83aad13c1f975d95473e07917d7b311d0b5298f"
+    },
+    {
+      "path": "crates/formats/src/lib.rs",
+      "bytes": 3180,
+      "sha256": "fd2584a07420c71484e6eb6449201a57be6445b224e48115a0c4e3849d1de862"
+    },
+    {
+      "path": "crates/formats/src/strings.rs",
+      "bytes": 5303,
+      "sha256": "53870f630cb680b6f0b148e2f50c37ac2f267e3779a4eb8e4746aace20047d98"
+    },
+    {
+      "path": "crates/formats/tests/strings.rs",
+      "bytes": 2923,
+      "sha256": "78d0f5c6328f78ecd440698e859419bfe5ec6de1807caf9b1dad3cf9cc04aad0"
+    },
+    {
+      "path": "crates/input/src/devices.rs",
+      "bytes": 6601,
+      "sha256": "a0b3ca00182ea4451a57e2428d299e8129b2f2bee7f20a7fc8ac27f5b993dede"
+    },
+    {
+      "path": "crates/input/src/lib.rs",
+      "bytes": 7457,
+      "sha256": "5380b9b31529b418d0897e084420558ae2b06027de85789bfd932d3a4d4392ef"
+    },
+    {
+      "path": "crates/input/tests/devices.rs",
+      "bytes": 7139,
+      "sha256": "7e4b637793717bcdef6396604656d35fec77713f6b62b4b64c8a1ea031da85f9"
+    },
+    {
+      "path": "crates/media/src/bin/rr-video-audit.rs",
+      "bytes": 3114,
+      "sha256": "79932dd42eb52156ad8a0f567756d3671d27024a5c7aa8c4aa1d330302287be7"
+    },
+    {
+      "path": "crates/media/src/cues.rs",
+      "bytes": 7840,
+      "sha256": "bc4382cd4963c82cfa9896761edb0465ec223098e51bba4b4abaeb25f9e26e1f"
+    },
+    {
+      "path": "crates/media/src/video.rs",
+      "bytes": 16530,
+      "sha256": "09099df695ec5e0527bec31d6f575c248025de312ef5211b31a4c7cb20253336"
+    },
+    {
+      "path": "crates/media/tests/media.rs",
+      "bytes": 11703,
+      "sha256": "281524c0ed753129dc9a61d8198a667af55ac715fa2aff7ab0dc664a989963c0"
+    },
+    {
+      "path": "crates/presentation/assets/fonts/FiraMono-Medium.ttf",
+      "bytes": 173516,
+      "sha256": "5f9173ce3d05fadef74c7eed06570d54e4f75bd0cd9860726fb2987a7f848292"
+    },
+    {
+      "path": "crates/presentation/assets/fonts/OFL.txt",
+      "bytes": 4479,
+      "sha256": "99bfb7c1e845b79d1031fcf37e678178eb4a8c7cc74a3f218ddf7223083a6fcd"
+    },
+    {
+      "path": "crates/presentation/assets/fonts/PROVENANCE.md",
+      "bytes": 419,
+      "sha256": "c4aa9bcc2f20309790f71e1e2bb460e91432fca3a309cd3e9b145fd05a4f1fdb"
+    },
+    {
+      "path": "crates/presentation/src/course_view.rs",
+      "bytes": 9959,
+      "sha256": "2c06422bb67983faf916ff2b4ea41c135b415caea47402557c8af33e4b645536"
+    },
+    {
+      "path": "crates/presentation/src/lib.rs",
+      "bytes": 9079,
+      "sha256": "ec7f083cd7bded92f0e5803e08549f57af3208e2754fff9121502c85aae7592b"
+    },
+    {
+      "path": "crates/render/src/bin/rr-native-verify.rs",
+      "bytes": 4143,
+      "sha256": "97f1db935e1aadfaf60fc521e13a2cb19a0ff868c654ecf5dd9af00199f729db"
+    },
+    {
+      "path": "crates/render/src/bin/rr-population-art.rs",
+      "bytes": 3220,
+      "sha256": "856f4f07695fbd535c579ef13e7a21b7520c792741485ebd32f78ed6d1b51ec9"
+    },
+    {
+      "path": "crates/render/src/fixture.rs",
+      "bytes": 5206,
+      "sha256": "6fe1e9a63fd585a51f629f59c3b1f351d3150bf80a1f445b1957536dcaddee55"
+    },
+    {
+      "path": "crates/render/src/raster.rs",
+      "bytes": 11529,
+      "sha256": "0a934c1a9174752a241056d83d815dcc1c819298c6f05b8b1051afb349e7262e"
+    },
+    {
+      "path": "crates/render/src/scene.rs",
+      "bytes": 44348,
+      "sha256": "aa5f7cce3aec62aa75ce227463af8ea7489bbfcdf84d047c4407cfa7015c04d7"
+    },
+    {
+      "path": "crates/render/src/source.rs",
+      "bytes": 25934,
+      "sha256": "602dc5dfa014c807e3c74ca998ec6dec6d1f1630cb2ecb995543ee89cb0c0af4"
+    },
+    {
+      "path": "crates/render/tests/classic.rs",
+      "bytes": 33134,
+      "sha256": "07e85b30fc7462a180d00d5cc5607cf205be1209a773f2db68a7242c66febf9a"
+    },
+    {
+      "path": "crates/session/examples/profile_paths.rs",
+      "bytes": 2266,
+      "sha256": "88956a259229d00cfc08a01f374a1adbffebbbbc3de7ed6ee076d9b069ef3b86"
+    },
+    {
+      "path": "crates/session/src/bin/rr-text-check.rs",
+      "bytes": 1131,
+      "sha256": "90e515bdde16a816fd74737714a75c092a4e025909bb6c3fa5ec20db03dc78c1"
+    },
+    {
+      "path": "crates/session/src/career.rs",
+      "bytes": 8875,
+      "sha256": "71285c3308d40715bb0bb24aa85f9dab3b528223d8b73a6abf0e08160ed1215e"
+    },
+    {
+      "path": "crates/session/src/flow.rs",
+      "bytes": 11888,
+      "sha256": "130dd9c6e24fa95fb11420559da3e8ee488046ad87c7369a4a0a74167a487d91"
+    },
+    {
+      "path": "crates/session/src/lib.rs",
+      "bytes": 303,
+      "sha256": "fdefbe868a22df700ed9a090970206980dce3f293630d814bcbefc8c49440e45"
+    },
+    {
+      "path": "crates/session/src/persistence/preferences.rs",
+      "bytes": 4624,
+      "sha256": "148fca0d9ca56ddad356f66b0fc8b53173cd02346c33f88a4f956512e610e2ca"
+    },
+    {
+      "path": "crates/session/src/race.rs",
+      "bytes": 14012,
+      "sha256": "a40adbc038cfb03553fc82cae7ec1d7db398250b259be56b66ef6f0ad8bee478"
+    },
+    {
+      "path": "crates/session/src/text.rs",
+      "bytes": 9663,
+      "sha256": "888d66f3fcdd9a8d4852f46d9c86da262e37d1a057542004c3f9db69952feffe"
+    },
+    {
+      "path": "crates/session/src/ui.rs",
+      "bytes": 7368,
+      "sha256": "1544e01843b7cbe64fa2aeeb7c7d092518f1aa508520f948de6bda4e80c20fba"
+    },
+    {
+      "path": "crates/session/tests/interface.rs",
+      "bytes": 5029,
+      "sha256": "e600d66e3e838b378f1df022227a6c137388217f308349e1dd03d75d69076762"
+    },
+    {
+      "path": "crates/session/tests/rules.rs",
+      "bytes": 22798,
+      "sha256": "323b4d3b651e0e68e0ecb24123b20698d93f011ea70ebb6a7d0d9ff6d0090443"
+    },
+    {
+      "path": "crates/simulation/examples/diagnose_contacts.rs",
+      "bytes": 1361,
+      "sha256": "3beb996b67ade73753b9e0bf6c3432bc3f1b3f02ad02c13b99d6adb4e312eb52"
+    },
+    {
+      "path": "crates/simulation/src/actions.rs",
+      "bytes": 3207,
+      "sha256": "e24db6842d68e283691311824a8ec8e98f00390baaa087d5620d1eec1712e2e1"
+    },
+    {
+      "path": "crates/simulation/src/animation.rs",
+      "bytes": 23125,
+      "sha256": "5ba5e542296273737c7a6d69c2c16ab01c6aa19a47f2e36f99e793af454e0b4c"
+    },
+    {
+      "path": "crates/simulation/src/bin/rr-replay.rs",
+      "bytes": 790,
+      "sha256": "708b978129325aeb6a80929cf25948b95bf21607216988ab49d33899343f96e0"
+    },
+    {
+      "path": "crates/simulation/src/encounter.rs",
+      "bytes": 40273,
+      "sha256": "f717fc047f680d7b9ef940f5b8683a74f9fa36c9280280efb991307210a93f1d"
+    },
+    {
+      "path": "crates/simulation/src/fixtures.rs",
+      "bytes": 2811,
+      "sha256": "6640cf4aaf5c06d46a07af2d3bb7b44582a06c6989b6d868a8ea0e2d4715837c"
+    },
+    {
+      "path": "crates/simulation/src/handling.rs",
+      "bytes": 21278,
+      "sha256": "70685c66aa79c767fb228f1a4ddd98fdbeb38c01eae80982f4ebb25fbbdaa8c7"
+    },
+    {
+      "path": "crates/simulation/src/lib.rs",
+      "bytes": 35207,
+      "sha256": "ee6d6ce695ddc0485a0001f175f2aaeba7725fe8c150b07377d51006ec4c8816"
+    },
+    {
+      "path": "crates/simulation/src/population.rs",
+      "bytes": 16607,
+      "sha256": "18d7e35dc125c6e66bd7bfdccdf37a91eb8c798a8b6e4f7d993a21a65efa4117"
+    },
+    {
+      "path": "crates/simulation/src/population/opponents.rs",
+      "bytes": 12842,
+      "sha256": "b5541f299ca2d33c1a6909eb1a5212f42105ff1fd6b9f40ab96eef3f278c6712"
+    },
+    {
+      "path": "crates/simulation/src/population/road_users.rs",
+      "bytes": 28751,
+      "sha256": "cc478d3b123009cbb465c0a6ffb135e5d13e4cd5d8cadee0a1c43e21b1fb9db3"
+    },
+    {
+      "path": "crates/simulation/src/replay.rs",
+      "bytes": 9460,
+      "sha256": "ea38ba8944624936dc4698e74e10684f067b9f8323e58dcba1f801850834e1b0"
+    },
+    {
+      "path": "crates/simulation/src/riding.rs",
+      "bytes": 11023,
+      "sha256": "470ec7a1b7534f9110072725cc7b0c6da907089e4825b36103c7c1b5b1f6c706"
+    },
+    {
+      "path": "crates/simulation/tests/actions.rs",
+      "bytes": 8436,
+      "sha256": "c8ac81b8bfc7b40e82016c25c4735416c299f79f30327bbced190d6aa6edb9de"
+    },
+    {
+      "path": "crates/simulation/tests/core.rs",
+      "bytes": 15544,
+      "sha256": "a3e399b89d1da26dc926283321733bb6f1c250e5fe4c4c26d356022eea44b0fd"
+    },
+    {
+      "path": "crates/simulation/tests/population.rs",
+      "bytes": 35489,
+      "sha256": "b46e326a0c498dfaef5f8313947bf98cf5998597403c5009783f8ff4aff0f493"
+    },
+    {
+      "path": "crates/simulation/tests/riding.rs",
+      "bytes": 16927,
+      "sha256": "73baa37e6f781ce1b60cb4e08aced43ac8722bdbdf2e356ac215ec5875d60ac2"
+    },
+    {
+      "path": "docs/PLAYER_GUIDE.md",
+      "bytes": 6144,
+      "sha256": "cfbb42369cbccf504820f42d0cf2da39f418ffcea7fd748995949b772055a3a3"
+    },
+    {
+      "path": "docs/fixtures/ui-text.json",
+      "bytes": 17178,
+      "sha256": "1b6df2958b43861c08a804491210bd75fb6f7e5db2f8f082faa8b5ad6ca3980b"
+    },
+    {
+      "path": "docs/functional-defects.json",
+      "bytes": 2742,
+      "sha256": "24fbf25df07932bdaa79b656e74f98ae96f618efcb89a1781c9191e86fd82bde"
+    },
+    {
+      "path": "docs/functional-manifest.json",
+      "bytes": 18835,
+      "sha256": "489e8b15053053c327d7bd1e01ba97f60800fe0ee600904c16c7eaaf8b0252c2"
+    },
+    {
+      "path": "tools/ci/clean_build.sh",
+      "bytes": 1194,
+      "sha256": "30a124406815a4bcdc4c324404e7b8237c2cfa3efda8e9330e402d99e52b2203"
+    },
+    {
+      "path": "tools/release/FiraMono-OFL.txt",
+      "bytes": 4479,
+      "sha256": "99bfb7c1e845b79d1031fcf37e678178eb4a8c7cc74a3f218ddf7223083a6fcd"
+    },
+    {
+      "path": "tools/release/launcher.py",
+      "bytes": 6956,
+      "sha256": "796a05906d6f1f721ddd169f8f190b51a7bbf615717ed2f15165b2b329e77cca"
+    },
+    {
+      "path": "tools/release/notices.py",
+      "bytes": 4292,
+      "sha256": "0f70023523646caa1aa9387d5f2cc7e110d2dfd0c03058c4b048609685c4b356"
+    },
+    {
+      "path": "tools/release/package.py",
+      "bytes": 4886,
+      "sha256": "b3fe8851e62354513ef0de5dbdfa22a1367466d09c4cb2a1355e83043f6d42c8"
+    },
+    {
+      "path": "tools/test_release.py",
+      "bytes": 1990,
+      "sha256": "af5159abb5142c3eb2153269b11f7f19c08ddc41e260d80cf4111f4b8b911f59"
+    },
+    {
+      "path": "tools/test_verification.py",
+      "bytes": 1365,
+      "sha256": "eb155094de17dd869f8e9a0705a04602b2045415edb97017dbd33615f8b29b7f"
+    },
+    {
+      "path": "tools/verification/campaign.py",
+      "bytes": 5522,
+      "sha256": "f91a8e1510162d3d90a4a5531d51caf1b6254d9f49bc4aeb2f3d35f43d716f06"
+    },
+    {
+      "path": "tools/verification/compare.py",
+      "bytes": 3072,
+      "sha256": "2716b59d67d28afabdc06105854b02081308f428a36a9327a2141cd42400c92b"
+    },
+    {
+      "path": "tools/verification/regression.py",
+      "bytes": 3304,
+      "sha256": "8144daea8798c0d047afbc25e7ea030a2d4a7cbd1abdddb1247bf22e44a9e799"
+    }
+  ]
+}

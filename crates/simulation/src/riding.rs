@@ -8,6 +8,8 @@ use std::path::Path;
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct Configuration {
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub actions: Option<crate::actions::Config>,
     pub specs: Vec<BikeSpec>,
     pub selected: u32,
     pub tables: Tables,
@@ -18,6 +20,9 @@ pub struct Configuration {
 impl Configuration {
     pub fn validate(&self) -> Result<()> {
         self.tables.validate()?;
+        if let Some(actions) = self.actions {
+            actions.validate()?;
+        }
         if self.specs.is_empty()
             || self.specs.len() > 64
             || self.ground.is_empty()
@@ -70,6 +75,7 @@ impl Configuration {
     ) -> std::result::Result<Self, Box<dyn std::error::Error>> {
         let exe = std::fs::read(data.join("ROADRASH.EXE"))?;
         let config = Self {
+            actions: None,
             specs: BikeSpec::read(&std::fs::read(data.join("DATA/BIKESPEC.RSC"))?)?,
             selected,
             tables: Tables::read(&exe)?,
@@ -132,6 +138,8 @@ impl Configuration {
 }
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Eq)]
 pub struct Rider {
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub actions: Option<crate::actions::State>,
     pub bike: Bike,
     pub animation: Player,
     pub pose: Pose,
@@ -151,6 +159,7 @@ impl Rider {
         let mut bike = Bike::new(c.spec(), &c.tables)?;
         bike.previous_rise = c.ground[c.start_sample as usize].rise;
         Ok(Self {
+            actions: None,
             bike,
             animation,
             pose: Pose::Ride,
@@ -254,8 +263,14 @@ impl Rider {
             self.bike.speed = (self.bike.speed - self.bike.speed / 32 - 20).max(0);
             self.bike.lateral_speed = 0;
         }
+        let boost = match (&mut self.actions, c.actions) {
+            (Some(state), Some(config)) => {
+                state.tick(config, input, !self.bike.crashed && !self.bike.failed)
+            }
+            _ => 256,
+        };
         self.bike
-            .step_on_route(c.spec(), &c.tables, input, ground, |old, new| {
+            .step_with_boost(c.spec(), &c.tables, input, ground, boost, |old, new| {
                 c.swept_ground(old, new)
             });
         Ok(())

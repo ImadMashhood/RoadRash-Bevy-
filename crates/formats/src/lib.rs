@@ -6,6 +6,7 @@ pub mod family;
 pub mod pe;
 pub mod pixels;
 pub mod resource;
+pub mod strings;
 pub const DECODER_VERSION: &str = concat!(
     env!("CARGO_PKG_VERSION"),
     "-",

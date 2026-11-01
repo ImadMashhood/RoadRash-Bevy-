@@ -107,7 +107,12 @@ impl Planner {
                 self.loops.insert(
                     LoopId::Engine,
                     Voice {
-                        name: ENGINE_VARIANTS[usize::from(bike.min(14)) / 5].into(),
+                        name: if rider.actions.is_some_and(|s| s.active) {
+                            "ENGNITRO"
+                        } else {
+                            ENGINE_VARIANTS[usize::from(bike.min(14)) / 5]
+                        }
+                        .into(),
                         bus: Bus::Engine,
                         pitch: pitch_q8(self.rpm.current, 22050),
                         gain: 0.25,
@@ -199,4 +204,34 @@ pub fn effect(kind: EffectKind) -> Option<(&'static str, u8)> {
 /// Missing tracks are skipped with at most one complete catalog traversal.
 pub fn next_track(start: usize, available: &[bool; 14]) -> Option<usize> {
     (0..14).map(|i| (start + i) % 14).find(|i| available[*i])
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum MovieResult {
+    Win,
+    Lose,
+    Busted,
+    Wreck,
+    Quiet,
+}
+/// Native filename families; variant selection is a caller-supplied presentation
+/// draw, deliberately independent of the gameplay RNG.
+pub fn result_movie(
+    result: MovieResult,
+    level_advanced: bool,
+    finale: bool,
+    draw: u32,
+) -> Option<String> {
+    if result == MovieResult::Win && finale {
+        return Some("FINALWIN".into());
+    }
+    let (prefix, count) = match result {
+        MovieResult::Win if level_advanced => ("LEVEL", 6),
+        MovieResult::Win => ("WIN", 6),
+        MovieResult::Lose => ("LOSE", 10),
+        MovieResult::Busted => ("BUSTED", 6),
+        MovieResult::Wreck => ("WRECK", 6),
+        MovieResult::Quiet => return None,
+    };
+    Some(format!("{prefix}{}", draw % count + 1))
 }

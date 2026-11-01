@@ -70,6 +70,7 @@ pub struct FamilyAssets {
     pub definition: Arc<Family>,
     pub groups: BTreeMap<u32, Material>,
     pub sprites: BTreeMap<u32, SpriteAsset>,
+    pub pedestrian_frames: BTreeMap<u8, Vec<Option<SpriteAsset>>>,
 }
 impl FamilyAssets {
     fn unalias(&self, mut at: u32) -> Option<&rr_formats::family::FamilyNode> {
@@ -126,6 +127,8 @@ impl FamilyAssets {
 }
 #[derive(Clone)]
 pub struct SourceAssets {
+    pub police_animation: Option<Arc<rr_simulation::animation::Library>>,
+    pub pedestrian_appearances: Vec<rr_simulation::population::PedestrianAppearance>,
     pub animations: Option<Arc<crate::rider::RiderAssets>>,
     pub palettes: BTreeMap<u8, Arc<crate::rider::RiderAssets>>,
     pub vehicles: Vec<Vec<Option<SpriteAsset>>>,
@@ -252,8 +255,8 @@ impl SourceAssets {
             .iter()
             .position(|s| *s == stem)
             .ok_or("unknown course source name")?;
-        let exe = fs::read(data.join("ROADRASH.EXE"))?;
-        let exe = rr_formats::pe::SupportedExe::read(&exe)?;
+        let exe_bytes = fs::read(data.join("ROADRASH.EXE"))?;
+        let exe = rr_formats::pe::SupportedExe::read(&exe_bytes)?;
         let depths = DepthTable::source(&exe)?;
         let palette = Palette::read(&fs::read(data.join("DATA/PALETTE.RAW"))?)?;
         let global = fs::read(data.join("DATA/GLOBAL.RSC"))?;
@@ -351,6 +354,7 @@ impl SourceAssets {
             .filter(|f| *f != 0)
             .collect();
         let mut families = BTreeMap::new();
+        let mut pedestrian_appearances = vec![];
         let mut notes = BTreeSet::new();
         let mut pixel_budget = 0usize;
         for id in needed {
@@ -402,38 +406,79 @@ impl SourceAssets {
                 }
             }
             let mut family = FamilyAssets {
+                pedestrian_frames: BTreeMap::new(),
                 definition: Arc::new(definition),
                 groups,
                 sprites,
             };
-            let mut checked = BTreeSet::new();
             for selector in 0..64 {
-                if let Some(at) = family.resolve(2, selector, Some(0))
-                    && checked.insert(at)
-                    && !family.sprites.contains_key(&at)
-                {
-                    if u32le(&bytes, at as usize)? != 0x5252414e {
+                let Some(graphics) = family.resolve(2, selector, Some(0)) else {
+                    continue;
+                };
+                let Some(cans) = family.resolve(2, selector, Some(1)) else {
+                    continue;
+                };
+                if u32le(&bytes, graphics as usize)? != 0x5252414e {
+                    continue;
+                }
+                let mut end = cans as usize;
+                let mut valid = true;
+                for _ in 0..5 {
+                    let extent = u32le(&bytes, end + 4)? as usize;
+                    if extent < 8 || end.checked_add(extent).is_none_or(|e| e > bytes.len()) {
+                        valid = false;
+                        break;
+                    }
+                    end += extent;
+                }
+                if !valid {
+                    notes.insert(format!(
+                        "family {id} selector {selector}: unavailable CANS extent"
+                    ));
+                    continue;
+                }
+                let animation = match rr_simulation::animation::Library::pedestrian(
+                    &exe_bytes,
+                    &bytes[cans as usize..end],
+                ) {
+                    Ok(value) => value,
+                    Err(error) => {
+                        notes.insert(format!("family {id} selector {selector}: unavailable pedestrian animation: {error}"));
                         continue;
                     }
-                    let count = (u32le(&bytes, at as usize + 24)? as usize).saturating_sub(8) / 28;
-                    for frame in 0..count.min(4096) {
-                        if let Some(sprite) =
-                            animation_sprite(&bytes, at as usize, &palette, frame)?
-                        {
-                            pixel_budget += sprite
-                                .texture
-                                .mipmaps
-                                .iter()
-                                .map(|m| m.pixels.len())
-                                .sum::<usize>();
-                            if pixel_budget > 256 * 1024 * 1024 {
-                                return Err("renderer pedestrian pixel budget".into());
-                            }
-                            family.sprites.insert(at, sprite);
-                            break;
-                        }
-                    }
+                };
+                let count =
+                    (u32le(&bytes, graphics as usize + 24)? as usize).saturating_sub(8) / 28;
+                if count > 4096 {
+                    return Err("Pedestrian frame budget".into());
                 }
+                let mut frames = vec![];
+                for frame in 0..count {
+                    let sprite = animation_sprite(&bytes, graphics as usize, &palette, frame)?;
+                    if let Some(sprite) = &sprite {
+                        pixel_budget += sprite.texture.image.pixels.len();
+                    }
+                    if pixel_budget > 256 * 1024 * 1024 {
+                        return Err("renderer pedestrian pixel budget".into());
+                    }
+                    frames.push(sprite);
+                }
+                if animation.views[0]
+                    .iter()
+                    .flatten()
+                    .any(|cell| frames.get(cell.frame).is_none_or(Option::is_none))
+                {
+                    notes.insert(format!(
+                        "family {id} selector {selector}: missing required pedestrian pixels"
+                    ));
+                    continue;
+                }
+                family.pedestrian_frames.insert(selector as u8, frames);
+                pedestrian_appearances.push(rr_simulation::population::PedestrianAppearance {
+                    family: id,
+                    selector: selector as u8,
+                    animation,
+                });
             }
             families.insert(id, family);
         }
@@ -481,6 +526,10 @@ impl SourceAssets {
             }));
         }
         Ok(Self {
+            police_animation: Some(Arc::new(rr_simulation::animation::Library::read(
+                &exe_bytes, &global,
+            )?)),
+            pedestrian_appearances,
             palettes: BTreeMap::new(),
             vehicles,
             vehicle_masks,
@@ -500,6 +549,8 @@ impl SourceAssets {
     pub fn authored() -> Self {
         let image = |c| Texture::solid(c);
         Self {
+            police_animation: None,
+            pedestrian_appearances: vec![],
             palettes: BTreeMap::new(),
             vehicles: vec![],
             vehicle_masks: vec![],
@@ -529,6 +580,54 @@ impl SourceAssets {
         }
         self.enhanced = Some(Texture::new(Rgba::from_png(&fs::read(path)?)?, false)?);
         Ok(())
+    }
+}
+
+impl SourceAssets {
+    /// Actual decoded RGBA allocation bytes, deduplicated by shared image identity.
+    /// Excludes structs, maps, renderer buffers and driver allocations.
+    pub fn pixel_residency(&self) -> BTreeMap<&'static str, usize> {
+        let mut seen = std::collections::BTreeSet::new();
+        let mut bytes = BTreeMap::new();
+        let mut add = |role, texture: &Texture| {
+            if seen.insert(Arc::as_ptr(&texture.image) as usize) {
+                *bytes.entry(role).or_insert(0) += texture.image.pixels.len();
+            }
+        };
+        for bank in self.palettes.values().chain(self.animations.iter()) {
+            for sprite in bank.bodies.iter().chain(&bank.shadows).flatten() {
+                add("riders_and_shadows", &sprite.texture);
+            }
+        }
+        for t in &self.road {
+            add("road", t);
+        }
+        for t in &self.ground {
+            add("ground", t);
+        }
+        add("horizon", &self.horizon);
+        add("fallback_rider", &self.rider.texture);
+        for sprite in self
+            .vehicles
+            .iter()
+            .flatten()
+            .chain(self.police.iter())
+            .flatten()
+        {
+            add("traffic_and_police", &sprite.texture);
+        }
+        for family in self.families.values() {
+            for sprite in family.sprites.values() {
+                add("scenery", &sprite.texture);
+            }
+            for sprite in family.pedestrian_frames.values().flatten().flatten() {
+                add("pedestrians", &sprite.texture);
+            }
+        }
+        if let Some(enhanced) = &self.enhanced {
+            add("enhanced", enhanced);
+        }
+        bytes
     }
 }
 

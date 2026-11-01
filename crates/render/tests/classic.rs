@@ -873,6 +873,7 @@ fn animation_frame_pivots_palette_and_ground_shadow_survive_airborne_transition(
     }));
     let mut snapshot = snap();
     snapshot.actors[0].rider = Some(Rider {
+        actions: None,
         bike: Bike::default(),
         animation: Player::default(),
         pose: Pose::Ride,
@@ -968,4 +969,32 @@ fn billboard_rotation_preserves_zero_angle_and_changes_nonzero_pose() {
     s.rotation = 0.2;
     draw_billboards(&mut c, &mut [s], &spec, &depths);
     assert_ne!(a.image.pixels, c.image.pixels);
+}
+
+#[test]
+fn parallel_vertical_stripes_preserve_every_pixel_depth_and_draw_statistic() {
+    for name in rr_render::fixture::CASES {
+        let scene = rr_render::fixture::scene(name).unwrap();
+        let snapshot = rr_simulation::Simulation::default().snapshot();
+        for framing in [rr_render::Framing::Classic, rr_render::Framing::Wide] {
+            let spec = rr_render::CameraSpec::new(framing, false);
+            let view = rr_render::View::default();
+            let (serial, receipt) = scene.draw(&spec, &view, &snapshot, false).unwrap();
+            for workers in [2, 3, 6] {
+                let (parallel, actual) = scene
+                    .draw_parallel(&spec, &view, &snapshot, false, workers)
+                    .unwrap();
+                assert_eq!(
+                    serial.image.pixels, parallel.image.pixels,
+                    "{name} {framing:?} {workers}"
+                );
+                assert_eq!(serial.depth, parallel.depth, "{name} {workers}");
+                assert_eq!(
+                    serde_json::to_value(&receipt).unwrap(),
+                    serde_json::to_value(&actual).unwrap(),
+                    "{name} {workers}"
+                );
+            }
+        }
+    }
 }

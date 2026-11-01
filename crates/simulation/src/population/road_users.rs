@@ -1,5 +1,6 @@
 //! Bounded road-user spawning, movement, contacts and pursuit lifecycle.
 use super::*;
+use crate::combat::{Effect, EffectKind};
 impl World {
     pub(crate) fn spawn_tick(
         &mut self,
@@ -180,7 +181,12 @@ impl World {
         let _ = actors;
         Ok(())
     }
-    pub(crate) fn movement(&mut self, e: &Encounters, tick: u64) -> Result<()> {
+    pub(crate) fn movement(
+        &mut self,
+        e: &Encounters,
+        config: &riding::Configuration,
+        tick: u64,
+    ) -> Result<()> {
         let Some(player) = e.units.get(&ActorId(1)) else {
             return Ok(());
         };
@@ -190,7 +196,22 @@ impl World {
             .as_ref()
             .map_or(player.recovery.bike_location, |b| b.location);
         let t = &e.setup.topology;
+        let occupied: Vec<_> = self
+            .agents
+            .values()
+            .map(|a| (a.id, a.kind, a.state, a.location, a.speed, a.direction))
+            .collect();
+        let riders: Vec<_> = e
+            .units
+            .values()
+            .filter(|u| u.recovery.outcome.is_none())
+            .flat_map(|u| {
+                std::iter::once(u.recovery.bike_location)
+                    .chain(u.recovery.body.iter().map(|b| b.location))
+            })
+            .collect();
         let mut remove = vec![];
+        let mut reservations: Vec<(u32, i64, i32)> = vec![];
         for a in self.agents.values_mut() {
             a.previous = a.location;
             if a.state == AgentState::Hit {
@@ -215,6 +236,77 @@ impl World {
             }
             match a.kind {
                 Kind::Vehicle => {
+                    if self.setup.functional_traffic && a.subtype != 1 {
+                        let nominal = *a.cruise_speed.get_or_insert(a.speed);
+                        let projected = t.projected(a.location).unwrap_or(0);
+                        let index = (i64::from(config.start_sample) + (projected >> 8))
+                            .clamp(0, config.ground.len() as i64 - 1)
+                            as usize;
+                        let ground = config.ground[index];
+                        let center = (ground.left + ground.right) * 128;
+                        let blocked = |lane: i32| {
+                            occupied.iter().any(|(id, _, _, location, _, _)| {
+                                *id != a.id
+                                    && location.path == a.location.path
+                                    && (location.progress - a.location.progress).abs() < 512
+                                    && (location.lateral - lane).abs() < 40000
+                            }) || reservations.iter().any(|(path, progress, reserved)| {
+                                *path == a.location.path
+                                    && (*progress - a.location.progress).abs() < 512
+                                    && (*reserved - lane).abs() < 40000
+                            }) || riders.iter().any(|location| {
+                                location.path == a.location.path
+                                    && (location.progress - a.location.progress).abs() < 512
+                                    && (location.lateral - lane).abs() < 32000
+                            })
+                        };
+                        let target = [center - 64000, center, center + 64000]
+                            .into_iter()
+                            .filter(|lane| {
+                                *lane > (ground.left + 100) * 256
+                                    && *lane < (ground.right - 100) * 256
+                                    && !blocked(*lane)
+                            })
+                            .min_by_key(|lane| (*lane - a.location.lateral).abs());
+                        let signal = self.setup.zones.iter().any(|zone| {
+                            if zone.path != a.location.path {
+                                return false;
+                            }
+                            let stop = if a.direction > 0 {
+                                zone.start + 256
+                            } else {
+                                zone.end - 256
+                            };
+                            let ahead = (stop - a.location.progress) * i64::from(a.direction);
+                            (0..=256).contains(&ahead)
+                                && self.controllers.get(&zone.id).is_some_and(|c| c.phase != 2)
+                        });
+                        let crossing = occupied.iter().any(|(_, kind, state, location, _, _)| {
+                            *kind == Kind::Pedestrian
+                                && *state == AgentState::Crossing
+                                && location.path == a.location.path
+                                && (location.progress - a.location.progress).abs() < 768
+                                && (location.lateral - a.location.lateral).abs() < 48000
+                        });
+                        let stop = signal || crossing || blocked(a.location.lateral);
+                        a.speed = if stop { 0 } else { nominal };
+                        a.state = if stop {
+                            AgentState::Waiting
+                        } else {
+                            AgentState::Cruise
+                        };
+                        if !signal
+                            && !crossing
+                            && let Some(lane) = target
+                        {
+                            a.location.lateral += (lane - a.location.lateral).clamp(-1024, 1024);
+                        }
+                        reservations.push((
+                            a.location.path,
+                            a.location.progress,
+                            target.unwrap_or(a.location.lateral),
+                        ));
+                    }
                     if a.state == AgentState::Crossing {
                         a.location.lateral = a
                             .location
@@ -236,6 +328,18 @@ impl World {
                         && a.location.path == target.path
                         && (a.location.progress - target.progress).abs() < 2048
                         && (4..=7).contains(&a.subtype)
+                        && (!self.setup.functional_traffic
+                            || !occupied
+                                .iter()
+                                .any(|(_, kind, _, location, speed, direction)| {
+                                    *kind == Kind::Vehicle
+                                        && *speed > 0
+                                        && location.path == a.location.path
+                                        && (location.progress - a.location.progress).abs() < 2048
+                                        && ((a.location.progress - location.progress)
+                                            * i64::from(*direction))
+                                            >= 0
+                                }))
                     {
                         a.state = AgentState::Crossing;
                         a.state_since = tick;
@@ -366,6 +470,24 @@ impl World {
                     continue;
                 }
                 if a.kind == Kind::Police {
+                    if self.setup.functional_traffic
+                        && unit.recovery.phase == Phase::Mounted
+                        && (actors[&rider_id].view.rider.as_ref().unwrap().bike.speed > 1800
+                            || actors[&rider_id].input.attack.is_some())
+                    {
+                        let cop = self.agents.get_mut(&id).unwrap();
+                        cop.state = AgentState::Hit;
+                        cop.state_since = tick;
+                        cop.hit_count += 1;
+                        cop.siren = false;
+                        self.cues.push(Cue::SirenStop(id));
+                        effects.push(Effect {
+                            tick,
+                            actor: rider_id,
+                            other: None,
+                            kind: EffectKind::Contact,
+                        });
+                    }
                     continue;
                 }
                 let speed = actors[&rider_id].view.rider.as_ref().unwrap().bike.speed;
@@ -475,6 +597,46 @@ impl World {
                     .animation
                     .select(1, &frame, 0, 0)
                     .map_err(|_| Error::Invalid("cop view"))?
+                    .0
+                    .frame;
+            }
+        }
+        for agent in self
+            .agents
+            .values_mut()
+            .filter(|a| a.kind == Kind::Pedestrian)
+        {
+            let Some(appearance) = self
+                .setup
+                .pedestrian_appearances
+                .iter()
+                .find(|a| Some(a.family) == agent.family && a.selector == agent.selector)
+            else {
+                continue;
+            };
+            let code = match agent.state {
+                AgentState::Crossing => 0,
+                AgentState::Hit => 3,
+                AgentState::Recovering => 4,
+                _ => 1,
+            };
+            let code = appearance
+                .animation
+                .resolve(0, code)
+                .ok_or(Error::Invalid("Pedestrian state sequence"))? as i8;
+            if agent.animation.code != code {
+                agent.animation.set(&appearance.animation, 0, code);
+                agent.animation.queued = Some(code);
+            }
+            if let Some(frame) = agent
+                .animation
+                .advance(&appearance.animation, 0, tick)
+                .map_err(|_| Error::Invalid("Pedestrian playback"))?
+            {
+                agent.frame = appearance
+                    .animation
+                    .select(0, &frame, 0, 0)
+                    .map_err(|_| Error::Invalid("Pedestrian view"))?
                     .0
                     .frame;
             }

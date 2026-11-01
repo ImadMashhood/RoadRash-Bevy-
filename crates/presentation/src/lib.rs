@@ -27,11 +27,34 @@ struct PlayerTextures {
     native: Handle<Image>,
     enhanced: Handle<Image>,
 }
+#[derive(Resource, Default)]
+pub struct RenderTiming {
+    pub cpu_draw_ms: f64,
+    pub draws: u64,
+}
+#[derive(Resource, Default)]
+pub struct Accessibility {
+    pub reduced_motion: bool,
+}
 pub struct ClassicPresentationPlugin;
 impl Plugin for ClassicPresentationPlugin {
     fn build(&self, app: &mut App) {
+        // Bevy's small built-in subset lacks the supplied language accents.
+        // Embed the complete OFL font so installed builds need no asset path.
+        if let Some(mut fonts) = app.world_mut().get_resource_mut::<Assets<Font>>() {
+            fonts
+                .insert(
+                    bevy::asset::AssetId::default(),
+                    Font::from_bytes(
+                        include_bytes!("../assets/fonts/FiraMono-Medium.ttf").to_vec(),
+                    ),
+                )
+                .expect("default UI font");
+        }
         course_view::install(app);
-        app.init_resource::<PresentedSnapshot>()
+        app.init_resource::<RenderTiming>()
+            .init_resource::<Accessibility>()
+            .init_resource::<PresentedSnapshot>()
             .init_resource::<VisualAssets>()
             .configure_sets(
                 Update,

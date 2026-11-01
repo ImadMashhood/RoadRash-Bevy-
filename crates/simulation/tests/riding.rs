@@ -92,6 +92,7 @@ fn library() -> Library {
 }
 fn config() -> Configuration {
     Configuration {
+        actions: None,
         specs: vec![spec()],
         selected: 1,
         tables: tables(),
