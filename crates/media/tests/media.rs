@@ -353,3 +353,85 @@ fn result_video_families_cover_every_native_variant_and_progression_without_game
     );
     assert_eq!(result_movie(MovieResult::Quiet, false, false, 5), None);
 }
+#[test]
+fn character_voice_sets_and_pedestrian_reactions_are_bounded_deduplicated_and_presentation_only() {
+    use rr_simulation::{
+        Simulation, encounter, fixtures,
+        population::{Kind, Setup, Spawn},
+        topology::Location,
+    };
+    let c = fixtures::riding();
+    let e = encounter::Setup::authored(&c).unwrap();
+    let mut setup = Setup {
+        traffic: false,
+        periodic_police: false,
+        ..Default::default()
+    };
+    setup.spawns.push(Spawn {
+        id: 1,
+        location: Location {
+            progress: 800,
+            ..Default::default()
+        },
+        kind: Kind::Pedestrian,
+        family: Some(7),
+        selector: 0,
+        subtype: 0,
+        speed: 0,
+        direction: 1,
+    });
+    let mut sim = Simulation::with_population(7, c, e, setup).unwrap();
+    sim.step(Default::default()).unwrap();
+    let before = sim.state_hash();
+    let mut snapshot = sim.snapshot();
+    assert_eq!(snapshot.road_users.len(), 1);
+    for character in 1..=8 {
+        let mut p = Planner::default();
+        p.character = character;
+        p.pedestrian_voices = std::sync::Arc::new(std::collections::BTreeMap::from([(
+            (7, 0),
+            [Some(32), Some(33)],
+        )]));
+        let finish = Effect {
+            tick: snapshot.tick,
+            actor: ActorId(1),
+            other: None,
+            kind: EffectKind::Finish,
+        };
+        p.capture(&snapshot, std::slice::from_ref(&finish), 256, 0, true, true);
+        assert!(p.events.iter().any(|e| e.name
+            == if matches!(character, 3 | 5 | 6) {
+                "F_YEAH"
+            } else {
+                "M_YEAH"
+            }));
+        assert!(p.events.iter().any(|e| e.name == EFFECTS[32]));
+        let n = p.events.len();
+        p.capture(&snapshot, std::slice::from_ref(&finish), 256, 0, true, true);
+        assert_eq!(p.events.len(), n);
+        snapshot.tick += 181;
+        snapshot.road_users[0].hit_count += 1;
+        let hit = Effect {
+            tick: snapshot.tick,
+            actor: ActorId(2),
+            other: Some(ActorId(1)),
+            kind: EffectKind::Hit,
+        };
+        p.capture(&snapshot, &[hit], 256, 0, true, true);
+        assert!(p.events.iter().any(|e| e.name == EFFECTS[33]));
+        assert!(
+            p.events
+                .iter()
+                .any(|e| e.name.starts_with(if matches!(character, 3 | 5 | 6) {
+                    "GRUNTF"
+                } else {
+                    "GRUNTM"
+                }))
+        );
+        assert!(p.events.len() <= 128);
+        p.capture(&snapshot, &[], 256, 0, false, true);
+        assert!(p.loops.is_empty());
+        snapshot.road_users[0].hit_count = 0;
+    }
+    assert_eq!(sim.state_hash(), before);
+}

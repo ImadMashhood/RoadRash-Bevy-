@@ -1,0 +1,709 @@
+{
+  "depth_tolerance": 0,
+  "masks": [],
+  "matrix": [
+    {
+      "animated_pedestrian_appearances": 58,
+      "animated_pose_cases": 4745,
+      "course": "CITY",
+      "fixed_camera_cases": [
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "a46b972a0ae28469cd4ca71e4ce7169770fc6fa7288d798c1ef9a45585cda5a3",
+          "sample": 50.0
+        },
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "bee2cc8032d70e281862a9faebd320ab29a463c8b09f806ba1788fb9656d2c65",
+          "sample": 75.0
+        },
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "46df602fbf277e0b9b2830399471607dbb8253b7255faa673b7ca848d4ea729d",
+          "sample": 120.0
+        }
+      ],
+      "level": 1,
+      "pedestrian_voice_references": 47,
+      "status": "passed"
+    },
+    {
+      "animated_pedestrian_appearances": 58,
+      "animated_pose_cases": 4745,
+      "course": "CITY",
+      "fixed_camera_cases": [
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "a46b972a0ae28469cd4ca71e4ce7169770fc6fa7288d798c1ef9a45585cda5a3",
+          "sample": 50.0
+        },
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "bee2cc8032d70e281862a9faebd320ab29a463c8b09f806ba1788fb9656d2c65",
+          "sample": 75.0
+        },
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "46df602fbf277e0b9b2830399471607dbb8253b7255faa673b7ca848d4ea729d",
+          "sample": 120.0
+        }
+      ],
+      "level": 2,
+      "pedestrian_voice_references": 47,
+      "status": "passed"
+    },
+    {
+      "animated_pedestrian_appearances": 58,
+      "animated_pose_cases": 4745,
+      "course": "CITY",
+      "fixed_camera_cases": [
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "a46b972a0ae28469cd4ca71e4ce7169770fc6fa7288d798c1ef9a45585cda5a3",
+          "sample": 50.0
+        },
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "bee2cc8032d70e281862a9faebd320ab29a463c8b09f806ba1788fb9656d2c65",
+          "sample": 75.0
+        },
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "46df602fbf277e0b9b2830399471607dbb8253b7255faa673b7ca848d4ea729d",
+          "sample": 120.0
+        }
+      ],
+      "level": 3,
+      "pedestrian_voice_references": 47,
+      "status": "passed"
+    },
+    {
+      "animated_pedestrian_appearances": 58,
+      "animated_pose_cases": 4745,
+      "course": "CITY",
+      "fixed_camera_cases": [
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "a46b972a0ae28469cd4ca71e4ce7169770fc6fa7288d798c1ef9a45585cda5a3",
+          "sample": 50.0
+        },
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "bee2cc8032d70e281862a9faebd320ab29a463c8b09f806ba1788fb9656d2c65",
+          "sample": 75.0
+        },
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "46df602fbf277e0b9b2830399471607dbb8253b7255faa673b7ca848d4ea729d",
+          "sample": 120.0
+        }
+      ],
+      "level": 4,
+      "pedestrian_voice_references": 47,
+      "status": "passed"
+    },
+    {
+      "animated_pedestrian_appearances": 58,
+      "animated_pose_cases": 4745,
+      "course": "CITY",
+      "fixed_camera_cases": [
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "a46b972a0ae28469cd4ca71e4ce7169770fc6fa7288d798c1ef9a45585cda5a3",
+          "sample": 50.0
+        },
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "bee2cc8032d70e281862a9faebd320ab29a463c8b09f806ba1788fb9656d2c65",
+          "sample": 75.0
+        },
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "46df602fbf277e0b9b2830399471607dbb8253b7255faa673b7ca848d4ea729d",
+          "sample": 120.0
+        }
+      ],
+      "level": 5,
+      "pedestrian_voice_references": 47,
+      "status": "passed"
+    },
+    {
+      "animated_pedestrian_appearances": 26,
+      "animated_pose_cases": 1965,
+      "course": "HIWAY",
+      "fixed_camera_cases": [
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "a3801bddfbac245a7f68bec7c505a0a0dda41c9e449392ed6210450a0e6cfb63",
+          "sample": 50.0
+        },
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "9a01deab3e8aeb695c5cb33e379259b3dbd24e6e68e9383ee11965fe1d8a7a9c",
+          "sample": 75.0
+        },
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "0d34e1a97b98deafc62c90a4df79da339815c824bbd604fe5c5bbfc4e2978b19",
+          "sample": 120.0
+        }
+      ],
+      "level": 1,
+      "pedestrian_voice_references": 16,
+      "status": "passed"
+    },
+    {
+      "animated_pedestrian_appearances": 26,
+      "animated_pose_cases": 1965,
+      "course": "HIWAY",
+      "fixed_camera_cases": [
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "a3801bddfbac245a7f68bec7c505a0a0dda41c9e449392ed6210450a0e6cfb63",
+          "sample": 50.0
+        },
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "9a01deab3e8aeb695c5cb33e379259b3dbd24e6e68e9383ee11965fe1d8a7a9c",
+          "sample": 75.0
+        },
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "0d34e1a97b98deafc62c90a4df79da339815c824bbd604fe5c5bbfc4e2978b19",
+          "sample": 120.0
+        }
+      ],
+      "level": 2,
+      "pedestrian_voice_references": 16,
+      "status": "passed"
+    },
+    {
+      "animated_pedestrian_appearances": 26,
+      "animated_pose_cases": 1965,
+      "course": "HIWAY",
+      "fixed_camera_cases": [
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "a3801bddfbac245a7f68bec7c505a0a0dda41c9e449392ed6210450a0e6cfb63",
+          "sample": 50.0
+        },
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "9a01deab3e8aeb695c5cb33e379259b3dbd24e6e68e9383ee11965fe1d8a7a9c",
+          "sample": 75.0
+        },
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "0d34e1a97b98deafc62c90a4df79da339815c824bbd604fe5c5bbfc4e2978b19",
+          "sample": 120.0
+        }
+      ],
+      "level": 3,
+      "pedestrian_voice_references": 16,
+      "status": "passed"
+    },
+    {
+      "animated_pedestrian_appearances": 26,
+      "animated_pose_cases": 1965,
+      "course": "HIWAY",
+      "fixed_camera_cases": [
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "a3801bddfbac245a7f68bec7c505a0a0dda41c9e449392ed6210450a0e6cfb63",
+          "sample": 50.0
+        },
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "9a01deab3e8aeb695c5cb33e379259b3dbd24e6e68e9383ee11965fe1d8a7a9c",
+          "sample": 75.0
+        },
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "0d34e1a97b98deafc62c90a4df79da339815c824bbd604fe5c5bbfc4e2978b19",
+          "sample": 120.0
+        }
+      ],
+      "level": 4,
+      "pedestrian_voice_references": 16,
+      "status": "passed"
+    },
+    {
+      "animated_pedestrian_appearances": 26,
+      "animated_pose_cases": 1965,
+      "course": "HIWAY",
+      "fixed_camera_cases": [
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "a3801bddfbac245a7f68bec7c505a0a0dda41c9e449392ed6210450a0e6cfb63",
+          "sample": 50.0
+        },
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "9a01deab3e8aeb695c5cb33e379259b3dbd24e6e68e9383ee11965fe1d8a7a9c",
+          "sample": 75.0
+        },
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "0d34e1a97b98deafc62c90a4df79da339815c824bbd604fe5c5bbfc4e2978b19",
+          "sample": 120.0
+        }
+      ],
+      "level": 5,
+      "pedestrian_voice_references": 16,
+      "status": "passed"
+    },
+    {
+      "animated_pedestrian_appearances": 49,
+      "animated_pose_cases": 3730,
+      "course": "MEDLY",
+      "fixed_camera_cases": [
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "398312073c156e1c4494eae6d90cd1c759955d1b5f2a0b535ee14c0844b0a541",
+          "sample": 50.0
+        },
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "7598e6d69dc4040f6b937cd570f7321e7b7df449d3dcf69f64019765a4a67b32",
+          "sample": 75.0
+        },
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "6c857b7ee00fd36b9717cbc7ae9e72ec38d75d1d3910b1d0ccc28a035ae6996d",
+          "sample": 120.0
+        }
+      ],
+      "level": 1,
+      "pedestrian_voice_references": 29,
+      "status": "passed"
+    },
+    {
+      "animated_pedestrian_appearances": 49,
+      "animated_pose_cases": 3730,
+      "course": "MEDLY",
+      "fixed_camera_cases": [
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "398312073c156e1c4494eae6d90cd1c759955d1b5f2a0b535ee14c0844b0a541",
+          "sample": 50.0
+        },
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "7598e6d69dc4040f6b937cd570f7321e7b7df449d3dcf69f64019765a4a67b32",
+          "sample": 75.0
+        },
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "6c857b7ee00fd36b9717cbc7ae9e72ec38d75d1d3910b1d0ccc28a035ae6996d",
+          "sample": 120.0
+        }
+      ],
+      "level": 2,
+      "pedestrian_voice_references": 29,
+      "status": "passed"
+    },
+    {
+      "animated_pedestrian_appearances": 49,
+      "animated_pose_cases": 3730,
+      "course": "MEDLY",
+      "fixed_camera_cases": [
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "398312073c156e1c4494eae6d90cd1c759955d1b5f2a0b535ee14c0844b0a541",
+          "sample": 50.0
+        },
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "7598e6d69dc4040f6b937cd570f7321e7b7df449d3dcf69f64019765a4a67b32",
+          "sample": 75.0
+        },
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "6c857b7ee00fd36b9717cbc7ae9e72ec38d75d1d3910b1d0ccc28a035ae6996d",
+          "sample": 120.0
+        }
+      ],
+      "level": 3,
+      "pedestrian_voice_references": 29,
+      "status": "passed"
+    },
+    {
+      "animated_pedestrian_appearances": 49,
+      "animated_pose_cases": 3730,
+      "course": "MEDLY",
+      "fixed_camera_cases": [
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "398312073c156e1c4494eae6d90cd1c759955d1b5f2a0b535ee14c0844b0a541",
+          "sample": 50.0
+        },
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "7598e6d69dc4040f6b937cd570f7321e7b7df449d3dcf69f64019765a4a67b32",
+          "sample": 75.0
+        },
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "6c857b7ee00fd36b9717cbc7ae9e72ec38d75d1d3910b1d0ccc28a035ae6996d",
+          "sample": 120.0
+        }
+      ],
+      "level": 4,
+      "pedestrian_voice_references": 29,
+      "status": "passed"
+    },
+    {
+      "animated_pedestrian_appearances": 49,
+      "animated_pose_cases": 3730,
+      "course": "MEDLY",
+      "fixed_camera_cases": [
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "398312073c156e1c4494eae6d90cd1c759955d1b5f2a0b535ee14c0844b0a541",
+          "sample": 50.0
+        },
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "7598e6d69dc4040f6b937cd570f7321e7b7df449d3dcf69f64019765a4a67b32",
+          "sample": 75.0
+        },
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "6c857b7ee00fd36b9717cbc7ae9e72ec38d75d1d3910b1d0ccc28a035ae6996d",
+          "sample": 120.0
+        }
+      ],
+      "level": 5,
+      "pedestrian_voice_references": 29,
+      "status": "passed"
+    },
+    {
+      "animated_pedestrian_appearances": 16,
+      "animated_pose_cases": 1265,
+      "course": "NAPA",
+      "fixed_camera_cases": [
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "6e5cec205fa4b3ac600e3777e052118420a87be8bf5bb3d8ed28e61c10948834",
+          "sample": 50.0
+        },
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "e57f4c44cfc0df989a29ab91113ba318d3af3f261aa0e37fc0f422c3ee98f514",
+          "sample": 75.0
+        },
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "395cfda4da9435486dcbf458a8c37f5d858f121d231724791e6c17dc4fa41dc0",
+          "sample": 120.0
+        }
+      ],
+      "level": 1,
+      "pedestrian_voice_references": 12,
+      "status": "passed"
+    },
+    {
+      "animated_pedestrian_appearances": 16,
+      "animated_pose_cases": 1265,
+      "course": "NAPA",
+      "fixed_camera_cases": [
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "adfeee825c0929f53c10bb1244280ac2e33a1d5662956fb00ecb51fbccc30fd9",
+          "sample": 50.0
+        },
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "e57f4c44cfc0df989a29ab91113ba318d3af3f261aa0e37fc0f422c3ee98f514",
+          "sample": 75.0
+        },
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "65f838c287ec2cbd447caaeaf5a4d4e0c65c40062bc959c1cde490eb3622fd0b",
+          "sample": 120.0
+        }
+      ],
+      "level": 2,
+      "pedestrian_voice_references": 12,
+      "status": "passed"
+    },
+    {
+      "animated_pedestrian_appearances": 16,
+      "animated_pose_cases": 1265,
+      "course": "NAPA",
+      "fixed_camera_cases": [
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "adfeee825c0929f53c10bb1244280ac2e33a1d5662956fb00ecb51fbccc30fd9",
+          "sample": 50.0
+        },
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "e57f4c44cfc0df989a29ab91113ba318d3af3f261aa0e37fc0f422c3ee98f514",
+          "sample": 75.0
+        },
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "65f838c287ec2cbd447caaeaf5a4d4e0c65c40062bc959c1cde490eb3622fd0b",
+          "sample": 120.0
+        }
+      ],
+      "level": 3,
+      "pedestrian_voice_references": 12,
+      "status": "passed"
+    },
+    {
+      "animated_pedestrian_appearances": 16,
+      "animated_pose_cases": 1265,
+      "course": "NAPA",
+      "fixed_camera_cases": [
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "adfeee825c0929f53c10bb1244280ac2e33a1d5662956fb00ecb51fbccc30fd9",
+          "sample": 50.0
+        },
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "e57f4c44cfc0df989a29ab91113ba318d3af3f261aa0e37fc0f422c3ee98f514",
+          "sample": 75.0
+        },
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "65f838c287ec2cbd447caaeaf5a4d4e0c65c40062bc959c1cde490eb3622fd0b",
+          "sample": 120.0
+        }
+      ],
+      "level": 4,
+      "pedestrian_voice_references": 12,
+      "status": "passed"
+    },
+    {
+      "animated_pedestrian_appearances": 16,
+      "animated_pose_cases": 1265,
+      "course": "NAPA",
+      "fixed_camera_cases": [
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "adfeee825c0929f53c10bb1244280ac2e33a1d5662956fb00ecb51fbccc30fd9",
+          "sample": 50.0
+        },
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "e57f4c44cfc0df989a29ab91113ba318d3af3f261aa0e37fc0f422c3ee98f514",
+          "sample": 75.0
+        },
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "65f838c287ec2cbd447caaeaf5a4d4e0c65c40062bc959c1cde490eb3622fd0b",
+          "sample": 120.0
+        }
+      ],
+      "level": 5,
+      "pedestrian_voice_references": 12,
+      "status": "passed"
+    },
+    {
+      "animated_pedestrian_appearances": 19,
+      "animated_pose_cases": 1560,
+      "course": "CANYN",
+      "fixed_camera_cases": [
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "63824bca792b0dedb73fd7ee2fb6f53419c821612f3714c29f329de78cf93da8",
+          "sample": 50.0
+        },
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "ab9d9a6e7de8de13d405767670d8ed24af100e8dace5af446573e6150e80b83c",
+          "sample": 75.0
+        },
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "cb15f5db0f1922368fd721cedc58e2f9270149df0f8fe514273a662437b13cf2",
+          "sample": 120.0
+        }
+      ],
+      "level": 1,
+      "pedestrian_voice_references": 12,
+      "status": "passed"
+    },
+    {
+      "animated_pedestrian_appearances": 19,
+      "animated_pose_cases": 1560,
+      "course": "CANYN",
+      "fixed_camera_cases": [
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "63824bca792b0dedb73fd7ee2fb6f53419c821612f3714c29f329de78cf93da8",
+          "sample": 50.0
+        },
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "ab9d9a6e7de8de13d405767670d8ed24af100e8dace5af446573e6150e80b83c",
+          "sample": 75.0
+        },
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "cb15f5db0f1922368fd721cedc58e2f9270149df0f8fe514273a662437b13cf2",
+          "sample": 120.0
+        }
+      ],
+      "level": 2,
+      "pedestrian_voice_references": 12,
+      "status": "passed"
+    },
+    {
+      "animated_pedestrian_appearances": 19,
+      "animated_pose_cases": 1560,
+      "course": "CANYN",
+      "fixed_camera_cases": [
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "63824bca792b0dedb73fd7ee2fb6f53419c821612f3714c29f329de78cf93da8",
+          "sample": 50.0
+        },
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "ab9d9a6e7de8de13d405767670d8ed24af100e8dace5af446573e6150e80b83c",
+          "sample": 75.0
+        },
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "cb15f5db0f1922368fd721cedc58e2f9270149df0f8fe514273a662437b13cf2",
+          "sample": 120.0
+        }
+      ],
+      "level": 3,
+      "pedestrian_voice_references": 12,
+      "status": "passed"
+    },
+    {
+      "animated_pedestrian_appearances": 19,
+      "animated_pose_cases": 1560,
+      "course": "CANYN",
+      "fixed_camera_cases": [
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "63824bca792b0dedb73fd7ee2fb6f53419c821612f3714c29f329de78cf93da8",
+          "sample": 50.0
+        },
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "ab9d9a6e7de8de13d405767670d8ed24af100e8dace5af446573e6150e80b83c",
+          "sample": 75.0
+        },
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "cb15f5db0f1922368fd721cedc58e2f9270149df0f8fe514273a662437b13cf2",
+          "sample": 120.0
+        }
+      ],
+      "level": 4,
+      "pedestrian_voice_references": 12,
+      "status": "passed"
+    },
+    {
+      "animated_pedestrian_appearances": 19,
+      "animated_pose_cases": 1560,
+      "course": "CANYN",
+      "fixed_camera_cases": [
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "63824bca792b0dedb73fd7ee2fb6f53419c821612f3714c29f329de78cf93da8",
+          "sample": 50.0
+        },
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "ab9d9a6e7de8de13d405767670d8ed24af100e8dace5af446573e6150e80b83c",
+          "sample": 75.0
+        },
+        {
+          "depth_equal": true,
+          "different_pixels": 0,
+          "rgba_sha256": "cb15f5db0f1922368fd721cedc58e2f9270149df0f8fe514273a662437b13cf2",
+          "sample": 120.0
+        }
+      ],
+      "level": 5,
+      "pedestrian_voice_references": 12,
+      "status": "passed"
+    }
+  ],
+  "native_only": true,
+  "outcome": "passed",
+  "pixel_tolerance_8bit": 0
+}

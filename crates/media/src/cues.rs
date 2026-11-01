@@ -53,18 +53,26 @@ pub struct Event {
     pub name: String,
     pub priority: u8,
 }
+pub type PedestrianVoices = BTreeMap<(u16, u8), [Option<u8>; 2]>;
 #[derive(Default)]
 pub struct Planner {
+    pub character: u8,
+    pub pedestrian_voices: std::sync::Arc<PedestrianVoices>,
     pub rpm: Rpm,
     pub loops: BTreeMap<LoopId, Voice>,
     pub events: VecDeque<Event>,
     seen: BTreeSet<(u64, u64, u8)>,
     seen_order: VecDeque<(u64, u64, u8)>,
     last_tick: Option<u64>,
+    pedestrian_history: BTreeMap<u64, (u64, u32)>,
 }
 impl Planner {
     pub fn reset(&mut self) {
-        *self = Self::default();
+        *self = Self {
+            character: self.character,
+            pedestrian_voices: self.pedestrian_voices.clone(),
+            ..Self::default()
+        };
     }
     pub fn capture(
         &mut self,
@@ -136,6 +144,46 @@ impl Planner {
         if !enabled {
             return;
         }
+        self.pedestrian_history
+            .retain(|id, _| snapshot.road_users.iter().any(|a| a.id == *id));
+        if let Some(player) = snapshot.actors.first().and_then(|a| a.encounter.as_ref()) {
+            let at = player
+                .recovery
+                .body
+                .as_ref()
+                .map_or(player.recovery.bike_location, |body| body.location);
+            for agent in snapshot
+                .road_users
+                .iter()
+                .filter(|a| a.kind == rr_simulation::population::Kind::Pedestrian)
+            {
+                let Some(voices) = agent
+                    .family
+                    .and_then(|family| self.pedestrian_voices.get(&(family, agent.selector & 63)))
+                else {
+                    continue;
+                };
+                let history = self.pedestrian_history.get(&agent.id).copied();
+                let hit = agent.hit_count > history.map_or(0, |h| h.1);
+                let ahead = agent.location.progress - at.progress;
+                let near = agent.location.path == at.path && (0..=1024).contains(&ahead);
+                if (hit || near) && history.is_none_or(|h| snapshot.tick.saturating_sub(h.0) >= 180)
+                {
+                    let slot = voices[usize::from(hit)];
+                    self.pedestrian_history
+                        .insert(agent.id, (snapshot.tick, agent.hit_count));
+                    if let Some(slot) = slot {
+                        self.push(Event {
+                            version: 1,
+                            tick: snapshot.tick,
+                            actor: agent.id,
+                            name: EFFECTS[usize::from(slot)].into(),
+                            priority: 65,
+                        });
+                    }
+                }
+            }
+        }
         for cop in snapshot.road_users.iter().filter(|a| a.siren).take(1) {
             self.loops.insert(
                 LoopId::Siren(cop.id),
@@ -162,23 +210,51 @@ impl Planner {
                     self.seen.remove(&old);
                 }
             }
-            self.events.push_back(Event {
+            let name = if e.kind == EffectKind::Finish
+                && e.actor.0 == 1
+                && matches!(self.character, 3 | 5 | 6)
+            {
+                "F_YEAH"
+            } else {
+                name
+            };
+            self.push(Event {
                 version: 1,
                 tick: e.tick,
                 actor: e.actor.0,
                 name: name.into(),
                 priority,
             });
-            if self.events.len() > 128 {
-                let at = self
-                    .events
-                    .iter()
-                    .enumerate()
-                    .min_by_key(|(_, v)| v.priority)
-                    .map(|(i, _)| i)
-                    .unwrap();
-                self.events.remove(at);
+            if (matches!(e.kind, EffectKind::Hit | EffectKind::Kick)
+                && e.other.is_some_and(|id| id.0 == 1))
+                || (e.kind == EffectKind::Crash && e.actor.0 == 1)
+            {
+                let offset = if matches!(self.character, 3 | 5 | 6) {
+                    18
+                } else {
+                    15
+                };
+                self.push(Event {
+                    version: 1,
+                    tick: e.tick,
+                    actor: 1,
+                    name: EFFECTS[offset + (e.tick % 3) as usize].into(),
+                    priority: 80,
+                });
             }
+        }
+    }
+    fn push(&mut self, event: Event) {
+        self.events.push_back(event);
+        if self.events.len() > 128 {
+            let at = self
+                .events
+                .iter()
+                .enumerate()
+                .min_by_key(|(_, v)| v.priority)
+                .map(|(i, _)| i)
+                .unwrap();
+            self.events.remove(at);
         }
     }
 }

@@ -1,0 +1,9 @@
+{
+  "initial_condition_percent": 1,
+  "native_only": true,
+  "outcome": "Wrecked",
+  "replay_sha256": "2b2e89a0fd8e8c835711cc88f71cccaa1bdc1134755fb8daf2516e759b92033d",
+  "state_injection": false,
+  "state_sha256": "fcbce70a5cac7b982b5452e8cd9fd1b02b892806214e7b2c6ec6efe41de2bb39",
+  "ticks": 2973
+}

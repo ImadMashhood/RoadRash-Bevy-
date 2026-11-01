@@ -849,6 +849,26 @@
         "[Vítores]",
         "[Esultanza]"
       ]
+    },
+    {
+      "key": "caption_rider_hurt",
+      "labels": [
+        "[Rider hurt]",
+        "[Pilote blessé]",
+        "[Fahrer verletzt]",
+        "[Piloto herido]",
+        "[Pilota ferito]"
+      ]
+    },
+    {
+      "key": "caption_pedestrian_voice",
+      "labels": [
+        "[Pedestrian voice]",
+        "[Voix de piéton]",
+        "[Fußgängerstimme]",
+        "[Voz de peatón]",
+        "[Voce del pedone]"
+      ]
     }
   ]
 }

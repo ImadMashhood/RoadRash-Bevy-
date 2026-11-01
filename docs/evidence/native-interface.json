@@ -1,0 +1,2519 @@
+{
+  "outcome": "passed",
+  "implementation_revision": "eafaf677384a1d944651de27f161bc7ed85e4a6f",
+  "text_scale_percent": 150,
+  "minimum_size": [
+    320,
+    240
+  ],
+  "safe_area_logical": [
+    600,
+    440
+  ],
+  "capture_cases": 100,
+  "rows": [
+    {
+      "screen": "settings",
+      "language_index": 0,
+      "configuration": "minimum",
+      "actual_window": {
+        "logical": [
+          320.0,
+          240.0
+        ],
+        "physical": [
+          320,
+          240
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          505.0,
+          202.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "credits",
+      "language_index": 0,
+      "configuration": "minimum",
+      "actual_window": {
+        "logical": [
+          320.0,
+          240.0
+        ],
+        "physical": [
+          320,
+          240
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          530.0,
+          252.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "characters",
+      "language_index": 0,
+      "configuration": "minimum",
+      "actual_window": {
+        "logical": [
+          320.0,
+          240.0
+        ],
+        "physical": [
+          320,
+          240
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          429.0,
+          252.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "bike",
+      "language_index": 0,
+      "configuration": "minimum",
+      "actual_window": {
+        "logical": [
+          320.0,
+          240.0
+        ],
+        "physical": [
+          320,
+          240
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          530.0,
+          252.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "schmooze",
+      "language_index": 0,
+      "configuration": "minimum",
+      "actual_window": {
+        "logical": [
+          320.0,
+          240.0
+        ],
+        "physical": [
+          320,
+          240
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          429.0,
+          303.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "settings",
+      "language_index": 1,
+      "configuration": "minimum",
+      "actual_window": {
+        "logical": [
+          320.0,
+          240.0
+        ],
+        "physical": [
+          320,
+          240
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          454.0,
+          252.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "credits",
+      "language_index": 1,
+      "configuration": "minimum",
+      "actual_window": {
+        "logical": [
+          320.0,
+          240.0
+        ],
+        "physical": [
+          320,
+          240
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          530.0,
+          252.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "characters",
+      "language_index": 1,
+      "configuration": "minimum",
+      "actual_window": {
+        "logical": [
+          320.0,
+          240.0
+        ],
+        "physical": [
+          320,
+          240
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          429.0,
+          252.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "bike",
+      "language_index": 1,
+      "configuration": "minimum",
+      "actual_window": {
+        "logical": [
+          320.0,
+          240.0
+        ],
+        "physical": [
+          320,
+          240
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          479.0,
+          303.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "schmooze",
+      "language_index": 1,
+      "configuration": "minimum",
+      "actual_window": {
+        "logical": [
+          320.0,
+          240.0
+        ],
+        "physical": [
+          320,
+          240
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          479.0,
+          303.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "settings",
+      "language_index": 2,
+      "configuration": "minimum",
+      "actual_window": {
+        "logical": [
+          320.0,
+          240.0
+        ],
+        "physical": [
+          320,
+          240
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          505.0,
+          252.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "credits",
+      "language_index": 2,
+      "configuration": "minimum",
+      "actual_window": {
+        "logical": [
+          320.0,
+          240.0
+        ],
+        "physical": [
+          320,
+          240
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          530.0,
+          252.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "characters",
+      "language_index": 2,
+      "configuration": "minimum",
+      "actual_window": {
+        "logical": [
+          320.0,
+          240.0
+        ],
+        "physical": [
+          320,
+          240
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          429.0,
+          252.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "bike",
+      "language_index": 2,
+      "configuration": "minimum",
+      "actual_window": {
+        "logical": [
+          320.0,
+          240.0
+        ],
+        "physical": [
+          320,
+          240
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          479.0,
+          252.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "schmooze",
+      "language_index": 2,
+      "configuration": "minimum",
+      "actual_window": {
+        "logical": [
+          320.0,
+          240.0
+        ],
+        "physical": [
+          320,
+          240
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          505.0,
+          303.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "settings",
+      "language_index": 3,
+      "configuration": "minimum",
+      "actual_window": {
+        "logical": [
+          320.0,
+          240.0
+        ],
+        "physical": [
+          320,
+          240
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          429.0,
+          252.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "credits",
+      "language_index": 3,
+      "configuration": "minimum",
+      "actual_window": {
+        "logical": [
+          320.0,
+          240.0
+        ],
+        "physical": [
+          320,
+          240
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          530.0,
+          252.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "characters",
+      "language_index": 3,
+      "configuration": "minimum",
+      "actual_window": {
+        "logical": [
+          320.0,
+          240.0
+        ],
+        "physical": [
+          320,
+          240
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          429.0,
+          252.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "bike",
+      "language_index": 3,
+      "configuration": "minimum",
+      "actual_window": {
+        "logical": [
+          320.0,
+          240.0
+        ],
+        "physical": [
+          320,
+          240
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          479.0,
+          252.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "schmooze",
+      "language_index": 3,
+      "configuration": "minimum",
+      "actual_window": {
+        "logical": [
+          320.0,
+          240.0
+        ],
+        "physical": [
+          320,
+          240
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          429.0,
+          303.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "settings",
+      "language_index": 4,
+      "configuration": "minimum",
+      "actual_window": {
+        "logical": [
+          320.0,
+          240.0
+        ],
+        "physical": [
+          320,
+          240
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          479.0,
+          252.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "credits",
+      "language_index": 4,
+      "configuration": "minimum",
+      "actual_window": {
+        "logical": [
+          320.0,
+          240.0
+        ],
+        "physical": [
+          320,
+          240
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          530.0,
+          252.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "characters",
+      "language_index": 4,
+      "configuration": "minimum",
+      "actual_window": {
+        "logical": [
+          320.0,
+          240.0
+        ],
+        "physical": [
+          320,
+          240
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          429.0,
+          252.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "bike",
+      "language_index": 4,
+      "configuration": "minimum",
+      "actual_window": {
+        "logical": [
+          320.0,
+          240.0
+        ],
+        "physical": [
+          320,
+          240
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          479.0,
+          252.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "schmooze",
+      "language_index": 4,
+      "configuration": "minimum",
+      "actual_window": {
+        "logical": [
+          320.0,
+          240.0
+        ],
+        "physical": [
+          320,
+          240
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          530.0,
+          303.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "settings",
+      "language_index": 0,
+      "configuration": "normal",
+      "actual_window": {
+        "logical": [
+          640.0,
+          480.0
+        ],
+        "physical": [
+          640,
+          480
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          467.0,
+          227.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "credits",
+      "language_index": 0,
+      "configuration": "normal",
+      "actual_window": {
+        "logical": [
+          640.0,
+          480.0
+        ],
+        "physical": [
+          640,
+          480
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          530.0,
+          404.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "characters",
+      "language_index": 0,
+      "configuration": "normal",
+      "actual_window": {
+        "logical": [
+          640.0,
+          480.0
+        ],
+        "physical": [
+          640,
+          480
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          467.0,
+          303.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "bike",
+      "language_index": 0,
+      "configuration": "normal",
+      "actual_window": {
+        "logical": [
+          640.0,
+          480.0
+        ],
+        "physical": [
+          640,
+          480
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          467.0,
+          227.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "schmooze",
+      "language_index": 0,
+      "configuration": "normal",
+      "actual_window": {
+        "logical": [
+          640.0,
+          480.0
+        ],
+        "physical": [
+          640,
+          480
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          530.0,
+          252.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "settings",
+      "language_index": 1,
+      "configuration": "normal",
+      "actual_window": {
+        "logical": [
+          640.0,
+          480.0
+        ],
+        "physical": [
+          640,
+          480
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          467.0,
+          227.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "credits",
+      "language_index": 1,
+      "configuration": "normal",
+      "actual_window": {
+        "logical": [
+          640.0,
+          480.0
+        ],
+        "physical": [
+          640,
+          480
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          505.0,
+          404.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "characters",
+      "language_index": 1,
+      "configuration": "normal",
+      "actual_window": {
+        "logical": [
+          640.0,
+          480.0
+        ],
+        "physical": [
+          640,
+          480
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          467.0,
+          303.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "bike",
+      "language_index": 1,
+      "configuration": "normal",
+      "actual_window": {
+        "logical": [
+          640.0,
+          480.0
+        ],
+        "physical": [
+          640,
+          480
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          467.0,
+          227.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "schmooze",
+      "language_index": 1,
+      "configuration": "normal",
+      "actual_window": {
+        "logical": [
+          640.0,
+          480.0
+        ],
+        "physical": [
+          640,
+          480
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          542.0,
+          252.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "settings",
+      "language_index": 2,
+      "configuration": "normal",
+      "actual_window": {
+        "logical": [
+          640.0,
+          480.0
+        ],
+        "physical": [
+          640,
+          480
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          479.0,
+          227.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "credits",
+      "language_index": 2,
+      "configuration": "normal",
+      "actual_window": {
+        "logical": [
+          640.0,
+          480.0
+        ],
+        "physical": [
+          640,
+          480
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          542.0,
+          404.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "characters",
+      "language_index": 2,
+      "configuration": "normal",
+      "actual_window": {
+        "logical": [
+          640.0,
+          480.0
+        ],
+        "physical": [
+          640,
+          480
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          479.0,
+          303.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "bike",
+      "language_index": 2,
+      "configuration": "normal",
+      "actual_window": {
+        "logical": [
+          640.0,
+          480.0
+        ],
+        "physical": [
+          640,
+          480
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          479.0,
+          227.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "schmooze",
+      "language_index": 2,
+      "configuration": "normal",
+      "actual_window": {
+        "logical": [
+          640.0,
+          480.0
+        ],
+        "physical": [
+          640,
+          480
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          492.0,
+          227.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "settings",
+      "language_index": 3,
+      "configuration": "normal",
+      "actual_window": {
+        "logical": [
+          640.0,
+          480.0
+        ],
+        "physical": [
+          640,
+          480
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          467.0,
+          227.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "credits",
+      "language_index": 3,
+      "configuration": "normal",
+      "actual_window": {
+        "logical": [
+          640.0,
+          480.0
+        ],
+        "physical": [
+          640,
+          480
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          542.0,
+          404.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "characters",
+      "language_index": 3,
+      "configuration": "normal",
+      "actual_window": {
+        "logical": [
+          640.0,
+          480.0
+        ],
+        "physical": [
+          640,
+          480
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          467.0,
+          303.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "bike",
+      "language_index": 3,
+      "configuration": "normal",
+      "actual_window": {
+        "logical": [
+          640.0,
+          480.0
+        ],
+        "physical": [
+          640,
+          480
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          467.0,
+          227.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "schmooze",
+      "language_index": 3,
+      "configuration": "normal",
+      "actual_window": {
+        "logical": [
+          640.0,
+          480.0
+        ],
+        "physical": [
+          640,
+          480
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          542.0,
+          252.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "settings",
+      "language_index": 4,
+      "configuration": "normal",
+      "actual_window": {
+        "logical": [
+          640.0,
+          480.0
+        ],
+        "physical": [
+          640,
+          480
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          467.0,
+          227.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "credits",
+      "language_index": 4,
+      "configuration": "normal",
+      "actual_window": {
+        "logical": [
+          640.0,
+          480.0
+        ],
+        "physical": [
+          640,
+          480
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          492.0,
+          404.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "characters",
+      "language_index": 4,
+      "configuration": "normal",
+      "actual_window": {
+        "logical": [
+          640.0,
+          480.0
+        ],
+        "physical": [
+          640,
+          480
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          467.0,
+          303.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "bike",
+      "language_index": 4,
+      "configuration": "normal",
+      "actual_window": {
+        "logical": [
+          640.0,
+          480.0
+        ],
+        "physical": [
+          640,
+          480
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          467.0,
+          227.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "schmooze",
+      "language_index": 4,
+      "configuration": "normal",
+      "actual_window": {
+        "logical": [
+          640.0,
+          480.0
+        ],
+        "physical": [
+          640,
+          480
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          467.0,
+          252.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "settings",
+      "language_index": 0,
+      "configuration": "ultrawide",
+      "actual_window": {
+        "logical": [
+          1912.0,
+          971.0
+        ],
+        "physical": [
+          1912,
+          971
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          467.0,
+          227.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "credits",
+      "language_index": 0,
+      "configuration": "ultrawide",
+      "actual_window": {
+        "logical": [
+          1912.0,
+          971.0
+        ],
+        "physical": [
+          1912,
+          971
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          530.0,
+          404.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "characters",
+      "language_index": 0,
+      "configuration": "ultrawide",
+      "actual_window": {
+        "logical": [
+          1912.0,
+          971.0
+        ],
+        "physical": [
+          1912,
+          971
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          467.0,
+          303.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "bike",
+      "language_index": 0,
+      "configuration": "ultrawide",
+      "actual_window": {
+        "logical": [
+          1912.0,
+          971.0
+        ],
+        "physical": [
+          1912,
+          971
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          467.0,
+          227.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "schmooze",
+      "language_index": 0,
+      "configuration": "ultrawide",
+      "actual_window": {
+        "logical": [
+          1912.0,
+          971.0
+        ],
+        "physical": [
+          1912,
+          971
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          530.0,
+          252.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "settings",
+      "language_index": 1,
+      "configuration": "ultrawide",
+      "actual_window": {
+        "logical": [
+          1912.0,
+          971.0
+        ],
+        "physical": [
+          1912,
+          971
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          467.0,
+          227.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "credits",
+      "language_index": 1,
+      "configuration": "ultrawide",
+      "actual_window": {
+        "logical": [
+          1912.0,
+          971.0
+        ],
+        "physical": [
+          1912,
+          971
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          505.0,
+          404.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "characters",
+      "language_index": 1,
+      "configuration": "ultrawide",
+      "actual_window": {
+        "logical": [
+          1912.0,
+          971.0
+        ],
+        "physical": [
+          1912,
+          971
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          467.0,
+          303.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "bike",
+      "language_index": 1,
+      "configuration": "ultrawide",
+      "actual_window": {
+        "logical": [
+          1912.0,
+          971.0
+        ],
+        "physical": [
+          1912,
+          971
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          467.0,
+          227.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "schmooze",
+      "language_index": 1,
+      "configuration": "ultrawide",
+      "actual_window": {
+        "logical": [
+          1912.0,
+          971.0
+        ],
+        "physical": [
+          1912,
+          971
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          542.0,
+          252.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "settings",
+      "language_index": 2,
+      "configuration": "ultrawide",
+      "actual_window": {
+        "logical": [
+          1912.0,
+          971.0
+        ],
+        "physical": [
+          1912,
+          971
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          479.0,
+          227.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "credits",
+      "language_index": 2,
+      "configuration": "ultrawide",
+      "actual_window": {
+        "logical": [
+          1912.0,
+          971.0
+        ],
+        "physical": [
+          1912,
+          971
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          542.0,
+          404.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "characters",
+      "language_index": 2,
+      "configuration": "ultrawide",
+      "actual_window": {
+        "logical": [
+          1912.0,
+          971.0
+        ],
+        "physical": [
+          1912,
+          971
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          479.0,
+          303.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "bike",
+      "language_index": 2,
+      "configuration": "ultrawide",
+      "actual_window": {
+        "logical": [
+          1912.0,
+          971.0
+        ],
+        "physical": [
+          1912,
+          971
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          479.0,
+          227.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "schmooze",
+      "language_index": 2,
+      "configuration": "ultrawide",
+      "actual_window": {
+        "logical": [
+          1912.0,
+          971.0
+        ],
+        "physical": [
+          1912,
+          971
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          492.0,
+          227.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "settings",
+      "language_index": 3,
+      "configuration": "ultrawide",
+      "actual_window": {
+        "logical": [
+          1912.0,
+          971.0
+        ],
+        "physical": [
+          1912,
+          971
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          467.0,
+          227.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "credits",
+      "language_index": 3,
+      "configuration": "ultrawide",
+      "actual_window": {
+        "logical": [
+          1912.0,
+          971.0
+        ],
+        "physical": [
+          1912,
+          971
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          542.0,
+          404.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "characters",
+      "language_index": 3,
+      "configuration": "ultrawide",
+      "actual_window": {
+        "logical": [
+          1912.0,
+          971.0
+        ],
+        "physical": [
+          1912,
+          971
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          467.0,
+          303.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "bike",
+      "language_index": 3,
+      "configuration": "ultrawide",
+      "actual_window": {
+        "logical": [
+          1912.0,
+          971.0
+        ],
+        "physical": [
+          1912,
+          971
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          467.0,
+          227.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "schmooze",
+      "language_index": 3,
+      "configuration": "ultrawide",
+      "actual_window": {
+        "logical": [
+          1912.0,
+          971.0
+        ],
+        "physical": [
+          1912,
+          971
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          542.0,
+          252.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "settings",
+      "language_index": 4,
+      "configuration": "ultrawide",
+      "actual_window": {
+        "logical": [
+          1912.0,
+          971.0
+        ],
+        "physical": [
+          1912,
+          971
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          467.0,
+          227.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "credits",
+      "language_index": 4,
+      "configuration": "ultrawide",
+      "actual_window": {
+        "logical": [
+          1912.0,
+          971.0
+        ],
+        "physical": [
+          1912,
+          971
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          492.0,
+          404.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "characters",
+      "language_index": 4,
+      "configuration": "ultrawide",
+      "actual_window": {
+        "logical": [
+          1912.0,
+          971.0
+        ],
+        "physical": [
+          1912,
+          971
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          467.0,
+          303.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "bike",
+      "language_index": 4,
+      "configuration": "ultrawide",
+      "actual_window": {
+        "logical": [
+          1912.0,
+          971.0
+        ],
+        "physical": [
+          1912,
+          971
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          467.0,
+          227.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "schmooze",
+      "language_index": 4,
+      "configuration": "ultrawide",
+      "actual_window": {
+        "logical": [
+          1912.0,
+          971.0
+        ],
+        "physical": [
+          1912,
+          971
+        ],
+        "scale_factor": 1.0
+      },
+      "menu_extents": [
+        [
+          467.0,
+          252.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "settings",
+      "language_index": 0,
+      "configuration": "hidpi",
+      "actual_window": {
+        "logical": [
+          956.0,
+          485.5
+        ],
+        "physical": [
+          1912,
+          971
+        ],
+        "scale_factor": 2.0
+      },
+      "menu_extents": [
+        [
+          466.5,
+          227.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "credits",
+      "language_index": 0,
+      "configuration": "hidpi",
+      "actual_window": {
+        "logical": [
+          956.0,
+          485.5
+        ],
+        "physical": [
+          1912,
+          971
+        ],
+        "scale_factor": 2.0
+      },
+      "menu_extents": [
+        [
+          529.5,
+          403.5
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "characters",
+      "language_index": 0,
+      "configuration": "hidpi",
+      "actual_window": {
+        "logical": [
+          956.0,
+          485.5
+        ],
+        "physical": [
+          1912,
+          971
+        ],
+        "scale_factor": 2.0
+      },
+      "menu_extents": [
+        [
+          466.5,
+          302.5
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "bike",
+      "language_index": 0,
+      "configuration": "hidpi",
+      "actual_window": {
+        "logical": [
+          956.0,
+          485.5
+        ],
+        "physical": [
+          1912,
+          971
+        ],
+        "scale_factor": 2.0
+      },
+      "menu_extents": [
+        [
+          466.5,
+          227.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "schmooze",
+      "language_index": 0,
+      "configuration": "hidpi",
+      "actual_window": {
+        "logical": [
+          956.0,
+          485.5
+        ],
+        "physical": [
+          1912,
+          971
+        ],
+        "scale_factor": 2.0
+      },
+      "menu_extents": [
+        [
+          529.5,
+          252.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "settings",
+      "language_index": 1,
+      "configuration": "hidpi",
+      "actual_window": {
+        "logical": [
+          956.0,
+          485.5
+        ],
+        "physical": [
+          1912,
+          971
+        ],
+        "scale_factor": 2.0
+      },
+      "menu_extents": [
+        [
+          466.5,
+          227.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "credits",
+      "language_index": 1,
+      "configuration": "hidpi",
+      "actual_window": {
+        "logical": [
+          956.0,
+          485.5
+        ],
+        "physical": [
+          1912,
+          971
+        ],
+        "scale_factor": 2.0
+      },
+      "menu_extents": [
+        [
+          504.5,
+          403.5
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "characters",
+      "language_index": 1,
+      "configuration": "hidpi",
+      "actual_window": {
+        "logical": [
+          956.0,
+          485.5
+        ],
+        "physical": [
+          1912,
+          971
+        ],
+        "scale_factor": 2.0
+      },
+      "menu_extents": [
+        [
+          466.5,
+          302.5
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "bike",
+      "language_index": 1,
+      "configuration": "hidpi",
+      "actual_window": {
+        "logical": [
+          956.0,
+          485.5
+        ],
+        "physical": [
+          1912,
+          971
+        ],
+        "scale_factor": 2.0
+      },
+      "menu_extents": [
+        [
+          466.5,
+          227.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "schmooze",
+      "language_index": 1,
+      "configuration": "hidpi",
+      "actual_window": {
+        "logical": [
+          956.0,
+          485.5
+        ],
+        "physical": [
+          1912,
+          971
+        ],
+        "scale_factor": 2.0
+      },
+      "menu_extents": [
+        [
+          542.0,
+          252.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "settings",
+      "language_index": 2,
+      "configuration": "hidpi",
+      "actual_window": {
+        "logical": [
+          956.0,
+          485.5
+        ],
+        "physical": [
+          1912,
+          971
+        ],
+        "scale_factor": 2.0
+      },
+      "menu_extents": [
+        [
+          479.0,
+          227.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "credits",
+      "language_index": 2,
+      "configuration": "hidpi",
+      "actual_window": {
+        "logical": [
+          956.0,
+          485.5
+        ],
+        "physical": [
+          1912,
+          971
+        ],
+        "scale_factor": 2.0
+      },
+      "menu_extents": [
+        [
+          542.0,
+          403.5
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "characters",
+      "language_index": 2,
+      "configuration": "hidpi",
+      "actual_window": {
+        "logical": [
+          956.0,
+          485.5
+        ],
+        "physical": [
+          1912,
+          971
+        ],
+        "scale_factor": 2.0
+      },
+      "menu_extents": [
+        [
+          479.0,
+          302.5
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "bike",
+      "language_index": 2,
+      "configuration": "hidpi",
+      "actual_window": {
+        "logical": [
+          956.0,
+          485.5
+        ],
+        "physical": [
+          1912,
+          971
+        ],
+        "scale_factor": 2.0
+      },
+      "menu_extents": [
+        [
+          479.0,
+          227.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "schmooze",
+      "language_index": 2,
+      "configuration": "hidpi",
+      "actual_window": {
+        "logical": [
+          956.0,
+          485.5
+        ],
+        "physical": [
+          1912,
+          971
+        ],
+        "scale_factor": 2.0
+      },
+      "menu_extents": [
+        [
+          491.5,
+          227.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "settings",
+      "language_index": 3,
+      "configuration": "hidpi",
+      "actual_window": {
+        "logical": [
+          956.0,
+          485.5
+        ],
+        "physical": [
+          1912,
+          971
+        ],
+        "scale_factor": 2.0
+      },
+      "menu_extents": [
+        [
+          466.5,
+          227.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "credits",
+      "language_index": 3,
+      "configuration": "hidpi",
+      "actual_window": {
+        "logical": [
+          956.0,
+          485.5
+        ],
+        "physical": [
+          1912,
+          971
+        ],
+        "scale_factor": 2.0
+      },
+      "menu_extents": [
+        [
+          542.0,
+          403.5
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "characters",
+      "language_index": 3,
+      "configuration": "hidpi",
+      "actual_window": {
+        "logical": [
+          956.0,
+          485.5
+        ],
+        "physical": [
+          1912,
+          971
+        ],
+        "scale_factor": 2.0
+      },
+      "menu_extents": [
+        [
+          466.5,
+          302.5
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "bike",
+      "language_index": 3,
+      "configuration": "hidpi",
+      "actual_window": {
+        "logical": [
+          956.0,
+          485.5
+        ],
+        "physical": [
+          1912,
+          971
+        ],
+        "scale_factor": 2.0
+      },
+      "menu_extents": [
+        [
+          466.5,
+          227.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "schmooze",
+      "language_index": 3,
+      "configuration": "hidpi",
+      "actual_window": {
+        "logical": [
+          956.0,
+          485.5
+        ],
+        "physical": [
+          1912,
+          971
+        ],
+        "scale_factor": 2.0
+      },
+      "menu_extents": [
+        [
+          542.0,
+          252.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "settings",
+      "language_index": 4,
+      "configuration": "hidpi",
+      "actual_window": {
+        "logical": [
+          956.0,
+          485.5
+        ],
+        "physical": [
+          1912,
+          971
+        ],
+        "scale_factor": 2.0
+      },
+      "menu_extents": [
+        [
+          466.5,
+          227.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "credits",
+      "language_index": 4,
+      "configuration": "hidpi",
+      "actual_window": {
+        "logical": [
+          956.0,
+          485.5
+        ],
+        "physical": [
+          1912,
+          971
+        ],
+        "scale_factor": 2.0
+      },
+      "menu_extents": [
+        [
+          491.5,
+          403.5
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "characters",
+      "language_index": 4,
+      "configuration": "hidpi",
+      "actual_window": {
+        "logical": [
+          956.0,
+          485.5
+        ],
+        "physical": [
+          1912,
+          971
+        ],
+        "scale_factor": 2.0
+      },
+      "menu_extents": [
+        [
+          466.5,
+          302.5
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "bike",
+      "language_index": 4,
+      "configuration": "hidpi",
+      "actual_window": {
+        "logical": [
+          956.0,
+          485.5
+        ],
+        "physical": [
+          1912,
+          971
+        ],
+        "scale_factor": 2.0
+      },
+      "menu_extents": [
+        [
+          466.5,
+          227.0
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "screen": "schmooze",
+      "language_index": 4,
+      "configuration": "hidpi",
+      "actual_window": {
+        "logical": [
+          956.0,
+          485.5
+        ],
+        "physical": [
+          1912,
+          971
+        ],
+        "scale_factor": 2.0
+      },
+      "menu_extents": [
+        [
+          466.5,
+          252.0
+        ]
+      ],
+      "passed": true
+    }
+  ],
+  "glyphs": {
+    "outcome": "passed",
+    "printable_characters": 133,
+    "missing_codepoints": [],
+    "font_sha256": "5f9173ce3d05fadef74c7eed06570d54e4f75bd0cd9860726fb2987a7f848292"
+  },
+  "text": {
+    "dialogue_cases": 6400,
+    "languages": {
+      "DEU": {
+        "credits": [
+          364,
+          13
+        ],
+        "empty_ids": [],
+        "resources": 1365,
+        "sha256": "4209dce16a45f41ec88623e078e8950ad87ba6db9daeab28f5af89add4108bed",
+        "strings": 986
+      },
+      "ENU": {
+        "credits": [
+          363,
+          13
+        ],
+        "empty_ids": [],
+        "resources": 1364,
+        "sha256": "128ecbf6db9e1bec6f7b9cee7f339aaeb7a56371427d1c0eb4e64fbbbd73133a",
+        "strings": 986
+      },
+      "ESP": {
+        "credits": [
+          363,
+          13
+        ],
+        "empty_ids": [],
+        "resources": 1364,
+        "sha256": "ee7c6206044e03ba7fdd85df44825dc86ebfccb837e042c9a947fcb77b98a859",
+        "strings": 986
+      },
+      "FRA": {
+        "credits": [
+          371,
+          13
+        ],
+        "empty_ids": [],
+        "resources": 1379,
+        "sha256": "7d211dc0cd377f9288bb728c1d2f573403d2ef11f81938b20623c7594d7c6e5a",
+        "strings": 986
+      },
+      "ITA": {
+        "credits": [
+          359,
+          13
+        ],
+        "empty_ids": [],
+        "resources": 1360,
+        "sha256": "c097a798d580f97563a8ae84c57fd0e0eca337700e20584069bf8932bc360b7c",
+        "strings": 986
+      }
+    },
+    "passed": true,
+    "printable_codepoints": [
+      32,
+      33,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58,
+      59,
+      60,
+      61,
+      62,
+      63,
+      65,
+      66,
+      67,
+      68,
+      69,
+      70,
+      71,
+      72,
+      73,
+      74,
+      75,
+      76,
+      77,
+      78,
+      79,
+      80,
+      81,
+      82,
+      83,
+      84,
+      85,
+      86,
+      87,
+      88,
+      89,
+      90,
+      91,
+      93,
+      97,
+      98,
+      99,
+      100,
+      101,
+      102,
+      103,
+      104,
+      105,
+      106,
+      107,
+      108,
+      109,
+      110,
+      111,
+      112,
+      113,
+      114,
+      115,
+      116,
+      117,
+      118,
+      119,
+      120,
+      121,
+      122,
+      123,
+      124,
+      125,
+      161,
+      162,
+      169,
+      174,
+      191,
+      192,
+      193,
+      196,
+      199,
+      200,
+      201,
+      204,
+      205,
+      209,
+      211,
+      214,
+      218,
+      220,
+      223,
+      224,
+      225,
+      226,
+      228,
+      231,
+      232,
+      233,
+      234,
+      236,
+      237,
+      238,
+      239,
+      241,
+      242,
+      243,
+      244,
+      246,
+      249,
+      250,
+      251,
+      252,
+      8212,
+      8217,
+      8220,
+      8221,
+      8482
+    ]
+  },
+  "limitations": [
+    "WM constrained the requested 1280x960 high-DPI window; recorded actual dimensions are authoritative.",
+    "Five languages have source dialogue/credits and keyed modern labels. Proper names and some result/diagnostic prose retain English.",
+    "Sound captions describe cues; film speech has no transcript.",
+    "No physical controller model or assistive-device certification is claimed."
+  ]
+}

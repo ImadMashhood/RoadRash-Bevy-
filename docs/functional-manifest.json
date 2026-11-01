@@ -59,7 +59,7 @@
       "id": "19.01",
       "title": "Freeze the native-only functional acceptance manifest",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Run the manifest with all enhanced packs disabled. Each required entry has an executable scenario and an expected result; unresolved required functions remain open.",
       "evidence": "docs/evidence/19.01.md"
@@ -68,7 +68,7 @@
       "id": "19.02",
       "title": "Complete the original player action set",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Exercise press, hold, release, depletion, simultaneous controls and crash/remount transitions. Verify actions through the real input adapter and include their state in replays.",
       "evidence": "docs/evidence/19.02.md"
@@ -77,7 +77,7 @@
       "id": "19.03",
       "title": "Complete actor appearances and animation states",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Run the complete actor/state matrix on every course. No invisible collidable actor, missing required transition, incorrect ground contact or unexplained animation gap remains.",
       "evidence": "docs/evidence/19.03.md"
@@ -86,7 +86,7 @@
       "id": "19.04",
       "title": "Close traffic and police functional gaps",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Drive scripted dense, split-route, intersection and simultaneous-incident cases. Required behaviors work with native graphics, deterministic identities and no stale contacts or sirens.",
       "evidence": "docs/evidence/19.04.md"
@@ -95,7 +95,7 @@
       "id": "19.05",
       "title": "Close complete race and terminal outcome flows",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Complete real command-driven races from countdown through results on the native setup matrix; do not substitute fabricated terminal requests for the end-to-end finish acceptance.",
       "evidence": "docs/evidence/19.05.md"
@@ -104,7 +104,7 @@
       "id": "19.06",
       "title": "Complete offline frontend and source dialogue",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Run every offline item and Back/cancel route from a clean profile. Report source-art layout differences separately, but leave no required item inert or replaced by placeholder advice.",
       "evidence": "docs/evidence/19.06.md"
@@ -113,7 +113,7 @@
       "id": "19.07",
       "title": "Complete source media invocation coverage",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Exercise each required invocation with the original local corpus. Verify owner/return screen, cue timing, audio completion, subtitle hooks and cleanup; unsupported required media stays open.",
       "evidence": "docs/evidence/19.07.md"
@@ -122,7 +122,7 @@
       "id": "19.08",
       "title": "Finish save recovery and user-profile usability",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Complete profile creation, several races, close/reopen, purchase/repair, corruption recovery and settings reset while preserving funds, unlocks and bindings exactly once.",
       "evidence": "docs/evidence/19.08.md"
@@ -131,7 +131,7 @@
       "id": "19.09",
       "title": "Complete a genuine native-asset Big Game career",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Reach level-five finale and reopen the final career. Compare saved money, qualifications and purchases against the transaction ledger; accept no missing required content or synthetic finish shortcut.",
       "evidence": "docs/evidence/19.09.md"
@@ -140,7 +140,7 @@
       "id": "19.10",
       "title": "Burn down required functionality defects",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "No blocker or required functional gap remains unassigned, waived implicitly or hidden under a completed scaffold receipt. Closed defects have passing regression evidence.",
       "evidence": "docs/evidence/19.10.md"
@@ -149,7 +149,7 @@
       "id": "19.11",
       "title": "Demonstrate the game without development tools",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Have a reviewer follow the written clean-profile route and record failures. Resolve every required interruption before handing the candidate to UI and release verification.",
       "evidence": "docs/evidence/19.11.md"
@@ -158,7 +158,7 @@
       "id": "19.12",
       "title": "Freeze the functional candidate for native release verification",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Confirm every required feature has implementation and evidence, that Parts 20\u201322 have explicit acceptance owners, and that Part 24 production is still locked until G5 signoff.",
       "evidence": "docs/evidence/19.12.md"
@@ -167,7 +167,7 @@
       "id": "20.01",
       "title": "Implement HUD speed health damage and rank",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Compare displayed values against simulation at checkpoints.",
       "evidence": "docs/evidence/20.01.md"
@@ -176,7 +176,7 @@
       "id": "20.02",
       "title": "Support scalable UI and safe areas",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Test minimum window size, ultrawide and high-DPI layouts.",
       "evidence": "docs/evidence/20.02.md"
@@ -185,7 +185,7 @@
       "id": "20.03",
       "title": "Support keyboard navigation and controller focus",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Complete selection and confirmation flows using keyboard and controller only.",
       "evidence": "docs/evidence/20.03.md"
@@ -194,7 +194,7 @@
       "id": "20.04",
       "title": "Expose readable modern text option",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Test long labels and minimum supported UI scale.",
       "evidence": "docs/evidence/20.04.md"
@@ -203,7 +203,7 @@
       "id": "20.05",
       "title": "Audit color-dependent information",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Add shape, icon or text equivalents and verify grayscale readability.",
       "evidence": "docs/evidence/20.05.md"
@@ -212,7 +212,7 @@
       "id": "20.06",
       "title": "Provide reduced flashes and camera motion",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Verify disabled effects do not alter simulation or hide required state.",
       "evidence": "docs/evidence/20.06.md"
@@ -221,7 +221,7 @@
       "id": "20.07",
       "title": "Implement subtitle policy for dialogue",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Test subtitles at the longest line and during skipped media.",
       "evidence": "docs/evidence/20.07.md"
@@ -230,7 +230,7 @@
       "id": "20.08",
       "title": "Inventory five supplied language resources",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Record gaps rather than assuming all screens are translated.",
       "evidence": "docs/evidence/20.08.md"
@@ -239,7 +239,7 @@
       "id": "20.09",
       "title": "Separate text keys from layouts",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Test plural/number formatting and avoid string-concatenation layout assumptions.",
       "evidence": "docs/evidence/20.09.md"
@@ -248,7 +248,7 @@
       "id": "20.10",
       "title": "Test long translated strings and glyph coverage",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Verify missing glyph handling and wrapping without clipped controls.",
       "evidence": "docs/evidence/20.10.md"
@@ -257,7 +257,7 @@
       "id": "20.11",
       "title": "Persist accessibility settings",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Restart the game and verify every option remains active.",
       "evidence": "docs/evidence/20.11.md"
@@ -266,7 +266,7 @@
       "id": "20.12",
       "title": "Run complete flow without mouse",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Record any inaccessible control as a release-blocking UI issue for the chosen target.",
       "evidence": "docs/evidence/20.12.md"
@@ -275,7 +275,7 @@
       "id": "21.01",
       "title": "Build internal regression capture protocol",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Repeat an engine baseline capture and quantify measurement variance.",
       "evidence": "docs/evidence/21.01.md"
@@ -284,7 +284,7 @@
       "id": "21.02",
       "title": "Record engine/content build, course, bike, seed and inputs",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Reject comparisons whose initial conditions do not match.",
       "evidence": "docs/evidence/21.02.md"
@@ -293,7 +293,7 @@
       "id": "21.03",
       "title": "Compare first divergent simulation tick",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Classify arithmetic, scheduling, RNG and content mismatches separately.",
       "evidence": "docs/evidence/21.03.md"
@@ -302,7 +302,7 @@
       "id": "21.04",
       "title": "Compare fixed-camera image regions",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Justify every mask and avoid masking actual fidelity defects.",
       "evidence": "docs/evidence/21.04.md"
@@ -311,7 +311,7 @@
       "id": "21.05",
       "title": "Set explicit numerical tolerances",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Record units and reasons for every nonzero tolerance.",
       "evidence": "docs/evidence/21.05.md"
@@ -320,7 +320,7 @@
       "id": "21.06",
       "title": "Run all courses and levels in coverage matrix",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Distinguish untested, skipped, failed and passed cases.",
       "evidence": "docs/evidence/21.06.md"
@@ -419,7 +419,7 @@
       "id": "22.05",
       "title": "Verify save and settings paths",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Test unwritable install directory and multiple user accounts.",
       "evidence": "docs/evidence/22.05.md"

@@ -2,6 +2,27 @@
   "schema_version": 1,
   "contexts": {
     "race": {
+      "punch": [
+        "KeyZ"
+      ],
+      "kick": [
+        "KeyX"
+      ],
+      "backhand": [
+        "KeyC"
+      ],
+      "nitro": [
+        "ShiftLeft"
+      ],
+      "dismount": [
+        "KeyV"
+      ],
+      "lean_left": [
+        "KeyQ"
+      ],
+      "lean_right": [
+        "KeyE"
+      ],
       "accelerate": [
         "ArrowUp",
         "KeyW"

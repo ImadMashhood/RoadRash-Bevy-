@@ -37,3 +37,7 @@ Use `../target/release/rr-riders` for the shared workspace build. Pillow is need
 The inspector offers sequence selection, previous/next simulation tick, a tick slider, play/pause, 0.25×/0.5×/1×/2× preview speeds, a height-only preview and labeled contact sheets for all 48 available rider sequences. It reports source frame, timing, logical size, pivot, contact flag, mirror flag and identity. The height control demonstrates the independent ground shadow. Changing sequence immediately demonstrates the fixed-anchor hard-cut policy. These controls never write to a game simulation.
 
 The export includes a JSON manifest and one labeled PNG sheet per available sequence. Reproduction and [Part 10 acceptance](evidence/part-10.md) include native comparisons, browser interaction review, graphical replays and authored tests. This is source-port comparison, not a claim to running the original Windows executable.
+
+## Part 19 complete pedestrian bank
+
+The source factory now imports all seven pedestrian CANS sequences and view flags. Crossing, waiting, hit and recovery choose their authoritative state's source timing; first-drawable previews are superseded. Five courses resolve 168 complete appearances; seven confirmed absent queries remain collision-gated. The 25-case matrix checks 66,325 poses and 75 exact raster/depth pairs. [Matrix](evidence/native-render-matrix.json), [functional contract](NATIVE_ACCEPTANCE.md).

@@ -29,7 +29,7 @@ Each brain records desired lateral lane, target speed, target actor, next decisi
 
 Route following remains in source road coordinates. Steering approaches a preferred road-relative lane; an optional branch choice selects a real outgoing portal. Tests traverse both fork options. Non-selected-route physics retains the previously documented ground-profile limitation in [RECOVERY.md](RECOVERY.md); selected-route projection and topology membership remain distinct.
 
-Overtaking scans nearby live bikes and road users, compares longitudinal gap and relative speed, and evaluates three preferred lateral corridors. Earlier decisions reserve their gap for that tick. A blocked field yields and reduces target speed instead of forcing two riders into the same opening. Tests cover slow traffic, all lanes blocked, competing overtakes and remounting into a blocked road. This is a deterministic clearance policy; it is not the full upstream scan-list/overtake-index algorithm.
+Overtaking scans nearby live bikes and road users, compares longitudinal gap and relative speed, and evaluates five preferred road-relative lateral corridors in the functional factory (legacy replays retain three). Earlier decisions reserve their gap for that tick. A blocked field yields and reduces target speed instead of forcing two riders into the same opening. Tests cover slow traffic, all lanes blocked, competing overtakes and remounting into a blocked road. This is a deterministic clearance policy; it is not the full upstream scan-list/overtake-index algorithm.
 
 ## Personalities, combat and recovery
 
@@ -53,3 +53,7 @@ python3 tools/compare_population_traces.py local/population-acceptance local/pop
 Recording starts at tick zero, records per-tick player commands, saves on application exit with a final expected hash, rejects existing/non-JSON/immutable-source destinations and respects the replay's 4 MiB limit. The benchmark can replay the complete captured setup and extend it to 180 seconds with the final held controls. Captured sessions and imported configuration stay private. The unattended live-window recording was replayed to its recorded final hash; a human driving calibration/playthrough is not claimed. Authored controls are explicitly labeled separately.
 
 Four 180-second seeded source runs agree at every canonical checkpoint across 30/60/144/irregular schedules; another four runs use the captured setup/control stream. These are virtual presentation schedules, not hardware FPS measurements. [Part 13 evidence](evidence/part-13.md), [public authored replay](fixtures/population-replay.json), [road users](ROAD_USERS.md).
+
+## Native functional candidate update
+
+The opt-in functional factory fixes unused trailing zero gear slots by taking the greatest positive upshift threshold. It uses bounded deterministic integer steering prediction (nine candidates, eighteen handling ticks) and five passing corridors within road margins. No extra gameplay RNG is consumed. A 3,500-speed driver now genuinely finishes fifteenth instead of qualifying against capped 1,000-speed rivals. The final competitive career completes all 25 course/level combinations in 67 ordinary-control attempts, independently replayed 268 times. Earlier noncompetitive careers are rejected evidence. [Career receipt](evidence/native-career.json), [functional policy](NATIVE_ACCEPTANCE.md).

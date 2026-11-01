@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Build a private reviewable Linux candidate. Never labels an unaccepted game as released."""
 import argparse
+import gzip
 import hashlib
 import json
 from pathlib import Path
@@ -14,6 +15,19 @@ ROOT = Path(__file__).resolve().parents[2]
 
 def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def archive_tree(folder, archive, epoch):
+    """Normalize archive metadata; identical candidate files produce identical bytes."""
+    def normalized(info):
+        info.uid = info.gid = 0
+        info.uname = info.gname = ''
+        info.mtime = epoch
+        return info
+    with archive.open('xb') as raw:
+        with gzip.GzipFile(filename='', fileobj=raw, mode='wb', mtime=epoch) as compressed:
+            with tarfile.open(fileobj=compressed, mode='w', format=tarfile.PAX_FORMAT) as bundle:
+                bundle.add(folder, arcname='RoadRash-Rust', filter=normalized)
 
 
 def build(target, output):
@@ -67,8 +81,8 @@ def build(target, output):
             manifest['files'].append({'path': str(path.relative_to(folder)), 'bytes': path.stat().st_size, 'sha256': digest(path)})
     (folder / 'candidate-manifest.json').write_text(json.dumps(manifest, indent=2) + '\n')
     archive = output / 'RoadRash-Rust-linux-candidate.tar.gz'
-    with tarfile.open(archive, 'w:gz') as bundle:
-        bundle.add(folder, arcname='RoadRash-Rust')
+    epoch = int(subprocess.check_output(['git', 'show', '-s', '--format=%ct', revision], cwd=ROOT, text=True))
+    archive_tree(folder, archive, epoch)
     (output / 'SHA256SUMS').write_text(digest(archive) + '  ' + archive.name + '\n')
     return archive
 

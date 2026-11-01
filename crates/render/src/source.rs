@@ -125,10 +125,12 @@ impl FamilyAssets {
         self.sprites.get(&at)
     }
 }
+pub type PedestrianVoices = BTreeMap<(u16, u8), [Option<u8>; 2]>;
 #[derive(Clone)]
 pub struct SourceAssets {
     pub police_animation: Option<Arc<rr_simulation::animation::Library>>,
     pub pedestrian_appearances: Vec<rr_simulation::population::PedestrianAppearance>,
+    pub pedestrian_voices: Arc<PedestrianVoices>,
     pub animations: Option<Arc<crate::rider::RiderAssets>>,
     pub palettes: BTreeMap<u8, Arc<crate::rider::RiderAssets>>,
     pub vehicles: Vec<Vec<Option<SpriteAsset>>>,
@@ -355,6 +357,7 @@ impl SourceAssets {
             .collect();
         let mut families = BTreeMap::new();
         let mut pedestrian_appearances = vec![];
+        let mut pedestrian_voices = BTreeMap::new();
         let mut notes = BTreeSet::new();
         let mut pixel_budget = 0usize;
         for id in needed {
@@ -474,6 +477,19 @@ impl SourceAssets {
                     continue;
                 }
                 family.pedestrian_frames.insert(selector as u8, frames);
+                let mut voices = [None; 2];
+                for (k, voice) in voices.iter_mut().enumerate() {
+                    if let Some(offset) = family.resolve(2, selector, Some(2 + k)) {
+                        let raw = rr_formats::binary::range(&bytes, offset as usize + 8, 4)?;
+                        let slot = i32::from_be_bytes(raw.try_into().expect("four voice bytes"))
+                            .checked_sub(0x44)
+                            .unwrap_or(-1);
+                        if (1..69).contains(&slot) {
+                            *voice = Some(slot as u8);
+                        }
+                    }
+                }
+                pedestrian_voices.insert((id, selector as u8), voices);
                 pedestrian_appearances.push(rr_simulation::population::PedestrianAppearance {
                     family: id,
                     selector: selector as u8,
@@ -530,6 +546,7 @@ impl SourceAssets {
                 &exe_bytes, &global,
             )?)),
             pedestrian_appearances,
+            pedestrian_voices: Arc::new(pedestrian_voices),
             palettes: BTreeMap::new(),
             vehicles,
             vehicle_masks,
@@ -551,6 +568,7 @@ impl SourceAssets {
         Self {
             police_animation: None,
             pedestrian_appearances: vec![],
+            pedestrian_voices: Default::default(),
             palettes: BTreeMap::new(),
             vehicles: vec![],
             vehicle_masks: vec![],

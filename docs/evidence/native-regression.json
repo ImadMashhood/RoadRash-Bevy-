@@ -1,0 +1,88 @@
+{
+  "outcome": "passed",
+  "initial": {
+    "content_sha256": "73d7f9744b5b1a9482b3909950cdf3fe34119fe13d023b031e9c6739a60f18a2",
+    "course": "CITY",
+    "level": 1,
+    "bike": 1,
+    "character": 3,
+    "seed": 1,
+    "inputs_sha256": "86450297939a8831d2a4d8348b8329958070fa3895e99348fa8206c2cb637a5d",
+    "simulation_schema": 6,
+    "camera": {
+      "size": [
+        640,
+        480
+      ],
+      "framing": "classic"
+    },
+    "native_only": true
+  },
+  "simulation_build_sha256": "cb675cf5f4f78b372f38bc975fa68158916702618b16db1f1ac7b98e1aad104f",
+  "game_build_sha256": "6fe85a07f2bf2f13cc1637e15e84a31949b62d6b08fa7ee1c33aade19402e13b",
+  "ticks": 900,
+  "trace": {
+    "outcome": "equal",
+    "first_differences": {
+      "ticks": null,
+      "scheduler": null,
+      "rng": null,
+      "motion": null
+    },
+    "classification": "First unequal observation per channel; causality requires inspection. Content mismatches reject comparison.",
+    "tolerance": {
+      "state": 0,
+      "rng": 0,
+      "scheduling_ticks": 0,
+      "fixed_point_motion": 0
+    },
+    "engine_changed": false
+  },
+  "repeated_image": {
+    "regions": [
+      {
+        "region": "sky",
+        "bounds": [
+          0,
+          0,
+          640,
+          180
+        ],
+        "mask": null,
+        "different_pixels": 0,
+        "maximum_channel_error_8bit": 0,
+        "mean_channel_error_8bit": 0.0
+      },
+      {
+        "region": "road_and_actors",
+        "bounds": [
+          0,
+          180,
+          640,
+          480
+        ],
+        "mask": null,
+        "different_pixels": 0,
+        "maximum_channel_error_8bit": 0,
+        "mean_channel_error_8bit": 0.0
+      },
+      {
+        "region": "full",
+        "bounds": [
+          0,
+          0,
+          640,
+          480
+        ],
+        "mask": null,
+        "different_pixels": 0,
+        "maximum_channel_error_8bit": 0,
+        "mean_channel_error_8bit": 0.0
+      }
+    ],
+    "passed": true,
+    "tolerance_8bit": 0,
+    "reason": "Internal fixed-camera rasterizer is deterministic; no defect masks."
+  },
+  "source_setup_sha256": "86450297939a8831d2a4d8348b8329958070fa3895e99348fa8206c2cb637a5d"
+}

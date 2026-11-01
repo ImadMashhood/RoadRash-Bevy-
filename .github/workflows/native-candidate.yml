@@ -1,0 +1,74 @@
+name: Native Linux review candidate
+on:
+  push:
+    branches: [main]
+    paths: ['release/candidate.json']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: native-review-candidate
+  cancel-in-progress: false
+jobs:
+  build:
+    if: github.repository == 'ImadMashhood/RoadRash-Bevy-'
+    runs-on: ubuntu-latest
+    outputs:
+      source: ${{ steps.request.outputs.source }}
+      tag: ${{ steps.request.outputs.tag }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - id: request
+        run: python3 tools/release/candidate_request.py
+      - run: git checkout --detach '${{ steps.request.outputs.source }}'
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: 1.99.1
+          components: rustfmt, clippy
+      - run: sudo apt-get update && sudo apt-get install -y libx11-dev libxi-dev libxkbcommon-dev libudev-dev libasound2-dev ffmpeg
+      - run: cargo fmt --all --check
+      - run: python3 -m unittest discover -s tools -p 'test_*.py'
+      - run: cargo test --locked --release --workspace --target-dir ../target
+      - run: cargo clippy --locked --workspace --all-targets --target-dir ../target -- -D warnings
+      - run: cargo build --locked --release --workspace --target-dir ../target
+      - run: python3 tools/release/package.py --output local/native-candidate
+      - run: cd local/native-candidate && sha256sum --check SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: native-candidate
+          path: |
+            local/native-candidate/RoadRash-Rust-linux-candidate.tar.gz
+            local/native-candidate/SHA256SUMS
+          if-no-files-found: error
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: native-candidate
+          path: candidate
+      - name: Publish immutable review candidate
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          SOURCE_SHA: ${{ needs.build.outputs.source }}
+          CANDIDATE_TAG: ${{ needs.build.outputs.tag }}
+        run: |
+          cd candidate
+          sha256sum --check SHA256SUMS
+          cat > notes.md <<EOF
+          Native-art Linux review candidate from source $SOURCE_SHA.
+
+          G5 owner acceptance remains pending. This prerelease does not authorize texture enhancement production.
+          No original game media ships; supply your own supported ISO or ZIP on first launch.
+          Includes the player guide, dependency/font notices and SHA256SUMS.
+          Built and checked on Ubuntu CI; physical Fedora acceptance is recorded separately in the repository.
+          The project-wide source license remains unselected; see LICENSE-SCOPE.txt.
+          EOF
+          gh release create "$CANDIDATE_TAG" RoadRash-Rust-linux-candidate.tar.gz SHA256SUMS --target "$SOURCE_SHA" --prerelease --latest=false --title 'Native Linux review candidate' --notes-file notes.md

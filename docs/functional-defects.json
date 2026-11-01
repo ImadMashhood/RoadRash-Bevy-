@@ -5,91 +5,102 @@
       "id": "player-actions",
       "task": "19.02",
       "severity": "required",
-      "status": "open",
+      "status": "closed",
       "owner": "Implementing agent",
       "reproducer": "Nitro/intentional dismount and controller combat commands absent",
-      "regression": null
+      "regression": "docs/evidence/19.02.md",
+      "acceptance_gate": "G3F"
     },
     {
       "id": "pedestrian-animation",
       "task": "19.03",
       "severity": "required",
-      "status": "open",
+      "status": "closed",
       "owner": "Implementing agent",
       "reproducer": "Pedestrian rendering picks a static first frame",
-      "regression": null
+      "regression": "docs/evidence/19.03.md",
+      "acceptance_gate": "G3F"
     },
     {
       "id": "road-user-coverage",
       "task": "19.04",
       "severity": "required",
-      "status": "open",
+      "status": "closed",
       "owner": "Implementing agent",
       "reproducer": "Traffic/controller/police policy audit and regression coverage incomplete",
-      "regression": null
+      "regression": "docs/evidence/19.04.md",
+      "acceptance_gate": "G3F"
     },
     {
       "id": "full-race-career",
       "task": "19.05",
       "severity": "required",
-      "status": "open",
+      "status": "closed",
       "owner": "Implementing agent",
       "reproducer": "Full source-race terminal and 25-race ordinary-command evidence missing",
-      "regression": null
+      "regression": "docs/evidence/19.05.md",
+      "acceptance_gate": "G3F"
     },
     {
       "id": "dialogue-credits",
       "task": "19.06",
       "severity": "required",
-      "status": "open",
+      "status": "closed",
       "owner": "Implementing agent",
       "reproducer": "Source dialogue and credits replaced by placeholders",
-      "regression": null
+      "regression": "docs/evidence/19.06.md",
+      "acceptance_gate": "G3F"
     },
     {
       "id": "media-invocation",
       "task": "19.07",
       "severity": "required",
-      "status": "open",
+      "status": "closed",
       "owner": "Implementing agent",
       "reproducer": "Source video variants, finale, contextual effects and MIDI scope incomplete",
-      "regression": null
+      "regression": "docs/evidence/19.07.md",
+      "acceptance_gate": "G3F"
     },
     {
       "id": "profile-e2e",
       "task": "19.08",
       "severity": "required",
-      "status": "open",
+      "status": "closed",
       "owner": "Implementing agent",
       "reproducer": "Packaged multi-race save/recovery flow not yet exercised",
-      "regression": null
+      "regression": "docs/evidence/19.08.md",
+      "acceptance_gate": "G3F"
     },
     {
       "id": "accessible-ui",
       "task": "20.02",
       "severity": "required",
-      "status": "open",
+      "status": "closed",
       "owner": "Implementing agent",
       "reproducer": "Small-window, text scaling and translated-layout verification missing",
-      "regression": null
+      "regression": "docs/evidence/20.02.md",
+      "acceptance_gate": "G5"
     },
     {
       "id": "release-verification",
       "task": "21.01",
       "severity": "required",
-      "status": "open",
+      "status": "pending_verification",
       "owner": "Implementing agent",
       "reproducer": "Unified release regression/performance/soak receipt missing",
-      "regression": null
+      "regression": null,
+      "acceptance_gate": "G5"
     },
     {
       "id": "packaging",
       "task": "22.01",
       "severity": "required",
-      "status": "open",
+      "status": "pending_verification",
       "owner": "Implementing agent",
       "reproducer": "Standalone clean-profile importer/launcher package missing",
-      "regression": null
+      "regression": null,
+      "acceptance_gate": "G5"
     }
-  ]
+  ],
+  "scope_note": "G3F functional/interface defects are closed with scenario evidence. Required G5 verification/packaging entries remain open until final receipts pass; they are not silently waived."
 }

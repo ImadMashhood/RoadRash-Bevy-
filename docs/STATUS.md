@@ -1,10 +1,19 @@
 # Implementation status
 
+Parts 01–20 are complete within the declared modern offline/Linux scope. The native functional candidate now passes a genuine competitive career: 67 ordinary-control races, all 25 course/level combinations, five paid upgrades and nine paid repairs, independently audited across 268 replay runs. Part 20 passes 100 rendered language/layout cases and all 133 inventoried printable glyphs. [Current native acceptance](NATIVE_ACCEPTANCE.md), [manifest](functional-manifest.json), [player guide](PLAYER_GUIDE.md).
+
+Parts 21–22 remain in final performance/package/release verification; G5 owner signoff is still pending and enhancement production remains locked. No original Windows runtime parity, certified physical controller, other OS or full film transcript is claimed. Completed roadmap parts are collapsed only after all linked task receipts pass.
+
+## Historical Parts 01–18 receipts
+
+The measurements below describe their original revisions. Their retired gap statements are superseded by the current native acceptance manifest and Part 19/20 receipts; they are preserved as development history.
+
+
 Parts 01–18 are complete within the current declared scope and first-platform Linux support. Part 01 original-runtime comparisons were removed by the owner; their deletion is documented in [scope changes](SCOPE_CHANGES.md), not recorded as successful original comparisons.
 
 Parts 02–03 supply the pinned foundation and verified transactional importer. Parts 04–06 add bounded decoders, a reproducible semantic content catalog and browser inspector, typed deterministic simulation, headless replay, canonical checkpoints, interpolated Bevy presentation and texture overrides. All 341 required source files are represented: 164 decoded sources and 177 retained for later subsystems, 2,975 semantic entries, no conversion errors. Fine unknown semantics remain explicitly unreviewed.
 
-Current verification: 319 Rust tests, 15 Python tests, formatting, workspace Clippy, release build, bounded mutation fuzzing, real-disc conversion, byte-identical warm rebuild, actual graphical replay runs and browser inspector review. Checkpoint hashes match across four controlled presentation schedules and a live texture switch. See [Part 08 evidence](evidence/part-08.md) for current results and [Parts 04–06 evidence](evidence/parts-04-06.md) for the earlier baseline. Historical clean-container receipts cover the earlier source hashes only; a fresh remote Actions run is not claimed.
+Historical verification at that revision: 319 Rust tests, 15 Python tests, formatting, workspace Clippy, release build, bounded mutation fuzzing, real-disc conversion, byte-identical warm rebuild, actual graphical replay runs and browser inspector review. Checkpoint hashes match across four controlled presentation schedules and a live texture switch. See [Part 08 evidence](evidence/part-08.md) for current results and [Parts 04–06 evidence](evidence/parts-04-06.md) for the earlier baseline. Historical clean-container receipts cover the earlier source hashes only; a fresh remote Actions run is not claimed.
 
 The app renders all five imported source courses with native materials/horizons/scenery and a catalog rider through Bevy. Imported races use schema-5 source handling, animation, combat/recovery, opponent decisions and bounded road-user populations. The data-free fallback and schema-1/2 replays retain their authored rules. Race results, career, validated save slots/preferences and media playback are implemented. Remaining required functionality is explicit in Part 19; verification and accepted native packaging follow through Part 22. Texture production waits until Part 24 after accepted G5. 3D remains deferred. No complete playable recreation or original-runtime parity is claimed.
 

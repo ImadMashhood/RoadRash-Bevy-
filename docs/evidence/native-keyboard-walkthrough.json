@@ -1,0 +1,26 @@
+{
+  "keyboard_backend": "Linux uinput -> KDE/XWayland -> Bevy input",
+  "mouse_used": false,
+  "console_or_test_script_in_game": false,
+  "application_read_only": true,
+  "application_outside_checkout": true,
+  "source_import_outside_checkout": true,
+  "first_import_files": 341,
+  "ordinary_race_result": "Arrested",
+  "ordinary_race_seconds": 254.18,
+  "course": "CITY",
+  "level": 1,
+  "saved_career_cash": 200,
+  "language": "french",
+  "text_scale_percent": 125,
+  "before_reopen": {
+    "default.json": "215f8e6cdccdacb585208f69528485bc9ef412d120a18b797400fecaa0417080",
+    "settings.json": "b4ed579f6bdcbc9ae0787af462b2b6edd2de836231750f406c5304a96b8873b4"
+  },
+  "reopen_career_and_settings_verified": true,
+  "backup_created_by_packaged_save": true,
+  "expected_career_sha256": "215f8e6cdccdacb585208f69528485bc9ef412d120a18b797400fecaa0417080",
+  "backup_sha256": "215f8e6cdccdacb585208f69528485bc9ef412d120a18b797400fecaa0417080",
+  "explicit_corruption_recovery_verified": true,
+  "outcome": "passed"
+}

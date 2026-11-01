@@ -14,9 +14,14 @@ class RoadmapOrder(unittest.TestCase):
             r'^### Phase (\d+) — ([^\n]+)\n([\s\S]*?)(?=\n### Phase |\n## 7\.|\Z)',
             readme, re.M))
         self.assertEqual([int(b[1]) for b in blocks], list(range(1, 26)))
+        manifest = json.loads((ROOT / 'docs/functional-manifest.json').read_text())
+        tasks = {t['id']: t for t in manifest['tasks']}
+        self.assertEqual(len(tasks), 48)
         for block in blocks:
             number, body = int(block[1]), block[3]
-            if number <= 18:
+            completed = number <= 18 or (19 <= number <= 22 and all(
+                tasks[f'{number}.{i:02}']['status'] == 'passed' for i in range(1, 13)))
+            if completed:
                 self.assertEqual(body.count('<details>'), 1)
                 self.assertEqual(body.count('</details>'), 1)
                 self.assertNotIn('<details open', body)
@@ -27,8 +32,19 @@ class RoadmapOrder(unittest.TestCase):
                     self.assertTrue((ROOT / path).is_file(), path)
             else:
                 self.assertNotIn('<details>', body)
-                self.assertNotIn('[x]', body)
-                self.assertEqual(body.count('[ ]'), 48)
+                self.assertEqual(body.count('[ ]') + body.count('[x]'), 48)
+                if number >= 23:
+                    self.assertNotIn('[x]', body)
+            if 19 <= number <= 22:
+                for i in range(1, 13):
+                    identity = f'{number}.{i:02}'
+                    task = tasks[identity]
+                    self.assertIn(task['status'], ['pending', 'passed'])
+                    mark = 'x' if task['status'] == 'passed' else ' '
+                    for suffix in ['', '.a', '.b', '.c']:
+                        self.assertIn(f'- [{mark}] **{identity}{suffix} — ', body)
+                    if task['status'] == 'passed':
+                        self.assertTrue((ROOT / task['evidence']).is_file(), identity)
 
     def test_future_ticket_mapping_preserves_parents_children_and_functional_gate(self):
         migration = json.loads((ROOT / 'docs/roadmap-migration.json').read_text())

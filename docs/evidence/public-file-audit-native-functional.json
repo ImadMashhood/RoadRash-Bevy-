@@ -1,382 +1,337 @@
 {
   "outcome": "passed",
-  "base_revision": "23a7d8982ed605b386b62b96d79da1612d4324ef",
+  "base_revision": "eafaf677384a1d944651de27f161bc7ed85e4a6f",
   "policy": "UTF-8 implementation, authored fixtures/translations and redacted evidence only; the single binary exception is the OFL Fira Mono font with verified hash and provenance. No game resources, derived source setups, frames, screenshots, raw audio, disc, private logs or executable payloads. Audit excludes itself.",
   "files": [
     {
-      "path": "apps/game/src/acceptance.rs",
-      "bytes": 24717,
-      "sha256": "68b7d137f03424d315bb0a545241662890d1fc61096f68c68a5785e6b668e6d8"
+      "path": ".github/workflows/native-candidate.yml",
+      "bytes": 3091,
+      "sha256": "dd0d2696a5020a96e1d3a1787078cef176b35c08b582e7e8b140c96722e54744"
     },
     {
-      "path": "apps/game/src/frontend/mod.rs",
-      "bytes": 38953,
-      "sha256": "448caf2f4c564ffbdfad46ac59f3cd3681faed76fc0febeb012abeb3ca11a075"
+      "path": "README.md",
+      "bytes": 284972,
+      "sha256": "bc90b070049c8fa3184f7474fa3f1d8eeba0e6d54e60b8a826b50a51467a0112"
     },
     {
-      "path": "apps/game/src/frontend/tests.rs",
-      "bytes": 21571,
-      "sha256": "b8543f4ba75ed4dfb02d064d5da4dcbda1eb163aec710abd652e2f856a3bb9ce"
-    },
-    {
-      "path": "apps/game/src/frontend/view.rs",
-      "bytes": 25424,
-      "sha256": "326222c2672ac798639b3c01f7fc9b584f624c8c2254aaf80f0069bcf778d3ec"
-    },
-    {
-      "path": "apps/game/src/gamepad_calibration.rs",
-      "bytes": 2201,
-      "sha256": "539df48d802c23634f048d485fa6fc6fdcef1db7dec23337631a63a250522ea4"
-    },
-    {
-      "path": "apps/game/src/input_adapter.rs",
-      "bytes": 15938,
-      "sha256": "70ce1dbabba928de4eac0c210382eadef630605a36d2fd7de0b51541ab56afae"
-    },
-    {
-      "path": "apps/game/src/main.rs",
-      "bytes": 51223,
-      "sha256": "b2245d0ab87071c9e46255e8c66d008513d5edc1353a8e7f034bb34055fbe1e5"
+      "path": "apps/game/src/media/device.rs",
+      "bytes": 13692,
+      "sha256": "0dc55f20ab5e4b8a60ffc2db2803aaaebfdb92f7ee84d96219131636386b7cd1"
     },
     {
       "path": "apps/game/src/media/mod.rs",
-      "bytes": 15665,
-      "sha256": "e6d45b3e55489b81cef944f7cd2db935e87d5b09a965548fd7595feb4afe36a3"
-    },
-    {
-      "path": "apps/game/src/media/movie.rs",
-      "bytes": 11880,
-      "sha256": "895f97431f887400d1d57688c111e222e4a6b7b629095102646a57c7d2dd9bd4"
-    },
-    {
-      "path": "apps/game/src/performance.rs",
-      "bytes": 13603,
-      "sha256": "d41b54c48769265ee481685b5dbb8a72ad72756958f995e66206d497b3106994"
-    },
-    {
-      "path": "apps/game/src/race_recording.rs",
-      "bytes": 7378,
-      "sha256": "b7721431319b1c9d187be151f83aad13c1f975d95473e07917d7b311d0b5298f"
-    },
-    {
-      "path": "crates/formats/src/lib.rs",
-      "bytes": 3180,
-      "sha256": "fd2584a07420c71484e6eb6449201a57be6445b224e48115a0c4e3849d1de862"
-    },
-    {
-      "path": "crates/formats/src/strings.rs",
-      "bytes": 5303,
-      "sha256": "53870f630cb680b6f0b148e2f50c37ac2f267e3779a4eb8e4746aace20047d98"
-    },
-    {
-      "path": "crates/formats/tests/strings.rs",
-      "bytes": 2923,
-      "sha256": "78d0f5c6328f78ecd440698e859419bfe5ec6de1807caf9b1dad3cf9cc04aad0"
-    },
-    {
-      "path": "crates/input/src/devices.rs",
-      "bytes": 6601,
-      "sha256": "a0b3ca00182ea4451a57e2428d299e8129b2f2bee7f20a7fc8ac27f5b993dede"
-    },
-    {
-      "path": "crates/input/src/lib.rs",
-      "bytes": 7457,
-      "sha256": "5380b9b31529b418d0897e084420558ae2b06027de85789bfd932d3a4d4392ef"
-    },
-    {
-      "path": "crates/input/tests/devices.rs",
-      "bytes": 7139,
-      "sha256": "7e4b637793717bcdef6396604656d35fec77713f6b62b4b64c8a1ea031da85f9"
-    },
-    {
-      "path": "crates/media/src/bin/rr-video-audit.rs",
-      "bytes": 3114,
-      "sha256": "79932dd42eb52156ad8a0f567756d3671d27024a5c7aa8c4aa1d330302287be7"
+      "bytes": 16359,
+      "sha256": "ea923bef9bce9c628c696141d7d7817267661722543e7b245d980e2cbdc111bc"
     },
     {
       "path": "crates/media/src/cues.rs",
-      "bytes": 7840,
-      "sha256": "bc4382cd4963c82cfa9896761edb0465ec223098e51bba4b4abaeb25f9e26e1f"
-    },
-    {
-      "path": "crates/media/src/video.rs",
-      "bytes": 16530,
-      "sha256": "09099df695ec5e0527bec31d6f575c248025de312ef5211b31a4c7cb20253336"
+      "bytes": 10918,
+      "sha256": "54c00af76ffdc69d9730389ecab7d34a28d2f73824da986a7ccc129914d5a256"
     },
     {
       "path": "crates/media/tests/media.rs",
-      "bytes": 11703,
-      "sha256": "281524c0ed753129dc9a61d8198a667af55ac715fa2aff7ab0dc664a989963c0"
-    },
-    {
-      "path": "crates/presentation/assets/fonts/FiraMono-Medium.ttf",
-      "bytes": 173516,
-      "sha256": "5f9173ce3d05fadef74c7eed06570d54e4f75bd0cd9860726fb2987a7f848292"
-    },
-    {
-      "path": "crates/presentation/assets/fonts/OFL.txt",
-      "bytes": 4479,
-      "sha256": "99bfb7c1e845b79d1031fcf37e678178eb4a8c7cc74a3f218ddf7223083a6fcd"
-    },
-    {
-      "path": "crates/presentation/assets/fonts/PROVENANCE.md",
-      "bytes": 419,
-      "sha256": "c4aa9bcc2f20309790f71e1e2bb460e91432fca3a309cd3e9b145fd05a4f1fdb"
-    },
-    {
-      "path": "crates/presentation/src/course_view.rs",
-      "bytes": 9959,
-      "sha256": "2c06422bb67983faf916ff2b4ea41c135b415caea47402557c8af33e4b645536"
-    },
-    {
-      "path": "crates/presentation/src/lib.rs",
-      "bytes": 9079,
-      "sha256": "ec7f083cd7bded92f0e5803e08549f57af3208e2754fff9121502c85aae7592b"
+      "bytes": 14452,
+      "sha256": "3b558834b7f84162cf747f6e257ca3b77d2ede689ea43b616b3e39de6819d34b"
     },
     {
       "path": "crates/render/src/bin/rr-native-verify.rs",
-      "bytes": 4143,
-      "sha256": "97f1db935e1aadfaf60fc521e13a2cb19a0ff868c654ecf5dd9af00199f729db"
-    },
-    {
-      "path": "crates/render/src/bin/rr-population-art.rs",
-      "bytes": 3220,
-      "sha256": "856f4f07695fbd535c579ef13e7a21b7520c792741485ebd32f78ed6d1b51ec9"
-    },
-    {
-      "path": "crates/render/src/fixture.rs",
-      "bytes": 5206,
-      "sha256": "6fe1e9a63fd585a51f629f59c3b1f351d3150bf80a1f445b1957536dcaddee55"
-    },
-    {
-      "path": "crates/render/src/raster.rs",
-      "bytes": 11529,
-      "sha256": "0a934c1a9174752a241056d83d815dcc1c819298c6f05b8b1051afb349e7262e"
-    },
-    {
-      "path": "crates/render/src/scene.rs",
-      "bytes": 44348,
-      "sha256": "aa5f7cce3aec62aa75ce227463af8ea7489bbfcdf84d047c4407cfa7015c04d7"
+      "bytes": 4248,
+      "sha256": "46584919f2fab09e877080daaecfa48e12f16ba52759125726c4f4b9c3937407"
     },
     {
       "path": "crates/render/src/source.rs",
-      "bytes": 25934,
-      "sha256": "602dc5dfa014c807e3c74ca998ec6dec6d1f1630cb2ecb995543ee89cb0c0af4"
-    },
-    {
-      "path": "crates/render/tests/classic.rs",
-      "bytes": 33134,
-      "sha256": "07e85b30fc7462a180d00d5cc5607cf205be1209a773f2db68a7242c66febf9a"
-    },
-    {
-      "path": "crates/session/examples/profile_paths.rs",
-      "bytes": 2266,
-      "sha256": "88956a259229d00cfc08a01f374a1adbffebbbbc3de7ed6ee076d9b069ef3b86"
+      "bytes": 26937,
+      "sha256": "919b9087f05288b5d1e7b746263bef19b219d21f701973d847184c77cb67dc4f"
     },
     {
       "path": "crates/session/src/bin/rr-text-check.rs",
-      "bytes": 1131,
-      "sha256": "90e515bdde16a816fd74737714a75c092a4e025909bb6c3fa5ec20db03dc78c1"
+      "bytes": 1606,
+      "sha256": "d59444d5be87aca72c5018c397a6c73090513a3928f4e1bb0267220dd074a9d4"
     },
     {
-      "path": "crates/session/src/career.rs",
-      "bytes": 8875,
-      "sha256": "71285c3308d40715bb0bb24aa85f9dab3b528223d8b73a6abf0e08160ed1215e"
+      "path": "docs/ANIMATION.md",
+      "bytes": 7183,
+      "sha256": "14828651b5a3338bd49b6fa89317ace07c9da4cff73d154e621de29faacf8e0c"
     },
     {
-      "path": "crates/session/src/flow.rs",
-      "bytes": 11888,
-      "sha256": "130dd9c6e24fa95fb11420559da3e8ee488046ad87c7369a4a0a74167a487d91"
+      "path": "docs/AUDIO.md",
+      "bytes": 9364,
+      "sha256": "4431986cea86dbc9008bf1932ba08f2cb458680b48f259d47da3b136f8728de7"
     },
     {
-      "path": "crates/session/src/lib.rs",
-      "bytes": 303,
-      "sha256": "fdefbe868a22df700ed9a090970206980dce3f293630d814bcbefc8c49440e45"
+      "path": "docs/FRONTEND.md",
+      "bytes": 8927,
+      "sha256": "c0822b93d6cc40c8654c0998ef2b1098706b2c3175e27943e6c7b0f3af6ba3d5"
     },
     {
-      "path": "crates/session/src/persistence/preferences.rs",
-      "bytes": 4624,
-      "sha256": "148fca0d9ca56ddad356f66b0fc8b53173cd02346c33f88a4f956512e610e2ca"
+      "path": "docs/INPUT.md",
+      "bytes": 10844,
+      "sha256": "fa4743ba322ec83251a502b9f15475ecadd9e1496a8ce6fc895575b1634713e2"
     },
     {
-      "path": "crates/session/src/race.rs",
-      "bytes": 14012,
-      "sha256": "a40adbc038cfb03553fc82cae7ec1d7db398250b259be56b66ef6f0ad8bee478"
+      "path": "docs/NATIVE_ACCEPTANCE.md",
+      "bytes": 9456,
+      "sha256": "a767646216285283d495152730417abdcd9818d8c23b4dd4b51841b6d0d2777f"
     },
     {
-      "path": "crates/session/src/text.rs",
-      "bytes": 9663,
-      "sha256": "888d66f3fcdd9a8d4852f46d9c86da262e37d1a057542004c3f9db69952feffe"
+      "path": "docs/OPPONENTS.md",
+      "bytes": 9659,
+      "sha256": "1408994d7a9f530d9e61a8a92789a483d5ce28a238c552d2950b2416df2ef46a"
     },
     {
-      "path": "crates/session/src/ui.rs",
-      "bytes": 7368,
-      "sha256": "1544e01843b7cbe64fa2aeeb7c7d092518f1aa508520f948de6bda4e80c20fba"
+      "path": "docs/ROAD_USERS.md",
+      "bytes": 9386,
+      "sha256": "b6e3567aa7cb7f612da1570f53ef78910fa5d17f3891d99678edfa1d8e748e67"
     },
     {
-      "path": "crates/session/tests/interface.rs",
-      "bytes": 5029,
-      "sha256": "e600d66e3e838b378f1df022227a6c137388217f308349e1dd03d75d69076762"
+      "path": "docs/SIMULATION.md",
+      "bytes": 11935,
+      "sha256": "cb5ac7166f06b9e5d50e548ebe4a0876f3c0cd2054d1853a2bf848c1d0759b5e"
     },
     {
-      "path": "crates/session/tests/rules.rs",
-      "bytes": 22798,
-      "sha256": "323b4d3b651e0e68e0ecb24123b20698d93f011ea70ebb6a7d0d9ff6d0090443"
+      "path": "docs/STATUS.md",
+      "bytes": 10133,
+      "sha256": "a09f2b2d12f7f03e97eacd5e816eda81b25388196bbb41708caa5f6c717d8f08"
     },
     {
-      "path": "crates/simulation/examples/diagnose_contacts.rs",
-      "bytes": 1361,
-      "sha256": "3beb996b67ade73753b9e0bf6c3432bc3f1b3f02ad02c13b99d6adb4e312eb52"
+      "path": "docs/evidence/19.01.md",
+      "bytes": 1628,
+      "sha256": "46390c9380543fcc1a3a49579fc2ecc9c6ac5e101b0d19463b36f12e66394b10"
     },
     {
-      "path": "crates/simulation/src/actions.rs",
-      "bytes": 3207,
-      "sha256": "e24db6842d68e283691311824a8ec8e98f00390baaa087d5620d1eec1712e2e1"
+      "path": "docs/evidence/19.02.md",
+      "bytes": 1695,
+      "sha256": "b553bcbbdb98d5b310fd8579c2b3da085c5297dbf9a552bc2dbe450cae703cf6"
     },
     {
-      "path": "crates/simulation/src/animation.rs",
-      "bytes": 23125,
-      "sha256": "5ba5e542296273737c7a6d69c2c16ab01c6aa19a47f2e36f99e793af454e0b4c"
+      "path": "docs/evidence/19.03.md",
+      "bytes": 1589,
+      "sha256": "81648d704d497641487e8faa240d7ba21fd762c743e5b712feea0bac5e29d3c8"
     },
     {
-      "path": "crates/simulation/src/bin/rr-replay.rs",
-      "bytes": 790,
-      "sha256": "708b978129325aeb6a80929cf25948b95bf21607216988ab49d33899343f96e0"
+      "path": "docs/evidence/19.04.md",
+      "bytes": 1791,
+      "sha256": "d19b98b787bc8e47ac4e2ed3037740cd0d189b88310fb150cfd2cdb3fabff3bb"
     },
     {
-      "path": "crates/simulation/src/encounter.rs",
-      "bytes": 40273,
-      "sha256": "f717fc047f680d7b9ef940f5b8683a74f9fa36c9280280efb991307210a93f1d"
+      "path": "docs/evidence/19.05.md",
+      "bytes": 1691,
+      "sha256": "50d16e461e2273ded40d7705bda69db32ee378cf9f16cc909cf77dc2f826b4a1"
     },
     {
-      "path": "crates/simulation/src/fixtures.rs",
-      "bytes": 2811,
-      "sha256": "6640cf4aaf5c06d46a07af2d3bb7b44582a06c6989b6d868a8ea0e2d4715837c"
+      "path": "docs/evidence/19.06.md",
+      "bytes": 1824,
+      "sha256": "934c1fec5cb61304a6faab142571ca1775d2163d305db1b752c7f1f0b59a089b"
     },
     {
-      "path": "crates/simulation/src/handling.rs",
-      "bytes": 21278,
-      "sha256": "70685c66aa79c767fb228f1a4ddd98fdbeb38c01eae80982f4ebb25fbbdaa8c7"
+      "path": "docs/evidence/19.07.md",
+      "bytes": 1939,
+      "sha256": "83158bc38eaeae871a2a7a108a77cddea5b308a5a563e92b6610a5119c6deb36"
     },
     {
-      "path": "crates/simulation/src/lib.rs",
-      "bytes": 35207,
-      "sha256": "ee6d6ce695ddc0485a0001f175f2aaeba7725fe8c150b07377d51006ec4c8816"
+      "path": "docs/evidence/19.08.md",
+      "bytes": 1925,
+      "sha256": "4fd8635e88a2674070a31241acdbd07319b24cf38d32ef9c50f14d40851be852"
     },
     {
-      "path": "crates/simulation/src/population.rs",
-      "bytes": 16607,
-      "sha256": "18d7e35dc125c6e66bd7bfdccdf37a91eb8c798a8b6e4f7d993a21a65efa4117"
+      "path": "docs/evidence/19.09.md",
+      "bytes": 1800,
+      "sha256": "5cf5c5951496159fe7c119b9ecf1027c66278e90246b5d7aef5517dec52ea60d"
     },
     {
-      "path": "crates/simulation/src/population/opponents.rs",
-      "bytes": 12842,
-      "sha256": "b5541f299ca2d33c1a6909eb1a5212f42105ff1fd6b9f40ab96eef3f278c6712"
+      "path": "docs/evidence/19.10.md",
+      "bytes": 1787,
+      "sha256": "e2554020d2bec97024c70733c92a0055adf735cee8b2e25e1a94ea449fbd73a0"
     },
     {
-      "path": "crates/simulation/src/population/road_users.rs",
-      "bytes": 28751,
-      "sha256": "cc478d3b123009cbb465c0a6ffb135e5d13e4cd5d8cadee0a1c43e21b1fb9db3"
+      "path": "docs/evidence/19.11.md",
+      "bytes": 1748,
+      "sha256": "aa927431ba5603abc1d33d487eb8489ab2fcee1b625316b28227e5918c257a1d"
     },
     {
-      "path": "crates/simulation/src/replay.rs",
-      "bytes": 9460,
-      "sha256": "ea38ba8944624936dc4698e74e10684f067b9f8323e58dcba1f801850834e1b0"
+      "path": "docs/evidence/19.12.md",
+      "bytes": 1773,
+      "sha256": "e89829467abe587d8a07304426b64447233ad2f428625d9d71503e5985d24f3e"
     },
     {
-      "path": "crates/simulation/src/riding.rs",
-      "bytes": 11023,
-      "sha256": "470ec7a1b7534f9110072725cc7b0c6da907089e4825b36103c7c1b5b1f6c706"
+      "path": "docs/evidence/20.01.md",
+      "bytes": 1473,
+      "sha256": "78af413f32b69d38a111e860406c624f729a6267fdb973924874aa64fc6dca38"
     },
     {
-      "path": "crates/simulation/tests/actions.rs",
-      "bytes": 8436,
-      "sha256": "c8ac81b8bfc7b40e82016c25c4735416c299f79f30327bbced190d6aa6edb9de"
+      "path": "docs/evidence/20.02.md",
+      "bytes": 1557,
+      "sha256": "7b70e65d5c56c2e05b9be3c10b7f320061a92baeff13c69a38ddd02fc1ebb466"
     },
     {
-      "path": "crates/simulation/tests/core.rs",
-      "bytes": 15544,
-      "sha256": "a3e399b89d1da26dc926283321733bb6f1c250e5fe4c4c26d356022eea44b0fd"
+      "path": "docs/evidence/20.03.md",
+      "bytes": 1568,
+      "sha256": "32ea49e32fb05b657643422c3f5e7952f03b17f7fe52cfe30592f316fed32337"
     },
     {
-      "path": "crates/simulation/tests/population.rs",
-      "bytes": 35489,
-      "sha256": "b46e326a0c498dfaef5f8313947bf98cf5998597403c5009783f8ff4aff0f493"
+      "path": "docs/evidence/20.04.md",
+      "bytes": 1457,
+      "sha256": "616d2d4459dbf16b32ecd3c23bb60849f1ad8dd108ec1ca90bb54620eeb7e433"
     },
     {
-      "path": "crates/simulation/tests/riding.rs",
-      "bytes": 16927,
-      "sha256": "73baa37e6f781ce1b60cb4e08aced43ac8722bdbdf2e356ac215ec5875d60ac2"
+      "path": "docs/evidence/20.05.md",
+      "bytes": 1565,
+      "sha256": "11cb92073a61ebac63c0a6f047a8514c47372da65ac00b152138f42152524cf1"
     },
     {
-      "path": "docs/PLAYER_GUIDE.md",
-      "bytes": 6144,
-      "sha256": "cfbb42369cbccf504820f42d0cf2da39f418ffcea7fd748995949b772055a3a3"
+      "path": "docs/evidence/20.06.md",
+      "bytes": 1645,
+      "sha256": "f8962595bfb6c6b78985efe206d59e92e5e09964c89965629f75b0cad451b9cf"
+    },
+    {
+      "path": "docs/evidence/20.07.md",
+      "bytes": 1638,
+      "sha256": "5acba505eacf5352a682f7a156b073dad1f2207a628d15c0c7c657e860f5c865"
+    },
+    {
+      "path": "docs/evidence/20.08.md",
+      "bytes": 1554,
+      "sha256": "d1b33e349656037ff3a2da44948611460f47f0c6571ee7a6344cfd97215bebcc"
+    },
+    {
+      "path": "docs/evidence/20.09.md",
+      "bytes": 1539,
+      "sha256": "99897a088be09c09ffbb95e2a0771bebbd02b20779257319b3c90a5267bda462"
+    },
+    {
+      "path": "docs/evidence/20.10.md",
+      "bytes": 1550,
+      "sha256": "354109c01e8e813536de28cd1d87487a827d0414a48526230b2adbfea1620505"
+    },
+    {
+      "path": "docs/evidence/20.11.md",
+      "bytes": 1580,
+      "sha256": "bcd5504404ce308fa821636d17f75b4e9c9e0b5bbf3e85b80f09521a606674b5"
+    },
+    {
+      "path": "docs/evidence/20.12.md",
+      "bytes": 1554,
+      "sha256": "e7df10d5b0ddc7549c4be57f58f8b1b88cc70f7889d6394ba394398c1a691410"
+    },
+    {
+      "path": "docs/evidence/21.01.md",
+      "bytes": 1574,
+      "sha256": "ae3527a9847e0f3446185eeee7b1659d2092f5477ccd30064be39c1c3c58c25d"
+    },
+    {
+      "path": "docs/evidence/21.02.md",
+      "bytes": 1559,
+      "sha256": "61f4c5223735d20a153d4b97c7ea040437b7d87aad89862e9cb61361cde60837"
+    },
+    {
+      "path": "docs/evidence/21.03.md",
+      "bytes": 1627,
+      "sha256": "b5f2ac8692d0c103d8a055526a2907880bcf00567453f13317d68ce23fd2decd"
+    },
+    {
+      "path": "docs/evidence/21.04.md",
+      "bytes": 1494,
+      "sha256": "240d7ccde90a2f3ee5560ff306ff10eefa7f0dfac79d9db122c357e6e1605ca8"
+    },
+    {
+      "path": "docs/evidence/21.05.md",
+      "bytes": 1555,
+      "sha256": "a21770553a0fb503a0796131f725b54cb98f2f5976d6928a1c8f3ea6111ea685"
+    },
+    {
+      "path": "docs/evidence/21.06.md",
+      "bytes": 1586,
+      "sha256": "e5dbf277422a778f8ad360baa16059c43abf0c9fdeccad8df99dc40d5c7247a9"
+    },
+    {
+      "path": "docs/evidence/22.05.md",
+      "bytes": 1593,
+      "sha256": "b2bc7fcefb801a8e23ee496e9a864e724678837134b5017a24511ca1811e32b6"
+    },
+    {
+      "path": "docs/evidence/native-career.json",
+      "bytes": 29618,
+      "sha256": "a0009dc5aba10c8c6e83d62f63f492365b24fcbe4d835ee16ffccab752ce9fe6"
+    },
+    {
+      "path": "docs/evidence/native-context-audio.json",
+      "bytes": 908,
+      "sha256": "6893820276f9d951e32d547895bb3b77a4dba4d1a11ee38280aae53c1cf27620"
+    },
+    {
+      "path": "docs/evidence/native-interface.json",
+      "bytes": 43415,
+      "sha256": "b2118fd06d69b6e5f819a14407ba1bbe1be85e251cdf4db4f1a18101c6f5b43b"
+    },
+    {
+      "path": "docs/evidence/native-keyboard-walkthrough.json",
+      "bytes": 1016,
+      "sha256": "9ec1cd8f716eced294fd2b88ba00be30c68d6b5157df111b84453f22eec54f74"
+    },
+    {
+      "path": "docs/evidence/native-regression.json",
+      "bytes": 2181,
+      "sha256": "d8eb50f8c9c51dec04781ea7188558a93225173e117674f49af8524d2c21b767"
+    },
+    {
+      "path": "docs/evidence/native-render-matrix.json",
+      "bytes": 21375,
+      "sha256": "0a182acceece671c5ccf02cc03b9c6b0f54dcf02866e6bd5f68203a18fbc923d"
+    },
+    {
+      "path": "docs/evidence/native-videos.json",
+      "bytes": 35681,
+      "sha256": "babb4bf3e89077a6e8aa0aff50dcdc624a16f3083d82014f0d96be193c47fbb0"
+    },
+    {
+      "path": "docs/evidence/native-wreck.json",
+      "bytes": 301,
+      "sha256": "25cf7d4db7af5469da210b0edb8d04ec34a6a5c5533d10f80457d89ce7790b1e"
+    },
+    {
+      "path": "docs/fixtures/default-bindings.json",
+      "bytes": 1218,
+      "sha256": "e64c71c6edfcdf960f8c339a1c1267f3d3c65909ba19f1fbd771d10f78e1ed19"
     },
     {
       "path": "docs/fixtures/ui-text.json",
-      "bytes": 17178,
-      "sha256": "1b6df2958b43861c08a804491210bd75fb6f7e5db2f8f082faa8b5ad6ca3980b"
+      "bytes": 17612,
+      "sha256": "7125902cbf928c1989bc36cfb36970606d2985bbafce8352a94264a28cf9b46d"
     },
     {
       "path": "docs/functional-defects.json",
-      "bytes": 2742,
-      "sha256": "24fbf25df07932bdaa79b656e74f98ae96f618efcb89a1781c9191e86fd82bde"
+      "bytes": 3466,
+      "sha256": "3311b310efa750055f4fb288ae24ff8e07ffb1771d167eba1ed59cfaef234735"
     },
     {
       "path": "docs/functional-manifest.json",
-      "bytes": 18835,
-      "sha256": "489e8b15053053c327d7bd1e01ba97f60800fe0ee600904c16c7eaaf8b0252c2"
+      "bytes": 18804,
+      "sha256": "4905cdaa7b957d25564cdb970c073a98310ca53b462bc9ccd175d40c9f41c461"
     },
     {
-      "path": "tools/ci/clean_build.sh",
-      "bytes": 1194,
-      "sha256": "30a124406815a4bcdc4c324404e7b8237c2cfa3efda8e9330e402d99e52b2203"
-    },
-    {
-      "path": "tools/release/FiraMono-OFL.txt",
-      "bytes": 4479,
-      "sha256": "99bfb7c1e845b79d1031fcf37e678178eb4a8c7cc74a3f218ddf7223083a6fcd"
-    },
-    {
-      "path": "tools/release/launcher.py",
-      "bytes": 6956,
-      "sha256": "796a05906d6f1f721ddd169f8f190b51a7bbf615717ed2f15165b2b329e77cca"
-    },
-    {
-      "path": "tools/release/notices.py",
-      "bytes": 4292,
-      "sha256": "0f70023523646caa1aa9387d5f2cc7e110d2dfd0c03058c4b048609685c4b356"
+      "path": "tools/release/candidate_request.py",
+      "bytes": 1336,
+      "sha256": "378880f2b63732a106cacd3a300491290135861e70963af428f1995df9aef9a8"
     },
     {
       "path": "tools/release/package.py",
-      "bytes": 4886,
-      "sha256": "b3fe8851e62354513ef0de5dbdfa22a1367466d09c4cb2a1355e83043f6d42c8"
+      "bytes": 5528,
+      "sha256": "057dd9f7559bd42e757eef6d81c4b4cb2c81620735ce53b832a6ca9286752430"
     },
     {
       "path": "tools/test_release.py",
-      "bytes": 1990,
-      "sha256": "af5159abb5142c3eb2153269b11f7f19c08ddc41e260d80cf4111f4b8b911f59"
+      "bytes": 3831,
+      "sha256": "daba130a3b7bcd655c6943df39ca89ceb8c0b201d0be5005f2cfab965adaa910"
     },
     {
-      "path": "tools/test_verification.py",
-      "bytes": 1365,
-      "sha256": "eb155094de17dd869f8e9a0705a04602b2045415edb97017dbd33615f8b29b7f"
+      "path": "tools/test_roadmap_order.py",
+      "bytes": 4289,
+      "sha256": "290132554bc40c4d520ac866765701234d51cbed550206651781014c80e13a2a"
     },
     {
-      "path": "tools/verification/campaign.py",
-      "bytes": 5522,
-      "sha256": "f91a8e1510162d3d90a4a5531d51caf1b6254d9f49bc4aeb2f3d35f43d716f06"
-    },
-    {
-      "path": "tools/verification/compare.py",
-      "bytes": 3072,
-      "sha256": "2716b59d67d28afabdc06105854b02081308f428a36a9327a2141cd42400c92b"
-    },
-    {
-      "path": "tools/verification/regression.py",
-      "bytes": 3304,
-      "sha256": "8144daea8798c0d047afbc25e7ea030a2d4a7cbd1abdddb1247bf22e44a9e799"
+      "path": "tools/verification/glyphs.py",
+      "bytes": 1635,
+      "sha256": "9623fd1d5544a36c6de026e23090ee1390e3a0a19a8843051d61eb0f91277328"
     }
   ]
 }

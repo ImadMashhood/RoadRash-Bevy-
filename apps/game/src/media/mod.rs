@@ -1,6 +1,7 @@
 //! Bevy media plugin. Snapshots/events are inputs; sound/video never write authoritative simulation.
 mod device;
 mod movie;
+use rr_presentation::CoursePresentation;
 #[cfg(test)]
 mod tests;
 use crate::{Driver, LaunchOptions, PauseState, Race, frontend::Shell};
@@ -146,6 +147,7 @@ pub(crate) fn capture(
     race: Res<Race>,
     options: Res<LaunchOptions>,
     shell: Option<Res<Shell>>,
+    course: Option<Res<CoursePresentation>>,
     mut media: ResMut<Media>,
 ) {
     let snapshot = race.0.snapshot();
@@ -156,6 +158,10 @@ pub(crate) fn capture(
     if media.last_key != key {
         media.planner.reset();
         media.last_key = key;
+    }
+    media.planner.character = shell.as_ref().map_or(1, |s| s.frontend.character);
+    if let Some(course) = course {
+        media.planner.pedestrian_voices = course.scene.assets.pedestrian_voices.clone();
     }
     let ratio = ratio(&media, &snapshot, options.bike);
     media.planner.capture(
@@ -177,6 +183,10 @@ fn update(world: &mut World) {
     world.resource_scope(|world, mut media: Mut<Media>| {
         let options = world.resource::<LaunchOptions>().clone();
         let front = world.resource::<Shell>().frontend.clone();
+        media.planner.character = front.character;
+        if let Some(course) = world.get_resource::<CoursePresentation>() {
+            media.planner.pedestrian_voices = course.scene.assets.pedestrian_voices.clone();
+        }
         let paused = world.resource::<PauseState>().paused;
         if let Some(rx) = &media.bank
             && let Ok((sounds, missing)) = rx.try_recv()
@@ -329,7 +339,9 @@ fn update(world: &mut World) {
                     "SWISHGEN" | "SWISHCHA" => "[Swing]",
                     "PUNCHHEA" | "KICK_MW4" => "[Impact]",
                     "CRASHHAR" | "CRASHMED" | "CRASHLIT" => "[Crash]",
-                    "M_YEAH" => "[Cheer]",
+                    "M_YEAH" | "F_YEAH" => "[Cheer]",
+                    name if name.starts_with("GRUNT") => "[Rider hurt]",
+                    name if EFFECTS[32..].contains(&name) => "[Pedestrian voice]",
                     _ => "[Game sound]",
                 }
                 .into()

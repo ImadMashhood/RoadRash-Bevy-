@@ -49,6 +49,7 @@ impl Source for Samples {
     }
 }
 struct Owned {
+    sound: String,
     player: Player,
     bus: Bus,
     gain: f32,
@@ -158,7 +159,11 @@ impl Device {
         Some(player)
     }
     pub fn race(&mut self, desired: &BTreeMap<LoopId, Voice>, sounds: &BTreeMap<String, Arc<Pcm>>) {
-        self.loops.retain(|id, _| desired.contains_key(id));
+        self.loops.retain(|id, owned| {
+            desired
+                .get(id)
+                .is_some_and(|voice| voice.name == owned.sound)
+        });
         for (id, voice) in desired {
             if !self.loops.contains_key(id)
                 && let Some(pcm) = sounds.get(&voice.name)
@@ -167,6 +172,7 @@ impl Device {
                 self.loops.insert(
                     *id,
                     Owned {
+                        sound: voice.name.clone(),
                         player,
                         bus: voice.bus,
                         gain: voice.gain,
@@ -197,6 +203,7 @@ impl Device {
         }
         if let Some(player) = self.play(pcm, false, 0) {
             self.shots.push(Owned {
+                sound: String::new(),
                 player,
                 bus: Bus::Effects,
                 gain: 0.18,
@@ -355,6 +362,7 @@ mod tests {
                 at: 0,
             });
             d.shots.push(Owned {
+                sound: String::new(),
                 player,
                 bus: Bus::Effects,
                 gain: 0.18,
@@ -381,5 +389,39 @@ mod tests {
         assert!(!d.connected());
         assert_eq!(d.voices(), 0);
         assert_eq!(d.status, "disabled");
+    }
+    #[test]
+    fn nitro_sample_change_retires_the_previous_engine_loop_even_with_the_same_owner() {
+        let (mixer, _) =
+            rodio::mixer::mixer(NonZeroU16::new(2).unwrap(), NonZeroU32::new(8000).unwrap());
+        let mut d = Device::default();
+        d.loops.insert(
+            LoopId::Engine,
+            Owned {
+                sound: "ENGRAT".into(),
+                player: Player::connect_new(&mixer),
+                bus: Bus::Engine,
+                gain: 0.25,
+                priority: 80,
+            },
+        );
+        let mut desired = BTreeMap::from([(
+            LoopId::Engine,
+            Voice {
+                name: "ENGRAT".into(),
+                bus: Bus::Engine,
+                pitch: 256,
+                gain: 0.25,
+                priority: 80,
+            },
+        )]);
+        d.race(&desired, &BTreeMap::new());
+        assert_eq!(d.loops.len(), 1);
+        desired.get_mut(&LoopId::Engine).unwrap().name = "ENGNITRO".into();
+        d.race(&desired, &BTreeMap::new());
+        assert!(
+            d.loops.is_empty(),
+            "an unavailable replacement must not leave the wrong engine sample playing"
+        );
     }
 }
