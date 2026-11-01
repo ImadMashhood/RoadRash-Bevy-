@@ -1,0 +1,15 @@
+name: Rust foundation
+on: [push, pull_request]
+jobs:
+  headless:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: 1.99.1
+          components: rustfmt, clippy
+      - run: python3 -m unittest discover -s tools -p 'test_*.py' -v
+      - run: cargo fmt --all --check
+      - run: cargo test --locked -p rr-formats
+      - run: cargo clippy --locked -p rr-formats --all-targets -- -D warnings

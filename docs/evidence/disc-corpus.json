@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "iso_sha256": "cc07917cb06ef0b3827afd3610f580009c4f42102efd849cdb82657b454bf6ff",
+  "files_in_image": 848,
+  "required_files": 341,
+  "matched_files": 341,
+  "failures": [],
+  "upstream_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+  "mode": "read-only audit; not production import"
+}

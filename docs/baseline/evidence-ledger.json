@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "entries": [
+    {
+      "id": "disc-corpus",
+      "confidence": "verified-local",
+      "claim": "341 required file hashes matched supplied ISO",
+      "receipt": "../../docs/evidence/disc-corpus.json"
+    },
+    {
+      "id": "actor-ids",
+      "confidence": "upstream-reported",
+      "source": "https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/frontend.cpp",
+      "claim": "15 bike and 8 character asset stems extracted from pinned source"
+    },
+    {
+      "id": "course-mapping",
+      "confidence": "upstream-reported",
+      "source": "https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/game_main.cpp",
+      "claim": "Original course numbers map to CITY,HIWAY,MEDLY,NAPA,CANYN"
+    },
+    {
+      "id": "scheduler",
+      "confidence": "upstream-reported",
+      "source": "https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/race_schedule.cpp",
+      "claim": "Reference explicitly documents scheduling and crash-path differences; not assumed original defects"
+    },
+    {
+      "id": "original-input",
+      "confidence": "unknown",
+      "claim": "Original input defaults require capture"
+    }
+  ]
+}

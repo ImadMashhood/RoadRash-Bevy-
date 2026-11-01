@@ -1,0 +1,147 @@
+{
+  "character": [
+    {
+      "slot": 0,
+      "asset_stem": "Axle",
+      "display_name_status": "unverified",
+      "unlock_status": "unverified"
+    },
+    {
+      "slot": 1,
+      "asset_stem": "Bose",
+      "display_name_status": "unverified",
+      "unlock_status": "unverified"
+    },
+    {
+      "slot": 2,
+      "asset_stem": "Cydney",
+      "display_name_status": "unverified",
+      "unlock_status": "unverified"
+    },
+    {
+      "slot": 3,
+      "asset_stem": "Jon",
+      "display_name_status": "unverified",
+      "unlock_status": "unverified"
+    },
+    {
+      "slot": 4,
+      "asset_stem": "Pearl",
+      "display_name_status": "unverified",
+      "unlock_status": "unverified"
+    },
+    {
+      "slot": 5,
+      "asset_stem": "Rhonda",
+      "display_name_status": "unverified",
+      "unlock_status": "unverified"
+    },
+    {
+      "slot": 6,
+      "asset_stem": "Jim",
+      "display_name_status": "unverified",
+      "unlock_status": "unverified"
+    },
+    {
+      "slot": 7,
+      "asset_stem": "Mike",
+      "display_name_status": "unverified",
+      "unlock_status": "unverified"
+    }
+  ],
+  "bike": [
+    {
+      "slot": 0,
+      "asset_stem": "Rat/Banzai",
+      "display_name_status": "unverified",
+      "unlock_status": "unverified"
+    },
+    {
+      "slot": 1,
+      "asset_stem": "Rat/Corsair",
+      "display_name_status": "unverified",
+      "unlock_status": "unverified"
+    },
+    {
+      "slot": 2,
+      "asset_stem": "Rat/Kamikaze",
+      "display_name_status": "unverified",
+      "unlock_status": "unverified"
+    },
+    {
+      "slot": 3,
+      "asset_stem": "Rat/Perro",
+      "display_name_status": "unverified",
+      "unlock_status": "unverified"
+    },
+    {
+      "slot": 4,
+      "asset_stem": "Rat/Killer",
+      "display_name_status": "unverified",
+      "unlock_status": "unverified"
+    },
+    {
+      "slot": 5,
+      "asset_stem": "Sport/Diablo",
+      "display_name_status": "unverified",
+      "unlock_status": "unverified"
+    },
+    {
+      "slot": 6,
+      "asset_stem": "Sport/Kamikaze",
+      "display_name_status": "unverified",
+      "unlock_status": "unverified"
+    },
+    {
+      "slot": 7,
+      "asset_stem": "Sport/Stiletto",
+      "display_name_status": "unverified",
+      "unlock_status": "unverified"
+    },
+    {
+      "slot": 8,
+      "asset_stem": "Sport/DMG",
+      "display_name_status": "unverified",
+      "unlock_status": "unverified"
+    },
+    {
+      "slot": 9,
+      "asset_stem": "Sport/Perro",
+      "display_name_status": "unverified",
+      "unlock_status": "unverified"
+    },
+    {
+      "slot": 10,
+      "asset_stem": "Super/Banzai",
+      "display_name_status": "unverified",
+      "unlock_status": "unverified"
+    },
+    {
+      "slot": 11,
+      "asset_stem": "Super/Diablo",
+      "display_name_status": "unverified",
+      "unlock_status": "unverified"
+    },
+    {
+      "slot": 12,
+      "asset_stem": "Super/Stiletto",
+      "display_name_status": "unverified",
+      "unlock_status": "unverified"
+    },
+    {
+      "slot": 13,
+      "asset_stem": "Super/Corsair",
+      "display_name_status": "unverified",
+      "unlock_status": "unverified"
+    },
+    {
+      "slot": 14,
+      "asset_stem": "Super/Kamikaze",
+      "display_name_status": "unverified",
+      "unlock_status": "unverified"
+    }
+  ],
+  "schema_version": 1,
+  "confidence": "upstream-reported",
+  "source": "https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/frontend.cpp"
+}

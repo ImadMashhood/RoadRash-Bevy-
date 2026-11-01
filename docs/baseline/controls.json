@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "confidence": "upstream-reported",
+  "source": "https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/README.md",
+  "original_default_status": "unverified",
+  "actions": [
+    {
+      "action": "accelerate",
+      "native_port_keyboard": "Up/W"
+    },
+    {
+      "action": "brake",
+      "native_port_keyboard": "Down/S"
+    },
+    {
+      "action": "steer",
+      "native_port_keyboard": "Left/Right,A/D"
+    },
+    {
+      "action": "punch",
+      "native_port_keyboard": "Z"
+    },
+    {
+      "action": "kick",
+      "native_port_keyboard": "X"
+    },
+    {
+      "action": "backhand",
+      "native_port_keyboard": "C"
+    },
+    {
+      "action": "pause",
+      "native_port_keyboard": "P/Esc"
+    }
+  ],
+  "note": "These are port convenience bindings, not certified original bindings."
+}

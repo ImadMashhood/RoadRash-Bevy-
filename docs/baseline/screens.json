@@ -1,0 +1,110 @@
+{
+  "schema_version": 1,
+  "confidence": "upstream-reported",
+  "source": "https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/career.hpp",
+  "completeness": "Partial named screen index only; original items and transitions are pending capture. Native and online extensions excluded from original inventory.",
+  "screens": [
+    {
+      "name": "race_loading",
+      "id": 8,
+      "items_status": "pending",
+      "transitions_status": "pending"
+    },
+    {
+      "name": "main_menu",
+      "id": 9,
+      "items_status": "pending",
+      "transitions_status": "pending"
+    },
+    {
+      "name": "thrash_courses",
+      "id": 10,
+      "items_status": "pending",
+      "transitions_status": "pending"
+    },
+    {
+      "name": "mano",
+      "id": 11,
+      "items_status": "pending",
+      "transitions_status": "pending"
+    },
+    {
+      "name": "mano_courses",
+      "id": 12,
+      "items_status": "pending",
+      "transitions_status": "pending"
+    },
+    {
+      "name": "big_game_courses",
+      "id": 27,
+      "items_status": "pending",
+      "transitions_status": "pending"
+    },
+    {
+      "name": "characters",
+      "id": 14,
+      "items_status": "pending",
+      "transitions_status": "pending"
+    },
+    {
+      "name": "street",
+      "id": 15,
+      "items_status": "pending",
+      "transitions_status": "pending"
+    },
+    {
+      "name": "restroom",
+      "id": 16,
+      "items_status": "pending",
+      "transitions_status": "pending"
+    },
+    {
+      "name": "wrecked",
+      "id": 28,
+      "items_status": "pending",
+      "transitions_status": "pending"
+    },
+    {
+      "name": "busted",
+      "id": 29,
+      "items_status": "pending",
+      "transitions_status": "pending"
+    },
+    {
+      "name": "won",
+      "id": 30,
+      "items_status": "pending",
+      "transitions_status": "pending"
+    },
+    {
+      "name": "lost",
+      "id": 31,
+      "items_status": "pending",
+      "transitions_status": "pending"
+    },
+    {
+      "name": "level_up",
+      "id": 32,
+      "items_status": "pending",
+      "transitions_status": "pending"
+    },
+    {
+      "name": "penalty",
+      "id": 33,
+      "items_status": "pending",
+      "transitions_status": "pending"
+    },
+    {
+      "name": "standings",
+      "id": 34,
+      "items_status": "pending",
+      "transitions_status": "pending"
+    },
+    {
+      "name": "finale",
+      "id": 35,
+      "items_status": "pending",
+      "transitions_status": "pending"
+    }
+  ]
+}

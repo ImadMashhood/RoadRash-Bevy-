@@ -1,0 +1,9 @@
+/target/
+/local/
+/assets/local/
+/captures/
+*.iso
+*.ISO
+*.zip
+*.ZIP
+__pycache__/

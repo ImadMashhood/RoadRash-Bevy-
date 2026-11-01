@@ -1,0 +1,143 @@
+{
+  "schema_version": 1,
+  "confidence": "upstream-reported",
+  "source": "https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/game_main.cpp",
+  "note": "Source file stems are not interchangeable with in-game display names or quick-race enumeration. Selection and level-specific behavior need original captures.",
+  "courses": [
+    {
+      "original_course_number": 1,
+      "file": "DATA/COURSES/CITY.CRS",
+      "reported_name": "City",
+      "levels": [
+        {
+          "level": 1,
+          "capture_status": "pending"
+        },
+        {
+          "level": 2,
+          "capture_status": "pending"
+        },
+        {
+          "level": 3,
+          "capture_status": "pending"
+        },
+        {
+          "level": 4,
+          "capture_status": "pending"
+        },
+        {
+          "level": 5,
+          "capture_status": "pending"
+        }
+      ]
+    },
+    {
+      "original_course_number": 2,
+      "file": "DATA/COURSES/HIWAY.CRS",
+      "reported_name": "Sierra Nevada",
+      "levels": [
+        {
+          "level": 1,
+          "capture_status": "pending"
+        },
+        {
+          "level": 2,
+          "capture_status": "pending"
+        },
+        {
+          "level": 3,
+          "capture_status": "pending"
+        },
+        {
+          "level": 4,
+          "capture_status": "pending"
+        },
+        {
+          "level": 5,
+          "capture_status": "pending"
+        }
+      ]
+    },
+    {
+      "original_course_number": 3,
+      "file": "DATA/COURSES/MEDLY.CRS",
+      "reported_name": "Peninsula",
+      "levels": [
+        {
+          "level": 1,
+          "capture_status": "pending"
+        },
+        {
+          "level": 2,
+          "capture_status": "pending"
+        },
+        {
+          "level": 3,
+          "capture_status": "pending"
+        },
+        {
+          "level": 4,
+          "capture_status": "pending"
+        },
+        {
+          "level": 5,
+          "capture_status": "pending"
+        }
+      ]
+    },
+    {
+      "original_course_number": 4,
+      "file": "DATA/COURSES/NAPA.CRS",
+      "reported_name": "Napa",
+      "levels": [
+        {
+          "level": 1,
+          "capture_status": "pending"
+        },
+        {
+          "level": 2,
+          "capture_status": "pending"
+        },
+        {
+          "level": 3,
+          "capture_status": "pending"
+        },
+        {
+          "level": 4,
+          "capture_status": "pending"
+        },
+        {
+          "level": 5,
+          "capture_status": "pending"
+        }
+      ]
+    },
+    {
+      "original_course_number": 5,
+      "file": "DATA/COURSES/CANYN.CRS",
+      "reported_name": "Pacific Highway",
+      "levels": [
+        {
+          "level": 1,
+          "capture_status": "pending"
+        },
+        {
+          "level": 2,
+          "capture_status": "pending"
+        },
+        {
+          "level": 3,
+          "capture_status": "pending"
+        },
+        {
+          "level": 4,
+          "capture_status": "pending"
+        },
+        {
+          "level": 5,
+          "capture_status": "pending"
+        }
+      ]
+    }
+  ]
+}
