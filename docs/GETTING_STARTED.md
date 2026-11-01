@@ -78,3 +78,5 @@ cargo run --locked --release -p rr-render -- diff local/expected.png local/actua
 Authored scenes work without commercial data. Source-derived captures/diffs stay ignored; public CI checks authored pixel hashes and bounded rendering behavior.
 
 Use [native Fedora build/comparison commands](NATIVE_REFERENCE.md) for the C++ reference and [action bindings](INPUT.md) for `rr-input` configuration. The Rust game accepts `--bindings local/bindings.json`; default keyboard controls remain available without a file.
+
+Gamepads now use the standard preset in [INPUT.md](INPUT.md): South/RT accelerates, East/LT brakes, left stick/D-pad steers, Start pauses/resumes. Release controls to neutral after connecting and before explicit resume. The Linux Gilrs backend requires libudev development metadata when building (`systemd-devel` on Fedora, `libudev-dev` on Ubuntu). Recorded schema-1 replays remain supported; `docs/fixtures/replay-analog.json` exercises schema 2.

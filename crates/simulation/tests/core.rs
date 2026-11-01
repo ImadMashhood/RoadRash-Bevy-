@@ -304,7 +304,7 @@ fn canonical_encoding_excludes_addresses_and_tracks_future_input() {
 fn replay_schema_duration_and_hash_mismatch_fail() {
     assert!(
         Replay::read(
-            br#"{"schema_version":2,"seed":1,"ticks":1,"route":null,"expected_hash":null}"#
+            br#"{"schema_version":999,"seed":1,"ticks":1,"route":null,"expected_hash":null}"#
         )
         .is_err()
     );
@@ -364,4 +364,114 @@ fn live_held_input_and_recorded_changes_have_equal_final_state() {
         .is_err()
     );
     assert_eq!(live.state_hash(), before);
+}
+
+#[test]
+fn schema_one_replay_retains_its_original_bytes_hash_and_report_version() {
+    let replay = Replay::read(include_bytes!("../../../docs/fixtures/replay.json")).unwrap();
+    let report = run(replay, "irregular").unwrap();
+    assert_eq!(report.simulation_schema, 1);
+    assert_eq!(
+        report.state_sha256,
+        "f70c202279f360fc89e95d503443a91a523c816788d9e62102a6d3572fc7f143"
+    );
+    let mut old = Simulation::with_schema(1, Route::straight(), 1).unwrap();
+    assert!(
+        old.step(Command {
+            steer_q15: Some(0),
+            ..Default::default()
+        })
+        .is_err()
+    );
+}
+#[test]
+fn analog_steering_is_proportional_symmetric_and_full_scale_matches_digital() {
+    fn trace(axis: i16) -> Snapshot {
+        let mut sim = Simulation::default();
+        for _ in 0..30 {
+            sim.step(Command {
+                throttle: true,
+                steer_q15: Some(axis),
+                ..Default::default()
+            })
+            .unwrap();
+        }
+        sim.snapshot()
+    }
+    let full = trace(32767);
+    let half = trace(16384);
+    let left = trace(-16384);
+    assert!(half.lateral_mm > 0 && half.lateral_mm < full.lateral_mm);
+    assert_eq!(half.lateral_mm, -left.lateral_mm);
+    let mut digital = Simulation::default();
+    for _ in 0..30 {
+        digital
+            .step(Command {
+                throttle: true,
+                steer: 1,
+                ..Default::default()
+            })
+            .unwrap();
+    }
+    assert_eq!(full, digital.snapshot());
+}
+#[test]
+fn invalid_or_ambiguous_analog_commands_leave_state_unchanged_and_axes_are_hashed() {
+    let mut a = Simulation::default();
+    let before = a.state_hash();
+    for command in [
+        Command {
+            steer_q15: Some(i16::MIN),
+            ..Default::default()
+        },
+        Command {
+            steer: 1,
+            steer_q15: Some(1),
+            ..Default::default()
+        },
+    ] {
+        assert!(a.step(command).is_err());
+        assert_eq!(a.state_hash(), before);
+    }
+    let mut b = Simulation::default();
+    for (sim, axis) in [(&mut a, 100), (&mut b, 200)] {
+        sim.queue(QueuedCommand {
+            tick: Tick(10),
+            actor: ActorId(1),
+            sequence: 0,
+            input: Command {
+                steer_q15: Some(axis),
+                ..Default::default()
+            },
+        })
+        .unwrap();
+    }
+    assert_ne!(a.state_hash(), b.state_hash());
+    assert_eq!(&a.canonical_bytes()[..4], &2u32.to_le_bytes());
+}
+
+#[test]
+fn schema_two_analog_fixture_has_identical_checkpoints_at_all_schedules() {
+    let bytes = include_bytes!("../../../docs/fixtures/replay-analog.json");
+    let mut baseline = None;
+    for rate in ["30", "60", "144", "irregular"] {
+        let report = run(Replay::read(bytes).unwrap(), rate).unwrap();
+        assert_eq!(report.simulation_schema, 2);
+        assert_eq!(
+            (
+                report.final_snapshot.distance_mm,
+                report.final_snapshot.speed_mm_per_tick,
+                report.final_snapshot.lateral_mm
+            ),
+            (51150, 300, 7)
+        );
+        if let Some(ref expected) = baseline {
+            assert_eq!(&report.tick_hashes, expected);
+        } else {
+            baseline = Some(report.tick_hashes);
+        }
+    }
+    let mut invalid: serde_json::Value = serde_json::from_slice(bytes).unwrap();
+    invalid["schema_version"] = serde_json::json!(1);
+    assert!(Replay::read(&serde_json::to_vec(&invalid).unwrap()).is_err());
 }

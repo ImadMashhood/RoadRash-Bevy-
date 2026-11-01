@@ -1,6 +1,6 @@
 # Action bindings
 
-Part 9 has started with task 09.01. `rr-input` owns versioned, renderer-independent action maps and configuration I/O. The game translates Bevy key codes at its composition boundary; simulation commands contain actions rather than physical keys. Keyboard mappings are active now. Gamepad devices, analog calibration and source handling remain open tasks 09.02 onward.
+Part 9 tasks 09.01, 09.02 and 09.11 are complete. `rr-input` owns versioned, renderer-independent action maps and configuration I/O. The game translates Bevy key codes at its composition boundary; simulation commands contain actions rather than physical keys. Keyboard and gamepad input are active. Analog device calibration/preview (09.03) and source handling remain open.
 
 ```sh
 cargo run --locked -p rr-input -- init local/bindings.json
@@ -17,6 +17,41 @@ All required actions must remain bound. Each action accepts one to four distinct
 
 Reads are capped at 64 KiB. Unknown fields/schema versions are rejected. Edits validate before changing state or touching disk. Writes use a same-directory exclusive temporary file, file sync and rename on the supported Linux platform. Invalid edits preserve the previous complete file; interrupted temporary files are never read as active configuration. `init` refuses to overwrite an existing file. Parent directories must already exist.
 
-Default driving controls remain Up/W, Down/S, Left/A and Right/D. Simultaneous left/right cancels; braking precedence stays in the simulation. Escape/P pauses. Enter/P resumes after movement controls return to neutral. Losing window focus also pauses and clears the pending command; regaining focus alone never resumes. The window title shows the configured Resume alternatives. These keyboard lifecycle checks are preparatory work for task 09.11, which remains open until active-controller disconnect behavior is implemented and verified.
+Default driving controls remain Up/W, Down/S, Left/A and Right/D. Simultaneous left/right cancels; braking precedence stays in the simulation. Escape/P pauses. Enter/P resumes after movement controls return to neutral. Losing window focus also pauses and clears the pending command; regaining focus alone never resumes. The window title shows the configured Resume alternatives. The active controller disconnecting also pauses; other controllers disconnecting do not interrupt play. Start pauses/resumes with the same neutral/explicit-action protection.
 
-Recorded replays bypass physical keyboard/pause sampling and retain their existing canonical hashes. No handling constants, simulation units or replay schema changed in this input slice. Five pure input tests, two actual Bevy adapter tests and [CLI acceptance](evidence/input-bindings-cli.json) cover defaults, context reuse, conflict reporting, rejected-edit rollback, schema/size limits, durable complete-file replacement, context-specific reset, actual remapped tick commands, opposed steering and focus/neutral/explicit resume. Physical gamepad hardware has not been tested.
+Recorded replays bypass physical keyboard/pause sampling and retain their existing canonical hashes. Current live commands use schema 2 for proportional steering; legacy schema-1 replays keep their original behavior, encoding and hashes. The scenario handling constants and units remain authored. Five pure input tests, two actual Bevy adapter tests and [CLI acceptance](evidence/input-bindings-cli.json) cover defaults, context reuse, conflict reporting, rejected-edit rollback, schema/size limits, durable complete-file replacement, context-specific reset, actual remapped tick commands, opposed steering and focus/neutral/explicit resume. Physical gamepad hardware has not been tested. Two Linux kernel virtual controllers have exercised the real backend as described below.
+
+## Gamepad controls and device ownership
+
+| Input | Action |
+| --- | --- |
+| Left stick X | Proportional steering |
+| D-pad left/right | Full steering; overrides the stick; opposed directions cancel |
+| South face button or right trigger | Accelerate |
+| East face button or left trigger | Brake; simulation braking takes precedence over throttle |
+| Start | Pause; press again to explicitly resume once controls are neutral |
+
+These are the fixed standard controller preset through Gilrs mappings. The existing binding-file editor configures keyboard alternatives; a controller layout editor is not claimed here. Bevy's `GamepadSettings` processes native events first. The transport then applies a provisional 15% stick dead zone, linear response and symmetric Q15 quantization. Non-finite axes become neutral, finite out-of-range values clamp, and triggers use a 0.5 threshold. Trigger pressure is currently a digital driving gate, not proportional source acceleration. Device-specific calibration, configurable response curves and a live calibration preview are the next task, 09.03.
+
+Keyboard activity wins simultaneous input. Otherwise the current controller keeps ownership until another armed pad changes meaningfully. A 1.5% cumulative stick change avoids tiny held-stick jitter stealing another controller, while gradual deliberate movement can still switch devices. Simultaneous candidates use stable session IDs as the tie-break; raw IDs never enter simulation hashes. At most 16 controllers are considered, with selection independent of backend enumeration order. Newly connected/reconnected pads must first report neutral. Holding a button on connection cannot take over; a neutral active pad never inherits another pad's old held throttle.
+
+Start/P cannot pause and instantly resume from the same press. Current driving controls must also be neutral at the actual resume edge, even if they were released earlier during pause. Focus regain and reconnection alone never resume. A held reconnected controller remains disarmed through keyboard resume until it reports neutral and receives fresh input.
+
+## Reproduce backend acceptance on Linux
+
+The normal tests use authored Bevy connection/button/axis messages. The additional explicit diagnostic uses the real Linux backend and two temporary kernel controllers:
+
+```sh
+cargo test --locked -p rr-input -p rr-simulation
+cargo test --locked --release -p rr-game -p rr-presentation
+cargo build --locked --release -p rr-game --example input_probe
+gcc -O2 -Wall -Wextra -Werror tools/input/virtual_pad.c -o target/rr-virtual-pad
+python3 tools/input/check_linux.py --probe target/release/examples/input_probe \
+  --helper target/rr-virtual-pad --output local/input-backend
+```
+
+This requires existing write access to `/dev/uinput` and read access to its resulting event devices; it never changes system permissions. The [kernel uinput API](https://www.kernel.org/doc/html/latest/input/uinput.html) supplies the temporary controllers. Only controller axes/buttons are emitted, never keyboard or mouse input. File descriptors are closed and devices destroyed on success or failure. The native helper uses Linux's generic Gilrs trigger codes (`ABS_HAT2X/Y`) rather than guessing that an unmapped joystick Z axis is a trigger. Named physical devices are not required or certified by this test.
+
+Fourteen native checks passed on Fedora. The report includes a separately counted pre-existing neutral backend device. The 16-bit kernel endpoint can differ by one Q15 count; the diagnostic permits two counts, without changing the transport curve. A reconnect may retain cached axis state until a fresh report, so the test explicitly reports neutral before reusing that controller.
+
+[09.02 evidence](evidence/09.02.md), [09.11 evidence](evidence/09.11.md), [native backend trace](evidence/input-device-backend.json) and [replay matrix](evidence/input-device-replays.json) distinguish pure/device-event, real native backend and actual game-window validation. Linux builds require libudev development metadata (`libudev-dev` on the Ubuntu CI image; `systemd-devel` on Fedora), in addition to the earlier desktop dependencies. CI and clean-build recipes include that dependency. Windows/macOS/physical USB/Bluetooth acceptance remains open.

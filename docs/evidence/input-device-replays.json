@@ -1,0 +1,618 @@
+{
+  "outcome": "passed",
+  "scope": "8 headless runs and 4 actual Bevy windows; controlled virtual presentation schedules, not hardware FPS measurements",
+  "runs": [
+    {
+      "kind": "headless",
+      "schema": 1,
+      "rate": "30",
+      "report": {
+        "simulation_schema": 1,
+        "rate": "30",
+        "ticks": 120,
+        "presentation_frames": 61,
+        "state_sha256": "f70c202279f360fc89e95d503443a91a523c816788d9e62102a6d3572fc7f143",
+        "final_snapshot": {
+          "tick": 120,
+          "speed_mm_per_tick": 300,
+          "distance_mm": 51150,
+          "lateral_mm": -1066,
+          "actors": [
+            {
+              "id": 1,
+              "position": {
+                "route": 1,
+                "branch": 0,
+                "section": 0,
+                "progress": 51150,
+                "lateral": -1066,
+                "elevation": 0
+              },
+              "speed": 300,
+              "finished": false
+            }
+          ]
+        },
+        "tick_hashes": [
+          [
+            30,
+            "ffd0f10995bcc7573720aec48c4848d666aa23af4e291d42a9964bd95f8c12dd"
+          ],
+          [
+            60,
+            "60a77020ae94cd48fd5af06f200913501a7a71166558eec8a00ce7093cab17ee"
+          ],
+          [
+            90,
+            "7887bd7a71e36b1cad53ec8c5007c1c543ff8d76aa007dbc7e6a241ed0cc8f5c"
+          ],
+          [
+            120,
+            "f70c202279f360fc89e95d503443a91a523c816788d9e62102a6d3572fc7f143"
+          ]
+        ]
+      }
+    },
+    {
+      "kind": "headless",
+      "schema": 1,
+      "rate": "60",
+      "report": {
+        "simulation_schema": 1,
+        "rate": "60",
+        "ticks": 120,
+        "presentation_frames": 121,
+        "state_sha256": "f70c202279f360fc89e95d503443a91a523c816788d9e62102a6d3572fc7f143",
+        "final_snapshot": {
+          "tick": 120,
+          "speed_mm_per_tick": 300,
+          "distance_mm": 51150,
+          "lateral_mm": -1066,
+          "actors": [
+            {
+              "id": 1,
+              "position": {
+                "route": 1,
+                "branch": 0,
+                "section": 0,
+                "progress": 51150,
+                "lateral": -1066,
+                "elevation": 0
+              },
+              "speed": 300,
+              "finished": false
+            }
+          ]
+        },
+        "tick_hashes": [
+          [
+            30,
+            "ffd0f10995bcc7573720aec48c4848d666aa23af4e291d42a9964bd95f8c12dd"
+          ],
+          [
+            60,
+            "60a77020ae94cd48fd5af06f200913501a7a71166558eec8a00ce7093cab17ee"
+          ],
+          [
+            90,
+            "7887bd7a71e36b1cad53ec8c5007c1c543ff8d76aa007dbc7e6a241ed0cc8f5c"
+          ],
+          [
+            120,
+            "f70c202279f360fc89e95d503443a91a523c816788d9e62102a6d3572fc7f143"
+          ]
+        ]
+      }
+    },
+    {
+      "kind": "headless",
+      "schema": 1,
+      "rate": "144",
+      "report": {
+        "simulation_schema": 1,
+        "rate": "144",
+        "ticks": 120,
+        "presentation_frames": 289,
+        "state_sha256": "f70c202279f360fc89e95d503443a91a523c816788d9e62102a6d3572fc7f143",
+        "final_snapshot": {
+          "tick": 120,
+          "speed_mm_per_tick": 300,
+          "distance_mm": 51150,
+          "lateral_mm": -1066,
+          "actors": [
+            {
+              "id": 1,
+              "position": {
+                "route": 1,
+                "branch": 0,
+                "section": 0,
+                "progress": 51150,
+                "lateral": -1066,
+                "elevation": 0
+              },
+              "speed": 300,
+              "finished": false
+            }
+          ]
+        },
+        "tick_hashes": [
+          [
+            30,
+            "ffd0f10995bcc7573720aec48c4848d666aa23af4e291d42a9964bd95f8c12dd"
+          ],
+          [
+            60,
+            "60a77020ae94cd48fd5af06f200913501a7a71166558eec8a00ce7093cab17ee"
+          ],
+          [
+            90,
+            "7887bd7a71e36b1cad53ec8c5007c1c543ff8d76aa007dbc7e6a241ed0cc8f5c"
+          ],
+          [
+            120,
+            "f70c202279f360fc89e95d503443a91a523c816788d9e62102a6d3572fc7f143"
+          ]
+        ]
+      }
+    },
+    {
+      "kind": "headless",
+      "schema": 1,
+      "rate": "irregular",
+      "report": {
+        "simulation_schema": 1,
+        "rate": "irregular",
+        "ticks": 120,
+        "presentation_frames": 118,
+        "state_sha256": "f70c202279f360fc89e95d503443a91a523c816788d9e62102a6d3572fc7f143",
+        "final_snapshot": {
+          "tick": 120,
+          "speed_mm_per_tick": 300,
+          "distance_mm": 51150,
+          "lateral_mm": -1066,
+          "actors": [
+            {
+              "id": 1,
+              "position": {
+                "route": 1,
+                "branch": 0,
+                "section": 0,
+                "progress": 51150,
+                "lateral": -1066,
+                "elevation": 0
+              },
+              "speed": 300,
+              "finished": false
+            }
+          ]
+        },
+        "tick_hashes": [
+          [
+            30,
+            "ffd0f10995bcc7573720aec48c4848d666aa23af4e291d42a9964bd95f8c12dd"
+          ],
+          [
+            60,
+            "60a77020ae94cd48fd5af06f200913501a7a71166558eec8a00ce7093cab17ee"
+          ],
+          [
+            90,
+            "7887bd7a71e36b1cad53ec8c5007c1c543ff8d76aa007dbc7e6a241ed0cc8f5c"
+          ],
+          [
+            120,
+            "f70c202279f360fc89e95d503443a91a523c816788d9e62102a6d3572fc7f143"
+          ]
+        ]
+      }
+    },
+    {
+      "kind": "actual Bevy window",
+      "schema": 1,
+      "rate": "30",
+      "report": {
+        "simulation_schema": 1,
+        "rate": "30",
+        "ticks": 120,
+        "presentation_frames": 61,
+        "state_sha256": "f70c202279f360fc89e95d503443a91a523c816788d9e62102a6d3572fc7f143",
+        "final_snapshot": {
+          "tick": 120,
+          "speed_mm_per_tick": 300,
+          "distance_mm": 51150,
+          "lateral_mm": -1066,
+          "actors": [
+            {
+              "id": 1,
+              "position": {
+                "route": 1,
+                "branch": 0,
+                "section": 0,
+                "progress": 51150,
+                "lateral": -1066,
+                "elevation": 0
+              },
+              "speed": 300,
+              "finished": false
+            }
+          ]
+        },
+        "tick_hashes": [
+          [
+            30,
+            "ffd0f10995bcc7573720aec48c4848d666aa23af4e291d42a9964bd95f8c12dd"
+          ],
+          [
+            60,
+            "60a77020ae94cd48fd5af06f200913501a7a71166558eec8a00ce7093cab17ee"
+          ],
+          [
+            90,
+            "7887bd7a71e36b1cad53ec8c5007c1c543ff8d76aa007dbc7e6a241ed0cc8f5c"
+          ],
+          [
+            120,
+            "f70c202279f360fc89e95d503443a91a523c816788d9e62102a6d3572fc7f143"
+          ]
+        ]
+      }
+    },
+    {
+      "kind": "actual Bevy window",
+      "schema": 1,
+      "rate": "144",
+      "report": {
+        "simulation_schema": 1,
+        "rate": "144",
+        "ticks": 120,
+        "presentation_frames": 289,
+        "state_sha256": "f70c202279f360fc89e95d503443a91a523c816788d9e62102a6d3572fc7f143",
+        "final_snapshot": {
+          "tick": 120,
+          "speed_mm_per_tick": 300,
+          "distance_mm": 51150,
+          "lateral_mm": -1066,
+          "actors": [
+            {
+              "id": 1,
+              "position": {
+                "route": 1,
+                "branch": 0,
+                "section": 0,
+                "progress": 51150,
+                "lateral": -1066,
+                "elevation": 0
+              },
+              "speed": 300,
+              "finished": false
+            }
+          ]
+        },
+        "tick_hashes": [
+          [
+            30,
+            "ffd0f10995bcc7573720aec48c4848d666aa23af4e291d42a9964bd95f8c12dd"
+          ],
+          [
+            60,
+            "60a77020ae94cd48fd5af06f200913501a7a71166558eec8a00ce7093cab17ee"
+          ],
+          [
+            90,
+            "7887bd7a71e36b1cad53ec8c5007c1c543ff8d76aa007dbc7e6a241ed0cc8f5c"
+          ],
+          [
+            120,
+            "f70c202279f360fc89e95d503443a91a523c816788d9e62102a6d3572fc7f143"
+          ]
+        ]
+      }
+    },
+    {
+      "kind": "headless",
+      "schema": 2,
+      "rate": "30",
+      "report": {
+        "simulation_schema": 2,
+        "rate": "30",
+        "ticks": 120,
+        "presentation_frames": 61,
+        "state_sha256": "87faf52e185aa21028d6be58fb01403d1f94558d6960aea7eadbedc2544f675e",
+        "final_snapshot": {
+          "tick": 120,
+          "speed_mm_per_tick": 300,
+          "distance_mm": 51150,
+          "lateral_mm": 7,
+          "actors": [
+            {
+              "id": 1,
+              "position": {
+                "route": 1,
+                "branch": 0,
+                "section": 0,
+                "progress": 51150,
+                "lateral": 7,
+                "elevation": 0
+              },
+              "speed": 300,
+              "finished": false
+            }
+          ]
+        },
+        "tick_hashes": [
+          [
+            30,
+            "4d99360a1a1c7be4d79a4b456e1600d7ebc6249d11d39b02ff34b73127d0b4c0"
+          ],
+          [
+            60,
+            "1d96f33fac99197d51fb13fdf73fc77e18f25f64df0771888f7481697ab2d2b7"
+          ],
+          [
+            90,
+            "845a7e54c0fc83626d5e821fd34ae5a86c91ce1bc1706476abd2f5963a0a7e0e"
+          ],
+          [
+            120,
+            "87faf52e185aa21028d6be58fb01403d1f94558d6960aea7eadbedc2544f675e"
+          ]
+        ]
+      }
+    },
+    {
+      "kind": "headless",
+      "schema": 2,
+      "rate": "60",
+      "report": {
+        "simulation_schema": 2,
+        "rate": "60",
+        "ticks": 120,
+        "presentation_frames": 121,
+        "state_sha256": "87faf52e185aa21028d6be58fb01403d1f94558d6960aea7eadbedc2544f675e",
+        "final_snapshot": {
+          "tick": 120,
+          "speed_mm_per_tick": 300,
+          "distance_mm": 51150,
+          "lateral_mm": 7,
+          "actors": [
+            {
+              "id": 1,
+              "position": {
+                "route": 1,
+                "branch": 0,
+                "section": 0,
+                "progress": 51150,
+                "lateral": 7,
+                "elevation": 0
+              },
+              "speed": 300,
+              "finished": false
+            }
+          ]
+        },
+        "tick_hashes": [
+          [
+            30,
+            "4d99360a1a1c7be4d79a4b456e1600d7ebc6249d11d39b02ff34b73127d0b4c0"
+          ],
+          [
+            60,
+            "1d96f33fac99197d51fb13fdf73fc77e18f25f64df0771888f7481697ab2d2b7"
+          ],
+          [
+            90,
+            "845a7e54c0fc83626d5e821fd34ae5a86c91ce1bc1706476abd2f5963a0a7e0e"
+          ],
+          [
+            120,
+            "87faf52e185aa21028d6be58fb01403d1f94558d6960aea7eadbedc2544f675e"
+          ]
+        ]
+      }
+    },
+    {
+      "kind": "headless",
+      "schema": 2,
+      "rate": "144",
+      "report": {
+        "simulation_schema": 2,
+        "rate": "144",
+        "ticks": 120,
+        "presentation_frames": 289,
+        "state_sha256": "87faf52e185aa21028d6be58fb01403d1f94558d6960aea7eadbedc2544f675e",
+        "final_snapshot": {
+          "tick": 120,
+          "speed_mm_per_tick": 300,
+          "distance_mm": 51150,
+          "lateral_mm": 7,
+          "actors": [
+            {
+              "id": 1,
+              "position": {
+                "route": 1,
+                "branch": 0,
+                "section": 0,
+                "progress": 51150,
+                "lateral": 7,
+                "elevation": 0
+              },
+              "speed": 300,
+              "finished": false
+            }
+          ]
+        },
+        "tick_hashes": [
+          [
+            30,
+            "4d99360a1a1c7be4d79a4b456e1600d7ebc6249d11d39b02ff34b73127d0b4c0"
+          ],
+          [
+            60,
+            "1d96f33fac99197d51fb13fdf73fc77e18f25f64df0771888f7481697ab2d2b7"
+          ],
+          [
+            90,
+            "845a7e54c0fc83626d5e821fd34ae5a86c91ce1bc1706476abd2f5963a0a7e0e"
+          ],
+          [
+            120,
+            "87faf52e185aa21028d6be58fb01403d1f94558d6960aea7eadbedc2544f675e"
+          ]
+        ]
+      }
+    },
+    {
+      "kind": "headless",
+      "schema": 2,
+      "rate": "irregular",
+      "report": {
+        "simulation_schema": 2,
+        "rate": "irregular",
+        "ticks": 120,
+        "presentation_frames": 118,
+        "state_sha256": "87faf52e185aa21028d6be58fb01403d1f94558d6960aea7eadbedc2544f675e",
+        "final_snapshot": {
+          "tick": 120,
+          "speed_mm_per_tick": 300,
+          "distance_mm": 51150,
+          "lateral_mm": 7,
+          "actors": [
+            {
+              "id": 1,
+              "position": {
+                "route": 1,
+                "branch": 0,
+                "section": 0,
+                "progress": 51150,
+                "lateral": 7,
+                "elevation": 0
+              },
+              "speed": 300,
+              "finished": false
+            }
+          ]
+        },
+        "tick_hashes": [
+          [
+            30,
+            "4d99360a1a1c7be4d79a4b456e1600d7ebc6249d11d39b02ff34b73127d0b4c0"
+          ],
+          [
+            60,
+            "1d96f33fac99197d51fb13fdf73fc77e18f25f64df0771888f7481697ab2d2b7"
+          ],
+          [
+            90,
+            "845a7e54c0fc83626d5e821fd34ae5a86c91ce1bc1706476abd2f5963a0a7e0e"
+          ],
+          [
+            120,
+            "87faf52e185aa21028d6be58fb01403d1f94558d6960aea7eadbedc2544f675e"
+          ]
+        ]
+      }
+    },
+    {
+      "kind": "actual Bevy window",
+      "schema": 2,
+      "rate": "30",
+      "report": {
+        "simulation_schema": 2,
+        "rate": "30",
+        "ticks": 120,
+        "presentation_frames": 61,
+        "state_sha256": "87faf52e185aa21028d6be58fb01403d1f94558d6960aea7eadbedc2544f675e",
+        "final_snapshot": {
+          "tick": 120,
+          "speed_mm_per_tick": 300,
+          "distance_mm": 51150,
+          "lateral_mm": 7,
+          "actors": [
+            {
+              "id": 1,
+              "position": {
+                "route": 1,
+                "branch": 0,
+                "section": 0,
+                "progress": 51150,
+                "lateral": 7,
+                "elevation": 0
+              },
+              "speed": 300,
+              "finished": false
+            }
+          ]
+        },
+        "tick_hashes": [
+          [
+            30,
+            "4d99360a1a1c7be4d79a4b456e1600d7ebc6249d11d39b02ff34b73127d0b4c0"
+          ],
+          [
+            60,
+            "1d96f33fac99197d51fb13fdf73fc77e18f25f64df0771888f7481697ab2d2b7"
+          ],
+          [
+            90,
+            "845a7e54c0fc83626d5e821fd34ae5a86c91ce1bc1706476abd2f5963a0a7e0e"
+          ],
+          [
+            120,
+            "87faf52e185aa21028d6be58fb01403d1f94558d6960aea7eadbedc2544f675e"
+          ]
+        ]
+      }
+    },
+    {
+      "kind": "actual Bevy window",
+      "schema": 2,
+      "rate": "144",
+      "report": {
+        "simulation_schema": 2,
+        "rate": "144",
+        "ticks": 120,
+        "presentation_frames": 289,
+        "state_sha256": "87faf52e185aa21028d6be58fb01403d1f94558d6960aea7eadbedc2544f675e",
+        "final_snapshot": {
+          "tick": 120,
+          "speed_mm_per_tick": 300,
+          "distance_mm": 51150,
+          "lateral_mm": 7,
+          "actors": [
+            {
+              "id": 1,
+              "position": {
+                "route": 1,
+                "branch": 0,
+                "section": 0,
+                "progress": 51150,
+                "lateral": 7,
+                "elevation": 0
+              },
+              "speed": 300,
+              "finished": false
+            }
+          ]
+        },
+        "tick_hashes": [
+          [
+            30,
+            "4d99360a1a1c7be4d79a4b456e1600d7ebc6249d11d39b02ff34b73127d0b4c0"
+          ],
+          [
+            60,
+            "1d96f33fac99197d51fb13fdf73fc77e18f25f64df0771888f7481697ab2d2b7"
+          ],
+          [
+            90,
+            "845a7e54c0fc83626d5e821fd34ae5a86c91ce1bc1706476abd2f5963a0a7e0e"
+          ],
+          [
+            120,
+            "87faf52e185aa21028d6be58fb01403d1f94558d6960aea7eadbedc2544f675e"
+          ]
+        ]
+      }
+    }
+  ]
+}

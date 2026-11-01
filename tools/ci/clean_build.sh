@@ -2,7 +2,7 @@
 # Run inside the pinned official Rust container with /source read-only and /evidence writable.
 set -eu
 apt-get update
-apt-get install -y --no-install-recommends libx11-dev libxi-dev libxkbcommon-dev pkg-config python3
+apt-get install -y --no-install-recommends libx11-dev libxi-dev libxkbcommon-dev libudev-dev pkg-config python3
 mkdir -p /build
 cp /source/Cargo.toml /source/Cargo.lock /source/rust-toolchain.toml /build/
 cp -r /source/apps /source/crates /source/docs /source/tools /build/

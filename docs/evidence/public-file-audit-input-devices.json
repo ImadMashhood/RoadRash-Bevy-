@@ -1,0 +1,141 @@
+{
+  "outcome": "passed",
+  "policy": "Only UTF-8 Rust source, authored Linux virtual-controller helper/driver, authored replay data, docs and metadata; no game data, captures, binaries, OS device files or private logs. Audit excludes itself.",
+  "files": [
+    {
+      "path": ".github/workflows/ci.yml",
+      "sha256": "8d7b9411881cd9ba57865a7db7714431fcbd6891592baf2e68eb87e843a3668c",
+      "bytes": 1570
+    },
+    {
+      "path": "Cargo.lock",
+      "sha256": "fd082e95dd108394bc36f77834bbf1e0f22d7612698116eb4afac921a7ec3e64",
+      "bytes": 130927
+    },
+    {
+      "path": "Cargo.toml",
+      "sha256": "44f2b70f1c4092a4c80d97e6e3f66a39877687a395ed7584097632725e075f64",
+      "bytes": 484
+    },
+    {
+      "path": "README.md",
+      "sha256": "21f221690ff77552cb6c1c1ebc1b576e189eaa33035497534cfc2f3d512b839d",
+      "bytes": 266305
+    },
+    {
+      "path": "apps/game/examples/input_probe.rs",
+      "sha256": "4a39d3b3391c59a4cbddf6d85e27d2055879e34b1b67c0e1dae70144c0984c9f",
+      "bytes": 2317
+    },
+    {
+      "path": "apps/game/src/input_adapter.rs",
+      "sha256": "a62a58fc95647b41637a0974bafe1fb8fb8f75974f65f75f627113390b52bad1",
+      "bytes": 10923
+    },
+    {
+      "path": "apps/game/src/main.rs",
+      "sha256": "9ec96e3ffbb5e83ad2b43769bf5fdf5888176d9a642addc7e5ef0d1969a53c78",
+      "bytes": 28717
+    },
+    {
+      "path": "crates/input/src/devices.rs",
+      "sha256": "f1f0915b00c7995582409b67881dbbabf8cbedf38ca0826d614d4bb2d4120697",
+      "bytes": 6253
+    },
+    {
+      "path": "crates/input/src/lib.rs",
+      "sha256": "66393c0dd0987a563db672d16d7a5775b4a9af5c4aad984b345c761762e8834b",
+      "bytes": 8139
+    },
+    {
+      "path": "crates/input/tests/devices.rs",
+      "sha256": "79ad8c67eca6350d5513cb6d3a90b9c9fdd78bbabfb90482bed77057f3455bb4",
+      "bytes": 6400
+    },
+    {
+      "path": "crates/simulation/src/lib.rs",
+      "sha256": "fbaafa49c6d4e565cf9908cf90bcd6c808dd7f1f0c1679493c15f9cd9b67dd4e",
+      "bytes": 17062
+    },
+    {
+      "path": "crates/simulation/src/replay.rs",
+      "sha256": "35e9c5d9b5dc6aec29950bae355c5c00b3934c8017d07509de67c8c93138d32c",
+      "bytes": 4841
+    },
+    {
+      "path": "crates/simulation/tests/core.rs",
+      "sha256": "0865af1a4dd0bd5111f9b59073f93d53c14f13918a8e5a73427eeab33dded242",
+      "bytes": 14639
+    },
+    {
+      "path": "docs/ARCHITECTURE.md",
+      "sha256": "d451dbaae77740a822c123a360577ed9f1798e6d05f74ddd68e8983f07b4688a",
+      "bytes": 3794
+    },
+    {
+      "path": "docs/GETTING_STARTED.md",
+      "sha256": "726d39cbd45c7d7540ba8ce3c4f0c51e75b7db310d0011938f37fab84e6549bd",
+      "bytes": 6700
+    },
+    {
+      "path": "docs/INPUT.md",
+      "sha256": "3e7d3bea1ac6eb2d0e26c79c70b2569747d19298ea538a8286f39bd83bd598ba",
+      "bytes": 7915
+    },
+    {
+      "path": "docs/SIMULATION.md",
+      "sha256": "cfccf860e6bf79b00fd3484416cf2bbf6f90f7dbb540d3a4477e14ad5893960a",
+      "bytes": 6588
+    },
+    {
+      "path": "docs/STATUS.md",
+      "sha256": "e0f9e3b3e66b274f50f1e68f055fec85e88fbf5a3a2d02173ae4f4a311db0548",
+      "bytes": 3959
+    },
+    {
+      "path": "docs/evidence/09.02.md",
+      "sha256": "28b1469e2e7cde501f440216aa95ab588abd7e9c5a143a6984428450e4220d00",
+      "bytes": 4606
+    },
+    {
+      "path": "docs/evidence/09.11.md",
+      "sha256": "3e0f2e788549fa797cd1abea9e7a921889a44f9b8f29e80fa52ede7f6c076d03",
+      "bytes": 2638
+    },
+    {
+      "path": "docs/evidence/input-device-backend.json",
+      "sha256": "5ee4fe5f49e47db53c3b684234899fbc0007b49e4d30b5a6e8ce1da39c432332",
+      "bytes": 17671
+    },
+    {
+      "path": "docs/evidence/input-device-checks.json",
+      "sha256": "2aec115c67bba373b7cbe3c9f16d44425ed9a5191d97d5383a3892726e25d447",
+      "bytes": 799
+    },
+    {
+      "path": "docs/evidence/input-device-replays.json",
+      "sha256": "980dcaccf8cf81c71694d3eeeb619fa2ab55ffce2bbc6ca5e23da311c6e6a668",
+      "bytes": 16528
+    },
+    {
+      "path": "docs/fixtures/replay-analog.json",
+      "sha256": "002211556bd6982e96867f7db63d932b45053c780a4e867a7fd29f1ba8908761",
+      "bytes": 764
+    },
+    {
+      "path": "tools/ci/clean_build.sh",
+      "sha256": "48560d75a2b2aad6394b215ec8ab2c84d74519589391eddcfc5a2ca604a1bb7b",
+      "bytes": 1146
+    },
+    {
+      "path": "tools/input/check_linux.py",
+      "sha256": "d9442616bee1e8003c9a8a68afafa56cfa8b8bba00977614bd9d789bc3d62430",
+      "bytes": 5764
+    },
+    {
+      "path": "tools/input/virtual_pad.c",
+      "sha256": "8d363cc47947d042c920c25486e64ceba1af6cb9ac79e1ae8cbde0e89a31b6bf",
+      "bytes": 2971
+    }
+  ]
+}

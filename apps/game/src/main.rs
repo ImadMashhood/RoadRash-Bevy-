@@ -5,14 +5,14 @@ use bevy::{
     prelude::*,
     render::view::screenshot::{Screenshot, save_to_disk},
 };
-use input_adapter::{Bindings, key_code};
+use input_adapter::{Bindings, LiveInput, Router, poll_input, tick_command};
 use rr_input::{Action, Context};
 use rr_presentation::{
     ClassicPresentationPlugin, CoursePresentation, PresentationStage, PresentedSnapshot,
     VisualAssets,
 };
 use rr_simulation::{
-    Command, SIMULATION_SCHEMA, Simulation, TICKS_PER_SECOND,
+    Command, Simulation, TICKS_PER_SECOND,
     replay::{Playback, Replay, Report, frame_ns},
 };
 use std::{num::NonZeroU8, path::PathBuf};
@@ -368,6 +368,8 @@ fn main() {
         .init_resource::<Previous>()
         .init_resource::<InputCommand>()
         .init_resource::<PauseState>()
+        .init_resource::<LiveInput>()
+        .init_resource::<Router>()
         .add_plugins(ClassicPresentationPlugin)
         .configure_sets(
             FixedUpdate,
@@ -390,7 +392,14 @@ fn main() {
             FixedUpdate,
             publish.in_set(FixedStage::Snapshot).run_if(live),
         )
-        .add_systems(PreUpdate, (playback_frame, pause_input))
+        .add_systems(PreUpdate, playback_frame)
+        .add_systems(
+            PreUpdate,
+            (poll_input, pause_input)
+                .chain()
+                .after(bevy::input::InputSystems)
+                .run_if(physical_input),
+        )
         .add_systems(
             Update,
             (
@@ -403,38 +412,15 @@ fn main() {
 fn live(driver: Res<Driver>, pause: Res<PauseState>) -> bool {
     driver.0.is_none() && !pause.paused
 }
-fn active_actions(
-    bindings: &Bindings,
-    context: Context,
-    pressed: impl Fn(KeyCode) -> bool,
-) -> std::collections::BTreeSet<Action> {
-    bindings.0.active(
-        context,
-        bindings.0.contexts[&context]
-            .values()
-            .flatten()
-            .copied()
-            .filter(|key| pressed(key_code(*key))),
-    )
+fn physical_input(driver: Res<Driver>) -> bool {
+    driver.0.is_none()
 }
-fn sample_input(
-    keys: Res<ButtonInput<KeyCode>>,
-    bindings: Res<Bindings>,
-    mut command: ResMut<InputCommand>,
-) {
-    let actions = active_actions(&bindings, Context::Race, |key| keys.pressed(key));
-    let left = actions.contains(&Action::SteerLeft);
-    let right = actions.contains(&Action::SteerRight);
-    command.0 = Command {
-        throttle: actions.contains(&Action::Accelerate),
-        brake: actions.contains(&Action::Brake),
-        steer: i8::from(right) - i8::from(left),
-        ..Default::default()
-    };
+fn sample_input(input: Res<LiveInput>, mut command: ResMut<InputCommand>) {
+    command.0 = tick_command(&input.0);
 }
 fn pause_input(
     driver: Res<Driver>,
-    keys: Res<ButtonInput<KeyCode>>,
+    input: Res<LiveInput>,
     bindings: Res<Bindings>,
     mut pause: ResMut<PauseState>,
     mut command: ResMut<InputCommand>,
@@ -443,30 +429,22 @@ fn pause_input(
     if driver.0.is_some() {
         return;
     }
-    let actions = active_actions(&bindings, Context::Race, |key| keys.pressed(key));
     let was_paused = pause.paused;
-    if !window.focused
-        || (!pause.paused
-            && active_actions(&bindings, Context::Race, |key| keys.just_pressed(key))
-                .contains(&Action::Pause))
-    {
+    if !window.focused || input.0.active_disconnected || (!pause.paused && input.0.pause_pressed) {
         pause.paused = true;
         pause.release_required = true;
     }
     if pause.paused {
         command.0 = Command::default();
-        if !actions.iter().any(|a| {
-            matches!(
-                a,
-                Action::Accelerate | Action::Brake | Action::SteerLeft | Action::SteerRight
-            )
-        }) {
+        if input.0.drive.neutral() {
             pause.release_required = false;
         }
-        if window.focused
+        if was_paused
+            && window.focused
             && !pause.release_required
-            && active_actions(&bindings, Context::Paused, |key| keys.just_pressed(key))
-                .contains(&Action::Resume)
+            && input.0.drive.neutral()
+            && input.0.resume_pressed
+            && !input.0.active_disconnected
         {
             pause.paused = false;
         }
@@ -474,7 +452,7 @@ fn pause_input(
     if pause.paused != was_paused {
         window.title = if pause.paused {
             format!(
-                "RoadRash Rust — paused (resume: {:?})",
+                "RoadRash Rust — paused (Start or {:?} to resume)",
                 bindings.0.contexts[&Context::Paused][&Action::Resume]
             )
         } else {
@@ -508,11 +486,14 @@ fn interpolate(
     mut view: ResMut<PresentedSnapshot>,
 ) {
     if driver.0.is_none() {
-        view.2 = if pause.paused {
-            1.
+        if pause.paused {
+            // Freeze the owned visual pair too: resuming on a frame with
+            // no fixed tick must not interpolate back to a pre-pause pose.
+            view.1 = view.0.clone();
+            view.2 = 1.;
         } else {
-            time.overstep_fraction()
-        };
+            view.2 = time.overstep_fraction();
+        }
     }
 }
 fn playback_frame(
@@ -537,7 +518,7 @@ fn playback_frame(
     view.2 = playback.alpha();
     if playback.done() {
         let report = Report {
-            simulation_schema: SIMULATION_SCHEMA,
+            simulation_schema: playback.simulation.schema_version(),
             rate: options.render_rate.clone(),
             ticks: playback.current.tick,
             presentation_frames: playback.frames,
@@ -618,7 +599,9 @@ mod input_tests {
         app.insert_resource(Bindings(bindings))
             .init_resource::<ButtonInput<KeyCode>>()
             .init_resource::<InputCommand>()
-            .add_systems(Update, sample_input);
+            .init_resource::<LiveInput>()
+            .init_resource::<Router>()
+            .add_systems(Update, (poll_input, sample_input).chain());
         {
             let mut keys = app.world_mut().resource_mut::<ButtonInput<KeyCode>>();
             keys.press(KeyCode::KeyW);
@@ -644,7 +627,16 @@ mod input_tests {
             .init_resource::<PauseState>()
             .init_resource::<InputCommand>()
             .init_resource::<ButtonInput<KeyCode>>()
-            .add_systems(Update, pause_input);
+            .init_resource::<LiveInput>()
+            .init_resource::<Router>()
+            .init_resource::<PresentedSnapshot>()
+            .init_resource::<Time<Fixed>>()
+            .add_systems(Update, (poll_input, pause_input, interpolate).chain());
+        {
+            let mut view = app.world_mut().resource_mut::<PresentedSnapshot>();
+            view.0.distance_mm = 100;
+            view.1.distance_mm = 90;
+        }
         let window = app
             .world_mut()
             .spawn((
@@ -680,5 +672,123 @@ mod input_tests {
             .press(KeyCode::KeyP);
         app.update();
         assert!(!app.world().resource::<PauseState>().paused);
+        let view = app.world().resource::<PresentedSnapshot>();
+        assert_eq!(view.0.distance_mm, 100);
+        assert_eq!(
+            view.1.distance_mm, 100,
+            "resume without a fixed tick must not rewind visual interpolation"
+        );
+    }
+}
+
+#[cfg(test)]
+mod gamepad_pause_tests {
+    use super::*;
+    use bevy::input::{
+        InputPlugin, InputSystems,
+        gamepad::{
+            GamepadConnection, GamepadConnectionEvent, RawGamepadButtonChangedEvent,
+            RawGamepadEvent,
+        },
+    };
+    fn button(app: &mut App, id: Entity, button: GamepadButton, value: f32) {
+        app.world_mut()
+            .write_message(RawGamepadEvent::Button(RawGamepadButtonChangedEvent::new(
+                id, button, value,
+            )));
+        app.update();
+    }
+    #[test]
+    fn start_pauses_once_disconnect_stays_paused_and_resume_requires_neutral() {
+        let mut app = App::new();
+        app.add_plugins((MinimalPlugins, InputPlugin))
+            .init_resource::<Bindings>()
+            .init_resource::<Router>()
+            .init_resource::<LiveInput>()
+            .init_resource::<Driver>()
+            .init_resource::<InputCommand>()
+            .init_resource::<PauseState>()
+            .add_systems(
+                PreUpdate,
+                (poll_input, pause_input).chain().after(InputSystems),
+            );
+        app.world_mut().spawn((
+            Window {
+                focused: true,
+                ..Default::default()
+            },
+            bevy::window::PrimaryWindow,
+        ));
+        let id = app.world_mut().spawn_empty().id();
+        app.world_mut().write_message(GamepadConnectionEvent::new(
+            id,
+            GamepadConnection::Connected {
+                name: "Authored pause test".into(),
+                vendor_id: None,
+                product_id: None,
+            },
+        ));
+        app.update();
+        button(&mut app, id, GamepadButton::Start, 1.);
+        assert!(
+            app.world().resource::<PauseState>().paused,
+            "same Start edge must not immediately resume"
+        );
+        app.update();
+        assert!(app.world().resource::<PauseState>().paused);
+        button(&mut app, id, GamepadButton::Start, 0.);
+        button(&mut app, id, GamepadButton::South, 1.);
+        button(&mut app, id, GamepadButton::Start, 1.);
+        assert!(
+            app.world().resource::<PauseState>().paused,
+            "holding throttle blocks resume even after a previous neutral frame"
+        );
+        button(&mut app, id, GamepadButton::South, 0.);
+        button(&mut app, id, GamepadButton::Start, 0.);
+        button(&mut app, id, GamepadButton::Start, 1.);
+        assert!(!app.world().resource::<PauseState>().paused);
+        app.world_mut().resource_mut::<InputCommand>().0.throttle = true;
+        app.world_mut().write_message(GamepadConnectionEvent::new(
+            id,
+            GamepadConnection::Disconnected,
+        ));
+        app.update();
+        assert!(app.world().resource::<PauseState>().paused);
+        assert!(!app.world().resource::<InputCommand>().0.throttle);
+        app.update();
+        assert!(app.world().resource::<PauseState>().paused);
+        app.world_mut().write_message(GamepadConnectionEvent::new(
+            id,
+            GamepadConnection::Connected {
+                name: "Reconnected authored pad".into(),
+                vendor_id: None,
+                product_id: None,
+            },
+        ));
+        app.world_mut()
+            .write_message(RawGamepadEvent::Button(RawGamepadButtonChangedEvent::new(
+                id,
+                GamepadButton::South,
+                1.,
+            )));
+        app.update();
+        assert!(app.world().resource::<PauseState>().paused);
+        app.world_mut()
+            .resource_mut::<ButtonInput<KeyCode>>()
+            .press(KeyCode::KeyP);
+        app.update();
+        assert!(!app.world().resource::<PauseState>().paused);
+        assert!(
+            !tick_command(&app.world().resource::<LiveInput>().0).throttle,
+            "held-on-reconnect input cannot latch throttle after keyboard resume"
+        );
+        app.world_mut()
+            .resource_mut::<ButtonInput<KeyCode>>()
+            .release(KeyCode::KeyP);
+        app.update();
+        assert!(!tick_command(&app.world().resource::<LiveInput>().0).throttle);
+        button(&mut app, id, GamepadButton::South, 0.);
+        button(&mut app, id, GamepadButton::South, 1.);
+        assert!(tick_command(&app.world().resource::<LiveInput>().0).throttle);
     }
 }

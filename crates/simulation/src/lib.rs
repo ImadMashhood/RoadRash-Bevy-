@@ -7,7 +7,7 @@ use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 use std::collections::BTreeMap;
 pub const TICKS_PER_SECOND: u32 = 60;
-pub const SIMULATION_SCHEMA: u32 = 1;
+pub const SIMULATION_SCHEMA: u32 = 2;
 macro_rules! id {
     ($name:ident,$t:ty) => {
         #[derive(
@@ -53,6 +53,10 @@ pub struct Command {
     pub throttle: bool,
     pub brake: bool,
     pub steer: i8,
+    /// Proportional steering, -32767..=32767; absent in schema-1 replays.
+    /// Cannot be combined with a nonzero legacy digital `steer`.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub steer_q15: Option<i16>,
     pub fork: Option<u8>,
 }
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Eq)]
@@ -209,6 +213,7 @@ impl Random {
     }
 }
 pub struct Simulation {
+    schema_version: u32,
     tick: Tick,
     route: Route,
     actors: BTreeMap<ActorId, Actor>,
@@ -225,8 +230,15 @@ impl Default for Simulation {
 }
 impl Simulation {
     pub fn new(seed: u32, route: Route) -> Result<Self> {
+        Self::with_schema(seed, route, SIMULATION_SCHEMA)
+    }
+    pub fn with_schema(seed: u32, route: Route, schema_version: u32) -> Result<Self> {
+        if !(1..=SIMULATION_SCHEMA).contains(&schema_version) {
+            return Err(Error::Invalid("unsupported simulation schema"));
+        }
         route.validate()?;
         let mut sim = Self {
+            schema_version,
             tick: Tick(0),
             route,
             actors: BTreeMap::new(),
@@ -238,6 +250,9 @@ impl Simulation {
         };
         sim.spawn()?;
         Ok(sim)
+    }
+    pub fn schema_version(&self) -> u32 {
+        self.schema_version
     }
     pub fn spawn(&mut self) -> Result<ActorId> {
         let id = ActorId(self.next_actor);
@@ -285,6 +300,9 @@ impl Simulation {
             return Err(Error::MissingActor(command.actor));
         }
         if !(-1..=1).contains(&command.input.steer)
+            || command.input.steer_q15.is_some_and(|axis| {
+                axis == i16::MIN || command.input.steer != 0 || self.schema_version == 1
+            })
             || command.input.fork.is_some_and(|b| b > 1)
             || command.tick.0 - self.tick.0 > 1_000_000
             || self.queue.len() >= 65536
@@ -347,9 +365,13 @@ impl Simulation {
                         };
                         actor.view.speed.0 =
                             (i64::from(actor.view.speed.0) + delta).clamp(0, 1000) as u32;
+                        let steering = actor
+                            .input
+                            .steer_q15
+                            .map_or(i64::from(actor.input.steer) * 32767, i64::from);
                         actor.view.position.lateral.0 = (actor.view.position.lateral.0
-                            + i64::from(actor.input.steer) * i64::from(actor.view.speed.0 / 12))
-                        .clamp(-4000, 4000);
+                            + steering * i64::from(actor.view.speed.0 / 12) / 32767)
+                            .clamp(-4000, 4000);
                         let mut remaining = i64::from(actor.view.speed.0);
                         for _ in 0..=self.route.sections.len() {
                             let section = &self.route.sections[&actor.view.position.section];
@@ -413,7 +435,7 @@ impl Simulation {
                 b.extend_from_slice(&$v.to_le_bytes())
             };
         }
-        put!(SIMULATION_SCHEMA);
+        put!(self.schema_version);
         put!(self.tick.0);
         put!(self.next_actor);
         put!(self.spawn_rng.0);
@@ -431,13 +453,17 @@ impl Simulation {
             }
         }
         put!(self.actors.len() as u32);
-        fn input(b: &mut Vec<u8>, c: Command) {
+        fn input(b: &mut Vec<u8>, c: Command, schema: u32) {
             b.extend([
                 u8::from(c.throttle),
                 u8::from(c.brake),
                 c.steer as u8,
                 c.fork.unwrap_or(255),
             ]);
+            if schema >= 2 {
+                b.push(u8::from(c.steer_q15.is_some()));
+                b.extend_from_slice(&c.steer_q15.unwrap_or(0).to_le_bytes());
+            }
         }
         for (id, actor) in &self.actors {
             put!(id.0);
@@ -451,14 +477,14 @@ impl Simulation {
             put!(actor.total);
             put!(actor.spawn_random);
             b.push(u8::from(actor.view.finished));
-            input(&mut b, actor.input);
+            input(&mut b, actor.input, self.schema_version);
         }
         put!(self.queue.len() as u32);
         for ((tick, actor, seq), command) in &self.queue {
             put!(tick.0);
             put!(actor.0);
             put!(*seq);
-            input(&mut b, *command);
+            input(&mut b, *command, self.schema_version);
         }
         b
     }

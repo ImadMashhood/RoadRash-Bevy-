@@ -1,0 +1,22 @@
+{
+  "outcome": "passed",
+  "rust_tests": 124,
+  "python_tests": 10,
+  "game_adapter_tests": 6,
+  "input_config_tests": 5,
+  "input_device_tests": 8,
+  "native_linux_backend_checks": 14,
+  "legacy_schema_1_hash": "f70c202279f360fc89e95d503443a91a523c816788d9e62102a6d3572fc7f143",
+  "analog_schema_2_hash": "87faf52e185aa21028d6be58fb01403d1f94558d6960aea7eadbedc2544f675e",
+  "bevy": "0.20.1",
+  "gilrs": "0.11.2",
+  "gilrs_core": "0.6.8",
+  "physical_controller_tested": false,
+  "scope": "09.02 keyboard/gamepad transport and 09.11 focus/active-disconnect safety; source handling and device calibration remain open",
+  "live_window_smoke_frames": 120,
+  "workflow_guards": {
+    "formatting_violation_rejected": true,
+    "lockfile_mismatch_rejected": true,
+    "repository_modified": false
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "schema_version": 2,
+  "seed": 12345,
+  "ticks": 120,
+  "route": null,
+  "expected_hash": "87faf52e185aa21028d6be58fb01403d1f94558d6960aea7eadbedc2544f675e",
+  "commands": [
+    {
+      "tick": 0,
+      "actor": 1,
+      "sequence": 0,
+      "input": {
+        "throttle": true,
+        "steer_q15": 0
+      }
+    },
+    {
+      "tick": 20,
+      "actor": 1,
+      "sequence": 1,
+      "input": {
+        "throttle": true,
+        "steer_q15": 16384
+      }
+    },
+    {
+      "tick": 60,
+      "actor": 1,
+      "sequence": 2,
+      "input": {
+        "throttle": true,
+        "steer_q15": -8192
+      }
+    },
+    {
+      "tick": 100,
+      "actor": 1,
+      "sequence": 3,
+      "input": {
+        "brake": true,
+        "steer_q15": 0
+      }
+    }
+  ]
+}

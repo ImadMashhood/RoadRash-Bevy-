@@ -7,7 +7,7 @@ A Rust and Bevy recreation of the PC Road Rash experience, with a faithful class
 Parts 01–08 now have implementation and acceptance evidence: a verified importer, bounded decoders, content catalog/inspector, deterministic simulation/presentation scaffold and validated source course graph/explorer and classic road renderer. This is not a complete playable recreation. Later phases remain open; the separate local prototype is preserved independently.
 
 
-The [Fedora native reference and sizing measurements](docs/NATIVE_REFERENCE.md) now calibrate rider/road presentation. Part 9 has started with [remappable input](docs/INPUT.md); 09.01 is complete, and the remaining device/handling tasks stay open.
+The [Fedora native reference and sizing measurements](docs/NATIVE_REFERENCE.md) now calibrate rider/road presentation. Part 9 now includes [remappable keyboard/gamepad input and safe device lifecycle](docs/INPUT.md): 09.01, 09.02 and 09.11 are complete. Device calibration (09.03) and source handling remain open.
 
 Run the current source-course view after local import/conversion:
 
@@ -1077,11 +1077,13 @@ Research: [src/input.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd
   - [x] **09.01.b — Verify:** Detect duplicate/conflicting bindings and support restoring defaults.
   - [x] **09.01.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/09.01.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **09.02 — Implement keyboard and gamepad input**
+- [x] **09.02 — Implement keyboard and gamepad input**
 
-  - [ ] **09.02.a — Implement:** Map digital and analog controls into the same tick command structure.
-  - [ ] **09.02.b — Verify:** Test simultaneous keys, controller connection and device switching.
-  - [ ] **09.02.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/09.02.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  Completed: [implementation and acceptance evidence](docs/evidence/09.02.md).
+
+  - [x] **09.02.a — Implement:** Map digital and analog controls into the same tick command structure.
+  - [x] **09.02.b — Verify:** Test simultaneous keys, controller connection and device switching.
+  - [x] **09.02.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/09.02.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
 - [ ] **09.03 — Calibrate dead zones and analog steering**
 
@@ -1131,11 +1133,13 @@ Research: [src/input.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd
   - [ ] **09.10.b — Verify:** Report missing fields and compare representative slow, fast and heavy bikes.
   - [ ] **09.10.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/09.10.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **09.11 — Pause safely on focus loss and disconnect**
+- [x] **09.11 — Pause safely on focus loss and disconnect**
 
-  - [ ] **09.11.a — Implement:** Pause on focus loss or active controller disconnect with explicit resume.
-  - [ ] **09.11.b — Verify:** Verify held throttle does not remain stuck after reconnection.
-  - [ ] **09.11.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/09.11.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  Completed: [implementation and acceptance evidence](docs/evidence/09.11.md).
+
+  - [x] **09.11.a — Implement:** Pause on focus loss or active controller disconnect with explicit resume.
+  - [x] **09.11.b — Verify:** Verify held throttle does not remain stuck after reconnection.
+  - [x] **09.11.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/09.11.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
 - [ ] **09.12 — Compare acceleration braking and cornering traces**
 

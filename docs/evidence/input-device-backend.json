@@ -1,0 +1,787 @@
+{
+  "outcome": "passed",
+  "backend": "real Linux uinput -> evdev -> Gilrs -> Bevy InputPlugin -> game adapter -> tick command",
+  "virtual_devices": true,
+  "physical_controller_tested": false,
+  "baseline_connected_devices": 1,
+  "full_axis_endpoint_tolerance_q15": 2,
+  "checks": [
+    {
+      "check": "backend_started",
+      "observed": {
+        "active_disconnected": false,
+        "connected_gamepads": 1,
+        "device": "Keyboard",
+        "drive": {
+          "brake": false,
+          "steer_q15": 0,
+          "throttle": false
+        },
+        "pause_pressed": false,
+        "resume_pressed": false
+      },
+      "command": {
+        "brake": false,
+        "fork": null,
+        "steer": 0,
+        "steer_q15": 0,
+        "throttle": false
+      }
+    },
+    {
+      "check": "first_controller_connected",
+      "observed": {
+        "active_disconnected": false,
+        "connected_gamepads": 2,
+        "device": "Keyboard",
+        "drive": {
+          "brake": false,
+          "steer_q15": 0,
+          "throttle": false
+        },
+        "pause_pressed": false,
+        "resume_pressed": false
+      },
+      "command": {
+        "brake": false,
+        "fork": null,
+        "steer": 0,
+        "steer_q15": 0,
+        "throttle": false
+      }
+    },
+    {
+      "check": "partial_right_stick_reaches_q15",
+      "observed": {
+        "active_disconnected": false,
+        "connected_gamepads": 2,
+        "device": {
+          "Gamepad": 4294967248
+        },
+        "drive": {
+          "brake": false,
+          "steer_q15": 13493,
+          "throttle": false
+        },
+        "pause_pressed": false,
+        "resume_pressed": false
+      },
+      "command": {
+        "brake": false,
+        "fork": null,
+        "steer": 0,
+        "steer_q15": 13493,
+        "throttle": false
+      }
+    },
+    {
+      "check": "south_button_accelerates",
+      "observed": {
+        "active_disconnected": false,
+        "connected_gamepads": 2,
+        "device": {
+          "Gamepad": 4294967248
+        },
+        "drive": {
+          "brake": false,
+          "steer_q15": 13493,
+          "throttle": true
+        },
+        "pause_pressed": false,
+        "resume_pressed": false
+      },
+      "command": {
+        "brake": false,
+        "fork": null,
+        "steer": 0,
+        "steer_q15": 13493,
+        "throttle": true
+      }
+    },
+    {
+      "check": "second_controller_connected_without_stealing",
+      "observed": {
+        "active_disconnected": false,
+        "connected_gamepads": 3,
+        "device": {
+          "Gamepad": 4294967248
+        },
+        "drive": {
+          "brake": false,
+          "steer_q15": 13493,
+          "throttle": true
+        },
+        "pause_pressed": false,
+        "resume_pressed": false
+      },
+      "command": {
+        "brake": false,
+        "fork": null,
+        "steer": 0,
+        "steer_q15": 13493,
+        "throttle": true
+      }
+    },
+    {
+      "check": "second_controller_takes_over_on_input",
+      "observed": {
+        "active_disconnected": false,
+        "connected_gamepads": 3,
+        "device": {
+          "Gamepad": 4294967247
+        },
+        "drive": {
+          "brake": false,
+          "steer_q15": -32766,
+          "throttle": false
+        },
+        "pause_pressed": false,
+        "resume_pressed": false
+      },
+      "command": {
+        "brake": false,
+        "fork": null,
+        "steer": 0,
+        "steer_q15": -32766,
+        "throttle": false
+      }
+    },
+    {
+      "check": "neutral_active_pad_does_not_inherit_other_held_throttle",
+      "observed": {
+        "active_disconnected": false,
+        "connected_gamepads": 3,
+        "device": {
+          "Gamepad": 4294967247
+        },
+        "drive": {
+          "brake": false,
+          "steer_q15": 0,
+          "throttle": false
+        },
+        "pause_pressed": false,
+        "resume_pressed": false
+      },
+      "command": {
+        "brake": false,
+        "fork": null,
+        "steer": 0,
+        "steer_q15": 0,
+        "throttle": false
+      }
+    },
+    {
+      "check": "active_disconnect_signalled_and_controls_cleared",
+      "observed": {
+        "active_disconnected": true,
+        "connected_gamepads": 2,
+        "device": "Keyboard",
+        "drive": {
+          "brake": false,
+          "steer_q15": 0,
+          "throttle": false
+        },
+        "pause_pressed": false,
+        "resume_pressed": false
+      },
+      "command": {
+        "brake": false,
+        "fork": null,
+        "steer": 0,
+        "steer_q15": 0,
+        "throttle": false
+      }
+    },
+    {
+      "check": "analog_right_trigger_accelerates",
+      "observed": {
+        "active_disconnected": false,
+        "connected_gamepads": 2,
+        "device": {
+          "Gamepad": 4294967248
+        },
+        "drive": {
+          "brake": false,
+          "steer_q15": 13493,
+          "throttle": true
+        },
+        "pause_pressed": false,
+        "resume_pressed": false
+      },
+      "command": {
+        "brake": false,
+        "fork": null,
+        "steer": 0,
+        "steer_q15": 13493,
+        "throttle": true
+      }
+    },
+    {
+      "check": "start_button_pause_resume_edge",
+      "observed": {
+        "active_disconnected": false,
+        "connected_gamepads": 2,
+        "device": {
+          "Gamepad": 4294967248
+        },
+        "drive": {
+          "brake": false,
+          "steer_q15": 13493,
+          "throttle": false
+        },
+        "pause_pressed": true,
+        "resume_pressed": true
+      },
+      "command": {
+        "brake": false,
+        "fork": null,
+        "steer": 0,
+        "steer_q15": 13493,
+        "throttle": false
+      }
+    },
+    {
+      "check": "controller_reconnects",
+      "observed": {
+        "active_disconnected": false,
+        "connected_gamepads": 3,
+        "device": {
+          "Gamepad": 4294967248
+        },
+        "drive": {
+          "brake": false,
+          "steer_q15": 13493,
+          "throttle": true
+        },
+        "pause_pressed": false,
+        "resume_pressed": false
+      },
+      "command": {
+        "brake": false,
+        "fork": null,
+        "steer": 0,
+        "steer_q15": 13493,
+        "throttle": true
+      }
+    },
+    {
+      "check": "reconnected_controller_partial_left_input",
+      "observed": {
+        "active_disconnected": false,
+        "connected_gamepads": 3,
+        "device": {
+          "Gamepad": 4294967247
+        },
+        "drive": {
+          "brake": false,
+          "steer_q15": -13491,
+          "throttle": false
+        },
+        "pause_pressed": false,
+        "resume_pressed": false
+      },
+      "command": {
+        "brake": false,
+        "fork": null,
+        "steer": 0,
+        "steer_q15": -13491,
+        "throttle": false
+      }
+    },
+    {
+      "check": "inactive_disconnect_preserves_active_input",
+      "observed": {
+        "active_disconnected": false,
+        "connected_gamepads": 2,
+        "device": {
+          "Gamepad": 4294967247
+        },
+        "drive": {
+          "brake": false,
+          "steer_q15": -13491,
+          "throttle": false
+        },
+        "pause_pressed": false,
+        "resume_pressed": false
+      },
+      "command": {
+        "brake": false,
+        "fork": null,
+        "steer": 0,
+        "steer_q15": -13491,
+        "throttle": false
+      }
+    },
+    {
+      "check": "last_active_disconnect_clears_input",
+      "observed": {
+        "active_disconnected": true,
+        "connected_gamepads": 1,
+        "device": "Keyboard",
+        "drive": {
+          "brake": false,
+          "steer_q15": 0,
+          "throttle": false
+        },
+        "pause_pressed": false,
+        "resume_pressed": false
+      },
+      "command": {
+        "brake": false,
+        "fork": null,
+        "steer": 0,
+        "steer_q15": 0,
+        "throttle": false
+      }
+    }
+  ],
+  "observations": [
+    {
+      "command": {
+        "brake": false,
+        "fork": null,
+        "steer": 0,
+        "steer_q15": 0,
+        "throttle": false
+      },
+      "elapsed_ms": 0,
+      "input": {
+        "active_disconnected": false,
+        "connected_gamepads": 1,
+        "device": "Keyboard",
+        "drive": {
+          "brake": false,
+          "steer_q15": 0,
+          "throttle": false
+        },
+        "pause_pressed": false,
+        "resume_pressed": false
+      }
+    },
+    {
+      "command": {
+        "brake": false,
+        "fork": null,
+        "steer": 0,
+        "steer_q15": 0,
+        "throttle": false
+      },
+      "elapsed_ms": 49,
+      "input": {
+        "active_disconnected": false,
+        "connected_gamepads": 2,
+        "device": "Keyboard",
+        "drive": {
+          "brake": false,
+          "steer_q15": 0,
+          "throttle": false
+        },
+        "pause_pressed": false,
+        "resume_pressed": false
+      }
+    },
+    {
+      "command": {
+        "brake": false,
+        "fork": null,
+        "steer": 0,
+        "steer_q15": 13493,
+        "throttle": false
+      },
+      "elapsed_ms": 65,
+      "input": {
+        "active_disconnected": false,
+        "connected_gamepads": 2,
+        "device": {
+          "Gamepad": 4294967248
+        },
+        "drive": {
+          "brake": false,
+          "steer_q15": 13493,
+          "throttle": false
+        },
+        "pause_pressed": false,
+        "resume_pressed": false
+      }
+    },
+    {
+      "command": {
+        "brake": false,
+        "fork": null,
+        "steer": 0,
+        "steer_q15": 13493,
+        "throttle": true
+      },
+      "elapsed_ms": 85,
+      "input": {
+        "active_disconnected": false,
+        "connected_gamepads": 2,
+        "device": {
+          "Gamepad": 4294967248
+        },
+        "drive": {
+          "brake": false,
+          "steer_q15": 13493,
+          "throttle": true
+        },
+        "pause_pressed": false,
+        "resume_pressed": false
+      }
+    },
+    {
+      "command": {
+        "brake": false,
+        "fork": null,
+        "steer": 0,
+        "steer_q15": 13493,
+        "throttle": true
+      },
+      "elapsed_ms": 130,
+      "input": {
+        "active_disconnected": false,
+        "connected_gamepads": 3,
+        "device": {
+          "Gamepad": 4294967248
+        },
+        "drive": {
+          "brake": false,
+          "steer_q15": 13493,
+          "throttle": true
+        },
+        "pause_pressed": false,
+        "resume_pressed": false
+      }
+    },
+    {
+      "command": {
+        "brake": false,
+        "fork": null,
+        "steer": 0,
+        "steer_q15": -32766,
+        "throttle": false
+      },
+      "elapsed_ms": 146,
+      "input": {
+        "active_disconnected": false,
+        "connected_gamepads": 3,
+        "device": {
+          "Gamepad": 4294967247
+        },
+        "drive": {
+          "brake": false,
+          "steer_q15": -32766,
+          "throttle": false
+        },
+        "pause_pressed": false,
+        "resume_pressed": false
+      }
+    },
+    {
+      "command": {
+        "brake": false,
+        "fork": null,
+        "steer": 0,
+        "steer_q15": 0,
+        "throttle": false
+      },
+      "elapsed_ms": 166,
+      "input": {
+        "active_disconnected": false,
+        "connected_gamepads": 3,
+        "device": {
+          "Gamepad": 4294967247
+        },
+        "drive": {
+          "brake": false,
+          "steer_q15": 0,
+          "throttle": false
+        },
+        "pause_pressed": false,
+        "resume_pressed": false
+      }
+    },
+    {
+      "command": {
+        "brake": false,
+        "fork": null,
+        "steer": 0,
+        "steer_q15": 0,
+        "throttle": false
+      },
+      "elapsed_ms": 200,
+      "input": {
+        "active_disconnected": true,
+        "connected_gamepads": 2,
+        "device": "Keyboard",
+        "drive": {
+          "brake": false,
+          "steer_q15": 0,
+          "throttle": false
+        },
+        "pause_pressed": false,
+        "resume_pressed": false
+      }
+    },
+    {
+      "command": {
+        "brake": false,
+        "fork": null,
+        "steer": 0,
+        "steer_q15": 0,
+        "throttle": false
+      },
+      "elapsed_ms": 201,
+      "input": {
+        "active_disconnected": false,
+        "connected_gamepads": 2,
+        "device": "Keyboard",
+        "drive": {
+          "brake": false,
+          "steer_q15": 0,
+          "throttle": false
+        },
+        "pause_pressed": false,
+        "resume_pressed": false
+      }
+    },
+    {
+      "command": {
+        "brake": false,
+        "fork": null,
+        "steer": 0,
+        "steer_q15": 13493,
+        "throttle": false
+      },
+      "elapsed_ms": 222,
+      "input": {
+        "active_disconnected": false,
+        "connected_gamepads": 2,
+        "device": {
+          "Gamepad": 4294967248
+        },
+        "drive": {
+          "brake": false,
+          "steer_q15": 13493,
+          "throttle": false
+        },
+        "pause_pressed": false,
+        "resume_pressed": false
+      }
+    },
+    {
+      "command": {
+        "brake": false,
+        "fork": null,
+        "steer": 0,
+        "steer_q15": 13493,
+        "throttle": true
+      },
+      "elapsed_ms": 303,
+      "input": {
+        "active_disconnected": false,
+        "connected_gamepads": 2,
+        "device": {
+          "Gamepad": 4294967248
+        },
+        "drive": {
+          "brake": false,
+          "steer_q15": 13493,
+          "throttle": true
+        },
+        "pause_pressed": false,
+        "resume_pressed": false
+      }
+    },
+    {
+      "command": {
+        "brake": false,
+        "fork": null,
+        "steer": 0,
+        "steer_q15": 13493,
+        "throttle": false
+      },
+      "elapsed_ms": 325,
+      "input": {
+        "active_disconnected": false,
+        "connected_gamepads": 2,
+        "device": {
+          "Gamepad": 4294967248
+        },
+        "drive": {
+          "brake": false,
+          "steer_q15": 13493,
+          "throttle": false
+        },
+        "pause_pressed": false,
+        "resume_pressed": false
+      }
+    },
+    {
+      "command": {
+        "brake": false,
+        "fork": null,
+        "steer": 0,
+        "steer_q15": 13493,
+        "throttle": false
+      },
+      "elapsed_ms": 406,
+      "input": {
+        "active_disconnected": false,
+        "connected_gamepads": 2,
+        "device": {
+          "Gamepad": 4294967248
+        },
+        "drive": {
+          "brake": false,
+          "steer_q15": 13493,
+          "throttle": false
+        },
+        "pause_pressed": true,
+        "resume_pressed": true
+      }
+    },
+    {
+      "command": {
+        "brake": false,
+        "fork": null,
+        "steer": 0,
+        "steer_q15": 13493,
+        "throttle": false
+      },
+      "elapsed_ms": 410,
+      "input": {
+        "active_disconnected": false,
+        "connected_gamepads": 2,
+        "device": {
+          "Gamepad": 4294967248
+        },
+        "drive": {
+          "brake": false,
+          "steer_q15": 13493,
+          "throttle": false
+        },
+        "pause_pressed": false,
+        "resume_pressed": false
+      }
+    },
+    {
+      "command": {
+        "brake": false,
+        "fork": null,
+        "steer": 0,
+        "steer_q15": 13493,
+        "throttle": false
+      },
+      "elapsed_ms": 447,
+      "input": {
+        "active_disconnected": false,
+        "connected_gamepads": 3,
+        "device": {
+          "Gamepad": 4294967248
+        },
+        "drive": {
+          "brake": false,
+          "steer_q15": 13493,
+          "throttle": false
+        },
+        "pause_pressed": false,
+        "resume_pressed": false
+      }
+    },
+    {
+      "command": {
+        "brake": false,
+        "fork": null,
+        "steer": 0,
+        "steer_q15": -13491,
+        "throttle": false
+      },
+      "elapsed_ms": 549,
+      "input": {
+        "active_disconnected": false,
+        "connected_gamepads": 3,
+        "device": {
+          "Gamepad": 4294967247
+        },
+        "drive": {
+          "brake": false,
+          "steer_q15": -13491,
+          "throttle": false
+        },
+        "pause_pressed": false,
+        "resume_pressed": false
+      }
+    },
+    {
+      "command": {
+        "brake": false,
+        "fork": null,
+        "steer": 0,
+        "steer_q15": -13491,
+        "throttle": false
+      },
+      "elapsed_ms": 573,
+      "input": {
+        "active_disconnected": false,
+        "connected_gamepads": 2,
+        "device": {
+          "Gamepad": 4294967247
+        },
+        "drive": {
+          "brake": false,
+          "steer_q15": -13491,
+          "throttle": false
+        },
+        "pause_pressed": false,
+        "resume_pressed": false
+      }
+    },
+    {
+      "command": {
+        "brake": false,
+        "fork": null,
+        "steer": 0,
+        "steer_q15": 0,
+        "throttle": false
+      },
+      "elapsed_ms": 587,
+      "input": {
+        "active_disconnected": true,
+        "connected_gamepads": 1,
+        "device": "Keyboard",
+        "drive": {
+          "brake": false,
+          "steer_q15": 0,
+          "throttle": false
+        },
+        "pause_pressed": false,
+        "resume_pressed": false
+      }
+    },
+    {
+      "command": {
+        "brake": false,
+        "fork": null,
+        "steer": 0,
+        "steer_q15": 0,
+        "throttle": false
+      },
+      "elapsed_ms": 588,
+      "input": {
+        "active_disconnected": false,
+        "connected_gamepads": 1,
+        "device": "Keyboard",
+        "drive": {
+          "brake": false,
+          "steer_q15": 0,
+          "throttle": false
+        },
+        "pause_pressed": false,
+        "resume_pressed": false
+      }
+    }
+  ],
+  "temporary_devices_cleaned_up": true,
+  "logical_controllers": 2,
+  "kernel_device_creations": 3
+}

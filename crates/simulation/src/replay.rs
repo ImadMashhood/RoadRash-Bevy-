@@ -28,7 +28,7 @@ impl Replay {
             return Err("replay size limit".into());
         }
         let replay: Self = serde_json::from_slice(bytes)?;
-        if replay.schema_version != SIMULATION_SCHEMA
+        if !(1..=SIMULATION_SCHEMA).contains(&replay.schema_version)
             || replay.ticks == 0
             || replay.ticks > 1_000_000
             || replay.commands.len() > 65536
@@ -37,6 +37,10 @@ impl Replay {
         }
         if replay.commands.iter().any(|c| c.tick.0 >= replay.ticks) {
             return Err("command outside replay duration".into());
+        }
+        if replay.schema_version == 1 && replay.commands.iter().any(|c| c.input.steer_q15.is_some())
+        {
+            return Err("analog steering requires replay schema 2".into());
         }
         Ok(replay)
     }
@@ -52,8 +56,11 @@ pub struct Playback {
 }
 impl Playback {
     pub fn new(replay: Replay) -> Result<Self> {
-        let mut simulation =
-            Simulation::new(replay.seed, replay.route.unwrap_or_else(Route::straight))?;
+        let mut simulation = Simulation::with_schema(
+            replay.seed,
+            replay.route.unwrap_or_else(Route::straight),
+            replay.schema_version,
+        )?;
         for command in replay.commands {
             simulation.queue(command)?;
         }
@@ -123,7 +130,7 @@ pub fn run(replay: Replay, rate: &str) -> std::result::Result<Report, Box<dyn st
         return Err("replay state hash mismatch".into());
     }
     Ok(Report {
-        simulation_schema: SIMULATION_SCHEMA,
+        simulation_schema: playback.simulation.schema_version(),
         rate: rate.into(),
         ticks: playback.simulation.tick.0,
         presentation_frames: playback.frames,

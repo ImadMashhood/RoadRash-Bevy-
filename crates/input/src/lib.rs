@@ -1,5 +1,6 @@
 //! Engine-independent action bindings; physical input cannot write simulation state.
 #![forbid(unsafe_code)]
+pub mod devices;
 use serde::{Deserialize, Serialize};
 use std::{
     collections::{BTreeMap, BTreeSet},
