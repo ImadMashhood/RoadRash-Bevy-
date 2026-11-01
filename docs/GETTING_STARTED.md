@@ -67,7 +67,7 @@ cargo run --locked --release -p rr-game -- --install-root local/game-install --c
 cargo run --locked --release -p rr-game -- --install-root local/game-install --catalog local/catalog --course HIWAY --level 2 --branch-mask 1 --framing wide --window-size 1280x720
 ```
 
-Up/W accelerates, Down/S brakes and Left/Right or A/D steers with the current authored handling. Source rendering is active when both install and catalog roots are provided. Add `--integer-scale on` for whole-pixel enlargement, or use `--camera-sample NUMBER` for a source inspection offset. The [renderer contract](RENDERING.md) documents exact policies and remaining gameplay scope.
+Up/W accelerates, Down/S brakes and Left/Right or A/D steers with source handling in imported races. Source rendering is active when both install and catalog roots are provided. Add `--integer-scale on` for whole-pixel enlargement, or use `--camera-sample NUMBER` for a source inspection offset. The [renderer contract](RENDERING.md) documents exact policies and remaining gameplay scope.
 
 ```sh
 cargo run --locked --release -p rr-render -- authored local/render-authored
@@ -82,3 +82,5 @@ Use [native Fedora build/comparison commands](NATIVE_REFERENCE.md) for the C++ r
 Gamepads now use the standard preset in [INPUT.md](INPUT.md): South/RT accelerates, East/LT brakes, left stick/D-pad steers, Start pauses/resumes. Release controls to neutral after connecting and before explicit resume. The Linux Gilrs backend requires libudev development metadata when building (`systemd-devel` on Fedora, `libudev-dev` on Ubuntu). Recorded schema-1 replays remain supported; `docs/fixtures/replay-analog.json` exercises schema 2.
 
 For saved steering/trigger calibration, open **Road Rash Controller Calibration**, run `./tools/input/calibrate.sh`, or use `cargo run --locked --release -p rr-game --bin rr-calibrate`. The default saved file is loaded by the game at its next launch. [Calibration guide](CALIBRATION.md) covers center/sweep capture, curves, model profiles, CLI editing and exact validation limits.
+
+Parts 09–10 add `--bike 1` through `--bike 15`, `--rider-color 0` through `--rider-color 14`, source-unit handling and source-timed rider visuals. Z/X/C select attack animation inputs; target/hit decisions are later combat work. [HANDLING.md](HANDLING.md) documents the source/native comparison commands. Generate the offline animation inspector and 48 labeled sheets with [ANIMATION.md](ANIMATION.md). Its local HTML opens without a server once exported.

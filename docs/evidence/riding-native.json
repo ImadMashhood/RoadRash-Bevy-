@@ -1,0 +1,55 @@
+{
+  "outcome": "passed",
+  "reference_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+  "physical_original_game_compared": false,
+  "specifications": 15,
+  "checks": [
+    {
+      "family": "handling",
+      "outcome": "passed",
+      "rows": 252000,
+      "native_sha256": "5cbd42b006d0051913cb3430464d4b9c908e4956cfddbcf3aa82c970cd0c8f45",
+      "rust_sha256": "93f76f950cf05e3de6a0677108e37fd7884b9988a8e5793eb04ea0b24f73e989",
+      "angle_cases": 0,
+      "canonical_values_sha256": "93f76f950cf05e3de6a0677108e37fd7884b9988a8e5793eb04ea0b24f73e989"
+    },
+    {
+      "family": "animation",
+      "outcome": "passed",
+      "rows": 10015,
+      "native_sha256": "5919de355062e018a25d1b6f0e8c63b6ac13ffd8b3d0633c6c5e059200e763c2",
+      "rust_sha256": "2169680fbfd5f8110355311a87b31ce6944fd886a95cb4100cd0efd67d655aa0",
+      "angle_cases": 90135,
+      "canonical_values_sha256": "2169680fbfd5f8110355311a87b31ce6944fd886a95cb4100cd0efd67d655aa0"
+    },
+    {
+      "family": "vertical",
+      "outcome": "passed",
+      "rows": 8100,
+      "native_sha256": "3e6bbf474b777464d55079959d331e7102c122fe31ae604cbd1dd3518bb3e376",
+      "rust_sha256": "0697b98dabf069cdb77529d708caa6f9123a6e266b61fd21656fe7818d631709",
+      "angle_cases": 0,
+      "canonical_values_sha256": "0697b98dabf069cdb77529d708caa6f9123a6e266b61fd21656fe7818d631709"
+    },
+    {
+      "family": "palettes",
+      "outcome": "passed",
+      "rows": 2989,
+      "native_sha256": "064bc57893aaeb814a66617ae700c7b712cd6a9b3c8606db007c678d2ccca765",
+      "rust_sha256": "c3b14addde059de87beb28e27492b021211928d2dcfd0da7c328ebb1bb3fd63b",
+      "angle_cases": 0,
+      "canonical_values_sha256": "c3b14addde059de87beb28e27492b021211928d2dcfd0da7c328ebb1bb3fd63b"
+    },
+    {
+      "family": "road-motion",
+      "outcome": "passed",
+      "rows": 27000,
+      "native_sha256": "33099e7ea5ee678b66a2a49e67978062db46f1004f451aefa5db9f8d2b1019be",
+      "rust_sha256": "3f7bef1fd90dc4c36b57d072ddff62e48a9d72dcf06e4f9c21e4e3aac8bffc40",
+      "angle_cases": 0,
+      "canonical_values_sha256": "3f7bef1fd90dc4c36b57d072ddff62e48a9d72dcf06e4f9c21e4e3aac8bffc40"
+    }
+  ],
+  "scope": "source-port APIs, imported specs/tables, synthetic input schedules and vertical impulses; no original executable parity claim",
+  "total_rows": 300104
+}

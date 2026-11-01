@@ -1,0 +1,73 @@
+{
+  "outcome": "passed",
+  "export": {
+    "outcome": "passed",
+    "sequences": 48,
+    "sprites": 186,
+    "tick_hz": 60,
+    "color": 0,
+    "all_contact_sheets_written": true
+  },
+  "last_runtime_identity_exported": 14,
+  "source_shadow_policy": "index zero transparent; other source indices opaque",
+  "browser_review": {
+    "sequence": 10,
+    "tick": 15,
+    "source_frame": 83,
+    "contact_flag": true,
+    "mirror_flag": false,
+    "playback_speed": 0.5,
+    "height_preview": 25,
+    "verified_controls": [
+      "sequence selection",
+      "next tick",
+      "play/pause",
+      "speed selection",
+      "tick slider",
+      "height slider"
+    ],
+    "review": "readable controls; source contact frame visible; body raised while shadow stays on ground; no frame stretching or off-canvas clipping in the reviewed pose"
+  },
+  "captures": [
+    {
+      "name": "browser-review.png",
+      "dimensions": [
+        1265,
+        712
+      ],
+      "sha256": "cb5593bc3eb4e33612682a945291457fabc4f463f005527233d7bad4d724e5a0"
+    },
+    {
+      "name": "sequence-10.png",
+      "dimensions": [
+        1080,
+        230
+      ],
+      "sha256": "4961376f3d06323499cdea7949de75cb81f1eaa423fce658619520a4b324c3df"
+    },
+    {
+      "name": "riding-bevy-30.png",
+      "dimensions": [
+        960,
+        720
+      ],
+      "sha256": "a38bfacb145928bdf88019413478e8197c881dabb15d8263be61e6a80af92c13"
+    },
+    {
+      "name": "riding-bevy-144.png",
+      "dimensions": [
+        960,
+        720
+      ],
+      "sha256": "47916804a381c356b08c3b435a07194991f0aa6bbd8a27340e73cee0219a54a0"
+    },
+    {
+      "name": "riding-live.png",
+      "dimensions": [
+        960,
+        720
+      ],
+      "sha256": "60ac770357c063295c815ca614a5896374bc104b06cd982c3e1f1af685ab7188"
+    }
+  ]
+}

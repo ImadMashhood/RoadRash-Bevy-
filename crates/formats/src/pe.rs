@@ -69,6 +69,14 @@ impl<'a> SupportedExe<'a> {
     pub fn read_va(&self, address: u32, length: usize) -> Result<&'a [u8]> {
         self.0.read_va(address, length)
     }
+    /// Full runtime rider identity bank. The catalog keeps its original ten-preview contract.
+    pub fn all_rider_remaps(&self) -> Result<Vec<[u8; 256]>> {
+        Ok(self
+            .read_va(0x46e158, 15 * 256)?
+            .as_chunks::<256>()
+            .0
+            .to_vec())
+    }
     pub fn rider_remaps(&self) -> Result<Vec<[u8; 256]>> {
         Ok(self
             .read_va(0x46e158, 10 * 256)?

@@ -1,0 +1,381 @@
+{
+  "outcome": "passed",
+  "policy": "Only UTF-8 Rust/Python source, separately authored C++ API probes, manifests, authored fixtures, docs and verification metadata/hashes. No game files, decoded configuration/tables, source pixels, PNGs, traces, native libraries or binaries are published. Audit excludes itself.",
+  "files": [
+    {
+      "path": "Cargo.lock",
+      "bytes": 130956,
+      "sha256": "427d1e3f93cbce55c53dbd88d012ae8096feb3e65a278b822a062b1a4c42516c"
+    },
+    {
+      "path": "README.md",
+      "bytes": 268138,
+      "sha256": "9c1144df3ec1d64221de078e6109b76910117ef014d4b5ce918f422f8a711733"
+    },
+    {
+      "path": "apps/game/src/input_adapter.rs",
+      "bytes": 14787,
+      "sha256": "39eb8c7e69632f3c601708414dd828a200b2f04132056146ee9b05adf3202991"
+    },
+    {
+      "path": "apps/game/src/main.rs",
+      "bytes": 32053,
+      "sha256": "968017213bb862b464b944a0cb5795656acc79f10a9d81040fcbc81da639279f"
+    },
+    {
+      "path": "crates/formats/src/pe.rs",
+      "bytes": 3130,
+      "sha256": "8a1ae7b993313e0effd461e168c0c22587d4186841d49bd7d3e3f2c55d373323"
+    },
+    {
+      "path": "crates/input/src/lib.rs",
+      "bytes": 6890,
+      "sha256": "a104419ebb53744efb5adcb5d365dbcbaa3acc54e33107d34de9171fd8f25808"
+    },
+    {
+      "path": "crates/render/Cargo.toml",
+      "bytes": 418,
+      "sha256": "0c116995a18b379211bf1e59f34444ff898ef88a2123a71877634b44686022f5"
+    },
+    {
+      "path": "crates/render/src/bin/rr-riders.rs",
+      "bytes": 2708,
+      "sha256": "e75eabf493107db2d862bafbb4557d373bdc0868dfb5ce61f5116da4e425c604"
+    },
+    {
+      "path": "crates/render/src/camera.rs",
+      "bytes": 12267,
+      "sha256": "aedbe85e08bec371aafef61c92001e2091808d2ed268a16a86eb8153c037f16a"
+    },
+    {
+      "path": "crates/render/src/lib.rs",
+      "bytes": 455,
+      "sha256": "e22770c6e4286beb3f59ee551d4238429ab9c6c33461003dfb3f8da00a186fb3"
+    },
+    {
+      "path": "crates/render/src/raster.rs",
+      "bytes": 11406,
+      "sha256": "29cd3743fecb0c45fa1daf9acf0fde8b088d3d14477bdeb1fce9fda6e26dacce"
+    },
+    {
+      "path": "crates/render/src/rider.rs",
+      "bytes": 2830,
+      "sha256": "4bdb1a525fc2147e72951df761c7301b85d82e7bdb4bd7ad0a7215761ae3eb9a"
+    },
+    {
+      "path": "crates/render/src/scene.rs",
+      "bytes": 37703,
+      "sha256": "dc50532fda844c2749f69318b957391f4274819dbc2ae090c8f8ce40072332ce"
+    },
+    {
+      "path": "crates/render/src/source.rs",
+      "bytes": 16197,
+      "sha256": "d44ae11ca472c5c18b6c02f464fe2ae7eb029d739b89cb6fd397ec470da5b12c"
+    },
+    {
+      "path": "crates/render/tests/classic.rs",
+      "bytes": 31885,
+      "sha256": "3f022bb9377d0e77389a3ed5b19b916b01db0b9b56da3c4d4ee5f593ba6b7199"
+    },
+    {
+      "path": "crates/simulation/Cargo.toml",
+      "bytes": 307,
+      "sha256": "8a3bd352fd7b36dd0e958bf77daf5f99db6b74c4490517352d93446c1380ea3d"
+    },
+    {
+      "path": "crates/simulation/src/animation.rs",
+      "bytes": 21878,
+      "sha256": "b3c2ea57af2d4910c749072f620197c717d545abd99552b2f137cb360efe3fbe"
+    },
+    {
+      "path": "crates/simulation/src/bin/rr-animation.rs",
+      "bytes": 1807,
+      "sha256": "0df6d622a0402a7b6037f1f4efb39724e18fdea02ddd135501ee1985b4f176ce"
+    },
+    {
+      "path": "crates/simulation/src/bin/rr-handling.rs",
+      "bytes": 3033,
+      "sha256": "65f1f4a0af32c60d6aabcf486e9f4a15c8985d750d60cb6fc523281b06acfe62"
+    },
+    {
+      "path": "crates/simulation/src/bin/rr-palettes.rs",
+      "bytes": 1682,
+      "sha256": "76b43d7731fab9c3f8fe38e02b753ad7208f63cd007c6b77706b8a14a591b768"
+    },
+    {
+      "path": "crates/simulation/src/bin/rr-riding-check.rs",
+      "bytes": 4712,
+      "sha256": "5555ef102d19a4323b2f49966df735b5351238a980abe6a44f3b87caf3c020a5"
+    },
+    {
+      "path": "crates/simulation/src/bin/rr-road-motion.rs",
+      "bytes": 2569,
+      "sha256": "65a5999daf0580980907689e77122d33d7b270fae5c1fc21251a6c9add524e1c"
+    },
+    {
+      "path": "crates/simulation/src/bin/rr-vertical.rs",
+      "bytes": 1745,
+      "sha256": "6f99854396f230261fcb4f377eec72432e1bb027f6e602ca4ed764322208b312"
+    },
+    {
+      "path": "crates/simulation/src/bin/support/mod.rs",
+      "bytes": 929,
+      "sha256": "a592693e3019ade21201d74a43bf4dc6f77e35f7c4abc5cc78daebd41f6aabdb"
+    },
+    {
+      "path": "crates/simulation/src/handling.rs",
+      "bytes": 19921,
+      "sha256": "08069dd616adf25e2b0dc95ee40d0b2568be3e438ed33e228ebc809433893dff"
+    },
+    {
+      "path": "crates/simulation/src/lib.rs",
+      "bytes": 20310,
+      "sha256": "d18009f8658f84c0ca72b70004f258e79891cefe3fc1c45f90a65cb96df53cc1"
+    },
+    {
+      "path": "crates/simulation/src/replay.rs",
+      "bytes": 5403,
+      "sha256": "d47e8a12650327ae80e0a897bf1dd551e9214272cee48f9e8c43028b542cb2da"
+    },
+    {
+      "path": "crates/simulation/src/riding.rs",
+      "bytes": 10414,
+      "sha256": "f13751ba9bc3bec2ec24389855f9ef5a58127ab3748706dbece1db8f28dfc688"
+    },
+    {
+      "path": "crates/simulation/tests/core.rs",
+      "bytes": 14626,
+      "sha256": "cdcf4d2f90262f2ce65dc2caa1544a522922a10ffc5301b2db57afac38f13b91"
+    },
+    {
+      "path": "crates/simulation/tests/riding.rs",
+      "bytes": 16845,
+      "sha256": "d855e6de9e8d8beb8cbe6e66277d80bde2b9dc884a515b2b746c2b637e485ea6"
+    },
+    {
+      "path": "docs/ANIMATION.md",
+      "bytes": 6671,
+      "sha256": "388e57b33f2fe10013c1b3dc606f98bb9f7d1ee32be4a0f55a7ac9feea011b8e"
+    },
+    {
+      "path": "docs/ARCHITECTURE.md",
+      "bytes": 4756,
+      "sha256": "155d338adc4b1fe1e9435e68b36ecd5dfe266a614f8e517e06812f355337e634"
+    },
+    {
+      "path": "docs/GETTING_STARTED.md",
+      "bytes": 7545,
+      "sha256": "dcd1e76373286810b5594d3b832ac04c59c0437474ae0653fe854c7eb462213a"
+    },
+    {
+      "path": "docs/HANDLING.md",
+      "bytes": 7278,
+      "sha256": "6f5e56c957a72e89d80a3f0b266dd07c960c1037036f39d19d81bf4b07e36767"
+    },
+    {
+      "path": "docs/INPUT.md",
+      "bytes": 8526,
+      "sha256": "e81c6d920eb8372fe896730d9f36214c869563ecab89dae85a264facb823a6a0"
+    },
+    {
+      "path": "docs/RENDERING.md",
+      "bytes": 14583,
+      "sha256": "b9d26fed505ddbbfa2e05d111c2d3aea1a72fbddbc9be9459585e1037c37d0a0"
+    },
+    {
+      "path": "docs/SIMULATION.md",
+      "bytes": 7502,
+      "sha256": "ce84465ae98d36caadb1a2b8c599c84df78ad8736b43aaa8a913c8c6f2606974"
+    },
+    {
+      "path": "docs/STATUS.md",
+      "bytes": 4548,
+      "sha256": "ba1d2de8ac1339cef5cbe146452807bcf6dde562c2ae0bad29237a59b71891e0"
+    },
+    {
+      "path": "docs/baseline/evidence-ledger.json",
+      "bytes": 4984,
+      "sha256": "cf03770051ae0a610d541ff40fee8d12db335c5eddeb288e933fc545d2b9e130"
+    },
+    {
+      "path": "docs/evidence/09.04.md",
+      "bytes": 1078,
+      "sha256": "faa0119db27035d3e02ffe3ad270d7ac35ef702ad35522f575aa05693957667f"
+    },
+    {
+      "path": "docs/evidence/09.05.md",
+      "bytes": 1064,
+      "sha256": "3402d3c673404e3c352fc5519a6746bd3845e520a79d1fc16f4b5cf55a17b4d6"
+    },
+    {
+      "path": "docs/evidence/09.06.md",
+      "bytes": 1136,
+      "sha256": "5822e84f064ed0b13e8904bbcd1fc06165a764a88b8b3ed7407d2425a5e703e9"
+    },
+    {
+      "path": "docs/evidence/09.07.md",
+      "bytes": 1137,
+      "sha256": "be91660af21550ddd1ec814ca4aeb2ee898a09ae6346348e8b18eb4d16cddd38"
+    },
+    {
+      "path": "docs/evidence/09.08.md",
+      "bytes": 1103,
+      "sha256": "877744f8b2e5160ab872ca17a6a8c0a6ee536497b25c7062e4627beaaa2ddec7"
+    },
+    {
+      "path": "docs/evidence/09.09.md",
+      "bytes": 1106,
+      "sha256": "dba1af1678f35d3603bfdcc1a4ac23cd046a1b124bac93f3db48d8e4adca6aa7"
+    },
+    {
+      "path": "docs/evidence/09.10.md",
+      "bytes": 1092,
+      "sha256": "326c77009a653add4f6050ca046497af464609c49e1cc5f090f0054e0272a2b4"
+    },
+    {
+      "path": "docs/evidence/09.12.md",
+      "bytes": 1200,
+      "sha256": "0ce56b9207903acd544711d7d4275cdb87d3ec7ce486ffb1a345c95482a7ceb4"
+    },
+    {
+      "path": "docs/evidence/10.01.md",
+      "bytes": 1135,
+      "sha256": "21de28010fdc23f6612cc069f409a2cc9ea8c8bc396e2a35c997d449f2f2c35a"
+    },
+    {
+      "path": "docs/evidence/10.02.md",
+      "bytes": 1137,
+      "sha256": "2d9970a073b4a54ab2c2c3fd6a0ced467038cec52a10a1dc16c16aacef317ddd"
+    },
+    {
+      "path": "docs/evidence/10.03.md",
+      "bytes": 1139,
+      "sha256": "4dda860d57e279e435344d8b29f1ef3c4ad6b654bcb0bb34b2bc1caa8730ce6a"
+    },
+    {
+      "path": "docs/evidence/10.04.md",
+      "bytes": 1182,
+      "sha256": "579040677e7ae712d570a1d234ad8f5555d1dec5ebbbac83abc7be115c9a3cd1"
+    },
+    {
+      "path": "docs/evidence/10.05.md",
+      "bytes": 1143,
+      "sha256": "99d55bc7e46798b687cf601c6236e8d313d0956f798657e0975f65bf1df1e807"
+    },
+    {
+      "path": "docs/evidence/10.06.md",
+      "bytes": 1173,
+      "sha256": "ae3619f867dfa4a5a993357fd41ab13fec7f05818283a13207f8476062bda3cd"
+    },
+    {
+      "path": "docs/evidence/10.07.md",
+      "bytes": 1156,
+      "sha256": "97d0986dab2d6d5f7de5109706d6d4edcd557c2d9a45345ae70d208eb68a9276"
+    },
+    {
+      "path": "docs/evidence/10.08.md",
+      "bytes": 1213,
+      "sha256": "189f55ff4fc5542365fb508bf4ba44c3d8db2f950357dd18172a018e880ca5e2"
+    },
+    {
+      "path": "docs/evidence/10.09.md",
+      "bytes": 1213,
+      "sha256": "532d5bd434dbbb825e3c5cdc558350456205c31642f091f1a1951e6fce3b7de5"
+    },
+    {
+      "path": "docs/evidence/10.10.md",
+      "bytes": 1209,
+      "sha256": "368c5473d700f50768490d72fbc7f840f04516bf905af03e8f9dab577899d1d2"
+    },
+    {
+      "path": "docs/evidence/10.11.md",
+      "bytes": 1289,
+      "sha256": "b23a0fe980b52a75debbfdc32d48fd3abc3a5a7b58c693ea82939d978815cd1a"
+    },
+    {
+      "path": "docs/evidence/10.12.md",
+      "bytes": 1217,
+      "sha256": "c9064ca21dfb8579209e6c70d078a8219cd0a39dd01fe760cb6d60cef0c27d6f"
+    },
+    {
+      "path": "docs/evidence/part-09.md",
+      "bytes": 4548,
+      "sha256": "d67a5d88f5f5f6715cd53ec34f43b6a374cd7eca49b38f29dd3533be3faa8e36"
+    },
+    {
+      "path": "docs/evidence/part-10.md",
+      "bytes": 3759,
+      "sha256": "da1bd86310c7b7d89b5433c0421b493eaa6c55292d2ed8fd8052c21d21ec66a2"
+    },
+    {
+      "path": "docs/evidence/riding-checks.json",
+      "bytes": 1215,
+      "sha256": "0280a866d167ea14ee392473be4a8f97d83f8a248cb499887fd296f4f1a0046f"
+    },
+    {
+      "path": "docs/evidence/riding-native.json",
+      "bytes": 2316,
+      "sha256": "ad0d226e0ca4c5a75861ca9f07a2acd254a88cd07d414fea965cc9cff2eccfa4"
+    },
+    {
+      "path": "docs/evidence/riding-replays.json",
+      "bytes": 1661,
+      "sha256": "3607197c70261384ecf33602b9a7ec7737a37be2a139790c13ee2436e8ea461c"
+    },
+    {
+      "path": "docs/evidence/riding-visual.json",
+      "bytes": 1795,
+      "sha256": "6a83eff366fa9d7efbebfadf51ac6f9517aa17ada43625cc012d61de5b6273ea"
+    },
+    {
+      "path": "docs/fixtures/riding-regression.json",
+      "bytes": 561,
+      "sha256": "052f2aa82db49d661af5d626dd4c15c323730b578fc582929f023cfa99344f30"
+    },
+    {
+      "path": "tools/animation/plot_handling.py",
+      "bytes": 2517,
+      "sha256": "b830f116229bd557e772603041e4f64d7e1b4af4e0c1a5f96e296f424e0307b4"
+    },
+    {
+      "path": "tools/animation/preview.py",
+      "bytes": 7928,
+      "sha256": "08401b129a8133a8b17c4260c21040843fd530fd4238291b04b59e1ce994b027"
+    },
+    {
+      "path": "tools/check_workflow_guards.py",
+      "bytes": 1430,
+      "sha256": "9c2d10123c3728e69e7e09b718860fed5a0ba0b787c9d0fb33ad97d5f0521f09"
+    },
+    {
+      "path": "tools/reference/animation.cpp",
+      "bytes": 1424,
+      "sha256": "b3e3db4e733f6bc5c4e928b79faeed1eeceb0a71201b9dee16b86b74becd9d9a"
+    },
+    {
+      "path": "tools/reference/check_riding.py",
+      "bytes": 3337,
+      "sha256": "ed47eda3aad1e8bda3a5b8547475874bd2d68208d3d970434c9aa302d013f391"
+    },
+    {
+      "path": "tools/reference/handling.cpp",
+      "bytes": 1250,
+      "sha256": "db2776116fde99670755f3b471d0978267da164b7ed78c63a31757a4d0b68b6e"
+    },
+    {
+      "path": "tools/reference/palettes.cpp",
+      "bytes": 852,
+      "sha256": "fa797715080530de74efa3c3a41ac4959af5eaf777919cdfc7ce278283806a90"
+    },
+    {
+      "path": "tools/reference/road-motion.cpp",
+      "bytes": 1244,
+      "sha256": "847d5c09922c573f990fa4c9b7be3b1eb0284a190f66e75cf681c145c24dd97b"
+    },
+    {
+      "path": "tools/reference/vertical.cpp",
+      "bytes": 1156,
+      "sha256": "18395b0baba04b184cc65348ce8cf0450288de468b01aa51db8344a045a80409"
+    }
+  ]
+}

@@ -71,6 +71,8 @@ fn sprite(id: &str, class: SpriteClass, color: [u8; 4], depth: f64) -> Billboard
         pivot: [0.5, 1.],
         texture: Texture::solid(color),
         mirror: false,
+        rotation: 0.,
+        clip_ground: true,
     }
 }
 #[test]
@@ -846,4 +848,124 @@ fn repeated_capture_can_replace_its_existing_output_file() {
     std::fs::write(out, b"new capture").unwrap();
     assert_eq!(std::fs::read(file).unwrap(), b"new capture");
     std::fs::remove_dir_all(dir).unwrap();
+}
+
+#[test]
+fn animation_frame_pivots_palette_and_ground_shadow_survive_airborne_transition() {
+    use rr_simulation::{
+        animation::{Player, Pose, Weapon},
+        handling::Bike,
+        riding::Rider,
+    };
+    let mut scene = scene();
+    let sprite = |color, logical, pivot| SpriteAsset {
+        texture: Texture::solid(color),
+        logical,
+        pivot,
+    };
+    scene.assets.animations = Some(std::sync::Arc::new(rr_render::rider::RiderAssets {
+        bodies: vec![
+            Some(sprite([245, 5, 100, 255], [20., 40.], [0.25, 0.75])),
+            Some(sprite([5, 245, 100, 255], [40., 60.], [0.75, 0.5])),
+        ],
+        shadows: vec![Some(sprite([0, 0, 0, 128], [80., 8.], [0.5, 0.5])); 2],
+        color: 0,
+    }));
+    let mut snapshot = snap();
+    snapshot.actors[0].rider = Some(Rider {
+        bike: Bike::default(),
+        animation: Player::default(),
+        pose: Pose::Ride,
+        weapon: Weapon::Fists,
+        frame: 0,
+        mirror: false,
+        view_flags: 0,
+        roll: 0,
+        flags: 0,
+        contact_frame: false,
+        pose_ticks: 0,
+    });
+    let spec = CameraSpec::default();
+    let (base, receipt) = scene.draw(&spec, &view(), &snapshot, false).unwrap();
+    let bounds = receipt.rider_bounds.unwrap();
+    let original_bounds = bounds;
+    assert_eq!(bounds[2] - bounds[0], 40.);
+    assert_eq!(bounds[3] - bounds[1], 80.);
+    snapshot.actors[0].rider.as_mut().unwrap().bike.height = 30 * 256;
+    let (air, _) = scene.draw(&spec, &view(), &snapshot, false).unwrap();
+    // Observe a body-free patch around the ground anchor, comparing against an
+    // otherwise identical draw without a shadow. This cannot pass on HUD pixels.
+    let saved_shadow = scene.assets.animations.as_ref().unwrap().shadows.clone();
+    std::sync::Arc::get_mut(scene.assets.animations.as_mut().unwrap())
+        .unwrap()
+        .shadows = vec![None; 2];
+    snapshot.actors[0].rider.as_mut().unwrap().bike.height = 0;
+    let (without_shadow, _) = scene.draw(&spec, &view(), &snapshot, false).unwrap();
+    std::sync::Arc::get_mut(scene.assets.animations.as_mut().unwrap())
+        .unwrap()
+        .shadows = saved_shadow;
+    let region = |f: &Frame| {
+        f.image
+            .pixels
+            .as_chunks::<4>()
+            .0
+            .iter()
+            .enumerate()
+            .filter_map(|(i, c)| {
+                ((240..300).contains(&(i % 640)) && (320..340).contains(&(i / 640))).then_some(*c)
+            })
+            .collect::<Vec<_>>()
+    };
+    assert_ne!(
+        region(&base),
+        region(&without_shadow),
+        "shadow must actually contribute pixels near the ground anchor"
+    );
+    assert_eq!(region(&base), region(&air));
+    let r = snapshot.actors[0].rider.as_mut().unwrap();
+    r.frame = 1;
+    r.bike.height = 0;
+    let (next, receipt) = scene.draw(&spec, &view(), &snapshot, false).unwrap();
+    let bounds = receipt.rider_bounds.unwrap();
+    assert_eq!(bounds[2] - bounds[0], 80.);
+    assert_eq!(bounds[3] - bounds[1], 120.);
+    assert_ne!(base.image.pixels, next.image.pixels);
+    let anchor = |bounds: [f64; 4], pivot: [f64; 2]| {
+        [
+            bounds[0] + (bounds[2] - bounds[0]) * pivot[0],
+            bounds[1] + (bounds[3] - bounds[1]) * pivot[1],
+        ]
+    };
+    assert_eq!(
+        anchor(bounds, [0.75, 0.5]),
+        anchor(original_bounds, [0.25, 0.75])
+    );
+    snapshot.actors[0].rider.as_mut().unwrap().mirror = true;
+    let (_, mirrored) = scene.draw(&spec, &view(), &snapshot, false).unwrap();
+    assert_eq!(
+        anchor(mirrored.rider_bounds.unwrap(), [0.25, 0.5]),
+        anchor(original_bounds, [0.25, 0.75])
+    );
+    snapshot.actors[0].rider.as_mut().unwrap().frame = 2;
+    let (_, empty) = scene.draw(&spec, &view(), &snapshot, false).unwrap();
+    assert!(
+        empty.rider_bounds.is_none(),
+        "empty source slot must not fall back to an unrelated rider frame"
+    );
+}
+#[test]
+fn billboard_rotation_preserves_zero_angle_and_changes_nonzero_pose() {
+    let spec = CameraSpec::default();
+    let depths = DepthTable::authored();
+    let mut a = Frame::new(640, 480).unwrap();
+    let mut b = Frame::new(640, 480).unwrap();
+    let mut c = Frame::new(640, 480).unwrap();
+    let mut s = sprite("rider", SpriteClass::Racer, [255, 0, 255, 255], 512.);
+    draw_billboards(&mut a, &mut [s.clone()], &spec, &depths);
+    s.rotation = 0.;
+    draw_billboards(&mut b, &mut [s.clone()], &spec, &depths);
+    assert_eq!(a.image.pixels, b.image.pixels);
+    s.rotation = 0.2;
+    draw_billboards(&mut c, &mut [s], &spec, &depths);
+    assert_ne!(a.image.pixels, c.image.pixels);
 }

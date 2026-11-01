@@ -92,8 +92,8 @@ impl Default for View {
         }
     }
 }
-/// Explicit authored bridge until Phase 09 recovers handling units: eight
-/// scenario millimetres advance one source Q8 unit; ten map to one lane unit.
+/// Schema 3 reads source Q8 positions directly. Legacy scenarios retain the
+/// original authored bridge (8 mm per source Q8, 10 mm per lane unit).
 pub fn snapshot_view(
     previous: &rr_simulation::Snapshot,
     current: &rr_simulation::Snapshot,
@@ -106,6 +106,24 @@ pub fn snapshot_view(
         0.
     };
     let mix = |x: f64, y: f64| x + (y - x) * a;
+    if let (Some(old), Some(new)) = (
+        previous
+            .actors
+            .iter()
+            .find(|a| a.id.0 == 1)
+            .and_then(|a| a.rider.as_ref()),
+        current
+            .actors
+            .iter()
+            .find(|a| a.id.0 == 1)
+            .and_then(|a| a.rider.as_ref()),
+    ) {
+        return View {
+            position_q8: start_q8 + mix(old.bike.distance_q8 as f64, new.bike.distance_q8 as f64),
+            lateral: mix(f64::from(old.bike.lateral), f64::from(new.bike.lateral)) / 256.,
+            heading: 0,
+        };
+    }
     View {
         position_q8: start_q8 + mix(previous.distance_mm as f64, current.distance_mm as f64) / 8.,
         lateral: mix(
@@ -312,6 +330,14 @@ pub fn interpolated_snapshot(
                         actor.position.section,
                     )
         }) {
+            if let (Some(old_rider), Some(rider)) = (&old.rider, &mut actor.rider) {
+                rider.bike.lateral = (f64::from(old_rider.bike.lateral)
+                    + (f64::from(rider.bike.lateral) - f64::from(old_rider.bike.lateral)) * a)
+                    .round() as i32;
+                rider.bike.height = (f64::from(old_rider.bike.height)
+                    + (f64::from(rider.bike.height) - f64::from(old_rider.bike.height)) * a)
+                    .round() as i32;
+            }
             actor.position.lateral.0 = (old.position.lateral.0 as f64
                 + (actor.position.lateral.0 as f64 - old.position.lateral.0 as f64) * a)
                 .round() as i64;

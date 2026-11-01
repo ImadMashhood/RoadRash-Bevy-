@@ -1,0 +1,11 @@
+{
+  "description": "Independently calculated answers for the redistributable spec/tables in simulation/tests/riding.rs; not commercial game constants.",
+  "initial_speed": 0,
+  "throttle_speed_first_five": [3, 10, 21, 36, 55],
+  "brake_initial_speed": 2000,
+  "brake_speed_first_five": [1988, 1960, 1932, 1904, 1876],
+  "brake_note": "At tick 2 current force equals the negative rate; source v > rate is false and snaps force to its limit.",
+  "clip_duration": 3,
+  "contact_first_tick": 4,
+  "transition_policy": "hard cut at the shared world ground anchor"
+}

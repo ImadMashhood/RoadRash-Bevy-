@@ -9,6 +9,8 @@ pub struct Replay {
     pub commands: Vec<QueuedCommand>,
     pub route: Option<Route>,
     pub expected_hash: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub handling: Option<riding::Configuration>,
 }
 impl Replay {
     pub fn read_file(
@@ -38,6 +40,9 @@ impl Replay {
         if replay.commands.iter().any(|c| c.tick.0 >= replay.ticks) {
             return Err("command outside replay duration".into());
         }
+        if (replay.schema_version == 3) != replay.handling.is_some() {
+            return Err("schema-3 replay requires handling configuration".into());
+        }
         if replay.schema_version == 1 && replay.commands.iter().any(|c| c.input.steer_q15.is_some())
         {
             return Err("analog steering requires replay schema 2".into());
@@ -56,11 +61,18 @@ pub struct Playback {
 }
 impl Playback {
     pub fn new(replay: Replay) -> Result<Self> {
-        let mut simulation = Simulation::with_schema(
-            replay.seed,
-            replay.route.unwrap_or_else(Route::straight),
-            replay.schema_version,
-        )?;
+        let mut simulation = if let Some(config) = replay.handling {
+            if replay.schema_version != 3 {
+                return Err(Error::Invalid("handling requires schema 3"));
+            }
+            Simulation::with_handling(replay.seed, config)?
+        } else {
+            Simulation::with_schema(
+                replay.seed,
+                replay.route.unwrap_or_else(Route::straight),
+                replay.schema_version,
+            )?
+        };
         for command in replay.commands {
             simulation.queue(command)?;
         }

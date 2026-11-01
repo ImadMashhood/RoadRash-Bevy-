@@ -4,10 +4,10 @@
 
 A Rust and Bevy recreation of the PC Road Rash experience, with a faithful classic presentation, individually reviewed AI-enhanced textures, and a modular design that leaves room for a later 3D version.
 
-Parts 01–08 now have implementation and acceptance evidence: a verified importer, bounded decoders, content catalog/inspector, deterministic simulation/presentation scaffold and validated source course graph/explorer and classic road renderer. This is not a complete playable recreation. Later phases remain open; the separate local prototype is preserved independently.
+Parts 01–10 now have implementation and acceptance evidence: a verified importer, bounded decoders, content catalog/inspector, deterministic simulation/presentation scaffold and validated source course graph/explorer and classic road renderer. This is not a complete playable recreation. Later phases remain open; the separate local prototype is preserved independently.
 
 
-The [Fedora native reference and sizing measurements](docs/NATIVE_REFERENCE.md) now calibrate rider/road presentation. Part 9 now includes [remappable keyboard/gamepad input and safe device lifecycle](docs/INPUT.md): 09.01, 09.02, 09.03 and 09.11 are complete. [Native controller calibration](docs/CALIBRATION.md) now has a live preview and saved profiles; acceleration/gearing (09.04) is next.
+The [Fedora native reference](docs/NATIVE_REFERENCE.md) now validates [source-unit handling](docs/HANDLING.md) and [rider animation/palette fidelity](docs/ANIMATION.md). **Parts 09 and 10 are complete** with 15 source bike specifications, versioned handling/replay, tick-driven animations, ground shadows and an offline animation inspector. The next open phase is **11: combat**.
 
 Run the current source-course view after local import/conversion:
 
@@ -15,7 +15,7 @@ Run the current source-course view after local import/conversion:
 cargo run --locked --release -p rr-game -- --install-root local/game-install --catalog local/catalog --course CITY
 ```
 
-[Classic renderer controls, camera policy and checkpoints](docs/RENDERING.md). Handling remains the authored baseline until Part 09; animation, combat, opponents and career are later work.
+[Classic renderer controls, camera policy and checkpoints](docs/RENDERING.md). Imported races now use schema-3 source handling and rider animation. The data-free fallback retains its authored model. Combat decisions, opponents, recovery gameplay and career remain later work.
 
 ## 1. Scope and definition of complete
 
@@ -1093,47 +1093,61 @@ Research: [src/input.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd
   - [x] **09.03.b — Verify:** Test center drift, full deflection and left/right symmetry.
   - [x] **09.03.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/09.03.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **09.04 — Reproduce acceleration and gearing**
+- [x] **09.04 — Reproduce acceleration and gearing**
 
-  - [ ] **09.04.a — Implement:** Recover torque/acceleration and gear-change behavior per bike.
-  - [ ] **09.04.b — Verify:** Compare speed-versus-tick traces from stationary start to top speed.
-  - [ ] **09.04.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/09.04.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  Completed: [implementation and acceptance evidence](docs/evidence/09.04.md).
 
-- [ ] **09.05 — Reproduce braking and coasting**
+  - [x] **09.04.a — Implement:** Recover torque/acceleration and gear-change behavior per bike.
+  - [x] **09.04.b — Verify:** Compare speed-versus-tick traces from stationary start to top speed.
+  - [x] **09.04.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/09.04.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-  - [ ] **09.05.a — Implement:** Implement throttle release, brake force and low-speed stopping behavior.
-  - [ ] **09.05.b — Verify:** Measure stopping distance and ensure braking cannot produce unintended reverse speed.
-  - [ ] **09.05.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/09.05.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+- [x] **09.05 — Reproduce braking and coasting**
 
-- [ ] **09.06 — Reproduce lean and lateral motion**
+  Completed: [implementation and acceptance evidence](docs/evidence/09.05.md).
 
-  - [ ] **09.06.a — Implement:** Model lean response and lateral displacement in domain units.
-  - [ ] **09.06.b — Verify:** Compare left/right maneuvers at several speeds and steering durations.
-  - [ ] **09.06.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/09.06.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **09.05.a — Implement:** Implement throttle release, brake force and low-speed stopping behavior.
+  - [x] **09.05.b — Verify:** Measure stopping distance and ensure braking cannot produce unintended reverse speed.
+  - [x] **09.05.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/09.05.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **09.07 — Reproduce hill and airborne behavior**
+- [x] **09.06 — Reproduce lean and lateral motion**
 
-  - [ ] **09.07.a — Implement:** Implement grade influence, launch, airtime and landing transitions.
-  - [ ] **09.07.b — Verify:** Test crests and landings without relying on render-frame delta time.
-  - [ ] **09.07.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/09.07.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  Completed: [implementation and acceptance evidence](docs/evidence/09.06.md).
 
-- [ ] **09.08 — Reproduce surface-dependent handling**
+  - [x] **09.06.a — Implement:** Model lean response and lateral displacement in domain units.
+  - [x] **09.06.b — Verify:** Compare left/right maneuvers at several speeds and steering durations.
+  - [x] **09.06.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/09.06.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-  - [ ] **09.08.a — Implement:** Resolve surface type from road/shoulder/terrain position.
-  - [ ] **09.08.b — Verify:** Compare traction and deceleration when crossing each boundary.
-  - [ ] **09.08.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/09.08.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+- [x] **09.07 — Reproduce hill and airborne behavior**
 
-- [ ] **09.09 — Implement bike damage and failure**
+  Completed: [implementation and acceptance evidence](docs/evidence/09.07.md).
 
-  - [ ] **09.09.a — Implement:** Track damage thresholds and resulting handling/failure transitions.
-  - [ ] **09.09.b — Verify:** Test exact threshold equality and repeated damage after failure.
-  - [ ] **09.09.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/09.09.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **09.07.a — Implement:** Implement grade influence, launch, airtime and landing transitions.
+  - [x] **09.07.b — Verify:** Test crests and landings without relying on render-frame delta time.
+  - [x] **09.07.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/09.07.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **09.10 — Validate every bike specification**
+- [x] **09.08 — Reproduce surface-dependent handling**
 
-  - [ ] **09.10.a — Implement:** Load all supported bike specifications through the same schema.
-  - [ ] **09.10.b — Verify:** Report missing fields and compare representative slow, fast and heavy bikes.
-  - [ ] **09.10.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/09.10.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  Completed: [implementation and acceptance evidence](docs/evidence/09.08.md).
+
+  - [x] **09.08.a — Implement:** Resolve surface type from road/shoulder/terrain position.
+  - [x] **09.08.b — Verify:** Compare traction and deceleration when crossing each boundary.
+  - [x] **09.08.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/09.08.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+
+- [x] **09.09 — Implement bike damage and failure**
+
+  Completed: [implementation and acceptance evidence](docs/evidence/09.09.md).
+
+  - [x] **09.09.a — Implement:** Track damage thresholds and resulting handling/failure transitions.
+  - [x] **09.09.b — Verify:** Test exact threshold equality and repeated damage after failure.
+  - [x] **09.09.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/09.09.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+
+- [x] **09.10 — Validate every bike specification**
+
+  Completed: [implementation and acceptance evidence](docs/evidence/09.10.md).
+
+  - [x] **09.10.a — Implement:** Load all supported bike specifications through the same schema.
+  - [x] **09.10.b — Verify:** Report missing fields and compare representative slow, fast and heavy bikes.
+  - [x] **09.10.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/09.10.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
 - [x] **09.11 — Pause safely on focus loss and disconnect**
 
@@ -1143,11 +1157,13 @@ Research: [src/input.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd
   - [x] **09.11.b — Verify:** Verify held throttle does not remain stuck after reconnection.
   - [x] **09.11.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/09.11.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **09.12 — Compare acceleration braking and cornering traces**
+- [x] **09.12 — Compare acceleration braking and cornering traces**
 
-  - [ ] **09.12.a — Implement:** Create measured input scripts with known initial conditions.
-  - [ ] **09.12.b — Verify:** Plot speed, lateral position and state transitions against versioned engine regression fixtures.
-  - [ ] **09.12.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/09.12.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  Completed: [implementation and acceptance evidence](docs/evidence/09.12.md).
+
+  - [x] **09.12.a — Implement:** Create measured input scripts with known initial conditions.
+  - [x] **09.12.b — Verify:** Plot speed, lateral position and state transitions against versioned engine regression fixtures.
+  - [x] **09.12.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/09.12.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
 
 **Exit evidence:** a reproducible demonstration of input and player handling, linked implementation revision, recorded checks and known limitations. Dependent phases may prototype early, but this gate stays open until its checks pass.
@@ -1167,77 +1183,101 @@ Research: [src/input.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd
 
 Research: [src/rider_sprites.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/rider_sprites.cpp), [src/actor_animation.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/actor_animation.cpp), [src/animation.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/animation.cpp).
 
-- [ ] **10.01 — Map animation states to frame sequences**
+- [x] **10.01 — Map animation states to frame sequences**
 
-  - [ ] **10.01.a — Implement:** Create explicit state-to-animation mappings with fallback policy.
-  - [ ] **10.01.b — Verify:** Report missing required states before a race starts.
-  - [ ] **10.01.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/10.01.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  Completed: [implementation and acceptance evidence](docs/evidence/10.01.md).
 
-- [ ] **10.02 — Preserve original per-frame timing**
+  - [x] **10.01.a — Implement:** Create explicit state-to-animation mappings with fallback policy.
+  - [x] **10.01.b — Verify:** Report missing required states before a race starts.
+  - [x] **10.01.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/10.01.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-  - [ ] **10.02.a — Implement:** Convert source animation durations to simulation-driven timing.
-  - [ ] **10.02.b — Verify:** Compare full loops under varying render frame rates.
-  - [ ] **10.02.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/10.02.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+- [x] **10.02 — Preserve original per-frame timing**
 
-- [ ] **10.03 — Implement steering and lean poses**
+  Completed: [implementation and acceptance evidence](docs/evidence/10.02.md).
 
-  - [ ] **10.03.a — Implement:** Select lean/steer views from simulation state and documented thresholds.
-  - [ ] **10.03.b — Verify:** Test threshold crossings for oscillation and abrupt view changes.
-  - [ ] **10.03.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/10.03.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **10.02.a — Implement:** Convert source animation durations to simulation-driven timing.
+  - [x] **10.02.b — Verify:** Compare full loops under varying render frame rates.
+  - [x] **10.02.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/10.02.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **10.04 — Implement punch kick and backhand poses**
+- [x] **10.03 — Implement steering and lean poses**
 
-  - [ ] **10.04.a — Implement:** Map each attack phase to its intended visual frames.
-  - [ ] **10.04.b — Verify:** Verify visible contact frames agree with gameplay hit timing.
-  - [ ] **10.04.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/10.04.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  Completed: [implementation and acceptance evidence](docs/evidence/10.03.md).
 
-- [ ] **10.05 — Implement weapon carrying poses**
+  - [x] **10.03.a — Implement:** Select lean/steer views from simulation state and documented thresholds.
+  - [x] **10.03.b — Verify:** Test threshold crossings for oscillation and abrupt view changes.
+  - [x] **10.03.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/10.03.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-  - [ ] **10.05.a — Implement:** Represent equipped weapons as state or attachments with stable anchors.
-  - [ ] **10.05.b — Verify:** Test theft and drop transitions without stale weapon images.
-  - [ ] **10.05.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/10.05.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+- [x] **10.04 — Implement punch kick and backhand poses**
 
-- [ ] **10.06 — Implement crash and slide frames**
+  Completed: [implementation and acceptance evidence](docs/evidence/10.04.md).
 
-  - [ ] **10.06.a — Implement:** Drive crash and slide animations from authoritative crash states.
-  - [ ] **10.06.b — Verify:** Verify high-speed and low-speed crashes select coherent sequences.
-  - [ ] **10.06.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/10.06.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **10.04.a — Implement:** Map each attack phase to its intended visual frames.
+  - [x] **10.04.b — Verify:** Verify visible contact frames agree with gameplay hit timing.
+  - [x] **10.04.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/10.04.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **10.07 — Implement getting up and on-foot states**
+- [x] **10.05 — Implement weapon carrying poses**
 
-  - [ ] **10.07.a — Implement:** Implement get-up, standing, walking and remount sequences explicitly.
-  - [ ] **10.07.b — Verify:** Check end-of-sequence transitions and interrupted recovery.
-  - [ ] **10.07.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/10.07.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  Completed: [implementation and acceptance evidence](docs/evidence/10.05.md).
 
-- [ ] **10.08 — Preserve palette-based rider identity**
+  - [x] **10.05.a — Implement:** Represent equipped weapons as state or attachments with stable anchors.
+  - [x] **10.05.b — Verify:** Test theft and drop transitions without stale weapon images.
+  - [x] **10.05.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/10.05.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-  - [ ] **10.08.a — Implement:** Apply rider remaps before enhancement compositing according to catalog policy.
-  - [ ] **10.08.b — Verify:** Verify distinct riders retain consistent colors across all states.
-  - [ ] **10.08.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/10.08.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+- [x] **10.06 — Implement crash and slide frames**
 
-- [ ] **10.09 — Match shadow placement and transparency**
+  Completed: [implementation and acceptance evidence](docs/evidence/10.06.md).
 
-  - [ ] **10.09.a — Implement:** Position shadow independently using ground contact and height cues.
-  - [ ] **10.09.b — Verify:** Test airborne riders and slopes without shadows floating with the sprite.
-  - [ ] **10.09.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/10.09.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **10.06.a — Implement:** Drive crash and slide animations from authoritative crash states.
+  - [x] **10.06.b — Verify:** Verify high-speed and low-speed crashes select coherent sequences.
+  - [x] **10.06.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/10.06.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **10.10 — Test mirrored sprites for asymmetric details**
+- [x] **10.07 — Implement getting up and on-foot states**
 
-  - [ ] **10.10.a — Implement:** Audit left/right mirroring for logos, weapons and asymmetrical clothing.
-  - [ ] **10.10.b — Verify:** Author explicit exceptions and test both facing directions.
-  - [ ] **10.10.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/10.10.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  Completed: [implementation and acceptance evidence](docs/evidence/10.07.md).
 
-- [ ] **10.11 — Provide animation contact sheet playback**
+  - [x] **10.07.a — Implement:** Implement get-up, standing, walking and remount sequences explicitly.
+  - [x] **10.07.b — Verify:** Check end-of-sequence transitions and interrupted recovery.
+  - [x] **10.07.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/10.07.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-  - [ ] **10.11.a — Implement:** Add frame stepping, loop speed and state transition preview tools.
-  - [ ] **10.11.b — Verify:** Export a labeled sheet with timing and pivot for each animation family.
-  - [ ] **10.11.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/10.11.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+- [x] **10.08 — Preserve palette-based rider identity**
 
-- [ ] **10.12 — Validate transitions without frame popping**
+  Completed: [implementation and acceptance evidence](docs/evidence/10.08.md).
 
-  - [ ] **10.12.a — Implement:** Define transition blending or hard-cut policy per state pair.
-  - [ ] **10.12.b — Verify:** Review attack-to-crash and get-up-to-walk sequences without pivot jumps.
-  - [ ] **10.12.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/10.12.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **10.08.a — Implement:** Apply rider remaps before enhancement compositing according to catalog policy.
+  - [x] **10.08.b — Verify:** Verify distinct riders retain consistent colors across all states.
+  - [x] **10.08.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/10.08.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+
+- [x] **10.09 — Match shadow placement and transparency**
+
+  Completed: [implementation and acceptance evidence](docs/evidence/10.09.md).
+
+  - [x] **10.09.a — Implement:** Position shadow independently using ground contact and height cues.
+  - [x] **10.09.b — Verify:** Test airborne riders and slopes without shadows floating with the sprite.
+  - [x] **10.09.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/10.09.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+
+- [x] **10.10 — Test mirrored sprites for asymmetric details**
+
+  Completed: [implementation and acceptance evidence](docs/evidence/10.10.md).
+
+  - [x] **10.10.a — Implement:** Audit left/right mirroring for logos, weapons and asymmetrical clothing.
+  - [x] **10.10.b — Verify:** Author explicit exceptions and test both facing directions.
+  - [x] **10.10.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/10.10.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+
+- [x] **10.11 — Provide animation contact sheet playback**
+
+  Completed: [implementation and acceptance evidence](docs/evidence/10.11.md).
+
+  - [x] **10.11.a — Implement:** Add frame stepping, loop speed and state transition preview tools.
+  - [x] **10.11.b — Verify:** Export a labeled sheet with timing and pivot for each animation family.
+  - [x] **10.11.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/10.11.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+
+- [x] **10.12 — Validate transitions without frame popping**
+
+  Completed: [implementation and acceptance evidence](docs/evidence/10.12.md).
+
+  - [x] **10.12.a — Implement:** Define transition blending or hard-cut policy per state pair.
+  - [x] **10.12.b — Verify:** Review attack-to-crash and get-up-to-walk sequences without pivot jumps.
+  - [x] **10.12.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/10.12.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
 
 **Exit evidence:** a reproducible demonstration of rider animation and palette fidelity, linked implementation revision, recorded checks and known limitations. Dependent phases may prototype early, but this gate stays open until its checks pass.

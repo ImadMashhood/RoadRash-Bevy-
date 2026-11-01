@@ -126,6 +126,7 @@ impl FamilyAssets {
 }
 #[derive(Clone)]
 pub struct SourceAssets {
+    pub animations: Option<Arc<crate::rider::RiderAssets>>,
     pub depths: DepthTable,
     pub road: Vec<Texture>,
     pub ground: Vec<Texture>,
@@ -393,6 +394,7 @@ impl SourceAssets {
             );
         }
         Ok(Self {
+            animations: Some(Arc::new(crate::rider::RiderAssets::load(data, 0)?)),
             depths,
             road: road.into_iter().map(Option::unwrap).collect(),
             ground: ground.into_iter().map(Option::unwrap).collect(),
@@ -407,6 +409,7 @@ impl SourceAssets {
     pub fn authored() -> Self {
         let image = |c| Texture::solid(c);
         Self {
+            animations: None,
             depths: DepthTable::authored(),
             road: (0..8)
                 .map(|i| image([50 + i * 10, 50 + i * 10, 55 + i * 10, 255]))

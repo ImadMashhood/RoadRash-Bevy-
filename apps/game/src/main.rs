@@ -42,6 +42,8 @@ struct LaunchOptions {
     window_size: Option<(u32, u32)>,
     bindings: Option<PathBuf>,
     calibration: Option<PathBuf>,
+    bike: u32,
+    rider_color: u8,
 }
 #[derive(Resource, Default)]
 struct Driver(Option<Playback>);
@@ -64,6 +66,7 @@ fn options() -> Result<LaunchOptions, String> {
     let mut options = LaunchOptions {
         render_rate: "60".into(),
         level: 1,
+        bike: 1,
         ..Default::default()
     };
     let mut args = std::env::args_os().skip(1);
@@ -72,6 +75,18 @@ fn options() -> Result<LaunchOptions, String> {
             .next()
             .ok_or_else(|| format!("missing value for {}", arg.to_string_lossy()))?;
         match arg.to_str() {
+            Some("--bike") => {
+                options.bike = value
+                    .to_string_lossy()
+                    .parse()
+                    .map_err(|_| "invalid bike ID")?;
+            }
+            Some("--rider-color") => {
+                options.rider_color = value
+                    .to_string_lossy()
+                    .parse()
+                    .map_err(|_| "invalid rider color")?;
+            }
             Some("--calibration") => options.calibration = Some(value.into()),
             Some("--bindings") => options.bindings = Some(value.into()),
             Some("--smoke-frames") => {
@@ -258,6 +273,12 @@ fn course_view(
         data.join(format!("DATA/COURSES/{stem}.CRS")),
     )?)?;
     let mut assets = rr_render::source::SourceAssets::load(data, catalog, stem, &course)?;
+    if options.rider_color != 0 {
+        assets.animations = Some(std::sync::Arc::new(rr_render::rider::RiderAssets::load(
+            data,
+            options.rider_color,
+        )?));
+    }
     if options.asset.is_some() {
         let blob = visual.native.as_ref().ok_or("no selected rider")?;
         assets.rider.texture = rr_render::raster::Texture::new(
@@ -331,6 +352,32 @@ fn main() {
         eprintln!("{e}");
         std::process::exit(2)
     });
+    let race = if playback.is_none() {
+        if let (Some(data), Some(course)) = (&options.data_root, &course) {
+            let mut config = rr_simulation::riding::Configuration::load(
+                data,
+                &course.scene.route,
+                options.bike,
+                (course.start_q8 / 256.) as u32,
+            )
+            .unwrap_or_else(|e| {
+                eprintln!("handling startup: {e}");
+                std::process::exit(2)
+            });
+            for (g, p) in config.ground.iter_mut().zip(&course.scene.route.points) {
+                g.kind = match course.scene.terrain[p.section as usize][p.local as usize].kind {
+                    rr_render::scene::TerrainKind::Wall => 1,
+                    rr_render::scene::TerrainKind::Building => 4,
+                    _ => 0,
+                };
+            }
+            Race(Simulation::with_handling(1, config).unwrap())
+        } else {
+            Race::default()
+        }
+    } else {
+        Race::default()
+    };
     let window_size = options.window_size.unwrap_or((960, 720));
     let bindings = options
         .bindings
@@ -364,6 +411,7 @@ fn main() {
     if let Some(course) = course {
         app.insert_resource(course);
     }
+    app.insert_resource(race);
     app.insert_resource(visual)
         .insert_resource(Bindings(bindings))
         .insert_resource(options)
@@ -436,8 +484,34 @@ fn live(driver: Res<Driver>, pause: Res<PauseState>) -> bool {
 fn physical_input(driver: Res<Driver>) -> bool {
     driver.0.is_none()
 }
-fn sample_input(input: Res<LiveInput>, mut command: ResMut<InputCommand>) {
+fn sample_input(
+    input: Res<LiveInput>,
+    mut command: ResMut<InputCommand>,
+    keys: Res<ButtonInput<KeyCode>>,
+    bindings: Res<Bindings>,
+    race: Option<Res<Race>>,
+) {
     command.0 = tick_command(&input.0);
+    if race.is_some_and(|race| race.0.schema_version() >= 3) {
+        let actions = bindings.0.active(
+            Context::Race,
+            bindings.0.contexts[&Context::Race]
+                .values()
+                .flatten()
+                .copied()
+                .filter(|key| keys.pressed(input_adapter::key_code(*key))),
+        );
+        use rr_simulation::animation::Pose;
+        command.0.pose = if actions.contains(&Action::Punch) {
+            Some(Pose::PunchLeft)
+        } else if actions.contains(&Action::Kick) {
+            Some(Pose::KickLeft)
+        } else if actions.contains(&Action::Backhand) {
+            Some(Pose::BackhandLeft)
+        } else {
+            None
+        };
+    }
 }
 fn pause_input(
     driver: Res<Driver>,

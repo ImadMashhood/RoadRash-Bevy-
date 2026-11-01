@@ -18,7 +18,7 @@ with tempfile.TemporaryDirectory(prefix='rr-ci-guards-') as directory:
     formatting = subprocess.run(['cargo', 'fmt', '--all', '--check'], cwd=copy, capture_output=True, text=True)
     assert formatting.returncode != 0 and 'deliberately_unformatted' in formatting.stdout+formatting.stderr
     manifest = copy/'crates/simulation/Cargo.toml'
-    manifest.write_text(manifest.read_text().replace('[dependencies]', '[dependencies]\nrr-formats = { path = "../formats" }'))
+    manifest.write_text(manifest.read_text().replace('[dependencies]', '[dependencies]\nrr-input = { path = "../input" }'))
     locked = subprocess.run(['cargo', 'check', '--locked', '--offline', '-p', 'rr-simulation'], cwd=copy, capture_output=True, text=True)
     assert locked.returncode != 0 and ('lock file' in locked.stderr or 'lockfile' in locked.stderr), locked.stderr
     print(json.dumps({'formatting_violation_rejected': True, 'lockfile_mismatch_rejected': True, 'repository_modified': False}))

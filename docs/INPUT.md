@@ -1,6 +1,6 @@
 # Action bindings
 
-Part 9 tasks 09.01, 09.02, 09.03 and 09.11 are complete. `rr-input` owns versioned, renderer-independent action maps and configuration I/O. The game translates Bevy key codes at its composition boundary; simulation commands contain actions rather than physical keys. Keyboard and gamepad input are active. [Native controller calibration/preview](CALIBRATION.md) is complete; source handling begins with 09.04.
+Part 9 is complete. `rr-input` owns versioned, renderer-independent action maps and configuration I/O. The game translates Bevy key codes at its composition boundary; simulation commands contain actions rather than physical keys. Keyboard and gamepad input are active. [Native controller calibration/preview](CALIBRATION.md) is complete; [source-unit handling](HANDLING.md) is active for imported races. Z/X/C select punch/kick/backhand visual inputs through optional remappable actions; complete combat decisions remain Phase 11.
 
 ```sh
 cargo run --locked -p rr-input -- init local/bindings.json

@@ -1,13 +1,16 @@
 #![forbid(unsafe_code)]
 //! Renderer-independent simulation contract. Current handling is explicitly authored,
 //! while wrapping/rounding helpers have fixed documented integer semantics.
+pub mod animation;
 pub mod arithmetic;
+pub mod handling;
 pub mod replay;
+pub mod riding;
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 use std::collections::BTreeMap;
 pub const TICKS_PER_SECOND: u32 = 60;
-pub const SIMULATION_SCHEMA: u32 = 2;
+pub const SIMULATION_SCHEMA: u32 = 3;
 macro_rules! id {
     ($name:ident,$t:ty) => {
         #[derive(
@@ -58,6 +61,15 @@ pub struct Command {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub steer_q15: Option<i16>,
     pub fork: Option<u8>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub pose: Option<animation::Pose>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub weapon: Option<animation::Weapon>,
+    #[serde(skip_serializing_if = "is_zero")]
+    pub damage: u32,
+}
+fn is_zero(v: &u32) -> bool {
+    *v == 0
 }
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(deny_unknown_fields)]
@@ -161,6 +173,8 @@ pub struct ActorSnapshot {
     pub position: RoutePosition,
     pub speed: SpeedMmPerTick,
     pub finished: bool,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub rider: Option<riding::Rider>,
 }
 #[derive(Default, Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct Snapshot {
@@ -222,6 +236,7 @@ pub struct Simulation {
     spawn_rng: Random,
     gameplay_rng: Random,
     last_stages: Vec<Stage>,
+    handling: Option<riding::Configuration>,
 }
 impl Default for Simulation {
     fn default() -> Self {
@@ -230,10 +245,10 @@ impl Default for Simulation {
 }
 impl Simulation {
     pub fn new(seed: u32, route: Route) -> Result<Self> {
-        Self::with_schema(seed, route, SIMULATION_SCHEMA)
+        Self::with_schema(seed, route, 2)
     }
     pub fn with_schema(seed: u32, route: Route, schema_version: u32) -> Result<Self> {
-        if !(1..=SIMULATION_SCHEMA).contains(&schema_version) {
+        if !(1..=2).contains(&schema_version) {
             return Err(Error::Invalid("unsupported simulation schema"));
         }
         route.validate()?;
@@ -247,8 +262,17 @@ impl Simulation {
             spawn_rng: Random(seed ^ 0x53504157),
             gameplay_rng: Random(seed),
             last_stages: vec![],
+            handling: None,
         };
         sim.spawn()?;
+        Ok(sim)
+    }
+    pub fn with_handling(seed: u32, config: riding::Configuration) -> Result<Self> {
+        config.validate()?;
+        let mut sim = Self::with_schema(seed, Route::straight(), 2)?;
+        sim.schema_version = 3;
+        sim.actors.get_mut(&ActorId(1)).unwrap().view.rider = Some(riding::Rider::new(&config)?);
+        sim.handling = Some(config);
         Ok(sim)
     }
     pub fn schema_version(&self) -> u32 {
@@ -270,6 +294,7 @@ impl Simulation {
                 },
                 speed: SpeedMmPerTick(0),
                 finished: false,
+                rider: self.handling.as_ref().map(riding::Rider::new).transpose()?,
             },
             input: Command::default(),
             total: 0,
@@ -299,7 +324,11 @@ impl Simulation {
         if !self.actors.contains_key(&command.actor) {
             return Err(Error::MissingActor(command.actor));
         }
-        if !(-1..=1).contains(&command.input.steer)
+        if (self.schema_version < 3
+            && (command.input.pose.is_some()
+                || command.input.weapon.is_some()
+                || command.input.damage != 0))
+            || !(-1..=1).contains(&command.input.steer)
             || command.input.steer_q15.is_some_and(|axis| {
                 axis == i16::MIN || command.input.steer != 0 || self.schema_version == 1
             })
@@ -356,6 +385,28 @@ impl Simulation {
                         if actor.view.finished {
                             continue;
                         }
+                        if let (Some(config), Some(rider)) = (&self.handling, &mut actor.view.rider)
+                        {
+                            rider.step(config, actor.input, self.tick.0 as u32)?;
+                            actor.input.damage = 0;
+                            actor.input.pose = None;
+                            actor.input.weapon = None;
+                            actor.total = rider.bike.distance_q8.max(0) as u64 * 8;
+                            actor.view.speed =
+                                SpeedMmPerTick((rider.bike.speed.max(0) / 256) as u32);
+                            actor.view.position.lateral =
+                                Millimetres(i64::from(rider.bike.lateral) * 10 / 256);
+                            actor.view.position.elevation =
+                                Millimetres(i64::from(rider.bike.height) * 10 / 256);
+                            actor.view.position.progress = Millimetres(actor.total as i64);
+                            if i64::from(config.start_sample) + (rider.bike.distance_q8 >> 8)
+                                >= config.ground.len() as i64 - 1
+                            {
+                                actor.view.finished = true;
+                                rider.bike.speed = 0;
+                            }
+                            continue;
+                        }
                         let delta = if actor.input.brake {
                             -25
                         } else if actor.input.throttle {
@@ -402,8 +453,10 @@ impl Simulation {
                 }
                 Stage::Contacts => {
                     for actor in self.actors.values_mut() {
-                        actor.view.position.lateral.0 =
-                            actor.view.position.lateral.0.clamp(-4000, 4000);
+                        if actor.view.rider.is_none() {
+                            actor.view.position.lateral.0 =
+                                actor.view.position.lateral.0.clamp(-4000, 4000);
+                        }
                     }
                 }
                 // Explicit reserved stages: no opponent AI, combat or career rules are claimed here.
@@ -436,6 +489,11 @@ impl Simulation {
             };
         }
         put!(self.schema_version);
+        if self.schema_version >= 3 {
+            let config = serde_json::to_vec(&self.handling).expect("finite integer configuration");
+            put!(config.len() as u32);
+            b.extend(config);
+        }
         put!(self.tick.0);
         put!(self.next_actor);
         put!(self.spawn_rng.0);
@@ -460,6 +518,11 @@ impl Simulation {
                 c.steer as u8,
                 c.fork.unwrap_or(255),
             ]);
+            if schema >= 3 {
+                let c = serde_json::to_vec(&c).expect("integer command");
+                b.extend_from_slice(&(c.len() as u32).to_le_bytes());
+                b.extend(c);
+            }
             if schema >= 2 {
                 b.push(u8::from(c.steer_q15.is_some()));
                 b.extend_from_slice(&c.steer_q15.unwrap_or(0).to_le_bytes());
@@ -478,6 +541,11 @@ impl Simulation {
             put!(actor.spawn_random);
             b.push(u8::from(actor.view.finished));
             input(&mut b, actor.input, self.schema_version);
+            if self.schema_version >= 3 {
+                let state = serde_json::to_vec(&actor.view.rider).expect("integer state");
+                put!(state.len() as u32);
+                b.extend(state);
+            }
         }
         put!(self.queue.len() as u32);
         for ((tick, actor, seq), command) in &self.queue {

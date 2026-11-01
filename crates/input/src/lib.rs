@@ -87,6 +87,9 @@ pub enum Key {
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum Action {
+    Punch,
+    Kick,
+    Backhand,
     Accelerate,
     Brake,
     SteerLeft,
@@ -146,6 +149,9 @@ impl Default for ActionMap {
                         (SteerLeft, vec![ArrowLeft, KeyA]),
                         (SteerRight, vec![ArrowRight, KeyD]),
                         (Pause, vec![Escape, KeyP]),
+                        (Punch, vec![KeyZ]),
+                        (Kick, vec![KeyX]),
+                        (Backhand, vec![KeyC]),
                     ]),
                 ),
                 (
@@ -179,8 +185,11 @@ impl ActionMap {
                 .contexts
                 .get(&context)
                 .ok_or_else(|| Error(format!("missing {context:?} context")))?;
-            if map.len() != context.required().len()
-                || context.required().iter().any(|a| !map.contains_key(a))
+            if map.keys().any(|a| {
+                !context.required().contains(a)
+                    && !(context == Context::Race
+                        && [Action::Punch, Action::Kick, Action::Backhand].contains(a))
+            }) || context.required().iter().any(|a| !map.contains_key(a))
             {
                 return Err(Error(format!("missing or invalid actions in {context:?}")));
             }

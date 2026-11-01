@@ -289,7 +289,7 @@ fn canonical_encoding_excludes_addresses_and_tracks_future_input() {
     let mut a = Simulation::default();
     let b = Simulation::default();
     assert_eq!(a.canonical_bytes(), b.canonical_bytes());
-    assert_eq!(&a.canonical_bytes()[..4], &SIMULATION_SCHEMA.to_le_bytes());
+    assert_eq!(&a.canonical_bytes()[..4], &2u32.to_le_bytes());
     let prior = a.state_hash();
     a.queue(QueuedCommand {
         tick: Tick(10),

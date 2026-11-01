@@ -1,0 +1,54 @@
+{
+  "outcome": "passed",
+  "source_schema": 3,
+  "headless_runs": [
+    {
+      "frames": 241,
+      "rate": "30",
+      "sha256": "b475c015f69bcd555262de0c8c721d969e2c6b362546deb5d0dea9d626f1abff",
+      "ticks": 480
+    },
+    {
+      "frames": 481,
+      "rate": "60",
+      "sha256": "b475c015f69bcd555262de0c8c721d969e2c6b362546deb5d0dea9d626f1abff",
+      "ticks": 480
+    },
+    {
+      "frames": 1153,
+      "rate": "144",
+      "sha256": "b475c015f69bcd555262de0c8c721d969e2c6b362546deb5d0dea9d626f1abff",
+      "ticks": 480
+    },
+    {
+      "frames": 470,
+      "rate": "irregular",
+      "sha256": "b475c015f69bcd555262de0c8c721d969e2c6b362546deb5d0dea9d626f1abff",
+      "ticks": 480
+    }
+  ],
+  "graphical_runs": [
+    {
+      "rate": "30",
+      "ticks": 480,
+      "presentation_frames": 241,
+      "state_sha256": "b475c015f69bcd555262de0c8c721d969e2c6b362546deb5d0dea9d626f1abff",
+      "checkpoints_equal_to_headless": true,
+      "final_snapshot_equal_to_headless": true
+    },
+    {
+      "rate": "144",
+      "ticks": 480,
+      "presentation_frames": 1153,
+      "state_sha256": "b475c015f69bcd555262de0c8c721d969e2c6b362546deb5d0dea9d626f1abff",
+      "checkpoints_equal_to_headless": true,
+      "final_snapshot_equal_to_headless": true
+    }
+  ],
+  "live_imported_window_frames": 120,
+  "legacy_schema_1_sha256": "f70c202279f360fc89e95d503443a91a523c816788d9e62102a6d3572fc7f143",
+  "legacy_schema_2_sha256": "87faf52e185aa21028d6be58fb01403d1f94558d6960aea7eadbedc2544f675e",
+  "poses_in_showcase": 16,
+  "source_replay_bytes": 886798,
+  "scope": "controlled presentation schedules for determinism, not hardware FPS benchmarking"
+}

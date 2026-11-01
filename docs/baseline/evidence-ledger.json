@@ -81,6 +81,36 @@
       },
       "receipt": "executable/menu-items.json",
       "limitation": "Dynamic popups, handler behavior and original screen captures remain unverified"
+    },
+    {
+      "id": "source-handling-rust",
+      "confidence": "verified-local",
+      "claim": "All 15 source specs: fixed drive/brake/steer/surface and full native impulse/curve/crest traces match; schema-3 replay is deterministic",
+      "receipt": "../evidence/part-09.md",
+      "upstream_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+      "executable_sha256": "73d7f9744b5b1a9482b3909950cdf3fe34119fe13d023b031e9c6739a60f18a2",
+      "original_runtime_compared": false,
+      "capture_settings": {
+        "status": "source-port-api-matrix-and-current-engine-validation",
+        "seed": 1,
+        "inputs": "versioned scripts in tools/reference and rr-riding-check",
+        "video_hash": null
+      }
+    },
+    {
+      "id": "rider-animation-rust",
+      "confidence": "verified-local",
+      "claim": "Both CANS banks, source deadlines/views/contact flags, all runtime palette frames, ground shadows and fixed-anchor transitions verified",
+      "receipt": "../evidence/part-10.md",
+      "upstream_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+      "executable_sha256": "73d7f9744b5b1a9482b3909950cdf3fe34119fe13d023b031e9c6739a60f18a2",
+      "original_runtime_compared": false,
+      "capture_settings": {
+        "status": "source-port-api-matrix-and-current-engine-validation",
+        "seed": 1,
+        "inputs": "versioned scripts in tools/reference and rr-riding-check",
+        "video_hash": null
+      }
     }
   ]
 }

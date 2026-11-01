@@ -10,3 +10,5 @@ pub mod suite;
 pub type Result<T> = std::result::Result<T, Box<dyn std::error::Error>>;
 pub use camera::{CameraSpec, Framing, View};
 pub use scene::{Scene, SceneOptions};
+
+pub mod rider;

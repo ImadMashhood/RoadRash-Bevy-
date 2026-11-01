@@ -469,6 +469,8 @@ impl Scene {
                             pivot: o.asset.pivot,
                             texture: o.asset.texture.clone(),
                             mirror: o.mirror,
+                            rotation: 0.,
+                            clip_ground: true,
                         });
                     }
                 }
@@ -479,27 +481,76 @@ impl Scene {
                 continue;
             };
             if actor.id.0 == 1 || z > spec.near_q8 {
-                let texture = if enhanced {
-                    self.assets
-                        .enhanced
-                        .as_ref()
-                        .unwrap_or(&self.assets.rider.texture)
+                let animated = actor
+                    .rider
+                    .as_ref()
+                    .and_then(|r| self.assets.animations.as_ref()?.body(r.frame));
+                let sprite = animated.unwrap_or(&self.assets.rider);
+                let mirrored = actor.rider.as_ref().is_some_and(|r| r.mirror);
+                let pivot = if mirrored {
+                    [1. - sprite.pivot[0], sprite.pivot[1]]
                 } else {
-                    &self.assets.rider.texture
+                    sprite.pivot
+                };
+                let actor_scale = actor.rider.as_ref().map_or(1., |r| {
+                    let a = if r.view_flags & 0x10000 != 0 { 2. } else { 1. };
+                    a * if r.view_flags & 0x20000 != 0 { 4. } else { 1. }
+                });
+                let texture = if enhanced && animated.is_none() {
+                    self.assets.enhanced.as_ref().unwrap_or(&sprite.texture)
+                } else {
+                    &sprite.texture
                 };
                 let lateral = if actor.id.0 == 1 {
                     view.lateral
                 } else {
-                    actor.position.lateral.0 as f64 / 10.
+                    actor
+                        .rider
+                        .as_ref()
+                        .map_or(actor.position.lateral.0 as f64 / 10., |r| {
+                            f64::from(r.bike.lateral) / 256.
+                        })
                 };
-                let anchor = actor_anchor(self, &slices, z, lateral, spec, &self.assets.depths);
+                let mut anchor = actor_anchor(self, &slices, z, lateral, spec, &self.assets.depths);
+                if let Some(rider) = &actor.rider {
+                    if let Some(shadow) = self
+                        .assets
+                        .animations
+                        .as_ref()
+                        .and_then(|a| a.shadow(rider.frame))
+                    {
+                        billboards.push(Billboard {
+                            id: format!("shadow/{:020}", actor.id.0),
+                            class: SpriteClass::Shadow,
+                            x: anchor[0],
+                            ground: anchor[1],
+                            z,
+                            width: shadow.logical[0] * 2. * actor_scale,
+                            height: shadow.logical[1] * 2. * actor_scale,
+                            pivot: if rider.mirror {
+                                [1. - shadow.pivot[0], shadow.pivot[1]]
+                            } else {
+                                shadow.pivot
+                            },
+                            texture: shadow.texture.clone(),
+                            mirror: rider.mirror,
+                            rotation: 0.,
+                            clip_ground: false,
+                        });
+                    }
+                    anchor[1] += f64::from(rider.bike.height) / 256.;
+                }
+                // Source empty BOB slots mean no body draw, never a stale fallback pose.
+                if actor.rider.is_some() && self.assets.animations.is_some() && animated.is_none() {
+                    continue;
+                }
                 if actor.id.0 == 1 {
                     let scale = self.assets.depths.scale(z);
-                    let [width, height] = self.assets.rider.logical.map(|n| n * 2. * scale);
+                    let [width, height] = sprite.logical.map(|n| n * 2. * scale * actor_scale);
                     let x = spec.width as f64 / 2. + anchor[0] * scale;
                     let y = spec.horizon + (spec.camera_height - anchor[1]) * scale;
-                    let left = x - width * self.assets.rider.pivot[0];
-                    let top = y - height * self.assets.rider.pivot[1];
+                    let left = x - width * pivot[0];
+                    let top = y - height * pivot[1];
                     receipt.rider_bounds = Some([left, top, left + width, top + height]);
                 }
                 billboards.push(Billboard {
@@ -510,11 +561,15 @@ impl Scene {
                     z,
                     // Source actor size 512: (size >> 6) / 4 = 2.
                     // Logical dimensions come from RRAN, never bitmap size.
-                    width: self.assets.rider.logical[0] * 2.,
-                    height: self.assets.rider.logical[1] * 2.,
-                    pivot: self.assets.rider.pivot,
+                    width: sprite.logical[0] * 2. * actor_scale,
+                    height: sprite.logical[1] * 2. * actor_scale,
+                    pivot,
                     texture: texture.clone(),
-                    mirror: false,
+                    mirror: actor.rider.as_ref().is_some_and(|r| r.mirror),
+                    rotation: actor.rider.as_ref().map_or(0., |r| {
+                        f64::from(r.roll) * std::f64::consts::TAU / 16777216.
+                    }),
+                    clip_ground: true,
                 });
             }
         }

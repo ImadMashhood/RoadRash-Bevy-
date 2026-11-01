@@ -1,10 +1,13 @@
 [package]
 name = "rr-simulation"
+default-run = "rr-replay"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
 
 [dependencies]
+rr-formats = { path = "../formats" }
+rr-course = { path = "../course" }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 sha2 = "0.10"

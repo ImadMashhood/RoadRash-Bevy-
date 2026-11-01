@@ -111,7 +111,14 @@ pub fn keyboard_sample(keys: &ButtonInput<KeyCode>, bindings: &Bindings) -> Devi
         resume_edge: bindings.0.contexts[&Context::Paused][&Action::Resume]
             .iter()
             .any(|key| keys.just_pressed(key_code(*key))),
-        engaged: !drive.neutral() || left || right || pause || resume,
+        engaged: !drive.neutral()
+            || left
+            || right
+            || pause
+            || resume
+            || race
+                .iter()
+                .any(|a| matches!(a, Action::Punch | Action::Kick | Action::Backhand)),
     }
 }
 pub fn poll_input(

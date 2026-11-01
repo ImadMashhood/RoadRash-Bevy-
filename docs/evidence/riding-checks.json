@@ -1,0 +1,44 @@
+{
+  "outcome": "passed",
+  "rust_tests": 163,
+  "headless_tests": 149,
+  "bevy_tests": 14,
+  "new_riding_tests": 24,
+  "render_tests": 29,
+  "python_tests": 10,
+  "native_reference_rows": 300104,
+  "angled_view_cases": 90135,
+  "workflow_guards": {
+    "formatting_violation_rejected": true,
+    "lockfile_mismatch_rejected": true,
+    "repository_modified": false
+  },
+  "source_output_guards": {
+    "outcome": "passed",
+    "checks": [
+      {
+        "tool": "../target/release/rr-riders",
+        "overlap_rejected": true
+      },
+      {
+        "tool": "../target/release/rr-riding-check",
+        "overlap_rejected": true
+      },
+      {
+        "tool": "python3",
+        "overlap_rejected": true
+      }
+    ],
+    "input_hashes_unchanged": true
+  },
+  "rustfmt": "passed",
+  "clippy_all_targets_warnings_denied": "passed",
+  "release_bins_and_examples": "passed",
+  "authored_render_goldens": "unchanged/passed",
+  "native_helper_compiler_warnings_denied": true,
+  "native_cpp_only_api_adapters": true,
+  "remote_ci_claimed": false,
+  "original_executable_compared": false,
+  "physical_controller_certified": false,
+  "scope": "roadmap phases 09 and 10; combat/recovery decisions remain later phases"
+}

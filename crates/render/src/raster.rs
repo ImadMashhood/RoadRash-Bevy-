@@ -294,6 +294,8 @@ pub struct Billboard {
     pub pivot: [f64; 2],
     pub texture: Texture,
     pub mirror: bool,
+    pub rotation: f64,
+    pub clip_ground: bool,
 }
 pub fn draw_billboards(
     frame: &mut Frame,
@@ -313,44 +315,50 @@ pub fn draw_billboards(
         let x = b.x - b.pivot[0] * b.width;
         let y = b.ground - (1. - b.pivot[1]) * b.height;
         let ground_row = spec.horizon + (spec.camera_height - b.ground) * depths.scale(b.z);
-        frame.sprite_ground_row = (ground_row.is_finite() && ground_row < spec.height as f64)
-            .then(|| (ground_row - 1.).max(0.).floor() as u32);
+        frame.sprite_ground_row =
+            (b.clip_ground && ground_row.is_finite() && ground_row < spec.height as f64)
+                .then(|| (ground_row - 1.).max(0.).floor() as u32);
         let (u0, u1) = if b.mirror { (1., 0.) } else { (0., 1.) };
-        frame.quad(
-            [
-                Vertex {
-                    x,
-                    y: y + b.height,
-                    z: b.z,
-                    u: u0,
-                    v: 0.,
-                },
-                Vertex {
-                    x: x + b.width,
-                    y: y + b.height,
-                    z: b.z,
-                    u: u1,
-                    v: 0.,
-                },
-                Vertex {
-                    x: x + b.width,
-                    y,
-                    z: b.z,
-                    u: u1,
-                    v: 1.,
-                },
-                Vertex {
-                    x,
-                    y,
-                    z: b.z,
-                    u: u0,
-                    v: 1.,
-                },
-            ],
-            &b.texture,
-            spec,
-            depths,
-        );
+        let mut vertices = [
+            Vertex {
+                x,
+                y: y + b.height,
+                z: b.z,
+                u: u0,
+                v: 0.,
+            },
+            Vertex {
+                x: x + b.width,
+                y: y + b.height,
+                z: b.z,
+                u: u1,
+                v: 0.,
+            },
+            Vertex {
+                x: x + b.width,
+                y,
+                z: b.z,
+                u: u1,
+                v: 1.,
+            },
+            Vertex {
+                x,
+                y,
+                z: b.z,
+                u: u0,
+                v: 1.,
+            },
+        ];
+        if b.rotation != 0. && b.rotation.is_finite() {
+            let (sin, cos) = b.rotation.sin_cos();
+            for v in &mut vertices {
+                let dx = v.x - b.x;
+                let dy = v.y - b.ground;
+                v.x = b.x + dx * cos - dy * sin;
+                v.y = b.ground + dx * sin + dy * cos;
+            }
+        }
+        frame.quad(vertices, &b.texture, spec, depths);
         frame.stats.sprites += 1;
         frame.sprite_ground_row = None;
     }
