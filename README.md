@@ -4,7 +4,7 @@
 
 A Rust and Bevy recreation of the PC Road Rash experience, with a faithful classic presentation, individually reviewed AI-enhanced textures, and a modular design that leaves room for a later 3D version.
 
-Parts 01–06 now have implementation and acceptance evidence: a verified importer, bounded decoders, content catalog/inspector and deterministic simulation/presentation scaffold. This is not a complete playable recreation. Later phases remain open; the separate local prototype is preserved independently.
+Parts 01–07 now have implementation and acceptance evidence: a verified importer, bounded decoders, content catalog/inspector, deterministic simulation/presentation scaffold and validated source course graph/explorer. This is not a complete playable recreation. Later phases remain open; the separate local prototype is preserved independently.
 
 ## 1. Scope and definition of complete
 
@@ -44,6 +44,7 @@ Start with modules and split into crates when boundaries prove useful. Avoid a g
 apps/game             Bevy application and composition
 crates/formats        bounded binary readers, no rendering
 crates/content        IDs, schemas, catalogs, mod resolution
+crates/course         source-unit course graph, traversal and inspector
 crates/simulation     race rules, actors, commands, replay
 crates/presentation   classic renderer, animations, HUD/audio
 crates/platform       input, persistence, filesystem adapters
@@ -51,7 +52,7 @@ tools/import          local disc verification and conversion
 tools/asset-review    export, candidate review, pack validation
 ```
 
-The import, formats, content, simulation, presentation and game packages exist. Platform and enhancement-review boundaries remain future work. Simulation owns gameplay truth. Rendering consumes snapshots and never determines hit results. Use explicit Bevy system ordering for input consumption, spawning, AI, movement, collisions, combat, progression and snapshot extraction. Retain legacy integer/fixed-point arithmetic wherever necessary for parity. A fixed timestep alone does not establish determinism: update order, RNG calls, numeric behavior and content versions also matter.
+The import, formats, content, course, simulation, presentation and game packages exist. Platform and enhancement-review boundaries remain future work. Simulation owns gameplay truth. Rendering consumes snapshots and never determines hit results. Use explicit Bevy system ordering for input consumption, spawning, AI, movement, collisions, combat, progression and snapshot extraction. Retain legacy integer/fixed-point arithmetic wherever necessary for parity. A fixed timestep alone does not establish determinism: update order, RNG calls, numeric behavior and content versions also matter.
 
 Represent a position as route/branch identity plus longitudinal progress, lateral displacement and elevation. A classic projection adapter and a future world-space adapter can consume the same course data. Keep sprite pivots, UV rectangles and screen scaling out of physics. Do not replace legacy handling with a general rigid-body solver merely because one is available. The local prototype's Rapier/Avian experiments need separate evaluation before reuse.
 
@@ -828,77 +829,101 @@ Research: [src/race_state.hpp](https://github.com/arkits/road-rash/blob/7aecf604
 
 Research: [src/course.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/course.cpp), [src/course_scene.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/course_scene.cpp), [src/track_ring.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/track_ring.cpp), [src/terrain.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/terrain.cpp).
 
-- [ ] **07.01 — Decode section graph and root**
+- [x] **07.01 — Decode section graph and root**
 
-  - [ ] **07.01.a — Implement:** Parse section records and node links into validated typed graph structures.
-  - [ ] **07.01.b — Verify:** Reject dangling section references and report the source node offset.
-  - [ ] **07.01.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/07.01.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  Completed: [implementation and acceptance evidence](docs/evidence/07.01.md).
 
-- [ ] **07.02 — Validate references and terminal nodes**
+  - [x] **07.01.a — Implement:** Parse section records and node links into validated typed graph structures.
+  - [x] **07.01.b — Verify:** Reject dangling section references and report the source node offset.
+  - [x] **07.01.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/07.01.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-  - [ ] **07.02.a — Implement:** Verify the root exists and terminal nodes can be reached through valid links.
-  - [ ] **07.02.b — Verify:** Detect unintended cycles without rejecting intentional graph structures blindly.
-  - [ ] **07.02.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/07.02.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+- [x] **07.02 — Validate references and terminal nodes**
 
-- [ ] **07.03 — Reproduce split and merge traversal**
+  Completed: [implementation and acceptance evidence](docs/evidence/07.02.md).
 
-  - [ ] **07.03.a — Implement:** Model branch entry, branch choice and merge state transitions explicitly.
-  - [ ] **07.03.b — Verify:** Test both branches and reverse traversal around each boundary.
-  - [ ] **07.03.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/07.03.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **07.02.a — Implement:** Verify the root exists and terminal nodes can be reached through valid links.
+  - [x] **07.02.b — Verify:** Detect unintended cycles without rejecting intentional graph structures blindly.
+  - [x] **07.02.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/07.02.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **07.04 — Decode bend and rise independently**
+- [x] **07.03 — Reproduce split and merge traversal**
 
-  - [ ] **07.04.a — Implement:** Accumulate rise as elevation change and bend according to recovered curvature semantics.
-  - [ ] **07.04.b — Verify:** Compare signed bend/rise sequences without treating both as absolute positions.
-  - [ ] **07.04.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/07.04.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  Completed: [implementation and acceptance evidence](docs/evidence/07.03.md).
 
-- [ ] **07.05 — Preserve original lane and shoulder units**
+  - [x] **07.03.a — Implement:** Model branch entry, branch choice and merge state transitions explicitly.
+  - [x] **07.03.b — Verify:** Test both branches and reverse traversal around each boundary.
+  - [x] **07.03.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/07.03.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-  - [ ] **07.05.a — Implement:** Retain raw lane and shoulder values and document conversion functions.
-  - [ ] **07.05.b — Verify:** Test narrow, wide and asymmetric road sections at exact endpoints.
-  - [ ] **07.05.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/07.05.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+- [x] **07.04 — Decode bend and rise independently**
 
-- [ ] **07.06 — Reproduce interval stepping at boundaries**
+  Completed: [implementation and acceptance evidence](docs/evidence/07.04.md).
 
-  - [ ] **07.06.a — Implement:** Reproduce stepwise interval update rules including equality at endpoints.
-  - [ ] **07.06.b — Verify:** Cover gaps, adjacent intervals and the reference's first-sample boundary cases.
-  - [ ] **07.06.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/07.06.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **07.04.a — Implement:** Accumulate rise as elevation change and bend according to recovered curvature semantics.
+  - [x] **07.04.b — Verify:** Compare signed bend/rise sequences without treating both as absolute positions.
+  - [x] **07.04.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/07.04.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **07.07 — Decode elevations and side flags**
+- [x] **07.05 — Preserve original lane and shoulder units**
 
-  - [ ] **07.07.a — Implement:** Keep absolute elevation, shoulder heights and raw flags in course records.
-  - [ ] **07.07.b — Verify:** Compare hills/cliffs and preserve unsupported flags for later research.
-  - [ ] **07.07.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/07.07.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  Completed: [implementation and acceptance evidence](docs/evidence/07.05.md).
 
-- [ ] **07.08 — Decode event zones and finish markers**
+  - [x] **07.05.a — Implement:** Retain raw lane and shoulder values and document conversion functions.
+  - [x] **07.05.b — Verify:** Test narrow, wide and asymmetric road sections at exact endpoints.
+  - [x] **07.05.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/07.05.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-  - [ ] **07.08.a — Implement:** Translate event ranges and parameters without losing original record order.
-  - [ ] **07.08.b — Verify:** Test event start, interior, end and one tick beyond the boundary.
-  - [ ] **07.08.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/07.08.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+- [x] **07.06 — Reproduce interval stepping at boundaries**
 
-- [ ] **07.09 — Decode scenery and family placements**
+  Completed: [implementation and acceptance evidence](docs/evidence/07.06.md).
 
-  - [ ] **07.09.a — Implement:** Decode scenery placement and family instances with stable instance IDs.
-  - [ ] **07.09.b — Verify:** Compare repeated objects and placement around section transitions.
-  - [ ] **07.09.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/07.09.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **07.06.a — Implement:** Reproduce stepwise interval update rules including equality at endpoints.
+  - [x] **07.06.b — Verify:** Cover gaps, adjacent intervals and the reference's first-sample boundary cases.
+  - [x] **07.06.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/07.06.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **07.10 — Inspect all five courses in viewer**
+- [x] **07.07 — Decode elevations and side flags**
 
-  - [ ] **07.10.a — Implement:** Build a route inspector that can select every named course and level.
-  - [ ] **07.10.b — Verify:** Export a coverage report listing visited sections and unsupported content.
-  - [ ] **07.10.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/07.10.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  Completed: [implementation and acceptance evidence](docs/evidence/07.07.md).
 
-- [ ] **07.11 — Compare branch seams and roadside placement**
+  - [x] **07.07.a — Implement:** Keep absolute elevation, shoulder heights and raw flags in course records.
+  - [x] **07.07.b — Verify:** Compare hills/cliffs and preserve unsupported flags for later research.
+  - [x] **07.07.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/07.07.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-  - [ ] **07.11.a — Implement:** Capture before, at and after split/merge seams using a fixed camera.
-  - [ ] **07.11.b — Verify:** Verify lane edges, terrain and object placement do not jump.
-  - [ ] **07.11.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/07.11.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+- [x] **07.08 — Decode event zones and finish markers**
 
-- [ ] **07.12 — Test forward and reverse traversal**
+  Completed: [implementation and acceptance evidence](docs/evidence/07.08.md).
 
-  - [ ] **07.12.a — Implement:** Advance and rewind route cursors across section and branch transitions.
-  - [ ] **07.12.b — Verify:** Check endpoint semantics and avoid reading past the sampled path.
-  - [ ] **07.12.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/07.12.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **07.08.a — Implement:** Translate event ranges and parameters without losing original record order.
+  - [x] **07.08.b — Verify:** Test event start, interior, end and one tick beyond the boundary.
+  - [x] **07.08.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/07.08.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+
+- [x] **07.09 — Decode scenery and family placements**
+
+  Completed: [implementation and acceptance evidence](docs/evidence/07.09.md).
+
+  - [x] **07.09.a — Implement:** Decode scenery placement and family instances with stable instance IDs.
+  - [x] **07.09.b — Verify:** Compare repeated objects and placement around section transitions.
+  - [x] **07.09.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/07.09.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+
+- [x] **07.10 — Inspect all five courses in viewer**
+
+  Completed: [implementation and acceptance evidence](docs/evidence/07.10.md).
+
+  - [x] **07.10.a — Implement:** Build a route inspector that can select every named course and level.
+  - [x] **07.10.b — Verify:** Export a coverage report listing visited sections and unsupported content.
+  - [x] **07.10.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/07.10.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+
+- [x] **07.11 — Compare branch seams and roadside placement**
+
+  Completed: [implementation and acceptance evidence](docs/evidence/07.11.md).
+
+  - [x] **07.11.a — Implement:** Capture before, at and after split/merge seams using a fixed camera.
+  - [x] **07.11.b — Verify:** Verify lane edges, terrain and object placement do not jump.
+  - [x] **07.11.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/07.11.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+
+- [x] **07.12 — Test forward and reverse traversal**
+
+  Completed: [implementation and acceptance evidence](docs/evidence/07.12.md).
+
+  - [x] **07.12.a — Implement:** Advance and rewind route cursors across section and branch transitions.
+  - [x] **07.12.b — Verify:** Check endpoint semantics and avoid reading past the sampled path.
+  - [x] **07.12.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/07.12.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
 
 **Exit evidence:** a reproducible demonstration of course reconstruction, linked implementation revision, recorded checks and known limitations. Dependent phases may prototype early, but this gate stays open until its checks pass.
@@ -2491,7 +2516,7 @@ Do not report upstream's tests as this project's tests. Do not label the local p
 
 - [x] Establish the workspace, pinned toolchain and CI using an authored placeholder scene.
 - [x] Implement local import validation for the confirmed 341-file corpus.
-- [ ] Decode one RRI image, one rider animation family and one course section.
+- [x] Decode one RRI image, one rider animation family and one course section.
 - [x] Build a catalog/inspection tool that exposes IDs, palettes and pivots.
 - [x] Implement a headless command-driven player simulation.
 - [ ] Render one measured course segment with original sprites.

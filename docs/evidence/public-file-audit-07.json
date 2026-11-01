@@ -1,0 +1,150 @@
+{
+  "outcome": "passed",
+  "policy": "only UTF-8 code/docs/metadata; private source, converted course payloads and captures remain ignored",
+  "files": [
+    {
+      "path": ".github/workflows/ci.yml",
+      "sha256": "d49ece5d166a89fd2c4a5569a410ca2dae6ac80e51cf4ae11dae2cdc202ef8c8"
+    },
+    {
+      "path": "Cargo.lock",
+      "sha256": "49db3f3f60fcdd9d06f6308fa762dcd8559c9dbaea8c7a0381cfa30a19b01e7b"
+    },
+    {
+      "path": "Cargo.toml",
+      "sha256": "a1a6a01e3415d7faffe2735ddc77f4b599417c347a35c01ffa9a1fb3687f8c8b"
+    },
+    {
+      "path": "README.md",
+      "sha256": "55a43c6263634f2d46b2857270e0d93a07afdfdd4af1ccad230b3cc17808a3f7"
+    },
+    {
+      "path": "crates/course/Cargo.toml",
+      "sha256": "2c0076540758db0f0931fcd920aea214c44ba3d0b9cb11d67f18942520f20794"
+    },
+    {
+      "path": "crates/course/src/decode.rs",
+      "sha256": "faaef96c648180c933dd9588a2f976739cacc75686d97a435504493349b376ad"
+    },
+    {
+      "path": "crates/course/src/export.rs",
+      "sha256": "36cd809e18a7ab45f55783e927c25ccad5b072bd73f17ffdbb5d767accc84637"
+    },
+    {
+      "path": "crates/course/src/lib.rs",
+      "sha256": "8c3101b8fac5e76d8310122aab2fd68c23a4b3babc21111580a853db00a5c14b"
+    },
+    {
+      "path": "crates/course/src/main.rs",
+      "sha256": "4f5c1e4f08846b21a4002faf27156b109f82f5b6ab8761c54de47e467f5f4be9"
+    },
+    {
+      "path": "crates/course/src/route.rs",
+      "sha256": "693ee894d0012c6b614e7830da40728def710fd2fb1255634b7340891f476dd6"
+    },
+    {
+      "path": "crates/course/src/scenery.rs",
+      "sha256": "873f5c4a924b82b190d662c8906efac545fd83f8eb672a514da749902f26f484"
+    },
+    {
+      "path": "crates/course/src/viewer.html",
+      "sha256": "7f9d2580da5edfaa1cde44e890848b45c5fdc406a2f2c14d0b6f78a91806e129"
+    },
+    {
+      "path": "crates/course/tests/course.rs",
+      "sha256": "7476096306a525aeecdf590615ee10f8e6a6d304f333e45b41cf643ce268d80d"
+    },
+    {
+      "path": "docs/ARCHITECTURE.md",
+      "sha256": "352cf20cade390efbe18168d588e8b6521a334c468d202656fc97907ee367ad5"
+    },
+    {
+      "path": "docs/COURSES.md",
+      "sha256": "d8dffcc70f7d64bd24dd30cd79b1883c7e297e19503b61091cebd95e37eba7a1"
+    },
+    {
+      "path": "docs/GETTING_STARTED.md",
+      "sha256": "13a10af5834d41cee859ba8102d2555f5a7da42b3a2e3956f801ccce43db9ef5"
+    },
+    {
+      "path": "docs/STATUS.md",
+      "sha256": "a3186ca9e7dcb968924cb062419fcf95a389a2efa35607d4efc06aec9edcd46c"
+    },
+    {
+      "path": "docs/baseline/courses.json",
+      "sha256": "14689424d46f5e02c7a869ef9c5e92a1b888e442556fd18fbfeb17b4411568c0"
+    },
+    {
+      "path": "docs/evidence/07.01.md",
+      "sha256": "aebd9e1ce5b525d54491359f77a7f5f4703ab50fb46398394ac0d00dd146faaf"
+    },
+    {
+      "path": "docs/evidence/07.02.md",
+      "sha256": "7cbb3edcf49953a1af97ef03ba7c0600944df0a97b7027d4965d9fde1597478c"
+    },
+    {
+      "path": "docs/evidence/07.03.md",
+      "sha256": "193a3ed61b1bd436d0fe3c7434984fd4ed08a63418aae3458b1c337fc3865809"
+    },
+    {
+      "path": "docs/evidence/07.04.md",
+      "sha256": "4e0f34b4a2f86dcb7979707eb49ef6b91d4503bc216498efd965fc65144c423c"
+    },
+    {
+      "path": "docs/evidence/07.05.md",
+      "sha256": "6e9436a8d258f887bb72cd8623c9af3fe01cfd8de8cf7ec85929b9095954fc0b"
+    },
+    {
+      "path": "docs/evidence/07.06.md",
+      "sha256": "de2616d59ef30c85d95079c585d42a378bc40f1b6f269600c2ef9ed76e92c288"
+    },
+    {
+      "path": "docs/evidence/07.07.md",
+      "sha256": "477fda9267635dd73c819056b902339a0ed18c57b2f7def9d982071aaee931ec"
+    },
+    {
+      "path": "docs/evidence/07.08.md",
+      "sha256": "1ad1c6fe9626def1fa8eca27d0f506607e24b95846358872fe00672e149220c9"
+    },
+    {
+      "path": "docs/evidence/07.09.md",
+      "sha256": "ce064d9fa22757526227cbc06e61fa78b629565dfe8842188eb259f4eaf79eb5"
+    },
+    {
+      "path": "docs/evidence/07.10.md",
+      "sha256": "04a7ccb05b7d0d5c34a255a829a6e2d84af8772643a9c3ecd8d90f374552dbcd"
+    },
+    {
+      "path": "docs/evidence/07.11.md",
+      "sha256": "3fd81883ff376e7f73f536a30f7ae030a4f6e7f5108e2dd0e0ad8a8468fad4ec"
+    },
+    {
+      "path": "docs/evidence/07.12.md",
+      "sha256": "74b7c1c4a6a1dcfaafb2f8757fc3aa64041be0bd8e683ac3877ecd3f8d6e1da4"
+    },
+    {
+      "path": "docs/evidence/course-browser-qa.json",
+      "sha256": "56c3ba36ed91b1af4d11451ded863b0cc56c9593923ac130fa36e6064c9ecea9"
+    },
+    {
+      "path": "docs/evidence/course-coverage.json",
+      "sha256": "243ca1d617d10d53ba32b68d6724c47b2c128eb2bdfc00e389fcc1c54199f3ad"
+    },
+    {
+      "path": "docs/evidence/course-reproducibility.json",
+      "sha256": "bcf5ebbd71b6384ba636abb11bf9a47da6bd5110e4547bc41db5269fb3cb120d"
+    },
+    {
+      "path": "docs/evidence/part-07.md",
+      "sha256": "2b78e6b13f1caf61743c4018efdbfe332017ec74d41103f34dbff19dda0411c0"
+    },
+    {
+      "path": "docs/fixtures/course-expectations.json",
+      "sha256": "c2f2b67d6873f9353a1f64c7840de66b8f26e39a22f22044fce8098b05e79f9f"
+    },
+    {
+      "path": "tools/ci/clean_build.sh",
+      "sha256": "2b8c334d532b68d77f4a5d74276044a9ca4ab77396553a9132081476736bb083"
+    }
+  ]
+}

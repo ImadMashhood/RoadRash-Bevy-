@@ -18,7 +18,7 @@ rustc --version
 cargo --version
 cargo fmt --all --check
 python3 -m unittest discover -s tools -p "test_*.py" -v
-cargo test --locked -p rr-formats -p rr-simulation -p rr-import -p rr-content
+cargo test --locked -p rr-formats -p rr-simulation -p rr-import -p rr-content -p rr-course
 cargo clippy --locked --workspace --all-targets -- -D warnings
 CARGO_BUILD_JOBS=4 cargo build --locked --release --workspace
 cargo package --list --allow-dirty -p rr-game > /evidence/game-package-files.txt

@@ -1,0 +1,1402 @@
+{
+  "outcome": "passed",
+  "course_level_checks": [
+    {
+      "course": "CITY",
+      "finishes": [
+        "1,821",
+        "2,840",
+        "3,865",
+        "4,510",
+        "5,419"
+      ]
+    },
+    {
+      "course": "HIWAY",
+      "finishes": [
+        "1,810",
+        "2,650",
+        "3,295",
+        "4,205",
+        "5,566"
+      ]
+    },
+    {
+      "course": "MEDLY",
+      "finishes": [
+        "1,818",
+        "2,719",
+        "3,642",
+        "4,963",
+        "5,532"
+      ]
+    },
+    {
+      "course": "NAPA",
+      "finishes": [
+        "1,715",
+        "2,565",
+        "3,570",
+        "4,280",
+        "6,164"
+      ]
+    },
+    {
+      "course": "CANYN",
+      "finishes": [
+        "1,862",
+        "2,719",
+        "3,685",
+        "4,215",
+        "5,361"
+      ]
+    }
+  ],
+  "branch_checks": [
+    {
+      "course": "CITY",
+      "routes": [
+        {
+          "branch": 0,
+          "samples": "5,606",
+          "seam": "Merge"
+        },
+        {
+          "branch": 1,
+          "samples": "5,606",
+          "seam": "Merge"
+        }
+      ]
+    },
+    {
+      "course": "HIWAY",
+      "routes": [
+        {
+          "branch": 0,
+          "samples": "6,005",
+          "seam": "Merge"
+        },
+        {
+          "branch": 1,
+          "samples": "5,985",
+          "seam": "Merge"
+        },
+        {
+          "branch": 2,
+          "samples": "6,095",
+          "seam": "Merge"
+        },
+        {
+          "branch": 3,
+          "samples": "6,075",
+          "seam": "Merge"
+        }
+      ]
+    },
+    {
+      "course": "MEDLY",
+      "routes": [
+        {
+          "branch": 0,
+          "samples": "5,634",
+          "seam": "Merge"
+        },
+        {
+          "branch": 1,
+          "samples": "5,618",
+          "seam": "Merge"
+        },
+        {
+          "branch": 2,
+          "samples": "5,681",
+          "seam": "Merge"
+        },
+        {
+          "branch": 3,
+          "samples": "5,665",
+          "seam": "Merge"
+        },
+        {
+          "branch": 4,
+          "samples": "5,614",
+          "seam": "Merge"
+        },
+        {
+          "branch": 5,
+          "samples": "5,598",
+          "seam": "Merge"
+        },
+        {
+          "branch": 6,
+          "samples": "5,661",
+          "seam": "Merge"
+        },
+        {
+          "branch": 7,
+          "samples": "5,645",
+          "seam": "Merge"
+        }
+      ]
+    },
+    {
+      "course": "NAPA",
+      "routes": [
+        {
+          "branch": 0,
+          "samples": "6,224",
+          "seam": "Merge"
+        },
+        {
+          "branch": 1,
+          "samples": "6,249",
+          "seam": "Merge"
+        },
+        {
+          "branch": 2,
+          "samples": "6,294",
+          "seam": "Merge"
+        },
+        {
+          "branch": 3,
+          "samples": "6,319",
+          "seam": "Merge"
+        },
+        {
+          "branch": 4,
+          "samples": "6,224",
+          "seam": "Merge"
+        },
+        {
+          "branch": 5,
+          "samples": "6,249",
+          "seam": "Merge"
+        },
+        {
+          "branch": 6,
+          "samples": "6,294",
+          "seam": "Merge"
+        },
+        {
+          "branch": 7,
+          "samples": "6,319",
+          "seam": "Merge"
+        }
+      ]
+    },
+    {
+      "course": "CANYN",
+      "routes": [
+        {
+          "branch": 0,
+          "samples": "5,423",
+          "seam": "Merge"
+        },
+        {
+          "branch": 1,
+          "samples": "5,443",
+          "seam": "Merge"
+        },
+        {
+          "branch": 2,
+          "samples": "5,423",
+          "seam": "Merge"
+        },
+        {
+          "branch": 3,
+          "samples": "5,443",
+          "seam": "Merge"
+        }
+      ]
+    }
+  ],
+  "seam_captures": [
+    {
+      "course": "CITY",
+      "branch": 0,
+      "seam": 0,
+      "kind": "Split",
+      "index": 2985,
+      "file": "CITY-branch-0-seam-0.png",
+      "sha256": "ad63d3eea369451ab61dfb93e5c0cc062edb5333a53dc6cd656dd5b741e6698b"
+    },
+    {
+      "course": "CITY",
+      "branch": 0,
+      "seam": 1,
+      "kind": "Merge",
+      "index": 3265,
+      "file": "CITY-branch-0-seam-1.png",
+      "sha256": "59e5d7e2b792ef19cca9c7cc6afedc19f304203cd7088888337bb65acbd77c3f"
+    },
+    {
+      "course": "CITY",
+      "branch": 1,
+      "seam": 0,
+      "kind": "Split",
+      "index": 2985,
+      "file": "CITY-branch-1-seam-0.png",
+      "sha256": "bd51a3d6a7166d2266b7aaab9e65cadb75ab2a85bb47b614c738bc1ff437c76a"
+    },
+    {
+      "course": "CITY",
+      "branch": 1,
+      "seam": 1,
+      "kind": "Merge",
+      "index": 3265,
+      "file": "CITY-branch-1-seam-1.png",
+      "sha256": "845598256556e237b7fc4f413b25b60174edc873071ecfd746a2bdc804bccea9"
+    },
+    {
+      "course": "HIWAY",
+      "branch": 0,
+      "seam": 0,
+      "kind": "Split",
+      "index": 900,
+      "file": "HIWAY-branch-0-seam-0.png",
+      "sha256": "874c2fd7ff0921ed9e7bd92ec20a713163e3707b37ac3749c26ee5db233629ab"
+    },
+    {
+      "course": "HIWAY",
+      "branch": 0,
+      "seam": 1,
+      "kind": "Merge",
+      "index": 1530,
+      "file": "HIWAY-branch-0-seam-1.png",
+      "sha256": "2cb73d5ea0c28ec5b236a43d374ce9ec58b6462ab9194eec629d2009dc9dbb8b"
+    },
+    {
+      "course": "HIWAY",
+      "branch": 0,
+      "seam": 2,
+      "kind": "Split",
+      "index": 3370,
+      "file": "HIWAY-branch-0-seam-2.png",
+      "sha256": "d7af31dc5d5429dad9d6f3549b476a5e254c206341ad48352591bf4373f49caf"
+    },
+    {
+      "course": "HIWAY",
+      "branch": 0,
+      "seam": 3,
+      "kind": "Merge",
+      "index": 3725,
+      "file": "HIWAY-branch-0-seam-3.png",
+      "sha256": "4ec65b5d35248b8625ef22463955984148429b323e56119628fca32419d2bdbe"
+    },
+    {
+      "course": "HIWAY",
+      "branch": 1,
+      "seam": 0,
+      "kind": "Split",
+      "index": 900,
+      "file": "HIWAY-branch-1-seam-0.png",
+      "sha256": "71128598f32de48155ad7a3fe1ec92d7467987b43ae274ac6feb207904994ae3"
+    },
+    {
+      "course": "HIWAY",
+      "branch": 1,
+      "seam": 1,
+      "kind": "Merge",
+      "index": 1510,
+      "file": "HIWAY-branch-1-seam-1.png",
+      "sha256": "3d325075fb7bb5860ce501de298f86c98d92a2615ac72ff630b559a387c0e190"
+    },
+    {
+      "course": "HIWAY",
+      "branch": 1,
+      "seam": 2,
+      "kind": "Split",
+      "index": 3350,
+      "file": "HIWAY-branch-1-seam-2.png",
+      "sha256": "3063d2d8d7224f12ea1945f7c2bd63231add2c06b63d732704d0622dd324c7e9"
+    },
+    {
+      "course": "HIWAY",
+      "branch": 1,
+      "seam": 3,
+      "kind": "Merge",
+      "index": 3705,
+      "file": "HIWAY-branch-1-seam-3.png",
+      "sha256": "0e8f092ad27da95a6d6adac02f7e5cbf64fc2fed9fb253f8124b5a93c024cbdb"
+    },
+    {
+      "course": "HIWAY",
+      "branch": 2,
+      "seam": 0,
+      "kind": "Split",
+      "index": 900,
+      "file": "HIWAY-branch-2-seam-0.png",
+      "sha256": "15d5915a087bf6d84af41f1761204c02c7ee76314d0e3b38c54f0329453a37ce"
+    },
+    {
+      "course": "HIWAY",
+      "branch": 2,
+      "seam": 1,
+      "kind": "Merge",
+      "index": 1530,
+      "file": "HIWAY-branch-2-seam-1.png",
+      "sha256": "43972f84e3bd445117758e4d2670b29f7fe4b743bdc153ab13716719a2257543"
+    },
+    {
+      "course": "HIWAY",
+      "branch": 2,
+      "seam": 2,
+      "kind": "Split",
+      "index": 3370,
+      "file": "HIWAY-branch-2-seam-2.png",
+      "sha256": "2c0865176960a0c8b30a23a1b9325c9594a5110da0ed66d067a19a243e1bb32a"
+    },
+    {
+      "course": "HIWAY",
+      "branch": 2,
+      "seam": 3,
+      "kind": "Merge",
+      "index": 3815,
+      "file": "HIWAY-branch-2-seam-3.png",
+      "sha256": "c4fca436c36ae1fd6a3a25f9e40b6a26328978cb9c3688c330a417426f4a0023"
+    },
+    {
+      "course": "HIWAY",
+      "branch": 3,
+      "seam": 0,
+      "kind": "Split",
+      "index": 900,
+      "file": "HIWAY-branch-3-seam-0.png",
+      "sha256": "946f146e5d69cef7662a97ebfcfcfd41e37564fcee79a5d314a710e5f57529c6"
+    },
+    {
+      "course": "HIWAY",
+      "branch": 3,
+      "seam": 1,
+      "kind": "Merge",
+      "index": 1510,
+      "file": "HIWAY-branch-3-seam-1.png",
+      "sha256": "f2f81edaed23049be337d4a4289c78554e908d369e17aa21b4f620ef0fdb0071"
+    },
+    {
+      "course": "HIWAY",
+      "branch": 3,
+      "seam": 2,
+      "kind": "Split",
+      "index": 3350,
+      "file": "HIWAY-branch-3-seam-2.png",
+      "sha256": "951099a25ba07944b51e20a752c745b9e472635691fe3f8dc4a71de0e56b8199"
+    },
+    {
+      "course": "HIWAY",
+      "branch": 3,
+      "seam": 3,
+      "kind": "Merge",
+      "index": 3795,
+      "file": "HIWAY-branch-3-seam-3.png",
+      "sha256": "e5f74a4c908f633101fc25ef7d72acc41dda360a83399d1f5db5b5bd803d8d6b"
+    },
+    {
+      "course": "MEDLY",
+      "branch": 0,
+      "seam": 0,
+      "kind": "Split",
+      "index": 1046,
+      "file": "MEDLY-branch-0-seam-0.png",
+      "sha256": "f5bc136a38aded57cf1da4a9ab3ee7693ff6e93c3f1f3bd76d9bb4caa2a151d8"
+    },
+    {
+      "course": "MEDLY",
+      "branch": 0,
+      "seam": 1,
+      "kind": "Merge",
+      "index": 1446,
+      "file": "MEDLY-branch-0-seam-1.png",
+      "sha256": "dc4413bc0e55cd5eac88d80e6ada54d27c1bc287b3125725d23fca6cbce08f6e"
+    },
+    {
+      "course": "MEDLY",
+      "branch": 0,
+      "seam": 2,
+      "kind": "Split",
+      "index": 3030,
+      "file": "MEDLY-branch-0-seam-2.png",
+      "sha256": "d58f9335b8c3c84aabf786d0d4d45defbb9b2dd259588f45377d545c45fa9b23"
+    },
+    {
+      "course": "MEDLY",
+      "branch": 0,
+      "seam": 3,
+      "kind": "Merge",
+      "index": 3383,
+      "file": "MEDLY-branch-0-seam-3.png",
+      "sha256": "fd1a66e6aef66b1b091bf03a026e4df28ed185f0deb938a1cf3f5e8e889dcfff"
+    },
+    {
+      "course": "MEDLY",
+      "branch": 0,
+      "seam": 4,
+      "kind": "Split",
+      "index": 4082,
+      "file": "MEDLY-branch-0-seam-4.png",
+      "sha256": "76b11c9230a452daacab7b6488eacbadd65b48b0f3499f5f2d3047ce43144910"
+    },
+    {
+      "course": "MEDLY",
+      "branch": 0,
+      "seam": 5,
+      "kind": "Merge",
+      "index": 4928,
+      "file": "MEDLY-branch-0-seam-5.png",
+      "sha256": "a10c599809fafb13ee0fed04311db4c7d3dc008c591ca7d5939ff3588a42965d"
+    },
+    {
+      "course": "MEDLY",
+      "branch": 1,
+      "seam": 0,
+      "kind": "Split",
+      "index": 1046,
+      "file": "MEDLY-branch-1-seam-0.png",
+      "sha256": "1c255ae9a37de67398fe1c93df8d3f3662170ccb01f08e87f1a79b21d29c1f1c"
+    },
+    {
+      "course": "MEDLY",
+      "branch": 1,
+      "seam": 1,
+      "kind": "Merge",
+      "index": 1430,
+      "file": "MEDLY-branch-1-seam-1.png",
+      "sha256": "7954ab764ae43b1c6711e507b6bc9a60048cf49ce5f611e6c44a0f672c1fa413"
+    },
+    {
+      "course": "MEDLY",
+      "branch": 1,
+      "seam": 2,
+      "kind": "Split",
+      "index": 3014,
+      "file": "MEDLY-branch-1-seam-2.png",
+      "sha256": "0c37e2b29f88fd9c81abf7a39ec89b82e10e581a1860ccdfeda8d3cc5b2cfd29"
+    },
+    {
+      "course": "MEDLY",
+      "branch": 1,
+      "seam": 3,
+      "kind": "Merge",
+      "index": 3367,
+      "file": "MEDLY-branch-1-seam-3.png",
+      "sha256": "540313bfb44d33d0890df4d20c935d52d58f468abfbf7020e5075cb7e0125643"
+    },
+    {
+      "course": "MEDLY",
+      "branch": 1,
+      "seam": 4,
+      "kind": "Split",
+      "index": 4066,
+      "file": "MEDLY-branch-1-seam-4.png",
+      "sha256": "53a7710e63495dc58bd4a684f147ab44166118b434cadcfc331a7b6afabe35ce"
+    },
+    {
+      "course": "MEDLY",
+      "branch": 1,
+      "seam": 5,
+      "kind": "Merge",
+      "index": 4912,
+      "file": "MEDLY-branch-1-seam-5.png",
+      "sha256": "f00572e1e1058f7ddff96a55f1924d037b0c94fe6a08909921c117954b55e5e5"
+    },
+    {
+      "course": "MEDLY",
+      "branch": 2,
+      "seam": 0,
+      "kind": "Split",
+      "index": 1046,
+      "file": "MEDLY-branch-2-seam-0.png",
+      "sha256": "74a0efff49f434d03c817080b093b4e887a3f8dcbf7adfdbd0b7bcaaf20fec34"
+    },
+    {
+      "course": "MEDLY",
+      "branch": 2,
+      "seam": 1,
+      "kind": "Merge",
+      "index": 1446,
+      "file": "MEDLY-branch-2-seam-1.png",
+      "sha256": "e5e67368836587919b5628c1a833803546e31b5bd4ff41ca801a034fcf2140fc"
+    },
+    {
+      "course": "MEDLY",
+      "branch": 2,
+      "seam": 2,
+      "kind": "Split",
+      "index": 3030,
+      "file": "MEDLY-branch-2-seam-2.png",
+      "sha256": "4d78945bea7253dda790ce38e9c2601bf716d79eaa27a8df5a58f479ecf7dc67"
+    },
+    {
+      "course": "MEDLY",
+      "branch": 2,
+      "seam": 3,
+      "kind": "Merge",
+      "index": 3430,
+      "file": "MEDLY-branch-2-seam-3.png",
+      "sha256": "743f54ee5314819c5e9a26cad5ac70acd579cc6a94844ca93b2bc97988a1a5cd"
+    },
+    {
+      "course": "MEDLY",
+      "branch": 2,
+      "seam": 4,
+      "kind": "Split",
+      "index": 4129,
+      "file": "MEDLY-branch-2-seam-4.png",
+      "sha256": "6c66230c1b5ff3b8f4197fc8bfb9c138b38fb607d1b64f2c2f23d6b0e1c73748"
+    },
+    {
+      "course": "MEDLY",
+      "branch": 2,
+      "seam": 5,
+      "kind": "Merge",
+      "index": 4975,
+      "file": "MEDLY-branch-2-seam-5.png",
+      "sha256": "7e96f39a3da5f5a63a35a1a6695fcf79ad04aaaf74593d3b5e8eb22e9bb7272e"
+    },
+    {
+      "course": "MEDLY",
+      "branch": 3,
+      "seam": 0,
+      "kind": "Split",
+      "index": 1046,
+      "file": "MEDLY-branch-3-seam-0.png",
+      "sha256": "0b18cbd474befb95892b010f5e7d8c51239770506ece96e8a603e26ae216465c"
+    },
+    {
+      "course": "MEDLY",
+      "branch": 3,
+      "seam": 1,
+      "kind": "Merge",
+      "index": 1430,
+      "file": "MEDLY-branch-3-seam-1.png",
+      "sha256": "e4fefa6cef0c8a1b7ac0e04a87921a9982c5ee200484f8b6867283f548ae6566"
+    },
+    {
+      "course": "MEDLY",
+      "branch": 3,
+      "seam": 2,
+      "kind": "Split",
+      "index": 3014,
+      "file": "MEDLY-branch-3-seam-2.png",
+      "sha256": "705fe3cbc6d2c44e2cd0e91c4feccf659a3581e394728de3c5dd5916127e5e53"
+    },
+    {
+      "course": "MEDLY",
+      "branch": 3,
+      "seam": 3,
+      "kind": "Merge",
+      "index": 3414,
+      "file": "MEDLY-branch-3-seam-3.png",
+      "sha256": "0eb3e6d2db77d09094486b482161d583a98b8bf208c3efddac477e79b1ba8510"
+    },
+    {
+      "course": "MEDLY",
+      "branch": 3,
+      "seam": 4,
+      "kind": "Split",
+      "index": 4113,
+      "file": "MEDLY-branch-3-seam-4.png",
+      "sha256": "4927884be80ab293b220d6af3da281260f2d1c8ee03e589b1b6afc631f862bcb"
+    },
+    {
+      "course": "MEDLY",
+      "branch": 3,
+      "seam": 5,
+      "kind": "Merge",
+      "index": 4959,
+      "file": "MEDLY-branch-3-seam-5.png",
+      "sha256": "5b6b8d58c94e736dfcd5176967b27a23abc582ef9e420d8619a33122f269d279"
+    },
+    {
+      "course": "MEDLY",
+      "branch": 4,
+      "seam": 0,
+      "kind": "Split",
+      "index": 1046,
+      "file": "MEDLY-branch-4-seam-0.png",
+      "sha256": "fccfb917c3b4d87c8b48b244b7da30b34dbe0ceb9a076154979cc63f097de6d8"
+    },
+    {
+      "course": "MEDLY",
+      "branch": 4,
+      "seam": 1,
+      "kind": "Merge",
+      "index": 1446,
+      "file": "MEDLY-branch-4-seam-1.png",
+      "sha256": "ecc33d47ff1f59f1f9f1d46ff209299574009858265309390871fa943c916026"
+    },
+    {
+      "course": "MEDLY",
+      "branch": 4,
+      "seam": 2,
+      "kind": "Split",
+      "index": 3030,
+      "file": "MEDLY-branch-4-seam-2.png",
+      "sha256": "100ac82c994249f63b70cff41033ee8633a8a2caea973723a782c1a888deea33"
+    },
+    {
+      "course": "MEDLY",
+      "branch": 4,
+      "seam": 3,
+      "kind": "Merge",
+      "index": 3383,
+      "file": "MEDLY-branch-4-seam-3.png",
+      "sha256": "826dd40aeccc71eb093fabf895253d8eba655428d7aa1b9cdc32f64ff9c428fe"
+    },
+    {
+      "course": "MEDLY",
+      "branch": 4,
+      "seam": 4,
+      "kind": "Split",
+      "index": 4082,
+      "file": "MEDLY-branch-4-seam-4.png",
+      "sha256": "b63da080af62e8e44c767711d8e149080f5203ae0cd5c0384f2b3f18420e197c"
+    },
+    {
+      "course": "MEDLY",
+      "branch": 4,
+      "seam": 5,
+      "kind": "Merge",
+      "index": 4908,
+      "file": "MEDLY-branch-4-seam-5.png",
+      "sha256": "3ec09c44cca316056f1fad66e2ede6106141b9195845ade4287f50b774c9989f"
+    },
+    {
+      "course": "MEDLY",
+      "branch": 5,
+      "seam": 0,
+      "kind": "Split",
+      "index": 1046,
+      "file": "MEDLY-branch-5-seam-0.png",
+      "sha256": "b6757beaf41bb69d2aef5f1ccbd5d34de68e8baf03d65208ace97132ddb62d71"
+    },
+    {
+      "course": "MEDLY",
+      "branch": 5,
+      "seam": 1,
+      "kind": "Merge",
+      "index": 1430,
+      "file": "MEDLY-branch-5-seam-1.png",
+      "sha256": "ec0d1928785a8e6f8bead2c8bd33fec90717ad5b8227996460b57df823963c3b"
+    },
+    {
+      "course": "MEDLY",
+      "branch": 5,
+      "seam": 2,
+      "kind": "Split",
+      "index": 3014,
+      "file": "MEDLY-branch-5-seam-2.png",
+      "sha256": "f55712ee4e9b3c30d587fbe8fa750ab5800691d45ace41e8829369101bf4f940"
+    },
+    {
+      "course": "MEDLY",
+      "branch": 5,
+      "seam": 3,
+      "kind": "Merge",
+      "index": 3367,
+      "file": "MEDLY-branch-5-seam-3.png",
+      "sha256": "b6a68a318b1503bd604aa975d151f2caa14312be854e1d48b402d826a804d36e"
+    },
+    {
+      "course": "MEDLY",
+      "branch": 5,
+      "seam": 4,
+      "kind": "Split",
+      "index": 4066,
+      "file": "MEDLY-branch-5-seam-4.png",
+      "sha256": "01342faf64c780e563e82856d071da0f6a6f583ec39cbce5b2ce535928da76e4"
+    },
+    {
+      "course": "MEDLY",
+      "branch": 5,
+      "seam": 5,
+      "kind": "Merge",
+      "index": 4892,
+      "file": "MEDLY-branch-5-seam-5.png",
+      "sha256": "3b931787d15f84306eeed58ac8a561697c656c6255c10ad7e2eb002fdf728e5c"
+    },
+    {
+      "course": "MEDLY",
+      "branch": 6,
+      "seam": 0,
+      "kind": "Split",
+      "index": 1046,
+      "file": "MEDLY-branch-6-seam-0.png",
+      "sha256": "3d2367725ffef6a77fdf6bc7c872923cff4a6211b8a44d193cfedd567548368d"
+    },
+    {
+      "course": "MEDLY",
+      "branch": 6,
+      "seam": 1,
+      "kind": "Merge",
+      "index": 1446,
+      "file": "MEDLY-branch-6-seam-1.png",
+      "sha256": "301c80a9f2d91b7e0fd171fe49ee49b2c44ac9f9839ee9b547c94c0bd6fe9054"
+    },
+    {
+      "course": "MEDLY",
+      "branch": 6,
+      "seam": 2,
+      "kind": "Split",
+      "index": 3030,
+      "file": "MEDLY-branch-6-seam-2.png",
+      "sha256": "e0bdb02ee6b5de7394f2d571c58f10e1987fc4b831aaa2378cafebe9f8819dc7"
+    },
+    {
+      "course": "MEDLY",
+      "branch": 6,
+      "seam": 3,
+      "kind": "Merge",
+      "index": 3430,
+      "file": "MEDLY-branch-6-seam-3.png",
+      "sha256": "14997f269376cec5138b5ae3c228af8253f428d9eddf00ec71cad4922980d949"
+    },
+    {
+      "course": "MEDLY",
+      "branch": 6,
+      "seam": 4,
+      "kind": "Split",
+      "index": 4129,
+      "file": "MEDLY-branch-6-seam-4.png",
+      "sha256": "92ccb5a6fa17009bf1b2de33eec19860204437352cfa7644f5d3443b0ecc2e3f"
+    },
+    {
+      "course": "MEDLY",
+      "branch": 6,
+      "seam": 5,
+      "kind": "Merge",
+      "index": 4955,
+      "file": "MEDLY-branch-6-seam-5.png",
+      "sha256": "7a64f0d51011c78ec0b47b85e0d31a9551b2cddb25d2a0412dd8ec7fb1979f0c"
+    },
+    {
+      "course": "MEDLY",
+      "branch": 7,
+      "seam": 0,
+      "kind": "Split",
+      "index": 1046,
+      "file": "MEDLY-branch-7-seam-0.png",
+      "sha256": "d668a87e990150b6f6ed1b628d65e7e9220c4429f20c258e90bb5e26b94bd213"
+    },
+    {
+      "course": "MEDLY",
+      "branch": 7,
+      "seam": 1,
+      "kind": "Merge",
+      "index": 1430,
+      "file": "MEDLY-branch-7-seam-1.png",
+      "sha256": "9f9a43d7064ac74846d8e0a54dd168817cb6355cdfef400554fe5c39e73aed1d"
+    },
+    {
+      "course": "MEDLY",
+      "branch": 7,
+      "seam": 2,
+      "kind": "Split",
+      "index": 3014,
+      "file": "MEDLY-branch-7-seam-2.png",
+      "sha256": "bc2e9345fe089726b3c0f5839158b82b75672ccddbc7395975067fbdfcdee97d"
+    },
+    {
+      "course": "MEDLY",
+      "branch": 7,
+      "seam": 3,
+      "kind": "Merge",
+      "index": 3414,
+      "file": "MEDLY-branch-7-seam-3.png",
+      "sha256": "d1b828f22ca765b3340fc8308a60f4380dee491cbab0d407933e4225365f8dca"
+    },
+    {
+      "course": "MEDLY",
+      "branch": 7,
+      "seam": 4,
+      "kind": "Split",
+      "index": 4113,
+      "file": "MEDLY-branch-7-seam-4.png",
+      "sha256": "1f4016d3d952b696365a39273f053320b7825a088574aa8b7f3472d5967f085c"
+    },
+    {
+      "course": "MEDLY",
+      "branch": 7,
+      "seam": 5,
+      "kind": "Merge",
+      "index": 4939,
+      "file": "MEDLY-branch-7-seam-5.png",
+      "sha256": "b87f67c27fbe433f89df36f12d6b2c8303be7c10f78d2843e815fae6b9202a5b"
+    },
+    {
+      "course": "NAPA",
+      "branch": 0,
+      "seam": 0,
+      "kind": "Split",
+      "index": 700,
+      "file": "NAPA-branch-0-seam-0.png",
+      "sha256": "8fa1369f8d414d3b894ce5e2e6bbc0e9a63ad7e746d77d743a8e4ff5bcd762c3"
+    },
+    {
+      "course": "NAPA",
+      "branch": 0,
+      "seam": 1,
+      "kind": "Merge",
+      "index": 1000,
+      "file": "NAPA-branch-0-seam-1.png",
+      "sha256": "6fa1c4ed3e85630016a75f026982b0ad9ed470c629713faa645c76483308043d"
+    },
+    {
+      "course": "NAPA",
+      "branch": 0,
+      "seam": 2,
+      "kind": "Split",
+      "index": 2840,
+      "file": "NAPA-branch-0-seam-2.png",
+      "sha256": "66a7e0829450dcf2941323811f667d79930b945ffd28d742fa0a0fd58fe869a3"
+    },
+    {
+      "course": "NAPA",
+      "branch": 0,
+      "seam": 3,
+      "kind": "Merge",
+      "index": 3470,
+      "file": "NAPA-branch-0-seam-3.png",
+      "sha256": "66d5c909d539d45453abb34ffe57974c578b4c4962a534e23030e24dea8639f0"
+    },
+    {
+      "course": "NAPA",
+      "branch": 0,
+      "seam": 4,
+      "kind": "Split",
+      "index": 4420,
+      "file": "NAPA-branch-0-seam-4.png",
+      "sha256": "c70a443aed7ad2a48d6b8d019f18b71a1b255d090904658d0d4080f41a7d6111"
+    },
+    {
+      "course": "NAPA",
+      "branch": 0,
+      "seam": 5,
+      "kind": "Merge",
+      "index": 5120,
+      "file": "NAPA-branch-0-seam-5.png",
+      "sha256": "4f808b45f52373459cbf0235dc07c132197fb5bf41bbd9b846ba38cfebfa42c5"
+    },
+    {
+      "course": "NAPA",
+      "branch": 1,
+      "seam": 0,
+      "kind": "Split",
+      "index": 700,
+      "file": "NAPA-branch-1-seam-0.png",
+      "sha256": "ab9ffefe5415140577b4bfad20c663b1a8977258c47daa2ed707efc1baf829e6"
+    },
+    {
+      "course": "NAPA",
+      "branch": 1,
+      "seam": 1,
+      "kind": "Merge",
+      "index": 1025,
+      "file": "NAPA-branch-1-seam-1.png",
+      "sha256": "a8bda8d908fa2316ad31eba3537d8624a5c6a45192339c42d2346a48e1b9ebe2"
+    },
+    {
+      "course": "NAPA",
+      "branch": 1,
+      "seam": 2,
+      "kind": "Split",
+      "index": 2865,
+      "file": "NAPA-branch-1-seam-2.png",
+      "sha256": "97b5de4ad7f99edae2d5b7bd3a65e88708baf98f308f36446d821eb5ba77b32b"
+    },
+    {
+      "course": "NAPA",
+      "branch": 1,
+      "seam": 3,
+      "kind": "Merge",
+      "index": 3495,
+      "file": "NAPA-branch-1-seam-3.png",
+      "sha256": "c2542c4495b6623e7fd83c47309632c7f3d1ac50252901b781e8c0fb4bbbf853"
+    },
+    {
+      "course": "NAPA",
+      "branch": 1,
+      "seam": 4,
+      "kind": "Split",
+      "index": 4445,
+      "file": "NAPA-branch-1-seam-4.png",
+      "sha256": "4ecd16403dec455cf66086f26b5ab7aa6555f258c5a362ef4a63b2cfba272fc4"
+    },
+    {
+      "course": "NAPA",
+      "branch": 1,
+      "seam": 5,
+      "kind": "Merge",
+      "index": 5145,
+      "file": "NAPA-branch-1-seam-5.png",
+      "sha256": "221da7c05a45b4bb838cec40bc102cad79cf545d827197bde397b337a780f7c1"
+    },
+    {
+      "course": "NAPA",
+      "branch": 2,
+      "seam": 0,
+      "kind": "Split",
+      "index": 700,
+      "file": "NAPA-branch-2-seam-0.png",
+      "sha256": "af8aef1be731a1d487176d770b15fe475eeefc9f4154f80bf40bc7717ac213be"
+    },
+    {
+      "course": "NAPA",
+      "branch": 2,
+      "seam": 1,
+      "kind": "Merge",
+      "index": 1000,
+      "file": "NAPA-branch-2-seam-1.png",
+      "sha256": "1d0a04ac547502ed81cda34a4c53a6789cb02595bb9f46d570237374112c5b36"
+    },
+    {
+      "course": "NAPA",
+      "branch": 2,
+      "seam": 2,
+      "kind": "Split",
+      "index": 2840,
+      "file": "NAPA-branch-2-seam-2.png",
+      "sha256": "2a16aa3dd0c0c3ea9386501c9e434947cccd8306f34dd9657e68eae3679bb465"
+    },
+    {
+      "course": "NAPA",
+      "branch": 2,
+      "seam": 3,
+      "kind": "Merge",
+      "index": 3540,
+      "file": "NAPA-branch-2-seam-3.png",
+      "sha256": "2c04a96311766a6e91e3355106f10265c6918ac89fc5fbf440d79b103e349b0b"
+    },
+    {
+      "course": "NAPA",
+      "branch": 2,
+      "seam": 4,
+      "kind": "Split",
+      "index": 4490,
+      "file": "NAPA-branch-2-seam-4.png",
+      "sha256": "5f3a9ce66b4f721f62b5cb3701d36ceb1b43e3edfc8ebb72d4100c5e65b763c2"
+    },
+    {
+      "course": "NAPA",
+      "branch": 2,
+      "seam": 5,
+      "kind": "Merge",
+      "index": 5190,
+      "file": "NAPA-branch-2-seam-5.png",
+      "sha256": "f40685973067eb44d16fb6e13f2411836d12ef136467b7cc3fee8d13020f7539"
+    },
+    {
+      "course": "NAPA",
+      "branch": 3,
+      "seam": 0,
+      "kind": "Split",
+      "index": 700,
+      "file": "NAPA-branch-3-seam-0.png",
+      "sha256": "f5fc2e6d456d48e3fd67ca51f3874c232d80679d738dcd523e23637383122817"
+    },
+    {
+      "course": "NAPA",
+      "branch": 3,
+      "seam": 1,
+      "kind": "Merge",
+      "index": 1025,
+      "file": "NAPA-branch-3-seam-1.png",
+      "sha256": "67dbb367c8dd697f17c575b0c02b0310ff30107e5b9617c6be089d570e4ce644"
+    },
+    {
+      "course": "NAPA",
+      "branch": 3,
+      "seam": 2,
+      "kind": "Split",
+      "index": 2865,
+      "file": "NAPA-branch-3-seam-2.png",
+      "sha256": "6e27e94fb5fce0333ffa521a9594af20c497197e17c4e57983516ea404619de7"
+    },
+    {
+      "course": "NAPA",
+      "branch": 3,
+      "seam": 3,
+      "kind": "Merge",
+      "index": 3565,
+      "file": "NAPA-branch-3-seam-3.png",
+      "sha256": "653d6575ed11f4c3f8a6043bca8eb1c5eab5302f83b32ca34bebb4b67d57fad0"
+    },
+    {
+      "course": "NAPA",
+      "branch": 3,
+      "seam": 4,
+      "kind": "Split",
+      "index": 4515,
+      "file": "NAPA-branch-3-seam-4.png",
+      "sha256": "cb71fd98230ba0a5783eeed907f5f529cec7ab8b597b058cef335544789fac3b"
+    },
+    {
+      "course": "NAPA",
+      "branch": 3,
+      "seam": 5,
+      "kind": "Merge",
+      "index": 5215,
+      "file": "NAPA-branch-3-seam-5.png",
+      "sha256": "94caeb33ff0faa0e651f608ccae0402fb2ce294090f305fc90239b8fb8a0a465"
+    },
+    {
+      "course": "NAPA",
+      "branch": 4,
+      "seam": 0,
+      "kind": "Split",
+      "index": 700,
+      "file": "NAPA-branch-4-seam-0.png",
+      "sha256": "82882311351cd49788f27d7344145f75a8d3fd2fd445080c46b0c3712d283e65"
+    },
+    {
+      "course": "NAPA",
+      "branch": 4,
+      "seam": 1,
+      "kind": "Merge",
+      "index": 1000,
+      "file": "NAPA-branch-4-seam-1.png",
+      "sha256": "deab113dfbf3209574186cf48572a4c1632f1165d06e975d9dff33bae1cdbb7c"
+    },
+    {
+      "course": "NAPA",
+      "branch": 4,
+      "seam": 2,
+      "kind": "Split",
+      "index": 2840,
+      "file": "NAPA-branch-4-seam-2.png",
+      "sha256": "84bf023a3f4b0d3fe8f972469f9f6188b70447f7b5ed0db2c8ff94361b62ae5a"
+    },
+    {
+      "course": "NAPA",
+      "branch": 4,
+      "seam": 3,
+      "kind": "Merge",
+      "index": 3470,
+      "file": "NAPA-branch-4-seam-3.png",
+      "sha256": "2341d4d401f3fc7f4ee259e8023ff19199c4fbe17df2cb6197602e6c75fe6f40"
+    },
+    {
+      "course": "NAPA",
+      "branch": 4,
+      "seam": 4,
+      "kind": "Split",
+      "index": 4420,
+      "file": "NAPA-branch-4-seam-4.png",
+      "sha256": "fb4981483cf2f15a56bc17253c99da1b192a4cfb0a35ad149090843e3bed01f2"
+    },
+    {
+      "course": "NAPA",
+      "branch": 4,
+      "seam": 5,
+      "kind": "Merge",
+      "index": 5120,
+      "file": "NAPA-branch-4-seam-5.png",
+      "sha256": "c55bded1fcaaff9be4ec0c6fcee1c3dffa559291a09dd77e2b2b46417ee3c523"
+    },
+    {
+      "course": "NAPA",
+      "branch": 5,
+      "seam": 0,
+      "kind": "Split",
+      "index": 700,
+      "file": "NAPA-branch-5-seam-0.png",
+      "sha256": "1aa0ce8cba194049182284ab144cbd141aa58f6edaa75eb247eff53bfc6cc0b1"
+    },
+    {
+      "course": "NAPA",
+      "branch": 5,
+      "seam": 1,
+      "kind": "Merge",
+      "index": 1025,
+      "file": "NAPA-branch-5-seam-1.png",
+      "sha256": "c068489a720293983783d3f6e5dc9d1cfa83c0eaed08871440c4d7261504cbe2"
+    },
+    {
+      "course": "NAPA",
+      "branch": 5,
+      "seam": 2,
+      "kind": "Split",
+      "index": 2865,
+      "file": "NAPA-branch-5-seam-2.png",
+      "sha256": "5cec69676e18a945a183671061d12991bb320a96d35dfe20775c97f5aeba6247"
+    },
+    {
+      "course": "NAPA",
+      "branch": 5,
+      "seam": 3,
+      "kind": "Merge",
+      "index": 3495,
+      "file": "NAPA-branch-5-seam-3.png",
+      "sha256": "d3a439f0ad167a60e32b03d7d2c2b5cee369827ac30078ca4c8b0e9e03522db2"
+    },
+    {
+      "course": "NAPA",
+      "branch": 5,
+      "seam": 4,
+      "kind": "Split",
+      "index": 4445,
+      "file": "NAPA-branch-5-seam-4.png",
+      "sha256": "616d5061bd9e8da5ae1967163f441f68df93c2766f171aeb62f8c07790334fe4"
+    },
+    {
+      "course": "NAPA",
+      "branch": 5,
+      "seam": 5,
+      "kind": "Merge",
+      "index": 5145,
+      "file": "NAPA-branch-5-seam-5.png",
+      "sha256": "ab71893bb3871c0833a1b33dacc16ef4dd0bca5f4462b47e172c944d5e645b77"
+    },
+    {
+      "course": "NAPA",
+      "branch": 6,
+      "seam": 0,
+      "kind": "Split",
+      "index": 700,
+      "file": "NAPA-branch-6-seam-0.png",
+      "sha256": "c14f0ed502225295870c1cf375cc437342e5403291d918e4c87e92486038ff4f"
+    },
+    {
+      "course": "NAPA",
+      "branch": 6,
+      "seam": 1,
+      "kind": "Merge",
+      "index": 1000,
+      "file": "NAPA-branch-6-seam-1.png",
+      "sha256": "adc2dbd532558bda8927ce5d9d7ed3773bdfa08fd1cfc7db014b1de968c1c8ac"
+    },
+    {
+      "course": "NAPA",
+      "branch": 6,
+      "seam": 2,
+      "kind": "Split",
+      "index": 2840,
+      "file": "NAPA-branch-6-seam-2.png",
+      "sha256": "441bb26d6a022548339b9c7645f6987ce58874f3a7e892b8240929b322cbca62"
+    },
+    {
+      "course": "NAPA",
+      "branch": 6,
+      "seam": 3,
+      "kind": "Merge",
+      "index": 3540,
+      "file": "NAPA-branch-6-seam-3.png",
+      "sha256": "4bbb1a73d1cc8ef7c7a88957f86e87f5a147509084582fed0252c244c4d11f72"
+    },
+    {
+      "course": "NAPA",
+      "branch": 6,
+      "seam": 4,
+      "kind": "Split",
+      "index": 4490,
+      "file": "NAPA-branch-6-seam-4.png",
+      "sha256": "c2084e4fc59a7c11943185a8f76ee0bb43988b1add6f8a2295bb59997f50f8e5"
+    },
+    {
+      "course": "NAPA",
+      "branch": 6,
+      "seam": 5,
+      "kind": "Merge",
+      "index": 5190,
+      "file": "NAPA-branch-6-seam-5.png",
+      "sha256": "79649e55506727d9ed88a27c6964d678097891686b12e49aad418f93b6e6c5ce"
+    },
+    {
+      "course": "NAPA",
+      "branch": 7,
+      "seam": 0,
+      "kind": "Split",
+      "index": 700,
+      "file": "NAPA-branch-7-seam-0.png",
+      "sha256": "3e92d198fb0c772c6df74664bdd3cb406a365d16cd547286cc34a9269cf5b819"
+    },
+    {
+      "course": "NAPA",
+      "branch": 7,
+      "seam": 1,
+      "kind": "Merge",
+      "index": 1025,
+      "file": "NAPA-branch-7-seam-1.png",
+      "sha256": "06437888755c57589a6608f2d7925810e13c62a14236871479bde248e7d86958"
+    },
+    {
+      "course": "NAPA",
+      "branch": 7,
+      "seam": 2,
+      "kind": "Split",
+      "index": 2865,
+      "file": "NAPA-branch-7-seam-2.png",
+      "sha256": "3344235551fc717c48aa50667d4586d4b2af9a30270e26f89a4662a8bb21608c"
+    },
+    {
+      "course": "NAPA",
+      "branch": 7,
+      "seam": 3,
+      "kind": "Merge",
+      "index": 3565,
+      "file": "NAPA-branch-7-seam-3.png",
+      "sha256": "d9baeb4ec017c28bfa782f9756befc2b81ec646d26de5e2f675f728deee7aeb0"
+    },
+    {
+      "course": "NAPA",
+      "branch": 7,
+      "seam": 4,
+      "kind": "Split",
+      "index": 4515,
+      "file": "NAPA-branch-7-seam-4.png",
+      "sha256": "68df9967064a63f7553b77399c84c0172adabb87986891a5d7fac2fc5c3fb247"
+    },
+    {
+      "course": "NAPA",
+      "branch": 7,
+      "seam": 5,
+      "kind": "Merge",
+      "index": 5215,
+      "file": "NAPA-branch-7-seam-5.png",
+      "sha256": "592d90e3ecbe43507f90176d84b5bdddee7285d6b225d7598dcc518e32075ed6"
+    },
+    {
+      "course": "CANYN",
+      "branch": 0,
+      "seam": 0,
+      "kind": "Split",
+      "index": 1402,
+      "file": "CANYN-branch-0-seam-0.png",
+      "sha256": "4d25ca713d84b15c39b47287785aef5af0528648b87734cf6677965c5e0155f6"
+    },
+    {
+      "course": "CANYN",
+      "branch": 0,
+      "seam": 1,
+      "kind": "Merge",
+      "index": 1702,
+      "file": "CANYN-branch-0-seam-1.png",
+      "sha256": "122841e47c4d1ffa510499d9490faf0d95ee8f4627ff737234c7ac4b30c6d087"
+    },
+    {
+      "course": "CANYN",
+      "branch": 0,
+      "seam": 2,
+      "kind": "Split",
+      "index": 3055,
+      "file": "CANYN-branch-0-seam-2.png",
+      "sha256": "caade8701d0e776a8f793bf87ce72729256bd016a008655e9cc1edea41fa73a6"
+    },
+    {
+      "course": "CANYN",
+      "branch": 0,
+      "seam": 3,
+      "kind": "Merge",
+      "index": 3355,
+      "file": "CANYN-branch-0-seam-3.png",
+      "sha256": "b84e6e3d73ef75f0553201c0e0b9fda93b15c3ecfb74df918f516818b0d776d4"
+    },
+    {
+      "course": "CANYN",
+      "branch": 1,
+      "seam": 0,
+      "kind": "Split",
+      "index": 1402,
+      "file": "CANYN-branch-1-seam-0.png",
+      "sha256": "d9fcfa8f844eaaf6b65c8bd8918f0b97b8db5313b2814ee706f19c6d1c389376"
+    },
+    {
+      "course": "CANYN",
+      "branch": 1,
+      "seam": 1,
+      "kind": "Merge",
+      "index": 1722,
+      "file": "CANYN-branch-1-seam-1.png",
+      "sha256": "10710b2d59cb448801cd249a1295fe5ade54e2dedebbcf22a2663217e4b2cb99"
+    },
+    {
+      "course": "CANYN",
+      "branch": 1,
+      "seam": 2,
+      "kind": "Split",
+      "index": 3075,
+      "file": "CANYN-branch-1-seam-2.png",
+      "sha256": "6f753cbe7963b13c2adde6a43516bf1c8f5ad2ce384bd77873b8adaae20009b0"
+    },
+    {
+      "course": "CANYN",
+      "branch": 1,
+      "seam": 3,
+      "kind": "Merge",
+      "index": 3375,
+      "file": "CANYN-branch-1-seam-3.png",
+      "sha256": "ff120e7e1a105ed00b670ed1af19bc124cb310d7d3ba9c5ce4584455007a75b0"
+    },
+    {
+      "course": "CANYN",
+      "branch": 2,
+      "seam": 0,
+      "kind": "Split",
+      "index": 1402,
+      "file": "CANYN-branch-2-seam-0.png",
+      "sha256": "9b5493aa86b1ff50d0baeba274be25588789a376e9cd30713e0e77a2f706388f"
+    },
+    {
+      "course": "CANYN",
+      "branch": 2,
+      "seam": 1,
+      "kind": "Merge",
+      "index": 1702,
+      "file": "CANYN-branch-2-seam-1.png",
+      "sha256": "53e8ba3ad17027cd3ca2afe1073dc4d165a78730667c8b06dae4d808309a7021"
+    },
+    {
+      "course": "CANYN",
+      "branch": 2,
+      "seam": 2,
+      "kind": "Split",
+      "index": 3055,
+      "file": "CANYN-branch-2-seam-2.png",
+      "sha256": "301d73f0bc74bfbf7e170957fecf14903b9d585479c1c64f5b785742d6d587eb"
+    },
+    {
+      "course": "CANYN",
+      "branch": 2,
+      "seam": 3,
+      "kind": "Merge",
+      "index": 3355,
+      "file": "CANYN-branch-2-seam-3.png",
+      "sha256": "ce5a4d032c5619b5975cbbfc99194ab4c9765585d560361ec799506753c1dc13"
+    },
+    {
+      "course": "CANYN",
+      "branch": 3,
+      "seam": 0,
+      "kind": "Split",
+      "index": 1402,
+      "file": "CANYN-branch-3-seam-0.png",
+      "sha256": "024faf8d1135c5a0eb1bb0763899befad568e3335761657a736ec920b0d046a9"
+    },
+    {
+      "course": "CANYN",
+      "branch": 3,
+      "seam": 1,
+      "kind": "Merge",
+      "index": 1722,
+      "file": "CANYN-branch-3-seam-1.png",
+      "sha256": "85a8bea643fb1756106229f501d462bb9fdba60f8cc5245a84aa93144cdeffc3"
+    },
+    {
+      "course": "CANYN",
+      "branch": 3,
+      "seam": 2,
+      "kind": "Split",
+      "index": 3075,
+      "file": "CANYN-branch-3-seam-2.png",
+      "sha256": "06f2af4f33bab3953f8bc4602bb5b98ac181076d92407a46abc15b80df99cba6"
+    },
+    {
+      "course": "CANYN",
+      "branch": 3,
+      "seam": 3,
+      "kind": "Merge",
+      "index": 3375,
+      "file": "CANYN-branch-3-seam-3.png",
+      "sha256": "d7c4f19549e3e99374ffe198479850b668568047399930aa6fbd9c291bfa1f34"
+    }
+  ]
+}

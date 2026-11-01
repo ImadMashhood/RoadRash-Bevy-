@@ -3796,6 +3796,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "rr-course"
+version = "0.1.0"
+dependencies = [
+ "rr-formats",
+ "rr-import",
+ "serde",
+ "serde_json",
+ "sha2",
+]
+
+[[package]]
 name = "rr-formats"
 version = "0.1.0"
 dependencies = [

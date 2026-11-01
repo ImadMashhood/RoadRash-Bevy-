@@ -3,7 +3,7 @@
 Run commands from the repository root. Rust 1.99.1 is selected by rust-toolchain.toml.
 
 ```sh
-cargo test --locked -p rr-formats -p rr-simulation -p rr-import -p rr-content
+cargo test --locked -p rr-formats -p rr-simulation -p rr-import -p rr-content -p rr-course
 cargo clippy --locked --workspace --all-targets -- -D warnings
 cargo fmt --all --check
 python3 -m unittest discover -s tools -p 'test_*.py' -v
@@ -50,3 +50,12 @@ cargo run --locked --release -p rr-game -- --catalog local/catalog --replay docs
 ```
 
 Open http://127.0.0.1:8789/inspector.html for contact sheets and frame/palette/alpha controls. To test an authored override, run `cargo run --locked --release -p rr-content --example authored_override -- local/authored-override.png`, then add `--enhanced-image local/authored-override.png --switch-textures-at 60` to the graphical replay. This is test art, not an approved enhancement pack. See [CONTENT.md](CONTENT.md) and [SIMULATION.md](SIMULATION.md) for cache/schema/replay contracts. All generated art and captures stay ignored.
+
+## Reconstruct and inspect courses
+
+```sh
+cargo run --locked --release -p rr-course -- inspect /absolute/private-install local/courses
+python3 -m http.server 8790 --bind 127.0.0.1 --directory local/courses
+```
+
+Open http://127.0.0.1:8790/index.html. Choose any course, level or branch route; jump to its finish, step samples and inspect before/at/after split and merge panels. The command validates the active import and exports all 26 branches with coverage.json. Generated course definitions and screenshots stay private. See [COURSES.md](COURSES.md) for units, endpoint conventions, reproducibility and remaining rendering work.

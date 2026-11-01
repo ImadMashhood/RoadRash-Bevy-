@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "confidence": "upstream-reported",
+  "confidence": "source-derived; pinned branch census cross-checked",
   "source": "https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/game_main.cpp",
-  "note": "Source file stems are not interchangeable with in-game display names or quick-race enumeration. Selection and level-specific behavior need original captures.",
+  "note": "Source file stems differ from display names. All 26 source branches and 130 branch/level finishes are statically decoded and checked; original runtime capture is not required. See docs/evidence/course-coverage.json.",
   "courses": [
     {
       "original_course_number": 1,
@@ -11,23 +11,23 @@
       "levels": [
         {
           "level": 1,
-          "capture_status": "pending"
+          "source_validation": "passed; all branches"
         },
         {
           "level": 2,
-          "capture_status": "pending"
+          "source_validation": "passed; all branches"
         },
         {
           "level": 3,
-          "capture_status": "pending"
+          "source_validation": "passed; all branches"
         },
         {
           "level": 4,
-          "capture_status": "pending"
+          "source_validation": "passed; all branches"
         },
         {
           "level": 5,
-          "capture_status": "pending"
+          "source_validation": "passed; all branches"
         }
       ]
     },
@@ -38,23 +38,23 @@
       "levels": [
         {
           "level": 1,
-          "capture_status": "pending"
+          "source_validation": "passed; all branches"
         },
         {
           "level": 2,
-          "capture_status": "pending"
+          "source_validation": "passed; all branches"
         },
         {
           "level": 3,
-          "capture_status": "pending"
+          "source_validation": "passed; all branches"
         },
         {
           "level": 4,
-          "capture_status": "pending"
+          "source_validation": "passed; all branches"
         },
         {
           "level": 5,
-          "capture_status": "pending"
+          "source_validation": "passed; all branches"
         }
       ]
     },
@@ -65,23 +65,23 @@
       "levels": [
         {
           "level": 1,
-          "capture_status": "pending"
+          "source_validation": "passed; all branches"
         },
         {
           "level": 2,
-          "capture_status": "pending"
+          "source_validation": "passed; all branches"
         },
         {
           "level": 3,
-          "capture_status": "pending"
+          "source_validation": "passed; all branches"
         },
         {
           "level": 4,
-          "capture_status": "pending"
+          "source_validation": "passed; all branches"
         },
         {
           "level": 5,
-          "capture_status": "pending"
+          "source_validation": "passed; all branches"
         }
       ]
     },
@@ -92,23 +92,23 @@
       "levels": [
         {
           "level": 1,
-          "capture_status": "pending"
+          "source_validation": "passed; all branches"
         },
         {
           "level": 2,
-          "capture_status": "pending"
+          "source_validation": "passed; all branches"
         },
         {
           "level": 3,
-          "capture_status": "pending"
+          "source_validation": "passed; all branches"
         },
         {
           "level": 4,
-          "capture_status": "pending"
+          "source_validation": "passed; all branches"
         },
         {
           "level": 5,
-          "capture_status": "pending"
+          "source_validation": "passed; all branches"
         }
       ]
     },
@@ -119,25 +119,26 @@
       "levels": [
         {
           "level": 1,
-          "capture_status": "pending"
+          "source_validation": "passed; all branches"
         },
         {
           "level": 2,
-          "capture_status": "pending"
+          "source_validation": "passed; all branches"
         },
         {
           "level": 3,
-          "capture_status": "pending"
+          "source_validation": "passed; all branches"
         },
         {
           "level": 4,
-          "capture_status": "pending"
+          "source_validation": "passed; all branches"
         },
         {
           "level": 5,
-          "capture_status": "pending"
+          "source_validation": "passed; all branches"
         }
       ]
     }
-  ]
+  ],
+  "validation_receipt": "docs/evidence/course-coverage.json"
 }

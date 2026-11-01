@@ -1,0 +1,13 @@
+{
+  "outcome": "passed",
+  "independent_output_roots": 2,
+  "files_sha256": {
+    "CITY.json": "9b22f7c5197e1d5b9e77c9559acedf6067172a503a64e5166bf44a2d711ea179",
+    "HIWAY.json": "1029205ddf348d690c239304eb751b08e3064e15d5dfefcebcfead4f0790ed99",
+    "MEDLY.json": "bd93155cdf448a0f7155dea11516eb00f16b5fa095cc7c977ea38e61d635cb20",
+    "NAPA.json": "f0c2b43426af20ab62c8188596a71625fd24e6b79b5b16caebcf7dc735256d2c",
+    "CANYN.json": "3abb7162944648186166301455bc6be08831baa6ec98ab5ee740783b49b5eacd",
+    "coverage.json": "a58c28719167149f4a1b7d19dba10475204fb5d877ceccb00fef16e0bd81df66",
+    "index.html": "7f9d2580da5edfaa1cde44e890848b45c5fdc406a2f2c14d0b6f78a91806e129"
+  }
+}
