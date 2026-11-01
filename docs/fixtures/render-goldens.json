@@ -1,0 +1,13 @@
+{
+  "fixture": "authored-render-fixture-v1",
+  "rgba_sha256": {
+    "bend": "8293df457432809e4e7e56b1e3a84e8ead94e327e4c815e859c8e6056f4e6894",
+    "building": "bbb0ffe172d799b5ff320c4fd1768d8bc182c5b8fbcc2377407a34919f5f87e0",
+    "crest": "4e0ab750089dd5cf4856cb28bfe51a88ed64e1ea5c33ef6eb7460d8097e5f8aa",
+    "hill": "550a8e756e016c1aa07d4dae081ef8d64a26a27573ad57b28481645cf39a410f",
+    "straight": "a3295bc31238abe405e86904e8a2e70eff945c316c94fc2332d691e5066178c5",
+    "valley": "639643c3670e953562e372a9a2cbcb674d93fee6fab1fbdd3c8deb28b570850a",
+    "wall": "5716c8c13a02214e3d78d1cb21437c28bb2e90959ce91b68cf3c0b4c84b48500"
+  },
+  "schema_version": 1
+}

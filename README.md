@@ -4,7 +4,16 @@
 
 A Rust and Bevy recreation of the PC Road Rash experience, with a faithful classic presentation, individually reviewed AI-enhanced textures, and a modular design that leaves room for a later 3D version.
 
-Parts 01–07 now have implementation and acceptance evidence: a verified importer, bounded decoders, content catalog/inspector, deterministic simulation/presentation scaffold and validated source course graph/explorer. This is not a complete playable recreation. Later phases remain open; the separate local prototype is preserved independently.
+Parts 01–08 now have implementation and acceptance evidence: a verified importer, bounded decoders, content catalog/inspector, deterministic simulation/presentation scaffold and validated source course graph/explorer and classic road renderer. This is not a complete playable recreation. Later phases remain open; the separate local prototype is preserved independently.
+
+
+Run the current source-course view after local import/conversion:
+
+```sh
+cargo run --locked --release -p rr-game -- --install-root local/game-install --catalog local/catalog --course CITY
+```
+
+[Classic renderer controls, camera policy and checkpoints](docs/RENDERING.md). Handling remains the authored baseline until Part 09; animation, combat, opponents and career are later work.
 
 ## 1. Scope and definition of complete
 
@@ -45,6 +54,7 @@ apps/game             Bevy application and composition
 crates/formats        bounded binary readers, no rendering
 crates/content        IDs, schemas, catalogs, mod resolution
 crates/course         source-unit course graph, traversal and inspector
+crates/render         classic projection, surfaces, raster and visual checkpoints
 crates/simulation     race rules, actors, commands, replay
 crates/presentation   classic renderer, animations, HUD/audio
 crates/platform       input, persistence, filesystem adapters
@@ -52,7 +62,7 @@ tools/import          local disc verification and conversion
 tools/asset-review    export, candidate review, pack validation
 ```
 
-The import, formats, content, course, simulation, presentation and game packages exist. Platform and enhancement-review boundaries remain future work. Simulation owns gameplay truth. Rendering consumes snapshots and never determines hit results. Use explicit Bevy system ordering for input consumption, spawning, AI, movement, collisions, combat, progression and snapshot extraction. Retain legacy integer/fixed-point arithmetic wherever necessary for parity. A fixed timestep alone does not establish determinism: update order, RNG calls, numeric behavior and content versions also matter.
+The import, formats, content, course, render, simulation, presentation and game packages exist. Platform and enhancement-review boundaries remain future work. Simulation owns gameplay truth. Rendering consumes snapshots and never determines hit results. Use explicit Bevy system ordering for input consumption, spawning, AI, movement, collisions, combat, progression and snapshot extraction. Retain legacy integer/fixed-point arithmetic wherever necessary for parity. A fixed timestep alone does not establish determinism: update order, RNG calls, numeric behavior and content versions also matter.
 
 Represent a position as route/branch identity plus longitudinal progress, lateral displacement and elevation. A classic projection adapter and a future world-space adapter can consume the same course data. Keep sprite pivots, UV rectangles and screen scaling out of physics. Do not replace legacy handling with a general rigid-body solver merely because one is available. The local prototype's Rapier/Avian experiments need separate evaluation before reuse.
 
@@ -943,77 +953,101 @@ Research: [src/course.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2d
 
 Research: [src/road.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/road.cpp), [src/road_draw.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/road_draw.cpp), [src/raster.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/raster.cpp), [src/framebuffer.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd773b925b325823f30d648d61c89/src/framebuffer.cpp).
 
-- [ ] **08.01 — Create classic camera specification**
+- [x] **08.01 — Create classic camera specification**
 
-  - [ ] **08.01.a — Implement:** Specify focal/projection parameters, horizon, viewport and camera follow rules.
+  Completed: [implementation and acceptance evidence](docs/evidence/08.01.md).
 
-  - [ ] **08.01.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/08.01.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **08.01.a — Implement:** Specify focal/projection parameters, horizon, viewport and camera follow rules.
 
-- [ ] **08.02 — Implement road projection using sampled route**
+  - [x] **08.01.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/08.01.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-  - [ ] **08.02.a — Implement:** Project sampled road boundaries in a dedicated renderer adapter.
-  - [ ] **08.02.b — Verify:** Test straight, tight bend, crest and valley sections for monotonic depth handling.
-  - [ ] **08.02.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/08.02.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+- [x] **08.02 — Implement road projection using sampled route**
 
-- [ ] **08.03 — Render horizon and background layers**
+  Completed: [implementation and acceptance evidence](docs/evidence/08.02.md).
 
-  - [ ] **08.03.a — Implement:** Layer sky/horizon imagery with correct wrapping and camera response.
-  - [ ] **08.03.b — Verify:** Test course transitions and extreme steering for visible seams.
-  - [ ] **08.03.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/08.03.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **08.02.a — Implement:** Project sampled road boundaries in a dedicated renderer adapter.
+  - [x] **08.02.b — Verify:** Test straight, tight bend, crest and valley sections for monotonic depth handling.
+  - [x] **08.02.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/08.02.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **08.04 — Render hills cliffs buildings and shoulders**
+- [x] **08.03 — Render horizon and background layers**
 
-  - [ ] **08.04.a — Implement:** Render terrain categories from decoded course semantics.
-  - [ ] **08.04.b — Verify:** Compare buildings, cliffs and hills independently before combining them.
-  - [ ] **08.04.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/08.04.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  Completed: [implementation and acceptance evidence](docs/evidence/08.03.md).
 
-- [ ] **08.05 — Match road markings and surface transitions**
+  - [x] **08.03.a — Implement:** Layer sky/horizon imagery with correct wrapping and camera response.
+  - [x] **08.03.b — Verify:** Test course transitions and extreme steering for visible seams.
+  - [x] **08.03.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/08.03.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-  - [ ] **08.05.a — Implement:** Apply lane markings and surface textures according to event and section data.
-  - [ ] **08.05.b — Verify:** Test transitions at exactly the source interval endpoints.
-  - [ ] **08.05.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/08.05.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+- [x] **08.04 — Render hills cliffs buildings and shoulders**
 
-- [ ] **08.06 — Implement sprite depth ordering**
+  Completed: [implementation and acceptance evidence](docs/evidence/08.04.md).
 
-  - [ ] **08.06.a — Implement:** Sort sprites using stable depth and documented tie-breaking.
-  - [ ] **08.06.b — Verify:** Test overlapping racers, roadside objects and traffic at equal depths.
-  - [ ] **08.06.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/08.06.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **08.04.a — Implement:** Render terrain categories from decoded course semantics.
+  - [x] **08.04.b — Verify:** Compare buildings, cliffs and hills independently before combining them.
+  - [x] **08.04.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/08.04.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **08.07 — Match clipping at near plane and viewport edges**
+- [x] **08.05 — Match road markings and surface transitions**
 
-  - [ ] **08.07.a — Implement:** Clip polygons and sprites crossing near and screen boundaries safely.
-  - [ ] **08.07.b — Verify:** Test behind-camera objects and degenerate polygons without NaNs or streaks.
-  - [ ] **08.07.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/08.07.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  Completed: [implementation and acceptance evidence](docs/evidence/08.05.md).
 
-- [ ] **08.08 — Preserve sprite ground contact and scale**
+  - [x] **08.05.a — Implement:** Apply lane markings and surface textures according to event and section data.
+  - [x] **08.05.b — Verify:** Test transitions at exactly the source interval endpoints.
+  - [x] **08.05.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/08.05.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-  - [ ] **08.08.a — Implement:** Anchor sprites using logical pivot and perspective scale.
-  - [ ] **08.08.b — Verify:** Compare wheel contact and rider size at several distances.
-  - [ ] **08.08.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/08.08.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+- [x] **08.06 — Implement sprite depth ordering**
 
-- [ ] **08.09 — Support original aspect presentation**
+  Completed: [implementation and acceptance evidence](docs/evidence/08.06.md).
 
-  - [ ] **08.09.a — Implement:** Provide letterbox or pillarbox presentation with explicit integer scaling option.
-  - [ ] **08.09.b — Verify:** Test common aspect ratios without stretching source pixels unexpectedly.
-  - [ ] **08.09.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/08.09.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **08.06.a — Implement:** Sort sprites using stable depth and documented tie-breaking.
+  - [x] **08.06.b — Verify:** Test overlapping racers, roadside objects and traffic at equal depths.
+  - [x] **08.06.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/08.06.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **08.10 — Add optional widescreen framing policy**
+- [x] **08.07 — Match clipping at near plane and viewport edges**
 
-  - [ ] **08.10.a — Implement:** Specify additional field of view and HUD anchoring for widescreen mode.
-  - [ ] **08.10.b — Verify:** Show that extra visible scenery does not alter spawn or simulation behavior.
-  - [ ] **08.10.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/08.10.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  Completed: [implementation and acceptance evidence](docs/evidence/08.07.md).
 
-- [ ] **08.11 — Compare fixed camera captures at selected checkpoints**
+  - [x] **08.07.a — Implement:** Clip polygons and sprites crossing near and screen boundaries safely.
+  - [x] **08.07.b — Verify:** Test behind-camera objects and degenerate polygons without NaNs or streaks.
+  - [x] **08.07.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/08.07.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-  - [ ] **08.11.a — Implement:** Create checkpoint captures with known tick, resolution and camera parameters.
-  - [ ] **08.11.b — Verify:** Produce image diffs with masks only for documented nondeterministic regions.
-  - [ ] **08.11.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/08.11.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+- [x] **08.08 — Preserve sprite ground contact and scale**
 
-- [ ] **08.12 — Separate render interpolation from simulation ticks**
+  Completed: [implementation and acceptance evidence](docs/evidence/08.08.md).
 
-  - [ ] **08.12.a — Implement:** Interpolate previous/current visual transforms using accumulator fraction.
-  - [ ] **08.12.b — Verify:** Ensure interpolation never feeds back into collisions or race progress.
-  - [ ] **08.12.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/08.12.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **08.08.a — Implement:** Anchor sprites using logical pivot and perspective scale.
+  - [x] **08.08.b — Verify:** Compare wheel contact and rider size at several distances.
+  - [x] **08.08.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/08.08.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+
+- [x] **08.09 — Support original aspect presentation**
+
+  Completed: [implementation and acceptance evidence](docs/evidence/08.09.md).
+
+  - [x] **08.09.a — Implement:** Provide letterbox or pillarbox presentation with explicit integer scaling option.
+  - [x] **08.09.b — Verify:** Test common aspect ratios without stretching source pixels unexpectedly.
+  - [x] **08.09.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/08.09.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+
+- [x] **08.10 — Add optional widescreen framing policy**
+
+  Completed: [implementation and acceptance evidence](docs/evidence/08.10.md).
+
+  - [x] **08.10.a — Implement:** Specify additional field of view and HUD anchoring for widescreen mode.
+  - [x] **08.10.b — Verify:** Show that extra visible scenery does not alter spawn or simulation behavior.
+  - [x] **08.10.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/08.10.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+
+- [x] **08.11 — Compare fixed camera captures at selected checkpoints**
+
+  Completed: [implementation and acceptance evidence](docs/evidence/08.11.md).
+
+  - [x] **08.11.a — Implement:** Create checkpoint captures with known tick, resolution and camera parameters.
+  - [x] **08.11.b — Verify:** Produce image diffs with masks only for documented nondeterministic regions.
+  - [x] **08.11.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/08.11.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+
+- [x] **08.12 — Separate render interpolation from simulation ticks**
+
+  Completed: [implementation and acceptance evidence](docs/evidence/08.12.md).
+
+  - [x] **08.12.a — Implement:** Interpolate previous/current visual transforms using accumulator fraction.
+  - [x] **08.12.b — Verify:** Ensure interpolation never feeds back into collisions or race progress.
+  - [x] **08.12.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/08.12.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
 
 **Exit evidence:** a reproducible demonstration of classic road rendering, linked implementation revision, recorded checks and known limitations. Dependent phases may prototype early, but this gate stays open until its checks pass.
@@ -2519,7 +2553,7 @@ Do not report upstream's tests as this project's tests. Do not label the local p
 - [x] Decode one RRI image, one rider animation family and one course section.
 - [x] Build a catalog/inspection tool that exposes IDs, palettes and pivots.
 - [x] Implement a headless command-driven player simulation.
-- [ ] Render one measured course segment with original sprites.
+- [x] Render one decoded course segment with original sprites.
 - [ ] Export one texture, review one enhanced candidate and demonstrate fallback.
 - [x] Publish the evidence report before widening content coverage.
 

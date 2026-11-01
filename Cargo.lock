@@ -3824,9 +3824,11 @@ version = "0.1.0"
 dependencies = [
  "bevy",
  "rr-content",
+ "rr-course",
  "rr-formats",
  "rr-import",
  "rr-presentation",
+ "rr-render",
  "rr-simulation",
  "serde_json",
 ]
@@ -3848,7 +3850,22 @@ name = "rr-presentation"
 version = "0.1.0"
 dependencies = [
  "bevy",
+ "rr-render",
  "rr-simulation",
+]
+
+[[package]]
+name = "rr-render"
+version = "0.1.0"
+dependencies = [
+ "rr-content",
+ "rr-course",
+ "rr-formats",
+ "rr-import",
+ "rr-simulation",
+ "serde",
+ "serde_json",
+ "sha2",
 ]
 
 [[package]]

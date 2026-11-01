@@ -1,0 +1,975 @@
+{
+  "outcome": "passed",
+  "schedules": "controlled virtual presentation schedules, not hardware FPS benchmarks",
+  "runs": [
+    {
+      "case": "classic-30",
+      "arguments": [
+        "--course",
+        "CITY",
+        "--render-hz",
+        "30",
+        "--framing",
+        "classic",
+        "--window-size",
+        "960x720"
+      ],
+      "state_sha256": "f70c202279f360fc89e95d503443a91a523c816788d9e62102a6d3572fc7f143",
+      "tick_hashes": [
+        [
+          30,
+          "ffd0f10995bcc7573720aec48c4848d666aa23af4e291d42a9964bd95f8c12dd"
+        ],
+        [
+          60,
+          "60a77020ae94cd48fd5af06f200913501a7a71166558eec8a00ce7093cab17ee"
+        ],
+        [
+          90,
+          "7887bd7a71e36b1cad53ec8c5007c1c543ff8d76aa007dbc7e6a241ed0cc8f5c"
+        ],
+        [
+          120,
+          "f70c202279f360fc89e95d503443a91a523c816788d9e62102a6d3572fc7f143"
+        ]
+      ],
+      "frames": 61,
+      "png_sha256": "a5504e9627695c773795fabd0c9f5c7e8cbc527b545bafd2733f07f787c68fdd",
+      "pixel_dimensions": [
+        960,
+        720
+      ],
+      "viewport_origin": [
+        0,
+        0
+      ],
+      "viewport_extent": [
+        960,
+        720
+      ],
+      "black_bars_verified": true,
+      "capture": {
+        "branch_mask": 0,
+        "camera": {
+          "camera_height": 150.0,
+          "height": 480,
+          "horizon": 180.0,
+          "integer_scale": false,
+          "near_q8": 1.0,
+          "player_depth_q8": 420.0,
+          "slices": 33,
+          "width": 640
+        },
+        "course": "CITY",
+        "interpolation_alpha": 0.9999994039535522,
+        "level": 1,
+        "requested_frame": 30,
+        "simulation_tick": 59,
+        "source_start_q8": 12800.0,
+        "texture_override_active": false,
+        "window_size": [
+          960,
+          720
+        ]
+      }
+    },
+    {
+      "case": "classic-60",
+      "arguments": [
+        "--course",
+        "CITY",
+        "--render-hz",
+        "60",
+        "--framing",
+        "classic",
+        "--window-size",
+        "960x720"
+      ],
+      "state_sha256": "f70c202279f360fc89e95d503443a91a523c816788d9e62102a6d3572fc7f143",
+      "tick_hashes": [
+        [
+          30,
+          "ffd0f10995bcc7573720aec48c4848d666aa23af4e291d42a9964bd95f8c12dd"
+        ],
+        [
+          60,
+          "60a77020ae94cd48fd5af06f200913501a7a71166558eec8a00ce7093cab17ee"
+        ],
+        [
+          90,
+          "7887bd7a71e36b1cad53ec8c5007c1c543ff8d76aa007dbc7e6a241ed0cc8f5c"
+        ],
+        [
+          120,
+          "f70c202279f360fc89e95d503443a91a523c816788d9e62102a6d3572fc7f143"
+        ]
+      ],
+      "frames": 121,
+      "png_sha256": "74abef7ffd54349b6147626da624aa89d7817daebdd9f5db3a6d6d3e56b9e54a",
+      "pixel_dimensions": [
+        960,
+        720
+      ],
+      "viewport_origin": [
+        0,
+        0
+      ],
+      "viewport_extent": [
+        960,
+        720
+      ],
+      "black_bars_verified": true,
+      "capture": {
+        "branch_mask": 0,
+        "camera": {
+          "camera_height": 150.0,
+          "height": 480,
+          "horizon": 180.0,
+          "integer_scale": false,
+          "near_q8": 1.0,
+          "player_depth_q8": 420.0,
+          "slices": 33,
+          "width": 640
+        },
+        "course": "CITY",
+        "interpolation_alpha": 0.9999988079071045,
+        "level": 1,
+        "requested_frame": 30,
+        "simulation_tick": 29,
+        "source_start_q8": 12800.0,
+        "texture_override_active": false,
+        "window_size": [
+          960,
+          720
+        ]
+      }
+    },
+    {
+      "case": "classic-144",
+      "arguments": [
+        "--course",
+        "CITY",
+        "--render-hz",
+        "144",
+        "--framing",
+        "classic",
+        "--window-size",
+        "960x720"
+      ],
+      "state_sha256": "f70c202279f360fc89e95d503443a91a523c816788d9e62102a6d3572fc7f143",
+      "tick_hashes": [
+        [
+          30,
+          "ffd0f10995bcc7573720aec48c4848d666aa23af4e291d42a9964bd95f8c12dd"
+        ],
+        [
+          60,
+          "60a77020ae94cd48fd5af06f200913501a7a71166558eec8a00ce7093cab17ee"
+        ],
+        [
+          90,
+          "7887bd7a71e36b1cad53ec8c5007c1c543ff8d76aa007dbc7e6a241ed0cc8f5c"
+        ],
+        [
+          120,
+          "f70c202279f360fc89e95d503443a91a523c816788d9e62102a6d3572fc7f143"
+        ]
+      ],
+      "frames": 289,
+      "png_sha256": "6f73151f737dfc44c310b6caa524247cd7e7beb2eb1a9bcaf87eb33b1fa10dcc",
+      "pixel_dimensions": [
+        960,
+        720
+      ],
+      "viewport_origin": [
+        0,
+        0
+      ],
+      "viewport_extent": [
+        960,
+        720
+      ],
+      "black_bars_verified": true,
+      "capture": {
+        "branch_mask": 0,
+        "camera": {
+          "camera_height": 150.0,
+          "height": 480,
+          "horizon": 180.0,
+          "integer_scale": false,
+          "near_q8": 1.0,
+          "player_depth_q8": 420.0,
+          "slices": 33,
+          "width": 640
+        },
+        "course": "CITY",
+        "interpolation_alpha": 0.49999919533729553,
+        "level": 1,
+        "requested_frame": 30,
+        "simulation_tick": 12,
+        "source_start_q8": 12800.0,
+        "texture_override_active": false,
+        "window_size": [
+          960,
+          720
+        ]
+      }
+    },
+    {
+      "case": "classic-irregular",
+      "arguments": [
+        "--course",
+        "CITY",
+        "--render-hz",
+        "irregular",
+        "--framing",
+        "classic",
+        "--window-size",
+        "960x720"
+      ],
+      "state_sha256": "f70c202279f360fc89e95d503443a91a523c816788d9e62102a6d3572fc7f143",
+      "tick_hashes": [
+        [
+          30,
+          "ffd0f10995bcc7573720aec48c4848d666aa23af4e291d42a9964bd95f8c12dd"
+        ],
+        [
+          60,
+          "60a77020ae94cd48fd5af06f200913501a7a71166558eec8a00ce7093cab17ee"
+        ],
+        [
+          90,
+          "7887bd7a71e36b1cad53ec8c5007c1c543ff8d76aa007dbc7e6a241ed0cc8f5c"
+        ],
+        [
+          120,
+          "f70c202279f360fc89e95d503443a91a523c816788d9e62102a6d3572fc7f143"
+        ]
+      ],
+      "frames": 118,
+      "png_sha256": "1feb99ceeb4007a7e0f06325cfae46e3e8dfe5c448bb969b18480fdd2e343620",
+      "pixel_dimensions": [
+        960,
+        720
+      ],
+      "viewport_origin": [
+        0,
+        0
+      ],
+      "viewport_extent": [
+        960,
+        720
+      ],
+      "black_bars_verified": true,
+      "capture": {
+        "branch_mask": 0,
+        "camera": {
+          "camera_height": 150.0,
+          "height": 480,
+          "horizon": 180.0,
+          "integer_scale": false,
+          "near_q8": 1.0,
+          "player_depth_q8": 420.0,
+          "slices": 33,
+          "width": 640
+        },
+        "course": "CITY",
+        "interpolation_alpha": 0.9999997019767761,
+        "level": 1,
+        "requested_frame": 30,
+        "simulation_tick": 30,
+        "source_start_q8": 12800.0,
+        "texture_override_active": false,
+        "window_size": [
+          960,
+          720
+        ]
+      }
+    },
+    {
+      "case": "wide",
+      "arguments": [
+        "--course",
+        "CITY",
+        "--framing",
+        "wide",
+        "--window-size",
+        "1280x720"
+      ],
+      "state_sha256": "f70c202279f360fc89e95d503443a91a523c816788d9e62102a6d3572fc7f143",
+      "tick_hashes": [
+        [
+          30,
+          "ffd0f10995bcc7573720aec48c4848d666aa23af4e291d42a9964bd95f8c12dd"
+        ],
+        [
+          60,
+          "60a77020ae94cd48fd5af06f200913501a7a71166558eec8a00ce7093cab17ee"
+        ],
+        [
+          90,
+          "7887bd7a71e36b1cad53ec8c5007c1c543ff8d76aa007dbc7e6a241ed0cc8f5c"
+        ],
+        [
+          120,
+          "f70c202279f360fc89e95d503443a91a523c816788d9e62102a6d3572fc7f143"
+        ]
+      ],
+      "frames": 121,
+      "png_sha256": "a73f230c732a9e0643c3cc276187859b0e020a17319f342b4622745e2ebe18b2",
+      "pixel_dimensions": [
+        1280,
+        720
+      ],
+      "viewport_origin": [
+        1,
+        0
+      ],
+      "viewport_extent": [
+        1278,
+        720
+      ],
+      "black_bars_verified": true,
+      "capture": {
+        "branch_mask": 0,
+        "camera": {
+          "camera_height": 150.0,
+          "height": 480,
+          "horizon": 180.0,
+          "integer_scale": false,
+          "near_q8": 1.0,
+          "player_depth_q8": 420.0,
+          "slices": 33,
+          "width": 852
+        },
+        "course": "CITY",
+        "interpolation_alpha": 0.9999988079071045,
+        "level": 1,
+        "requested_frame": 30,
+        "simulation_tick": 29,
+        "source_start_q8": 12800.0,
+        "texture_override_active": false,
+        "window_size": [
+          1280,
+          720
+        ]
+      }
+    },
+    {
+      "case": "integer",
+      "arguments": [
+        "--course",
+        "CITY",
+        "--integer-scale",
+        "on",
+        "--window-size",
+        "1280x960"
+      ],
+      "state_sha256": "f70c202279f360fc89e95d503443a91a523c816788d9e62102a6d3572fc7f143",
+      "tick_hashes": [
+        [
+          30,
+          "ffd0f10995bcc7573720aec48c4848d666aa23af4e291d42a9964bd95f8c12dd"
+        ],
+        [
+          60,
+          "60a77020ae94cd48fd5af06f200913501a7a71166558eec8a00ce7093cab17ee"
+        ],
+        [
+          90,
+          "7887bd7a71e36b1cad53ec8c5007c1c543ff8d76aa007dbc7e6a241ed0cc8f5c"
+        ],
+        [
+          120,
+          "f70c202279f360fc89e95d503443a91a523c816788d9e62102a6d3572fc7f143"
+        ]
+      ],
+      "frames": 121,
+      "png_sha256": "a082605b3a9ab3c3be49a59910494e9f2c7f9f0f863c50421917a901dd427e88",
+      "pixel_dimensions": [
+        1280,
+        960
+      ],
+      "viewport_origin": [
+        0,
+        0
+      ],
+      "viewport_extent": [
+        1280,
+        960
+      ],
+      "black_bars_verified": true,
+      "capture": {
+        "branch_mask": 0,
+        "camera": {
+          "camera_height": 150.0,
+          "height": 480,
+          "horizon": 180.0,
+          "integer_scale": true,
+          "near_q8": 1.0,
+          "player_depth_q8": 420.0,
+          "slices": 33,
+          "width": 640
+        },
+        "course": "CITY",
+        "interpolation_alpha": 0.9999988079071045,
+        "level": 1,
+        "requested_frame": 30,
+        "simulation_tick": 29,
+        "source_start_q8": 12800.0,
+        "texture_override_active": false,
+        "window_size": [
+          1280,
+          960
+        ]
+      }
+    },
+    {
+      "case": "portrait",
+      "arguments": [
+        "--course",
+        "CITY",
+        "--integer-scale",
+        "on",
+        "--window-size",
+        "800x1000"
+      ],
+      "state_sha256": "f70c202279f360fc89e95d503443a91a523c816788d9e62102a6d3572fc7f143",
+      "tick_hashes": [
+        [
+          30,
+          "ffd0f10995bcc7573720aec48c4848d666aa23af4e291d42a9964bd95f8c12dd"
+        ],
+        [
+          60,
+          "60a77020ae94cd48fd5af06f200913501a7a71166558eec8a00ce7093cab17ee"
+        ],
+        [
+          90,
+          "7887bd7a71e36b1cad53ec8c5007c1c543ff8d76aa007dbc7e6a241ed0cc8f5c"
+        ],
+        [
+          120,
+          "f70c202279f360fc89e95d503443a91a523c816788d9e62102a6d3572fc7f143"
+        ]
+      ],
+      "frames": 121,
+      "png_sha256": "6c174e03f665fbf2ee765c5bcc1af889f8fe72f017d94b00eb1ca64eb2d19fc7",
+      "pixel_dimensions": [
+        800,
+        971
+      ],
+      "viewport_origin": [
+        80,
+        245
+      ],
+      "viewport_extent": [
+        640,
+        480
+      ],
+      "black_bars_verified": true,
+      "capture": {
+        "branch_mask": 0,
+        "camera": {
+          "camera_height": 150.0,
+          "height": 480,
+          "horizon": 180.0,
+          "integer_scale": true,
+          "near_q8": 1.0,
+          "player_depth_q8": 420.0,
+          "slices": 33,
+          "width": 640
+        },
+        "course": "CITY",
+        "interpolation_alpha": 0.9999988079071045,
+        "level": 1,
+        "requested_frame": 30,
+        "simulation_tick": 29,
+        "source_start_q8": 12800.0,
+        "texture_override_active": false,
+        "window_size": [
+          800,
+          1000
+        ]
+      }
+    },
+    {
+      "case": "native-small",
+      "arguments": [
+        "--course",
+        "CITY",
+        "--window-size",
+        "640x480"
+      ],
+      "state_sha256": "f70c202279f360fc89e95d503443a91a523c816788d9e62102a6d3572fc7f143",
+      "tick_hashes": [
+        [
+          30,
+          "ffd0f10995bcc7573720aec48c4848d666aa23af4e291d42a9964bd95f8c12dd"
+        ],
+        [
+          60,
+          "60a77020ae94cd48fd5af06f200913501a7a71166558eec8a00ce7093cab17ee"
+        ],
+        [
+          90,
+          "7887bd7a71e36b1cad53ec8c5007c1c543ff8d76aa007dbc7e6a241ed0cc8f5c"
+        ],
+        [
+          120,
+          "f70c202279f360fc89e95d503443a91a523c816788d9e62102a6d3572fc7f143"
+        ]
+      ],
+      "frames": 121,
+      "png_sha256": "a418b635c019a95318de9da71314228d508b28b84f65b38bf15b5c28eba29bb1",
+      "pixel_dimensions": [
+        640,
+        480
+      ],
+      "viewport_origin": [
+        0,
+        0
+      ],
+      "viewport_extent": [
+        640,
+        480
+      ],
+      "black_bars_verified": true,
+      "capture": {
+        "branch_mask": 0,
+        "camera": {
+          "camera_height": 150.0,
+          "height": 480,
+          "horizon": 180.0,
+          "integer_scale": false,
+          "near_q8": 1.0,
+          "player_depth_q8": 420.0,
+          "slices": 33,
+          "width": 640
+        },
+        "course": "CITY",
+        "interpolation_alpha": 0.9999988079071045,
+        "level": 1,
+        "requested_frame": 30,
+        "simulation_tick": 29,
+        "source_start_q8": 12800.0,
+        "texture_override_active": false,
+        "window_size": [
+          640,
+          480
+        ]
+      }
+    },
+    {
+      "case": "switched",
+      "arguments": [
+        "--course",
+        "CITY",
+        "--enhanced-image",
+        "local/authored-override.png",
+        "--switch-textures-at",
+        "60",
+        "--window-size",
+        "960x720"
+      ],
+      "state_sha256": "f70c202279f360fc89e95d503443a91a523c816788d9e62102a6d3572fc7f143",
+      "tick_hashes": [
+        [
+          30,
+          "ffd0f10995bcc7573720aec48c4848d666aa23af4e291d42a9964bd95f8c12dd"
+        ],
+        [
+          60,
+          "60a77020ae94cd48fd5af06f200913501a7a71166558eec8a00ce7093cab17ee"
+        ],
+        [
+          90,
+          "7887bd7a71e36b1cad53ec8c5007c1c543ff8d76aa007dbc7e6a241ed0cc8f5c"
+        ],
+        [
+          120,
+          "f70c202279f360fc89e95d503443a91a523c816788d9e62102a6d3572fc7f143"
+        ]
+      ],
+      "frames": 121,
+      "png_sha256": "74abef7ffd54349b6147626da624aa89d7817daebdd9f5db3a6d6d3e56b9e54a",
+      "pixel_dimensions": [
+        960,
+        720
+      ],
+      "viewport_origin": [
+        0,
+        0
+      ],
+      "viewport_extent": [
+        960,
+        720
+      ],
+      "black_bars_verified": true,
+      "capture": {
+        "branch_mask": 0,
+        "camera": {
+          "camera_height": 150.0,
+          "height": 480,
+          "horizon": 180.0,
+          "integer_scale": false,
+          "near_q8": 1.0,
+          "player_depth_q8": 420.0,
+          "slices": 33,
+          "width": 640
+        },
+        "course": "CITY",
+        "interpolation_alpha": 0.9999988079071045,
+        "level": 1,
+        "requested_frame": 30,
+        "simulation_tick": 29,
+        "source_start_q8": 12800.0,
+        "texture_override_active": false,
+        "window_size": [
+          960,
+          720
+        ]
+      }
+    },
+    {
+      "case": "enhanced",
+      "arguments": [
+        "--course",
+        "CITY",
+        "--enhanced-image",
+        "local/authored-override.png",
+        "--texture-mode",
+        "enhanced",
+        "--window-size",
+        "960x720"
+      ],
+      "state_sha256": "f70c202279f360fc89e95d503443a91a523c816788d9e62102a6d3572fc7f143",
+      "tick_hashes": [
+        [
+          30,
+          "ffd0f10995bcc7573720aec48c4848d666aa23af4e291d42a9964bd95f8c12dd"
+        ],
+        [
+          60,
+          "60a77020ae94cd48fd5af06f200913501a7a71166558eec8a00ce7093cab17ee"
+        ],
+        [
+          90,
+          "7887bd7a71e36b1cad53ec8c5007c1c543ff8d76aa007dbc7e6a241ed0cc8f5c"
+        ],
+        [
+          120,
+          "f70c202279f360fc89e95d503443a91a523c816788d9e62102a6d3572fc7f143"
+        ]
+      ],
+      "frames": 121,
+      "png_sha256": "2930269dbe0165d1d9806dc511fcecb7db598147cc64d22052368fa3f5c00e8b",
+      "pixel_dimensions": [
+        960,
+        720
+      ],
+      "viewport_origin": [
+        0,
+        0
+      ],
+      "viewport_extent": [
+        960,
+        720
+      ],
+      "black_bars_verified": true,
+      "capture": {
+        "branch_mask": 0,
+        "camera": {
+          "camera_height": 150.0,
+          "height": 480,
+          "horizon": 180.0,
+          "integer_scale": false,
+          "near_q8": 1.0,
+          "player_depth_q8": 420.0,
+          "slices": 33,
+          "width": 640
+        },
+        "course": "CITY",
+        "interpolation_alpha": 0.9999988079071045,
+        "level": 1,
+        "requested_frame": 30,
+        "simulation_tick": 29,
+        "source_start_q8": 12800.0,
+        "texture_override_active": true,
+        "window_size": [
+          960,
+          720
+        ]
+      }
+    },
+    {
+      "case": "hiway",
+      "arguments": [
+        "--course",
+        "HIWAY",
+        "--window-size",
+        "960x720"
+      ],
+      "state_sha256": "f70c202279f360fc89e95d503443a91a523c816788d9e62102a6d3572fc7f143",
+      "tick_hashes": [
+        [
+          30,
+          "ffd0f10995bcc7573720aec48c4848d666aa23af4e291d42a9964bd95f8c12dd"
+        ],
+        [
+          60,
+          "60a77020ae94cd48fd5af06f200913501a7a71166558eec8a00ce7093cab17ee"
+        ],
+        [
+          90,
+          "7887bd7a71e36b1cad53ec8c5007c1c543ff8d76aa007dbc7e6a241ed0cc8f5c"
+        ],
+        [
+          120,
+          "f70c202279f360fc89e95d503443a91a523c816788d9e62102a6d3572fc7f143"
+        ]
+      ],
+      "frames": 121,
+      "png_sha256": "f4a59dbdfe8c9a51ea2ee3119063219a10e2baccd78e24a9c4e9bf8f3402c38c",
+      "pixel_dimensions": [
+        960,
+        720
+      ],
+      "viewport_origin": [
+        0,
+        0
+      ],
+      "viewport_extent": [
+        960,
+        720
+      ],
+      "black_bars_verified": true,
+      "capture": {
+        "branch_mask": 0,
+        "camera": {
+          "camera_height": 150.0,
+          "height": 480,
+          "horizon": 180.0,
+          "integer_scale": false,
+          "near_q8": 1.0,
+          "player_depth_q8": 420.0,
+          "slices": 33,
+          "width": 640
+        },
+        "course": "HIWAY",
+        "interpolation_alpha": 0.9999988079071045,
+        "level": 1,
+        "requested_frame": 30,
+        "simulation_tick": 29,
+        "source_start_q8": 12800.0,
+        "texture_override_active": false,
+        "window_size": [
+          960,
+          720
+        ]
+      }
+    },
+    {
+      "case": "medly",
+      "arguments": [
+        "--course",
+        "MEDLY",
+        "--window-size",
+        "960x720"
+      ],
+      "state_sha256": "f70c202279f360fc89e95d503443a91a523c816788d9e62102a6d3572fc7f143",
+      "tick_hashes": [
+        [
+          30,
+          "ffd0f10995bcc7573720aec48c4848d666aa23af4e291d42a9964bd95f8c12dd"
+        ],
+        [
+          60,
+          "60a77020ae94cd48fd5af06f200913501a7a71166558eec8a00ce7093cab17ee"
+        ],
+        [
+          90,
+          "7887bd7a71e36b1cad53ec8c5007c1c543ff8d76aa007dbc7e6a241ed0cc8f5c"
+        ],
+        [
+          120,
+          "f70c202279f360fc89e95d503443a91a523c816788d9e62102a6d3572fc7f143"
+        ]
+      ],
+      "frames": 121,
+      "png_sha256": "c40dd575ff1abd13cb1d79824c4efb76a797ef2c1e117a801cad33adf3804d8e",
+      "pixel_dimensions": [
+        960,
+        720
+      ],
+      "viewport_origin": [
+        0,
+        0
+      ],
+      "viewport_extent": [
+        960,
+        720
+      ],
+      "black_bars_verified": true,
+      "capture": {
+        "branch_mask": 0,
+        "camera": {
+          "camera_height": 150.0,
+          "height": 480,
+          "horizon": 180.0,
+          "integer_scale": false,
+          "near_q8": 1.0,
+          "player_depth_q8": 420.0,
+          "slices": 33,
+          "width": 640
+        },
+        "course": "MEDLY",
+        "interpolation_alpha": 0.9999988079071045,
+        "level": 1,
+        "requested_frame": 30,
+        "simulation_tick": 29,
+        "source_start_q8": 12800.0,
+        "texture_override_active": false,
+        "window_size": [
+          960,
+          720
+        ]
+      }
+    },
+    {
+      "case": "napa",
+      "arguments": [
+        "--course",
+        "NAPA",
+        "--window-size",
+        "960x720"
+      ],
+      "state_sha256": "f70c202279f360fc89e95d503443a91a523c816788d9e62102a6d3572fc7f143",
+      "tick_hashes": [
+        [
+          30,
+          "ffd0f10995bcc7573720aec48c4848d666aa23af4e291d42a9964bd95f8c12dd"
+        ],
+        [
+          60,
+          "60a77020ae94cd48fd5af06f200913501a7a71166558eec8a00ce7093cab17ee"
+        ],
+        [
+          90,
+          "7887bd7a71e36b1cad53ec8c5007c1c543ff8d76aa007dbc7e6a241ed0cc8f5c"
+        ],
+        [
+          120,
+          "f70c202279f360fc89e95d503443a91a523c816788d9e62102a6d3572fc7f143"
+        ]
+      ],
+      "frames": 121,
+      "png_sha256": "933bd78bef40a80a7eced5469e44f3105a53bcd804afc657b8657ef28e1e63b4",
+      "pixel_dimensions": [
+        960,
+        720
+      ],
+      "viewport_origin": [
+        0,
+        0
+      ],
+      "viewport_extent": [
+        960,
+        720
+      ],
+      "black_bars_verified": true,
+      "capture": {
+        "branch_mask": 0,
+        "camera": {
+          "camera_height": 150.0,
+          "height": 480,
+          "horizon": 180.0,
+          "integer_scale": false,
+          "near_q8": 1.0,
+          "player_depth_q8": 420.0,
+          "slices": 33,
+          "width": 640
+        },
+        "course": "NAPA",
+        "interpolation_alpha": 0.9999988079071045,
+        "level": 1,
+        "requested_frame": 30,
+        "simulation_tick": 29,
+        "source_start_q8": 12800.0,
+        "texture_override_active": false,
+        "window_size": [
+          960,
+          720
+        ]
+      }
+    },
+    {
+      "case": "canyn",
+      "arguments": [
+        "--course",
+        "CANYN",
+        "--window-size",
+        "960x720"
+      ],
+      "state_sha256": "f70c202279f360fc89e95d503443a91a523c816788d9e62102a6d3572fc7f143",
+      "tick_hashes": [
+        [
+          30,
+          "ffd0f10995bcc7573720aec48c4848d666aa23af4e291d42a9964bd95f8c12dd"
+        ],
+        [
+          60,
+          "60a77020ae94cd48fd5af06f200913501a7a71166558eec8a00ce7093cab17ee"
+        ],
+        [
+          90,
+          "7887bd7a71e36b1cad53ec8c5007c1c543ff8d76aa007dbc7e6a241ed0cc8f5c"
+        ],
+        [
+          120,
+          "f70c202279f360fc89e95d503443a91a523c816788d9e62102a6d3572fc7f143"
+        ]
+      ],
+      "frames": 121,
+      "png_sha256": "c70d19e185b3e0143539c8e77fb2906f82119d181bba39c7c671df8efba40d76",
+      "pixel_dimensions": [
+        960,
+        720
+      ],
+      "viewport_origin": [
+        0,
+        0
+      ],
+      "viewport_extent": [
+        960,
+        720
+      ],
+      "black_bars_verified": true,
+      "capture": {
+        "branch_mask": 0,
+        "camera": {
+          "camera_height": 150.0,
+          "height": 480,
+          "horizon": 180.0,
+          "integer_scale": false,
+          "near_q8": 1.0,
+          "player_depth_q8": 420.0,
+          "slices": 33,
+          "width": 640
+        },
+        "course": "CANYN",
+        "interpolation_alpha": 0.9999988079071045,
+        "level": 1,
+        "requested_frame": 30,
+        "simulation_tick": 29,
+        "source_start_q8": 12800.0,
+        "texture_override_active": false,
+        "window_size": [
+          960,
+          720
+        ]
+      }
+    }
+  ],
+  "live_texture_switch_verified": true
+}

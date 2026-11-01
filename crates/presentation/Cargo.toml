@@ -7,3 +7,4 @@ rust-version.workspace = true
 [dependencies]
 rr-simulation = { path = "../simulation" }
 bevy = { workspace = true }
+rr-render = { path = "../render" }

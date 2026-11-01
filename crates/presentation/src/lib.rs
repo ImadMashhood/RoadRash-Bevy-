@@ -1,5 +1,7 @@
-//! Authored classic-style rendering, consuming a read-only snapshot.
+//! Classic presentation from immutable snapshots; authored fallback without local data.
+mod course_view;
 use bevy::{camera::Viewport, prelude::*, window::PrimaryWindow};
+pub use course_view::CoursePresentation;
 use rr_simulation::Snapshot;
 
 #[derive(Resource, Default)]
@@ -26,6 +28,7 @@ struct PlayerTextures {
 pub struct ClassicPresentationPlugin;
 impl Plugin for ClassicPresentationPlugin {
     fn build(&self, app: &mut App) {
+        course_view::install(app);
         app.init_resource::<PresentedSnapshot>()
             .init_resource::<VisualAssets>()
             .configure_sets(
@@ -33,9 +36,19 @@ impl Plugin for ClassicPresentationPlugin {
                 (PresentationStage::Prepare, PresentationStage::Draw).chain(),
             )
             .insert_resource(ClearColor(Color::BLACK))
-            .add_systems(Startup, setup)
-            .add_systems(Update, fit_viewport.in_set(PresentationStage::Prepare))
-            .add_systems(Update, present.in_set(PresentationStage::Draw));
+            .add_systems(Startup, setup.run_if(course_view::no_course))
+            .add_systems(
+                Update,
+                fit_viewport
+                    .in_set(PresentationStage::Prepare)
+                    .run_if(course_view::no_course),
+            )
+            .add_systems(
+                Update,
+                present
+                    .in_set(PresentationStage::Draw)
+                    .run_if(course_view::no_course),
+            );
     }
 }
 

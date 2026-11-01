@@ -1,0 +1,19 @@
+{
+  "outcome": "passed",
+  "captures": 620,
+  "all_png_bytes_equal": true,
+  "report_bytes_equal": true,
+  "report_sha256": "51cb43e1fd91edbf79918128b1a996cff6f5d888cfebed77fc6e4f9ec103f308",
+  "different_pixels": 0,
+  "mask": "none",
+  "lower_third_clear_color_gap_pixels": 0,
+  "clear_color_rgba": [
+    112,
+    150,
+    196,
+    255
+  ],
+  "rust_tests": 97,
+  "python_tests": 10,
+  "source_payload_policy": "PNG captures and source data remain local and ignored; public report contains metadata and hashes only"
+}

@@ -3,14 +3,14 @@
 Run commands from the repository root. Rust 1.99.1 is selected by rust-toolchain.toml.
 
 ```sh
-cargo test --locked -p rr-formats -p rr-simulation -p rr-import -p rr-content -p rr-course
+cargo test --locked -p rr-formats -p rr-simulation -p rr-import -p rr-content -p rr-course -p rr-render
 cargo clippy --locked --workspace --all-targets -- -D warnings
 cargo fmt --all --check
 python3 -m unittest discover -s tools -p 'test_*.py' -v
 cargo run --locked -p rr-game
 ```
 
-The last command opens an authored classic-style road made of horizontal bands and a red actor placeholder. Up/W accelerates, Down/S brakes, and Left/Right or A/D steers. The logical viewport is 640×480 with resizable presentation. This is a controllable architecture scaffold: it does not yet load original courses; a catalog can supply original rider frames, and its handling constants are authored placeholders.
+The last command opens an authored classic-style road made of horizontal bands and a red actor placeholder. Up/W accelerates, Down/S brakes, and Left/Right or A/D steers. The logical viewport is 640×480 with resizable presentation. This command uses the controllable fallback scaffold with authored handling constants. To render imported source courses and rider art, pass both data roots as shown under “Play the current classic source view” below.
 
 Linux launch needs an X11/XWayland display, Vulkan-capable graphics driver, linker/compiler tools and Bevy/winit platform development libraries. The local Linux smoke launch and screenshot are recorded in docs/evidence/parts-01-03.md. Other desktop hardware remains untested. No 3D rendering, lighting, physics or audio feature is enabled in this foundation.
 
@@ -58,4 +58,21 @@ cargo run --locked --release -p rr-course -- inspect /absolute/private-install l
 python3 -m http.server 8790 --bind 127.0.0.1 --directory local/courses
 ```
 
-Open http://127.0.0.1:8790/index.html. Choose any course, level or branch route; jump to its finish, step samples and inspect before/at/after split and merge panels. The command validates the active import and exports all 26 branches with coverage.json. Generated course definitions and screenshots stay private. See [COURSES.md](COURSES.md) for units, endpoint conventions, reproducibility and remaining rendering work.
+Open http://127.0.0.1:8790/index.html. Choose any course, level or branch route; jump to its finish, step samples and inspect before/at/after split and merge panels. The command validates the active import and exports all 26 branches with coverage.json. Generated course definitions and screenshots stay private. See [COURSES.md](COURSES.md) for units, endpoint conventions, reproducibility and source semantics and rendering boundaries.
+
+## Play the current classic source view
+
+```sh
+cargo run --locked --release -p rr-game -- --install-root local/game-install --catalog local/catalog --course CITY
+cargo run --locked --release -p rr-game -- --install-root local/game-install --catalog local/catalog --course HIWAY --level 2 --branch-mask 1 --framing wide --window-size 1280x720
+```
+
+Up/W accelerates, Down/S brakes and Left/Right or A/D steers with the current authored handling. Source rendering is active when both install and catalog roots are provided. Add `--integer-scale on` for whole-pixel enlargement, or use `--camera-sample NUMBER` for a source inspection offset. The [renderer contract](RENDERING.md) documents exact policies and remaining gameplay scope.
+
+```sh
+cargo run --locked --release -p rr-render -- authored local/render-authored
+cargo run --locked --release -p rr-render -- suite local/game-install local/catalog local/render-checkpoints
+cargo run --locked --release -p rr-render -- diff local/expected.png local/actual.png local/diff.png
+```
+
+Authored scenes work without commercial data. Source-derived captures/diffs stay ignored; public CI checks authored pixel hashes and bounded rendering behavior.

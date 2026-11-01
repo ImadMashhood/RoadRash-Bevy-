@@ -5,7 +5,8 @@ use bevy::{
     render::view::screenshot::{Screenshot, save_to_disk},
 };
 use rr_presentation::{
-    ClassicPresentationPlugin, PresentationStage, PresentedSnapshot, VisualAssets,
+    ClassicPresentationPlugin, CoursePresentation, PresentationStage, PresentedSnapshot,
+    VisualAssets,
 };
 use rr_simulation::{
     Command, SIMULATION_SCHEMA, Simulation, TICKS_PER_SECOND,
@@ -27,6 +28,14 @@ struct LaunchOptions {
     enhanced: bool,
     switch_tick: Option<u64>,
     expected_hash: Option<String>,
+    data_root: Option<PathBuf>,
+    course: Option<String>,
+    level: u8,
+    branch_mask: u32,
+    framing: rr_render::Framing,
+    integer_scale: bool,
+    camera_sample: Option<f64>,
+    window_size: Option<(u32, u32)>,
 }
 #[derive(Resource, Default)]
 struct Driver(Option<Playback>);
@@ -43,6 +52,7 @@ struct Previous(rr_simulation::Snapshot);
 fn options() -> Result<LaunchOptions, String> {
     let mut options = LaunchOptions {
         render_rate: "60".into(),
+        level: 1,
         ..Default::default()
     };
     let mut args = std::env::args_os().skip(1);
@@ -65,10 +75,63 @@ fn options() -> Result<LaunchOptions, String> {
             Some("--install-root") => {
                 let install =
                     rr_import::active_install(&PathBuf::from(value)).map_err(|e| e.to_string())?;
+                options.data_root = Some(install.data_root.clone());
                 println!(
                     "Validated install: {} files, generation {}",
                     install.files, install.generation
                 );
+            }
+            Some("--course") => options.course = Some(value.to_string_lossy().to_ascii_uppercase()),
+            Some("--level") => {
+                options.level = value
+                    .to_string_lossy()
+                    .parse()
+                    .map_err(|_| "invalid level")?;
+                if !(1..=5).contains(&options.level) {
+                    return Err("level must be 1..5".into());
+                }
+            }
+            Some("--branch-mask") => {
+                options.branch_mask = value
+                    .to_string_lossy()
+                    .parse()
+                    .map_err(|_| "invalid branch mask")?
+            }
+            Some("--camera-sample") => {
+                let n: f64 = value
+                    .to_string_lossy()
+                    .parse()
+                    .map_err(|_| "invalid camera sample")?;
+                if !n.is_finite() || n < 0. {
+                    return Err("camera sample must be finite/nonnegative".into());
+                }
+                options.camera_sample = Some(n)
+            }
+            Some("--framing") => {
+                options.framing = match value.to_str() {
+                    Some("classic") => rr_render::Framing::Classic,
+                    Some("wide") => rr_render::Framing::Wide,
+                    _ => return Err("framing must be classic|wide".into()),
+                }
+            }
+            Some("--integer-scale") => {
+                options.integer_scale = match value.to_str() {
+                    Some("on") => true,
+                    Some("off") => false,
+                    _ => return Err("integer-scale must be on|off".into()),
+                }
+            }
+            Some("--window-size") => {
+                let text = value.to_string_lossy();
+                let (w, h) = text
+                    .split_once('x')
+                    .ok_or("window-size must be WIDTHxHEIGHT")?;
+                let w: u32 = w.parse().map_err(|_| "invalid window width")?;
+                let h: u32 = h.parse().map_err(|_| "invalid window height")?;
+                if !(320..=3840).contains(&w) || !(240..=2160).contains(&h) {
+                    return Err("window dimensions out of bounds".into());
+                }
+                options.window_size = Some((w, h));
             }
             Some("--replay") => {
                 let replay = Replay::read_file(&PathBuf::from(value)).map_err(|e| e.to_string())?;
@@ -114,7 +177,11 @@ fn visuals(options: &LaunchOptions) -> Result<(VisualAssets, String), Box<dyn st
         catalog
             .entries
             .iter()
-            .find(|e| e.kind == rr_content::Kind::Rider && !e.preview_variants.is_empty())
+            .find(|e| {
+                e.kind == rr_content::Kind::Rider
+                    && !e.preview_variants.is_empty()
+                    && (options.data_root.is_none() || e.frame == Some(2))
+            })
             .ok_or("no nonempty rider asset")?
             .id
             .clone()
@@ -160,6 +227,65 @@ fn visuals(options: &LaunchOptions) -> Result<(VisualAssets, String), Box<dyn st
     ))
 }
 
+fn course_view(
+    options: &LaunchOptions,
+    visual: &VisualAssets,
+) -> Result<Option<CoursePresentation>, Box<dyn std::error::Error>> {
+    let (Some(data), Some(catalog)) = (&options.data_root, &options.catalog) else {
+        if options.course.is_some() {
+            return Err("--course requires --install-root and --catalog".into());
+        }
+        return Ok(None);
+    };
+    let stem = options.course.as_deref().unwrap_or("CITY");
+    if !rr_course::export::COURSES.iter().any(|c| c.0 == stem) {
+        return Err("unknown course (CITY/HIWAY/MEDLY/NAPA/CANYN)".into());
+    }
+    let course = rr_course::Course::read(&std::fs::read(
+        data.join(format!("DATA/COURSES/{stem}.CRS")),
+    )?)?;
+    let mut assets = rr_render::source::SourceAssets::load(data, catalog, stem, &course)?;
+    if options.asset.is_some() {
+        let blob = visual.native.as_ref().ok_or("no selected rider")?;
+        assets.rider.texture = rr_render::raster::Texture::new(
+            rr_formats::pixels::Rgba::from_png(&std::fs::read(
+                catalog.join("objects").join(blob),
+            )?)?,
+            false,
+        )?;
+        assets.rider.logical = visual.size.map(f64::from);
+        assets.rider.pivot = [0.5, 1.];
+    }
+    if let Some(path) = &options.override_image {
+        assets.set_override(path)?
+    }
+    let scene = rr_render::Scene::new(
+        course,
+        assets,
+        rr_render::SceneOptions {
+            course: stem.into(),
+            level: options.level,
+            branch_mask: options.branch_mask,
+            seed: 1,
+        },
+    )?;
+    let start_q8 = options.camera_sample.unwrap_or(50.) * 256.;
+    if start_q8 >= scene.route.len_q8() as f64 {
+        return Err("camera sample beyond selected route".into());
+    }
+    println!(
+        "Classic course {stem}, level {}, branch {}: {} source samples; {} resource notes",
+        options.level,
+        options.branch_mask,
+        scene.route.points.len(),
+        scene.notes.len()
+    );
+    Ok(Some(CoursePresentation {
+        scene: std::sync::Arc::new(scene),
+        camera: rr_render::CameraSpec::new(options.framing, options.integer_scale),
+        start_q8,
+    }))
+}
 fn main() {
     let mut options = options().unwrap_or_else(|m| {
         eprintln!("{m}");
@@ -178,8 +304,16 @@ fn main() {
         eprintln!("{e}");
         std::process::exit(2)
     });
-    App::new()
-        .insert_resource(visual)
+    let course = course_view(&options, &visual).unwrap_or_else(|e| {
+        eprintln!("{e}");
+        std::process::exit(2)
+    });
+    let window_size = options.window_size.unwrap_or((960, 720));
+    let mut app = App::new();
+    if let Some(course) = course {
+        app.insert_resource(course);
+    }
+    app.insert_resource(visual)
         .insert_resource(options)
         .insert_resource(Driver(playback))
         .add_plugins(
@@ -191,7 +325,8 @@ fn main() {
                 .set(ImagePlugin::default_nearest())
                 .set(WindowPlugin {
                     primary_window: Some(Window {
-                        title: "RoadRash Rust — classic foundation".into(),
+                        title: "RoadRash Rust — classic renderer".into(),
+                        resolution: (window_size.0, window_size.1).into(),
                         ..default()
                     }),
                     ..default()
@@ -226,7 +361,10 @@ fn main() {
         .add_systems(PreUpdate, playback_frame)
         .add_systems(
             Update,
-            (interpolate.in_set(PresentationStage::Prepare), smoke_test),
+            (
+                interpolate.in_set(PresentationStage::Prepare),
+                smoke_test.after(PresentationStage::Draw),
+            ),
         )
         .run();
 }
@@ -324,6 +462,8 @@ fn playback_frame(
 fn smoke_test(
     options: Res<LaunchOptions>,
     mut frame: Local<u32>,
+    view: Res<PresentedSnapshot>,
+    course: Option<Res<CoursePresentation>>,
     mut commands: Commands,
     mut exit: MessageWriter<AppExit>,
 ) {
@@ -331,6 +471,16 @@ fn smoke_test(
     if *frame == 30
         && let Some(path) = &options.capture
     {
+        let metadata = serde_json::json!({"requested_frame":*frame,"simulation_tick":view.0.tick,"interpolation_alpha":view.2,"window_size":options.window_size.unwrap_or((960,720)),"camera":course.as_ref().map(|c|&c.camera),"source_start_q8":course.as_ref().map(|c|c.start_q8),"course":course.as_ref().map(|c|&c.scene.options.course),"level":options.level,"branch_mask":options.branch_mask,"texture_override_active":options.enhanced ^ options.switch_tick.is_some_and(|t|view.0.tick>=t)});
+        if let Err(e) = serde_json::to_vec_pretty(&metadata)
+            .map_err(|e| e.to_string())
+            .and_then(|b| {
+                std::fs::write(path.with_extension("capture.json"), b).map_err(|e| e.to_string())
+            })
+        {
+            failure(e, &mut exit);
+            return;
+        }
         commands
             .spawn(Screenshot::primary_window())
             .observe(save_to_disk(path.clone()));
