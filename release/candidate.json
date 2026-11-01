@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "source": "0c9a544bab00c90b96fb924cb85dc1972411ee0e",
-  "tag": "native-functional-2026-11-01-rc2",
+  "source": "bccd1d303e084e84a80674a5454b8966c55b276f",
+  "tag": "native-functional-2026-11-01-rc3",
   "status": "review-only",
   "g5_accepted": false,
   "private_game_data_included": false
