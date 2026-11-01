@@ -242,37 +242,47 @@ impl Scene {
         if workers == 1 {
             return self.draw(spec, view, snapshot, enhanced);
         }
-        std::thread::scope(|scope| {
-            let mut jobs = vec![];
+        // Scope completion releases every borrow before returning. The process-wide
+        // workers stay asleep between frames; scene data never lives in a queue
+        // after the call. This avoids creating/joining OS threads every frame.
+        static POOL: std::sync::OnceLock<bevy_tasks::TaskPool> = std::sync::OnceLock::new();
+        let pool = POOL.get_or_init(|| {
+            bevy_tasks::TaskPoolBuilder::new()
+                .num_threads(std::thread::available_parallelism().map_or(1, |n| n.get().min(6)))
+                .thread_name("rr-raster".into())
+                .build()
+        });
+        let mut jobs = pool.scope(|scope| {
             for worker in 0..workers {
                 let columns = (spec.width * worker as u32 / workers as u32)
                     ..(spec.width * (worker + 1) as u32 / workers as u32);
-                let region = columns.clone();
-                jobs.push((
-                    columns,
-                    scope.spawn(move || {
-                        self.draw_columns(spec, view, snapshot, enhanced, region)
-                            .map_err(|error| error.to_string())
-                    }),
-                ));
+                scope.spawn(async move {
+                    let result = self
+                        .draw_columns(spec, view, snapshot, enhanced, columns.clone())
+                        .map_err(|error| error.to_string());
+                    (columns, result)
+                });
             }
-            let (_, first) = jobs.remove(0);
-            let (mut frame, mut receipt) = first.join().map_err(|_| "Raster worker panicked")??;
-            for (columns, job) in jobs {
-                let (stripe, _) = job.join().map_err(|_| "Raster worker panicked")??;
-                for y in 0..spec.height {
-                    let a = (y * spec.width + columns.start) as usize;
-                    let b = (y * spec.width + columns.end) as usize;
-                    frame.image.pixels[a * 4..b * 4]
-                        .copy_from_slice(&stripe.image.pixels[a * 4..b * 4]);
-                    frame.depth[a..b].copy_from_slice(&stripe.depth[a..b]);
-                }
-                frame.stats.pixels += stripe.stats.pixels;
+        });
+        // Executor completion order is deliberately not part of raster order.
+        jobs.sort_by_key(|(columns, _)| columns.start);
+        let (_, first) = jobs.remove(0);
+        let (mut frame, mut receipt) = first?;
+        for (columns, job) in jobs {
+            let (stripe, _) = job?;
+            for y in 0..spec.height {
+                let a = (y * spec.width + columns.start) as usize;
+                let b = (y * spec.width + columns.end) as usize;
+                frame.image.pixels[a * 4..b * 4]
+                    .copy_from_slice(&stripe.image.pixels[a * 4..b * 4]);
+                frame.depth[a..b].copy_from_slice(&stripe.depth[a..b]);
             }
-            receipt.stats = frame.stats;
-            Ok((frame, receipt))
-        })
+            frame.stats.pixels += stripe.stats.pixels;
+        }
+        receipt.stats = frame.stats;
+        Ok((frame, receipt))
     }
+
     fn draw_columns(
         &self,
         spec: &CameraSpec,

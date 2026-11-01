@@ -4181,6 +4181,7 @@ dependencies = [
 name = "rr-render"
 version = "0.1.0"
 dependencies = [
+ "bevy_tasks",
  "rr-content",
  "rr-course",
  "rr-formats",
