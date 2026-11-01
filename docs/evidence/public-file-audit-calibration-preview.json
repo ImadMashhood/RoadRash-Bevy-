@@ -1,0 +1,151 @@
+{
+  "outcome": "passed",
+  "policy": "Only UTF-8 Rust/Python/shell source, authored calibration config, docs and verification metadata. No game files, builds, captures or controller device nodes are published. Audit excludes itself.",
+  "files": [
+    {
+      "path": "Cargo.toml",
+      "sha256": "2ce9243587f160163583d3b6e3c20dff469cfc00a752ab2f8f034a4ef06bb656",
+      "bytes": 513
+    },
+    {
+      "path": "README.md",
+      "sha256": "6ef31efcaf5b23728981ef8352c8c57c1c293ec6e3f79bf109c37b2eca1aab1f",
+      "bytes": 266466
+    },
+    {
+      "path": "apps/game/Cargo.toml",
+      "sha256": "bafd1e269838862fe098b8e6839ba9fa6a36d26783d175e17369f9aa6d57e1be",
+      "bytes": 575
+    },
+    {
+      "path": "apps/game/examples/input_probe.rs",
+      "sha256": "9a533fef882a8b32bcdda7a36e97efe4908a44b6f06c9c39342ba1824df0b136",
+      "bytes": 3412
+    },
+    {
+      "path": "apps/game/src/bin/rr-calibrate.rs",
+      "sha256": "95a694c48490c64846cd79180a5987089304e1ea8f21c9ae4f5dbe95f2b3da13",
+      "bytes": 2110
+    },
+    {
+      "path": "apps/game/src/calibration_view.rs",
+      "sha256": "b4ea0a9967cc087b56350a1f3299f9959d1465e2e68c80ad4a76a91b4241f5b0",
+      "bytes": 35315
+    },
+    {
+      "path": "apps/game/src/gamepad_calibration.rs",
+      "sha256": "fa2e076a097ef90b30f59ea92d70fcd4c1b461e514cbe8489a09deceecf752ba",
+      "bytes": 1727
+    },
+    {
+      "path": "apps/game/src/input_adapter.rs",
+      "sha256": "af6d7df9700ace45011b7a9c5f1724e3103e6efdb548330d62de7b0f944e062a",
+      "bytes": 14608
+    },
+    {
+      "path": "apps/game/src/main.rs",
+      "sha256": "58ff45afb7fb67466881538f18b72e9d43e03b6c1a59571b416774bb690d24ef",
+      "bytes": 29511
+    },
+    {
+      "path": "crates/input/src/calibration.rs",
+      "sha256": "8d058ffe2fc6c381688de506b60a2977a80a7647934db2ff812a568012f23c10",
+      "bytes": 8760
+    },
+    {
+      "path": "crates/input/src/devices.rs",
+      "sha256": "e979252f53555408664e8e9f1c2aa8ce837fb61c3e8d3bdc9303475ade56846e",
+      "bytes": 6047
+    },
+    {
+      "path": "crates/input/src/lib.rs",
+      "sha256": "a8e9250e2d6e006d9dc2d6f8adc06280a3b5152eec7be4968c479c90cb436b48",
+      "bytes": 6550
+    },
+    {
+      "path": "crates/input/src/main.rs",
+      "sha256": "62dd74de0e8db5d9e7aaeb4886f7255779cd9038bcf8a183737aeb1cff81bfb1",
+      "bytes": 3861
+    },
+    {
+      "path": "crates/input/src/storage.rs",
+      "sha256": "04345cdb0c3aeaf4a5258d408e53b4c236b771a2b5f8e6f7cb21baaa81b5c2c5",
+      "bytes": 1921
+    },
+    {
+      "path": "crates/input/tests/calibration.rs",
+      "sha256": "84d7ff8f65600cd6ed2de6f5d40708a0bbdfb0adbb222ac507c3c0076aa45195",
+      "bytes": 7264
+    },
+    {
+      "path": "docs/ARCHITECTURE.md",
+      "sha256": "d042de9e382d43c35f96c640f67239ffa0119a527c4a946dbc5dedcc381639c7",
+      "bytes": 4499
+    },
+    {
+      "path": "docs/CALIBRATION.md",
+      "sha256": "4ec347962b22b8f074dd71b83e3e25f37ee5cf5d07666f7e19fef041a1855132",
+      "bytes": 10208
+    },
+    {
+      "path": "docs/GETTING_STARTED.md",
+      "sha256": "803cf8b072ac984ad8367595ad1a8150a1019b2f4f2ab2229df1257ebd871853",
+      "bytes": 7082
+    },
+    {
+      "path": "docs/INPUT.md",
+      "sha256": "63cc24d8dc3fa15cde9ff7f8c313f6f2590d957cbab84795389d90a8bc4148c2",
+      "bytes": 8405
+    },
+    {
+      "path": "docs/STATUS.md",
+      "sha256": "d6d553b31c26eba8ec90e7279c1c8fc4c12c886a4c45ecc730664aca0881f6bd",
+      "bytes": 4249
+    },
+    {
+      "path": "docs/evidence/09.03.md",
+      "sha256": "21aa20f2b42c2bed45aa833035086851dff63c80b75c7634a87a4dff8479a83b",
+      "bytes": 5901
+    },
+    {
+      "path": "docs/evidence/calibration-checks.json",
+      "sha256": "6af5d05fde86e5240017fab2632095bd9263cce6bb3418e7cdc84fd022b47e81",
+      "bytes": 830
+    },
+    {
+      "path": "docs/evidence/calibration-cli.json",
+      "sha256": "9cb149ecd410c559f8559652b05818b55eed71b895aa4b3667cef7adf95ef083",
+      "bytes": 386
+    },
+    {
+      "path": "docs/evidence/calibration-device-regression.json",
+      "sha256": "edee5516d1a7ec89858505eee12e9b7755e23afca05db5bc0ae05ebe30634694",
+      "bytes": 7801
+    },
+    {
+      "path": "docs/evidence/calibration-native.json",
+      "sha256": "a42d4d2cc6f98d01333909f97c6b678757c03cfcce7cf035869ce86e901f5778",
+      "bytes": 3107
+    },
+    {
+      "path": "docs/evidence/calibration-replays.json",
+      "sha256": "50d59675b25a23f6605926fffa12cbc473c52221108f4fd528780d888eb710ac",
+      "bytes": 17483
+    },
+    {
+      "path": "docs/fixtures/default-calibration.json",
+      "sha256": "e56858c15604fe5e7302f27e81682d289840257fe98dbeee6a377b1d7fcaa9e9",
+      "bytes": 246
+    },
+    {
+      "path": "tools/input/calibrate.sh",
+      "sha256": "f9c3f54ea58ef5fd17e8a57d3890f73997395ee0760f390c41bfbc32891dfc34",
+      "bytes": 598
+    },
+    {
+      "path": "tools/input/check_calibration.py",
+      "sha256": "28fdd762adcee07cf21ec0ef75df97613c66d2bed4b06d38743ae5c0f88195c0",
+      "bytes": 6129
+    }
+  ]
+}

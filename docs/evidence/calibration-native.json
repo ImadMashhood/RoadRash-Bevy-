@@ -1,0 +1,139 @@
+{
+  "outcome": "passed",
+  "virtual_controller": true,
+  "physical_controller_tested": false,
+  "scope": "saved model profile through real Linux evdev/Gilrs into the same transform in gameplay and native preview",
+  "profile": {
+    "minimum": -0.82,
+    "center": 0.07,
+    "maximum": 0.9,
+    "dead_zone": 0.03,
+    "saturation": 0.96,
+    "response": "cubic",
+    "invert": false,
+    "trigger_threshold": 0.3
+  },
+  "checks": [
+    {
+      "check": "profiled_controller_detected",
+      "raw": 0.0,
+      "steer_q15": -5,
+      "command": {
+        "brake": false,
+        "fork": null,
+        "steer": 0,
+        "steer_q15": 0,
+        "throttle": false
+      }
+    },
+    {
+      "check": "calibrated_center_is_neutral",
+      "raw": 0.070037841796875,
+      "steer_q15": 0,
+      "command": {
+        "brake": false,
+        "fork": null,
+        "steer": 0,
+        "steer_q15": 0,
+        "throttle": false
+      }
+    },
+    {
+      "check": "center_drift_is_suppressed",
+      "raw": 0.060028076171875,
+      "steer_q15": 0,
+      "command": {
+        "brake": false,
+        "fork": null,
+        "steer": 0,
+        "steer_q15": 0,
+        "throttle": false
+      }
+    },
+    {
+      "check": "center_drift_is_suppressed",
+      "raw": 0.08001708984375,
+      "steer_q15": 0,
+      "command": {
+        "brake": false,
+        "fork": null,
+        "steer": 0,
+        "steer_q15": 0,
+        "throttle": false
+      }
+    },
+    {
+      "check": "calibrated_trigger_threshold_applied",
+      "raw": 0.08001708984375,
+      "steer_q15": 0,
+      "command": {
+        "brake": false,
+        "fork": null,
+        "steer": 0,
+        "steer_q15": 0,
+        "throttle": true
+      }
+    },
+    {
+      "check": "released_trigger_clears_throttle",
+      "raw": 0.08001708984375,
+      "steer_q15": 0,
+      "command": {
+        "brake": false,
+        "fork": null,
+        "steer": 0,
+        "steer_q15": 0,
+        "throttle": false
+      }
+    },
+    {
+      "check": "left_full_deflection",
+      "raw": -0.999969482421875,
+      "steer_q15": -32767,
+      "command": {
+        "brake": false,
+        "fork": null,
+        "steer": 0,
+        "steer_q15": -32767,
+        "throttle": false
+      }
+    },
+    {
+      "check": "right_full_deflection",
+      "raw": 1.0,
+      "steer_q15": 32767,
+      "command": {
+        "brake": false,
+        "fork": null,
+        "steer": 0,
+        "steer_q15": 32767,
+        "throttle": false
+      }
+    },
+    {
+      "check": "gameplay_cubic_profile_applied",
+      "raw": 0.600006103515625,
+      "steer_q15": 9181,
+      "command": {
+        "brake": false,
+        "fork": null,
+        "steer": 0,
+        "steer_q15": 9181,
+        "throttle": false
+      }
+    },
+    {
+      "check": "live_preview_matches_game_command",
+      "raw": 0.600006103515625,
+      "steer_q15": 9181,
+      "curve_points": 201
+    }
+  ],
+  "preview_png": "preview.png",
+  "temporary_virtual_device_cleaned_up": true,
+  "preview_png_sha256": "13e356f2e671fbdd0ccc0cd05e764d2011f54569ce05b85d48c94b4f295547f3",
+  "preview_dimensions": [
+    1120,
+    760
+  ]
+}

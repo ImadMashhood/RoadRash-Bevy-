@@ -8,4 +8,4 @@ edition = "2024"
 rust-version = "1.99"
 
 [workspace.dependencies]
-bevy = { version = "=0.20.1", default-features = false, features = ["std", "default_app", "bevy_log", "2d_bevy_render", "png", "bevy_winit", "bevy_gilrs", "x11", "multi_threaded"] }
+bevy = { version = "=0.20.1", default-features = false, features = ["std", "default_app", "bevy_log", "2d_bevy_render", "png", "bevy_winit", "bevy_gilrs", "bevy_text", "default_font", "x11", "multi_threaded"] }

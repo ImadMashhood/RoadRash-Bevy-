@@ -1,4 +1,5 @@
 //! Composition root: ordered input/fixed simulation/snapshot adapter and optional deterministic playback.
+mod gamepad_calibration;
 mod input_adapter;
 use bevy::{
     app::AppExit,
@@ -40,6 +41,7 @@ struct LaunchOptions {
     camera_sample: Option<f64>,
     window_size: Option<(u32, u32)>,
     bindings: Option<PathBuf>,
+    calibration: Option<PathBuf>,
 }
 #[derive(Resource, Default)]
 struct Driver(Option<Playback>);
@@ -70,6 +72,7 @@ fn options() -> Result<LaunchOptions, String> {
             .next()
             .ok_or_else(|| format!("missing value for {}", arg.to_string_lossy()))?;
         match arg.to_str() {
+            Some("--calibration") => options.calibration = Some(value.into()),
             Some("--bindings") => options.bindings = Some(value.into()),
             Some("--smoke-frames") => {
                 let count: u32 = value
@@ -339,7 +342,25 @@ fn main() {
             std::process::exit(2)
         })
         .unwrap_or_default();
+    if options.calibration.is_none() {
+        let path = PathBuf::from("local/controller-calibration.json");
+        if path.exists() {
+            options.calibration = Some(path);
+        }
+    }
+    let profiles = options
+        .calibration
+        .as_ref()
+        .map(|path| rr_input::calibration::CalibrationFile::read(path))
+        .transpose()
+        .unwrap_or_else(|e| {
+            eprintln!("{e}");
+            std::process::exit(2)
+        })
+        .unwrap_or_default();
     let mut app = App::new();
+    app.insert_resource(input_adapter::CalibrationProfiles(profiles));
+    input_adapter::install_calibration(&mut app);
     if let Some(course) = course {
         app.insert_resource(course);
     }
@@ -562,7 +583,7 @@ fn smoke_test(
     if *frame == 30
         && let Some(path) = &options.capture
     {
-        let metadata = serde_json::json!({"requested_frame":*frame,"simulation_tick":view.0.tick,"interpolation_alpha":view.2,"window_size":options.window_size.unwrap_or((960,720)),"camera":course.as_ref().map(|c|&c.camera),"source_start_q8":course.as_ref().map(|c|c.start_q8),"course":course.as_ref().map(|c|&c.scene.options.course),"level":options.level,"branch_mask":options.branch_mask,"texture_override_active":options.enhanced ^ options.switch_tick.is_some_and(|t|view.0.tick>=t)});
+        let metadata = serde_json::json!({"calibration_profile":options.calibration,"requested_frame":*frame,"simulation_tick":view.0.tick,"interpolation_alpha":view.2,"window_size":options.window_size.unwrap_or((960,720)),"camera":course.as_ref().map(|c|&c.camera),"source_start_q8":course.as_ref().map(|c|c.start_q8),"course":course.as_ref().map(|c|&c.scene.options.course),"level":options.level,"branch_mask":options.branch_mask,"texture_override_active":options.enhanced ^ options.switch_tick.is_some_and(|t|view.0.tick>=t)});
         if let Err(e) = serde_json::to_vec_pretty(&metadata)
             .map_err(|e| e.to_string())
             .and_then(|b| {

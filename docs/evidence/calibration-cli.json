@@ -1,0 +1,10 @@
+{
+  "outcome": "passed",
+  "init_validate_and_201_point_curve": true,
+  "per_model_and_default_edits": true,
+  "invalid_range_nonfinite_enum_and_bool_rejected": true,
+  "failed_edits_preserved_file": true,
+  "default_reset_preserves_model_override": true,
+  "model_reset_restores_fallback": true,
+  "default_sha256": "e56858c15604fe5e7302f27e81682d289840257fe98dbeee6a377b1d7fcaa9e9"
+}

@@ -1,9 +1,7 @@
 //! Deterministic arbitration after physical values have been quantized.
+use crate::calibration::Calibration;
 use serde::Serialize;
 use std::collections::BTreeMap;
-/// Temporary transport defaults. Device calibration/preview is task 09.03.
-pub const STICK_DEAD_ZONE: f64 = 0.15;
-pub const TRIGGER_THRESHOLD: f32 = 0.5;
 pub const MAX_GAMEPADS: usize = 16;
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Serialize)]
 pub struct DriveInput {
@@ -48,23 +46,21 @@ pub struct PadState {
     pub start: bool,
 }
 pub fn stick_q15(value: f32) -> i16 {
-    if !value.is_finite() {
-        return 0;
-    }
-    let value = f64::from(value.clamp(-1., 1.));
-    let magnitude = ((value.abs() - STICK_DEAD_ZONE) / (1. - STICK_DEAD_ZONE)).clamp(0., 1.);
-    (magnitude * value.signum() * 32767.).round() as i16
+    Calibration::default().steering_q15(value)
 }
 impl PadState {
     pub fn sample(self) -> DeviceSample {
-        let trigger = |value: f32| value.is_finite() && value >= TRIGGER_THRESHOLD;
+        self.sample_with(Calibration::default())
+    }
+    pub fn sample_with(self, calibration: Calibration) -> DeviceSample {
+        let trigger = |value| calibration.trigger(value);
         let drive = DriveInput {
             throttle: self.south || trigger(self.right_trigger),
             brake: self.east || trigger(self.left_trigger),
             steer_q15: if self.left || self.right {
                 (i16::from(self.right) - i16::from(self.left)) * 32767
             } else {
-                stick_q15(self.stick_x)
+                calibration.steering_q15(self.stick_x)
             },
         };
         DeviceSample {

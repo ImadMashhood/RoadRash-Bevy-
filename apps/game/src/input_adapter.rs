@@ -71,7 +71,10 @@ pub fn key_code(key: Key) -> KeyCode {
     }
 }
 
+pub use crate::gamepad_calibration::{install_calibration, pad_key, pad_state};
 use rr_input::{Action, Context, devices::*};
+#[derive(Resource, Default)]
+pub struct CalibrationProfiles(pub rr_input::calibration::CalibrationFile);
 #[derive(Resource, Default)]
 pub struct Router(pub InputRouter);
 #[derive(Resource, Default)]
@@ -114,25 +117,17 @@ pub fn keyboard_sample(keys: &ButtonInput<KeyCode>, bindings: &Bindings) -> Devi
 pub fn poll_input(
     keys: Res<ButtonInput<KeyCode>>,
     bindings: Res<Bindings>,
-    pads: Query<(Entity, &Gamepad)>,
+    pads: Query<(Entity, &Gamepad, Option<&Name>)>,
+    profiles: Option<Res<CalibrationProfiles>>,
     mut router: ResMut<Router>,
     mut input: ResMut<LiveInput>,
 ) {
-    let samples = pads.iter().map(|(entity, pad)| {
-        (
-            entity.to_bits(),
-            PadState {
-                stick_x: pad.get(GamepadAxis::LeftStickX).unwrap_or(0.),
-                right_trigger: pad.get(GamepadButton::RightTrigger2).unwrap_or(0.),
-                left_trigger: pad.get(GamepadButton::LeftTrigger2).unwrap_or(0.),
-                south: pad.pressed(GamepadButton::South),
-                east: pad.pressed(GamepadButton::East),
-                left: pad.pressed(GamepadButton::DPadLeft),
-                right: pad.pressed(GamepadButton::DPadRight),
-                start: pad.pressed(GamepadButton::Start),
-            }
-            .sample(),
-        )
+    let samples = pads.iter().map(|(entity, pad, name)| {
+        let profile = profiles
+            .as_ref()
+            .map(|profiles| profiles.0.profile(&pad_key(pad, name)))
+            .unwrap_or_default();
+        (entity.to_bits(), pad_state(pad).sample_with(profile))
     });
     input.0 = router.0.update(keyboard_sample(&keys, &bindings), samples);
 }
@@ -162,6 +157,7 @@ mod tests {
             .init_resource::<Router>()
             .init_resource::<LiveInput>()
             .add_systems(PreUpdate, poll_input.after(InputSystems));
+        install_calibration(&mut app);
         app
     }
     pub(super) fn connect(app: &mut App) -> Entity {
@@ -291,5 +287,105 @@ mod tests {
             0,
             "brake precedence stays in the simulation"
         );
+    }
+}
+
+#[cfg(test)]
+mod calibration_tests {
+    use super::*;
+    use bevy::input::{
+        InputPlugin, InputSystems,
+        gamepad::{
+            GamepadConnection, GamepadConnectionEvent, RawGamepadAxisChangedEvent, RawGamepadEvent,
+        },
+    };
+    use rr_input::calibration::{Calibration, CalibrationFile, Response, device_key};
+    #[test]
+    fn saved_model_profile_and_unfiltered_axes_reach_the_real_tick_command() {
+        let root = std::env::temp_dir().join(format!("rr-profile-adapter-{}", std::process::id()));
+        std::fs::create_dir_all(&root).unwrap();
+        let path = root.join("profile.json");
+        let profile = Calibration {
+            center: 0.07,
+            dead_zone: 0.02,
+            response: Response::Cubic,
+            trigger_threshold: 0.3,
+            ..Default::default()
+        };
+        let key = device_key(Some(0x1234), Some(0x5678), "Profile test");
+        let mut file = CalibrationFile::default();
+        file.set(key.clone(), profile).unwrap();
+        file.save(&path).unwrap();
+        let mut app = App::new();
+        app.add_plugins((MinimalPlugins, InputPlugin))
+            .init_resource::<Bindings>()
+            .init_resource::<Router>()
+            .init_resource::<LiveInput>();
+        install_calibration(&mut app);
+        app.insert_resource(CalibrationProfiles(CalibrationFile::read(&path).unwrap()))
+            .add_systems(PreUpdate, poll_input.after(InputSystems));
+        let id = app.world_mut().spawn_empty().id();
+        app.world_mut().write_message(GamepadConnectionEvent::new(
+            id,
+            GamepadConnection::Connected {
+                name: "Profile test".into(),
+                vendor_id: Some(0x1234),
+                product_id: Some(0x5678),
+            },
+        ));
+        app.world_mut()
+            .write_message(RawGamepadEvent::Axis(RawGamepadAxisChangedEvent::new(
+                id,
+                GamepadAxis::LeftStickX,
+                0.07,
+            )));
+        app.update();
+        assert!(app.world().resource::<LiveInput>().0.drive.neutral());
+        // This sub-1% change used to be removed by Bevy's threshold. It must
+        // reach the calibration curve before dead-zone suppression instead.
+        app.world_mut()
+            .write_message(RawGamepadEvent::Axis(RawGamepadAxisChangedEvent::new(
+                id,
+                GamepadAxis::LeftStickX,
+                0.074,
+            )));
+        app.update();
+        assert!(
+            (app.world()
+                .get::<Gamepad>(id)
+                .unwrap()
+                .get(GamepadAxis::LeftStickX)
+                .unwrap()
+                - 0.074)
+                .abs()
+                < 0.00001
+        );
+        assert!(app.world().resource::<LiveInput>().0.drive.neutral());
+        app.world_mut()
+            .write_message(RawGamepadEvent::Axis(RawGamepadAxisChangedEvent::new(
+                id,
+                GamepadAxis::LeftStickX,
+                0.6,
+            )));
+        app.update();
+        let command = tick_command(&app.world().resource::<LiveInput>().0);
+        assert_eq!(command.steer_q15, Some(profile.steering_q15(0.6)));
+        assert_ne!(
+            command.steer_q15,
+            Some(Calibration::default().steering_q15(0.6))
+        );
+        app.world_mut().write_message(RawGamepadEvent::Button(
+            bevy::input::gamepad::RawGamepadButtonChangedEvent::new(
+                id,
+                GamepadButton::RightTrigger2,
+                0.31,
+            ),
+        ));
+        app.update();
+        assert!(
+            tick_command(&app.world().resource::<LiveInput>().0).throttle,
+            "saved trigger threshold must apply below the engine's digital press threshold"
+        );
+        std::fs::remove_dir_all(root).unwrap();
     }
 }

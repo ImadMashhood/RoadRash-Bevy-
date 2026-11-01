@@ -7,7 +7,7 @@ A Rust and Bevy recreation of the PC Road Rash experience, with a faithful class
 Parts 01–08 now have implementation and acceptance evidence: a verified importer, bounded decoders, content catalog/inspector, deterministic simulation/presentation scaffold and validated source course graph/explorer and classic road renderer. This is not a complete playable recreation. Later phases remain open; the separate local prototype is preserved independently.
 
 
-The [Fedora native reference and sizing measurements](docs/NATIVE_REFERENCE.md) now calibrate rider/road presentation. Part 9 now includes [remappable keyboard/gamepad input and safe device lifecycle](docs/INPUT.md): 09.01, 09.02 and 09.11 are complete. Device calibration (09.03) and source handling remain open.
+The [Fedora native reference and sizing measurements](docs/NATIVE_REFERENCE.md) now calibrate rider/road presentation. Part 9 now includes [remappable keyboard/gamepad input and safe device lifecycle](docs/INPUT.md): 09.01, 09.02, 09.03 and 09.11 are complete. [Native controller calibration](docs/CALIBRATION.md) now has a live preview and saved profiles; acceleration/gearing (09.04) is next.
 
 Run the current source-course view after local import/conversion:
 
@@ -1085,11 +1085,13 @@ Research: [src/input.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd
   - [x] **09.02.b — Verify:** Test simultaneous keys, controller connection and device switching.
   - [x] **09.02.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/09.02.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **09.03 — Calibrate dead zones and analog steering**
+- [x] **09.03 — Calibrate dead zones and analog steering**
 
-  - [ ] **09.03.a — Implement:** Apply documented dead-zone and response curves with calibration preview.
-  - [ ] **09.03.b — Verify:** Test center drift, full deflection and left/right symmetry.
-  - [ ] **09.03.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/09.03.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  Completed: [implementation and acceptance evidence](docs/evidence/09.03.md).
+
+  - [x] **09.03.a — Implement:** Apply documented dead-zone and response curves with calibration preview.
+  - [x] **09.03.b — Verify:** Test center drift, full deflection and left/right symmetry.
+  - [x] **09.03.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/09.03.md` (proposed path). For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
 - [ ] **09.04 — Reproduce acceleration and gearing**
 

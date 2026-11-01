@@ -1,0 +1,23 @@
+{
+  "outcome": "passed",
+  "rust_tests": 137,
+  "python_tests": 10,
+  "new_pure_calibration_tests": 8,
+  "game_adapter_tests": 7,
+  "native_preview_editor_tests": 4,
+  "presentation_tests": 3,
+  "native_calibration_checks": 10,
+  "device_lifecycle_regression_checks": 14,
+  "headless_replay_runs": 8,
+  "actual_bevy_replay_windows": 4,
+  "live_default_profile_autoload_window_frames": 120,
+  "legacy_schema_1_sha256": "f70c202279f360fc89e95d503443a91a523c816788d9e62102a6d3572fc7f143",
+  "schema_2_sha256": "87faf52e185aa21028d6be58fb01403d1f94558d6960aea7eadbedc2544f675e",
+  "physical_controller_tested": false,
+  "workflow_guards": {
+    "formatting_violation_rejected": true,
+    "lockfile_mismatch_rejected": true,
+    "repository_modified": false
+  },
+  "scope": "09.03 calibration/preview; source handling is later work"
+}
