@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "base_revision": "9f19f2e2e34f4ab3ab97953b1b43e29255659828",
+  "implementation_revision": "Containing Git commit; executable pinned by native wall receipt.",
+  "active_priority": "docs/COLLISION_COMBAT_PRIORITY.md",
+  "rules": {
+    "new_native_combat_version": 1,
+    "absent_legacy_version": 0,
+    "legacy_canonical_hashes_preserved": true
+  },
+  "before": {
+    "attack_timing": "Failed: native fists active at age13 while previous Rust definition was inactive.",
+    "crash_entry": "Failed: source backward launch at zero speed was clipped to zero; repeated legacy entry also reapplied impulses."
+  },
+  "after": {
+    "outcome": "passed",
+    "reference_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+    "executable_sha256": "73d7f9744b5b1a9482b3909950cdf3fe34119fe13d023b031e9c6739a60f18a2",
+    "checks": [
+      {
+        "family": "motion",
+        "rows": 108,
+        "outcome": "passed"
+      },
+      {
+        "family": "damage",
+        "rows": 35,
+        "outcome": "passed"
+      },
+      {
+        "family": "attack_timing",
+        "rows": 458,
+        "outcome": "passed"
+      },
+      {
+        "family": "crash_entry",
+        "rows": 24,
+        "outcome": "passed"
+      }
+    ],
+    "native_trace_sha256": "8546f342e9db5cbd4581cc0b8a012c004b7c6de8997928e4b1a7a9117f8dfeda",
+    "physical_original_game_compared": false,
+    "scope": "generic motion, reason-scaled stamina, source attack timing and initial/repeated crash entry; not full contact/traffic/body-motion or Windows-runtime parity"
+  },
+  "native_wall": {
+    "outcome": "passed",
+    "building_volumes": 8929,
+    "static_scenery_volumes": 8,
+    "source_factory_tactics_version": 1,
+    "combat_version": 1,
+    "native_contact_ticks": 45,
+    "wall_incidents": 1,
+    "final_speed": 0,
+    "bike_outside_wall": true,
+    "schedules": [
+      "30",
+      "60",
+      "144",
+      "irregular"
+    ],
+    "rendered_hash_equal": true,
+    "state_sha256": "b5cd0b37aee926d0d937a0ec9129a1e7acc544617a6be1bd9e7e24e3b1781d1e",
+    "binary_sha256": "a62475c19446ae1f02d01a8ba69cd4f9bff74879c8655d3441e094bfe7359c9c",
+    "scope": "Controlled native bike/wall geometry and isolated actors; no terminal injection. Twelve-second full-field smoke is not career/performance acceptance."
+  },
+  "workspace_tests": {
+    "passed": 364,
+    "failed": 0,
+    "ignored": 0
+  },
+  "python_tests": {
+    "passed": 33,
+    "failed": 0
+  },
+  "strict_clippy": "passed",
+  "formatting": "passed",
+  "known_unverified": [
+    "Complete native contact classifier and impulse producer",
+    "Whole-fight target acquisition, chained hits, theft/transition parity",
+    "Multi-tick detached body/bike trajectories, including subsequent signed-motion handling",
+    "Full current career and replacement-release acceptance"
+  ],
+  "g5_accepted": false,
+  "commercial_payload_published": false
+}

@@ -1,257 +1,97 @@
 {
   "outcome": "passed",
-  "base_revision": "e772b9f082aeb3d71857abd949af57d05fb8df14",
+  "base_revision": "9f19f2e2e34f4ab3ab97953b1b43e29255659828",
   "policy": "UTF-8 implementation, authored fixtures/translations and redacted evidence only; the single binary exception is the OFL Fira Mono font with verified hash and provenance. No game resources, derived source setups, frames, screenshots, raw audio, disc, private logs or executable payloads. Audit excludes itself.",
   "files": [
     {
       "path": "README.md",
-      "bytes": 283606,
-      "sha256": "7123c8c20af22892bbd663c5c7300a176af5addfbaeb3170412bd0686905fcc3"
-    },
-    {
-      "path": "apps/game/src/frontend/input.rs",
-      "bytes": 6180,
-      "sha256": "db9d7b60b843538e9bf437b0ea798d95043f43f831973e03236753eeee64ac12"
-    },
-    {
-      "path": "apps/game/src/frontend/mod.rs",
-      "bytes": 39807,
-      "sha256": "72269edfd41fc6171e59e0e575133088edd0d260ba6ffd27c5c3c33c53fb09b5"
-    },
-    {
-      "path": "apps/game/src/frontend/tests.rs",
-      "bytes": 24577,
-      "sha256": "8a6a043c3e6867416008711b7bf7ea264b7bc047d33df9cb09d8c7d066750bdf"
-    },
-    {
-      "path": "apps/game/src/frontend/view.rs",
-      "bytes": 33574,
-      "sha256": "4673a275781630e69273e224bf2c4391c02f5c57e0e4c827291c0d0b67b358ab"
+      "bytes": 283889,
+      "sha256": "da4612632b6dc073d1a86964ace51cc24da4aad40cccafa7707a2da4a2f715ed"
     },
     {
       "path": "apps/game/src/main.rs",
-      "bytes": 55207,
-      "sha256": "f3e56a6954c5f5d006b1d7235723b1d63ea6ec25177c44ff6d94e1ea6efe7c33"
+      "bytes": 55247,
+      "sha256": "0321049ec0a0cd5f9bd8455efa76ba7a6d897de5bf523f5992dccd304aa778cb"
     },
     {
-      "path": "crates/course/src/buildings.rs",
-      "bytes": 2043,
-      "sha256": "dcf7f8fbf26f617578111ac1e98e15bce3379ad130532399f4097e983f6876a9"
+      "path": "crates/simulation/src/bin/rr-encounter-check.rs",
+      "bytes": 12863,
+      "sha256": "9716daa3f75c8a01130aac402b750fa6fb4cd124abad6b82f66f3d650585d1f5"
     },
     {
-      "path": "crates/course/src/lib.rs",
-      "bytes": 7545,
-      "sha256": "288b2005578eac835a9eebb8757556292a5c2fe0215672a5b76d58b68e3de346"
-    },
-    {
-      "path": "crates/render/src/fixture.rs",
-      "bytes": 5581,
-      "sha256": "bde8896c1d63e1cea7cd3d687b20bb5f859dc76cda7296df43b53b888cbab9ba"
-    },
-    {
-      "path": "crates/render/src/main.rs",
-      "bytes": 4978,
-      "sha256": "993b194dbe8b7a061dd5110992e5bf0ec5ab919b49ebfebcd66e01e56e1b4a22"
-    },
-    {
-      "path": "crates/render/src/scene.rs",
-      "bytes": 49591,
-      "sha256": "cb3f55ff45ff1757358c9f740de1bfe004e366fd72873e34a24a3e307950c6a5"
-    },
-    {
-      "path": "crates/render/src/source.rs",
-      "bytes": 27808,
-      "sha256": "e0670843c3f807ac25b50c3cef9a27ecb3767ff8a85b8818eeeacdb7fb8d5dfc"
-    },
-    {
-      "path": "crates/render/tests/classic.rs",
-      "bytes": 34086,
-      "sha256": "b9a268d321bd97250d7af2720ade8d20e26bf7a7fa940993f5526fad2437e7b4"
+      "path": "crates/simulation/src/combat.rs",
+      "bytes": 12317,
+      "sha256": "9535cb66513f48d85c69e7cc7d410558e05603990207c76ed3f83324e3e1b1e3"
     },
     {
       "path": "crates/simulation/src/encounter.rs",
-      "bytes": 49734,
-      "sha256": "52537db46d2393768fe3892c4afe8bb2b6da8270e55fabdab95ba8fee51dd6eb"
+      "bytes": 50670,
+      "sha256": "25c29bc4d83395d32645c0fd23f039d269113caace232d008ecc2353ffa5999d"
     },
     {
-      "path": "crates/simulation/src/population.rs",
-      "bytes": 16843,
-      "sha256": "4cd0881fbb81169ff022367336d4e3ead97d02dc921d5315aad80b6f9e37b1aa"
-    },
-    {
-      "path": "crates/simulation/src/population/opponents.rs",
-      "bytes": 18867,
-      "sha256": "c21f242fcbf433f3082f6d9273aaee127b0fec590933e137f820898807937354"
+      "path": "crates/simulation/src/recovery.rs",
+      "bytes": 22217,
+      "sha256": "32a24dac722e8c92ee1a03b2cbc70481128662a1bd1506e5984ec87ac802a8a6"
     },
     {
       "path": "crates/simulation/tests/encounters.rs",
-      "bytes": 41743,
-      "sha256": "9d620a0435a8cdab2c4a9b573ca1de9f55e20b3000d5ef6171d1ccffbbf18046"
+      "bytes": 45444,
+      "sha256": "1d26089870246ace2c440adce3f89787940574a2ce2d78f46a492ac4a0af2454"
     },
     {
-      "path": "crates/simulation/tests/population.rs",
-      "bytes": 37491,
-      "sha256": "62f96a4dc1db6ee359b37d6d33fc1dece9cdfdb87a961c1abe876686a9de1304"
+      "path": "docs/COLLISION_COMBAT_PRIORITY.md",
+      "bytes": 7128,
+      "sha256": "f55112e111e9fd80909b33d6dec164bbac2ee300371642dacd300bcc642e376b"
     },
     {
-      "path": "docs/FRONTEND.md",
-      "bytes": 9874,
-      "sha256": "b5b5a380016d7ed2b83ce3a07eadb8ec4596ff93308c26a6d0ffb61868d3007b"
+      "path": "docs/COMBAT.md",
+      "bytes": 8275,
+      "sha256": "6868cf79fee1063a87870c6e450037e2af000511de86f980ccd51f00dc027063"
     },
     {
-      "path": "docs/NATIVE_ACCEPTANCE.md",
-      "bytes": 14402,
-      "sha256": "63f48bce94cb30e70bd7ffbdd780a1741210e99f01f5717646ea550510d109bb"
-    },
-    {
-      "path": "docs/OPPONENTS.md",
-      "bytes": 10653,
-      "sha256": "c9561631ca699f0b790a6b54017a3bd2aebeaaeeace5ef28f0570da9b8954ac1"
-    },
-    {
-      "path": "docs/RELEASE_NOTES.md",
-      "bytes": 9352,
-      "sha256": "2635b8d002380aba135a52a354e625ef006e7c2563ca02efee33058622238327"
-    },
-    {
-      "path": "docs/RENDERING.md",
-      "bytes": 15297,
-      "sha256": "301719b6b550f781146017bb01a45022e721a2c7d429c4bf0f6b5806e932fbd6"
-    },
-    {
-      "path": "docs/baseline/milestones.json",
-      "bytes": 2999,
-      "sha256": "2ef06aaeffd3d114904a35921ef643d49e7260a4d3d00c2f34b648bb03ec3812"
+      "path": "docs/RECOVERY.md",
+      "bytes": 7598,
+      "sha256": "89549a5ed45e778a369796d6932a3a4b3a0209f5ef10992f4c9c4de56c218bf0"
     },
     {
       "path": "docs/evidence/19.04.md",
-      "bytes": 1974,
-      "sha256": "354e7e4245cfe737b8bcc3d0b815a7a2d2d2d97faa07c9117f16e5038762cf85"
+      "bytes": 2199,
+      "sha256": "5c3fd04a4a31ab353eb78cf3f8744089e8fb2abb12db45fb2f263c20c263f3a7"
     },
     {
-      "path": "docs/evidence/19.09.md",
-      "bytes": 2016,
-      "sha256": "c69b12dd743490f8e4b5f57a029e57da3f3d6a5a2b29d1328833a1009dff0985"
+      "path": "docs/evidence/collision-combat-priority.json",
+      "bytes": 2891,
+      "sha256": "720064f12daa9c3ca2defdabf7780a6673f5f206900824ea8931ed648b42e457"
     },
     {
-      "path": "docs/evidence/19.10.md",
-      "bytes": 2003,
-      "sha256": "3c085fabbfa567d19b721e9ee1b348edb56ba15140cf2e80dd5c9f9daaa45ad1"
-    },
-    {
-      "path": "docs/evidence/19.11.md",
-      "bytes": 1964,
-      "sha256": "b63a1a5dcc8d84617230d71b9e43678330b9b80ee4a612b07a3b43d677d47d9d"
-    },
-    {
-      "path": "docs/evidence/19.12.md",
-      "bytes": 1989,
-      "sha256": "ea1564c2117910a81df0d069f75147008d128a755595bf8331ee0df0e19df197"
-    },
-    {
-      "path": "docs/evidence/20.01.md",
-      "bytes": 1656,
-      "sha256": "8f37ac79ae723ef7b12acc9bda34ee33916aa82125c5762cfaedfa13c5e4fa6a"
-    },
-    {
-      "path": "docs/evidence/20.02.md",
-      "bytes": 1740,
-      "sha256": "54568d2b9b4b87f5748fc3d63cc4cd764abaed9a1df617777cb65a886bf4933e"
-    },
-    {
-      "path": "docs/evidence/21.06.md",
-      "bytes": 2224,
-      "sha256": "217467c9f4535abd561f17f20533e80db6d441c6e3606423dc6e9bfd828e20dc"
-    },
-    {
-      "path": "docs/evidence/21.07.md",
-      "bytes": 1903,
-      "sha256": "7aeb29348d151423daf6c134e45f0bc6b4737e4544dc5502f97acca12833bf7f"
-    },
-    {
-      "path": "docs/evidence/21.08.md",
-      "bytes": 1604,
-      "sha256": "9f69096370a675a5ab766ed09e3f04a75dd86c3f461e5fb056c9e2c5f1878326"
-    },
-    {
-      "path": "docs/evidence/21.09.md",
-      "bytes": 1703,
-      "sha256": "4b235e9f21d9c8b3e7835013ccd70ac107396ae36b8e7b957b4bcc9110766c1d"
-    },
-    {
-      "path": "docs/evidence/21.10.md",
-      "bytes": 1531,
-      "sha256": "a9890dec65b9f554ca6a102b6d5f1f520ce1cd0181411eebf58b3535a60346ad"
-    },
-    {
-      "path": "docs/evidence/21.11.md",
-      "bytes": 1677,
-      "sha256": "bc834d25faea5c370ed40fc8b32f020332795a1e864b3d4d8af6215dead0b9a0"
-    },
-    {
-      "path": "docs/evidence/21.12.md",
-      "bytes": 1964,
-      "sha256": "c87b64ee5c065e2f59333f618aae86f1c33e4545321e403dd90de4935a4b1b6b"
-    },
-    {
-      "path": "docs/evidence/22.09.md",
-      "bytes": 1606,
-      "sha256": "428d01b543f65c283b3080e5e8dda39fb2ba2e7f86a89709b017d65497942174"
-    },
-    {
-      "path": "docs/evidence/22.10.md",
-      "bytes": 1728,
-      "sha256": "a74b6c22b196739d571c4ae55bef321b5f046e9e21fddf56f43557063d0aaec8"
-    },
-    {
-      "path": "docs/evidence/22.11.md",
-      "bytes": 1498,
-      "sha256": "a87dd75c94351b585755430e56ab5ea99e1f3d412705645c5726a03bec4ba5a2"
-    },
-    {
-      "path": "docs/evidence/22.12.md",
-      "bytes": 3985,
-      "sha256": "d7b3453b5ad4bb1fad5208211b4296b9c3e2765cc41112f1c6ad020ddfacb24d"
-    },
-    {
-      "path": "docs/evidence/native-gameplay-fixes.json",
-      "bytes": 3184,
-      "sha256": "2334c670f834bab1fc7bc7b70158f1d9dec65b7c0ed3de8c89986adba586f2bf"
-    },
-    {
-      "path": "docs/evidence/native-gameplay-fixes.md",
-      "bytes": 6569,
-      "sha256": "7f1ac6f1804da2780e0d06946b0937ba2aadaf3ff1b7f721f73e614e2421b96a"
-    },
-    {
-      "path": "docs/evidence/release-signoff.json",
-      "bytes": 2502,
-      "sha256": "b6a5eb375b7471e414d28b79b3f6018ebeebbe440b723b751f13ae81fdf80597"
-    },
-    {
-      "path": "docs/fixtures/render-goldens.json",
-      "bytes": 751,
-      "sha256": "9accae6ffc850f69fd275b333adc02d6c7667bb9431ad25af498d580c336ab44"
-    },
-    {
-      "path": "docs/fixtures/ui-text.json",
-      "bytes": 18211,
-      "sha256": "ca830db4c6841453a0bdbe6883839795246d20082385d750f69c021722aab073"
+      "path": "docs/evidence/collision-combat-priority.md",
+      "bytes": 3193,
+      "sha256": "c82707cab8fd39a7e055998b3764e2043dc921830ea7659e7d0808c933ac9a80"
     },
     {
       "path": "docs/functional-defects.json",
-      "bytes": 5391,
-      "sha256": "a4f40777bd792e3f124a375031b8d65eead25e4d60ca950e20e13b8dcda208a7"
+      "bytes": 5813,
+      "sha256": "1e053cd75f7c0eb98d62fb2ec0b32693118631a41a76bc1287b54d79546123fd"
     },
     {
       "path": "docs/functional-manifest.json",
-      "bytes": 22920,
-      "sha256": "8b1b7948f34b8a361503d57355650d6d5ba92075a05dc3cc0bd1e65f35e53ca3"
+      "bytes": 23271,
+      "sha256": "a9f92202278460fe72361413312a3e0ac8717d014237c4e122fa48faa539fcfc"
+    },
+    {
+      "path": "tools/reference/check_encounters.py",
+      "bytes": 2648,
+      "sha256": "56b200ae8288c3b989a63f2fd2bde911d6e805beda09ee9b42735d3faef998ad"
+    },
+    {
+      "path": "tools/reference/encounters.cpp",
+      "bytes": 3998,
+      "sha256": "e23b97ff7d4e2073a837273a1f10d9679da39b8c1c7afc91b3701de3e463b748"
     },
     {
       "path": "tools/verification/gameplay_fixes.py",
-      "bytes": 5381,
-      "sha256": "324e7bbd13df3b1dc52c111da1d8d3038a61b2be3255defd98d3ae99d1fab758"
+      "bytes": 5452,
+      "sha256": "c35d70001dbc5e10f61dfa013a20a90c97cb3e9cbedea85cca9f4a9040da7a2e"
     }
   ]
 }

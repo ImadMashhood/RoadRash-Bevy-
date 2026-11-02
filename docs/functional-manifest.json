@@ -86,10 +86,12 @@
       "id": "19.04",
       "title": "Close traffic and police functional gaps",
       "required": true,
-      "status": "passed",
+      "status": "pending",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Drive scripted dense, split-route, intersection and simultaneous-incident cases. Required behaviors work with native graphics, deterministic identities and no stale contacts or sirens.",
-      "evidence": "docs/evidence/19.04.md"
+      "evidence": "docs/evidence/19.04.md",
+      "completed_children": [],
+      "reopened_reason": "Owner prioritizes collision/fighting/crash accuracy. Source timing and crash-entry corrections pass; complete contact classification, whole-fight and recovery trajectory comparisons remain open in docs/COLLISION_COMBAT_PRIORITY.md."
     },
     {
       "id": "19.05",
@@ -520,5 +522,6 @@
       "pending_reason": "G5 is assigned to project owner; technical packaged career/release matrix and evidence complete, owner signature absent.",
       "reopened_reason": "Building geometry/collision, opponent tactics and interface changed after RC4. Historical RC4 receipts are preserved; candidate-wide revalidation/repackaging is required. See docs/evidence/native-gameplay-fixes.md."
     }
-  ]
+  ],
+  "active_priority": "docs/COLLISION_COMBAT_PRIORITY.md"
 }

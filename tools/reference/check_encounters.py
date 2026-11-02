@@ -27,14 +27,14 @@ def main():
     (o/'native.json').write_bytes(reference)
     expected=json.loads(reference)
     checks=[]
-    for name in ['motion','damage']:
+    for name in ['motion','damage','attack_timing','crash_entry']:
         result=json.loads((o/f'{name}-rust.json').read_bytes())
         if result!=expected[name]:
             for i,(left,right) in enumerate(zip(expected[name],result)):
                 if left!=right: raise AssertionError(f'{name}[{i}]: {left} != {right}')
             raise AssertionError(f'{name} row count')
         checks.append({'family':name,'rows':len(result),'outcome':'passed'})
-    receipt={'outcome':'passed','reference_revision':revision,'executable_sha256':hashlib.sha256((d/'ROADRASH.EXE').read_bytes()).hexdigest(),'checks':checks,'native_trace_sha256':hashlib.sha256(reference).hexdigest(),'physical_original_game_compared':False,'scope':'generic actor displacement and reason-scaled stamina only; broader gameplay validated by authored regression scenarios'}
+    receipt={'outcome':'passed','reference_revision':revision,'executable_sha256':hashlib.sha256((d/'ROADRASH.EXE').read_bytes()).hexdigest(),'checks':checks,'native_trace_sha256':hashlib.sha256(reference).hexdigest(),'physical_original_game_compared':False,'scope':'generic motion, reason-scaled stamina, source attack timing and initial/repeated crash entry; not full contact/traffic/body-motion or Windows-runtime parity'}
     (o/'comparison.json').write_text(json.dumps(receipt,indent=2)+'\n')
     print(json.dumps(receipt))
 if __name__=='__main__': main()

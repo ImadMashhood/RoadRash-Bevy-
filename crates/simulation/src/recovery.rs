@@ -201,7 +201,32 @@ impl State {
         impact: Impact,
         topology: &Topology,
     ) -> bool {
-        if self.outcome.is_some() {
+        self.begin_profile(owner, bike, c, at, impact, topology, false)
+    }
+    /// Source crash entry is idempotent while the linked crash body is active.
+    pub fn begin_source(
+        &mut self,
+        owner: ActorId,
+        bike: &mut Bike,
+        c: &Configuration,
+        at: Location,
+        impact: Impact,
+        topology: &Topology,
+    ) -> bool {
+        self.begin_profile(owner, bike, c, at, impact, topology, true)
+    }
+    #[allow(clippy::too_many_arguments)]
+    fn begin_profile(
+        &mut self,
+        owner: ActorId,
+        bike: &mut Bike,
+        c: &Configuration,
+        at: Location,
+        impact: Impact,
+        topology: &Topology,
+        source: bool,
+    ) -> bool {
+        if self.outcome.is_some() || (source && self.phase != Phase::Mounted) {
             return false;
         }
         let first = self.phase == Phase::Mounted;
@@ -244,9 +269,15 @@ impl State {
             [0, 0, 1024]
         });
         for (motion, velocity) in [(&mut body.motion, rv), (&mut *bike, bv)] {
-            motion.speed = motion.speed.saturating_add(velocity[0]).clamp(0, 1_000_000);
-            motion.lateral_speed = motion.lateral_speed.saturating_add(velocity[1]);
-            motion.vertical_speed = motion.vertical_speed.saturating_add(velocity[2]);
+            if source {
+                motion.speed = motion.speed.wrapping_add(velocity[0]);
+                motion.lateral_speed = motion.lateral_speed.wrapping_add(velocity[1]);
+                motion.vertical_speed = motion.vertical_speed.wrapping_add(velocity[2]);
+            } else {
+                motion.speed = motion.speed.saturating_add(velocity[0]).clamp(0, 1_000_000);
+                motion.lateral_speed = motion.lateral_speed.saturating_add(velocity[1]);
+                motion.vertical_speed = motion.vertical_speed.saturating_add(velocity[2]);
+            }
         }
         body.animation.set(
             &c.animation,

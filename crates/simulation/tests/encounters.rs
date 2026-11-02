@@ -1328,3 +1328,113 @@ fn adjacent_building_panels_do_not_restart_an_existing_crash() {
     assert_eq!(unit(&sim, 1).fighter.hit_count, 1);
     assert_eq!(unit(&sim, 1).recovery.phase, Phase::Sliding);
 }
+
+#[test]
+fn source_attack_counter_opens_and_closes_the_window_on_native_ticks() {
+    let (mut c, mut e) = setup(2);
+    let code = c
+        .animation
+        .pose_code(animation::Pose::PunchRight, animation::Weapon::Fists) as usize;
+    let original = c.animation.banks[0][code].as_ref().unwrap()[0].clone();
+    c.animation.banks[0][code] = Some(
+        [2, 3, 4]
+            .into_iter()
+            .enumerate()
+            .map(|(i, duration)| animation::Frame {
+                duration,
+                control: if i == 2 { 2 } else { 0 },
+                flags: 0,
+                ..original.clone()
+            })
+            .collect(),
+    );
+    let request = Request {
+        kind: AttackKind::Punch,
+        side: Side::Right,
+    };
+    let old = Definition::from_library_version(&c.animation, request, animation::Weapon::Fists, 0)
+        .unwrap();
+    let source =
+        Definition::from_library_version(&c.animation, request, animation::Weapon::Fists, 1)
+            .unwrap();
+    for tick in 0..11 {
+        assert_eq!(old.active(tick), (6..10).contains(&tick));
+        assert_eq!(source.active(tick), (5..9).contains(&tick));
+    }
+    assert_eq!(source.frame(4), 1);
+    assert_eq!(
+        source.frame(5),
+        2,
+        "weapon theft uses the advanced counter too"
+    );
+    e.rules.combat_version = 1;
+    let mut sim = Simulation::with_encounters(1, c, e).unwrap();
+    sim.step(Command {
+        attack: Some(request),
+        ..Default::default()
+    })
+    .unwrap();
+    for _ in 0..4 {
+        sim.step(Command::default()).unwrap();
+    }
+    assert_eq!(unit(&sim, 2).fighter.hit_count, 0);
+    sim.step(Command::default()).unwrap();
+    assert_eq!(unit(&sim, 2).fighter.hit_count, 1);
+}
+
+#[test]
+fn source_crash_entry_preserves_reverse_impulse_and_ignores_repeat_entry() {
+    for reason in [1, 2, 4, 5] {
+        let c = fixtures::riding();
+        let mut bike = handling::Bike::new(c.spec(), &c.tables).unwrap();
+        let topology = Topology::straight(100000);
+        let at = Location::default();
+        let mut state = State::mounted(ActorId(1), at);
+        let impact = Impact {
+            reason,
+            ..Default::default()
+        };
+        assert!(state.begin_source(ActorId(1), &mut bike, &c, at, impact, &topology));
+        assert_eq!(
+            state.body.as_ref().unwrap().motion.speed,
+            if reason == 4 { -80 } else { -256 }
+        );
+        let before = serde_json::to_value((&state, &bike)).unwrap();
+        assert!(!state.begin_source(ActorId(1), &mut bike, &c, at, impact, &topology));
+        assert_eq!(serde_json::to_value((&state, &bike)).unwrap(), before);
+    }
+}
+
+#[test]
+fn source_contact_does_not_emit_duplicate_crash_or_restart_recovery() {
+    let (c, mut e) = setup(1);
+    e.rules.combat_version = 1;
+    let mut sim = Simulation::with_encounters(1, c, e).unwrap();
+    sim.step(crash_command()).unwrap();
+    for _ in 0..5 {
+        sim.step(Command::default()).unwrap();
+    }
+    let before = unit(&sim, 1).recovery.clone();
+    sim.step(crash_command()).unwrap();
+    let after = &unit(&sim, 1).recovery;
+    assert_eq!(after.incident, before.incident);
+    assert_eq!(after.elapsed, before.elapsed);
+    assert_eq!(after.body, before.body);
+    assert!(
+        !sim.effects()
+            .iter()
+            .any(|event| event.kind == EffectKind::Crash)
+    );
+}
+
+#[test]
+fn combat_rules_version_is_explicit_and_legacy_encoding_is_unchanged() {
+    let (c, mut e) = setup(1);
+    assert!(
+        !serde_json::to_string(&e)
+            .unwrap()
+            .contains("combat_version")
+    );
+    e.rules.combat_version = 2;
+    assert!(Simulation::with_encounters(1, c, e).is_err());
+}

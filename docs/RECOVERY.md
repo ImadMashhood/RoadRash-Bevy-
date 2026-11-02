@@ -1,5 +1,7 @@
 # Crash and recovery contract
 
+**Current native rule profile:** `combat_version: 1` preserves signed crash-entry impulses and ignores entry while a crash body is already active, matching the measured C++ entry API. It does not reset the incident, body, elapsed time or animation or emit another crash event. Historical version-0 recordings retain their repeated-impulse/reset policy described below. Full multi-tick trajectory parity remains an [open accuracy gate](COLLISION_COMBAT_PRIORITY.md).
+
 `recovery.rs` owns linked rider/bike state; `topology.rs` owns validated bidirectional route navigation. Schema 4 serializes every hidden motion, phase, animation, ownership, assist and terminal field. Rendering consumes copies and cannot remove a recovery target. [Combat](COMBAT.md) explains impact producers and [Part 12 acceptance](evidence/part-12.md) records verification.
 
 ## Identity and state progression

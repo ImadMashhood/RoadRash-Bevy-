@@ -1,5 +1,7 @@
 # RoadRash-Rust — complete recreation roadmap
 
+**Active gameplay priority: [collision, fighting and crash accuracy](docs/COLLISION_COMBAT_PRIORITY.md).** This gate comes before additional presentation/enhancement work and the architecture report. It tracks native expected/actual comparisons and keeps unverified mechanics open.
+
 > **Current implementation:** 3D is deferred. The active target is the classic game in Rust/Bevy using separate bounded format readers, a renderer-independent simulation, and a 2D presentation plugin. See [implementation status](docs/STATUS.md), [build instructions](docs/GETTING_STARTED.md), and [architecture](docs/ARCHITECTURE.md). The detailed roadmap below includes future preparation; those items do not expand the current scope.
 
 A Rust and Bevy recreation of PC Road Rash with deterministic gameplay, bounded content readers, a separate presentation layer and a modern offline interface.
@@ -2123,11 +2125,11 @@ Research: [src/sound.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd
   - [x] **19.03.b — Verify:** Run the complete actor/state matrix on every course. No invisible collidable actor, missing required transition, incorrect ground contact or unexplained animation gap remains.
   - [x] **19.03.c — Attach completion evidence:** Link interfaces, exact native/authored fixtures or recorded input, expected/actual results, error paths and implementation revision in `docs/evidence/19.03.md`. Keep raw commercial assets private. Leave this task open while a required acceptance fails.
 
-- [x] **19.04 — Close traffic and police functional gaps**
+- [ ] **19.04 — Close traffic and police functional gaps**
 
-  - [x] **19.04.a — Implement:** Audit and complete required zone/controller, lane-change, crossing, pedestrian avoidance, pursuit, cop-hit/recovery and arrest behaviors. Resolve the current simplified policies explicitly, retaining topology ownership and bounded pools.
-  - [x] **19.04.b — Verify:** Drive scripted dense, split-route, intersection and simultaneous-incident cases. Required behaviors work with native graphics, deterministic identities and no stale contacts or sirens.
-  - [x] **19.04.c — Attach completion evidence:** Link interfaces, exact native/authored fixtures or recorded input, expected/actual results, error paths and implementation revision in `docs/evidence/19.04.md`. Keep raw commercial assets private. Leave this task open while a required acceptance fails.
+  - [ ] **19.04.a — Implement:** Audit and complete required zone/controller, lane-change, crossing, pedestrian avoidance, pursuit, cop-hit/recovery and arrest behaviors. Resolve the current simplified policies explicitly, retaining topology ownership and bounded pools.
+  - [ ] **19.04.b — Verify:** Drive scripted dense, split-route, intersection and simultaneous-incident cases. Required behaviors work with native graphics, deterministic identities and no stale contacts or sirens.
+  - [ ] **19.04.c — Attach completion evidence:** Link interfaces, exact native/authored fixtures or recorded input, expected/actual results, error paths and implementation revision in `docs/evidence/19.04.md`. Keep raw commercial assets private. Leave this task open while a required acceptance fails.
 
 - [x] **19.05 — Close complete race and terminal outcome flows**
 

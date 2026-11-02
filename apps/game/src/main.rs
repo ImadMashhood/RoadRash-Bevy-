@@ -686,6 +686,7 @@ fn build_race(
         setup
             .validate(&config)
             .expect("shared building collision geometry");
+        setup.rules.combat_version = 1;
         setup.seeds[0].color = options.rider_color;
         setup.rules.assists.fast_recovery = options.fast_recovery;
         setup.rules.assists.rescue_unreachable = options.rescue_recovery;

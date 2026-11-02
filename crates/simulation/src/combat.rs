@@ -89,6 +89,50 @@ impl Definition {
         result.validate()?;
         Ok(result)
     }
+    /// The source checks retained descriptor flags OR the frame counter AFTER
+    /// animation advancement. Legacy definitions used the selected frame for both.
+    pub fn from_library_version(
+        lib: &Library,
+        request: Request,
+        weapon: Weapon,
+        version: u8,
+    ) -> Result<Self> {
+        let mut result = Self::from_library(lib, request, weapon)?;
+        if version == 0 {
+            return Ok(result);
+        }
+        if version != 1 {
+            return Err(Error::Invalid("combat rules version"));
+        }
+        let mut player = crate::animation::Player::default();
+        player.set(lib, 0, result.code);
+        player.queued = Some(2);
+        result.windows.clear();
+        let mut start = None;
+        for age in 0..result.duration {
+            let selected = player
+                .advance(lib, 0, u32::from(age))
+                .map_err(|_| Error::Invalid("combat animation timing"))?;
+            let active = selected.is_some_and(|f| f.flags & 0x600000 != 0) || player.frame == 2;
+            if active && start.is_none() {
+                start = Some(age);
+            }
+            if !active && let Some(start) = start.take() {
+                result.windows.push(Window { start, end: age });
+            }
+        }
+        if let Some(start) = start {
+            result.windows.push(Window {
+                start,
+                end: result.duration,
+            });
+        }
+        for start in result.frame_starts.iter_mut().skip(1) {
+            *start = start.saturating_sub(1);
+        }
+        result.validate()?;
+        Ok(result)
+    }
     pub fn validate(&self) -> Result<()> {
         if self.code < 0
             || self.duration == 0

@@ -96,6 +96,9 @@ fn wall_entry(
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(deny_unknown_fields)]
 pub struct Rules {
+    /// 0 preserves historical replays; 1 uses measured source attack/crash entry rules.
+    #[serde(default, skip_serializing_if = "legacy_combat")]
+    pub combat_version: u8,
     pub level: u8,
     pub reach: [i32; 4],
     pub damage: [i32; 4],
@@ -108,6 +111,9 @@ pub struct Rules {
     pub finish_progress: Option<i64>,
     pub obstacles: Vec<Obstacle>,
 }
+fn legacy_combat(version: &u8) -> bool {
+    *version == 0
+}
 impl Rules {
     pub fn from_library(c: &Configuration, level: u8) -> Result<Self> {
         if level > 4 {
@@ -118,6 +124,7 @@ impl Rules {
             .and_then(Option::as_ref)
             .map_or(12, |v| v.iter().map(|f| f.duration as u16).sum::<u16>() + 1);
         Ok(Self {
+            combat_version: 0,
             level,
             reach: [5 * 4096, 7 * 4096, 8 * 4096, 5 * 4096],
             damage: [256, 320, 384, 64],
@@ -133,7 +140,8 @@ impl Rules {
     }
     pub fn validate(&self, topology: &Topology) -> Result<()> {
         self.body.validate()?;
-        if self.level > 4
+        if self.combat_version > 1
+            || self.level > 4
             || self.stun == 0
             || self.stun > 10000
             || self
@@ -700,7 +708,12 @@ impl World {
                         Side::Left
                     };
                 }
-                let definition = Definition::from_library(&c.animation, request, r.weapon)?;
+                let definition = Definition::from_library_version(
+                    &c.animation,
+                    request,
+                    r.weapon,
+                    self.setup.rules.combat_version,
+                )?;
                 command.pose = Some(combat::pose(request));
                 u.fighter.swing = Some(Swing {
                     request,
@@ -785,15 +798,28 @@ impl World {
             events.retain(|e| {
                 e.actor != target || !matches!(e.kind, EffectKind::Remount | EffectKind::GetUp)
             });
-            unit.recovery.begin(
-                target,
-                &mut rider.bike,
-                c,
-                unit.recovery.bike_location,
-                impact,
-                &self.setup.topology,
-            );
-            Self::emit(events, tick, target, None, EffectKind::Crash);
+            let entered = if self.setup.rules.combat_version == 1 {
+                unit.recovery.begin_source(
+                    target,
+                    &mut rider.bike,
+                    c,
+                    unit.recovery.bike_location,
+                    impact,
+                    &self.setup.topology,
+                )
+            } else {
+                unit.recovery.begin(
+                    target,
+                    &mut rider.bike,
+                    c,
+                    unit.recovery.bike_location,
+                    impact,
+                    &self.setup.topology,
+                )
+            };
+            if entered || self.setup.rules.combat_version == 0 {
+                Self::emit(events, tick, target, None, EffectKind::Crash);
+            }
         } else {
             unit.fighter.stun_until = tick + u64::from(self.setup.rules.stun);
             rider.pose = animation::Pose::HitReact;

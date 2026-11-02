@@ -34,6 +34,7 @@ fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
     let route = course.route(&vec![0; course.splits().len()])?;
     let config = Configuration::load(data, &route, 1, 50)?;
     let mut setup = Setup::source(&config, &course, &route, &exe, 0, 2)?;
+    setup.rules.combat_version = 1;
     setup.rules.bike_contacts = false;
     setup.rules.obstacles.clear();
     let command = |tick, input| QueuedCommand {
@@ -155,7 +156,98 @@ fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
         }
     }
     std::fs::write(out.join("damage-rust.json"), serde_json::to_vec(&damage)?)?;
-    let receipt = json!({"outcome":"passed","source_setups":sources,"schedules":runs,"phases_first_observed":phases,"motion_vectors":motion.len(),"damage_vectors":damage.len(),"scope":"Pinned native public API and Rust regression checks; no original Windows runtime parity claim"});
+    let mut timing = vec![];
+    for side in 0..2 {
+        for kind in 0..2 {
+            for slot in 0..4 {
+                let request = Request {
+                    side: if side == 0 { Side::Left } else { Side::Right },
+                    kind: if slot == 3 {
+                        AttackKind::Kick
+                    } else if kind == 1 {
+                        AttackKind::Backhand
+                    } else {
+                        AttackKind::Punch
+                    },
+                };
+                let weapon = match slot {
+                    1 => animation::Weapon::Club,
+                    2 => animation::Weapon::Chain,
+                    _ => animation::Weapon::Fists,
+                };
+                let definition =
+                    Definition::from_library_version(&config.animation, request, weapon, 1)?;
+                for age in 0..definition.duration {
+                    timing.push(json!([
+                        side,
+                        kind,
+                        slot,
+                        age,
+                        i32::from(definition.active(u64::from(age)))
+                    ]));
+                }
+            }
+        }
+    }
+    std::fs::write(
+        out.join("attack_timing-rust.json"),
+        serde_json::to_vec(&timing)?,
+    )?;
+    let mut entries = vec![];
+    for reason in [1, 2, 4, 5] {
+        for speed in [0, 5000, 20000] {
+            let mut c = config.clone();
+            let selected = c.selected;
+            c.specs
+                .iter_mut()
+                .find(|s| s.id == selected)
+                .unwrap()
+                .suspension = 1000;
+            let mut bike = handling::Bike::new(c.spec(), &c.tables)?;
+            bike.speed = speed;
+            bike.height = 100;
+            bike.lateral_speed = 123;
+            bike.vertical_speed = 50;
+            let at = topology::Location {
+                height: 100,
+                ..Default::default()
+            };
+            let topology = topology::Topology::straight(1000000);
+            let mut state = State::mounted(ActorId(1), at);
+            for repeat in 0..2 {
+                let entered = state.begin_source(
+                    ActorId(1),
+                    &mut bike,
+                    &c,
+                    at,
+                    Impact {
+                        reason,
+                        ..Default::default()
+                    },
+                    &topology,
+                );
+                let body = state.body.as_ref().unwrap();
+                entries.push(json!([
+                    reason,
+                    speed,
+                    repeat,
+                    i32::from(entered),
+                    bike.speed,
+                    bike.height,
+                    bike.vertical_speed,
+                    body.motion.speed,
+                    body.motion.height,
+                    body.motion.vertical_speed,
+                    body.animation.code
+                ]));
+            }
+        }
+    }
+    std::fs::write(
+        out.join("crash_entry-rust.json"),
+        serde_json::to_vec(&entries)?,
+    )?;
+    let receipt = json!({"outcome":"passed","source_setups":sources,"schedules":runs,"phases_first_observed":phases,"motion_vectors":motion.len(),"damage_vectors":damage.len(),"attack_timing_vectors":timing.len(),"crash_entry_vectors":entries.len(),"scope":"Pinned native public API comparison for motion, damage, attack timing and crash entry; full contact classifier/body-motion parity remains open"});
     std::fs::write(
         out.join("receipt.json"),
         serde_json::to_vec_pretty(&receipt)?,

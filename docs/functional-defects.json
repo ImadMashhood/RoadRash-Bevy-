@@ -150,6 +150,16 @@
       "reproducer": "Existing unattended driver fails 25 straight native career attempts under changed collision/AI.",
       "regression": "docs/evidence/native-gameplay-fixes.md",
       "acceptance_gate": "G3F"
+    },
+    {
+      "id": "interaction-accuracy-gate",
+      "task": "19.04",
+      "severity": "required",
+      "status": "open",
+      "owner": "Implementing agent",
+      "reproducer": "Whole-contact classifier, complete fight transaction and multi-tick recovery trajectories have not been shown to match the native source port.",
+      "regression": "docs/COLLISION_COMBAT_PRIORITY.md",
+      "acceptance_gate": "G3F"
     }
   ],
   "scope_note": "Current targeted rendering, collision, tactics and interface fixes pass their linked checks. Career-driver and replacement-release verification remain open; old RC4 receipts are historical, not current acceptance."
