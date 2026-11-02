@@ -6,11 +6,11 @@ from verification.performance import common, frame_profile, per_course_profiles,
 
 def receipt():
     distribution = dict(p50=8., p95=12., p99=20., max=24., count=1000)
-    segment = dict(frames=1060, wall_frame_ms=distribution, cpu_raster_ms=distribution,
+    segment = dict(frames=1060, wall_frame_ms=distribution, cpu_raster_ms=copy.deepcopy(distribution),
                    render_diagnostics={'render/main_pass/elapsed_gpu': dict(p50=.2, p95=.4, p99=.5, max=.7, count=1000)})
     return dict(native_only=True, vsync=False, duration_s=3601., simulation_seconds=3595.,
                 paused_frames=0, race_and_course_restarts=19, binary_sha256='a'*64,
-                actual_window=dict(logical=[960, 720]), first_frame_ms=900., course_loads=[],
+                actual_window=dict(logical=[960, 720]), level=3, bike=8, first_frame_ms=900., course_loads=[],
                 course_segments={f'{c}/lap{lap}': copy.deepcopy(segment) for c in COURSES for lap in [1, 2]},
                 memory_samples=[dict(rss='VmRSS: 1000000 kB', gpu_image_bytes=3325980,
                                      cpu_images=8, gpu_images=8, entities=512)],
@@ -77,6 +77,22 @@ class PerformanceReceipts(unittest.TestCase):
         r = self.independent_courses(); r[0]['duration_s'] = 60.
         with self.assertRaisesRegex(ValueError, 'five minutes'): per_course_profiles(r)
 
+
+    def test_sample_cap_requires_full_duration_same_binary_supplement(self):
+        r = receipt(); r['course_segments']['CANYN/lap2']['wall_frame_ms']['count'] = 400
+        with self.assertRaisesRegex(ValueError, 'Truncated'): frame_profile(r)
+        extra = self.independent_courses()[-1]
+        self.assertEqual(frame_profile(r, [extra])['rows'][-1]['duration_s'], 320.)
+        extra['binary_sha256'] = 'b'*64
+        with self.assertRaisesRegex(ValueError, 'same binary'): frame_profile(r, [extra])
+        extra['binary_sha256'] = 'a'*64; extra['actual_window'] = dict(logical=[640, 480])
+        with self.assertRaisesRegex(ValueError, 'window'): frame_profile(r, [extra])
+
+    def test_complete_slow_segment_cannot_be_replaced_after_observation(self):
+        r = receipt(); extra = self.independent_courses()[-1]
+        with self.assertRaisesRegex(ValueError, 'Cannot replace'): frame_profile(r, [extra])
+        r['course_segments']['CANYN/lap2']['wall_frame_ms'].update(p95=30., p99=40., max=50.)
+        with self.assertRaisesRegex(ValueError, '60 Hz'): frame_profile(r, [extra])
 
 
 if __name__ == '__main__': unittest.main()

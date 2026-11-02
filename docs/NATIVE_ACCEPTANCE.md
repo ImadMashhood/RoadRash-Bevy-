@@ -109,3 +109,69 @@ for these checks, and no upscaling batch is part of Parts 19–22.
 [Player guide](PLAYER_GUIDE.md) · [Native interface results](evidence/native-interface.json)
 · [Video corpus results](evidence/native-videos.json)
 · [Native render matrix](evidence/native-render-matrix.json)
+
+## Reproduction commands
+
+Keep the inputs and all generated outputs private. Run from the repository root;
+use absolute source paths for Cargo tests, because test processes run from their
+crate directory. Use a fresh output path for each verification attempt.
+
+```sh
+cargo fmt --all --check
+cargo test --locked --release --workspace --target-dir ../target
+cargo clippy --locked --workspace --all-targets --target-dir ../target -- -D warnings
+cargo build --locked --release --workspace --target-dir ../target
+RR_TEST_ISO="/absolute/private/source.iso" python3 tools/private_corpus.py --require \
+  --report local/NEW-private-corpus.json
+RR_SESSION_DATA="/absolute/private/game-data" \
+RR_SESSION_CATALOG="/absolute/private/catalog" \
+RR_SESSION_METRICS="/absolute/private/NEW-factory.json" \
+  cargo test --locked --release -p rr-game \
+  source_factory_repeated_courses_bikes_and_carried_damage_drop_all_scene_owners \
+  --target-dir ../target -- --nocapture
+../target/release/rr-native-verify /absolute/private/game-data \
+  /absolute/private/catalog > local/NEW-native-matrix.json
+RR_DRIVER_MPC=1 /absolute/downloaded-app/bin/rr-game \
+  --install-root /absolute/private/import --catalog /absolute/private/catalog \
+  --functional-check /absolute/private/NEW-career
+python3 tools/verification/campaign.py /absolute/private/NEW-career \
+  local/NEW-career-verification --binary ../target/release/rr-replay \
+  --data /absolute/private/game-data
+python3 tools/verification/regression.py \
+  --replay /absolute/private/RECORDED-CITY-L1-BIKE1-CHAR3.json \
+  --course CITY --level 1 --bike 1 --character 3 \
+  --target ../target/release --data /absolute/private/game-data \
+  --install /absolute/private/import --catalog /absolute/private/catalog \
+  --output local/NEW-regression
+python3 tools/verification/lifecycle.py --binary /absolute/downloaded-app/bin/rr-game \
+  --install /absolute/private/import --catalog /absolute/private/catalog \
+  --output local/NEW-lifecycle
+```
+
+The career driver expects its default character, speed, lanes and attempt budget;
+clear any `RR_ACCEPTANCE_*` and `RR_DRIVER_*` experiment overrides before setting
+`RR_DRIVER_MPC=1`. Recorded regression metadata must match the selected course,
+level, bike, character, seed and camera; the public receipt identifies the exact
+private fixture hash. The supplied regression tool compares internal engine
+traces/images, not the original Windows program. The package's full career is
+also checked byte-for-byte against the already audited reference recordings.
+
+The final hour/performance command and budgets are in [PERFORMANCE.md](PERFORMANCE.md).
+The accepted final report reached the timing cap on Canyon; its reproduction
+uses the required full-duration supplement rather than pretending the shortened
+series covers six minutes:
+
+```sh
+python3 tools/verification/performance.py --soak /absolute/private/HOUR.json \
+  --frames /absolute/private/HOUR.json \
+  --supplemental-course-report /absolute/private/CANYON-320-SECONDS.json \
+  --output local/NEW-performance-receipt.json
+```
+
+A supplement cannot replace a complete failed segment and must preserve the
+executable, native mode, window, level and bike. [Release artifact checks and
+source reproducibility](RELEASE_PIPELINE.md), [player-facing procedure](PLAYER_GUIDE.md).
+
+The final delivered candidate is [RC4](https://github.com/ImadMashhood/RoadRash-Bevy-/releases/tag/native-functional-2026-11-01-rc4), source `234337749774a5a5a6d3fc9cafa88b9c1d55f3dd`. Its current [package checks](evidence/native-download-rc4.json), [67-attempt career](evidence/native-packaged-career.json), [graphical finale](evidence/native-delivered-runtime.json), [source-hidden import/upgrade/removal](evidence/native-package-sandbox-rc4.json) and [full hour/performance evidence](evidence/native-performance.json) supplement the original native/UI receipts. The render-only pool change preserves all source serial/parallel image/depth/receipt results, the actual pre-change Bevy image and all 67 recorded career inputs/results. Earlier receipt identities remain explicit; other source/UID/media/UI checks are not relabeled as new human reviews.
+
+The final hour rendered 514,442 frames and reached the bounded 500,000 timing-sample cap. Stability/liveness/memory observations cover the full hour, but the final Canyon timing series is incomplete. A separate full 320-second run of the same downloaded executable/settings supplies Canyon acceptance. The validator refuses incomplete coverage or replacement of a complete failed segment. [Exact samples and coverage](evidence/native-performance.json).

@@ -1,0 +1,19 @@
+{
+  "outcome": "passed",
+  "source_revision": "234337749774a5a5a6d3fc9cafa88b9c1d55f3dd",
+  "game_sha256": "c744f04d7a18c636371e5147ce43210c5c8a7ec50ec800aa2b6dc5e815f5a0c8",
+  "source_visible": false,
+  "cargo_in_path": null,
+  "app_read_only": true,
+  "app_outside_checkout": true,
+  "first_launch_exit": 0,
+  "first_launch_total_s": 7.429885577992536,
+  "cached_launch_exit": 0,
+  "cached_launch_total_s": 1.668418892979389,
+  "private_import_verified_files": 341,
+  "upgrade_preserves_all_profile_json_and_active_import_pointer": true,
+  "uninstall_only_disposable_app_preserves_same_files": true,
+  "profile_files": 2,
+  "active_pointer_sha256": "867a4c9607a7f846dae3a786ba32b5a7fd50d5a11fd25083b8e036ee49001b27",
+  "scope": "Actual downloaded RC4, own ZIP fresh import/conversion/frontend and source-hidden cached reopen of ordinary-keyboard French/125%/200-cash profile. Two smoke launches use 120 frames; not represented as a repeated human keyboard walkthrough. Original disc and user data preserved."
+}

@@ -1,0 +1,24 @@
+{
+  "outcome": "passed",
+  "source_revision": "234337749774a5a5a6d3fc9cafa88b9c1d55f3dd",
+  "downloaded_archive_sha256": "02821ad359c978cebf82350e62d79bafddc159e945177ef47e694d56162d3f11",
+  "downloaded_game_sha256": "c744f04d7a18c636371e5147ce43210c5c8a7ec50ec800aa2b6dc5e815f5a0c8",
+  "host": "Fedora Linux x86_64",
+  "read_only_app_outside_checkout": true,
+  "normal_launcher_retains_french_125_and_career": true,
+  "complete_native_finale_replay": {
+    "outcome": "passed",
+    "ticks": 27699,
+    "presentation_frames": 13850,
+    "state_sha256": "224c5484b0e1f535ff858187cfcacf923b6f5ed2cf3ef221c57d4e4d7bef5eb9",
+    "wall_s": 147.59578863802017
+  },
+  "cached_profile_upgrade_and_uninstall": "native-package-sandbox-rc4.json",
+  "converted_catalog_equality": {
+    "outcome": "passed",
+    "decoded_payload_files_identical": 6140,
+    "source_records": 341,
+    "semantic_entries_identical": true,
+    "notes": "Only recipe.decoder and derived per-source cache_key provenance differ after the locked graph change. All semantic entries/palettes/metadata and 6,140 decoded payload files are identical. Inspector HTML embeds that provenance, so its bytes differ too."
+  }
+}

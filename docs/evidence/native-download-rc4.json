@@ -1,0 +1,18 @@
+{
+  "outcome": "passed",
+  "release_url": "https://github.com/ImadMashhood/RoadRash-Bevy-/releases/tag/native-functional-2026-11-01-rc4",
+  "archive_url": "https://github.com/ImadMashhood/RoadRash-Bevy-/releases/download/native-functional-2026-11-01-rc4/RoadRash-Rust-linux-candidate.tar.gz",
+  "archive_sha256": "02821ad359c978cebf82350e62d79bafddc159e945177ef47e694d56162d3f11",
+  "all_manifest_files_verified": 712,
+  "dependency_notices": 369,
+  "source_revision": "234337749774a5a5a6d3fc9cafa88b9c1d55f3dd",
+  "source_files_sha256": "1f677fd080d78181eff66333b77bdc79b8750b399b96dc2a1c0d8fe42bd4db0a",
+  "published_checksum_matches": true,
+  "game_sha256": "c744f04d7a18c636371e5147ce43210c5c8a7ec50ec800aa2b6dc5e815f5a0c8",
+  "binary_identity_to_rc3": {
+    "rr-game": false,
+    "rr-import": true,
+    "rr-content": false
+  },
+  "read_only_app_outside_checkout": true
+}

@@ -90,14 +90,45 @@ def per_course_profiles(reports):
     return dict(outcome='passed', binary_sha256=next(iter(identities)), rows=rows)
 
 
-def frame_profile(report):
+def frame_profile(report, supplemental=()):
     memory = common(report)
     if report['duration_s'] < 3000:
         raise ValueError('Two-lap tour requires five minutes per course per lap')
-    rows = []
+    extras = {}
+    for extra in supplemental:
+        extra_memory = residency(extra)
+        if extra['binary_sha256'] != report['binary_sha256'] or extra['duration_s'] < 310:
+            raise ValueError('Supplement must use the same binary for over five minutes')
+        if any(extra[key] != report[key] for key in ['actual_window', 'level', 'bike']):
+            raise ValueError('Supplement must preserve window, level and bike')
+        if extra['paused_frames'] or extra['simulation_seconds'] < extra['duration_s'] * .95:
+            raise ValueError('Supplement has insufficient live simulation')
+        if len(extra['course_segments']) != 1:
+            raise ValueError('Supplement must cover one independent course')
+        course, segment = next(iter(extra['course_segments'].items()))
+        if course not in COURSES or course in extras:
+            raise ValueError('Invalid or duplicate supplemental course')
+        if segment['wall_frame_ms']['count'] != segment['frames'] - 60:
+            raise ValueError('Supplement itself has truncated timing samples')
+        extras[course] = (extra, extra_memory)
+    rows, used = [], set()
     for course in COURSES:
         segment = report['course_segments'][course + '/lap2']
-        rows.append(segment_statistics(course, segment))
+        if segment['wall_frame_ms']['count'] != segment['frames'] - 60:
+            if course not in extras:
+                raise ValueError('Truncated timing sample coverage: ' + course)
+            extra, extra_memory = extras[course]; used.add(course)
+            row = segment_statistics(course, extra['course_segments'][course])
+            row.update(sample_scope='Independent full-duration supplement; hour sample reached telemetry cap',
+                       duration_s=extra['duration_s'], simulation_seconds=extra['simulation_seconds'],
+                       memory=extra_memory, hour_recorded_samples=segment['wall_frame_ms']['count'],
+                       hour_total_segment_frames=segment['frames'])
+        else:
+            row = segment_statistics(course, segment)
+            row['sample_scope'] = 'Full warm second-lap course segment'
+        rows.append(row)
+    if used != set(extras):
+        raise ValueError('Cannot replace a complete hour segment with a preferred result')
     return dict(outcome='passed', binary_sha256=report['binary_sha256'], actual_window=report['actual_window'],
                 duration_s=report['duration_s'], first_frame_ms=report['first_frame_ms'],
                 course_loads=report['course_loads'], memory=memory, rows=rows)
@@ -107,11 +138,12 @@ if __name__ == '__main__':
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--soak', type=Path, required=True)
     p.add_argument('--frames', type=Path, required=True)
+    p.add_argument('--supplemental-course-report', type=Path, action='append', default=[])
     p.add_argument('--course-report', type=Path, action='append', default=[])
     p.add_argument('--output', type=Path, required=True)
     a = p.parse_args()
     result = dict(outcome='passed', soak=soak(json.loads(a.soak.read_text())),
-                  frames=frame_profile(json.loads(a.frames.read_text())))
+                  frames=frame_profile(json.loads(a.frames.read_text()), [json.loads(path.read_text()) for path in a.supplemental_course_report]))
     if a.course_report:
         result['delivered_courses'] = per_course_profiles([json.loads(path.read_text()) for path in a.course_report])
     with a.output.open('x') as output:

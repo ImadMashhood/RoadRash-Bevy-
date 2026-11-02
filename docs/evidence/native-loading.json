@@ -1,0 +1,97 @@
+{
+  "outcome": "passed",
+  "scope": "Fresh processes, per-course private shader/cache directory, advisory private-file cache eviction before cold case; same cache/files for warm case. No global cache drop or cold-boot claim. First-frame time includes verification/decode/device/pipeline work; not individual shader attribution.",
+  "startup_budget_ms": 5000,
+  "rows": [
+    {
+      "course": "CITY",
+      "cache": "cold",
+      "first_frame_ms": 860.331775,
+      "duration_s": 5.15384518,
+      "private_files_advised_cold": 6487,
+      "cache_files_after_run": 0,
+      "binary_sha256": "c744f04d7a18c636371e5147ce43210c5c8a7ec50ec800aa2b6dc5e815f5a0c8"
+    },
+    {
+      "course": "CITY",
+      "cache": "warm",
+      "first_frame_ms": 873.886029,
+      "duration_s": 5.167166008,
+      "private_files_advised_cold": 0,
+      "cache_files_after_run": 0,
+      "binary_sha256": "c744f04d7a18c636371e5147ce43210c5c8a7ec50ec800aa2b6dc5e815f5a0c8"
+    },
+    {
+      "course": "HIWAY",
+      "cache": "cold",
+      "first_frame_ms": 796.354228,
+      "duration_s": 5.15306004,
+      "private_files_advised_cold": 6487,
+      "cache_files_after_run": 0,
+      "binary_sha256": "c744f04d7a18c636371e5147ce43210c5c8a7ec50ec800aa2b6dc5e815f5a0c8"
+    },
+    {
+      "course": "HIWAY",
+      "cache": "warm",
+      "first_frame_ms": 742.322498,
+      "duration_s": 5.160689382,
+      "private_files_advised_cold": 0,
+      "cache_files_after_run": 0,
+      "binary_sha256": "c744f04d7a18c636371e5147ce43210c5c8a7ec50ec800aa2b6dc5e815f5a0c8"
+    },
+    {
+      "course": "MEDLY",
+      "cache": "cold",
+      "first_frame_ms": 855.089689,
+      "duration_s": 5.162834665,
+      "private_files_advised_cold": 6487,
+      "cache_files_after_run": 0,
+      "binary_sha256": "c744f04d7a18c636371e5147ce43210c5c8a7ec50ec800aa2b6dc5e815f5a0c8"
+    },
+    {
+      "course": "MEDLY",
+      "cache": "warm",
+      "first_frame_ms": 899.796056,
+      "duration_s": 5.162151908,
+      "private_files_advised_cold": 0,
+      "cache_files_after_run": 0,
+      "binary_sha256": "c744f04d7a18c636371e5147ce43210c5c8a7ec50ec800aa2b6dc5e815f5a0c8"
+    },
+    {
+      "course": "NAPA",
+      "cache": "cold",
+      "first_frame_ms": 779.656054,
+      "duration_s": 5.162645933,
+      "private_files_advised_cold": 6487,
+      "cache_files_after_run": 0,
+      "binary_sha256": "c744f04d7a18c636371e5147ce43210c5c8a7ec50ec800aa2b6dc5e815f5a0c8"
+    },
+    {
+      "course": "NAPA",
+      "cache": "warm",
+      "first_frame_ms": 748.559364,
+      "duration_s": 5.1685565780000005,
+      "private_files_advised_cold": 0,
+      "cache_files_after_run": 0,
+      "binary_sha256": "c744f04d7a18c636371e5147ce43210c5c8a7ec50ec800aa2b6dc5e815f5a0c8"
+    },
+    {
+      "course": "CANYN",
+      "cache": "cold",
+      "first_frame_ms": 820.730136,
+      "duration_s": 5.154307514,
+      "private_files_advised_cold": 6487,
+      "cache_files_after_run": 0,
+      "binary_sha256": "c744f04d7a18c636371e5147ce43210c5c8a7ec50ec800aa2b6dc5e815f5a0c8"
+    },
+    {
+      "course": "CANYN",
+      "cache": "warm",
+      "first_frame_ms": 795.245485,
+      "duration_s": 5.169795706,
+      "private_files_advised_cold": 0,
+      "cache_files_after_run": 0,
+      "binary_sha256": "c744f04d7a18c636371e5147ce43210c5c8a7ec50ec800aa2b6dc5e815f5a0c8"
+    }
+  ]
+}

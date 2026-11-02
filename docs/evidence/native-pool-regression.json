@@ -1,0 +1,142 @@
+{
+  "outcome": "passed",
+  "initial": {
+    "content_sha256": "73d7f9744b5b1a9482b3909950cdf3fe34119fe13d023b031e9c6739a60f18a2",
+    "course": "CITY",
+    "level": 1,
+    "bike": 1,
+    "character": 3,
+    "seed": 1,
+    "inputs_sha256": "86450297939a8831d2a4d8348b8329958070fa3895e99348fa8206c2cb637a5d",
+    "simulation_schema": 6,
+    "camera": {
+      "size": [
+        640,
+        480
+      ],
+      "framing": "classic"
+    },
+    "native_only": true
+  },
+  "simulation_build_sha256": "cb675cf5f4f78b372f38bc975fa68158916702618b16db1f1ac7b98e1aad104f",
+  "game_build_sha256": "1c02e7700d3fb5b516dd8fdbd5c41c9d9a444c7dc312c73ccca2df0b1dc03035",
+  "ticks": 900,
+  "trace": {
+    "outcome": "equal",
+    "first_differences": {
+      "ticks": null,
+      "scheduler": null,
+      "rng": null,
+      "motion": null
+    },
+    "classification": "First unequal observation per channel; causality requires inspection. Content mismatches reject comparison.",
+    "tolerance": {
+      "state": 0,
+      "rng": 0,
+      "scheduling_ticks": 0,
+      "fixed_point_motion": 0
+    },
+    "engine_changed": false
+  },
+  "repeated_image": {
+    "regions": [
+      {
+        "region": "sky",
+        "bounds": [
+          0,
+          0,
+          640,
+          180
+        ],
+        "mask": null,
+        "different_pixels": 0,
+        "maximum_channel_error_8bit": 0,
+        "mean_channel_error_8bit": 0.0
+      },
+      {
+        "region": "road_and_actors",
+        "bounds": [
+          0,
+          180,
+          640,
+          480
+        ],
+        "mask": null,
+        "different_pixels": 0,
+        "maximum_channel_error_8bit": 0,
+        "mean_channel_error_8bit": 0.0
+      },
+      {
+        "region": "full",
+        "bounds": [
+          0,
+          0,
+          640,
+          480
+        ],
+        "mask": null,
+        "different_pixels": 0,
+        "maximum_channel_error_8bit": 0,
+        "mean_channel_error_8bit": 0.0
+      }
+    ],
+    "passed": true,
+    "tolerance_8bit": 0,
+    "reason": "Internal fixed-camera rasterizer is deterministic; no defect masks."
+  },
+  "source_setup_sha256": "86450297939a8831d2a4d8348b8329958070fa3895e99348fa8206c2cb637a5d",
+  "pre_pool_reference_image": {
+    "regions": [
+      {
+        "region": "sky",
+        "bounds": [
+          0,
+          0,
+          640,
+          180
+        ],
+        "mask": null,
+        "different_pixels": 0,
+        "maximum_channel_error_8bit": 0,
+        "mean_channel_error_8bit": 0.0
+      },
+      {
+        "region": "road_and_actors",
+        "bounds": [
+          0,
+          180,
+          640,
+          480
+        ],
+        "mask": null,
+        "different_pixels": 0,
+        "maximum_channel_error_8bit": 0,
+        "mean_channel_error_8bit": 0.0
+      },
+      {
+        "region": "full",
+        "bounds": [
+          0,
+          0,
+          640,
+          480
+        ],
+        "mask": null,
+        "different_pixels": 0,
+        "maximum_channel_error_8bit": 0,
+        "mean_channel_error_8bit": 0.0
+      }
+    ],
+    "passed": true,
+    "tolerance_8bit": 0,
+    "reason": "Internal fixed-camera rasterizer is deterministic; no defect masks."
+  },
+  "native_matrix_equal_to_pre_pool": true,
+  "source_revision": "234337749774a5a5a6d3fc9cafa88b9c1d55f3dd",
+  "all_67_career_records_and_replay_bytes_equal_to_reference": true,
+  "workspace_rust_tests_passed": 351,
+  "clippy": "passed --workspace --all-targets -D warnings",
+  "clean_rebuild_game_sha256": "1c02e7700d3fb5b516dd8fdbd5c41c9d9a444c7dc312c73ccca2df0b1dc03035",
+  "two_local_archive_sha256": "882a940a22515984411377ae2aa270b6e58ebf3cacbd942b0a4b826ae3fa5699",
+  "scope": "Only raster worker scheduling changed. Same integer authority, exact source serial/parallel RGBA/depth/receipt matrix, repeated fixed-camera Bevy captures and pre-pool capture all agree. Long-run delivered-package validation is separately identified."
+}

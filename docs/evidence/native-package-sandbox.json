@@ -1,0 +1,20 @@
+{
+  "sandbox": {
+    "source_visible": false,
+    "cargo_in_path": null
+  },
+  "app_read_only": true,
+  "source_revision": "0c9a544bab00c90b96fb924cb85dc1972411ee0e",
+  "first_launch_exit": 1,
+  "first_launch_s": 4.928351802023826,
+  "initial_probe_error": "Invalid test harness --smoke-frames 90 rejected; import/conversion had succeeded. Rerun uses the documented minimum 120.",
+  "cached_launch_exit": 0,
+  "cached_launch_s": 2.0803441730095074,
+  "missing_disc_actionable": true,
+  "corrected_fresh_first_launch_exit": 0,
+  "corrected_fresh_first_launch_s": 6.7335882220068015,
+  "private_import_verified_files": 341,
+  "upgrade_preserves_profile_and_import": true,
+  "uninstall_preserves_profile_and_import": true,
+  "outcome": "passed"
+}

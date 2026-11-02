@@ -1,0 +1,147 @@
+{
+  "outcome": "passed",
+  "source_revision": "234337749774a5a5a6d3fc9cafa88b9c1d55f3dd",
+  "scope": "Five complete level-three native career recordings. Release production step and owned snapshot measured separately; heap analysis may run concurrently, so descheduling is included. GPU/Bevy extraction is measured separately in the live application. All expected final replay hashes verify.",
+  "rows": [
+    {
+      "course": "CITY",
+      "binary_sha256": "d03d23ee338150f583fd99ddcb26cceef3b47511941b098acbf229b692c8873a",
+      "input_sha256": "d24f2e6db0e2192816c57ca326ebb8874ab6662eaffbfdc57cb80e62a569bc4e",
+      "max_actors": 15,
+      "max_road_users": 29,
+      "outcome": "passed",
+      "scope": "Instant elapsed time around production Simulation.advance and owned snapshot extraction; includes thread descheduling, excludes input loading/JSON output, Bevy ECS GPU extraction and driver control search. GPU/pass/raster timings are measured separately in the live application.",
+      "seed": 22,
+      "simulation_schema": 6,
+      "simulation_step_cpu_ms": {
+        "count": 4112,
+        "max": 0.618637,
+        "p50": 0.057768,
+        "p95": 0.229319,
+        "p99": 0.305571
+      },
+      "snapshot_extraction_cpu_ms": {
+        "count": 4112,
+        "max": 0.016561,
+        "p50": 0.0009209999999999999,
+        "p95": 0.001784,
+        "p99": 0.0020540000000000003
+      },
+      "state_sha256": "33da143f0e2ec4592bd813c62ba8b0009dbecf5f7a04b23104b673426e7c0e62",
+      "ticks": 4112,
+      "units": "milliseconds"
+    },
+    {
+      "course": "HIWAY",
+      "binary_sha256": "d03d23ee338150f583fd99ddcb26cceef3b47511941b098acbf229b692c8873a",
+      "input_sha256": "105416809834252b696d60a4538294724d452b3ebb151a3cbdad297676cafeb4",
+      "max_actors": 15,
+      "max_road_users": 27,
+      "outcome": "passed",
+      "scope": "Instant elapsed time around production Simulation.advance and owned snapshot extraction; includes thread descheduling, excludes input loading/JSON output, Bevy ECS GPU extraction and driver control search. GPU/pass/raster timings are measured separately in the live application.",
+      "seed": 24,
+      "simulation_schema": 6,
+      "simulation_step_cpu_ms": {
+        "count": 15386,
+        "max": 0.49449499999999996,
+        "p50": 0.049202,
+        "p95": 0.12902200000000003,
+        "p99": 0.223709
+      },
+      "snapshot_extraction_cpu_ms": {
+        "count": 15386,
+        "max": 0.065593,
+        "p50": 0.000901,
+        "p95": 0.0018139999999999999,
+        "p99": 0.002144
+      },
+      "state_sha256": "9641d0369f692c6a8f9f72529f3e882430d7e2979578711b1af366e4ad98cee3",
+      "ticks": 15386,
+      "units": "milliseconds"
+    },
+    {
+      "course": "MEDLY",
+      "binary_sha256": "d03d23ee338150f583fd99ddcb26cceef3b47511941b098acbf229b692c8873a",
+      "input_sha256": "d6704006b1fca2d3104e2bbf62c21e2b1960757b98c4bb985201f7b755f7f974",
+      "max_actors": 15,
+      "max_road_users": 32,
+      "outcome": "passed",
+      "scope": "Instant elapsed time around production Simulation.advance and owned snapshot extraction; includes thread descheduling, excludes input loading/JSON output, Bevy ECS GPU extraction and driver control search. GPU/pass/raster timings are measured separately in the live application.",
+      "seed": 19,
+      "simulation_schema": 6,
+      "simulation_step_cpu_ms": {
+        "count": 28554,
+        "max": 0.346839,
+        "p50": 0.055834,
+        "p95": 0.10684,
+        "p99": 0.159608
+      },
+      "snapshot_extraction_cpu_ms": {
+        "count": 28554,
+        "max": 0.035696,
+        "p50": 0.0009220000000000001,
+        "p95": 0.001492,
+        "p99": 0.002124
+      },
+      "state_sha256": "965e03d773d86f607918d2180cf7f7b916c9aa2480dcfe6eb71e5828833ae755",
+      "ticks": 28554,
+      "units": "milliseconds"
+    },
+    {
+      "course": "NAPA",
+      "binary_sha256": "d03d23ee338150f583fd99ddcb26cceef3b47511941b098acbf229b692c8873a",
+      "input_sha256": "d8cec869f1d9f506f67c5128312fc1108dd856e2b84d2a1d2e1fa214cf9afb7c",
+      "max_actors": 15,
+      "max_road_users": 25,
+      "outcome": "passed",
+      "scope": "Instant elapsed time around production Simulation.advance and owned snapshot extraction; includes thread descheduling, excludes input loading/JSON output, Bevy ECS GPU extraction and driver control search. GPU/pass/raster timings are measured separately in the live application.",
+      "seed": 25,
+      "simulation_schema": 6,
+      "simulation_step_cpu_ms": {
+        "count": 23246,
+        "max": 0.41198999999999997,
+        "p50": 0.039814999999999996,
+        "p95": 0.096701,
+        "p99": 0.167013
+      },
+      "snapshot_extraction_cpu_ms": {
+        "count": 23246,
+        "max": 0.012764,
+        "p50": 0.0008619999999999999,
+        "p95": 0.0017230000000000001,
+        "p99": 0.002024
+      },
+      "state_sha256": "1434ba16b480e0b535520e15f81a2fb5c245e5fbf91810f1ea7f5df25403b64f",
+      "ticks": 23246,
+      "units": "milliseconds"
+    },
+    {
+      "course": "CANYN",
+      "binary_sha256": "d03d23ee338150f583fd99ddcb26cceef3b47511941b098acbf229b692c8873a",
+      "input_sha256": "0b63685da3b236fe36f9f9422184871e0e35285f131dafff1f815c4dbd94792e",
+      "max_actors": 15,
+      "max_road_users": 25,
+      "outcome": "passed",
+      "scope": "Instant elapsed time around production Simulation.advance and owned snapshot extraction; includes thread descheduling, excludes input loading/JSON output, Bevy ECS GPU extraction and driver control search. GPU/pass/raster timings are measured separately in the live application.",
+      "seed": 26,
+      "simulation_schema": 6,
+      "simulation_step_cpu_ms": {
+        "count": 28620,
+        "max": 0.458668,
+        "p50": 0.039023,
+        "p95": 0.09658,
+        "p99": 0.146264
+      },
+      "snapshot_extraction_cpu_ms": {
+        "count": 28620,
+        "max": 0.025627999999999998,
+        "p50": 0.000861,
+        "p95": 0.001283,
+        "p99": 0.001824
+      },
+      "state_sha256": "619bf0a074b229a2fd0bda87d9d8735f9183fddb1dd1a82d236f1ed623bd22b1",
+      "ticks": 28620,
+      "units": "milliseconds"
+    }
+  ]
+}

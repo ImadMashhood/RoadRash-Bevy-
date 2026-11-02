@@ -42,7 +42,8 @@ class RoadmapOrder(unittest.TestCase):
                     self.assertIn(task['status'], ['pending', 'passed'])
                     mark = 'x' if task['status'] == 'passed' else ' '
                     for suffix in ['', '.a', '.b', '.c']:
-                        self.assertIn(f'- [{mark}] **{identity}{suffix} — ', body)
+                        child_mark = 'x' if suffix.removeprefix('.') in task.get('completed_children', []) else mark
+                        self.assertIn(f'- [{child_mark}] **{identity}{suffix} — ', body)
                     if task['status'] == 'passed':
                         self.assertTrue((ROOT / task['evidence']).is_file(), identity)
 

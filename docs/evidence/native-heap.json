@@ -1,0 +1,19 @@
+{
+  "outcome": "passed",
+  "tool": "Heaptrack 1.5.0, verified Fedora RPM extracted privately; CLI analysis",
+  "source_revision": "234337749774a5a5a6d3fc9cafa88b9c1d55f3dd",
+  "binary_sha256": "1c02e7700d3fb5b516dd8fdbd5c41c9d9a444c7dc312c73ccca2df0b1dc03035",
+  "duration_s": 60.168148312,
+  "frames": 3125,
+  "source_courses": 5,
+  "course_laps": 2,
+  "peak_heap_display": "476.79M",
+  "sampled_peak_heap_bytes": 474242442,
+  "peak_rss_with_profiler_display": "1.17G",
+  "allocation_calls": 30246026,
+  "unreleased_at_process_exit_display": "1.03M",
+  "suppressed_global_library_allocations_display": "162.26K",
+  "scope": "Native graphics, two five-course tours, sound output off; profiler overhead is separate from ordinary RSS. Raw traces stay private. Allocation call totals depend on sampled frame count and cannot be directly compared as per-frame costs.",
+  "exit_retention_note": "Nonzero process-exit retention is reported, including framework/global caches. Persistent raster workers intentionally live until process exit. Scene weak-owner expiration and warmed image/index counts are checked separately.",
+  "failed_optional_viewer": "Capture completed successfully. Wrapper then attempted its optional GUI, unavailable because libKChart6.so.3 was absent; CLI analysis succeeded without installing libraries. Future captures use --record-only."
+}

@@ -8,8 +8,10 @@
       "procedure": "Launch from a clean profile, measure start-to-first-interactive-frame; record cold/warm results",
       "gate": "G5",
       "owner": "Project owner signs release; implementing agent produces receipt",
-      "signoff_record": "docs/evidence/release-signoff.json (future artifact)",
-      "signoff_status": "pending"
+      "signoff_record": "docs/evidence/release-signoff.json",
+      "signoff_status": "pending",
+      "verification_record": "docs/evidence/native-package-sandbox.json",
+      "verification_status": "passed for documented native scope; owner acceptance pending"
     },
     {
       "id": "content",
@@ -17,8 +19,10 @@
       "procedure": "Run content matrix and record each selection outcome; no skipped required entry",
       "gate": "G3",
       "owner": "Project owner signs release; implementing agent produces receipt",
-      "signoff_record": "docs/evidence/release-signoff.json (future artifact)",
-      "signoff_status": "pending"
+      "signoff_record": "docs/evidence/release-signoff.json",
+      "signoff_status": "pending",
+      "verification_record": "docs/evidence/native-render-matrix.json",
+      "verification_status": "passed for documented native scope; owner acceptance pending"
     },
     {
       "id": "career",
@@ -26,8 +30,10 @@
       "procedure": "Follow recorded win/loss/bust/wreck/quit scenario scripts and compare save state before/after",
       "gate": "G3",
       "owner": "Project owner signs release; implementing agent produces receipt",
-      "signoff_record": "docs/evidence/release-signoff.json (future artifact)",
-      "signoff_status": "pending"
+      "signoff_record": "docs/evidence/release-signoff.json",
+      "signoff_status": "pending",
+      "verification_record": "docs/evidence/native-packaged-career.json",
+      "verification_status": "passed for documented native scope; owner acceptance pending"
     },
     {
       "id": "stability",
@@ -35,8 +41,10 @@
       "procedure": "Run all regression scenarios and a 60-minute repeated-race soak; inspect logs and saved money/progress",
       "gate": "G5",
       "owner": "Project owner signs release; implementing agent produces receipt",
-      "signoff_record": "docs/evidence/release-signoff.json (future artifact)",
-      "signoff_status": "pending"
+      "signoff_record": "docs/evidence/release-signoff.json",
+      "signoff_status": "pending",
+      "verification_record": "docs/evidence/native-performance.json",
+      "verification_status": "passed for documented native scope; owner acceptance pending"
     },
     {
       "id": "performance",
@@ -44,8 +52,10 @@
       "procedure": "Measure five-minute race sections on declared desktop per course, native assets; report CPU/GPU separately. These are acceptance targets, not achieved claims",
       "gate": "G5",
       "owner": "Project owner signs release; implementing agent produces receipt",
-      "signoff_record": "docs/evidence/release-signoff.json (future artifact)",
-      "signoff_status": "pending"
+      "signoff_record": "docs/evidence/release-signoff.json",
+      "signoff_status": "pending",
+      "verification_record": "docs/evidence/native-performance.json",
+      "verification_status": "passed for documented native scope; owner acceptance pending"
     },
     {
       "id": "import",
@@ -53,8 +63,10 @@
       "procedure": "cargo test --locked -p rr-import plus tools/private_import.py on supported user data",
       "gate": "G0",
       "owner": "Project owner signs release; implementing agent produces receipt",
-      "signoff_record": "docs/evidence/release-signoff.json (future artifact)",
-      "signoff_status": "pending"
+      "signoff_record": "docs/evidence/release-signoff.json",
+      "signoff_status": "pending",
+      "verification_record": "docs/evidence/parts-01-03.md",
+      "verification_status": "passed for documented native scope; owner acceptance pending"
     },
     {
       "id": "privacy",
@@ -62,8 +74,10 @@
       "procedure": "cargo package --list and public-file audit; review exact artifact manifest",
       "gate": "G5",
       "owner": "Project owner signs release; implementing agent produces receipt",
-      "signoff_record": "docs/evidence/release-signoff.json (future artifact)",
-      "signoff_status": "pending"
+      "signoff_record": "docs/evidence/release-signoff.json",
+      "signoff_status": "pending",
+      "verification_record": "docs/evidence/native-download-rc3.json",
+      "verification_status": "passed for documented native scope; owner acceptance pending"
     },
     {
       "id": "fidelity",
@@ -71,8 +85,10 @@
       "procedure": "Run versioned authored/source-derived fixture manifests and current-engine replay/capture comparisons; retain failures and explicit approved deviations",
       "gate": "G2",
       "owner": "Project owner signs release; implementing agent produces receipt",
-      "signoff_record": "docs/evidence/release-signoff.json (future artifact)",
-      "signoff_status": "pending"
+      "signoff_record": "docs/evidence/release-signoff.json",
+      "signoff_status": "pending",
+      "verification_record": "docs/evidence/native-regression.json",
+      "verification_status": "passed for documented native scope; owner acceptance pending"
     }
   ]
 }

@@ -1,0 +1,54 @@
+{
+  "outcome": "passed",
+  "source_revision": "234337749774a5a5a6d3fc9cafa88b9c1d55f3dd",
+  "downloaded_game_sha256": "c744f04d7a18c636371e5147ce43210c5c8a7ec50ec800aa2b6dc5e815f5a0c8",
+  "reference_local_game_sha256": "1c02e7700d3fb5b516dd8fdbd5c41c9d9a444c7dc312c73ccca2df0b1dc03035",
+  "scope": "Actual downloaded Ubuntu RC4 versus locally tested pooled-renderer game on the same Fedora GPU, identical source setup/camera/viewport/fixed render rate. Unmasked internal regression, not an original-game executable comparison. Raw source setup and captures stay private.",
+  "source_setup_sha256": "86450297939a8831d2a4d8348b8329958070fa3895e99348fa8206c2cb637a5d",
+  "images": {
+    "regions": [
+      {
+        "region": "sky",
+        "bounds": [
+          0,
+          0,
+          640,
+          180
+        ],
+        "mask": null,
+        "different_pixels": 0,
+        "maximum_channel_error_8bit": 0,
+        "mean_channel_error_8bit": 0.0
+      },
+      {
+        "region": "road_and_actors",
+        "bounds": [
+          0,
+          180,
+          640,
+          480
+        ],
+        "mask": null,
+        "different_pixels": 0,
+        "maximum_channel_error_8bit": 0,
+        "mean_channel_error_8bit": 0.0
+      },
+      {
+        "region": "full",
+        "bounds": [
+          0,
+          0,
+          640,
+          480
+        ],
+        "mask": null,
+        "different_pixels": 0,
+        "maximum_channel_error_8bit": 0,
+        "mean_channel_error_8bit": 0.0
+      }
+    ],
+    "passed": true,
+    "tolerance_8bit": 0,
+    "reason": "Internal fixed-camera rasterizer is deterministic; no defect masks."
+  }
+}

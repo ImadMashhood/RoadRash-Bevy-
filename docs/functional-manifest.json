@@ -329,7 +329,7 @@
       "id": "21.07",
       "title": "Measure CPU and GPU frame times separately",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Report percentiles and hardware rather than a single average FPS.",
       "evidence": "docs/evidence/21.07.md"
@@ -338,7 +338,7 @@
       "id": "21.08",
       "title": "Measure memory and texture residency",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Run the native asset set on every course, identify the largest contributors and freeze the native residency budget. Enhanced-pack comparisons belong to Part 24 after G5.",
       "evidence": "docs/evidence/21.08.md"
@@ -347,7 +347,7 @@
       "id": "21.09",
       "title": "Test repeated native import race and unload cycles",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Confirm counts stabilize instead of increasing after every cycle.",
       "evidence": "docs/evidence/21.09.md"
@@ -356,7 +356,7 @@
       "id": "21.10",
       "title": "Test loading stalls and shader warmup",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Repeat on cold and warm caches and set measured budgets.",
       "evidence": "docs/evidence/21.10.md"
@@ -365,7 +365,7 @@
       "id": "21.11",
       "title": "Run soak tests on declared hardware",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Document thermal/power settings and any driver-specific failures.",
       "evidence": "docs/evidence/21.11.md"
@@ -374,7 +374,7 @@
       "id": "21.12",
       "title": "Publish results with skips and limitations",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Avoid claiming coverage for checks that were not actually executed.",
       "evidence": "docs/evidence/21.12.md"
@@ -383,7 +383,7 @@
       "id": "22.01",
       "title": "Package clean desktop application",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Launch the packaged binary rather than only a development build.",
       "evidence": "docs/evidence/22.01.md"
@@ -392,7 +392,7 @@
       "id": "22.02",
       "title": "Run first-launch import on clean machine",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Verify missing-disc instructions and successful import without development paths.",
       "evidence": "docs/evidence/22.02.md"
@@ -401,7 +401,7 @@
       "id": "22.03",
       "title": "Verify package contains no private game files",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Verify only permitted authored fixtures and application resources ship.",
       "evidence": "docs/evidence/22.03.md"
@@ -410,7 +410,7 @@
       "id": "22.04",
       "title": "Include applicable third-party notices",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Check required texts and distinguish source licensing from game data.",
       "evidence": "docs/evidence/22.04.md"
@@ -428,7 +428,7 @@
       "id": "22.06",
       "title": "Document minimum tested hardware",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Record resolution, settings and frame-time evidence for that configuration.",
       "evidence": "docs/evidence/22.06.md"
@@ -437,7 +437,7 @@
       "id": "22.07",
       "title": "Test upgrade and uninstall behavior",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Verify user saves and separately imported data follow documented behavior.",
       "evidence": "docs/evidence/22.07.md"
@@ -446,7 +446,7 @@
       "id": "22.08",
       "title": "Provide troubleshooting and log collection",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Reproduce each troubleshooting step without exposing private data unnecessarily.",
       "evidence": "docs/evidence/22.08.md"
@@ -455,7 +455,7 @@
       "id": "22.09",
       "title": "Create release notes and known issues",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Link each material limitation to a tracked issue or evidence record.",
       "evidence": "docs/evidence/22.09.md"
@@ -464,7 +464,7 @@
       "id": "22.10",
       "title": "Tag reproducible source revision",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Rebuild from the tag and compare intended reproducibility outputs.",
       "evidence": "docs/evidence/22.10.md"
@@ -473,7 +473,7 @@
       "id": "22.11",
       "title": "Attach checksums to release artifacts",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Verify downloaded bytes against published checksums.",
       "evidence": "docs/evidence/22.11.md"
@@ -485,7 +485,13 @@
       "status": "pending",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Leave the release gate open for any unresolved blocking scenario.",
-      "evidence": "docs/evidence/22.12.md"
+      "evidence": "docs/evidence/22.12.md",
+      "completed_children": [
+        "a",
+        "b",
+        "c"
+      ],
+      "pending_reason": "G5 is assigned to project owner; technical packaged career/release matrix and evidence complete, owner signature absent."
     }
   ]
 }

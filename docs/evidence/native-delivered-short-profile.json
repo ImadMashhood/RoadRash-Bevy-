@@ -1,0 +1,520 @@
+{
+  "outcome": "mixed; not acceptance duration",
+  "binary_sha256": "ed62b072b86bd286a49684a98b394a406a206b8637127695b61e9b62de2cb57e",
+  "duration_s": 600.190940994,
+  "scope": "Actual downloaded RC3, ten-minute two-lap native tour, approximately one minute per segment. Other workspace game/build activity was observed before launch; no own native acceptance apps/builds overlapped. Desktop focus and competing workload duration were not instrumented, so no causal attribution is made. This short exploratory run does not replace required five-minute-per-course sampling. Failures remain visible; full per-course downloaded-build retest follows.",
+  "memory": {
+    "max_rss_bytes": 1015345152,
+    "max_decoded_pixel_bytes": 147732640,
+    "max_gpu_image_bytes": 3325980,
+    "max_cpu_images": 8,
+    "max_gpu_images": 8,
+    "entity_index_slots": [
+      256
+    ]
+  },
+  "rows": [
+    {
+      "segment": "CANYN/lap1",
+      "wall_frame_ms": {
+        "count": 4658,
+        "max": 95.453247,
+        "p50": 10.589248000000001,
+        "p95": 29.249252,
+        "p99": 44.699982
+      },
+      "cpu_raster_ms": {
+        "count": 4658,
+        "max": 82.65905599999999,
+        "p50": 8.739858,
+        "p95": 21.994642,
+        "p99": 32.676963
+      },
+      "gpu_pass_ms": {
+        "render/auxiliary_views/elapsed_gpu": {
+          "count": 4280,
+          "max": 0.021504,
+          "p50": 0.00512,
+          "p95": 0.009216,
+          "p99": 0.01024
+        },
+        "render/main_opaque_pass_2d/elapsed_gpu": {
+          "count": 4280,
+          "max": 0.078848,
+          "p50": 0.006144,
+          "p95": 0.007168,
+          "p99": 0.008192
+        },
+        "render/main_transparent_pass_2d/elapsed_gpu": {
+          "count": 4280,
+          "max": 0.3072,
+          "p50": 0.095232,
+          "p95": 0.115712,
+          "p99": 0.165888
+        },
+        "render/upscaling/elapsed_gpu": {
+          "count": 4280,
+          "max": 1.179648,
+          "p50": 0.04096,
+          "p95": 0.058368,
+          "p99": 0.093184
+        }
+      },
+      "meets_wall_target": false,
+      "meets_cpu_raster_target": false
+    },
+    {
+      "segment": "CANYN/lap2",
+      "wall_frame_ms": {
+        "count": 5387,
+        "max": 65.518835,
+        "p50": 10.231017,
+        "p95": 16.782482,
+        "p99": 25.59739
+      },
+      "cpu_raster_ms": {
+        "count": 5387,
+        "max": 76.992186,
+        "p50": 8.324822000000001,
+        "p95": 11.887816,
+        "p99": 17.419964999999998
+      },
+      "gpu_pass_ms": {
+        "render/auxiliary_views/elapsed_gpu": {
+          "count": 4642,
+          "max": 0.017408,
+          "p50": 0.00512,
+          "p95": 0.007168,
+          "p99": 0.009216
+        },
+        "render/main_opaque_pass_2d/elapsed_gpu": {
+          "count": 4642,
+          "max": 0.075776,
+          "p50": 0.006144,
+          "p95": 0.007168,
+          "p99": 0.008192
+        },
+        "render/main_transparent_pass_2d/elapsed_gpu": {
+          "count": 4642,
+          "max": 0.316416,
+          "p50": 0.094208,
+          "p95": 0.113664,
+          "p99": 0.16896
+        },
+        "render/upscaling/elapsed_gpu": {
+          "count": 4642,
+          "max": 0.175104,
+          "p50": 0.038912,
+          "p95": 0.054272,
+          "p99": 0.091136
+        }
+      },
+      "meets_wall_target": false,
+      "meets_cpu_raster_target": true
+    },
+    {
+      "segment": "CITY/lap1",
+      "wall_frame_ms": {
+        "count": 5985,
+        "max": 142.924881,
+        "p50": 8.387973,
+        "p95": 16.310134,
+        "p99": 42.588597
+      },
+      "cpu_raster_ms": {
+        "count": 5985,
+        "max": 129.627734,
+        "p50": 6.423738,
+        "p95": 10.763507,
+        "p99": 30.616709
+      },
+      "gpu_pass_ms": {
+        "render/auxiliary_views/elapsed_gpu": {
+          "count": 5008,
+          "max": 0.01536,
+          "p50": 0.003072,
+          "p95": 0.006144,
+          "p99": 0.007168
+        },
+        "render/main_opaque_pass_2d/elapsed_gpu": {
+          "count": 5008,
+          "max": 0.067584,
+          "p50": 0.004096,
+          "p95": 0.006144,
+          "p99": 0.006144
+        },
+        "render/main_transparent_pass_2d/elapsed_gpu": {
+          "count": 5008,
+          "max": 0.187392,
+          "p50": 0.022528,
+          "p95": 0.104448,
+          "p99": 0.11776
+        },
+        "render/upscaling/elapsed_gpu": {
+          "count": 5008,
+          "max": 0.118784,
+          "p50": 0.014336,
+          "p95": 0.050176,
+          "p99": 0.069632
+        }
+      },
+      "meets_wall_target": true,
+      "meets_cpu_raster_target": true
+    },
+    {
+      "segment": "CITY/lap2",
+      "wall_frame_ms": {
+        "count": 4561,
+        "max": 80.503264,
+        "p50": 9.671702000000002,
+        "p95": 34.700679,
+        "p99": 50.623532999999995
+      },
+      "cpu_raster_ms": {
+        "count": 4561,
+        "max": 74.344423,
+        "p50": 7.7066349999999995,
+        "p95": 25.96586,
+        "p99": 36.631109
+      },
+      "gpu_pass_ms": {
+        "render/auxiliary_views/elapsed_gpu": {
+          "count": 4133,
+          "max": 0.016384,
+          "p50": 0.00512,
+          "p95": 0.008192,
+          "p99": 0.01024
+        },
+        "render/main_opaque_pass_2d/elapsed_gpu": {
+          "count": 4133,
+          "max": 0.068608,
+          "p50": 0.006144,
+          "p95": 0.007168,
+          "p99": 0.009216
+        },
+        "render/main_transparent_pass_2d/elapsed_gpu": {
+          "count": 4133,
+          "max": 0.305152,
+          "p50": 0.095232,
+          "p95": 0.115712,
+          "p99": 0.173056
+        },
+        "render/upscaling/elapsed_gpu": {
+          "count": 4133,
+          "max": 0.16384,
+          "p50": 0.04096,
+          "p95": 0.059392,
+          "p99": 0.098304
+        }
+      },
+      "meets_wall_target": false,
+      "meets_cpu_raster_target": false
+    },
+    {
+      "segment": "HIWAY/lap1",
+      "wall_frame_ms": {
+        "count": 6743,
+        "max": 39.102866,
+        "p50": 8.56818,
+        "p95": 11.861260999999999,
+        "p99": 16.52735
+      },
+      "cpu_raster_ms": {
+        "count": 6743,
+        "max": 25.555609999999998,
+        "p50": 6.859864,
+        "p95": 8.698661,
+        "p99": 11.474903999999999
+      },
+      "gpu_pass_ms": {
+        "render/auxiliary_views/elapsed_gpu": {
+          "count": 6368,
+          "max": 0.018432,
+          "p50": 0.00512,
+          "p95": 0.007168,
+          "p99": 0.009216
+        },
+        "render/main_opaque_pass_2d/elapsed_gpu": {
+          "count": 6368,
+          "max": 0.074752,
+          "p50": 0.006144,
+          "p95": 0.007168,
+          "p99": 0.008192
+        },
+        "render/main_transparent_pass_2d/elapsed_gpu": {
+          "count": 6368,
+          "max": 0.207872,
+          "p50": 0.094208,
+          "p95": 0.113664,
+          "p99": 0.160768
+        },
+        "render/upscaling/elapsed_gpu": {
+          "count": 6368,
+          "max": 0.131072,
+          "p50": 0.039936,
+          "p95": 0.057344,
+          "p99": 0.088064
+        }
+      },
+      "meets_wall_target": true,
+      "meets_cpu_raster_target": true
+    },
+    {
+      "segment": "HIWAY/lap2",
+      "wall_frame_ms": {
+        "count": 4336,
+        "max": 201.669588,
+        "p50": 10.040761999999999,
+        "p95": 38.067274999999995,
+        "p99": 63.652974
+      },
+      "cpu_raster_ms": {
+        "count": 4336,
+        "max": 108.918325,
+        "p50": 7.77337,
+        "p95": 29.792817999999997,
+        "p99": 43.37298
+      },
+      "gpu_pass_ms": {
+        "render/auxiliary_views/elapsed_gpu": {
+          "count": 3842,
+          "max": 0.017408,
+          "p50": 0.00512,
+          "p95": 0.008192,
+          "p99": 0.01024
+        },
+        "render/main_opaque_pass_2d/elapsed_gpu": {
+          "count": 3842,
+          "max": 0.06656,
+          "p50": 0.006144,
+          "p95": 0.007168,
+          "p99": 0.009216
+        },
+        "render/main_transparent_pass_2d/elapsed_gpu": {
+          "count": 3842,
+          "max": 0.364544,
+          "p50": 0.095232,
+          "p95": 0.115712,
+          "p99": 0.172032
+        },
+        "render/upscaling/elapsed_gpu": {
+          "count": 3842,
+          "max": 0.165888,
+          "p50": 0.04096,
+          "p95": 0.057344,
+          "p99": 0.096256
+        }
+      },
+      "meets_wall_target": false,
+      "meets_cpu_raster_target": false
+    },
+    {
+      "segment": "MEDLY/lap1",
+      "wall_frame_ms": {
+        "count": 6645,
+        "max": 20.535360999999998,
+        "p50": 8.851708,
+        "p95": 11.575903,
+        "p99": 14.960424
+      },
+      "cpu_raster_ms": {
+        "count": 6645,
+        "max": 13.730283,
+        "p50": 7.071367,
+        "p95": 9.111464,
+        "p99": 10.051302
+      },
+      "gpu_pass_ms": {
+        "render/auxiliary_views/elapsed_gpu": {
+          "count": 6394,
+          "max": 0.019456,
+          "p50": 0.00512,
+          "p95": 0.008192,
+          "p99": 0.009216
+        },
+        "render/main_opaque_pass_2d/elapsed_gpu": {
+          "count": 6394,
+          "max": 0.07168,
+          "p50": 0.006144,
+          "p95": 0.007168,
+          "p99": 0.008192
+        },
+        "render/main_transparent_pass_2d/elapsed_gpu": {
+          "count": 6394,
+          "max": 0.21504,
+          "p50": 0.094208,
+          "p95": 0.113664,
+          "p99": 0.164864
+        },
+        "render/upscaling/elapsed_gpu": {
+          "count": 6394,
+          "max": 0.125952,
+          "p50": 0.04096,
+          "p95": 0.05632,
+          "p99": 0.08704
+        }
+      },
+      "meets_wall_target": true,
+      "meets_cpu_raster_target": true
+    },
+    {
+      "segment": "MEDLY/lap2",
+      "wall_frame_ms": {
+        "count": 6045,
+        "max": 45.230245000000004,
+        "p50": 9.447702000000001,
+        "p95": 13.58994,
+        "p99": 19.120155
+      },
+      "cpu_raster_ms": {
+        "count": 6045,
+        "max": 30.088311,
+        "p50": 7.487706,
+        "p95": 9.779253,
+        "p99": 11.751311000000001
+      },
+      "gpu_pass_ms": {
+        "render/auxiliary_views/elapsed_gpu": {
+          "count": 5747,
+          "max": 0.019456,
+          "p50": 0.00512,
+          "p95": 0.008192,
+          "p99": 0.01024
+        },
+        "render/main_opaque_pass_2d/elapsed_gpu": {
+          "count": 5747,
+          "max": 0.065536,
+          "p50": 0.006144,
+          "p95": 0.007168,
+          "p99": 0.008192
+        },
+        "render/main_transparent_pass_2d/elapsed_gpu": {
+          "count": 5747,
+          "max": 0.200704,
+          "p50": 0.095232,
+          "p95": 0.114688,
+          "p99": 0.165888
+        },
+        "render/upscaling/elapsed_gpu": {
+          "count": 5747,
+          "max": 0.139264,
+          "p50": 0.04096,
+          "p95": 0.05632,
+          "p99": 0.088064
+        }
+      },
+      "meets_wall_target": true,
+      "meets_cpu_raster_target": true
+    },
+    {
+      "segment": "NAPA/lap1",
+      "wall_frame_ms": {
+        "count": 7246,
+        "max": 19.839699999999997,
+        "p50": 8.184548999999999,
+        "p95": 10.214356,
+        "p99": 13.403832
+      },
+      "cpu_raster_ms": {
+        "count": 7246,
+        "max": 15.231520999999999,
+        "p50": 6.518562999999999,
+        "p95": 7.759665,
+        "p99": 8.433535000000001
+      },
+      "gpu_pass_ms": {
+        "render/auxiliary_views/elapsed_gpu": {
+          "count": 7035,
+          "max": 0.017408,
+          "p50": 0.00512,
+          "p95": 0.008192,
+          "p99": 0.009216
+        },
+        "render/main_opaque_pass_2d/elapsed_gpu": {
+          "count": 7035,
+          "max": 0.077824,
+          "p50": 0.006144,
+          "p95": 0.007168,
+          "p99": 0.008192
+        },
+        "render/main_transparent_pass_2d/elapsed_gpu": {
+          "count": 7035,
+          "max": 0.217088,
+          "p50": 0.094208,
+          "p95": 0.113664,
+          "p99": 0.16384
+        },
+        "render/upscaling/elapsed_gpu": {
+          "count": 7035,
+          "max": 0.130048,
+          "p50": 0.04096,
+          "p95": 0.058368,
+          "p99": 0.090112
+        }
+      },
+      "meets_wall_target": true,
+      "meets_cpu_raster_target": true
+    },
+    {
+      "segment": "NAPA/lap2",
+      "wall_frame_ms": {
+        "count": 6625,
+        "max": 128.763735,
+        "p50": 8.389963999999999,
+        "p95": 11.239313000000001,
+        "p99": 30.910048
+      },
+      "cpu_raster_ms": {
+        "count": 6625,
+        "max": 84.40944,
+        "p50": 6.676599,
+        "p95": 8.263958,
+        "p99": 24.110889999999998
+      },
+      "gpu_pass_ms": {
+        "render/auxiliary_views/elapsed_gpu": {
+          "count": 6381,
+          "max": 0.019456,
+          "p50": 0.00512,
+          "p95": 0.008192,
+          "p99": 0.009216
+        },
+        "render/main_opaque_pass_2d/elapsed_gpu": {
+          "count": 6381,
+          "max": 0.090112,
+          "p50": 0.006144,
+          "p95": 0.007168,
+          "p99": 0.008192
+        },
+        "render/main_transparent_pass_2d/elapsed_gpu": {
+          "count": 6381,
+          "max": 0.206848,
+          "p50": 0.094208,
+          "p95": 0.114688,
+          "p99": 0.164864
+        },
+        "render/upscaling/elapsed_gpu": {
+          "count": 6381,
+          "max": 0.12288,
+          "p50": 0.04096,
+          "p95": 0.057344,
+          "p99": 0.089088
+        }
+      },
+      "meets_wall_target": true,
+      "meets_cpu_raster_target": true
+    }
+  ],
+  "first_frame_ms": 1730.132319,
+  "actual_window": {
+    "logical": [
+      960.0,
+      720.0
+    ],
+    "physical": [
+      960,
+      720
+    ],
+    "scale_factor": 1.0
+  }
+}

@@ -1,0 +1,638 @@
+{
+  "outcome": "passed",
+  "release_tag": "native-functional-2026-11-01-rc4",
+  "binary_sha256": "c744f04d7a18c636371e5147ce43210c5c8a7ec50ec800aa2b6dc5e815f5a0c8",
+  "scope": "Downloaded immutable Ubuntu CI package executed on Fedora. Headless production career driver issues ordinary controls, saves/reopens/settles through production APIs. Separate keyboard walkthrough and graphical finale validate interactive integration. No assists, grants, synthetic terminal or injected damage.",
+  "campaign": {
+    "alias": "",
+    "bike": 7,
+    "cash": 25567,
+    "character": 3,
+    "completed": true,
+    "condition": 90,
+    "last_settled": 67,
+    "level": 5,
+    "maximum_condition": 100,
+    "next_race": 68,
+    "qualified": 0,
+    "revision": 81
+  },
+  "races": 67,
+  "all_campaign_fields_except_wall_time_identical": true,
+  "all_67_recorded_replay_bytes_identical_to_independently_audited_reference": true,
+  "reference": "native-career.json",
+  "rows": [
+    {
+      "attempt": 1,
+      "course": "MEDLY",
+      "level": 1,
+      "ticks": 10918,
+      "outcome": "Won",
+      "state_sha256": "41166e51e7ae594428421c640516cb7677d0c73e19867a3aaebc8d3533688e34",
+      "replay_sha256": "cdfe2017f010f73a10deaa37f574770656025339d58ac9fa0add8ae804835c2e"
+    },
+    {
+      "attempt": 2,
+      "course": "MEDLY",
+      "level": 1,
+      "ticks": 14707,
+      "outcome": "Won",
+      "state_sha256": "8731a5933060b46e5a1c9de6083cb8debda39b2844949b9fe6e970261ae3984f",
+      "replay_sha256": "76d77cbf494cdbc58e008005bff8f678c82cd3c65b28d88a02debe3848926ecb"
+    },
+    {
+      "attempt": 3,
+      "course": "MEDLY",
+      "level": 1,
+      "ticks": 12304,
+      "outcome": "Won",
+      "state_sha256": "d121cded968f53f5cc931f336b2efeb9fb0161753d914a995b7ad4901c53b870",
+      "replay_sha256": "4a2dee28dc8588c67234bae66dc8e6e77e29073c4910a52da3d502b8dc8ccd57"
+    },
+    {
+      "attempt": 4,
+      "course": "CITY",
+      "level": 1,
+      "ticks": 13004,
+      "outcome": "Won",
+      "state_sha256": "e9eabe312ce162770c656909dc12c61a6d67ae8a7bc23b90e890e5590dbddeba",
+      "replay_sha256": "315cb19cc3ee9a6b5ecd80f31735372d3386a3b885ee9a1bd7aa548d0e073eae"
+    },
+    {
+      "attempt": 5,
+      "course": "HIWAY",
+      "level": 1,
+      "ticks": 11665,
+      "outcome": "Won",
+      "state_sha256": "b9b933a8c941760d56d4cff1cad5c2283ae58924c8e92e60829ab61029468416",
+      "replay_sha256": "37e332c8bf2f707f00e1815eec03df1d53ec08050bdab88799409d34d4d2d51b"
+    },
+    {
+      "attempt": 6,
+      "course": "NAPA",
+      "level": 1,
+      "ticks": 9940,
+      "outcome": "Won",
+      "state_sha256": "ed16640ac5056f71e15a502652b52171b3f1fcffa044020d6f6431d61218b07a",
+      "replay_sha256": "5e4df23fae9f8dfdc54f2eb117d9a7b4cf36374b1a926bca008ad1906ba64874"
+    },
+    {
+      "attempt": 7,
+      "course": "CANYN",
+      "level": 1,
+      "ticks": 14281,
+      "outcome": "Won",
+      "state_sha256": "66966cdaaa5e84d9e94910401a2cbf2d162df72d9da52b55a1e4cfcd61513890",
+      "replay_sha256": "9e13db491aa563bb173b4fa8a0fb8fe86138ee565f5bdd54c11e5e5d5e644847"
+    },
+    {
+      "attempt": 8,
+      "course": "MEDLY",
+      "level": 2,
+      "ticks": 19649,
+      "outcome": "Won",
+      "state_sha256": "78537b6c3e59895f6f2679ae4188dea83ca7efa07a2ec3cd0999947315df3bf5",
+      "replay_sha256": "43502f4ba681a9543790bd2fd7e4e9a9b2a86d317e491457721546b2d8dd94bc"
+    },
+    {
+      "attempt": 9,
+      "course": "MEDLY",
+      "level": 2,
+      "ticks": 8559,
+      "outcome": "Arrested",
+      "state_sha256": "6fffc749f7c4dbd82b1bfa5cadbe5908b3bfceb984c6f01dda8f85c474fb6013",
+      "replay_sha256": "2509419cc0e3b38f46307771321649819b73fb1c7bfd8ebb46b44d71366454a4"
+    },
+    {
+      "attempt": 10,
+      "course": "MEDLY",
+      "level": 2,
+      "ticks": 14997,
+      "outcome": "Won",
+      "state_sha256": "d0fc244f60105437c1bad4d62597dbc6313a96784c74a041774dbee102ca780a",
+      "replay_sha256": "64f0a730e695d964ad2d36ea1f9b581f37caa81ddf0b8c77f827e96c4fc0aadd"
+    },
+    {
+      "attempt": 11,
+      "course": "MEDLY",
+      "level": 2,
+      "ticks": 7226,
+      "outcome": "Arrested",
+      "state_sha256": "544080554eabf85d697451a7dd2691d43a28a45ca46387fc2e11a2a2ab9e91a1",
+      "replay_sha256": "607ac3a639b1dbc162ec8a9d02747ccea32c16a155203e618c50d0eefaaba8ed"
+    },
+    {
+      "attempt": 12,
+      "course": "MEDLY",
+      "level": 2,
+      "ticks": 17752,
+      "outcome": "Won",
+      "state_sha256": "9abe92ab6c914beb0ac9a48e6ce8116c08dec891bd0410e03c3e9eec9612c73d",
+      "replay_sha256": "85bae7fe280eab9d9aaef3326975e424fc90c20e4cfe027f3b300b9188642953"
+    },
+    {
+      "attempt": 13,
+      "course": "MEDLY",
+      "level": 2,
+      "ticks": 16705,
+      "outcome": "Won",
+      "state_sha256": "aba4d815af25c7a378fc1550cfaa8e28d9cd37d7048ecc03839a157bc859c42d",
+      "replay_sha256": "054c840cf632f74cb9a33267c3a23458eaea346e1ba3378a0e9b4fabaf8cdf42"
+    },
+    {
+      "attempt": 14,
+      "course": "CITY",
+      "level": 2,
+      "ticks": 3456,
+      "outcome": "Arrested",
+      "state_sha256": "4d8f2b6c068b0a6149fac8bd8dbaabc0e53956106c6f25466851eb4ef5378b1e",
+      "replay_sha256": "c46d580bd4efdbda948a9a63f80e59e5bf5fa7a37d7ed1d48150c1cb4e5ae683"
+    },
+    {
+      "attempt": 15,
+      "course": "CITY",
+      "level": 2,
+      "ticks": 22242,
+      "outcome": "Won",
+      "state_sha256": "6a253e0f899fbbe833d679df764472f15e5fff40c0dc4754e247022b87fee35a",
+      "replay_sha256": "cc1120df2e0ab57e534abc28dadf3dd686c35f4db096d8aba1a968d5565489a3"
+    },
+    {
+      "attempt": 16,
+      "course": "HIWAY",
+      "level": 2,
+      "ticks": 13420,
+      "outcome": "Won",
+      "state_sha256": "dd88bd0e6bf6cb5aad06e1d90a3f179af7bcd2ab6eb7a2ca71125fd9f0bd00c3",
+      "replay_sha256": "ee72ec4ff176fc8edfb85d5a313847472f98843ce9c3c8d75ca0c135e43eb12e"
+    },
+    {
+      "attempt": 17,
+      "course": "NAPA",
+      "level": 2,
+      "ticks": 19256,
+      "outcome": "Won",
+      "state_sha256": "0e92f775d999f65e1d0d33e197df06e65e59ad150200c2e87b2aa057b8d80408",
+      "replay_sha256": "05967a61af3b912751811f0e703ee380cae98211b295fef8ade0e572752f22df"
+    },
+    {
+      "attempt": 18,
+      "course": "CANYN",
+      "level": 2,
+      "ticks": 17055,
+      "outcome": "Won",
+      "state_sha256": "957441a71ecc2adb7c5aa8f3a4428d3ff4dedb71887d70caba0a69055aa5c741",
+      "replay_sha256": "8488c2a3044ea0fcc7ade2b2a521167c87a27b5abd4f2e8ac971f8f801c28e19"
+    },
+    {
+      "attempt": 19,
+      "course": "MEDLY",
+      "level": 3,
+      "ticks": 28554,
+      "outcome": "Won",
+      "state_sha256": "965e03d773d86f607918d2180cf7f7b916c9aa2480dcfe6eb71e5828833ae755",
+      "replay_sha256": "d6704006b1fca2d3104e2bbf62c21e2b1960757b98c4bb985201f7b755f7f974"
+    },
+    {
+      "attempt": 20,
+      "course": "MEDLY",
+      "level": 3,
+      "ticks": 26184,
+      "outcome": "Won",
+      "state_sha256": "2c6da932cd03acac089a718242c8999b1df914b996ece0794f320837b24b391e",
+      "replay_sha256": "ea7d15a64e9992d934cf02043dc8f3054e6c1c34983af7d3768b1aa0dc8face5"
+    },
+    {
+      "attempt": 21,
+      "course": "MEDLY",
+      "level": 3,
+      "ticks": 27163,
+      "outcome": "Won",
+      "state_sha256": "0fb32d9fd6cc5eb466b3f55fee3bc9650e87fa054e1d8ec7e34e03dc6b57f4d9",
+      "replay_sha256": "84ea962fd5fae1cfa10d38aa434cc17d725dede750b85c97cb0f84d9bd35f35e"
+    },
+    {
+      "attempt": 22,
+      "course": "CITY",
+      "level": 3,
+      "ticks": 4112,
+      "outcome": "Arrested",
+      "state_sha256": "33da143f0e2ec4592bd813c62ba8b0009dbecf5f7a04b23104b673426e7c0e62",
+      "replay_sha256": "d24f2e6db0e2192816c57ca326ebb8874ab6662eaffbfdc57cb80e62a569bc4e"
+    },
+    {
+      "attempt": 23,
+      "course": "CITY",
+      "level": 3,
+      "ticks": 25879,
+      "outcome": "Won",
+      "state_sha256": "6d311070cc08b1faaa021f6bd71c984728d107d3cd1c76013e2774ea1fcde8ea",
+      "replay_sha256": "2fac9185a95efedcc0f1ab9cd86ddbbb17974f9523d2cbb401bd3b7ec7565343"
+    },
+    {
+      "attempt": 24,
+      "course": "HIWAY",
+      "level": 3,
+      "ticks": 15386,
+      "outcome": "Won",
+      "state_sha256": "9641d0369f692c6a8f9f72529f3e882430d7e2979578711b1af366e4ad98cee3",
+      "replay_sha256": "105416809834252b696d60a4538294724d452b3ebb151a3cbdad297676cafeb4"
+    },
+    {
+      "attempt": 25,
+      "course": "NAPA",
+      "level": 3,
+      "ticks": 23246,
+      "outcome": "Won",
+      "state_sha256": "1434ba16b480e0b535520e15f81a2fb5c245e5fbf91810f1ea7f5df25403b64f",
+      "replay_sha256": "d8cec869f1d9f506f67c5128312fc1108dd856e2b84d2a1d2e1fa214cf9afb7c"
+    },
+    {
+      "attempt": 26,
+      "course": "CANYN",
+      "level": 3,
+      "ticks": 28620,
+      "outcome": "Lost",
+      "state_sha256": "619bf0a074b229a2fd0bda87d9d8735f9183fddb1dd1a82d236f1ed623bd22b1",
+      "replay_sha256": "0b63685da3b236fe36f9f9422184871e0e35285f131dafff1f815c4dbd94792e"
+    },
+    {
+      "attempt": 27,
+      "course": "CANYN",
+      "level": 3,
+      "ticks": 25042,
+      "outcome": "Won",
+      "state_sha256": "3bf7e30f48d6464e851d96856f56a28eb3f9fa1d48940f237573b84225b9db0f",
+      "replay_sha256": "5196156ab0bd6d95959d0ac47dfacfcd24a075983e564f664dae2dc04a0a8209"
+    },
+    {
+      "attempt": 28,
+      "course": "MEDLY",
+      "level": 4,
+      "ticks": 5573,
+      "outcome": "Arrested",
+      "state_sha256": "fb7baa67f42ace558ef939d4ec2986f82721e1b789c2032ba3dfc771b524426d",
+      "replay_sha256": "acb0ad18b2ef0329243d064bc905323666bcf06eb3dac4c009ec3039e69f8d64"
+    },
+    {
+      "attempt": 29,
+      "course": "MEDLY",
+      "level": 4,
+      "ticks": 35842,
+      "outcome": "Won",
+      "state_sha256": "d73f4371ae6bf34e6269c29867ab0562916c116cc58c02a94c754b35c59db3e3",
+      "replay_sha256": "20936940889f0339a427ddf01f4db95b8cd7539dedac4ff72fe7a28baa5fd4a3"
+    },
+    {
+      "attempt": 30,
+      "course": "MEDLY",
+      "level": 4,
+      "ticks": 24499,
+      "outcome": "Won",
+      "state_sha256": "3526b5f16cc50885e4e3784c164c9d234f94521306244533c659d581887ff1fb",
+      "replay_sha256": "c42456cccd2b4806db8a7a7f20674eb5416aec235b050c620d7e9b262a7b9475"
+    },
+    {
+      "attempt": 31,
+      "course": "MEDLY",
+      "level": 4,
+      "ticks": 24488,
+      "outcome": "Won",
+      "state_sha256": "506070f5ad37584152dd28e4e2c20a96a45a06fcf09fff410df8ba37866f261a",
+      "replay_sha256": "d0ec2e11d1f3d584017f370cf14a2da1456bf11baf1837ba7fec76b5ddac61da"
+    },
+    {
+      "attempt": 32,
+      "course": "MEDLY",
+      "level": 4,
+      "ticks": 32257,
+      "outcome": "Won",
+      "state_sha256": "0a742f5165c4b2c48c9a33ba2b4f2ffbc0afb71c4774bf4af57db3bac79fb265",
+      "replay_sha256": "14f07cae962558acde550d6b02494949e84612f2a5addc76f8e9a2519301d611"
+    },
+    {
+      "attempt": 33,
+      "course": "MEDLY",
+      "level": 4,
+      "ticks": 5459,
+      "outcome": "Arrested",
+      "state_sha256": "138589546c3fc8dff81e849bc0f3c948798d6572a64a61982492565d6d56144c",
+      "replay_sha256": "7156418952c2b4a74f74977a90414608c247295a5383b244ca723255a3476a8e"
+    },
+    {
+      "attempt": 34,
+      "course": "MEDLY",
+      "level": 4,
+      "ticks": 28270,
+      "outcome": "Won",
+      "state_sha256": "36fc525c0c6ce9e227875636579631a39f3eddef6a8f257674a014ba84db5737",
+      "replay_sha256": "4957c8900cf47dd17e095140a13bf8429b9bfd62de91fc417aca4103294a934f"
+    },
+    {
+      "attempt": 35,
+      "course": "MEDLY",
+      "level": 4,
+      "ticks": 33197,
+      "outcome": "Won",
+      "state_sha256": "6afa446372f2f1eabc64d947b44df3993402132b2fd42b0d9c52b97790d79161",
+      "replay_sha256": "f5a8f0cf129e0df87c28acc6419385634c3d09f60432ea772ed9f6918bdcced8"
+    },
+    {
+      "attempt": 36,
+      "course": "CITY",
+      "level": 4,
+      "ticks": 29103,
+      "outcome": "Won",
+      "state_sha256": "f724d05b248abe15bb542cd705e9aedff85a576af1c6119031c0a086035d0f7e",
+      "replay_sha256": "499c05f483f58645a787579adb3a9b9ac44532af3785f88419b7d6813fd32527"
+    },
+    {
+      "attempt": 37,
+      "course": "HIWAY",
+      "level": 4,
+      "ticks": 18867,
+      "outcome": "Won",
+      "state_sha256": "3dacb323b1d2759ac5de86cbd792c35e37cb5d1acac00458074b8b4db1f19f79",
+      "replay_sha256": "5e7e0c7ce48ed311169a801e815566052a7ec1a04e3f67575f98bf986a955734"
+    },
+    {
+      "attempt": 38,
+      "course": "NAPA",
+      "level": 4,
+      "ticks": 25804,
+      "outcome": "Won",
+      "state_sha256": "1d5c44eae4689809f88a1cb9a1069ce3bd47156a218bb8756152e47c76bc0614",
+      "replay_sha256": "ce7ab4c19fdf0fb5004ec75257bedb3fa5053c9306ba1ca45ca80bc6d50594bf"
+    },
+    {
+      "attempt": 39,
+      "course": "CANYN",
+      "level": 4,
+      "ticks": 8208,
+      "outcome": "Arrested",
+      "state_sha256": "93d2f6540704c1bdfd7ff24edbff4a4b57c7cd3949a40cf1177b5cd6424cc2ed",
+      "replay_sha256": "ebe2ac21b93ba1eb4471dd4f767e73c8e186ce962cfdceb0a02ca419453becaf"
+    },
+    {
+      "attempt": 40,
+      "course": "CANYN",
+      "level": 4,
+      "ticks": 3131,
+      "outcome": "Arrested",
+      "state_sha256": "0eae99fedd17b0c96b84a8fb234b92bbd8f096dde0ec483c3f9a1dcd30b57982",
+      "replay_sha256": "449cf148f867fb05aed27ee637272657a1b50c33c87842fd9653d5d00f79a454"
+    },
+    {
+      "attempt": 41,
+      "course": "CANYN",
+      "level": 4,
+      "ticks": 23712,
+      "outcome": "Won",
+      "state_sha256": "4368931fc7de1705f7d671a02071f3d0254fc60c8a75397bb227900b28b130d5",
+      "replay_sha256": "ff4cc49c6a4ab9fcc45ca8d6e03d7186f575fc39453d8aacd876213636a68316"
+    },
+    {
+      "attempt": 42,
+      "course": "MEDLY",
+      "level": 5,
+      "ticks": 4221,
+      "outcome": "Arrested",
+      "state_sha256": "752842939e0befe4e8559bdb2db3df691f1565d75f7f45129622fcbc25387e8c",
+      "replay_sha256": "7cfa063a69f2b1de076398b97a88d1b42dafdd4a4338b04366e7cf564c142085"
+    },
+    {
+      "attempt": 43,
+      "course": "MEDLY",
+      "level": 5,
+      "ticks": 28169,
+      "outcome": "Won",
+      "state_sha256": "895ba6241ba6730ef87e812e1201be31b30d642bed693575a4b747d259581351",
+      "replay_sha256": "0ba55cce10cea76361d802bedb92459aa8719bf191c67c0e996a6f37689be1a6"
+    },
+    {
+      "attempt": 44,
+      "course": "MEDLY",
+      "level": 5,
+      "ticks": 4818,
+      "outcome": "Arrested",
+      "state_sha256": "52996ab8f5937de15614499de188294698670d0cf61dd98187af7e717ee4cb63",
+      "replay_sha256": "79a08c0a31dc538a565cd8c8ec38b816f752358dcaeebea6b0778be3b14df103"
+    },
+    {
+      "attempt": 45,
+      "course": "MEDLY",
+      "level": 5,
+      "ticks": 17747,
+      "outcome": "Arrested",
+      "state_sha256": "7b99bb00758c7f769fae05e4f31c0ecac130d1342f1bc6457fe009baa449f054",
+      "replay_sha256": "1610775beeac5ce8b8dbeee501eb866455c5edd24b86e855b2f0fa7103b34e12"
+    },
+    {
+      "attempt": 46,
+      "course": "MEDLY",
+      "level": 5,
+      "ticks": 7320,
+      "outcome": "Arrested",
+      "state_sha256": "bec5739e155466e9d0c7423f00a1e9a623462667be2769f54cd26d0a9ccaacc3",
+      "replay_sha256": "08c0805f313cc7e7b5325117a7261b524f629981e73884f9d32e2766bad89c4f"
+    },
+    {
+      "attempt": 47,
+      "course": "MEDLY",
+      "level": 5,
+      "ticks": 30301,
+      "outcome": "Won",
+      "state_sha256": "0e20a49159d3042bc970fabd1515279986431435a819d9e3052b427c49b460ec",
+      "replay_sha256": "cf8e2b7b84e30d091dc712d84d7c8f4141d2b0bcd22d787541b9b702ef8c16c6"
+    },
+    {
+      "attempt": 48,
+      "course": "MEDLY",
+      "level": 5,
+      "ticks": 29728,
+      "outcome": "Won",
+      "state_sha256": "cfa53199ca1a66f6e7ca685a82f21a60ce7e6e35baeccf93e81ac24e4b1fd8c8",
+      "replay_sha256": "88d8d81c4432be12cb634ac2b61ca2a2fa38ae1c218daa8f067f264f21e40534"
+    },
+    {
+      "attempt": 49,
+      "course": "MEDLY",
+      "level": 5,
+      "ticks": 12304,
+      "outcome": "Arrested",
+      "state_sha256": "8694ee054d9b9162287376cdcdfcf41fe251acf2843205b9810cd9d76f635e17",
+      "replay_sha256": "44562a88dfc46c7eaaf7784cfba68a6a1c65d98c23564ba742bc0b8ac7df7c4e"
+    },
+    {
+      "attempt": 50,
+      "course": "MEDLY",
+      "level": 5,
+      "ticks": 12430,
+      "outcome": "Arrested",
+      "state_sha256": "8e1eb35b4b2b1b5af0f938143d77933fe593ccd95c0adfba1c3baefe053ca3e9",
+      "replay_sha256": "992ad483145974a5045df20d2934c65755147fdcc73eff04297150c964ad4d1a"
+    },
+    {
+      "attempt": 51,
+      "course": "MEDLY",
+      "level": 5,
+      "ticks": 4416,
+      "outcome": "Arrested",
+      "state_sha256": "51df7b8e033dfb1a95cd2d09ec2e52c3acb2c8b5c849c968ea97e89dde8ccee0",
+      "replay_sha256": "5ef1115d06420ae53b0abf582b1c91e755815b10aee44943b5d0ad89fb943fb3"
+    },
+    {
+      "attempt": 52,
+      "course": "MEDLY",
+      "level": 5,
+      "ticks": 4699,
+      "outcome": "Arrested",
+      "state_sha256": "37a2ba69ab554da1ab1866e38d5d4ff4b5050ad27589910621c0af6a56c6b583",
+      "replay_sha256": "08434814fc52cd5a37332ba59c8a88d3d48dd66fb7c4a26384cd7d0800f770b5"
+    },
+    {
+      "attempt": 53,
+      "course": "MEDLY",
+      "level": 5,
+      "ticks": 4187,
+      "outcome": "Arrested",
+      "state_sha256": "ea99e5375e3e0cc13ead34698cff9bb46aca56449627045e1fc79a6f43f845e8",
+      "replay_sha256": "7ac5b6abe605d037a2cc26963bc81ab9dfdcec45f76b4b08108303d5accd436f"
+    },
+    {
+      "attempt": 54,
+      "course": "MEDLY",
+      "level": 5,
+      "ticks": 12424,
+      "outcome": "Arrested",
+      "state_sha256": "10f6655e03c528bf82d16ada149876059f72b1bbebaef9625b0c3d4df51079ef",
+      "replay_sha256": "c11d1e9113f170a15934f79a0cdd1a40d52e7d93ac97cc7d08ae09dc8fc30519"
+    },
+    {
+      "attempt": 55,
+      "course": "MEDLY",
+      "level": 5,
+      "ticks": 36409,
+      "outcome": "Won",
+      "state_sha256": "e5ec3b83e26f1f5e30739cd953244733caaa9648ce70a5cc66490fbb02cf6129",
+      "replay_sha256": "8abc6009b50fddde8841181a88155137bbf9685ea0cfe8f153f35980b8fa2e01"
+    },
+    {
+      "attempt": 56,
+      "course": "MEDLY",
+      "level": 5,
+      "ticks": 4217,
+      "outcome": "Arrested",
+      "state_sha256": "18c68fec7ba313c41a939fbd8cc27f917474927638583d29020cc353cec3826a",
+      "replay_sha256": "1fb6d2f8540337f13c77104d65ca202dfc6df5d0b06bfc46a2204b9ec12033b3"
+    },
+    {
+      "attempt": 57,
+      "course": "MEDLY",
+      "level": 5,
+      "ticks": 7340,
+      "outcome": "Arrested",
+      "state_sha256": "6be0b8f363acc87fb3cb2b583f96059103a1b141d34d6dafeceed6147d8cddc9",
+      "replay_sha256": "2a849e6314cf796be50c552ebc0216091eb061d955e71eaac8d14b39a0865096"
+    },
+    {
+      "attempt": 58,
+      "course": "MEDLY",
+      "level": 5,
+      "ticks": 10815,
+      "outcome": "Arrested",
+      "state_sha256": "9ace9eaca2f37f875b80979590d5829c3fe33aa5c69f6303d6ff334d85b6c804",
+      "replay_sha256": "575b77bd99ea78f4eacbe64663836bd34a8f62326a89f401b3840cd03f46985f"
+    },
+    {
+      "attempt": 59,
+      "course": "MEDLY",
+      "level": 5,
+      "ticks": 33014,
+      "outcome": "Won",
+      "state_sha256": "d1330cd25597b88e6dee59349860927e13e3721a6379e03c186b56fb38382ae8",
+      "replay_sha256": "efdff188cf1e8c55a32be0a3f3e003b59ee88c9ba03ccd31893ffcace9220c22"
+    },
+    {
+      "attempt": 60,
+      "course": "MEDLY",
+      "level": 5,
+      "ticks": 13462,
+      "outcome": "Arrested",
+      "state_sha256": "fff447b542992f1b7058742a1239c2f492473eeb8a7909facf706f28aeaddc3b",
+      "replay_sha256": "e40655ceb3a66912dd1f9fd84b133adfd5ebf46d74fb0e1ca41a148558051dd0"
+    },
+    {
+      "attempt": 61,
+      "course": "MEDLY",
+      "level": 5,
+      "ticks": 30298,
+      "outcome": "Won",
+      "state_sha256": "c5b9d89b64988a9afefba3265afb004e9f2a09078ef403bc55d4e35c749767e7",
+      "replay_sha256": "91bc958f5d87f30c8c3707fc4f94706d0ddc0e25ee602bc0ef50c4c17fb85167"
+    },
+    {
+      "attempt": 62,
+      "course": "MEDLY",
+      "level": 5,
+      "ticks": 29404,
+      "outcome": "Won",
+      "state_sha256": "ff0f5eeadbaaa52ee8c694c0e334a65aa3127f4d26e7c0c4fdd700fa55803171",
+      "replay_sha256": "0bcfbc754053257be5aa19ffe18561ccaf76d0acf0dbc57bf03f79a571e660be"
+    },
+    {
+      "attempt": 63,
+      "course": "MEDLY",
+      "level": 5,
+      "ticks": 36409,
+      "outcome": "Won",
+      "state_sha256": "888b5e087f021b190ae747f1c5368735324032cc3889a5bbd1a5f1127cfd10b6",
+      "replay_sha256": "bcec23d22d29e917b62bd0ff793b6d61e15fe267083113d7e311c76e0c887ee1"
+    },
+    {
+      "attempt": 64,
+      "course": "CITY",
+      "level": 5,
+      "ticks": 33117,
+      "outcome": "Won",
+      "state_sha256": "1cdb2d81d21891d38ff4b2ffa97bc683149791cd61c6eaa04d61026b3e63b9c6",
+      "replay_sha256": "8223707cd7944671490a2e04ae1af79a16ca3691af9006da13d54daa7e865015"
+    },
+    {
+      "attempt": 65,
+      "course": "HIWAY",
+      "level": 5,
+      "ticks": 31216,
+      "outcome": "Won",
+      "state_sha256": "1f9909d96a23e631c2597dd4895c3249b793c4be1985f132b31ab3e4ac356268",
+      "replay_sha256": "b1ba61df58a844c4a38d298d541cddb1bea4649e79871c9cc966b24ba3c683c1"
+    },
+    {
+      "attempt": 66,
+      "course": "NAPA",
+      "level": 5,
+      "ticks": 37872,
+      "outcome": "Won",
+      "state_sha256": "b396d69ea79b456f75f27a05551992ef598d2c969933d1ae67075464771db860",
+      "replay_sha256": "6ed0d7088eca4d893a35faa30f68c7c9140755d6929b31c2c26a23f7d636a274"
+    },
+    {
+      "attempt": 67,
+      "course": "CANYN",
+      "level": 5,
+      "ticks": 27699,
+      "outcome": "Won",
+      "state_sha256": "224c5484b0e1f535ff858187cfcacf923b6f5ed2cf3ef221c57d4e4d7bef5eb9",
+      "replay_sha256": "325902a5c45494e62b6d4ad7f195af15bfbce84138524d68c276b067321926b4"
+    }
+  ],
+  "source_revision": "234337749774a5a5a6d3fc9cafa88b9c1d55f3dd",
+  "archive_sha256": "02821ad359c978cebf82350e62d79bafddc159e945177ef47e694d56162d3f11",
+  "rc4_execution": {
+    "outcome": "passed",
+    "all_67_records_except_wall_time_equal": true,
+    "all_67_replay_bytes_equal": true,
+    "final_hash": "224c5484b0e1f535ff858187cfcacf923b6f5ed2cf3ef221c57d4e4d7bef5eb9",
+    "final_cash": 25567
+  }
+}

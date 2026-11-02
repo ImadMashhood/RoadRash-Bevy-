@@ -85,22 +85,22 @@
       "id": "release-verification",
       "task": "21.01",
       "severity": "required",
-      "status": "pending_verification",
+      "status": "closed",
       "owner": "Implementing agent",
       "reproducer": "Unified release regression/performance/soak receipt missing",
-      "regression": null,
+      "regression": "docs/evidence/21.12.md",
       "acceptance_gate": "G5"
     },
     {
       "id": "packaging",
       "task": "22.01",
       "severity": "required",
-      "status": "pending_verification",
+      "status": "closed",
       "owner": "Implementing agent",
       "reproducer": "Standalone clean-profile importer/launcher package missing",
-      "regression": null,
+      "regression": "docs/evidence/22.01.md",
       "acceptance_gate": "G5"
     }
   ],
-  "scope_note": "G3F functional/interface defects are closed with scenario evidence. Required G5 verification/packaging entries remain open until final receipts pass; they are not silently waived."
+  "scope_note": "Required technical defects closed with linked native scenario evidence. G5 project-owner acceptance remains pending in release-signoff.json; declared limitations remain in RELEASE_NOTES.md. No original runtime or untested platform pass is claimed."
 }

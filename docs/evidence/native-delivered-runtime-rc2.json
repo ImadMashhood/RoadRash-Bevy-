@@ -1,0 +1,15 @@
+{
+  "outcome": "passed",
+  "source_revision": "0c9a544bab00c90b96fb924cb85dc1972411ee0e",
+  "downloaded_archive_sha256": "7ff70029974d41fdaaa6aa9ef9917ba2381e1404657f8010aed9aa13042a8e85",
+  "downloaded_game_sha256": "ed62b072b86bd286a49684a98b394a406a206b8637127695b61e9b62de2cb57e",
+  "host": "Fedora Linux x86_64",
+  "read_only_app_outside_checkout": true,
+  "normal_launcher_retains_french_125_and_career": true,
+  "complete_native_finale_replay": {
+    "ticks": 27699,
+    "presentation_frames": 13850,
+    "state_sha256": "224c5484b0e1f535ff858187cfcacf923b6f5ed2cf3ef221c57d4e4d7bef5eb9",
+    "wall_s": 178.91070040498744
+  }
+}

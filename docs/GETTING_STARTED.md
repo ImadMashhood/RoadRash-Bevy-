@@ -1,5 +1,7 @@
 # Build and verify the foundation
 
+For the packaged review candidate, [download native Linux RC4](https://github.com/ImadMashhood/RoadRash-Bevy-/releases/tag/native-functional-2026-11-01-rc4), verify its adjacent SHA256SUMS and follow the [player guide](PLAYER_GUIDE.md). It imports your supported original ISO/ZIP and requires no Cargo checkout. [Release notes and tested scope](RELEASE_NOTES.md). The source-development instructions follow.
+
 Run commands from the repository root. Rust 1.99.1 is selected by rust-toolchain.toml.
 
 ```sh

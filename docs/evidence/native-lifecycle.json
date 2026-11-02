@@ -1,0 +1,157 @@
+{
+  "outcome": "passed",
+  "cycles": 10,
+  "courses": 5,
+  "character_selections": 8,
+  "scenario": "Begin/real native factory/countdown/pause/player quit/results/Main; no synthetic finish.",
+  "max_entity_index_slots": 512,
+  "max_cpu_images": 9,
+  "max_gpu_images": 9,
+  "sample_count": 11,
+  "binary_sha256": "1c02e7700d3fb5b516dd8fdbd5c41c9d9a444c7dc312c73ccca2df0b1dc03035",
+  "samples": [
+    {
+      "course": "CITY",
+      "cpu_images": 9,
+      "elapsed_s": 1.4086709,
+      "entities": 256,
+      "gpu_image_bytes": 4554780,
+      "gpu_images": 9,
+      "live_ticks": 0,
+      "restarts": 0,
+      "rss": "VmRSS:\t  728712 kB",
+      "simulation_tick": 0
+    },
+    {
+      "course": "CITY",
+      "cpu_images": 8,
+      "elapsed_s": 2.000452288,
+      "entities": 512,
+      "gpu_image_bytes": 3325980,
+      "gpu_images": 8,
+      "live_ticks": 0,
+      "restarts": 0,
+      "rss": "VmRSS:\t  750720 kB",
+      "simulation_tick": 0
+    },
+    {
+      "course": "HIWAY",
+      "cpu_images": 8,
+      "elapsed_s": 3.071409135,
+      "entities": 512,
+      "gpu_image_bytes": 3325980,
+      "gpu_images": 8,
+      "live_ticks": 0,
+      "restarts": 0,
+      "rss": "VmRSS:\t  853816 kB",
+      "simulation_tick": 0
+    },
+    {
+      "course": "MEDLY",
+      "cpu_images": 8,
+      "elapsed_s": 4.038168932,
+      "entities": 512,
+      "gpu_image_bytes": 3325980,
+      "gpu_images": 8,
+      "live_ticks": 0,
+      "restarts": 0,
+      "rss": "VmRSS:\t  895572 kB",
+      "simulation_tick": 0
+    },
+    {
+      "course": "CANYN",
+      "cpu_images": 9,
+      "elapsed_s": 5.234799061,
+      "entities": 512,
+      "gpu_image_bytes": 4554780,
+      "gpu_images": 9,
+      "live_ticks": 0,
+      "restarts": 0,
+      "rss": "VmRSS:\t  897472 kB",
+      "simulation_tick": 0
+    },
+    {
+      "course": "CANYN",
+      "cpu_images": 8,
+      "elapsed_s": 6.050653547,
+      "entities": 512,
+      "gpu_image_bytes": 3325980,
+      "gpu_images": 8,
+      "live_ticks": 0,
+      "restarts": 0,
+      "rss": "VmRSS:\t  898116 kB",
+      "simulation_tick": 0
+    },
+    {
+      "course": "CITY",
+      "cpu_images": 8,
+      "elapsed_s": 7.006212161,
+      "entities": 512,
+      "gpu_image_bytes": 3325980,
+      "gpu_images": 8,
+      "live_ticks": 0,
+      "restarts": 0,
+      "rss": "VmRSS:\t  899320 kB",
+      "simulation_tick": 0
+    },
+    {
+      "course": "HIWAY",
+      "cpu_images": 8,
+      "elapsed_s": 8.007428682,
+      "entities": 512,
+      "gpu_image_bytes": 3325980,
+      "gpu_images": 8,
+      "live_ticks": 0,
+      "restarts": 0,
+      "rss": "VmRSS:\t  902320 kB",
+      "simulation_tick": 0
+    },
+    {
+      "course": "MEDLY",
+      "cpu_images": 8,
+      "elapsed_s": 9.007867529,
+      "entities": 512,
+      "gpu_image_bytes": 3325980,
+      "gpu_images": 8,
+      "live_ticks": 0,
+      "restarts": 0,
+      "rss": "VmRSS:\t  909272 kB",
+      "simulation_tick": 0
+    },
+    {
+      "course": "NAPA",
+      "cpu_images": 8,
+      "elapsed_s": 10.008300575,
+      "entities": 512,
+      "gpu_image_bytes": 3325980,
+      "gpu_images": 8,
+      "live_ticks": 0,
+      "restarts": 0,
+      "rss": "VmRSS:\t  950500 kB",
+      "simulation_tick": 0
+    },
+    {
+      "course": "CANYN",
+      "cpu_images": 8,
+      "elapsed_s": 11.003016987,
+      "entities": 512,
+      "gpu_image_bytes": 3325980,
+      "gpu_images": 8,
+      "live_ticks": 0,
+      "restarts": 0,
+      "rss": "VmRSS:\t  951660 kB",
+      "simulation_tick": 0
+    }
+  ],
+  "limitation": "The schema-2 entities field is Entities.len: allocated index slots, not spawned entities (Bevy 0.20). This isolates scene/resource lifetime, not race victory or CPU frame-time acceptance. Telemetry retains bounded observations.",
+  "warmed_entity_index_slots": [
+    512
+  ],
+  "source_revision": "234337749774a5a5a6d3fc9cafa88b9c1d55f3dd",
+  "explicit_native_factory": {
+    "pairs": 15,
+    "all_scene_weak_owners_expired": true,
+    "source_character_options": 8
+  },
+  "excluded_probe": "Initial native factory invocation used relative source paths, which Cargo resolved from the application crate; failed before asset load. Corrected absolute-path invocation passes in 2.00 seconds."
+}

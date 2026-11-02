@@ -1,0 +1,68 @@
+{
+  "scope": "Superseded RC3; these failures are preserved, not silently counted as passes. Live inputs make the later RC4 run observational rather than a controlled causal A/B comparison.",
+  "binary_sha256": "ed62b072b86bd286a49684a98b394a406a206b8637127695b61e9b62de2cb57e",
+  "rows": [
+    {
+      "course": "CITY",
+      "status": "passed",
+      "duration_s": 320.191991013,
+      "simulation_seconds": 316.1,
+      "paused_frames": 0,
+      "wall_frame_ms": {
+        "count": 54748,
+        "max": 242.058211,
+        "p50": 5.038653,
+        "p95": 11.58239,
+        "p99": 22.453221
+      },
+      "cpu_raster_ms": {
+        "count": 54748,
+        "max": 88.78262500000001,
+        "p50": 3.5093530000000004,
+        "p95": 7.685784,
+        "p99": 13.67277
+      }
+    },
+    {
+      "course": "HIWAY",
+      "status": "invalid_paused",
+      "duration_s": 320.178096298,
+      "simulation_seconds": 91.06666666666666,
+      "paused_frames": 17805,
+      "wall_frame_ms": {
+        "count": 28754,
+        "max": 272.74289600000003,
+        "p50": 9.666618,
+        "p95": 20.023626999999998,
+        "p99": 47.337526999999994
+      },
+      "cpu_raster_ms": {
+        "count": 28754,
+        "max": 118.292512,
+        "p50": 8.242584,
+        "p95": 15.843428999999999,
+        "p99": 38.328308
+      }
+    },
+    {
+      "course": "MEDLY",
+      "status": "aborted",
+      "exit": {
+        "exit_code": -15,
+        "audio_routed_to_private_null_sink": true,
+        "elapsed_s": 62.20466562799993
+      },
+      "reason": "Stopped to investigate preceding results; not a complete sample."
+    },
+    {
+      "course": "NAPA",
+      "status": "not_run",
+      "exit": null
+    },
+    {
+      "course": "CANYN",
+      "status": "not_run",
+      "exit": null
+    }
+  ]
+}

@@ -1,0 +1,2002 @@
+{
+  "outcome": "passed_for_declared_native_course_sampling",
+  "release_tag": "native-functional-2026-11-01-rc4",
+  "source_revision": "234337749774a5a5a6d3fc9cafa88b9c1d55f3dd",
+  "archive_sha256": "02821ad359c978cebf82350e62d79bafddc159e945177ef47e694d56162d3f11",
+  "platform": {
+    "os": "Fedora 44 Linux x86_64 / KDE Wayland with XWayland application",
+    "cpu": "AMD Ryzen 5 3600, 6 cores / 12 threads",
+    "gpu": "NVIDIA RTX 3080",
+    "driver": "615.78.08",
+    "actual_bevy_adapter": "AdapterInfo { name: \"NVIDIA GeForce RTX 3080\", vendor: 4318, device: 8726, device_type: DiscreteGpu, device_pci_bus_id: \"0000:0a:00.0\", driver: \"NVIDIA\", driver_info: \"615.78.08\", backend: Vulkan, subgroup_min_size: 32, subgroup_max_size: 32, transient_saves_memory: Some(false), limit_bucket: None }",
+    "cpu_governor_before": "schedutil",
+    "cpu_governor_after": "schedutil",
+    "desktop_power_profile": "powerprofilesctl unavailable; unknown",
+    "power_clock_policy_changed_by_agent": false
+  },
+  "scope": "Actual checksum-verified Ubuntu CI download, read-only application outside source tree, fresh verified own-disc import. Native level 3/bike 8 with 14 rivals/road users, audio connected to a private null sink, films off and vsync off. 640x480 classic raster fitted to 960x720 window. Window focus not instrumented. No other native acceptance app, local build or profiler ran during this hour; ordinary user desktop applications were left untouched. Real one-hour two-lap tour: six minutes per course/lap. The predeclared second lap supplies four complete warm-course samples. Canyon reached the fixed telemetry sample cap; its partial values remain published, with a fresh independent 320-second Canyon supplement required. Complete segments cannot be replaced after observing their results. Both laps and the supplement are published.",
+  "budgets": {
+    "wall_p95_ms": 16.7,
+    "wall_p99_ms": 50,
+    "simulation_step_p95_ms": 5,
+    "snapshot_p95_ms": 1,
+    "raster_p95_ms": 16.67,
+    "gpu_pass_p95_ms": 5
+  },
+  "soak": {
+    "outcome": "passed",
+    "duration_s": 3600.408180294,
+    "simulation_seconds": 3594.616666666667,
+    "paused_frames": 0,
+    "restarts": 19,
+    "binary_sha256": "c744f04d7a18c636371e5147ce43210c5c8a7ec50ec800aa2b6dc5e815f5a0c8",
+    "memory": {
+      "max_rss_bytes": 1225744384,
+      "max_decoded_pixel_bytes": 147732640,
+      "max_gpu_image_bytes": 3325980,
+      "max_cpu_images": 8,
+      "max_gpu_images": 8,
+      "entity_index_slots": [
+        256
+      ]
+    }
+  },
+  "accepted_frame_profile": {
+    "outcome": "passed",
+    "binary_sha256": "c744f04d7a18c636371e5147ce43210c5c8a7ec50ec800aa2b6dc5e815f5a0c8",
+    "actual_window": {
+      "logical": [
+        960.0,
+        720.0
+      ],
+      "physical": [
+        960,
+        720
+      ],
+      "scale_factor": 1.0
+    },
+    "duration_s": 3600.408180294,
+    "first_frame_ms": 912.627493,
+    "course_loads": [
+      {
+        "course_index": 1,
+        "elapsed_s": 360.002253073,
+        "load_ms": 273.88681399999996
+      },
+      {
+        "course_index": 2,
+        "elapsed_s": 720.008835082,
+        "load_ms": 312.042347
+      },
+      {
+        "course_index": 3,
+        "elapsed_s": 1080.040243021,
+        "load_ms": 534.5988590000001
+      },
+      {
+        "course_index": 4,
+        "elapsed_s": 1440.003525008,
+        "load_ms": 543.0357730000001
+      },
+      {
+        "course_index": 5,
+        "elapsed_s": 1800.000750149,
+        "load_ms": 434.37314399999997
+      },
+      {
+        "course_index": 6,
+        "elapsed_s": 2160.01003231,
+        "load_ms": 226.782789
+      },
+      {
+        "course_index": 7,
+        "elapsed_s": 2520.003841548,
+        "load_ms": 330.379056
+      },
+      {
+        "course_index": 8,
+        "elapsed_s": 2880.003219329,
+        "load_ms": 235.323126
+      },
+      {
+        "course_index": 9,
+        "elapsed_s": 3240.003074772,
+        "load_ms": 265.31829
+      }
+    ],
+    "memory": {
+      "max_rss_bytes": 1225744384,
+      "max_decoded_pixel_bytes": 147732640,
+      "max_gpu_image_bytes": 3325980,
+      "max_cpu_images": 8,
+      "max_gpu_images": 8,
+      "entity_index_slots": [
+        256
+      ]
+    },
+    "rows": [
+      {
+        "course": "CITY",
+        "wall_frame_ms": {
+          "count": 67079,
+          "max": 28.223824,
+          "p50": 4.8189519999999995,
+          "p95": 9.793325000000001,
+          "p99": 12.460464
+        },
+        "cpu_raster_ms": {
+          "count": 67079,
+          "max": 20.435478,
+          "p50": 3.396853,
+          "p95": 7.505066,
+          "p99": 9.213531
+        },
+        "gpu_pass_ms": {
+          "render/auxiliary_views/elapsed_gpu": {
+            "count": 57968,
+            "max": 0.014336,
+            "p50": 0.002048,
+            "p95": 0.004096,
+            "p99": 0.006144
+          },
+          "render/main_opaque_pass_2d/elapsed_gpu": {
+            "count": 57968,
+            "max": 0.060416,
+            "p50": 0.004096,
+            "p95": 0.00512,
+            "p99": 0.006144
+          },
+          "render/main_transparent_pass_2d/elapsed_gpu": {
+            "count": 57968,
+            "max": 0.275456,
+            "p50": 0.02048,
+            "p95": 0.083968,
+            "p99": 0.096256
+          },
+          "render/upscaling/elapsed_gpu": {
+            "count": 57968,
+            "max": 0.152576,
+            "p50": 0.012288,
+            "p95": 0.038912,
+            "p99": 0.048128
+          }
+        },
+        "meets_60_hz_p95_target": true,
+        "sample_scope": "Full warm second-lap course segment"
+      },
+      {
+        "course": "HIWAY",
+        "wall_frame_ms": {
+          "count": 57652,
+          "max": 34.898317,
+          "p50": 5.78428,
+          "p95": 10.854931,
+          "p99": 14.505799
+        },
+        "cpu_raster_ms": {
+          "count": 57652,
+          "max": 23.935623,
+          "p50": 4.149733,
+          "p95": 8.032773,
+          "p99": 9.864398
+        },
+        "gpu_pass_ms": {
+          "render/auxiliary_views/elapsed_gpu": {
+            "count": 49093,
+            "max": 0.01536,
+            "p50": 0.002048,
+            "p95": 0.004096,
+            "p99": 0.006144
+          },
+          "render/main_opaque_pass_2d/elapsed_gpu": {
+            "count": 49093,
+            "max": 0.065536,
+            "p50": 0.004096,
+            "p95": 0.00512,
+            "p99": 0.006144
+          },
+          "render/main_transparent_pass_2d/elapsed_gpu": {
+            "count": 49093,
+            "max": 0.249856,
+            "p50": 0.02048,
+            "p95": 0.086016,
+            "p99": 0.09728
+          },
+          "render/upscaling/elapsed_gpu": {
+            "count": 49093,
+            "max": 0.111616,
+            "p50": 0.012288,
+            "p95": 0.039936,
+            "p99": 0.049152
+          }
+        },
+        "meets_60_hz_p95_target": true,
+        "sample_scope": "Full warm second-lap course segment"
+      },
+      {
+        "course": "MEDLY",
+        "wall_frame_ms": {
+          "count": 39365,
+          "max": 44.805467,
+          "p50": 8.978654,
+          "p95": 13.666433,
+          "p99": 17.772763
+        },
+        "cpu_raster_ms": {
+          "count": 39365,
+          "max": 28.936685999999998,
+          "p50": 7.115729,
+          "p95": 9.58059,
+          "p99": 11.16802
+        },
+        "gpu_pass_ms": {
+          "render/auxiliary_views/elapsed_gpu": {
+            "count": 32531,
+            "max": 0.018432,
+            "p50": 0.002048,
+            "p95": 0.00512,
+            "p99": 0.007168
+          },
+          "render/main_opaque_pass_2d/elapsed_gpu": {
+            "count": 32531,
+            "max": 0.145408,
+            "p50": 0.004096,
+            "p95": 0.00512,
+            "p99": 0.006144
+          },
+          "render/main_transparent_pass_2d/elapsed_gpu": {
+            "count": 32531,
+            "max": 0.256,
+            "p50": 0.02048,
+            "p95": 0.088064,
+            "p99": 0.099328
+          },
+          "render/upscaling/elapsed_gpu": {
+            "count": 32531,
+            "max": 0.252928,
+            "p50": 0.012288,
+            "p95": 0.041984,
+            "p99": 0.0512
+          }
+        },
+        "meets_60_hz_p95_target": true,
+        "sample_scope": "Full warm second-lap course segment"
+      },
+      {
+        "course": "NAPA",
+        "wall_frame_ms": {
+          "count": 41380,
+          "max": 51.514737,
+          "p50": 8.522982,
+          "p95": 12.291,
+          "p99": 16.518167000000002
+        },
+        "cpu_raster_ms": {
+          "count": 41380,
+          "max": 29.590338,
+          "p50": 6.782377,
+          "p95": 8.536086,
+          "p99": 10.68714
+        },
+        "gpu_pass_ms": {
+          "render/auxiliary_views/elapsed_gpu": {
+            "count": 33749,
+            "max": 0.134144,
+            "p50": 0.002048,
+            "p95": 0.00512,
+            "p99": 0.006144
+          },
+          "render/main_opaque_pass_2d/elapsed_gpu": {
+            "count": 33749,
+            "max": 0.140288,
+            "p50": 0.004096,
+            "p95": 0.00512,
+            "p99": 0.006144
+          },
+          "render/main_transparent_pass_2d/elapsed_gpu": {
+            "count": 33749,
+            "max": 0.275456,
+            "p50": 0.02048,
+            "p95": 0.089088,
+            "p99": 0.1024
+          },
+          "render/upscaling/elapsed_gpu": {
+            "count": 33749,
+            "max": 0.223232,
+            "p50": 0.012288,
+            "p95": 0.043008,
+            "p99": 0.052224
+          }
+        },
+        "meets_60_hz_p95_target": true,
+        "sample_scope": "Full warm second-lap course segment"
+      },
+      {
+        "course": "CANYN",
+        "wall_frame_ms": {
+          "count": 33031,
+          "max": 33.681019,
+          "p50": 9.485833000000001,
+          "p95": 13.751642,
+          "p99": 17.108812
+        },
+        "cpu_raster_ms": {
+          "count": 33031,
+          "max": 22.087293000000003,
+          "p50": 7.540033,
+          "p95": 11.164973999999999,
+          "p99": 13.180063
+        },
+        "gpu_pass_ms": {
+          "render/auxiliary_views/elapsed_gpu": {
+            "count": 32282,
+            "max": 0.014336,
+            "p50": 0.008192,
+            "p95": 0.009216,
+            "p99": 0.01024
+          },
+          "render/main_opaque_pass_2d/elapsed_gpu": {
+            "count": 32282,
+            "max": 0.011264,
+            "p50": 0.007168,
+            "p95": 0.007168,
+            "p99": 0.008192
+          },
+          "render/main_transparent_pass_2d/elapsed_gpu": {
+            "count": 32282,
+            "max": 0.278528,
+            "p50": 0.217088,
+            "p95": 0.222208,
+            "p99": 0.232448
+          },
+          "render/upscaling/elapsed_gpu": {
+            "count": 32282,
+            "max": 0.14848,
+            "p50": 0.089088,
+            "p95": 0.09728,
+            "p99": 0.101376
+          }
+        },
+        "meets_60_hz_p95_target": true,
+        "sample_scope": "Independent full-duration supplement; hour sample reached telemetry cap",
+        "duration_s": 320.184684379,
+        "simulation_seconds": 319.1666666666667,
+        "memory": {
+          "max_rss_bytes": 828669952,
+          "max_decoded_pixel_bytes": 147732640,
+          "max_gpu_image_bytes": 3325980,
+          "max_cpu_images": 8,
+          "max_gpu_images": 8,
+          "entity_index_slots": [
+            256
+          ]
+        },
+        "hour_recorded_samples": 24647,
+        "hour_total_segment_frames": 38549
+      }
+    ]
+  },
+  "timing_sample_cap": 500000,
+  "timing_samples_recorded": 500000,
+  "supplemental_canyon": {
+    "cpu_raster_ms": {
+      "count": 33031,
+      "max": 22.087293000000003,
+      "p50": 7.540033,
+      "p95": 11.164973999999999,
+      "p99": 13.180063
+    },
+    "frames": 33091,
+    "render_diagnostics": {
+      "render/auxiliary_views/elapsed_cpu": {
+        "count": 32282,
+        "max": 0.076513,
+        "p50": 0.004459,
+        "p95": 0.008846,
+        "p99": 0.011782
+      },
+      "render/auxiliary_views/elapsed_gpu": {
+        "count": 32282,
+        "max": 0.014336,
+        "p50": 0.008192,
+        "p95": 0.009216,
+        "p99": 0.01024
+      },
+      "render/main_opaque_pass_2d/clipper_invocations": {
+        "count": 32282,
+        "max": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0
+      },
+      "render/main_opaque_pass_2d/clipper_primitives_out": {
+        "count": 32282,
+        "max": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0
+      },
+      "render/main_opaque_pass_2d/elapsed_cpu": {
+        "count": 32282,
+        "max": 0.061334999999999994,
+        "p50": 0.0037170000000000003,
+        "p95": 0.007294,
+        "p99": 0.010409
+      },
+      "render/main_opaque_pass_2d/elapsed_gpu": {
+        "count": 32282,
+        "max": 0.011264,
+        "p50": 0.007168,
+        "p95": 0.007168,
+        "p99": 0.008192
+      },
+      "render/main_opaque_pass_2d/fragment_shader_invocations": {
+        "count": 32282,
+        "max": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0
+      },
+      "render/main_opaque_pass_2d/vertex_shader_invocations": {
+        "count": 32282,
+        "max": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0
+      },
+      "render/main_transparent_pass_2d/clipper_invocations": {
+        "count": 32282,
+        "max": 132.0,
+        "p50": 116.0,
+        "p95": 132.0,
+        "p99": 132.0
+      },
+      "render/main_transparent_pass_2d/clipper_primitives_out": {
+        "count": 32282,
+        "max": 132.0,
+        "p50": 116.0,
+        "p95": 132.0,
+        "p99": 132.0
+      },
+      "render/main_transparent_pass_2d/elapsed_cpu": {
+        "count": 32282,
+        "max": 0.23009,
+        "p50": 0.017613,
+        "p95": 0.035506,
+        "p99": 0.047037999999999996
+      },
+      "render/main_transparent_pass_2d/elapsed_gpu": {
+        "count": 32282,
+        "max": 0.278528,
+        "p50": 0.217088,
+        "p95": 0.222208,
+        "p99": 0.232448
+      },
+      "render/main_transparent_pass_2d/fragment_shader_invocations": {
+        "count": 32282,
+        "max": 785275.0,
+        "p50": 760244.0,
+        "p95": 785249.0,
+        "p99": 785275.0
+      },
+      "render/main_transparent_pass_2d/vertex_shader_invocations": {
+        "count": 32282,
+        "max": 264.0,
+        "p50": 232.0,
+        "p95": 264.0,
+        "p99": 264.0
+      },
+      "render/upscaling/elapsed_cpu": {
+        "count": 32282,
+        "max": 0.054723,
+        "p50": 0.004608,
+        "p95": 0.01095,
+        "p99": 0.016811
+      },
+      "render/upscaling/elapsed_gpu": {
+        "count": 32282,
+        "max": 0.14848,
+        "p50": 0.089088,
+        "p95": 0.09728,
+        "p99": 0.101376
+      },
+      "started_load_count": {
+        "count": 33031,
+        "max": 45.0,
+        "p50": 45.0,
+        "p95": 45.0,
+        "p99": 45.0
+      }
+    },
+    "wall_frame_ms": {
+      "count": 33031,
+      "max": 33.681019,
+      "p50": 9.485833000000001,
+      "p95": 13.751642,
+      "p99": 17.108812
+    },
+    "warmup_frames_excluded": 60
+  },
+  "all_course_laps": {
+    "CANYN/lap1": {
+      "cpu_raster_ms": {
+        "count": 48953,
+        "max": 91.712551,
+        "p50": 4.874176,
+        "p95": 9.520775,
+        "p99": 17.497744
+      },
+      "frames": 49013,
+      "render_diagnostics": {
+        "render/auxiliary_views/elapsed_cpu": {
+          "count": 40621,
+          "max": 1.215323,
+          "p50": 0.004719,
+          "p95": 0.011642,
+          "p99": 0.015699
+        },
+        "render/auxiliary_views/elapsed_gpu": {
+          "count": 40621,
+          "max": 0.017408,
+          "p50": 0.002048,
+          "p95": 0.004096,
+          "p99": 0.006144
+        },
+        "render/main_opaque_pass_2d/clipper_invocations": {
+          "count": 40621,
+          "max": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0
+        },
+        "render/main_opaque_pass_2d/clipper_primitives_out": {
+          "count": 40621,
+          "max": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0
+        },
+        "render/main_opaque_pass_2d/elapsed_cpu": {
+          "count": 40621,
+          "max": 1.548296,
+          "p50": 0.0037570000000000004,
+          "p95": 0.009188,
+          "p99": 0.012934
+        },
+        "render/main_opaque_pass_2d/elapsed_gpu": {
+          "count": 40621,
+          "max": 0.057344,
+          "p50": 0.004096,
+          "p95": 0.00512,
+          "p99": 0.006144
+        },
+        "render/main_opaque_pass_2d/fragment_shader_invocations": {
+          "count": 40621,
+          "max": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0
+        },
+        "render/main_opaque_pass_2d/vertex_shader_invocations": {
+          "count": 40621,
+          "max": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0
+        },
+        "render/main_transparent_pass_2d/clipper_invocations": {
+          "count": 40621,
+          "max": 132.0,
+          "p50": 130.0,
+          "p95": 132.0,
+          "p99": 132.0
+        },
+        "render/main_transparent_pass_2d/clipper_primitives_out": {
+          "count": 40621,
+          "max": 132.0,
+          "p50": 130.0,
+          "p95": 132.0,
+          "p99": 132.0
+        },
+        "render/main_transparent_pass_2d/elapsed_cpu": {
+          "count": 40621,
+          "max": 1.696482,
+          "p50": 0.018745,
+          "p95": 0.047679,
+          "p99": 0.062998
+        },
+        "render/main_transparent_pass_2d/elapsed_gpu": {
+          "count": 40621,
+          "max": 0.303104,
+          "p50": 0.02048,
+          "p95": 0.086016,
+          "p99": 0.098304
+        },
+        "render/main_transparent_pass_2d/fragment_shader_invocations": {
+          "count": 40621,
+          "max": 785275.0,
+          "p50": 785028.0,
+          "p95": 785249.0,
+          "p99": 785275.0
+        },
+        "render/main_transparent_pass_2d/vertex_shader_invocations": {
+          "count": 40621,
+          "max": 264.0,
+          "p50": 260.0,
+          "p95": 264.0,
+          "p99": 264.0
+        },
+        "render/upscaling/elapsed_cpu": {
+          "count": 40621,
+          "max": 1.43835,
+          "p50": 0.004298000000000001,
+          "p95": 0.01041,
+          "p99": 0.016331
+        },
+        "render/upscaling/elapsed_gpu": {
+          "count": 40621,
+          "max": 0.25088,
+          "p50": 0.012288,
+          "p95": 0.038912,
+          "p99": 0.049152
+        },
+        "started_load_count": {
+          "count": 48953,
+          "max": 45.0,
+          "p50": 45.0,
+          "p95": 45.0,
+          "p99": 45.0
+        }
+      },
+      "wall_frame_ms": {
+        "count": 48953,
+        "max": 472.732192,
+        "p50": 6.5959460000000005,
+        "p95": 12.569548,
+        "p99": 23.826109000000002
+      },
+      "warmup_frames_excluded": 60
+    },
+    "CANYN/lap2": {
+      "cpu_raster_ms": {
+        "count": 24647,
+        "max": 29.135257000000003,
+        "p50": 7.296518,
+        "p95": 10.387099000000001,
+        "p99": 12.173961
+      },
+      "frames": 38549,
+      "render_diagnostics": {
+        "render/auxiliary_views/elapsed_cpu": {
+          "count": 20171,
+          "max": 0.39490800000000004,
+          "p50": 0.004438,
+          "p95": 0.011803000000000001,
+          "p99": 0.01579
+        },
+        "render/auxiliary_views/elapsed_gpu": {
+          "count": 20171,
+          "max": 0.016384,
+          "p50": 0.002048,
+          "p95": 0.00512,
+          "p99": 0.006144
+        },
+        "render/main_opaque_pass_2d/clipper_invocations": {
+          "count": 20171,
+          "max": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0
+        },
+        "render/main_opaque_pass_2d/clipper_primitives_out": {
+          "count": 20171,
+          "max": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0
+        },
+        "render/main_opaque_pass_2d/elapsed_cpu": {
+          "count": 20171,
+          "max": 0.702464,
+          "p50": 0.0035269999999999998,
+          "p95": 0.009397,
+          "p99": 0.013065
+        },
+        "render/main_opaque_pass_2d/elapsed_gpu": {
+          "count": 20171,
+          "max": 0.139264,
+          "p50": 0.004096,
+          "p95": 0.00512,
+          "p99": 0.006144
+        },
+        "render/main_opaque_pass_2d/fragment_shader_invocations": {
+          "count": 20171,
+          "max": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0
+        },
+        "render/main_opaque_pass_2d/vertex_shader_invocations": {
+          "count": 20171,
+          "max": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0
+        },
+        "render/main_transparent_pass_2d/clipper_invocations": {
+          "count": 20171,
+          "max": 132.0,
+          "p50": 116.0,
+          "p95": 132.0,
+          "p99": 132.0
+        },
+        "render/main_transparent_pass_2d/clipper_primitives_out": {
+          "count": 20171,
+          "max": 132.0,
+          "p50": 116.0,
+          "p95": 132.0,
+          "p99": 132.0
+        },
+        "render/main_transparent_pass_2d/elapsed_cpu": {
+          "count": 20171,
+          "max": 1.387174,
+          "p50": 0.017032,
+          "p95": 0.049743,
+          "p99": 0.065623
+        },
+        "render/main_transparent_pass_2d/elapsed_gpu": {
+          "count": 20171,
+          "max": 0.270336,
+          "p50": 0.02048,
+          "p95": 0.089088,
+          "p99": 0.099328
+        },
+        "render/main_transparent_pass_2d/fragment_shader_invocations": {
+          "count": 20171,
+          "max": 785275.0,
+          "p50": 760244.0,
+          "p95": 785248.0,
+          "p99": 785275.0
+        },
+        "render/main_transparent_pass_2d/vertex_shader_invocations": {
+          "count": 20171,
+          "max": 264.0,
+          "p50": 232.0,
+          "p95": 264.0,
+          "p99": 264.0
+        },
+        "render/upscaling/elapsed_cpu": {
+          "count": 20171,
+          "max": 0.291064,
+          "p50": 0.004238,
+          "p95": 0.01056,
+          "p99": 0.016341
+        },
+        "render/upscaling/elapsed_gpu": {
+          "count": 20171,
+          "max": 0.119808,
+          "p50": 0.012288,
+          "p95": 0.041984,
+          "p99": 0.0512
+        },
+        "started_load_count": {
+          "count": 24647,
+          "max": 45.0,
+          "p50": 45.0,
+          "p95": 45.0,
+          "p99": 45.0
+        }
+      },
+      "wall_frame_ms": {
+        "count": 24647,
+        "max": 42.907026,
+        "p50": 9.045689000000001,
+        "p95": 13.682032,
+        "p99": 18.436515
+      },
+      "warmup_frames_excluded": 60
+    },
+    "CITY/lap1": {
+      "cpu_raster_ms": {
+        "count": 67581,
+        "max": 16.415125999999997,
+        "p50": 3.3895399999999998,
+        "p95": 7.5091969999999995,
+        "p99": 9.187776999999999
+      },
+      "frames": 67641,
+      "render_diagnostics": {
+        "render/auxiliary_views/elapsed_cpu": {
+          "count": 57803,
+          "max": 0.444151,
+          "p50": 0.004899,
+          "p95": 0.011542,
+          "p99": 0.015539
+        },
+        "render/auxiliary_views/elapsed_gpu": {
+          "count": 57803,
+          "max": 0.131072,
+          "p50": 0.002048,
+          "p95": 0.004096,
+          "p99": 0.006144
+        },
+        "render/main_opaque_pass_2d/clipper_invocations": {
+          "count": 57803,
+          "max": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0
+        },
+        "render/main_opaque_pass_2d/clipper_primitives_out": {
+          "count": 57803,
+          "max": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0
+        },
+        "render/main_opaque_pass_2d/elapsed_cpu": {
+          "count": 57803,
+          "max": 1.365565,
+          "p50": 0.004177999999999999,
+          "p95": 0.009748999999999999,
+          "p99": 0.013325
+        },
+        "render/main_opaque_pass_2d/elapsed_gpu": {
+          "count": 57803,
+          "max": 0.062464,
+          "p50": 0.004096,
+          "p95": 0.00512,
+          "p99": 0.006144
+        },
+        "render/main_opaque_pass_2d/fragment_shader_invocations": {
+          "count": 57803,
+          "max": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0
+        },
+        "render/main_opaque_pass_2d/vertex_shader_invocations": {
+          "count": 57803,
+          "max": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0
+        },
+        "render/main_transparent_pass_2d/clipper_invocations": {
+          "count": 57803,
+          "max": 160.0,
+          "p50": 160.0,
+          "p95": 160.0,
+          "p99": 160.0
+        },
+        "render/main_transparent_pass_2d/clipper_primitives_out": {
+          "count": 57803,
+          "max": 160.0,
+          "p50": 160.0,
+          "p95": 160.0,
+          "p99": 160.0
+        },
+        "render/main_transparent_pass_2d/elapsed_cpu": {
+          "count": 57803,
+          "max": 2.059983,
+          "p50": 0.019806999999999998,
+          "p95": 0.046006,
+          "p99": 0.06072399999999999
+        },
+        "render/main_transparent_pass_2d/elapsed_gpu": {
+          "count": 57803,
+          "max": 0.264192,
+          "p50": 0.02048,
+          "p95": 0.08192,
+          "p99": 0.095232
+        },
+        "render/main_transparent_pass_2d/fragment_shader_invocations": {
+          "count": 57803,
+          "max": 810741.0,
+          "p50": 810681.0,
+          "p95": 810708.0,
+          "p99": 810714.0
+        },
+        "render/main_transparent_pass_2d/vertex_shader_invocations": {
+          "count": 57803,
+          "max": 320.0,
+          "p50": 320.0,
+          "p95": 320.0,
+          "p99": 320.0
+        },
+        "render/upscaling/elapsed_cpu": {
+          "count": 57803,
+          "max": 1.1990729999999998,
+          "p50": 0.004298000000000001,
+          "p95": 0.01021,
+          "p99": 0.015529
+        },
+        "render/upscaling/elapsed_gpu": {
+          "count": 57803,
+          "max": 0.227328,
+          "p50": 0.012288,
+          "p95": 0.038912,
+          "p99": 0.048128
+        },
+        "started_load_count": {
+          "count": 67581,
+          "max": 45.0,
+          "p50": 45.0,
+          "p95": 45.0,
+          "p99": 45.0
+        }
+      },
+      "wall_frame_ms": {
+        "count": 67581,
+        "max": 23.204636,
+        "p50": 4.79545,
+        "p95": 9.72451,
+        "p99": 12.167489999999999
+      },
+      "warmup_frames_excluded": 60
+    },
+    "CITY/lap2": {
+      "cpu_raster_ms": {
+        "count": 67079,
+        "max": 20.435478,
+        "p50": 3.396853,
+        "p95": 7.505066,
+        "p99": 9.213531
+      },
+      "frames": 67139,
+      "render_diagnostics": {
+        "render/auxiliary_views/elapsed_cpu": {
+          "count": 57968,
+          "max": 1.2271750000000001,
+          "p50": 0.0046890000000000005,
+          "p95": 0.011261,
+          "p99": 0.015387999999999999
+        },
+        "render/auxiliary_views/elapsed_gpu": {
+          "count": 57968,
+          "max": 0.014336,
+          "p50": 0.002048,
+          "p95": 0.004096,
+          "p99": 0.006144
+        },
+        "render/main_opaque_pass_2d/clipper_invocations": {
+          "count": 57968,
+          "max": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0
+        },
+        "render/main_opaque_pass_2d/clipper_primitives_out": {
+          "count": 57968,
+          "max": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0
+        },
+        "render/main_opaque_pass_2d/elapsed_cpu": {
+          "count": 57968,
+          "max": 1.5065169999999999,
+          "p50": 0.003878,
+          "p95": 0.009217,
+          "p99": 0.012704
+        },
+        "render/main_opaque_pass_2d/elapsed_gpu": {
+          "count": 57968,
+          "max": 0.060416,
+          "p50": 0.004096,
+          "p95": 0.00512,
+          "p99": 0.006144
+        },
+        "render/main_opaque_pass_2d/fragment_shader_invocations": {
+          "count": 57968,
+          "max": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0
+        },
+        "render/main_opaque_pass_2d/vertex_shader_invocations": {
+          "count": 57968,
+          "max": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0
+        },
+        "render/main_transparent_pass_2d/clipper_invocations": {
+          "count": 57968,
+          "max": 132.0,
+          "p50": 132.0,
+          "p95": 132.0,
+          "p99": 132.0
+        },
+        "render/main_transparent_pass_2d/clipper_primitives_out": {
+          "count": 57968,
+          "max": 132.0,
+          "p50": 132.0,
+          "p95": 132.0,
+          "p99": 132.0
+        },
+        "render/main_transparent_pass_2d/elapsed_cpu": {
+          "count": 57968,
+          "max": 2.700881,
+          "p50": 0.020118,
+          "p95": 0.04829,
+          "p99": 0.063569
+        },
+        "render/main_transparent_pass_2d/elapsed_gpu": {
+          "count": 57968,
+          "max": 0.275456,
+          "p50": 0.02048,
+          "p95": 0.083968,
+          "p99": 0.096256
+        },
+        "render/main_transparent_pass_2d/fragment_shader_invocations": {
+          "count": 57968,
+          "max": 785275.0,
+          "p50": 785248.0,
+          "p95": 785275.0,
+          "p99": 785275.0
+        },
+        "render/main_transparent_pass_2d/vertex_shader_invocations": {
+          "count": 57968,
+          "max": 264.0,
+          "p50": 264.0,
+          "p95": 264.0,
+          "p99": 264.0
+        },
+        "render/upscaling/elapsed_cpu": {
+          "count": 57968,
+          "max": 1.467304,
+          "p50": 0.004408,
+          "p95": 0.010399,
+          "p99": 0.016691
+        },
+        "render/upscaling/elapsed_gpu": {
+          "count": 57968,
+          "max": 0.152576,
+          "p50": 0.012288,
+          "p95": 0.038912,
+          "p99": 0.048128
+        },
+        "started_load_count": {
+          "count": 67079,
+          "max": 45.0,
+          "p50": 45.0,
+          "p95": 45.0,
+          "p99": 45.0
+        }
+      },
+      "wall_frame_ms": {
+        "count": 67079,
+        "max": 28.223824,
+        "p50": 4.8189519999999995,
+        "p95": 9.793325000000001,
+        "p99": 12.460464
+      },
+      "warmup_frames_excluded": 60
+    },
+    "HIWAY/lap1": {
+      "cpu_raster_ms": {
+        "count": 74201,
+        "max": 20.985585,
+        "p50": 2.2988,
+        "p95": 7.226036,
+        "p99": 8.372832
+      },
+      "frames": 74261,
+      "render_diagnostics": {
+        "render/auxiliary_views/elapsed_cpu": {
+          "count": 63802,
+          "max": 0.676716,
+          "p50": 0.00485,
+          "p95": 0.011311,
+          "p99": 0.015519000000000002
+        },
+        "render/auxiliary_views/elapsed_gpu": {
+          "count": 63802,
+          "max": 0.014336,
+          "p50": 0.002048,
+          "p95": 0.004096,
+          "p99": 0.006144
+        },
+        "render/main_opaque_pass_2d/clipper_invocations": {
+          "count": 63802,
+          "max": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0
+        },
+        "render/main_opaque_pass_2d/clipper_primitives_out": {
+          "count": 63802,
+          "max": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0
+        },
+        "render/main_opaque_pass_2d/elapsed_cpu": {
+          "count": 63802,
+          "max": 1.1655909999999998,
+          "p50": 0.004218,
+          "p95": 0.009708,
+          "p99": 0.013345000000000001
+        },
+        "render/main_opaque_pass_2d/elapsed_gpu": {
+          "count": 63802,
+          "max": 0.134144,
+          "p50": 0.004096,
+          "p95": 0.00512,
+          "p99": 0.006144
+        },
+        "render/main_opaque_pass_2d/fragment_shader_invocations": {
+          "count": 63802,
+          "max": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0
+        },
+        "render/main_opaque_pass_2d/vertex_shader_invocations": {
+          "count": 63802,
+          "max": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0
+        },
+        "render/main_transparent_pass_2d/clipper_invocations": {
+          "count": 63802,
+          "max": 132.0,
+          "p50": 130.0,
+          "p95": 132.0,
+          "p99": 132.0
+        },
+        "render/main_transparent_pass_2d/clipper_primitives_out": {
+          "count": 63802,
+          "max": 132.0,
+          "p50": 130.0,
+          "p95": 132.0,
+          "p99": 132.0
+        },
+        "render/main_transparent_pass_2d/elapsed_cpu": {
+          "count": 63802,
+          "max": 1.645819,
+          "p50": 0.021551,
+          "p95": 0.047970000000000006,
+          "p99": 0.06272699999999999
+        },
+        "render/main_transparent_pass_2d/elapsed_gpu": {
+          "count": 63802,
+          "max": 0.278528,
+          "p50": 0.02048,
+          "p95": 0.082944,
+          "p99": 0.095232
+        },
+        "render/main_transparent_pass_2d/fragment_shader_invocations": {
+          "count": 63802,
+          "max": 785275.0,
+          "p50": 785028.0,
+          "p95": 785248.0,
+          "p99": 785275.0
+        },
+        "render/main_transparent_pass_2d/vertex_shader_invocations": {
+          "count": 63802,
+          "max": 264.0,
+          "p50": 260.0,
+          "p95": 264.0,
+          "p99": 264.0
+        },
+        "render/upscaling/elapsed_cpu": {
+          "count": 63802,
+          "max": 0.761134,
+          "p50": 0.0044789999999999995,
+          "p95": 0.010669999999999999,
+          "p99": 0.016351
+        },
+        "render/upscaling/elapsed_gpu": {
+          "count": 63802,
+          "max": 0.246784,
+          "p50": 0.012288,
+          "p95": 0.038912,
+          "p99": 0.048128
+        },
+        "started_load_count": {
+          "count": 74201,
+          "max": 45.0,
+          "p50": 45.0,
+          "p95": 45.0,
+          "p99": 45.0
+        }
+      },
+      "wall_frame_ms": {
+        "count": 74201,
+        "max": 35.15508,
+        "p50": 4.047551,
+        "p95": 9.396517,
+        "p99": 11.758635
+      },
+      "warmup_frames_excluded": 60
+    },
+    "HIWAY/lap2": {
+      "cpu_raster_ms": {
+        "count": 57652,
+        "max": 23.935623,
+        "p50": 4.149733,
+        "p95": 8.032773,
+        "p99": 9.864398
+      },
+      "frames": 57712,
+      "render_diagnostics": {
+        "render/auxiliary_views/elapsed_cpu": {
+          "count": 49093,
+          "max": 0.863045,
+          "p50": 0.004609,
+          "p95": 0.011632,
+          "p99": 0.015679
+        },
+        "render/auxiliary_views/elapsed_gpu": {
+          "count": 49093,
+          "max": 0.01536,
+          "p50": 0.002048,
+          "p95": 0.004096,
+          "p99": 0.006144
+        },
+        "render/main_opaque_pass_2d/clipper_invocations": {
+          "count": 49093,
+          "max": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0
+        },
+        "render/main_opaque_pass_2d/clipper_primitives_out": {
+          "count": 49093,
+          "max": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0
+        },
+        "render/main_opaque_pass_2d/elapsed_cpu": {
+          "count": 49093,
+          "max": 0.9818570000000001,
+          "p50": 0.003777,
+          "p95": 0.009538000000000001,
+          "p99": 0.013165
+        },
+        "render/main_opaque_pass_2d/elapsed_gpu": {
+          "count": 49093,
+          "max": 0.065536,
+          "p50": 0.004096,
+          "p95": 0.00512,
+          "p99": 0.006144
+        },
+        "render/main_opaque_pass_2d/fragment_shader_invocations": {
+          "count": 49093,
+          "max": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0
+        },
+        "render/main_opaque_pass_2d/vertex_shader_invocations": {
+          "count": 49093,
+          "max": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0
+        },
+        "render/main_transparent_pass_2d/clipper_invocations": {
+          "count": 49093,
+          "max": 138.0,
+          "p50": 128.0,
+          "p95": 130.0,
+          "p99": 130.0
+        },
+        "render/main_transparent_pass_2d/clipper_primitives_out": {
+          "count": 49093,
+          "max": 138.0,
+          "p50": 128.0,
+          "p95": 130.0,
+          "p99": 130.0
+        },
+        "render/main_transparent_pass_2d/elapsed_cpu": {
+          "count": 49093,
+          "max": 2.096091,
+          "p50": 0.019146,
+          "p95": 0.049412,
+          "p99": 0.064861
+        },
+        "render/main_transparent_pass_2d/elapsed_gpu": {
+          "count": 49093,
+          "max": 0.249856,
+          "p50": 0.02048,
+          "p95": 0.086016,
+          "p99": 0.09728
+        },
+        "render/main_transparent_pass_2d/fragment_shader_invocations": {
+          "count": 49093,
+          "max": 785746.0,
+          "p50": 784870.0,
+          "p95": 785030.0,
+          "p99": 785030.0
+        },
+        "render/main_transparent_pass_2d/vertex_shader_invocations": {
+          "count": 49093,
+          "max": 276.0,
+          "p50": 256.0,
+          "p95": 260.0,
+          "p99": 260.0
+        },
+        "render/upscaling/elapsed_cpu": {
+          "count": 49093,
+          "max": 1.2863259999999999,
+          "p50": 0.004378,
+          "p95": 0.01066,
+          "p99": 0.017082
+        },
+        "render/upscaling/elapsed_gpu": {
+          "count": 49093,
+          "max": 0.111616,
+          "p50": 0.012288,
+          "p95": 0.039936,
+          "p99": 0.049152
+        },
+        "started_load_count": {
+          "count": 57652,
+          "max": 45.0,
+          "p50": 45.0,
+          "p95": 45.0,
+          "p99": 45.0
+        }
+      },
+      "wall_frame_ms": {
+        "count": 57652,
+        "max": 34.898317,
+        "p50": 5.78428,
+        "p95": 10.854931,
+        "p99": 14.505799
+      },
+      "warmup_frames_excluded": 60
+    },
+    "MEDLY/lap1": {
+      "cpu_raster_ms": {
+        "count": 39231,
+        "max": 65.45306500000001,
+        "p50": 7.100161,
+        "p95": 9.490683,
+        "p99": 10.837041000000001
+      },
+      "frames": 39291,
+      "render_diagnostics": {
+        "render/auxiliary_views/elapsed_cpu": {
+          "count": 32532,
+          "max": 1.200366,
+          "p50": 0.004458,
+          "p95": 0.012083,
+          "p99": 0.01611
+        },
+        "render/auxiliary_views/elapsed_gpu": {
+          "count": 32532,
+          "max": 0.016384,
+          "p50": 0.002048,
+          "p95": 0.00512,
+          "p99": 0.007168
+        },
+        "render/main_opaque_pass_2d/clipper_invocations": {
+          "count": 32532,
+          "max": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0
+        },
+        "render/main_opaque_pass_2d/clipper_primitives_out": {
+          "count": 32532,
+          "max": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0
+        },
+        "render/main_opaque_pass_2d/elapsed_cpu": {
+          "count": 32532,
+          "max": 0.8601080000000001,
+          "p50": 0.003607,
+          "p95": 0.009939,
+          "p99": 0.013515000000000001
+        },
+        "render/main_opaque_pass_2d/elapsed_gpu": {
+          "count": 32532,
+          "max": 0.135168,
+          "p50": 0.004096,
+          "p95": 0.00512,
+          "p99": 0.006144
+        },
+        "render/main_opaque_pass_2d/fragment_shader_invocations": {
+          "count": 32532,
+          "max": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0
+        },
+        "render/main_opaque_pass_2d/vertex_shader_invocations": {
+          "count": 32532,
+          "max": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0
+        },
+        "render/main_transparent_pass_2d/clipper_invocations": {
+          "count": 32532,
+          "max": 140.0,
+          "p50": 114.0,
+          "p95": 128.0,
+          "p99": 128.0
+        },
+        "render/main_transparent_pass_2d/clipper_primitives_out": {
+          "count": 32532,
+          "max": 140.0,
+          "p50": 114.0,
+          "p95": 128.0,
+          "p99": 128.0
+        },
+        "render/main_transparent_pass_2d/elapsed_cpu": {
+          "count": 32532,
+          "max": 1.9937890000000003,
+          "p50": 0.017212,
+          "p95": 0.049412,
+          "p99": 0.06488200000000001
+        },
+        "render/main_transparent_pass_2d/elapsed_gpu": {
+          "count": 32532,
+          "max": 0.280576,
+          "p50": 0.02048,
+          "p95": 0.089088,
+          "p99": 0.101376
+        },
+        "render/main_transparent_pass_2d/fragment_shader_invocations": {
+          "count": 32532,
+          "max": 786018.0,
+          "p50": 759999.0,
+          "p95": 761400.0,
+          "p99": 761427.0
+        },
+        "render/main_transparent_pass_2d/vertex_shader_invocations": {
+          "count": 32532,
+          "max": 280.0,
+          "p50": 228.0,
+          "p95": 256.0,
+          "p99": 256.0
+        },
+        "render/upscaling/elapsed_cpu": {
+          "count": 32532,
+          "max": 1.230582,
+          "p50": 0.004408,
+          "p95": 0.010721,
+          "p99": 0.016651
+        },
+        "render/upscaling/elapsed_gpu": {
+          "count": 32532,
+          "max": 0.186368,
+          "p50": 0.012288,
+          "p95": 0.043008,
+          "p99": 0.052224
+        },
+        "started_load_count": {
+          "count": 39231,
+          "max": 45.0,
+          "p50": 45.0,
+          "p95": 45.0,
+          "p99": 45.0
+        }
+      },
+      "wall_frame_ms": {
+        "count": 39231,
+        "max": 85.47441599999999,
+        "p50": 8.949601,
+        "p95": 13.119782,
+        "p99": 17.188121000000002
+      },
+      "warmup_frames_excluded": 60
+    },
+    "MEDLY/lap2": {
+      "cpu_raster_ms": {
+        "count": 39365,
+        "max": 28.936685999999998,
+        "p50": 7.115729,
+        "p95": 9.58059,
+        "p99": 11.16802
+      },
+      "frames": 39425,
+      "render_diagnostics": {
+        "render/auxiliary_views/elapsed_cpu": {
+          "count": 32531,
+          "max": 1.652601,
+          "p50": 0.004468000000000001,
+          "p95": 0.011712,
+          "p99": 0.01597
+        },
+        "render/auxiliary_views/elapsed_gpu": {
+          "count": 32531,
+          "max": 0.018432,
+          "p50": 0.002048,
+          "p95": 0.00512,
+          "p99": 0.007168
+        },
+        "render/main_opaque_pass_2d/clipper_invocations": {
+          "count": 32531,
+          "max": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0
+        },
+        "render/main_opaque_pass_2d/clipper_primitives_out": {
+          "count": 32531,
+          "max": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0
+        },
+        "render/main_opaque_pass_2d/elapsed_cpu": {
+          "count": 32531,
+          "max": 1.580236,
+          "p50": 0.0035269999999999998,
+          "p95": 0.009297,
+          "p99": 0.012754
+        },
+        "render/main_opaque_pass_2d/elapsed_gpu": {
+          "count": 32531,
+          "max": 0.145408,
+          "p50": 0.004096,
+          "p95": 0.00512,
+          "p99": 0.006144
+        },
+        "render/main_opaque_pass_2d/fragment_shader_invocations": {
+          "count": 32531,
+          "max": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0
+        },
+        "render/main_opaque_pass_2d/vertex_shader_invocations": {
+          "count": 32531,
+          "max": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0
+        },
+        "render/main_transparent_pass_2d/clipper_invocations": {
+          "count": 32531,
+          "max": 140.0,
+          "p50": 116.0,
+          "p95": 132.0,
+          "p99": 132.0
+        },
+        "render/main_transparent_pass_2d/clipper_primitives_out": {
+          "count": 32531,
+          "max": 140.0,
+          "p50": 116.0,
+          "p95": 132.0,
+          "p99": 132.0
+        },
+        "render/main_transparent_pass_2d/elapsed_cpu": {
+          "count": 32531,
+          "max": 1.328205,
+          "p50": 0.017182,
+          "p95": 0.048691,
+          "p99": 0.06411
+        },
+        "render/main_transparent_pass_2d/elapsed_gpu": {
+          "count": 32531,
+          "max": 0.256,
+          "p50": 0.02048,
+          "p95": 0.088064,
+          "p99": 0.099328
+        },
+        "render/main_transparent_pass_2d/fragment_shader_invocations": {
+          "count": 32531,
+          "max": 785991.0,
+          "p50": 760271.0,
+          "p95": 785249.0,
+          "p99": 785275.0
+        },
+        "render/main_transparent_pass_2d/vertex_shader_invocations": {
+          "count": 32531,
+          "max": 280.0,
+          "p50": 232.0,
+          "p95": 264.0,
+          "p99": 264.0
+        },
+        "render/upscaling/elapsed_cpu": {
+          "count": 32531,
+          "max": 1.3326220000000002,
+          "p50": 0.004258,
+          "p95": 0.010359,
+          "p99": 0.01609
+        },
+        "render/upscaling/elapsed_gpu": {
+          "count": 32531,
+          "max": 0.252928,
+          "p50": 0.012288,
+          "p95": 0.041984,
+          "p99": 0.0512
+        },
+        "started_load_count": {
+          "count": 39365,
+          "max": 45.0,
+          "p50": 45.0,
+          "p95": 45.0,
+          "p99": 45.0
+        }
+      },
+      "wall_frame_ms": {
+        "count": 39365,
+        "max": 44.805467,
+        "p50": 8.978654,
+        "p95": 13.666433,
+        "p99": 17.772763
+      },
+      "warmup_frames_excluded": 60
+    },
+    "NAPA/lap1": {
+      "cpu_raster_ms": {
+        "count": 39911,
+        "max": 191.876025,
+        "p50": 5.967032,
+        "p95": 15.057787,
+        "p99": 32.779827
+      },
+      "frames": 39971,
+      "render_diagnostics": {
+        "render/auxiliary_views/elapsed_cpu": {
+          "count": 32343,
+          "max": 1.4342020000000002,
+          "p50": 0.004739,
+          "p95": 0.011602,
+          "p99": 0.015469
+        },
+        "render/auxiliary_views/elapsed_gpu": {
+          "count": 32343,
+          "max": 0.018432,
+          "p50": 0.002048,
+          "p95": 0.004096,
+          "p99": 0.006144
+        },
+        "render/main_opaque_pass_2d/clipper_invocations": {
+          "count": 32343,
+          "max": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0
+        },
+        "render/main_opaque_pass_2d/clipper_primitives_out": {
+          "count": 32343,
+          "max": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0
+        },
+        "render/main_opaque_pass_2d/elapsed_cpu": {
+          "count": 32343,
+          "max": 2.827839,
+          "p50": 0.0038469999999999997,
+          "p95": 0.009538000000000001,
+          "p99": 0.013185
+        },
+        "render/main_opaque_pass_2d/elapsed_gpu": {
+          "count": 32343,
+          "max": 0.06656,
+          "p50": 0.004096,
+          "p95": 0.00512,
+          "p99": 0.006144
+        },
+        "render/main_opaque_pass_2d/fragment_shader_invocations": {
+          "count": 32343,
+          "max": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0
+        },
+        "render/main_opaque_pass_2d/vertex_shader_invocations": {
+          "count": 32343,
+          "max": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0
+        },
+        "render/main_transparent_pass_2d/clipper_invocations": {
+          "count": 32343,
+          "max": 132.0,
+          "p50": 130.0,
+          "p95": 132.0,
+          "p99": 132.0
+        },
+        "render/main_transparent_pass_2d/clipper_primitives_out": {
+          "count": 32343,
+          "max": 132.0,
+          "p50": 130.0,
+          "p95": 132.0,
+          "p99": 132.0
+        },
+        "render/main_transparent_pass_2d/elapsed_cpu": {
+          "count": 32343,
+          "max": 1.743372,
+          "p50": 0.019196,
+          "p95": 0.048651,
+          "p99": 0.06436
+        },
+        "render/main_transparent_pass_2d/elapsed_gpu": {
+          "count": 32343,
+          "max": 0.258048,
+          "p50": 0.02048,
+          "p95": 0.088064,
+          "p99": 0.101376
+        },
+        "render/main_transparent_pass_2d/fragment_shader_invocations": {
+          "count": 32343,
+          "max": 785275.0,
+          "p50": 785028.0,
+          "p95": 785275.0,
+          "p99": 785275.0
+        },
+        "render/main_transparent_pass_2d/vertex_shader_invocations": {
+          "count": 32343,
+          "max": 264.0,
+          "p50": 260.0,
+          "p95": 264.0,
+          "p99": 264.0
+        },
+        "render/upscaling/elapsed_cpu": {
+          "count": 32343,
+          "max": 0.261439,
+          "p50": 0.004267999999999999,
+          "p95": 0.010750000000000001,
+          "p99": 0.016992
+        },
+        "render/upscaling/elapsed_gpu": {
+          "count": 32343,
+          "max": 0.182272,
+          "p50": 0.012288,
+          "p95": 0.041984,
+          "p99": 0.0512
+        },
+        "started_load_count": {
+          "count": 39911,
+          "max": 45.0,
+          "p50": 45.0,
+          "p95": 45.0,
+          "p99": 45.0
+        }
+      },
+      "wall_frame_ms": {
+        "count": 39911,
+        "max": 253.393476,
+        "p50": 7.495672,
+        "p95": 20.904425,
+        "p99": 45.999765999999994
+      },
+      "warmup_frames_excluded": 60
+    },
+    "NAPA/lap2": {
+      "cpu_raster_ms": {
+        "count": 41380,
+        "max": 29.590338,
+        "p50": 6.782377,
+        "p95": 8.536086,
+        "p99": 10.68714
+      },
+      "frames": 41440,
+      "render_diagnostics": {
+        "render/auxiliary_views/elapsed_cpu": {
+          "count": 33749,
+          "max": 0.491459,
+          "p50": 0.004429000000000001,
+          "p95": 0.011871999999999999,
+          "p99": 0.015858999999999998
+        },
+        "render/auxiliary_views/elapsed_gpu": {
+          "count": 33749,
+          "max": 0.134144,
+          "p50": 0.002048,
+          "p95": 0.00512,
+          "p99": 0.006144
+        },
+        "render/main_opaque_pass_2d/clipper_invocations": {
+          "count": 33749,
+          "max": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0
+        },
+        "render/main_opaque_pass_2d/clipper_primitives_out": {
+          "count": 33749,
+          "max": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0
+        },
+        "render/main_opaque_pass_2d/elapsed_cpu": {
+          "count": 33749,
+          "max": 1.39533,
+          "p50": 0.003526,
+          "p95": 0.009507,
+          "p99": 0.013074
+        },
+        "render/main_opaque_pass_2d/elapsed_gpu": {
+          "count": 33749,
+          "max": 0.140288,
+          "p50": 0.004096,
+          "p95": 0.00512,
+          "p99": 0.006144
+        },
+        "render/main_opaque_pass_2d/fragment_shader_invocations": {
+          "count": 33749,
+          "max": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0
+        },
+        "render/main_opaque_pass_2d/vertex_shader_invocations": {
+          "count": 33749,
+          "max": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0
+        },
+        "render/main_transparent_pass_2d/clipper_invocations": {
+          "count": 33749,
+          "max": 132.0,
+          "p50": 116.0,
+          "p95": 132.0,
+          "p99": 132.0
+        },
+        "render/main_transparent_pass_2d/clipper_primitives_out": {
+          "count": 33749,
+          "max": 132.0,
+          "p50": 116.0,
+          "p95": 132.0,
+          "p99": 132.0
+        },
+        "render/main_transparent_pass_2d/elapsed_cpu": {
+          "count": 33749,
+          "max": 1.9158140000000001,
+          "p50": 0.017182,
+          "p95": 0.049893,
+          "p99": 0.065232
+        },
+        "render/main_transparent_pass_2d/elapsed_gpu": {
+          "count": 33749,
+          "max": 0.275456,
+          "p50": 0.02048,
+          "p95": 0.089088,
+          "p99": 0.1024
+        },
+        "render/main_transparent_pass_2d/fragment_shader_invocations": {
+          "count": 33749,
+          "max": 785275.0,
+          "p50": 760244.0,
+          "p95": 785248.0,
+          "p99": 785275.0
+        },
+        "render/main_transparent_pass_2d/vertex_shader_invocations": {
+          "count": 33749,
+          "max": 264.0,
+          "p50": 232.0,
+          "p95": 264.0,
+          "p99": 264.0
+        },
+        "render/upscaling/elapsed_cpu": {
+          "count": 33749,
+          "max": 1.249948,
+          "p50": 0.0042780000000000006,
+          "p95": 0.01061,
+          "p99": 0.016962
+        },
+        "render/upscaling/elapsed_gpu": {
+          "count": 33749,
+          "max": 0.223232,
+          "p50": 0.012288,
+          "p95": 0.043008,
+          "p99": 0.052224
+        },
+        "started_load_count": {
+          "count": 41380,
+          "max": 45.0,
+          "p50": 45.0,
+          "p95": 45.0,
+          "p99": 45.0
+        }
+      },
+      "wall_frame_ms": {
+        "count": 41380,
+        "max": 51.514737,
+        "p50": 8.522982,
+        "p95": 12.291,
+        "p99": 16.518167000000002
+      },
+      "warmup_frames_excluded": 60
+    }
+  },
+  "loads": [
+    {
+      "course_index": 1,
+      "elapsed_s": 360.002253073,
+      "load_ms": 273.88681399999996
+    },
+    {
+      "course_index": 2,
+      "elapsed_s": 720.008835082,
+      "load_ms": 312.042347
+    },
+    {
+      "course_index": 3,
+      "elapsed_s": 1080.040243021,
+      "load_ms": 534.5988590000001
+    },
+    {
+      "course_index": 4,
+      "elapsed_s": 1440.003525008,
+      "load_ms": 543.0357730000001
+    },
+    {
+      "course_index": 5,
+      "elapsed_s": 1800.000750149,
+      "load_ms": 434.37314399999997
+    },
+    {
+      "course_index": 6,
+      "elapsed_s": 2160.01003231,
+      "load_ms": 226.782789
+    },
+    {
+      "course_index": 7,
+      "elapsed_s": 2520.003841548,
+      "load_ms": 330.379056
+    },
+    {
+      "course_index": 8,
+      "elapsed_s": 2880.003219329,
+      "load_ms": 235.323126
+    },
+    {
+      "course_index": 9,
+      "elapsed_s": 3240.003074772,
+      "load_ms": 265.31829
+    }
+  ],
+  "raster_workers_observed": 6,
+  "thermal_samples": 121,
+  "gpu_observations": {
+    "temperature_C": {
+      "min": 46.0,
+      "max": 52.0
+    },
+    "power_W": {
+      "min": 54.27,
+      "max": 81.9
+    },
+    "power_limit_W": {
+      "min": 370.0,
+      "max": 370.0
+    },
+    "graphics_clock_MHz": {
+      "min": 750.0,
+      "max": 1410.0
+    }
+  },
+  "cpu_temperature_C": {
+    "Tccd1": {
+      "min": 51.0,
+      "max": 73.0
+    },
+    "Tctl": {
+      "min": 52.5,
+      "max": 70.25
+    }
+  },
+  "earlier_failures_retained": [
+    "native-performance-rc3.json: slow first-lap segments under overlapping probes.",
+    "native-delivered-short-profile.json: mixed one-minute delivered RC3 course samples.",
+    "native-rc3-five-minute-attempts.json: standalone Highway probes later rejected because ordinary result handling paused simulation; subsequent MEDLY aborted, remaining courses unrun. Valid short-tour failures and the native pool regression are separate."
+  ],
+  "limitations": [
+    "This is the lowest tested physical machine, not a proven lower hardware minimum.",
+    "No exclusive desktop focus, original Windows runtime parity, other OS/GPU or physical-controller certification claimed.",
+    "GPU descriptor bytes exclude swapchains and opaque driver memory; RSS and allocator peak are separate.",
+    "Cold/warm file-cache probes do not establish shader-cache hit rates.",
+    "Global/framework exit retention is nonzero; see separate Heaptrack receipt.",
+    "RSS is sampled once per second and can miss brief transients; allocator peaks are measured separately."
+  ]
+}

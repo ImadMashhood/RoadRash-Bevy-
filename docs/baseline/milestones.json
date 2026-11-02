@@ -48,9 +48,9 @@
         "G3"
       ],
       "requires": "Required native-only functional manifest closed in Part 19",
-      "blocking_unknowns": [
-        "Known missing controls, actor/frontend/media coverage and required functional gaps"
-      ]
+      "blocking_unknowns": [],
+      "verification_status": "required Part 19 technical scenarios passed",
+      "evidence": "docs/functional-manifest.json"
     },
     {
       "id": "G4",
@@ -70,9 +70,11 @@
         "G3F"
       ],
       "requires": "Native-only functional/UI/verification/packaging acceptance (Parts 19\u201322), with no enhancement prerequisite",
-      "blocking_unknowns": [
-        "Supported physical hardware coverage"
-      ]
+      "blocking_unknowns": [],
+      "tested_hardware_scope": "Fedora 44 / Ryzen 5 3600 / RTX 3080 only; no lower minimum or other platform certified",
+      "verification_status": "passed for documented native scope",
+      "acceptance_status": "awaiting_project_owner_acceptance",
+      "evidence": "docs/evidence/release-signoff.json"
     },
     {
       "id": "G6",

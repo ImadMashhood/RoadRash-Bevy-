@@ -1,0 +1,18 @@
+{
+  "outcome": "passed",
+  "tool": "heaptrack 1.5.0, Fedora 44 RPM; package digests/signatures verified",
+  "source_revision": "0c9a544bab00c90b96fb924cb85dc1972411ee0e",
+  "duration_s": 60.39,
+  "source_courses": 5,
+  "course_laps": 2,
+  "peak_heap_display": "460.46M",
+  "peak_rss_with_profiler_display": "1.09G",
+  "allocation_calls": 19411578,
+  "unreleased_at_process_exit_display": "962.47K",
+  "suppressed_global_library_allocations_display": "162.26K",
+  "largest_callsite": "Palette.rgba during RiderAssets.load / SourceAssets construction",
+  "scope": "Allocator interception across startup, native graphics/audio asset loading and two five-course tours. Audio output was disabled. GPU driver allocations and instrumentation RSS are separate. Rust symbols are partially mangled; no exact per-field heap attribution is claimed.",
+  "exit_retention_note": "The retained-allocation stacks include Bevy reflection OnceLock type metadata and driver/global caches. Nonzero unreleased-at-exit allocations are reported, not described as zero leaks. Source-scene weak-owner and warmed resource-count checks are separate evidence.",
+  "failed_probe": "The first wrapper invocation could not preload from a path containing spaces; it is excluded. The signed profiler and executable were relocated to a private space-free path before this successful trace.",
+  "sampled_peak_heap_bytes": 458139736
+}

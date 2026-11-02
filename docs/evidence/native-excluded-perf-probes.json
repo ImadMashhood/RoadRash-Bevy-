@@ -1,0 +1,30 @@
+{
+  "outcome": "excluded",
+  "probes": [
+    {
+      "binary_sha256": "ed62b072b86bd286a49684a98b394a406a206b8637127695b61e9b62de2cb57e",
+      "duration_s": 320.178096298,
+      "simulation_seconds": 91.06666666666666,
+      "paused_frames": 17805,
+      "status": "rejected",
+      "reason": "Ordinary result coordinator paused the single-course session while benchmark timer kept running. Not accepted as live-race performance."
+    },
+    {
+      "binary_sha256": "1c02e7700d3fb5b516dd8fdbd5c41c9d9a444c7dc312c73ccca2df0b1dc03035",
+      "duration_s": 320.212462043,
+      "simulation_seconds": 91.06666666666666,
+      "paused_frames": 21903,
+      "status": "rejected",
+      "reason": "Ordinary result coordinator paused the single-course session while benchmark timer kept running. Not accepted as live-race performance."
+    },
+    {
+      "binary_sha256": "c744f04d7a18c636371e5147ce43210c5c8a7ec50ec800aa2b6dc5e815f5a0c8",
+      "duration_s": 320.198378804,
+      "simulation_seconds": 53.78333333333333,
+      "paused_frames": 26538,
+      "status": "rejected",
+      "reason": "Ordinary result coordinator paused the single-course session while benchmark timer kept running. Not accepted as live-race performance."
+    }
+  ],
+  "workaround": "Use --frontend off --smoke-frames 1000000 for a standalone benchmark. This disables the result-session coordinator while retaining the native HUD/raster, matching the hour tour after its first transition. The wall timer ends at320s long before the frame guard. Liveness and pause checks must still pass."
+}

@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "gate": "G5",
+  "status": "awaiting_project_owner_acceptance",
+  "acceptance_owner": "Project owner",
+  "owner_decision": null,
+  "owner_signature": null,
+  "owner_accepted_at": null,
+  "technical_verification": "passed for the documented native Fedora configuration; owner decision pending",
+  "source_revision": "234337749774a5a5a6d3fc9cafa88b9c1d55f3dd",
+  "release_tag": "native-functional-2026-11-01-rc4",
+  "archive_sha256": "02821ad359c978cebf82350e62d79bafddc159e945177ef47e694d56162d3f11",
+  "release_url": "https://github.com/ImadMashhood/RoadRash-Bevy-/releases/tag/native-functional-2026-11-01-rc4",
+  "known_issues": "../RELEASE_NOTES.md",
+  "criteria": [
+    {
+      "id": "launch",
+      "agent_verification": "passed for documented scope",
+      "evidence": "native-package-sandbox.json",
+      "owner_acceptance": "pending"
+    },
+    {
+      "id": "content",
+      "agent_verification": "passed for documented scope",
+      "evidence": "native-render-matrix.json",
+      "owner_acceptance": "pending"
+    },
+    {
+      "id": "career",
+      "agent_verification": "passed for documented scope",
+      "evidence": "native-packaged-career.json",
+      "owner_acceptance": "pending"
+    },
+    {
+      "id": "stability",
+      "agent_verification": "passed for documented scope",
+      "evidence": "native-performance.json",
+      "owner_acceptance": "pending"
+    },
+    {
+      "id": "performance",
+      "agent_verification": "passed for documented scope",
+      "evidence": "native-performance.json",
+      "owner_acceptance": "pending"
+    },
+    {
+      "id": "import",
+      "agent_verification": "passed for documented scope",
+      "evidence": "parts-01-03.md",
+      "owner_acceptance": "pending"
+    },
+    {
+      "id": "privacy",
+      "agent_verification": "passed for documented scope",
+      "evidence": "native-download-rc4.json",
+      "owner_acceptance": "pending"
+    },
+    {
+      "id": "fidelity",
+      "agent_verification": "passed for documented scope",
+      "evidence": "native-regression.json",
+      "owner_acceptance": "pending"
+    }
+  ],
+  "enhancement_production_allowed": false,
+  "procedure": "Review exact candidate, checksums, guide, scope/known issues and receipts; record an explicit owner accept/reject decision for this artifact. Reopen required scenarios if a blocking defect is found."
+}
