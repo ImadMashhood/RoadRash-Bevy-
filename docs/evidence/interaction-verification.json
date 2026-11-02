@@ -1,0 +1,138 @@
+{
+  "schema_version": 1,
+  "verified_at_utc": "2026-11-02T04:24:49.036092+00:00",
+  "source_revision": "5a9c53b8f6c702310b8a912165453be3ae70bf08",
+  "outcome": "failed_accuracy_verification",
+  "production_engine_changed": false,
+  "native_observations": {
+    "total": 844,
+    "matched": 838,
+    "diverged": 6
+  },
+  "comparison": {
+    "outcome": "failed",
+    "reference_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+    "reference_dirty_paths": [
+      "src/hud.cpp",
+      "tests/hud_test.cpp"
+    ],
+    "compared_reference_sources_clean": true,
+    "native_library_sha256": "f530ae9ce4ce031cea19ce022fde138f2a3fd77a52d01fc82cdce148e472fb51",
+    "executable_sha256": "73d7f9744b5b1a9482b3909950cdf3fe34119fe13d023b031e9c6739a60f18a2",
+    "checks": [
+      {
+        "family": "motion",
+        "rows": 108,
+        "native_rows": 108,
+        "outcome": "passed",
+        "mismatches": 0
+      },
+      {
+        "family": "damage",
+        "rows": 35,
+        "native_rows": 35,
+        "outcome": "passed",
+        "mismatches": 0
+      },
+      {
+        "family": "attack_timing",
+        "rows": 458,
+        "native_rows": 458,
+        "outcome": "passed",
+        "mismatches": 0
+      },
+      {
+        "family": "crash_entry",
+        "rows": 24,
+        "native_rows": 24,
+        "outcome": "passed",
+        "mismatches": 0
+      },
+      {
+        "family": "damage_transaction",
+        "rows": 210,
+        "native_rows": 210,
+        "outcome": "passed",
+        "mismatches": 0
+      },
+      {
+        "family": "recovery_motion",
+        "rows": 9,
+        "native_rows": 9,
+        "outcome": "failed",
+        "mismatches": 6,
+        "first_divergence": {
+          "index": 0,
+          "native": [
+            -256,
+            1,
+            999,
+            -256
+          ],
+          "rust": [
+            -256,
+            1,
+            1000,
+            0
+          ]
+        }
+      }
+    ],
+    "native_trace_sha256": "8e0713b07c2d0f43e6e3ea12ae7b640b9a17774ca3d614728e89a849d67e9b77",
+    "physical_original_game_compared": false,
+    "scope": "paired motion/damage/attack/crash primitives plus isolated zero-drag longitudinal recovery; complete contacts, fights and multi-tick full recovery remain separate acceptance"
+  },
+  "native_wall": {
+    "outcome": "passed",
+    "building_volumes": 8929,
+    "static_scenery_volumes": 8,
+    "source_factory_tactics_version": 1,
+    "combat_version": 1,
+    "native_contact_ticks": 45,
+    "wall_incidents": 1,
+    "final_speed": 0,
+    "bike_outside_wall": true,
+    "schedules": [
+      "30",
+      "60",
+      "144",
+      "irregular"
+    ],
+    "rendered_hash_equal": true,
+    "state_sha256": "b5cd0b37aee926d0d937a0ec9129a1e7acc544617a6be1bd9e7e24e3b1781d1e",
+    "binary_sha256": "a62475c19446ae1f02d01a8ba69cd4f9bff74879c8655d3441e094bfe7359c9c",
+    "scope": "Controlled native bike/wall geometry and isolated actors; no terminal injection. Twelve-second full-field smoke is not career/performance acceptance."
+  },
+  "focused_rust_tests": {
+    "passed": 103,
+    "failed": 0,
+    "scope": "actions, encounters and population; not a newly executed full-workspace run"
+  },
+  "python_tests": {
+    "passed": 36,
+    "failed": 0
+  },
+  "strict_simulation_clippy": "passed",
+  "finding": {
+    "id": "reverse-recovery-motion",
+    "severity": "required",
+    "first_tick": 1,
+    "native_progress": 999,
+    "rust_progress": 1000,
+    "native_speed": -256,
+    "rust_speed": 0,
+    "root_cause": "recovery::motion_step clamps negative motion.speed before applying actor_delta, and clamps its result again.",
+    "scope": "Isolated dt=1, heading=0, zero-drag longitudinal motion at source crash-throw speeds -256/-80; positive-speed control=5000. This is not a full crash trajectory comparison."
+  },
+  "excluded_probe": {
+    "path": "local/verify-interactions-expanded",
+    "reason": "Invalid new C++ damage harness initialized RiderStats aggregate in the wrong field order. Rejected and rerun with named field assignments; all 210 valid damage cases pass."
+  },
+  "remaining_open": [
+    "Full native contact classifier and impulse production",
+    "Complete fight transactions, target acquisition, chaining and theft",
+    "Full detached rider/bike trajectories and crash-to-remount visual/timing comparison",
+    "Full current native career and release acceptance"
+  ],
+  "g5_accepted": false
+}

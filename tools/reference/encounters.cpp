@@ -58,5 +58,25 @@ int main(int argc,char**argv){try{
             std::cout<<"["<<reason<<","<<speed<<","<<repeat<<","<<(entered?1:0)<<","<<bike.i32(0xec)<<","<<bike.i32(0x20)<<","<<bike.i32(0xf4)<<","<<body.motion.i32(0xec)<<","<<body.motion.i32(0x20)<<","<<body.motion.i32(0xf4)<<","<<int(body.animation.animation)<<"]";
         }
     }
+    std::cout<<"],\"damage_transaction\":[";first=true;
+    for(int reason=0;reason<7;++reason)for(int amount:{0,1,7,32,100})for(int condition:{1,10,100})for(int health:{1,2500}){
+        rr::Race race(route,route,tables,specs[0],75);
+        auto& rider=race.riders()[0];rider.stamina.base=2500;rider.stamina.max=2500;rider.stamina.current=health;rider.stamina.strength=7;rider.bike.i32(0x2f0)=condition;
+        const bool down=race.knock_off(rider,amount,amount+3,reason);
+        if(!first){std::cout<<",";}first=false;
+        std::cout<<"["<<reason<<","<<amount<<","<<condition<<","<<health<<","<<rider.stamina.max<<","<<rider.stamina.current<<","<<rider.bike.i32(0x2f0)<<","<<(down?1:0)<<"]";
+    }
+    std::cout<<"],\"recovery_motion\":[";first=true;
+    // Isolate horizontal motion: fixed dt=1, no impulses/acceleration/drag.
+    // Positive speed is a control, negative speeds are crash-entry throw values.
+    for(int speed:{-256,-80,5000}){
+        rr::Bike body;body.i32(0x18)=1;body.i32(0xec)=speed;body.accel=0;
+        int progress=1000;
+        for(int tick=1;tick<=3;++tick){
+            rr::advance_actor_motion(body,tables,[&](int delta){progress+=delta;});
+            if(!first){std::cout<<",";}first=false;
+            std::cout<<"["<<speed<<","<<tick<<","<<progress<<","<<body.i32(0xec)<<"]";
+        }
+    }
     std::cout<<"]}\n";
 }catch(std::exception& e){std::cerr<<e.what()<<"\n";return 1;}}

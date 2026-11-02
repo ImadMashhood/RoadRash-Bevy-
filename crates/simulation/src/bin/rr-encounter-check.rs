@@ -247,6 +247,67 @@ fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
         out.join("crash_entry-rust.json"),
         serde_json::to_vec(&entries)?,
     )?;
+    let mut transactions = vec![];
+    for reason in 0..7 {
+        for amount in [0, 1, 7, 32, 100] {
+            for condition in [1, 10, 100] {
+                for health in [1, 2500] {
+                    let mut stats = Stats {
+                        health,
+                        ..Stats::default()
+                    };
+                    let mut bike = handling::Bike::new(config.spec(), &config.tables)?;
+                    bike.condition = condition;
+                    stats.hit(reason_damage(amount, reason));
+                    bike.damage(reason_damage(amount + 3, reason).max(0) as u32);
+                    transactions.push(json!([
+                        reason,
+                        amount,
+                        condition,
+                        health,
+                        stats.maximum,
+                        stats.health,
+                        bike.condition,
+                        i32::from(stats.health == 0 || bike.condition == 0)
+                    ]));
+                }
+            }
+        }
+    }
+    std::fs::write(
+        out.join("damage_transaction-rust.json"),
+        serde_json::to_vec(&transactions)?,
+    )?;
+    let mut recovery_motion = vec![];
+    for speed in [-256, -80, 5000] {
+        let mut c = config.clone();
+        c.ground.fill(handling::Ground::flat());
+        c.start_sample = 0;
+        c.tables.drag = [0; 4];
+        let topology = topology::Topology::straight(1000000);
+        let mut location = topology::Location {
+            progress: 1000,
+            height: 20000,
+            ..Default::default()
+        };
+        let mut body = handling::Bike::new(c.spec(), &c.tables)?;
+        body.speed = speed;
+        body.height = 20000;
+        body.distance_q8 = 1000;
+        let law = BodyLaw {
+            drag: 0,
+            contact_drag: 0,
+            ..BodyLaw::default()
+        };
+        for tick in 1..=3 {
+            motion_step(&mut body, &mut location, 0, &c, &topology, &law, None)?;
+            recovery_motion.push(json!([speed, tick, location.progress, body.speed]));
+        }
+    }
+    std::fs::write(
+        out.join("recovery_motion-rust.json"),
+        serde_json::to_vec(&recovery_motion)?,
+    )?;
     let receipt = json!({"outcome":"passed","source_setups":sources,"schedules":runs,"phases_first_observed":phases,"motion_vectors":motion.len(),"damage_vectors":damage.len(),"attack_timing_vectors":timing.len(),"crash_entry_vectors":entries.len(),"scope":"Pinned native public API comparison for motion, damage, attack timing and crash entry; full contact classifier/body-motion parity remains open"});
     std::fs::write(
         out.join("receipt.json"),

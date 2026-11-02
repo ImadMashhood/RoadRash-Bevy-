@@ -38,6 +38,21 @@ setups and detailed traces stay private.
 [Execution receipt](evidence/collision-combat-priority.json) records results and
 scope. These corrections do not close the remaining items below.
 
+## Verification follow-up
+
+- [x] Rerun the 625 existing native observations and the focused gameplay tests.
+- [x] Compare 210 combined stamina/bike-condition damage cases, including nearly
+  depleted stamina/condition and every supported reason code; all match.
+- [x] Compare nine isolated zero-drag longitudinal recovery observations. Three
+  positive-speed controls match, while six backward-motion observations diverge
+  from the first tick. Preserve both the failure and the invalid initial damage
+  probe as separate evidence; do not confuse a harness mistake with engine behavior.
+- [ ] Correct and version negative-speed recovery integration, retain old replay
+  behavior, and rerun the measured counterexamples and complete trajectory cases.
+
+[Verification report](evidence/interaction-verification.md): the overall accuracy
+check **fails**, despite passing damage, attack timing, entry and wall checks.
+
 ## Required collision coverage
 
 - [ ] Compare the complete native contact classifier, not just an overlap box:
