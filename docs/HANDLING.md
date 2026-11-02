@@ -53,3 +53,13 @@ python3 tools/animation/plot_handling.py \
 If using this workspace's shared target directory, substitute `../target/release`. The Python comparison builds separately authored C++ API adapters against the pinned local reference; it does not patch gameplay code. It compares decoded JSON values, so whitespace differences in trace-file hashes are harmless. The scripts stop on the first field mismatch and retain the exact failing rows locally.
 
 The schedules include 1,800 ticks of throttle followed by 600 ticks of brake/coast, left/right steering, all four surfaces, airborne impulses, and combined curves/crests. Four plotted SVGs show representative bikes and integrated speed/lateral/height; the exact schedules live in the tools, not in manually edited graph data. [Authored independent answers](fixtures/riding-regression.json) guard acceleration, the brake equality case and contact timing without commercial files. [Part 9 evidence](evidence/part-09.md) links the measured acceptance metadata.
+
+## Signed motion profile
+
+New native races set `motion_version: 1`. Mounted and detached motion share the
+signed acceleration/contact-drag integrator; backwards travel persists and
+negative-speed braking approaches zero without immediately clipping motion.
+Omitted/profile-0 configurations retain the old arithmetic and canonical replay
+inputs. Unknown versions are rejected. See the
+[scoped native comparison receipt](evidence/gameplay-completion-progress.md);
+these tests do not establish complete collision or coupled-recovery parity.

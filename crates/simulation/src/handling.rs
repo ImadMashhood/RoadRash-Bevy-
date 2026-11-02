@@ -327,6 +327,41 @@ impl Bike {
             ..Self::default()
         })
     }
+    pub fn integrate_source_speed(
+        &mut self,
+        tables: &Tables,
+        surface: usize,
+        drag_coefficient: i32,
+        contact_coefficient: i32,
+    ) {
+        let magnitude = self.speed.saturating_abs();
+        let base = if self.contact == 0 {
+            magnitude >> 2
+        } else {
+            magnitude
+        };
+        let contact = if self.contact == 0 {
+            0
+        } else {
+            ((tables.drag[surface & 3] * magnitude) >> 14) + contact_coefficient
+        };
+        let drag = (drag_coefficient * (base >> 8)) >> 8;
+        let total = drag + contact;
+        let lateral = self.lateral_force.saturating_abs() >> 4;
+        self.drag = total;
+        if self.speed >= 0 {
+            self.acceleration = self.drive - total - lateral;
+            let next = self.speed.wrapping_add(self.acceleration);
+            self.speed = if next < 1 {
+                if self.drive < 1 { 0 } else { 100 }
+            } else {
+                next
+            };
+        } else {
+            self.acceleration = self.drive + (lateral + total).saturating_abs();
+            self.speed = self.speed.wrapping_add(self.acceleration).min(0);
+        }
+    }
     pub fn damage(&mut self, amount: u32) {
         self.condition = self
             .condition
@@ -363,6 +398,19 @@ impl Bike {
         input: Command,
         g: Ground,
         boost_q8: i32,
+        resolve: impl FnOnce(i64, i64) -> Ground,
+    ) {
+        self.step_with_boost_profile(s, t, input, g, boost_q8, 0, resolve);
+    }
+    #[allow(clippy::too_many_arguments)]
+    pub(crate) fn step_with_boost_profile(
+        &mut self,
+        s: &BikeSpec,
+        t: &Tables,
+        input: Command,
+        g: Ground,
+        boost_q8: i32,
+        motion_version: u8,
         resolve: impl FnOnce(i64, i64) -> Ground,
     ) {
         // 60 Hz host bridge: original physics receives dt=1; source scheduler ticks are 60 Hz.
@@ -464,24 +512,28 @@ impl Bike {
         }
         let surface = g.surface(self.lateral);
         self.traction(t, s, surface);
-        let base = if self.contact == 0 {
-            self.speed.abs() >> 2
+        if motion_version == 1 {
+            self.integrate_source_speed(t, surface, t.object[9], t.object[10]);
         } else {
-            self.speed.abs()
-        };
-        let contact_drag = if self.contact == 0 {
-            0
-        } else {
-            ((t.drag[surface] * self.speed.abs()) >> 14) + t.object[10]
-        };
-        self.drag = ((t.object[9] * (base >> 8)) >> 8) + contact_drag;
-        self.acceleration = self.drive - self.drag - (self.lateral_force.abs() >> 4);
-        let next = self.speed.saturating_add(self.acceleration).min(1_000_000);
-        self.speed = if next < 1 {
-            if self.drive < 1 { 0 } else { 100 }
-        } else {
-            next
-        };
+            let base = if self.contact == 0 {
+                self.speed.abs() >> 2
+            } else {
+                self.speed.abs()
+            };
+            let contact_drag = if self.contact == 0 {
+                0
+            } else {
+                ((t.drag[surface] * self.speed.abs()) >> 14) + t.object[10]
+            };
+            self.drag = ((t.object[9] * (base >> 8)) >> 8) + contact_drag;
+            self.acceleration = self.drive - self.drag - (self.lateral_force.abs() >> 4);
+            let next = self.speed.saturating_add(self.acceleration).min(1_000_000);
+            self.speed = if next < 1 {
+                if self.drive < 1 { 0 } else { 100 }
+            } else {
+                next
+            };
+        }
         if s.gears[self.gear].up < self.speed {
             self.gear = (self.gear + 1).min(6);
         } else if self.speed < s.gears[self.gear].down {

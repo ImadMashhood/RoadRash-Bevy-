@@ -1435,6 +1435,76 @@ fn combat_rules_version_is_explicit_and_legacy_encoding_is_unchanged() {
             .unwrap()
             .contains("combat_version")
     );
-    e.rules.combat_version = 2;
+    e.rules.combat_version = 3;
     assert!(Simulation::with_encounters(1, c, e).is_err());
+}
+
+#[test]
+fn recovery_motion_profile_preserves_backwards_travel_and_legacy_hash_inputs() {
+    let c = fixtures::riding();
+    for version in [0, 1] {
+        let mut bike = handling::Bike::new(c.spec(), &c.tables).unwrap();
+        bike.speed = -256;
+        bike.height = 20000;
+        let topology = Topology::straight(100000);
+        let mut at = Location {
+            progress: 1000,
+            height: 20000,
+            ..Default::default()
+        };
+        let law = BodyLaw {
+            motion_version: version,
+            drag: 0,
+            contact_drag: 0,
+            ..Default::default()
+        };
+        motion_step(&mut bike, &mut at, 0, &c, &topology, &law, None).unwrap();
+        assert_eq!(
+            (at.progress, bike.speed),
+            if version == 0 { (1000, 0) } else { (999, -256) }
+        );
+    }
+    assert!(
+        !serde_json::to_string(&BodyLaw::default())
+            .unwrap()
+            .contains("motion_version")
+    );
+    assert!(
+        BodyLaw {
+            motion_version: 2,
+            ..Default::default()
+        }
+        .validate()
+        .is_err()
+    );
+}
+
+#[test]
+fn shallow_building_corner_slides_out_instead_of_trapping_a_slow_bike() {
+    let (c, mut e) = setup(1);
+    e.rules.collision_version = 1;
+    e.seeds[0].speed = 1000;
+    e.seeds[0].lateral = 17000;
+    e.rules.obstacles.push(Obstacle {
+        id: 1,
+        path: 0,
+        progress: 220,
+        half_length: 64,
+        left: 20000,
+        right: 60000,
+        height: 100000,
+        kind: ObstacleKind::Building,
+    });
+    let mut sim = Simulation::with_encounters(1, c, e).unwrap();
+    for _ in 0..120 {
+        sim.step(Command {
+            throttle: true,
+            steer_q15: Some(-10000),
+            ..Default::default()
+        })
+        .unwrap();
+    }
+    assert!(unit(&sim, 1).recovery.bike_location.progress > 300);
+    assert!(rider(&sim, 1).bike.lateral < 20000 - 7680);
+    assert_eq!(unit(&sim, 1).recovery.phase, Phase::Mounted);
 }

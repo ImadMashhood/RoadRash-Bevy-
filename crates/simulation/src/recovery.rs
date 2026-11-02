@@ -78,6 +78,8 @@ impl Impact {
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(deny_unknown_fields)]
 pub struct BodyLaw {
+    #[serde(default, skip_serializing_if = "legacy_motion")]
+    pub motion_version: u8,
     pub drag: i32,
     pub contact_drag: i32,
     pub landing: i32,
@@ -86,9 +88,13 @@ pub struct BodyLaw {
     pub gravity: i32,
     pub launch_cap: i32,
 }
+fn legacy_motion(version: &u8) -> bool {
+    *version == 0
+}
 impl Default for BodyLaw {
     fn default() -> Self {
         Self {
+            motion_version: 0,
             drag: 130,
             contact_drag: 70,
             landing: -2560,
@@ -107,6 +113,7 @@ impl BodyLaw {
             Ok(rr_formats::binary::u32le(raw, i * 4)? as i32)
         };
         let value = Self {
+            motion_version: 0,
             drag: w(9)?,
             contact_drag: 70,
             landing: w(12)?,
@@ -119,7 +126,8 @@ impl BodyLaw {
         Ok(value)
     }
     pub fn validate(&self) -> Result<()> {
-        if !(0..=4096).contains(&self.drag)
+        if self.motion_version > 1
+            || !(0..=4096).contains(&self.drag)
             || !(0..=4096).contains(&self.contact_drag)
             || !(-65536..=0).contains(&self.landing)
             || !(0..=65536).contains(&self.suspension)
@@ -374,6 +382,7 @@ impl State {
         // Riderless bike and rider body retain independent motion and animation clocks.
         if self.phase != Phase::Mounting {
             let mut bike_law = BodyLaw {
+                motion_version: law.motion_version,
                 drag: c.tables.object[9],
                 contact_drag: 95,
                 landing: c.spec().landing,
@@ -577,6 +586,28 @@ pub fn actor_delta(speed: i32, acceleration: i32, heading: i32, tables: &Tables)
         lateral,
     )
 }
+/// Fixed-dt counterpart of the source speed integrator for detached actors.
+/// Profile 0 is retained byte-for-byte for historical recordings.
+pub fn recovery_speed_step(motion: &mut Bike, tables: &Tables, surface: usize, law: &BodyLaw) {
+    if law.motion_version == 0 {
+        let speed = motion.speed.max(0);
+        let base = if motion.contact == 0 {
+            speed >> 2
+        } else {
+            speed
+        };
+        let contact_drag = if motion.contact == 0 {
+            0
+        } else {
+            ((i64::from(tables.drag[surface]) * i64::from(speed)) >> 14) as i32 + law.contact_drag
+        };
+        let drag = (law.drag * (base >> 8)) >> 8;
+        motion.acceleration = -(drag + contact_drag);
+        motion.speed = (speed + motion.acceleration).max(0);
+        return;
+    }
+    motion.integrate_source_speed(tables, surface, law.drag, law.contact_drag);
+}
 pub fn motion_step(
     motion: &mut Bike,
     location: &mut Location,
@@ -591,20 +622,7 @@ pub fn motion_step(
         (i64::from(c.start_sample) + (projected >> 8)).clamp(0, c.ground.len() as i64 - 1) as usize;
     let ground = c.ground[sample];
     let surface = ground.surface(location.lateral);
-    let speed = motion.speed.max(0);
-    let base = if motion.contact == 0 {
-        speed >> 2
-    } else {
-        speed
-    };
-    let contact_drag = if motion.contact == 0 {
-        0
-    } else {
-        ((i64::from(c.tables.drag[surface]) * i64::from(speed)) >> 14) as i32 + law.contact_drag
-    };
-    let drag = (law.drag * (base >> 8)) >> 8;
-    motion.acceleration = -(drag + contact_drag);
-    motion.speed = (speed + motion.acceleration).max(0);
+    recovery_speed_step(motion, &c.tables, surface, law);
     let (delta, lateral) = actor_delta(motion.speed, motion.acceleration, heading, &c.tables);
     let old_path = location.path;
     let old_position = location.progress;

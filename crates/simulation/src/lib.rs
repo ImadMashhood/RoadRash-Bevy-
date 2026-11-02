@@ -8,6 +8,8 @@ pub mod combat;
 pub mod encounter;
 pub mod fixtures;
 pub mod handling;
+#[cfg(test)]
+mod native_cases;
 pub mod population;
 pub mod recovery;
 pub mod replay;
@@ -674,7 +676,17 @@ impl Simulation {
                             .map_or_else(BTreeMap::new, |p| p.navigation.clone());
                     }
                     if let (Some(world), Some(config)) = (&mut self.encounter, &self.handling) {
-                        world.movement(&mut self.actors, config, self.tick.0, &mut self.effects)?;
+                        let external_targets = self
+                            .population
+                            .as_ref()
+                            .map_or_else(Vec::new, |p| p.combat_positions(&world.setup.topology));
+                        world.movement(
+                            &mut self.actors,
+                            config,
+                            self.tick.0,
+                            &external_targets,
+                            &mut self.effects,
+                        )?;
                         if let Some(p) = &mut self.population {
                             p.movement(world, config, self.tick.0)?;
                             p.animate(config, self.tick.0 as u32)?;
@@ -797,6 +809,9 @@ impl Simulation {
                             },
                             &mut self.effects,
                         )?;
+                        if let Some(p) = population {
+                            p.combat(world, &self.actors, tick, &mut self.effects);
+                        }
                     }
                 }
                 Stage::Progression => {

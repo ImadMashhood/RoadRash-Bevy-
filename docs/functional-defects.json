@@ -165,10 +165,10 @@
       "id": "reverse-recovery-motion",
       "task": "19.04",
       "severity": "required",
-      "status": "open",
+      "status": "closed",
       "owner": "Implementing agent",
-      "reproducer": "At dt=1 and zero drag, a crash body with speed -256 stays at progress1000 and becomes speed0; the pinned native integrator reaches999 with speed-256. Six negative-motion cases diverge.",
-      "regression": "docs/evidence/interaction-verification.md",
+      "reproducer": "The former six negative-speed failures now match under explicit motion profile 1; legacy profile 0 remains available for old replays.",
+      "regression": "docs/evidence/gameplay-completion-progress.md",
       "acceptance_gate": "G3F"
     }
   ],

@@ -573,6 +573,7 @@ fn build_race(
             eprintln!("handling startup: {e}");
             std::process::exit(2)
         });
+        config.motion_version = 1;
         for (g, p) in config.ground.iter_mut().zip(&course.scene.route.points) {
             g.kind = match course.scene.terrain[p.section as usize][p.local as usize].kind {
                 rr_render::scene::TerrainKind::Wall => 1,
@@ -686,7 +687,18 @@ fn build_race(
         setup
             .validate(&config)
             .expect("shared building collision geometry");
-        setup.rules.combat_version = 1;
+        setup.rules.collision_version = 1;
+        setup.rules.combat_version = 2;
+        let pe = rr_formats::pe::SupportedExe::read(&exe).expect("verified interaction tables");
+        setup.rules.steal_codes = Some(std::array::from_fn(|i| {
+            rr_formats::binary::u32le(
+                pe.read_va(0x464538 + i as u32 * 4, 4)
+                    .expect("steal animation table"),
+                0,
+            )
+            .expect("steal code") as i8
+        }));
+        setup.rules.body.motion_version = 1;
         setup.seeds[0].color = options.rider_color;
         setup.rules.assists.fast_recovery = options.fast_recovery;
         setup.rules.assists.rescue_unreachable = options.rescue_recovery;

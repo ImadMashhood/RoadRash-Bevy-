@@ -101,7 +101,7 @@ impl Definition {
         if version == 0 {
             return Ok(result);
         }
-        if version != 1 {
+        if !(1..=2).contains(&version) {
             return Err(Error::Invalid("combat rules version"));
         }
         let mut player = crate::animation::Player::default();
@@ -109,11 +109,23 @@ impl Definition {
         player.queued = Some(2);
         result.windows.clear();
         let mut start = None;
+        let attack_code = player.code;
+        let mut previous_flags = 0;
         for age in 0..result.duration {
+            // The source fight transaction reads the animation retained by
+            // the preceding think, before this tick's animation advancement.
+            let before_active = age != 0
+                && player.code == attack_code
+                && (previous_flags & 0x600000 != 0 || player.frame == 2);
             let selected = player
                 .advance(lib, 0, u32::from(age))
                 .map_err(|_| Error::Invalid("combat animation timing"))?;
-            let active = selected.is_some_and(|f| f.flags & 0x600000 != 0) || player.frame == 2;
+            previous_flags = selected.as_ref().map_or(0, |f| f.flags);
+            let active = if version == 2 {
+                before_active
+            } else {
+                selected.is_some_and(|f| f.flags & 0x600000 != 0) || player.frame == 2
+            };
             if active && start.is_none() {
                 start = Some(age);
             }
@@ -343,6 +355,8 @@ impl Inventory {
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(deny_unknown_fields)]
 pub struct Swing {
+    #[serde(default, skip_serializing_if = "crate::is_false")]
+    pub repeat: bool,
     pub request: Request,
     pub target: Option<ActorId>,
     pub weapon: Weapon,

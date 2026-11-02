@@ -93,6 +93,7 @@ pub fn library() -> Library {
 }
 pub fn riding() -> Configuration {
     Configuration {
+        motion_version: 0,
         actions: None,
         specs: vec![spec()],
         selected: 1,

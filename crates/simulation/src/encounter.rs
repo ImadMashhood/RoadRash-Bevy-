@@ -96,9 +96,13 @@ fn wall_entry(
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(deny_unknown_fields)]
 pub struct Rules {
+    #[serde(default, skip_serializing_if = "legacy_combat")]
+    pub collision_version: u8,
     /// 0 preserves historical replays; 1 uses measured source attack/crash entry rules.
     #[serde(default, skip_serializing_if = "legacy_combat")]
     pub combat_version: u8,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub steal_codes: Option<[i8; 8]>,
     pub level: u8,
     pub reach: [i32; 4],
     pub damage: [i32; 4],
@@ -124,7 +128,9 @@ impl Rules {
             .and_then(Option::as_ref)
             .map_or(12, |v| v.iter().map(|f| f.duration as u16).sum::<u16>() + 1);
         Ok(Self {
+            collision_version: 0,
             combat_version: 0,
+            steal_codes: None,
             level,
             reach: [5 * 4096, 7 * 4096, 8 * 4096, 5 * 4096],
             damage: [256, 320, 384, 64],
@@ -140,7 +146,11 @@ impl Rules {
     }
     pub fn validate(&self, topology: &Topology) -> Result<()> {
         self.body.validate()?;
-        if self.combat_version > 1
+        if self
+            .steal_codes
+            .is_some_and(|codes| codes.iter().any(|c| !(-1..=51).contains(c)))
+            || self.collision_version > 1
+            || self.combat_version > 2
             || self.level > 4
             || self.stun == 0
             || self.stun > 10000
@@ -522,7 +532,11 @@ impl World {
         }
         indices.into_iter().collect()
     }
-    fn position(&self, id: ActorId, actors: &BTreeMap<ActorId, crate::Actor>) -> Option<Position> {
+    pub(crate) fn position(
+        &self,
+        id: ActorId,
+        actors: &BTreeMap<ActorId, crate::Actor>,
+    ) -> Option<Position> {
         let u = self.units.get(&id)?;
         let bike = &actors.get(&id)?.view.rider.as_ref()?.bike;
         let at = u.recovery.bike_location;
@@ -558,6 +572,7 @@ impl World {
         actors: &mut BTreeMap<ActorId, crate::Actor>,
         c: &Configuration,
         tick: u64,
+        external_targets: &[Position],
         events: &mut Vec<Effect>,
     ) -> Result<()> {
         let positions: BTreeMap<_, _> = self
@@ -651,11 +666,20 @@ impl World {
                 continue;
             }
             u.fighter.stats.regenerate();
+            let mut continuation = None;
             if u.fighter
                 .swing
                 .as_ref()
                 .is_some_and(|s| tick - s.started >= u64::from(s.definition.duration))
             {
+                if self.setup.rules.combat_version == 2 {
+                    continuation = u
+                        .fighter
+                        .swing
+                        .as_ref()
+                        .filter(|s| s.repeat)
+                        .map(|s| s.request);
+                }
                 u.fighter.swing = None;
                 r.pose = animation::Pose::Ride;
             }
@@ -678,6 +702,7 @@ impl World {
             let request = a
                 .input
                 .attack
+                .or(continuation)
                 .or_else(|| a.input.pose.and_then(Request::from_pose));
             let mut command = a.input;
             command.pose = None;
@@ -700,13 +725,32 @@ impl World {
                         .map(|(id, p)| (*id, *p)),
                 );
                 if request.side == Side::Auto {
-                    request.side = if chosen
-                        .is_some_and(|other| positions[id].lateral < positions[&other].lateral)
-                    {
-                        Side::Right
-                    } else {
-                        Side::Left
-                    };
+                    let target_lateral =
+                        chosen.map(|other| positions[&other].lateral).or_else(|| {
+                            (self.setup.rules.combat_version == 2)
+                                .then(|| {
+                                    external_targets
+                                        .iter()
+                                        .filter(|p| {
+                                            positions[id].same_road(**p)
+                                                && (positions[id].progress - p.progress).abs() < 480
+                                        })
+                                        .min_by_key(|p| {
+                                            (
+                                                (positions[id].progress - p.progress).abs(),
+                                                p.progress >= positions[id].progress,
+                                            )
+                                        })
+                                        .map(|p| p.lateral)
+                                })
+                                .flatten()
+                        });
+                    request.side =
+                        if target_lateral.is_some_and(|lateral| positions[id].lateral < lateral) {
+                            Side::Right
+                        } else {
+                            Side::Left
+                        };
                 }
                 let definition = Definition::from_library_version(
                     &c.animation,
@@ -716,6 +760,7 @@ impl World {
                 )?;
                 command.pose = Some(combat::pose(request));
                 u.fighter.swing = Some(Swing {
+                    repeat: false,
                     request,
                     target: chosen,
                     weapon: r.weapon,
@@ -789,16 +834,18 @@ impl World {
         unit.fighter.stats.hit(damage);
         rider.bike.damage(bike_damage.max(0) as u32);
         unit.fighter.hit_count = unit.fighter.hit_count.saturating_add(1);
-        unit.fighter.swing = None;
         let down = force
             || unit.fighter.stats.health == 0
             || rider.bike.condition == 0
             || unit.recovery.phase != Phase::Mounted;
+        if down || self.setup.rules.combat_version < 2 || impact.reason == 4 {
+            unit.fighter.swing = None;
+        }
         if down {
             events.retain(|e| {
                 e.actor != target || !matches!(e.kind, EffectKind::Remount | EffectKind::GetUp)
             });
-            let entered = if self.setup.rules.combat_version == 1 {
+            let entered = if self.setup.rules.combat_version >= 1 {
                 unit.recovery.begin_source(
                     target,
                     &mut rider.bike,
@@ -820,7 +867,7 @@ impl World {
             if entered || self.setup.rules.combat_version == 0 {
                 Self::emit(events, tick, target, None, EffectKind::Crash);
             }
-        } else {
+        } else if self.setup.rules.combat_version < 2 || impact.reason == 4 {
             unit.fighter.stun_until = tick + u64::from(self.setup.rules.stun);
             rider.pose = animation::Pose::HitReact;
             rider.animation.set(&c.animation, 0, 9);
@@ -1007,7 +1054,7 @@ impl World {
                     let unit = self.units.get_mut(&id).unwrap();
                     // Keep the bike outside the actual wall, even below the knock-off
                     // threshold. Resolve every overlapping tick, damage only on entry.
-                    let axis = wall_entry(
+                    let mut axis = wall_entry(
                         Location {
                             progress: previous_progress,
                             ..previous
@@ -1018,6 +1065,20 @@ impl World {
                         width,
                     )
                     .unwrap_or(0);
+                    if self.setup.rules.collision_version == 1 && axis == 0 {
+                        let clearance = (i64::from(rider.bike.lateral) - i64::from(obstacle.left)
+                            + i64::from(width))
+                        .min(
+                            i64::from(obstacle.right) + i64::from(width)
+                                - i64::from(rider.bike.lateral),
+                        );
+                        // Shallow corner clipping must slide out along the facade.
+                        // Stopping forward speed here strands a bike that cannot steer
+                        // until it starts rolling again.
+                        if clearance >= 0 && clearance <= i64::from(width) * 3 / 2 {
+                            axis = 1;
+                        }
+                    }
                     if axis == 1
                         && i64::from(previous.lateral) * 2
                             <= i64::from(obstacle.left) + i64::from(obstacle.right)
@@ -1108,7 +1169,9 @@ impl World {
                 continue;
             };
             let age = tick - swing.started;
-            if swing.resolved || !swing.definition.active(age) {
+            if (swing.resolved && self.setup.rules.combat_version < 2)
+                || !swing.definition.active(age)
+            {
                 continue;
             }
             if !swing.swish {
@@ -1122,10 +1185,29 @@ impl World {
                     .swish = true;
                 Self::emit(events, tick, id, swing.target, EffectKind::Swing);
             }
-            let Some(target) = swing.target.filter(|t| {
+            let selected = if self.setup.rules.combat_version == 2 {
+                let at = self.position(id, actors).unwrap();
+                combat::target(
+                    id,
+                    at,
+                    self.units
+                        .iter()
+                        .filter(|(other, u)| {
+                            **other != id
+                                && u.recovery.phase == Phase::Mounted
+                                && u.recovery.outcome.is_none()
+                        })
+                        .map(|(other, _)| (*other, self.position(*other, actors).unwrap())),
+                )
+            } else {
+                swing.target
+            };
+            let Some(target) = selected.filter(|t| {
                 self.units.contains_key(t)
                     && self.units[t].recovery.phase == Phase::Mounted
                     && self.units[t].recovery.outcome.is_none()
+                    && (self.setup.rules.combat_version < 2
+                        || actors[t].view.rider.as_ref().unwrap().animation.code != 9)
             }) else {
                 continue;
             };
@@ -1147,11 +1229,13 @@ impl World {
                 swing.weapon == animation::Weapon::Fists
                     && swing.request.kind != AttackKind::Kick
                     && tick > self.units[&target].fighter.steal_until
-                    && self.units[&target]
-                        .fighter
-                        .swing
-                        .as_ref()
-                        .is_some_and(|s| s.definition.frame(tick - s.started) < 2)
+                    && self.units[&target].fighter.swing.as_ref().is_some_and(|s| {
+                        if self.setup.rules.combat_version == 2 {
+                            actors[&target].view.rider.as_ref().unwrap().animation.frame < 2
+                        } else {
+                            s.definition.frame(tick - s.started) < 2
+                        }
+                    })
             });
             if let Some((item, kind)) = theft.filter(|_| random(id, "weapon_theft") & 3 == 3)
                 && self.inventory.transfer(item, target, id)
@@ -1159,9 +1243,24 @@ impl World {
                 self.units.get_mut(&id).unwrap().fighter.steal_until = tick + 300;
                 self.units.get_mut(&target).unwrap().fighter.swing = None;
                 self.units.get_mut(&id).unwrap().fighter.swing = None;
+                let victim_code = actors[&target].view.rider.as_ref().unwrap().animation.code;
+                let left = victim_code == c.animation.attacks[0][0][0]
+                    || victim_code == c.animation.attacks[0][1][0];
                 let receiver = actors.get_mut(&id).unwrap().view.rider.as_mut().unwrap();
-                receiver.pose = animation::Pose::Ride;
-                receiver.animation.set(&c.animation, 0, 2);
+                if self.setup.rules.combat_version == 2
+                    && let Some(codes) = self.setup.rules.steal_codes
+                {
+                    receiver.pose = animation::Pose::Steal;
+                    receiver.animation.set(
+                        &c.animation,
+                        0,
+                        codes[kind as usize + usize::from(left) * 4],
+                    );
+                    receiver.animation.queued = Some(2);
+                } else {
+                    receiver.pose = animation::Pose::Ride;
+                    receiver.animation.set(&c.animation, 0, 2);
+                }
                 actors
                     .get_mut(&id)
                     .unwrap()
@@ -1180,10 +1279,28 @@ impl World {
                 victim.weapon = animation::Weapon::Fists;
                 victim.pose = animation::Pose::Ride;
                 victim.animation.set(&c.animation, 0, 2);
+                if self.setup.rules.combat_version == 2 {
+                    victim.animation.queued = Some(2);
+                }
                 Self::emit(events, tick, id, Some(target), EffectKind::Stolen);
                 continue;
             }
             if tick <= self.units[&target].fighter.hit_until {
+                if self.setup.rules.combat_version == 2 && slot == 3 {
+                    let direction = if swing.request.side == Side::Right {
+                        1
+                    } else {
+                        -1
+                    };
+                    let rider = actors
+                        .get_mut(&target)
+                        .unwrap()
+                        .view
+                        .rider
+                        .as_mut()
+                        .unwrap();
+                    rider.bike.lean = (rider.bike.lean + direction * 8000).clamp(-11776, 11776);
+                }
                 continue;
             }
             let damage = self.units[&id]
@@ -1207,6 +1324,18 @@ impl World {
             )?;
             self.units.get_mut(&target).unwrap().fighter.hit_until =
                 tick + u64::from(self.setup.rules.immunity);
+            if self.setup.rules.combat_version == 2
+                && random(id, "attack_chain").is_multiple_of(u32::from(6 - self.setup.rules.level))
+            {
+                self.units
+                    .get_mut(&id)
+                    .unwrap()
+                    .fighter
+                    .swing
+                    .as_mut()
+                    .unwrap()
+                    .repeat = true;
+            }
             let direction = if swing.request.side == Side::Right {
                 1
             } else {
@@ -1223,7 +1352,11 @@ impl World {
                 + direction * if slot == 3 { 11000 } else { 3000 })
             .clamp(-11776, 11776);
             if swing.request.kind == AttackKind::Backhand {
-                target_rider.bike.speed = (target_rider.bike.speed - 300).max(0);
+                target_rider.bike.speed = if self.setup.rules.combat_version == 2 {
+                    target_rider.bike.speed - 300
+                } else {
+                    (target_rider.bike.speed - 300).max(0)
+                };
                 actors
                     .get_mut(&id)
                     .unwrap()

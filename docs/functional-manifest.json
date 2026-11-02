@@ -91,7 +91,7 @@
       "acceptance": "Drive scripted dense, split-route, intersection and simultaneous-incident cases. Required behaviors work with native graphics, deterministic identities and no stale contacts or sirens.",
       "evidence": "docs/evidence/19.04.md",
       "completed_children": [],
-      "reopened_reason": "Owner prioritizes collision/fighting/crash accuracy. Source timing and crash-entry corrections pass; complete contact classification, whole-fight and recovery trajectory comparisons remain open in docs/COLLISION_COMBAT_PRIORITY.md."
+      "reopened_reason": "3,176 scoped native observations now match after signed recovery and combat-profile-2 fixes. Complete contact physics, police parity, dynamic fights/chaining and coupled recovery remain open; see docs/evidence/gameplay-completion-progress.md."
     },
     {
       "id": "19.05",
@@ -519,7 +519,7 @@
       "acceptance": "Leave the release gate open for any unresolved blocking scenario.",
       "evidence": "docs/evidence/22.12.md",
       "completed_children": [],
-      "pending_reason": "G5 is assigned to project owner; technical packaged career/release matrix and evidence complete, owner signature absent.",
+      "pending_reason": "Current gameplay source still needs native interaction/career acceptance, replacement performance/package checks and project-owner G5 acceptance.",
       "reopened_reason": "Building geometry/collision, opponent tactics and interface changed after RC4. Historical RC4 receipts are preserved; candidate-wide revalidation/repackaging is required. See docs/evidence/native-gameplay-fixes.md."
     }
   ],

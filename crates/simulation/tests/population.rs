@@ -1221,3 +1221,42 @@ fn aggressive_rider_closes_to_combat_range_while_passive_rider_keeps_passing_lan
         }
     }
 }
+
+#[test]
+fn automatic_swing_faces_a_police_target_and_does_not_hit_during_windup() {
+    let (c, mut e, mut p) = setup(1);
+    e.rules.combat_version = 2;
+    e.seeds[0].speed = 4000;
+    p.functional_traffic = true;
+    p.spawns.push(user(Kind::Police, 1300, 24000, 0));
+    let mut sim = Simulation::with_population(1, c, e, p).unwrap();
+    // Spawn the cop before asking for a swing; no rider half is available.
+    sim.advance().unwrap();
+    sim.queue(QueuedCommand {
+        tick: sim.tick(),
+        actor: ActorId(1),
+        sequence: 0,
+        input: Command {
+            attack: Some(Request {
+                kind: AttackKind::Kick,
+                side: Side::Auto,
+            }),
+            ..Default::default()
+        },
+    })
+    .unwrap();
+    sim.advance().unwrap();
+    let swing = unit(&sim, 1).fighter.swing.as_ref().unwrap();
+    assert_eq!(swing.request.side, Side::Right);
+    assert!(!swing.definition.active(sim.tick().0 - 1 - swing.started));
+    assert_eq!(
+        sim.population()
+            .unwrap()
+            .agents
+            .values()
+            .next()
+            .unwrap()
+            .hit_count,
+        0
+    );
+}

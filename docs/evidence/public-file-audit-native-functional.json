@@ -1,57 +1,157 @@
 {
   "outcome": "passed",
-  "base_revision": "5a9c53b8f6c702310b8a912165453be3ae70bf08",
+  "base_revision": "5c47d5e6396a7d18b8669f532f774ad2503db127",
   "policy": "UTF-8 implementation, authored fixtures/translations and redacted evidence only; the single binary exception is the OFL Fira Mono font with verified hash and provenance. No game resources, derived source setups, frames, screenshots, raw audio, disc, private logs or executable payloads. Audit excludes itself.",
   "files": [
     {
       "path": "README.md",
-      "bytes": 284126,
-      "sha256": "e618bb413406b755ac55a2d6f728970eefc03f790a7d7745d85921045d3be0ef"
+      "bytes": 284277,
+      "sha256": "5ebcbb4f66e8fbd50785ad8fd8660369aa6d02877e1148f86a72d26be878e3fb"
+    },
+    {
+      "path": "apps/game/src/acceptance.rs",
+      "bytes": 24563,
+      "sha256": "58c99ef46ea49c751d63a5cf0be1971478f0ce57427e59e626ee3bd8f3a414e5"
+    },
+    {
+      "path": "apps/game/src/main.rs",
+      "bytes": 55766,
+      "sha256": "ec98ebeee05d015d30557ee9c930c7135d7b40e9592ed045dddaced23d172f0b"
+    },
+    {
+      "path": "crates/simulation/src/animation.rs",
+      "bytes": 23166,
+      "sha256": "85d74cd695340fc1714cc2fa8570e9749d625056b3e38b0cc00a8fea853751b1"
     },
     {
       "path": "crates/simulation/src/bin/rr-encounter-check.rs",
-      "bytes": 15081,
-      "sha256": "979e126ae6689f787e261e34a0132f4b522d904cba9e9ddd1c13cdc936549b81"
+      "bytes": 19306,
+      "sha256": "1bb487d6cbb732b4c566b81954b41b15c701bfd60de4ee9340e0e0dc7fe7c5ba"
+    },
+    {
+      "path": "crates/simulation/src/combat.rs",
+      "bytes": 12977,
+      "sha256": "a9e92a9908c0f50e11fdc53bffd55b6f9f03f06a500764c48e2fdbecaf6c85f7"
+    },
+    {
+      "path": "crates/simulation/src/encounter.rs",
+      "bytes": 56845,
+      "sha256": "0605866e36f01aef236d4f9060d9f321968d6c4cc7b217fa934a0c7d89eb5906"
+    },
+    {
+      "path": "crates/simulation/src/fixtures.rs",
+      "bytes": 2838,
+      "sha256": "87442c2a292e3c352eaed3235b3bfb46df124459007fa17e9927e788d938108b"
+    },
+    {
+      "path": "crates/simulation/src/handling.rs",
+      "bytes": 23067,
+      "sha256": "08fe489581cf0c5093a37e109422ef8f709cd61c98553c0a69dae80ee01b7338"
+    },
+    {
+      "path": "crates/simulation/src/lib.rs",
+      "bytes": 35817,
+      "sha256": "b044a5612717811e0dca7d92ace0216587d54bfd4e3807f81032d4ce4075be1f"
+    },
+    {
+      "path": "crates/simulation/src/native_cases.rs",
+      "bytes": 10926,
+      "sha256": "c6612ed8f22349b4105f6bef6975cae1945b1e7454d666f594deabfcce4f7a89"
+    },
+    {
+      "path": "crates/simulation/src/population/road_users.rs",
+      "bytes": 36411,
+      "sha256": "c74ffb7b29f8445019520d2504399a8d5a8041719f0592d0ef5e3a2833d3e3bc"
+    },
+    {
+      "path": "crates/simulation/src/recovery.rs",
+      "bytes": 23009,
+      "sha256": "e9da087af1a3ea699817733d958c835ed6c57635be8f0a815978e70ae9683080"
+    },
+    {
+      "path": "crates/simulation/src/riding.rs",
+      "bytes": 11341,
+      "sha256": "6fd1e56fd6e3fcb2e485f345d39e77a7937c048b48d42feaeac1132838642f85"
+    },
+    {
+      "path": "crates/simulation/tests/encounters.rs",
+      "bytes": 47446,
+      "sha256": "bc1e25d20426d9a43f5a8e71256c9b167be135dea0dbadfbc2a36a5708da1d17"
+    },
+    {
+      "path": "crates/simulation/tests/population.rs",
+      "bytes": 38658,
+      "sha256": "552542f667a57a42b255975db3043d21672d0df90c810a09df8348fd5c7316a2"
+    },
+    {
+      "path": "crates/simulation/tests/riding.rs",
+      "bytes": 16954,
+      "sha256": "80fd99556d4fad0b4bbfc39558227ae99ce52026ccaca22ddf194c515de395f1"
     },
     {
       "path": "docs/COLLISION_COMBAT_PRIORITY.md",
-      "bytes": 8041,
-      "sha256": "830d47ab3abb18c1f2ecd3fbd634a4933f8799b11aaae785512d1ac5ff29b3dc"
+      "bytes": 9447,
+      "sha256": "0864e28a5b26fb264e0d7d46d959ff0d6d6be347e8889399969961d553305e7a"
+    },
+    {
+      "path": "docs/COMBAT.md",
+      "bytes": 9311,
+      "sha256": "308441a7f75731f5d54e3d1ee01b98bec9b140a26b44b1dd5ecf8ed8ac85f918"
+    },
+    {
+      "path": "docs/HANDLING.md",
+      "bytes": 7817,
+      "sha256": "0cc5858da01c8d399a6bb88881f7e5e5bc4396476e30c097295882d6bf8666fe"
     },
     {
       "path": "docs/RECOVERY.md",
-      "bytes": 7841,
-      "sha256": "4a6eddc540a164615f051db44d74e9115951ebbe0df8b0a7518e6e85ab879b7f"
+      "bytes": 8009,
+      "sha256": "d8f0666bcdb542a0253286d98eeb864eabcd3f6d5c2eadba90c0f4e0b60e11b9"
     },
     {
-      "path": "docs/evidence/interaction-verification.json",
-      "bytes": 4405,
-      "sha256": "66a9763a32a70ac1720c3f763f7f19a07303b12736f6602eba61cde9936eae9f"
+      "path": "docs/STATUS.md",
+      "bytes": 11268,
+      "sha256": "1534fd3c942ab9b9c63fd0543b4189016560d16f675b72b7dc11dd38c316f6b0"
+    },
+    {
+      "path": "docs/evidence/gameplay-completion-progress.json",
+      "bytes": 34359,
+      "sha256": "58d8c00f0cc2b24d1d163cfa3bcdbcfca96774df10f55e4e814afd6fafdccb63"
+    },
+    {
+      "path": "docs/evidence/gameplay-completion-progress.md",
+      "bytes": 6908,
+      "sha256": "210f5e62681d2ab097a109adde67daf09161b99244d38a50d53ff6980b93408f"
     },
     {
       "path": "docs/evidence/interaction-verification.md",
-      "bytes": 4058,
-      "sha256": "29aa2c0b3a11e35161998bf3cb3246d04eecd21a9fbbb357d55060b207a08305"
+      "bytes": 4346,
+      "sha256": "035aa4d903c79d676d49d09d76359e345ce0387b58ccc7255994498041cfc5a4"
     },
     {
       "path": "docs/functional-defects.json",
-      "bytes": 6283,
-      "sha256": "af2b2120fac22c68298f478f62b6d672420749dd945cf8e35dd59ed77b9920c0"
+      "bytes": 6238,
+      "sha256": "b9727e10bd3faa085362f583f2d169e47ad9a890e3ce55018ff7ee37befab9ef"
+    },
+    {
+      "path": "docs/functional-manifest.json",
+      "bytes": 23307,
+      "sha256": "448832d10292415c5f7270f2c696b9c7a8ec66ec1649155cd72bfe766131c563"
     },
     {
       "path": "tools/reference/check_encounters.py",
-      "bytes": 3671,
-      "sha256": "010fc550344cfcef9b9d28343a092d57e68ff586accae6afa95a4b744197e90f"
+      "bytes": 4737,
+      "sha256": "4d8d601727da173822c1a65f6b72e77e93c7e5621f1467d2d84efa7707203c56"
     },
     {
       "path": "tools/reference/encounters.cpp",
-      "bytes": 5332,
-      "sha256": "54a807ab81da5ea80194bb1be727649374341acfe6af9b91049ffdebba502b12"
+      "bytes": 10992,
+      "sha256": "35941c395b74bc01568af0f8c42cc64949055d8c0cb026ffa51b319b6ed5a590"
     },
     {
-      "path": "tools/test_encounter_comparison.py",
-      "bytes": 1509,
-      "sha256": "616a808c5ce109e713569d2a30ca451120d62875bc2dce099486ebcf7e96bff2"
+      "path": "tools/verification/gameplay_fixes.py",
+      "bytes": 5680,
+      "sha256": "8ad3ee45ad3e2746d57b4bd909b78e3c9dd90000801e91b1bd95c1f283d290a9"
     }
   ]
 }

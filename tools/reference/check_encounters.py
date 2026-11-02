@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Compare narrow combat/recovery primitives; does not claim full race parity."""
+"""Compare scoped native motion, combat and recovery handlers; no full race parity claim."""
 import argparse
 import hashlib
 import json
@@ -37,17 +37,26 @@ def main():
     if d==o or d in o.parents or o in d.parents: raise ValueError('Output overlaps source')
     o.mkdir(parents=True,exist_ok=True)
     subprocess.run([str((a.rust/'rr-encounter-check').resolve()),str(d),str(o)],check=True)
+    # Diagnostic-only access shim. No native source/library is edited; only
+    # access labels change in a private copy of the declaration header.
+    overlay=o/'probe-include';overlay.mkdir(exist_ok=True)
+    header=(a.source/'src/race.hpp').read_text()
+    if header.count('  private:')!=1: raise ValueError('Reference declaration layout changed')
+    (overlay/'race.hpp').write_text(header.replace('  private:','  public:'))
     binary=o/'native-encounters'
-    subprocess.run([os.environ.get('CXX','g++'),'-O2','-std=c++20','-Wall','-Wextra','-Werror','-I',str(a.source/'src'),'tools/reference/encounters.cpp',str(a.native/'librr-resource.a'),str(a.native/'jpeg-scalar/build/libjpeg.a'),str(a.native/'freetype/build/libfreetype.a'),'-lSDL3','-pthread','-o',str(binary)],check=True)
+    subprocess.run([os.environ.get('CXX','g++'),'-O2','-std=c++20','-Wall','-Wextra','-Werror','-I',str(overlay),'-I',str(a.source/'src'),'tools/reference/encounters.cpp',str(a.native/'librr-resource.a'),str(a.native/'jpeg-scalar/build/libjpeg.a'),str(a.native/'freetype/build/libfreetype.a'),'-lSDL3','-pthread','-o',str(binary)],check=True)
     reference=subprocess.check_output([str(binary),str(d)])
     (o/'native.json').write_bytes(reference)
     expected=json.loads(reference)
+    native_env=os.environ.copy()
+    native_env.update(RR_NATIVE_DATA=str(d),RR_NATIVE_EXPECTED=str(o/'native.json'),RR_NATIVE_OUTPUT=str(o),CARGO_TARGET_DIR=str(a.rust.resolve().parent))
+    subprocess.run(['cargo','test','--locked','-p','rr-simulation','native_cases::native_','--','--ignored'],env=native_env,check=True)
     checks=[]
-    for name in ['motion','damage','attack_timing','crash_entry','damage_transaction','recovery_motion']:
+    for name in ['motion','damage','attack_timing','crash_entry','damage_transaction','recovery_motion','recovery_drag','fight_impact','strike_transactions','weapon_theft']:
         result=json.loads((o/f'{name}-rust.json').read_bytes())
         checks.append(compare_cases(name,expected[name],result))
     outcome='passed' if all(row['outcome']=='passed' for row in checks) else 'failed'
-    receipt={'outcome':outcome,'reference_revision':revision,'reference_dirty_paths':dirty,'compared_reference_sources_clean':True,'native_library_sha256':hashlib.sha256((a.native/'librr-resource.a').read_bytes()).hexdigest(),'executable_sha256':hashlib.sha256((d/'ROADRASH.EXE').read_bytes()).hexdigest(),'checks':checks,'native_trace_sha256':hashlib.sha256(reference).hexdigest(),'physical_original_game_compared':False,'scope':'paired motion/damage/attack/crash primitives plus isolated zero-drag longitudinal recovery; complete contacts, fights and multi-tick full recovery remain separate acceptance'}
+    receipt={'outcome':outcome,'reference_revision':revision,'reference_dirty_paths':dirty,'compared_reference_sources_clean':True,'probe_access_shim':'Private header copy exposes native handlers for diagnostic calls; declaration layout and linked native library unchanged.','native_library_sha256':hashlib.sha256((a.native/'librr-resource.a').read_bytes()).hexdigest(),'executable_sha256':hashlib.sha256((d/'ROADRASH.EXE').read_bytes()).hexdigest(),'checks':checks,'native_trace_sha256':hashlib.sha256(reference).hexdigest(),'physical_original_game_compared':False,'scope':'paired motion/damage/attack/crash primitives, signed longitudinal recovery and drag, first-hit race timing, isolated strikes and theft transactions; complete contact physics, dynamic fights, police and coupled recovery remain separate acceptance'}
     (o/'comparison.json').write_text(json.dumps(receipt,indent=2)+'\n')
     print(json.dumps(receipt))
     if outcome != 'passed':

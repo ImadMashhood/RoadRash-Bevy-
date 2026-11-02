@@ -2,7 +2,7 @@
 
 **Active gameplay priority: [collision, fighting and crash accuracy](docs/COLLISION_COMBAT_PRIORITY.md).** This gate comes before additional presentation/enhancement work and the architecture report. It tracks native expected/actual comparisons and keeps unverified mechanics open.
 
-**Latest verification: [838 native observations match; 6 recovery-motion observations diverge](docs/evidence/interaction-verification.md).** Backward crash motion is clipped on the next tick. The interaction-accuracy gate remains open.
+**Latest verification: [3,176 native observations match](docs/evidence/gameplay-completion-progress.md).** Signed recovery/drag, full strike timing, damage/immunity and weapon-theft transactions are corrected. Complete contact physics, police parity, recovery trajectories and current career/release acceptance remain open.
 
 > **Current implementation:** 3D is deferred. The active target is the classic game in Rust/Bevy using separate bounded format readers, a renderer-independent simulation, and a 2D presentation plugin. See [implementation status](docs/STATUS.md), [build instructions](docs/GETTING_STARTED.md), and [architecture](docs/ARCHITECTURE.md). The detailed roadmap below includes future preparation; those items do not expand the current scope.
 
@@ -12,7 +12,7 @@ A Rust and Bevy recreation of PC Road Rash with deterministic gameplay, bounded 
 
 The [published Linux RC4](https://github.com/ImadMashhood/RoadRash-Bevy-/releases/tag/native-functional-2026-11-01-rc4) is historical and does not contain these fixes. Its earlier career/performance receipts apply to that immutable build. The old unattended career driver fails against the changed physics/AI; this failure is recorded rather than reusing its old pass. [Player guide](docs/PLAYER_GUIDE.md), [known limitations](docs/RELEASE_NOTES.md), [open release gate](docs/evidence/release-signoff.json).
 
-Completed phases are collapsed individually below, with their detailed checked children and linked receipts preserved. Part 22 stays expanded until the owner accepts the exact RC4 artifact. Enhancement production follows accepted G5 and the Part 23 mod contracts; all current acceptance uses native assets.
+Completed phases are collapsed individually below, with their detailed checked children and linked receipts preserved. Parts 19, 21 and 22 retain their reopened acceptance checkboxes; Part 22 needs a verified replacement candidate and owner acceptance. Enhancement production follows accepted G5 and the Part 23 mod contracts; all current acceptance uses native assets.
 
 Run the current source-course view after local import/conversion:
 

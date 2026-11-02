@@ -1,4 +1,6 @@
-# Interaction verification: overall accuracy check fails
+# Historical interaction verification: six recovery failures
+
+**Superseded for the six signed-motion failures by the [new correction report](gameplay-completion-progress.md).** This receipt preserves the original failed run; current scoped comparison exits zero with 3,176 matches. Complete interaction acceptance remains open.
 
 Verification of source revision `5a9c53b8f6c702310b8a912165453be3ae70bf08`
 confirms a remaining crash-motion defect. **838 of 844 native observations
@@ -58,7 +60,7 @@ python3 tools/reference/check_encounters.py \
   --data local/cdrom/ROADRASH --output local/new-expanded-verification
 ```
 
-**Expected current result: exit 1**, with `comparison.json` reporting six
+**Historical result at the stated revision: exit 1**, with `comparison.json` reporting six
 `recovery_motion` mismatches and the other five families passing. The test
 fixture uses explicit named C++ stamina assignments: an earlier new probe used
 an incorrect aggregate field order and was excluded, not reported as an engine

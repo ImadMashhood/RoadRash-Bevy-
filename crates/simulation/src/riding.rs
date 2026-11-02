@@ -8,6 +8,8 @@ use std::path::Path;
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct Configuration {
+    #[serde(default, skip_serializing_if = "legacy_motion")]
+    pub motion_version: u8,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub actions: Option<crate::actions::Config>,
     pub specs: Vec<BikeSpec>,
@@ -17,13 +19,17 @@ pub struct Configuration {
     pub ground: Vec<Ground>,
     pub start_sample: u32,
 }
+fn legacy_motion(version: &u8) -> bool {
+    *version == 0
+}
 impl Configuration {
     pub fn validate(&self) -> Result<()> {
         self.tables.validate()?;
         if let Some(actions) = self.actions {
             actions.validate()?;
         }
-        if self.specs.is_empty()
+        if self.motion_version > 1
+            || self.specs.is_empty()
             || self.specs.len() > 64
             || self.ground.is_empty()
             || self.ground.len() > 1_000_000
@@ -75,6 +81,7 @@ impl Configuration {
     ) -> std::result::Result<Self, Box<dyn std::error::Error>> {
         let exe = std::fs::read(data.join("ROADRASH.EXE"))?;
         let config = Self {
+            motion_version: 0,
             actions: None,
             specs: BikeSpec::read(&std::fs::read(data.join("DATA/BIKESPEC.RSC"))?)?,
             selected,
@@ -222,7 +229,7 @@ impl Rider {
         if self.pose == Pose::GetUp && self.animation.code == 37 {
             self.pose = Pose::Stand;
         }
-        if self.pose == Pose::Remount && self.animation.code == 2 {
+        if matches!(self.pose, Pose::Remount | Pose::Steal) && self.animation.code == 2 {
             self.pose = Pose::Ride;
         }
         if let Some(f) = f {
@@ -269,10 +276,15 @@ impl Rider {
             }
             _ => 256,
         };
-        self.bike
-            .step_with_boost(c.spec(), &c.tables, input, ground, boost, |old, new| {
-                c.swept_ground(old, new)
-            });
+        self.bike.step_with_boost_profile(
+            c.spec(),
+            &c.tables,
+            input,
+            ground,
+            boost,
+            c.motion_version,
+            |old, new| c.swept_ground(old, new),
+        );
         Ok(())
     }
 }

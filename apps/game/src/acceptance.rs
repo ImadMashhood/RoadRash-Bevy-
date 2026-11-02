@@ -380,15 +380,7 @@ pub(super) fn drive(
             (
                 solid,
                 blocked,
-                (*lane
-                    - (center * 256
-                        + if bike.lateral < center * 256 {
-                            -116000
-                        } else {
-                            116000
-                        }))
-                .abs()
-                    + (*lane - bike.lateral).abs() / 8,
+                (*lane - bike.lateral).abs() + (*lane - center * 256).abs() / 4,
             )
         })
         .unwrap_or(center * 256);
@@ -411,7 +403,7 @@ pub(super) fn drive(
     let steer = (i64::from(wanted) * 32767 * 4 / (i64::from(bike.speed.max(1000)) * 3))
         .clamp(-32767, 32767) as i16;
     let steer = steer / 2048 * 2048;
-    let steer = if std::env::var_os("RR_DRIVER_MPC").is_some() {
+    let steer = if std::env::var_os("RR_DRIVER_LEGACY").is_none() {
         let mut best = (
             i128::MAX,
             steer,
@@ -434,7 +426,7 @@ pub(super) fn drive(
                 let mut score = i128::from(mode) * 30000;
                 let mut projected_at = at;
                 let mut previous_distance = projected.bike.distance_q8;
-                for ahead in 1..=30 {
+                for ahead in 1..=60 {
                     if projected
                         .step(config, command, (snapshot.tick + ahead) as u32)
                         .is_err()
@@ -540,6 +532,7 @@ pub(super) fn drive(
                     }
                 }
                 score += i128::from(projected.bike.lateral_speed.unsigned_abs()) * 8;
+                score += i128::from((i32::from(candidate) - i32::from(steer)).abs()) * 10;
                 if score < best.0 {
                     best = (score, candidate, command.throttle, command.brake);
                 }

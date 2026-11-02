@@ -430,6 +430,114 @@ impl World {
         }
         Ok(())
     }
+    pub(crate) fn combat_positions(&self, topology: &Topology) -> Vec<combat::Position> {
+        self.agents
+            .values()
+            .filter(|a| !matches!(a.state, AgentState::Hit | AgentState::Recovering))
+            .filter_map(|a| {
+                Some(combat::Position {
+                    route: 1,
+                    branch: topology.paths.get(&a.location.path)?.branch,
+                    path: a.location.path,
+                    progress: topology.projected(a.location)?,
+                    lateral: a.location.lateral,
+                    height: a.location.height,
+                })
+            })
+            .collect()
+    }
+    // Police remain population agents. This adapter shares mounted combat's
+    // active window and strict reach instead of treating a button press as a hit.
+    // Their complete rider physics/stamina model remains a separate parity gate.
+    pub(crate) fn combat(
+        &mut self,
+        e: &Encounters,
+        actors: &BTreeMap<ActorId, Actor>,
+        tick: u64,
+        effects: &mut Vec<combat::Effect>,
+    ) {
+        if !self.setup.functional_traffic || e.setup.rules.combat_version != 2 {
+            return;
+        }
+        for (id, unit) in &e.units {
+            if unit.recovery.phase != Phase::Mounted
+                || unit.recovery.outcome.is_some()
+                || tick < unit.fighter.stun_until
+            {
+                continue;
+            }
+            let Some(swing) = &unit.fighter.swing else {
+                continue;
+            };
+            if !swing.definition.active(tick.saturating_sub(swing.started)) {
+                continue;
+            }
+            let Some(at) = e.position(*id, actors) else {
+                continue;
+            };
+            let slot = combat::weapon_slot(swing.request.kind, swing.weapon);
+            let selected = self
+                .agents
+                .values()
+                .filter(|a| {
+                    a.kind == Kind::Police
+                        && !matches!(a.state, AgentState::Hit | AgentState::Recovering)
+                        && e.setup
+                            .topology
+                            .paths
+                            .get(&a.location.path)
+                            .is_some_and(|p| p.branch == at.branch)
+                })
+                .filter_map(|a| {
+                    let progress = e.setup.topology.projected(a.location)?;
+                    let gap = (progress - at.progress).abs();
+                    (gap < 480).then_some((gap, progress >= at.progress, a.id))
+                })
+                .min();
+            let Some((gap, _, selected)) = selected else {
+                continue;
+            };
+            if e.units.iter().any(|(other, u)| {
+                other != id
+                    && u.recovery.phase == Phase::Mounted
+                    && u.recovery.outcome.is_none()
+                    && e.position(*other, actors)
+                        .is_some_and(|p| at.same_road(p) && (p.progress - at.progress).abs() <= gap)
+            }) {
+                continue;
+            }
+            for cop in self.agents.values_mut().filter(|a| a.id == selected) {
+                let Some(path) = e.setup.topology.paths.get(&cop.location.path) else {
+                    continue;
+                };
+                let Some(progress) = e.setup.topology.projected(cop.location) else {
+                    continue;
+                };
+                let target = combat::Position {
+                    route: 1,
+                    branch: path.branch,
+                    path: cop.location.path,
+                    progress,
+                    lateral: cop.location.lateral,
+                    height: cop.location.height,
+                };
+                if !combat::in_reach(at, target, swing.request.side, slot, e.setup.rules.reach) {
+                    continue;
+                }
+                cop.state = AgentState::Hit;
+                cop.state_since = tick;
+                cop.hit_count += 1;
+                cop.siren = false;
+                self.cues.push(Cue::SirenStop(cop.id));
+                effects.push(Effect {
+                    tick,
+                    actor: *id,
+                    other: None,
+                    kind: EffectKind::Hit,
+                });
+            }
+        }
+    }
     pub(crate) fn contacts(
         &mut self,
         e: &mut Encounters,
@@ -473,7 +581,8 @@ impl World {
                     if self.setup.functional_traffic
                         && unit.recovery.phase == Phase::Mounted
                         && (actors[&rider_id].view.rider.as_ref().unwrap().bike.speed > 1800
-                            || actors[&rider_id].input.attack.is_some())
+                            || (e.setup.rules.combat_version < 2
+                                && actors[&rider_id].input.attack.is_some()))
                     {
                         let cop = self.agents.get_mut(&id).unwrap();
                         cop.state = AgentState::Hit;
@@ -689,6 +798,100 @@ impl World {
                 )
         }) {
             player.terminal_request = Some(Outcome::Arrested);
+        }
+    }
+}
+
+#[cfg(test)]
+mod combat_tests {
+    use super::*;
+    use crate::combat::{AttackKind, Definition, Request, Side, Swing};
+
+    #[test]
+    fn police_strikes_require_active_window_side_and_strict_reach() {
+        for (active, side, lateral, height, expected) in [
+            (false, Side::Right, 18000, 0, false),
+            (true, Side::Left, 18000, 0, false),
+            (true, Side::Right, 20479, 0, true),
+            (true, Side::Right, 20480, 0, false),
+            (true, Side::Right, 18000, 0x3000, false),
+        ] {
+            let c = fixtures::riding();
+            let mut setup = encounter::Setup::authored(&c).unwrap();
+            setup.rules.combat_version = 2;
+            setup.rules.bike_contacts = false;
+            let mut s = Simulation::with_encounters(1, c.clone(), setup).unwrap();
+            let at = s.encounter.as_ref().unwrap().units[&ActorId(1)]
+                .recovery
+                .bike_location;
+            let mut p = World::new(Setup {
+                functional_traffic: true,
+                ..Default::default()
+            });
+            p.spawn(
+                &Spawn {
+                    id: 1,
+                    kind: Kind::Police,
+                    location: Location {
+                        lateral,
+                        height,
+                        ..at
+                    },
+                    family: None,
+                    selector: 0,
+                    subtype: 0,
+                    speed: 0,
+                    direction: 1,
+                },
+                0,
+                &s.encounter.as_ref().unwrap().setup.topology,
+            )
+            .unwrap();
+            let request = Request {
+                kind: AttackKind::Kick,
+                side,
+            };
+            let definition = Definition::from_library_version(
+                &c.animation,
+                request,
+                animation::Weapon::Fists,
+                2,
+            )
+            .unwrap();
+            let age = if active {
+                u64::from(definition.windows[0].start)
+            } else {
+                0
+            };
+            s.encounter
+                .as_mut()
+                .unwrap()
+                .units
+                .get_mut(&ActorId(1))
+                .unwrap()
+                .fighter
+                .swing = Some(Swing {
+                request,
+                target: None,
+                weapon: animation::Weapon::Fists,
+                started: 0,
+                definition,
+                resolved: false,
+                swish: false,
+                repeat: false,
+            });
+            let mut effects = vec![];
+            p.combat(s.encounter.as_ref().unwrap(), &s.actors, age, &mut effects);
+            let cop = p.agents.values().next().unwrap();
+            assert_eq!(
+                cop.state == AgentState::Hit,
+                expected,
+                "{active} {side:?} {lateral} {height}"
+            );
+            assert_eq!(effects.len(), usize::from(expected));
+            p.combat(s.encounter.as_ref().unwrap(), &s.actors, age, &mut effects);
+            assert!(p.agents.values().next().unwrap().hit_count <= 1);
+            assert!(effects.len() <= 1);
         }
     }
 }

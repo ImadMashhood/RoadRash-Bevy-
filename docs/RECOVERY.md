@@ -1,8 +1,8 @@
 # Crash and recovery contract
 
-**Measured open defect:** [current verification](evidence/interaction-verification.md) confirms that subsequent recovery motion clips negative speed on the first tick. Correct entry impulses do not yet produce a matching backward trajectory.
+**Signed-motion correction:** [current verification](evidence/gameplay-completion-progress.md) fixes the former six backward-motion failures. Explicit `motion_version: 1` in handling and the body law shares signed speed/drag integration; all nine original observations and 1,680 drag observations match. Version 0 remains for old recordings. Complete coupled trajectories and state timings remain open.
 
-**Current native rule profile:** `combat_version: 1` preserves signed crash-entry impulses and ignores entry while a crash body is already active, matching the measured C++ entry API. It does not reset the incident, body, elapsed time or animation or emit another crash event. Historical version-0 recordings retain their repeated-impulse/reset policy described below. Full multi-tick trajectory parity remains an [open accuracy gate](COLLISION_COMBAT_PRIORITY.md).
+**Current native rule profile:** `combat_version: 1` and `2` preserve signed crash-entry impulses and ignores entry while a crash body is already active, matching the measured C++ entry API. It does not reset the incident, body, elapsed time or animation or emit another crash event. Historical version-0 recordings retain their repeated-impulse/reset policy described below. Full multi-tick trajectory parity remains an [open accuracy gate](COLLISION_COMBAT_PRIORITY.md).
 
 `recovery.rs` owns linked rider/bike state; `topology.rs` owns validated bidirectional route navigation. Schema 4 serializes every hidden motion, phase, animation, ownership, assist and terminal field. Rendering consumes copies and cannot remove a recovery target. [Combat](COMBAT.md) explains impact producers and [Part 12 acceptance](evidence/part-12.md) records verification.
 

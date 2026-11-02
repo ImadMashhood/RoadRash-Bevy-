@@ -35,6 +35,7 @@ fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
     let config = Configuration::load(data, &route, 1, 50)?;
     let mut setup = Setup::source(&config, &course, &route, &exe, 0, 2)?;
     setup.rules.combat_version = 1;
+    setup.rules.body.motion_version = 1;
     setup.rules.bike_contacts = false;
     setup.rules.obstacles.clear();
     let command = |tick, input| QueuedCommand {
@@ -295,6 +296,7 @@ fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
         body.height = 20000;
         body.distance_q8 = 1000;
         let law = BodyLaw {
+            motion_version: 1,
             drag: 0,
             contact_drag: 0,
             ..BodyLaw::default()
@@ -307,6 +309,58 @@ fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
     std::fs::write(
         out.join("recovery_motion-rust.json"),
         serde_json::to_vec(&recovery_motion)?,
+    )?;
+    let mut drag_cases = vec![];
+    for initial in [-10000, -256, -80, 0, 1200, 5000, 30000] {
+        for contact in [0, 74] {
+            for surface in 0..4 {
+                let mut body = handling::Bike::new(config.spec(), &config.tables)?;
+                body.speed = initial;
+                body.contact = contact;
+                let law = BodyLaw {
+                    motion_version: 1,
+                    ..BodyLaw::default()
+                };
+                for tick in 1..=30 {
+                    recovery_speed_step(&mut body, &config.tables, surface, &law);
+                    drag_cases.push(json!([
+                        initial,
+                        contact,
+                        surface,
+                        tick,
+                        body.speed,
+                        body.acceleration,
+                        body.drag
+                    ]));
+                }
+            }
+        }
+    }
+    std::fs::write(
+        out.join("recovery_drag-rust.json"),
+        serde_json::to_vec(&drag_cases)?,
+    )?;
+    let mut fight_impacts = vec![];
+    for side in 0..2 {
+        for kind in 0..2 {
+            for slot in 0..4 {
+                for level in [0, 4] {
+                    for edge in [-1, 0, 1] {
+                        for gap in [0, 63, 64] {
+                            if slot == 3 && kind == 1 {
+                                continue;
+                            }
+                            let case = [side, kind, slot, level, edge, gap];
+                            fight_impacts.push(fight_impact_case(&config, case)?);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    std::fs::write(
+        out.join("fight_impact-rust.json"),
+        serde_json::to_vec(&fight_impacts)?,
     )?;
     let receipt = json!({"outcome":"passed","source_setups":sources,"schedules":runs,"phases_first_observed":phases,"motion_vectors":motion.len(),"damage_vectors":damage.len(),"attack_timing_vectors":timing.len(),"crash_entry_vectors":entries.len(),"scope":"Pinned native public API comparison for motion, damage, attack timing and crash entry; full contact classifier/body-motion parity remains open"});
     std::fs::write(
@@ -397,4 +451,87 @@ fn authored(out: &std::path::Path) -> std::result::Result<(), Box<dyn std::error
     )?;
     println!("authored schema-4 replay: {}", report.state_sha256);
     Ok(())
+}
+
+fn fight_impact_case(
+    config: &Configuration,
+    case: [i32; 6],
+) -> std::result::Result<serde_json::Value, Box<dyn std::error::Error>> {
+    let [side, kind, slot, level, edge, gap] = case;
+    let mut c = config.clone();
+    c.specs
+        .iter_mut()
+        .find(|s| s.id == c.selected)
+        .unwrap()
+        .condition = 150;
+    c.ground = vec![handling::Ground::flat(); 2000];
+    c.start_sample = 0;
+    let mut e = Setup::authored(&c)?;
+    e.rules.combat_version = 2;
+    e.rules.level = level as u8;
+    e.rules.immunity = ((5 - level) * 6) as u16;
+    e.rules.bike_contacts = false;
+    e.rules.obstacles.clear();
+    e.seeds[0].distance = 1000;
+    let mut target = Seed::player();
+    target.id = ActorId(2);
+    target.distance = 1000 + i64::from(gap);
+    target.lateral =
+        (if side == 1 { 1 } else { -1 }) * ([20480, 28672, 32768, 20480][slot as usize] + edge);
+    e.seeds.push(target);
+    if slot == 1 || slot == 2 {
+        e.inventory.items.insert(
+            WeaponId(1),
+            Item {
+                kind: if slot == 1 {
+                    animation::Weapon::Club
+                } else {
+                    animation::Weapon::Chain
+                },
+                owner: Some(ActorId(1)),
+            },
+        );
+    }
+    let mut sim = Simulation::with_encounters(1, c, e)?;
+    let request = Request {
+        side: if side == 1 { Side::Right } else { Side::Left },
+        kind: if slot == 3 {
+            AttackKind::Kick
+        } else if kind == 1 {
+            AttackKind::Backhand
+        } else {
+            AttackKind::Punch
+        },
+    };
+    let mut hit = -1;
+    for tick in 0..70 {
+        sim.step(Command {
+            attack: (tick == 0).then_some(request),
+            ..Default::default()
+        })?;
+        if sim.encounters().unwrap().units[&ActorId(2)]
+            .fighter
+            .stats
+            .health
+            < 2500
+        {
+            hit = tick;
+            break;
+        }
+    }
+    let snapshot = sim.snapshot();
+    let target = &snapshot.actors[1];
+    let stats = &target.encounter.as_ref().unwrap().fighter.stats;
+    Ok(json!([
+        side,
+        kind,
+        slot,
+        level,
+        edge,
+        gap,
+        hit,
+        stats.maximum,
+        stats.health,
+        target.rider.as_ref().unwrap().bike.condition
+    ]))
 }

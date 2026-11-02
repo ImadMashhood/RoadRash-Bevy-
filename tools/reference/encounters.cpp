@@ -3,7 +3,10 @@
 #include "assets.hpp"
 #include "crash.hpp"
 #include "actor_descriptors.hpp"
-#include "race_setup.hpp"
+namespace rr {
+using AttackCodes=std::array<std::array<std::array<int8_t,4>,2>,2>;
+AttackCodes read_attack_codes(const std::vector<uint8_t>&);
+}
 #include <iostream>
 int main(int argc,char**argv){try{
     if(argc!=2)return 2;
@@ -77,6 +80,59 @@ int main(int argc,char**argv){try{
             if(!first){std::cout<<",";}first=false;
             std::cout<<"["<<speed<<","<<tick<<","<<progress<<","<<body.i32(0xec)<<"]";
         }
+    }
+    std::cout<<"],\"recovery_drag\":[";first=true;
+    for(int initial:{-10000,-256,-80,0,1200,5000,30000})for(int contact:{0,74})for(int surface=0;surface<4;++surface){
+        rr::Bike body;body.i32(0x18)=1;body.i32(0xec)=initial;body.i32(0x150)=130;body.i32(0x154)=70;body.i32(0x160)=contact;
+        for(int tick=1;tick<=30;++tick){rr::integrate_speed(body,tables,surface);
+            if(!first){std::cout<<",";}first=false;
+            std::cout<<"["<<initial<<","<<contact<<","<<surface<<","<<tick<<","<<body.i32(0xec)<<","<<body.accel<<","<<body.i32(0x15c)<<"]";
+        }
+    }
+    std::cout<<"],\"fight_impact\":[";first=true;
+    for(int side=0;side<2;++side)for(int kind=0;kind<2;++kind)for(int weapon=0;weapon<4;++weapon)for(int level:{0,4})for(int edge:{-1,0,1})for(int gap:{0,63,64}){
+        if(weapon==3 && kind==1)continue;
+        rr::Opponent opponent{specs[0],75,0,0,0,1};
+        rr::Race race(route,route,tables,specs[0],75,{opponent},level);
+        race.set_ride_library(&library,&codes);race.set_crash_library(library,crash_config);race.set_ticks(-1);
+        for(int actor=0;actor<2;++actor){auto& r=race.riders()[size_t(actor)];r.ai=false;r.frozen=actor==1;r.stamina.strength=7;r.stamina.base=r.stamina.max=r.stamina.current=2500;
+            r.bike.i32(0x18)=1;r.bike.i32(0xec)=0;r.bike.i32(0x1c)=1000+(actor?gap:0);r.bike.i32(0x28)=actor?(side?1:-1)*(rr::weapon_reach[weapon]*4096+edge):0;r.bike.i32(0x2f0)=150;r.sample=r.previous_sample=3;
+        }
+        race.riders()[0].weapon=weapon==3?0:weapon;
+        int hit=-1;
+        for(int tick=0;tick<70;++tick){race.step(tick==0?(weapon==3?rr::control_kick:(kind?rr::control_backhand:rr::control_punch)):0);
+            if(race.riders()[1].stamina.current<2500){hit=tick;break;}
+        }
+        const auto& t=race.riders()[1];
+        if(!first){std::cout<<",";}first=false;
+        std::cout<<"["<<side<<","<<kind<<","<<weapon<<","<<level<<","<<edge<<","<<gap<<","<<hit<<","<<t.stamina.max<<","<<t.stamina.current<<","<<t.bike.i32(0x2f0)<<"]";
+    }
+    std::cout<<"],\"strike_transactions\":[";first=true;int case_id=0;
+    for(int side=0;side<2;++side)for(int kind=0;kind<2;++kind)for(int weapon=0;weapon<4;++weapon)for(int deadline:{99,100,101})for(int reaction:{0,1})for(int health:{64,2500})for(int condition:{1,150}){
+        if(weapon==3 && kind==1)continue;
+        rr::Opponent opponent{specs[0],75,0,0,0,1};rr::Race race(route,route,tables,specs[0],75,{opponent},0);
+        race.set_ride_library(&library,&codes);race.set_crash_library(library,crash_config);race.set_ticks(100);
+        for(int actor=0;actor<2;++actor){auto& r=race.riders()[size_t(actor)];r.ai=false;r.stamina.strength=7;r.stamina.base=r.stamina.max=2500;r.stamina.current=actor?health:2500;
+            r.bike.i32(0x18)=1;r.bike.i32(0x1c)=1000;r.bike.i32(0x28)=actor?(side?18000:-18000):0;r.bike.i32(0xec)=5000;r.bike.i32(0x2f0)=actor?condition:150;r.bike.i32(0x288)=0;
+            rr::set_animation_with_fallback(r.ride_animation,library.playback[0],actor&&reaction?9:2,100,library.fallback);
+        }
+        auto& a=race.riders()[0];auto& t=race.riders()[1];a.attack.weapon=weapon;a.attack.right=side!=0;a.attack.backhand=kind!=0;t.hit_until=deadline;
+        race.resolve_hit(a,0);
+        if(!first){std::cout<<",";}first=false;
+        std::cout<<"["<<case_id++<<","<<side<<","<<kind<<","<<weapon<<","<<deadline<<","<<reaction<<","<<health<<","<<condition<<","<<t.stamina.max<<","<<t.stamina.current<<","<<t.bike.i32(0x2f0)<<","<<t.bike.i32(0xec)<<","<<t.bike.i32(0x288)<<","<<(t.bike.i32(0x2f4)!=0?1:0)<<","<<int(t.crash_active?t.crash_actor.animation.animation:(t.contact_animation>=0?t.contact_animation:t.ride_animation.animation))<<","<<t.hit_until<<","<<a.bike.i32(0xec)<<","<<a.bike.i32(0x288)<<"]";
+    }
+    std::cout<<"],\"weapon_theft\":[";first=true;
+    for(int side=0;side<2;++side)for(int weapon:{1,2})for(int target_side=0;target_side<2;++target_side)for(int frame:{0,2})for(int deadline:{99,100})for(int bits:{0,3}){
+        rr::Opponent opponent{specs[0],75,0,0,0,1};rr::Race race(route,route,tables,specs[0],75,{opponent},0,0,{},assets.read("ROADRASH.EXE"));
+        race.set_ride_library(&library,&codes);race.set_crash_library(library,crash_config);race.set_ticks(100);race.set_rng_state(bits==3?4:3);
+        auto& a=race.riders()[0];auto& t=race.riders()[1];
+        for(int actor=0;actor<2;++actor){auto& r=race.riders()[size_t(actor)];r.ai=false;r.stamina.strength=7;r.stamina.base=r.stamina.max=r.stamina.current=2500;r.bike.i32(0x1c)=1000;r.bike.i32(0x28)=actor?(side?18000:-18000):0;}
+        a.weapon=0;a.attack.weapon=0;a.attack.right=side!=0;t.weapon=weapon;t.attack.weapon=weapon;t.attack.timer=1;t.steal_until=deadline;
+        rr::set_animation_with_fallback(a.ride_animation,library.playback[0],codes[size_t(side)][0][0],100,library.fallback);
+        rr::set_animation_with_fallback(t.ride_animation,library.playback[0],codes[size_t(target_side)][0][size_t(weapon)],100,library.fallback);t.ride_animation.frame=int8_t(frame);
+        race.resolve_hit(a,0);const bool stolen=a.weapon!=0;
+        if(!first){std::cout<<",";}first=false;
+        std::cout<<"["<<side<<","<<weapon<<","<<target_side<<","<<frame<<","<<deadline<<","<<bits<<","<<a.weapon<<","<<t.weapon<<","<<a.steal_until<<","<<t.stamina.current<<","<<int(a.ride_animation.animation)<<","<<int(t.contact_animation>=0?t.contact_animation:t.ride_animation.animation)<<","<<(stolen?int(a.ride_animation.queued):-99)<<","<<(stolen?int(t.ride_animation.queued):-99)<<"]";
     }
     std::cout<<"]}\n";
 }catch(std::exception& e){std::cerr<<e.what()<<"\n";return 1;}}

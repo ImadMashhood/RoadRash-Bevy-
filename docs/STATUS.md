@@ -1,12 +1,27 @@
 # Implementation status
 
-Parts 01–21 are complete within the declared modern offline/Fedora scope. Part 22's application, launcher/importer, notices, checksum-verified public RC4 and technical acceptance scenarios are complete. **The remaining parent checkbox is 22.12: G5 project-owner acceptance of the delivered candidate.** Its implementation, verification and evidence children are checked; no owner signature is fabricated.
+The game is implemented across the native content, simulation, frontend, career,
+save, media and Linux packaging layers, but **the current game is not complete or
+release-accepted**. Parts 19, 21 and 22 have reopened required acceptance work.
 
-The downloaded package completes the same competitive 67-attempt native career and produces the same 67 replay files as the independently audited reference (268 schedule runs, all 25 course/level pairs, five purchases and nine repairs). The corrected real hour-long run has zero pauses, 3,594 live simulation seconds and four complete warm-course samples plus a full independent Canyon supplement meeting the existing 60 Hz target. Slow first-lap segments and all scope limits are published. UI evidence covers 100 rendered language/layout cases and 133 glyphs. Actual checks include 351 Rust and 33 Python tests; detailed commands and build identities are linked in the receipts.
+The latest [gameplay correction report](evidence/gameplay-completion-progress.md)
+records 3,176 matching native observations for the scoped combat/recovery probes.
+Signed backward recovery, surface drag, strike timing, immunity, kick response,
+backhand transfer and weapon theft have local corrections. A police strike now
+requires the active swing and strict reach; its complete native rider model is
+still absent. Full contact classification and crash-to-remount parity remain open.
+The unattended career has individual wins but has not completed the campaign.
 
-[Download RC4](https://github.com/ImadMashhood/RoadRash-Bevy-/releases/tag/native-functional-2026-11-01-rc4) · [release notes and limits](RELEASE_NOTES.md) · [player guide](PLAYER_GUIDE.md) · [acceptance manifest](functional-manifest.json) · [performance](PERFORMANCE.md) · [pending G5 record](evidence/release-signoff.json).
+The [RC4 download](https://github.com/ImadMashhood/RoadRash-Bevy-/releases/tag/native-functional-2026-11-01-rc4)
+and its 67-attempt career, one-hour performance and package receipts are historical.
+They certify that immutable build only. Current source requires a complete career,
+replacement performance/package checks and project-owner G5 acceptance. See the
+[manifest](functional-manifest.json), [defect register](functional-defects.json) and
+[active detailed checklist](COLLISION_COMBAT_PRIORITY.md).
 
-Enhancement production remains locked until the owner records G5 acceptance. No original Windows runtime parity, certified physical controller, other OS/hardware, full film transcript or human playability review is claimed. Completed roadmap phases are collapsed; Part 22 stays expanded while its owner acceptance remains open.
+Texture production remains deferred until accepted G5. 3D is outside current
+scope. Original Windows runtime comparison remains owner-waived; the native oracle
+is the pinned C++ port with locally supplied original data.
 
 ## Historical Parts 01–18 receipts
 

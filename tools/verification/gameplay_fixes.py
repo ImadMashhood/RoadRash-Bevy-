@@ -38,7 +38,10 @@ def verify(a):
     buildings = [o for o in obstacles if o['kind'] == 'building']
     assert len(buildings) > 1000, 'Native factory did not import building volumes'
     assert record['population']['tactics_version'] == 1
-    assert encounter['rules']['combat_version'] == 1
+    assert encounter['rules']['combat_version'] == 2
+    assert encounter['rules']['collision_version'] == 1
+    assert encounter['rules']['body']['motion_version'] == 1
+    assert record['handling']['motion_version'] == 1
     contact = copy.deepcopy(record)
     e, p = contact['encounter'], contact['population']
     start = contact['handling']['start_sample'] * 256
@@ -85,7 +88,8 @@ def verify(a):
     assert rendered['state_sha256'] == reference['state_sha256']
     receipt = dict(outcome='passed', building_volumes=len(buildings),
                    static_scenery_volumes=sum(o['kind'] == 'solid' for o in obstacles),
-                   source_factory_tactics_version=1, combat_version=1, native_contact_ticks=45,
+                   source_factory_tactics_version=1, combat_version=2, collision_version=1,
+                   motion_version=1, native_contact_ticks=45,
                    wall_incidents=1, final_speed=0, bike_outside_wall=True,
                    schedules=rates, rendered_hash_equal=True,
                    state_sha256=reference['state_sha256'],

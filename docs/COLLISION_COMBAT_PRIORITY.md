@@ -47,11 +47,14 @@ scope. These corrections do not close the remaining items below.
   positive-speed controls match, while six backward-motion observations diverge
   from the first tick. Preserve both the failure and the invalid initial damage
   probe as separate evidence; do not confuse a harness mistake with engine behavior.
-- [ ] Correct and version negative-speed recovery integration, retain old replay
-  behavior, and rerun the measured counterexamples and complete trajectory cases.
+- [x] Correct and version the isolated negative-speed integration failures; all
+  nine counterexamples/controls and 1,680 surface/contact drag observations match.
+- [ ] Compare complete coupled trajectories, gravity, bounce, terrain and all
+  crash-to-remount states; isolated longitudinal results do not close this gate.
 
-[Verification report](evidence/interaction-verification.md): the overall accuracy
-check **fails**, despite passing damage, attack timing, entry and wall checks.
+The [original failed verification](evidence/interaction-verification.md) remains
+as history. The [new correction report](evidence/gameplay-completion-progress.md)
+supersedes its six integration failures. The overall interaction gate stays open.
 
 ## Required collision coverage
 
@@ -123,3 +126,21 @@ check **fails**, despite passing damage, attack timing, entry and wall checks.
   the full native career and replacement-release checks already reopened.
 - [ ] Update Part 19's required defect register and the release gate only after
   these acceptance cases pass. Texture production remains locked behind G5.
+
+## Additional verified corrections
+
+- [x] Compare 252 actual first-hit observations in the native race, including
+  both sides, all attack/equipment variants, level scaling and strict boundaries.
+  Use combat profile 2 to account for the preceding animation state read by fight.
+- [x] Compare 336 direct native strike transactions: immunity boundaries,
+  reaction gate, condition/health damage, signed backhand transfer and kick lean.
+- [x] Compare 64 native theft transactions, including failed rolls, deadlines,
+  actual victim frame, unique ownership and both receiver/victim animation queues.
+- [x] Keep new motion/combat/collision profiles explicit and retain legacy omitted
+  fields and replay behavior.
+- [x] Require active swing/side/reach for population-police melee, and choose
+  automatic swing side from nearby road users when no rider target exists.
+  This adapter does not establish native police stamina/knock-off parity.
+- [x] Regression-test low-speed shallow building-corner lateral escape.
+- [ ] Compare attack chaining through complete native clip loops, dynamic
+  impact retargeting, simultaneous actors and police as full rider combatants.

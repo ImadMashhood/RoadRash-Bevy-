@@ -92,6 +92,7 @@ fn library() -> Library {
 }
 fn config() -> Configuration {
     Configuration {
+        motion_version: 0,
         actions: None,
         specs: vec![spec()],
         selected: 1,
