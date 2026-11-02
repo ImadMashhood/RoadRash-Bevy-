@@ -16,6 +16,7 @@ use std::collections::{BTreeMap, BTreeSet};
 pub enum ObstacleKind {
     Decorative,
     Solid,
+    Building,
     Rail,
     Cliff,
 }
@@ -30,6 +31,67 @@ pub struct Obstacle {
     pub right: i32,
     pub height: i32,
     pub kind: ObstacleKind,
+}
+// Slab intersection with rational comparisons: a complete tick sweep cannot
+// tunnel through a narrow wall, and a diagonal near miss stays a near miss.
+// Axis 0 is longitudinal; axis 1 is lateral. No floating point enters the sim.
+fn wall_entry(
+    from: Location,
+    to: Location,
+    o: &Obstacle,
+    length: i32,
+    width: i32,
+) -> Option<usize> {
+    let starts = [from.progress, i64::from(from.lateral)];
+    let ends = [to.progress, i64::from(to.lateral)];
+    let lows = [
+        o.progress - i64::from(o.half_length) - i64::from(length),
+        i64::from(o.left) - i64::from(width),
+    ];
+    let highs = [
+        o.progress + i64::from(o.half_length) + i64::from(length),
+        i64::from(o.right) + i64::from(width),
+    ];
+    let embedded = (0..2).all(|i| starts[i] > lows[i] && starts[i] < highs[i]);
+    let nearest_axis = if embedded {
+        let along = (starts[0] - lows[0]).min(highs[0] - starts[0]) * 256;
+        let across = (starts[1] - lows[1]).min(highs[1] - starts[1]);
+        usize::from(across < along)
+    } else {
+        0
+    };
+    let mut entry = (0i128, 1i128);
+    let mut exit = (1i128, 1i128);
+    let mut axis = nearest_axis;
+    for i in 0..2 {
+        let delta = i128::from(ends[i]) - i128::from(starts[i]);
+        if delta == 0 {
+            if starts[i] <= lows[i] || starts[i] >= highs[i] {
+                return None;
+            }
+            continue;
+        }
+        let (near, far) = if delta > 0 {
+            (lows[i], highs[i])
+        } else {
+            (highs[i], lows[i])
+        };
+        let denominator = delta.abs();
+        let numerator = |n: i64| (i128::from(n) - i128::from(starts[i])) * delta.signum();
+        let n = (numerator(near), denominator);
+        let f = (numerator(far), denominator);
+        if n.0 * entry.1 > entry.0 * n.1 {
+            entry = n;
+            axis = i;
+        }
+        if f.0 * exit.1 < exit.0 * f.1 {
+            exit = f;
+        }
+        if entry.0 * exit.1 >= exit.0 * entry.1 {
+            return None;
+        }
+    }
+    Some(axis)
 }
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(deny_unknown_fields)]
@@ -97,7 +159,7 @@ impl Rules {
                 || o.half_length <= 0
                 || o.half_length > 1024
                 || o.height < 0
-                || o.height > 1_000_000
+                || o.height > 1_048_576
                 || [o.left, o.right]
                     .iter()
                     .any(|v| v.unsigned_abs() > 256_000_000)
@@ -310,6 +372,10 @@ pub struct World {
     pub(crate) configs: BTreeMap<ActorId, Configuration>,
     #[serde(skip)]
     pub(crate) navigation: BTreeMap<ActorId, crate::topology::Portal>,
+    #[serde(skip)]
+    obstacle_bins: BTreeMap<(u32, i64), Vec<usize>>,
+    #[serde(skip)]
+    building_keys: BTreeMap<u32, u64>,
 }
 impl World {
     pub(crate) fn new(
@@ -360,11 +426,27 @@ impl World {
                 },
             );
         }
+        let mut obstacle_bins: BTreeMap<(u32, i64), Vec<usize>> = BTreeMap::new();
+        for (index, o) in setup.rules.obstacles.iter().enumerate() {
+            for bin in (o.progress - i64::from(o.half_length)).div_euclid(1024)
+                ..=(o.progress + i64::from(o.half_length)).div_euclid(1024)
+            {
+                obstacle_bins.entry((o.path, bin)).or_default().push(index);
+            }
+        }
+        let mut building_keys = BTreeMap::new();
+        for o in &setup.rules.obstacles {
+            if o.kind == ObstacleKind::Building {
+                building_keys.entry(o.path).or_insert(o.id);
+            }
+        }
         Ok(Self {
+            building_keys,
             inventory: setup.inventory.clone(),
             setup,
             units,
             active_contacts: BTreeSet::new(),
+            obstacle_bins,
             configs: BTreeMap::new(),
             navigation: BTreeMap::new(),
         })
@@ -411,6 +493,26 @@ impl World {
         self.navigation.remove(&id);
         self.active_contacts
             .retain(|(a, b)| *a != id.0 && *b != id.0);
+    }
+    pub(crate) fn obstacle_candidates(&self, path: u32, start: i64, end: i64) -> Vec<usize> {
+        if self.obstacle_bins.is_empty() {
+            return self
+                .setup
+                .rules
+                .obstacles
+                .iter()
+                .enumerate()
+                .filter(|(_, o)| o.path == path)
+                .map(|(index, _)| index)
+                .collect();
+        }
+        let mut indices = BTreeSet::new();
+        for bin in start.div_euclid(1024)..=end.div_euclid(1024) {
+            if let Some(found) = self.obstacle_bins.get(&(path, bin)) {
+                indices.extend(found.iter().copied());
+            }
+        }
+        indices.into_iter().collect()
     }
     fn position(&self, id: ActorId, actors: &BTreeMap<ActorId, crate::Actor>) -> Option<Position> {
         let u = self.units.get(&id)?;
@@ -811,11 +913,30 @@ impl World {
             } else {
                 current.progress
             };
-            let hazard_hits: Vec<_> = self
-                .setup
-                .rules
-                .obstacles
+            if self.obstacle_bins.is_empty() {
+                for (index, o) in self.setup.rules.obstacles.iter().enumerate() {
+                    for bin in (o.progress - i64::from(o.half_length)).div_euclid(1024)
+                        ..=(o.progress + i64::from(o.half_length)).div_euclid(1024)
+                    {
+                        self.obstacle_bins
+                            .entry((o.path, bin))
+                            .or_default()
+                            .push(index);
+                    }
+                }
+            }
+            let mut candidates = BTreeSet::new();
+            for bin in (current.progress.min(previous_progress) - i64::from(length))
+                .div_euclid(1024)
+                ..=(current.progress.max(previous_progress) + i64::from(length)).div_euclid(1024)
+            {
+                if let Some(indices) = self.obstacle_bins.get(&(p.path, bin)) {
+                    candidates.extend(indices.iter().copied());
+                }
+            }
+            let hazard_hits: Vec<_> = candidates
                 .iter()
+                .map(|index| &self.setup.rules.obstacles[*index])
                 .filter(|o| {
                     o.kind != ObstacleKind::Decorative
                         && o.path == p.path
@@ -824,15 +945,87 @@ impl World {
                             < o.progress + i64::from(o.half_length))
                         && (o.progress - i64::from(o.half_length)
                             < current.progress.max(previous_progress) + i64::from(length))
-                        && i64::from(p.lateral) + i64::from(width) > i64::from(o.left)
-                        && i64::from(p.lateral) - i64::from(width) < i64::from(o.right)
+                        && if o.kind == ObstacleKind::Building {
+                            wall_entry(
+                                Location {
+                                    progress: previous_progress,
+                                    ..previous
+                                },
+                                current,
+                                o,
+                                length,
+                                width,
+                            )
+                            .is_some()
+                        } else {
+                            i64::from(p.lateral) + i64::from(width) > i64::from(o.left)
+                                && i64::from(p.lateral) - i64::from(width) < i64::from(o.right)
+                        }
                 })
-                .map(|o| (o.id, o.kind))
+                .cloned()
                 .collect();
-            for (hazard, kind) in hazard_hits {
-                let key = (id.0, (1u64 << 63) | hazard);
-                active.insert(key);
-                if !self.active_contacts.contains(&key) {
+            for obstacle in hazard_hits {
+                let kind = obstacle.kind;
+                // Adjacent source panels share one continuous wall-contact incident.
+                let contact_id = if kind == ObstacleKind::Building {
+                    *self
+                        .building_keys
+                        .get(&obstacle.path)
+                        .unwrap_or(&obstacle.id)
+                } else {
+                    obstacle.id
+                };
+                let key = (id.0, (1u64 << 63) | contact_id);
+                if kind == ObstacleKind::Building {
+                    let rider = actors.get_mut(&id).unwrap().view.rider.as_mut().unwrap();
+                    let unit = self.units.get_mut(&id).unwrap();
+                    // Keep the bike outside the actual wall, even below the knock-off
+                    // threshold. Resolve every overlapping tick, damage only on entry.
+                    let axis = wall_entry(
+                        Location {
+                            progress: previous_progress,
+                            ..previous
+                        },
+                        current,
+                        &obstacle,
+                        length,
+                        width,
+                    )
+                    .unwrap_or(0);
+                    if axis == 1
+                        && i64::from(previous.lateral) * 2
+                            <= i64::from(obstacle.left) + i64::from(obstacle.right)
+                    {
+                        rider.bike.lateral = obstacle.left - width - 1;
+                        rider.bike.lateral_speed = 0;
+                    } else if axis == 1 {
+                        rider.bike.lateral = obstacle.right + width + 1;
+                        rider.bike.lateral_speed = 0;
+                    } else {
+                        let stop = if previous_progress <= obstacle.progress {
+                            obstacle.progress
+                                - i64::from(obstacle.half_length)
+                                - i64::from(length)
+                                - 1
+                        } else {
+                            obstacle.progress
+                                + i64::from(obstacle.half_length)
+                                + i64::from(length)
+                                + 1
+                        };
+                        let corrected = stop.clamp(0, self.setup.topology.paths[&p.path].length);
+                        rider.bike.distance_q8 += corrected - unit.recovery.bike_location.progress;
+                        unit.recovery.bike_location.progress = corrected;
+                        rider.bike.drive = 0;
+                    }
+                    unit.recovery.bike_location.lateral = rider.bike.lateral;
+                }
+                let first_this_tick = active.insert(key);
+                if first_this_tick
+                    && !self.active_contacts.contains(&key)
+                    && (kind != ObstacleKind::Building
+                        || self.units[&id].recovery.phase == Phase::Mounted)
+                {
                     let speed = actors[&id].view.rider.as_ref().unwrap().bike.speed;
                     let reason = if kind == ObstacleKind::Rail { 3 } else { 1 };
                     self.hit(
@@ -851,6 +1044,17 @@ impl World {
                         events,
                     )?;
                     Self::emit(events, tick, id, None, EffectKind::Contact);
+                    if kind == ObstacleKind::Building {
+                        actors
+                            .get_mut(&id)
+                            .unwrap()
+                            .view
+                            .rider
+                            .as_mut()
+                            .unwrap()
+                            .bike
+                            .speed = 0;
+                    }
                 }
             }
         }
@@ -1072,5 +1276,33 @@ impl World {
                 }
             }
         }
+    }
+}
+
+#[cfg(test)]
+mod wall_tests {
+    use super::*;
+    #[test]
+    fn sweeps_stop_frontal_and_lateral_tunneling_but_allow_diagonal_misses() {
+        let o = Obstacle {
+            id: 1,
+            path: 0,
+            progress: 1000,
+            half_length: 100,
+            left: 1000,
+            right: 2000,
+            height: 10000,
+            kind: ObstacleKind::Building,
+        };
+        let at = |progress, lateral| Location {
+            progress,
+            lateral,
+            ..Default::default()
+        };
+        assert_eq!(wall_entry(at(500, 1500), at(1500, 1500), &o, 0, 0), Some(0));
+        assert_eq!(wall_entry(at(1000, 0), at(1000, 3000), &o, 0, 0), Some(1));
+        assert_eq!(wall_entry(at(500, 0), at(1000, 500), &o, 0, 0), None);
+        assert_eq!(wall_entry(at(1000, 3000), at(1000, 0), &o, 0, 0), Some(1));
+        assert_eq!(wall_entry(at(800, 2100), at(1200, 2500), &o, 0, 0), None);
     }
 }

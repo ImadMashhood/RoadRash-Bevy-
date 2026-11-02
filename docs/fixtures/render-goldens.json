@@ -1,13 +1,14 @@
 {
-  "fixture": "authored-render-fixture-v1",
+  "fixture": "authored-render-fixture-v2",
   "rgba_sha256": {
-    "bend": "27685dec941c276295f340ea33019ee3cd5ede6ea460a7c90af0f4106964f2c3",
-    "building": "b54fde61a1ea3648a61d292251d0a2df4c47fe7620b866dbaafdbdd8b95b874d",
-    "crest": "812932ecc6a956530a478c9632940fda4cd59efd53568736beb1211c838eab6d",
-    "hill": "76571fbb7415ab1e430a3d2e0e87b5a228775bd82416a381e8994bf194daf78c",
-    "straight": "40214a4333e92671f0f210abe99ddb4f5d5fe12c7081fd063b3eb2c1d6b098af",
-    "valley": "24f9c2ada53c187bc3cefc713c7f29c8975de2b6be47904fa6a477de8411f51f",
-    "wall": "1c0fa10f033c36aef5bb7141112f848b93c0f1e4b7577628c2aa8ba23adbd2b1"
+    "bend": "a43adbec2509d28eb236caf3288c5a141e4df7eaf3bdbc7d6cbfaa75b1ef15ca",
+    "building": "ad7f5d36ea9f70a748101f3b030f6090c3c046db977e48909c4a5c320db0699f",
+    "building-step": "920160196fdaf00c54bf4644d12b909907ad91a5ca17498199eeccb4b5385e03",
+    "crest": "350ea7da0ed8a1f2bf4870ec93b355b1ae08682e92ef6c64e8ab6c72c7bd20ac",
+    "hill": "c0b082ba62b14e8388a0aea204d75f0bde6f768831bd77e63894cf97468afe41",
+    "straight": "6e9c354e2d919942fa9cf7ce0b6a86d82f7f72380ea07c53cb9dde7004d53e85",
+    "valley": "6500c05a84ff5b72182a1acd233bb79ef6c845d6b4b456b80fb92b58fc521bce",
+    "wall": "7f56d16b171cf87748dfd26330a4831564ce06ea84127dca1f88cc6152e656d4"
   },
   "schema_version": 1
 }

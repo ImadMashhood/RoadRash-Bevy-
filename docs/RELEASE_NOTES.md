@@ -1,5 +1,7 @@
 # Native functional Linux candidate RC4
 
+**Current source supersedes this candidate.** Building ends, building collision, scenery bounds, AI planning and interface presentation are corrected after RC4. The results below describe the immutable RC4 download; they do not certify the changed source. See [the correction report](evidence/native-gameplay-fixes.md). G5 remains open for replacement-build verification and owner acceptance.
+
 [Download RC4](https://github.com/ImadMashhood/RoadRash-Bevy-/releases/tag/native-functional-2026-11-01-rc4).
 This is a review candidate for the offline Thrash and Big Game recreation,
 using the player's supported original disc. It is not an accepted G5 release.

@@ -1249,3 +1249,82 @@ fn live_attack_rechecks_exact_reach_after_different_relative_speeds() {
         }
     }
 }
+
+#[test]
+fn building_front_stops_bikes_without_repeated_damage_and_open_lane_stays_open() {
+    for speed in [1000, 9000, 30000] {
+        let (c, mut e) = setup(1);
+        e.seeds[0].speed = speed;
+        e.rules.obstacles.push(Obstacle {
+            id: 1,
+            path: 0,
+            progress: 180,
+            half_length: 16,
+            left: -10000,
+            right: 10000,
+            height: 100000,
+            kind: ObstacleKind::Building,
+        });
+        let length = i64::from(e.rules.dimensions[1]);
+        let mut sim = Simulation::with_encounters(1, c, e).unwrap();
+        for _ in 0..12 {
+            sim.step(Command {
+                throttle: true,
+                ..Default::default()
+            })
+            .unwrap();
+        }
+        assert!(
+            unit(&sim, 1).recovery.bike_location.progress < 180 - 16 - length,
+            "speed {speed}: {:?}",
+            unit(&sim, 1).recovery.bike_location
+        );
+        assert_eq!(unit(&sim, 1).fighter.hit_count, 1);
+    }
+    let (c, mut e) = setup(1);
+    e.seeds[0].speed = 9000;
+    e.rules.obstacles.push(Obstacle {
+        id: 1,
+        path: 0,
+        progress: 180,
+        half_length: 16,
+        left: 20000,
+        right: 40000,
+        height: 100000,
+        kind: ObstacleKind::Building,
+    });
+    let mut sim = Simulation::with_encounters(1, c, e).unwrap();
+    for _ in 0..12 {
+        sim.step(Command::default()).unwrap();
+    }
+    assert_eq!(unit(&sim, 1).fighter.hit_count, 0);
+    assert!(unit(&sim, 1).recovery.bike_location.progress > 180);
+}
+
+#[test]
+fn adjacent_building_panels_do_not_restart_an_existing_crash() {
+    let (c, mut e) = setup(1);
+    e.seeds[0].speed = 30000;
+    for (id, progress) in [(1, 116), (2, 132), (3, 148)] {
+        e.rules.obstacles.push(Obstacle {
+            id,
+            path: 0,
+            progress,
+            half_length: 16,
+            left: -10000,
+            right: 10000,
+            height: 100000,
+            kind: ObstacleKind::Building,
+        });
+    }
+    let mut sim = Simulation::with_encounters(1, c, e).unwrap();
+    for _ in 0..20 {
+        sim.step(Command {
+            throttle: true,
+            ..Default::default()
+        })
+        .unwrap();
+    }
+    assert_eq!(unit(&sim, 1).fighter.hit_count, 1);
+    assert_eq!(unit(&sim, 1).recovery.phase, Phase::Sliding);
+}

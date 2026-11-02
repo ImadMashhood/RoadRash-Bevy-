@@ -42,6 +42,7 @@ pub struct Shell {
     social_events: Vec<(u8, u8)>,
     ui_text: rr_session::ui::Catalog,
     hud_capacity: i32,
+    presentation_art: std::collections::BTreeMap<String, (String, [u32; 2])>,
 }
 pub fn pause_controls(shell: Option<Res<Shell>>) -> bool {
     shell.is_none_or(|s| !s.enabled || matches!(s.frontend.screen, Screen::Racing | Screen::Paused))
@@ -136,7 +137,25 @@ impl Shell {
         } else {
             None
         };
+        let presentation_art = options
+            .catalog
+            .as_ref()
+            .and_then(|root| rr_content::Catalog::read(&root.join("catalog.json")).ok())
+            .map(|c| {
+                c.entries
+                    .into_iter()
+                    .filter_map(|entry| {
+                        entry
+                            .preview_variants
+                            .first()
+                            .cloned()
+                            .map(|blob| (entry.source, (blob, entry.native_size)))
+                    })
+                    .collect()
+            })
+            .unwrap_or_default();
         Self {
+            presentation_art,
             frontend,
             catalog,
             session,
@@ -357,10 +376,12 @@ impl Plugin for FrontendPlugin {
             .add_systems(
                 Update,
                 (
+                    input::pointer.run_if(crate::media::not_playing),
                     navigate.run_if(crate::media::not_playing),
                     coordinate,
                     presentation_preferences,
                     render,
+                    view::instrument_panel,
                 )
                     .chain()
                     .before(PresentationStage::Prepare),

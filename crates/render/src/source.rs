@@ -63,6 +63,7 @@ pub fn rider_frame_registration(bytes: &[u8], frame: u32) -> Result<([f64; 2], [
 #[derive(Clone)]
 pub struct Material {
     pub texture: Texture,
+    pub end_texture: Texture,
     pub height: f64,
 }
 #[derive(Clone)]
@@ -141,6 +142,7 @@ pub struct SourceAssets {
     pub ground: Vec<Texture>,
     pub horizon: Texture,
     pub water: Texture,
+    pub roof: Texture,
     pub rider: SpriteAsset,
     pub enhanced: Option<Texture>,
     pub families: BTreeMap<u16, FamilyAssets>,
@@ -381,7 +383,14 @@ impl SourceAssets {
                     .find(|n| n.offset == t.group_offset)
                     .ok_or("missing CLGP metadata")?;
                 let height = f64::from(*node.raw_header.get(22).ok_or("short CLGP")?) * 16.;
-                groups.insert(t.group_offset, Material { texture, height });
+                groups
+                    .entry(t.group_offset)
+                    .and_modify(|m: &mut Material| m.texture = texture.clone())
+                    .or_insert_with(|| Material {
+                        end_texture: texture.clone(),
+                        texture,
+                        height,
+                    });
             }
             let mut sprites = BTreeMap::new();
             for n in &definition.nodes {
@@ -557,6 +566,11 @@ impl SourceAssets {
             ground: ground.into_iter().map(Option::unwrap).collect(),
             horizon,
             water: cel(0x10)?,
+            roof: Texture::solid({
+                let mut color = palette.0[253];
+                color[3] = 255;
+                color
+            }),
             rider,
             enhanced: None,
             families,
@@ -581,6 +595,7 @@ impl SourceAssets {
             ground: vec![image([40, 120, 35, 255]); 3],
             horizon: image([90, 150, 220, 255]),
             water: image([30, 90, 140, 255]),
+            roof: image([95, 95, 90, 255]),
             rider: SpriteAsset {
                 texture: image([230, 45, 60, 255]),
                 logical: [60., 100.],
@@ -608,8 +623,10 @@ impl SourceAssets {
         let mut seen = std::collections::BTreeSet::new();
         let mut bytes = BTreeMap::new();
         let mut add = |role, texture: &Texture| {
-            if seen.insert(Arc::as_ptr(&texture.image) as usize) {
-                *bytes.entry(role).or_insert(0) += texture.image.pixels.len();
+            for image in std::iter::once(&texture.image).chain(&texture.mipmaps) {
+                if seen.insert(Arc::as_ptr(image) as usize) {
+                    *bytes.entry(role).or_insert(0) += image.pixels.len();
+                }
             }
         };
         for bank in self.palettes.values().chain(self.animations.iter()) {
@@ -624,6 +641,8 @@ impl SourceAssets {
             add("ground", t);
         }
         add("horizon", &self.horizon);
+        add("water", &self.water);
+        add("roof", &self.roof);
         add("fallback_rider", &self.rider.texture);
         for sprite in self
             .vehicles
@@ -635,6 +654,10 @@ impl SourceAssets {
             add("traffic_and_police", &sprite.texture);
         }
         for family in self.families.values() {
+            for material in family.groups.values() {
+                add("building_and_terrain", &material.texture);
+                add("building_and_terrain", &material.end_texture);
+            }
             for sprite in family.sprites.values() {
                 add("scenery", &sprite.texture);
             }

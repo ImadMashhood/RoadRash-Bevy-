@@ -93,3 +93,15 @@ Two independent full exports match in PNG bytes and metadata. The Bevy matrix ad
 All original-derived PNGs, decoded data and comparison images stay in ignored local directories. Only code, authored fixture definitions, hashes and metadata receipts are published. Source/output overlap is rejected before writing under an immutable install. See [Part 08 acceptance](evidence/part-08.md).
 
 Source rider frames retain their own pivots, mirroring and size flags, body roll and independent shadow registration. Empty source frame slots are preserved. Generic single-image overrides continue to serve legacy preview snapshots; complete animated enhancement packs remain Phase 24.
+
+## Building correction after RC4
+
+`rr-course::buildings::Profile` describes the sample-relative solid span and
+side bounds shared by the renderer and native collision factory. Flags 8/16
+retain junction openings. Building groups keep their first CLGP cell for
+exposed ends separately from the existing facade cell. Roofs use source palette
+253, and height transitions draw the exposed upper end. Collision bounds are
+quantized per-sample boxes, not a claim of exact original collision semantics.
+The obsolete raster debug-speed digit is removed; the Bevy frontend owns the HUD.
+The authored `building-step` fixture verifies ends, facades and roof pixels.
+[Correction evidence](evidence/native-gameplay-fixes.md).

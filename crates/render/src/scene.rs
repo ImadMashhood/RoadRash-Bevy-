@@ -52,6 +52,7 @@ pub struct Scene {
     pub objects: BTreeMap<(u32, u32), Vec<Object>>,
     pub notes: BTreeSet<String>,
     pub headings: Vec<i32>,
+    pub buildings: Vec<Vec<[Option<rr_course::buildings::Profile>; 2]>>,
 }
 #[derive(Default, Serialize)]
 pub struct RenderReceipt {
@@ -123,6 +124,38 @@ impl Scene {
             family_slots.push(table)
         }
         let terrain = terrain_geometry(&course, options.seed);
+        let buildings = course
+            .sections
+            .iter()
+            .enumerate()
+            .map(|(section, data)| {
+                data.samples
+                    .iter()
+                    .enumerate()
+                    .map(|(local, sample)| {
+                        std::array::from_fn(|side| {
+                            let t = &terrain[section][local];
+                            if t.kind != TerrainKind::Building {
+                                return None;
+                            }
+                            let selector = t.selectors[side];
+                            let family = family_slots[section][local][usize::from(selector >> 6)];
+                            let material = assets.families.get(&family)?.material(
+                                1,
+                                usize::from(selector & 63),
+                                None,
+                            )?;
+                            rr_course::buildings::Profile::resolve(
+                                sample,
+                                side,
+                                selector,
+                                material.height as i32,
+                            )
+                        })
+                    })
+                    .collect()
+            })
+            .collect();
         let placed = rr_course::scenery::place(&course, options.level, options.seed)?;
         let mut objects: BTreeMap<_, Vec<_>> = BTreeMap::new();
         let mut notes = assets.notes.clone();
@@ -200,6 +233,7 @@ impl Scene {
             objects,
             notes,
             headings,
+            buildings,
         })
     }
     fn material(
@@ -443,31 +477,107 @@ impl Scene {
                             }
                         }
                         TerrainKind::Building => {
-                            if let Some(material) = self.material(b, t.selectors[side], 1, None) {
-                                let height = material.height;
-                                if height >= 17. {
-                                    let x = outer;
-                                    let fx = far_outer;
+                            if let (Some(profile), Some(material)) = (
+                                self.buildings[b.section as usize][b.local as usize][side],
+                                self.material(b, t.selectors[side], 1, None),
+                            ) {
+                                let point = |fraction: i32, lateral: f64, height: f64, u, v| {
+                                    let f = f64::from(fraction) / 256.;
+                                    Vertex {
+                                        x: b.x
+                                            + outer
+                                            + (a.x + far_outer - b.x - outer) * f
+                                            + lateral,
+                                        y: b.y + sh + (a.y + fsh - b.y - sh) * f + height,
+                                        z: b.z + (a.z - b.z) * f,
+                                        u,
+                                        v,
+                                    }
+                                };
+                                let h = f64::from(profile.height);
+                                let depth = sign * f64::from(profile.depth);
+                                let start = profile.start;
+                                let end = profile.end;
+                                frame.quad(
+                                    [
+                                        point(start, 0., 0., 0., 1.),
+                                        point(start, 0., h, 0., 0.),
+                                        point(end, 0., h, 1., 0.),
+                                        point(end, 0., 0., 1., 1.),
+                                    ],
+                                    &material.texture,
+                                    spec,
+                                    &self.assets.depths,
+                                );
+                                frame.quad(
+                                    [
+                                        point(start, 0., h, 0., 0.),
+                                        point(start, depth, h, 1., 0.),
+                                        point(end, depth, h, 1., 1.),
+                                        point(end, 0., h, 0., 1.),
+                                    ],
+                                    &self.assets.roof,
+                                    spec,
+                                    &self.assets.depths,
+                                );
+                                let previous = b.local.checked_sub(1).and_then(|local| {
+                                    self.buildings[b.section as usize][local as usize][side]
+                                });
+                                let lower =
+                                    previous.filter(|p| p.end == 256).map_or(0, |p| p.height);
+                                if start > 0 || lower < profile.height {
+                                    let low = if start > 0 { 0. } else { f64::from(lower) };
                                     frame.quad(
                                         [
-                                            q(a, fx, fsh, 0., 0.),
-                                            q(a, fx, fsh + height, 0., 1.),
-                                            q(b, x, sh + height, 1., 1.),
-                                            q(b, x, sh, 1., 0.),
+                                            point(start, 0., low, 0., 1.),
+                                            point(start, 0., h, 0., 0.),
+                                            point(start, depth, h, 1., 0.),
+                                            point(start, depth, low, 1., 1.),
                                         ],
-                                        &material.texture,
+                                        &material.end_texture,
                                         spec,
                                         &self.assets.depths,
                                     );
-                                    let roof = height / 2.;
+                                }
+                                if end < 256 {
                                     frame.quad(
                                         [
-                                            q(a, fx, fsh + height, 0., 0.),
-                                            q(a, fx + sign * roof, fsh + height, 1., 0.),
-                                            q(b, x + sign * roof, sh + height, 1., 1.),
-                                            q(b, x, sh + height, 0., 1.),
+                                            point(end, 0., 0., 0., 1.),
+                                            point(end, 0., h, 0., 0.),
+                                            point(end, depth, h, 1., 0.),
+                                            point(end, depth, 0., 1., 1.),
                                         ],
-                                        &material.texture,
+                                        &material.end_texture,
+                                        spec,
+                                        &self.assets.depths,
+                                    );
+                                }
+                            }
+                            // The taller far building exposes its end above the near roof,
+                            // including when this sample is a street opening.
+                            if let (Some(far_profile), Some(far_material)) = (
+                                self.buildings[a.section as usize][a.local as usize][side],
+                                self.material(a, ft.selectors[side], 1, None),
+                            ) {
+                                let height = self.buildings[b.section as usize][b.local as usize]
+                                    [side]
+                                    .filter(|p| p.end == 256)
+                                    .map_or(0, |p| p.height);
+                                if far_profile.start == 0
+                                    && far_profile.height > height
+                                    && b.path.marking_flags & 8 == 0
+                                {
+                                    let low = fsh + f64::from(height);
+                                    let high = fsh + f64::from(far_profile.height);
+                                    let back = far_outer + sign * f64::from(far_profile.depth);
+                                    frame.quad(
+                                        [
+                                            q(a, far_outer, low, 0., 1.),
+                                            q(a, far_outer, high, 0., 0.),
+                                            q(a, back, high, 1., 0.),
+                                            q(a, back, low, 1., 1.),
+                                        ],
+                                        &far_material.end_texture,
                                         spec,
                                         &self.assets.depths,
                                     );
@@ -734,7 +844,6 @@ impl Scene {
             }
         }
         draw_billboards(&mut frame, &mut billboards, spec, &self.assets.depths);
-        draw_hud(&mut frame, spec, snapshot);
         receipt.stats = frame.stats;
         Ok((frame, receipt))
     }
@@ -811,42 +920,6 @@ pub fn ground_height(t: &TerrainSample, path: &Sample, x: f64) -> f64 {
     }
     previous[1]
 }
-fn draw_hud(frame: &mut Frame, spec: &CameraSpec, snapshot: &rr_simulation::Snapshot) {
-    let origin = spec.hud_origin();
-    let digits = [
-        0b111101101101111u16,
-        0b010110010010111,
-        0b111001111100111,
-        0b111001111001111,
-        0b101101111001001,
-        0b111100111001111,
-        0b111100111101111,
-        0b111001001001001,
-        0b111101111101111,
-        0b111101111001111,
-    ];
-    let number = snapshot.speed_mm_per_tick.to_string();
-    for (i, ch) in number.chars().enumerate() {
-        let Some(digit) = ch.to_digit(10) else {
-            continue;
-        };
-        for y in 0..5 {
-            for x in 0..3 {
-                if digits[digit as usize] & (1 << (14 - y * 3 - x)) != 0 {
-                    for dy in 0..3 {
-                        for dx in 0..3 {
-                            let px = origin[0] + i as u32 * 12 + x * 3 + dx;
-                            let py = origin[1] + y * 3 + dy;
-                            let p = ((py * frame.image.width + px) * 4) as usize;
-                            frame.image.pixels[p..p + 4].copy_from_slice(&[245, 240, 220, 255]);
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
 /// Source wall/hill parameter walk on a private presentation RNG stream.
 /// This precomputes a stable course view; it never consumes simulation RNG.
 pub fn terrain_geometry(course: &Course, seed: u32) -> Vec<Vec<TerrainSample>> {

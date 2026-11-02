@@ -85,10 +85,10 @@
       "id": "release-verification",
       "task": "21.01",
       "severity": "required",
-      "status": "closed",
+      "status": "open",
       "owner": "Implementing agent",
-      "reproducer": "Unified release regression/performance/soak receipt missing",
-      "regression": "docs/evidence/21.12.md",
+      "reproducer": "RC4 receipts do not certify the changed building/collision/AI/UI source; replacement-candidate verification is required.",
+      "regression": "docs/evidence/native-gameplay-fixes.md",
       "acceptance_gate": "G5"
     },
     {
@@ -100,7 +100,57 @@
       "reproducer": "Standalone clean-profile importer/launcher package missing",
       "regression": "docs/evidence/22.01.md",
       "acceptance_gate": "G5"
+    },
+    {
+      "id": "building-end-faces",
+      "task": "19.03",
+      "severity": "required",
+      "status": "closed",
+      "owner": "Implementing agent",
+      "reproducer": "Building sides were absent between different heights and at openings.",
+      "regression": "docs/evidence/native-gameplay-fixes.md",
+      "acceptance_gate": "G3F"
+    },
+    {
+      "id": "building-contact",
+      "task": "19.04",
+      "severity": "required",
+      "status": "closed",
+      "owner": "Implementing agent",
+      "reproducer": "No source building volumes and billboard bounds were universally tiny.",
+      "regression": "docs/evidence/native-gameplay-fixes.md",
+      "acceptance_gate": "G3F"
+    },
+    {
+      "id": "scenery-tactics",
+      "task": "19.04",
+      "severity": "required",
+      "status": "closed",
+      "owner": "Implementing agent",
+      "reproducer": "Opponent corridor selection ignored static scenery and lacked combat approach corridors.",
+      "regression": "docs/evidence/native-gameplay-fixes.md",
+      "acceptance_gate": "G3F"
+    },
+    {
+      "id": "graphical-interface",
+      "task": "20.01",
+      "severity": "required",
+      "status": "closed",
+      "owner": "Implementing agent",
+      "reproducer": "Imported menu backgrounds, pointer interaction and instrument panels were absent.",
+      "regression": "docs/evidence/native-gameplay-fixes.md",
+      "acceptance_gate": "G5"
+    },
+    {
+      "id": "career-after-collision-fix",
+      "task": "19.09",
+      "severity": "required",
+      "status": "open",
+      "owner": "Implementing agent",
+      "reproducer": "Existing unattended driver fails 25 straight native career attempts under changed collision/AI.",
+      "regression": "docs/evidence/native-gameplay-fixes.md",
+      "acceptance_gate": "G3F"
     }
   ],
-  "scope_note": "Required technical defects closed with linked native scenario evidence. G5 project-owner acceptance remains pending in release-signoff.json; declared limitations remain in RELEASE_NOTES.md. No original runtime or untested platform pass is claimed."
+  "scope_note": "Current targeted rendering, collision, tactics and interface fixes pass their linked checks. Career-driver and replacement-release verification remain open; old RC4 receipts are historical, not current acceptance."
 }

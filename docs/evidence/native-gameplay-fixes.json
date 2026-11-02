@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "scope": "Current source after RC4: targeted fixes verified; full career/release acceptance remains open.",
+  "base_revision": "e772b9f082aeb3d71857abd949af57d05fb8df14",
+  "implementation_revision": "Containing Git commit; executable hash below pins the measured runtime.",
+  "native_contact": {
+    "outcome": "passed",
+    "building_volumes": 8929,
+    "static_scenery_volumes": 8,
+    "source_factory_tactics_version": 1,
+    "native_contact_ticks": 45,
+    "wall_incidents": 1,
+    "final_speed": 0,
+    "bike_outside_wall": true,
+    "schedules": [
+      "30",
+      "60",
+      "144",
+      "irregular"
+    ],
+    "rendered_hash_equal": true,
+    "state_sha256": "8258c3e632e0fa1c78d05d9bc52a9134866253bfe1dc64812b953d579d3555cd",
+    "binary_sha256": "89f4de59a480baeeeb19b9a9214ac9b5e4623486e8768f1bab26e90b2f2a7393",
+    "scope": "Controlled native bike/wall geometry and isolated actors; no terminal injection. Twelve-second full-field smoke is not career/performance acceptance."
+  },
+  "rust_tests": {
+    "passed": 360,
+    "failed": 0,
+    "ignored": 0
+  },
+  "python_tests": {
+    "passed": 33,
+    "failed": 0
+  },
+  "native_raster": {
+    "course_level_cases": 25,
+    "camera_cases": 75,
+    "serial_parallel_pixel_depth_statistics_equal": true,
+    "private_receipt_sha256": "caa23cf43340a85525242bd8660c8efe8b504bee647a3bc2a93b1b9c0e82dfa5"
+  },
+  "interface": {
+    "targeted_language_layout_cases": 10,
+    "additional_reviewed_screens": [
+      "main",
+      "City",
+      "bike",
+      "isolated wall crash",
+      "German settings at 150% / 320x240"
+    ],
+    "pointer_test_sizes": [
+      "640x480",
+      "1280x960 at 2x",
+      "1280x720 letterboxed"
+    ],
+    "glyphs": {
+      "outcome": "passed",
+      "printable_characters": 135,
+      "missing_codepoints": [],
+      "font_sha256": "5f9173ce3d05fadef74c7eed06570d54e4f75bd0cd9860726fb2987a7f848292"
+    }
+  },
+  "tour_smoke": {
+    "duration_s": 45.154711071,
+    "simulation_seconds": 43.8,
+    "paused_frames": 0,
+    "course_segments": 10,
+    "decoded_texture_mib_by_course": {
+      "CANYN/lap1": 152.0,
+      "CANYN/lap2": 152.0,
+      "CITY/lap1": 163.98,
+      "CITY/lap2": 163.98,
+      "HIWAY/lap1": 136.25,
+      "HIWAY/lap2": 136.25,
+      "MEDLY/lap1": 155.77,
+      "MEDLY/lap2": 155.77,
+      "NAPA/lap1": 140.79,
+      "NAPA/lap2": 140.79
+    },
+    "scope": "45-second ten-segment smoke; concurrent tests ran. Not a frame-time, soak, leak or minimum-hardware acceptance."
+  },
+  "failed_career_probes": [
+    {
+      "probe": "rr-fixes-career.log",
+      "attempts": 25,
+      "wins": 0,
+      "outcomes": {
+        "Arrested": 25
+      },
+      "status": "failed",
+      "scope": "Existing automated driver; no modified opponents, terminal injection, seeded rewards or acceptance waiver."
+    },
+    {
+      "probe": "rr-fixes-career-mpc.log",
+      "attempts": 3,
+      "wins": 0,
+      "outcomes": {
+        "Arrested": 3
+      },
+      "status": "failed",
+      "scope": "Existing automated driver; no modified opponents, terminal injection, seeded rewards or acceptance waiver."
+    }
+  ],
+  "g5_accepted": false,
+  "raw_assets_published": false
+}

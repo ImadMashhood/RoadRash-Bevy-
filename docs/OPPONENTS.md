@@ -57,3 +57,19 @@ Four 180-second seeded source runs agree at every canonical checkpoint across 30
 ## Native functional candidate update
 
 The opt-in functional factory fixes unused trailing zero gear slots by taking the greatest positive upshift threshold. It uses bounded deterministic integer steering prediction (nine candidates, eighteen handling ticks) and five passing corridors within road margins. No extra gameplay RNG is consumed. A 3,500-speed driver now genuinely finishes fifteenth instead of qualifying against capped 1,000-speed rivals. The final competitive career completes all 25 course/level combinations in 67 ordinary-control attempts, independently replayed 268 times. Earlier noncompetitive careers are rejected evidence. [Career receipt](evidence/native-career.json), [functional policy](NATIVE_ACCEPTANCE.md).
+
+## Scenery-aware tactics (current source)
+
+The native application factory selects `tactics_version: 1`. Saved setups with
+no field use version 0, whose decisions and canonical replay hashes remain
+unchanged. Unknown versions fail validation. This policy scores five road
+corridors over a speed-dependent horizon against static building/scenery bounds,
+closing road users and lane reservations. Aggressive riders may add a corridor
+within combat reach of a mounted rival, with separation derived from bike width;
+passive riders retain passing lanes. Steering still uses the existing bounded
+integer predictor and no additional gameplay RNG.
+
+These are modern game policies, not recovered original AI. Tests cover static
+avoidance, legacy selection, aggression-dependent approach, existing passing,
+combat, traffic and pursuit. The previous 67-attempt career is historical; the
+old automated driver fails with these changes. [Current evidence and open gates](evidence/native-gameplay-fixes.md).

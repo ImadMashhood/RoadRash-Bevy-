@@ -607,6 +607,85 @@ fn build_race(
             eprintln!("encounter startup: {e}");
             std::process::exit(2)
         });
+        let mut building_offsets = std::collections::BTreeMap::new();
+        for p in &course.scene.route.points {
+            building_offsets.insert((p.node, p.local), p.offset);
+            if let Some(dual) = &p.dual {
+                building_offsets.insert((dual.node, dual.local), dual.offset);
+            }
+        }
+        // Scenery contacts follow source visual registration/scale, not a universal
+        // eight-unit box. Decorative classes retain their source disposition.
+        for obstacle in &mut setup.rules.obstacles {
+            let node = &course.scene.course.nodes[&obstacle.path];
+            let local = (obstacle.progress / 256) as u32;
+            let offset = building_offsets
+                .get(&(obstacle.path, local))
+                .copied()
+                .unwrap_or(0);
+            if let Some(object) =
+                course
+                    .scene
+                    .objects
+                    .get(&(node.link, local))
+                    .and_then(|objects| {
+                        objects.iter().find(|o| {
+                            (o.lateral * 256.) as i32 == (obstacle.left + obstacle.right) / 2
+                        })
+                    })
+            {
+                let width = object.asset.logical[0] * object.size;
+                let center = object.lateral + f64::from(offset);
+                obstacle.left = ((center - width * object.asset.pivot[0]) * 256.).floor() as i32;
+                obstacle.right =
+                    ((center + width * (1. - object.asset.pivot[0])) * 256.).ceil() as i32;
+                obstacle.right = obstacle.right.max(obstacle.left + 1);
+                obstacle.height =
+                    (object.asset.logical[1] * object.size * 256.).clamp(1., 1_048_576.) as i32;
+            }
+        }
+        for (path_id, node) in &course.scene.course.nodes {
+            if node.kind != rr_course::NodeKind::Road {
+                continue;
+            }
+            let section = node.link as usize;
+            for local in 0..node.length as usize {
+                let sample = &course.scene.course.sections[section].samples[local];
+                for side in 0..2 {
+                    if let Some(profile) = course.scene.buildings[section][local][side] {
+                        let bounds = profile.lateral_bounds(sample, side);
+                        let start = local as i64 * 256 + i64::from(profile.start);
+                        let end = local as i64 * 256 + i64::from(profile.end);
+                        setup
+                            .rules
+                            .obstacles
+                            .push(rr_simulation::encounter::Obstacle {
+                                id: setup.rules.obstacles.len() as u64 + 1,
+                                path: *path_id,
+                                progress: (start + end) / 2,
+                                half_length: ((end - start + 1) / 2) as i32,
+                                left: (bounds[0]
+                                    + building_offsets
+                                        .get(&(*path_id, local as u32))
+                                        .copied()
+                                        .unwrap_or(0))
+                                    * 256,
+                                right: (bounds[1]
+                                    + building_offsets
+                                        .get(&(*path_id, local as u32))
+                                        .copied()
+                                        .unwrap_or(0))
+                                    * 256,
+                                height: profile.height * 256,
+                                kind: rr_simulation::encounter::ObstacleKind::Building,
+                            });
+                    }
+                }
+            }
+        }
+        setup
+            .validate(&config)
+            .expect("shared building collision geometry");
         setup.seeds[0].color = options.rider_color;
         setup.rules.assists.fast_recovery = options.fast_recovery;
         setup.rules.assists.rescue_unreachable = options.rescue_recovery;
@@ -629,6 +708,7 @@ fn build_race(
                 std::process::exit(2)
             });
             population.functional_traffic = true;
+            population.tactics_version = 1;
             population.vehicle_masks = course.scene.assets.vehicle_masks.clone();
             population.pedestrian_appearances = course.scene.assets.pedestrian_appearances.clone();
             let requested = population.spawns.len();

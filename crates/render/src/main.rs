@@ -114,7 +114,7 @@ fn authored(out: &Path) -> Result<()> {
     fs::write(
         out.join("goldens.json"),
         serde_json::to_vec_pretty(
-            &serde_json::json!({"schema_version":1,"fixture":"authored-render-fixture-v1","rgba_sha256":hashes}),
+            &serde_json::json!({"schema_version":1,"fixture":"authored-render-fixture-v2","rgba_sha256":hashes}),
         )?,
     )?;
     Ok(())

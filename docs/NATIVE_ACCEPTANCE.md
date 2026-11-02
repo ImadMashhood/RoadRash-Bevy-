@@ -1,5 +1,7 @@
 # Native functional candidate: Parts 19–22
 
+**Current-source correction:** building/collision/AI/UI changes supersede the RC4 candidate. The [correction report](evidence/native-gameplay-fixes.md) separates new passing checks from the failed career-driver probe. Historical receipts below do not certify these changes; the affected career and replacement-release tasks are open.
+
 The acceptance scope is the modern **offline** Thrash and Big Game game on
 Fedora Linux, using the owner's verified original disc and original graphics.
 The [48-task manifest](functional-manifest.json) and

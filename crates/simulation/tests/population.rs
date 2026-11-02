@@ -1160,3 +1160,64 @@ fn unused_native_gear_slots_do_not_cap_modern_opponents_at_walking_speed() {
     sim.advance().unwrap();
     assert_eq!(brain(&sim, 2).target_speed, 6000);
 }
+
+#[test]
+fn modern_tactics_avoid_scenery_and_legacy_policy_remains_available() {
+    for version in [0, 1] {
+        let (c, mut e, mut p) = setup(2);
+        p.functional_traffic = true;
+        p.tactics_version = version;
+        e.seeds[0].distance = 10000;
+        e.seeds[1].lateral = 0;
+        e.seeds[1].speed = 9000;
+        e.rules.obstacles.push(encounter::Obstacle {
+            id: 1,
+            path: 0,
+            progress: 1500,
+            half_length: 128,
+            left: -16000,
+            right: 16000,
+            height: 100000,
+            kind: encounter::ObstacleKind::Building,
+        });
+        let mut sim = Simulation::with_population(1, c, e, p).unwrap();
+        sim.advance().unwrap();
+        if version == 0 {
+            assert_eq!(brain(&sim, 2).desired_lane, 0);
+        } else {
+            assert!(brain(&sim, 2).desired_lane.abs() >= 48000);
+        }
+    }
+}
+#[test]
+fn unknown_tactics_versions_are_rejected_and_old_setups_omit_the_field() {
+    let (c, e, mut p) = setup(2);
+    assert!(
+        !serde_json::to_string(&p)
+            .unwrap()
+            .contains("tactics_version")
+    );
+    p.tactics_version = 2;
+    assert!(Simulation::with_population(1, c, e, p).is_err());
+}
+
+#[test]
+fn aggressive_rider_closes_to_combat_range_while_passive_rider_keeps_passing_lane() {
+    for aggression in [0, 255] {
+        let (c, mut e, mut p) = setup(2);
+        p.functional_traffic = true;
+        p.tactics_version = 1;
+        e.seeds[1].distance = e.seeds[0].distance;
+        e.seeds[0].speed = 9000;
+        e.seeds[1].speed = 9000;
+        p.brains.get_mut(&ActorId(2)).unwrap().aggression = Some(aggression);
+        let mut sim = Simulation::with_population(1, c, e, p).unwrap();
+        sim.advance().unwrap();
+        let lane = brain(&sim, 2).desired_lane.abs();
+        if aggression == 255 {
+            assert!((17000..20480).contains(&lane), "{lane}");
+        } else {
+            assert!(lane >= 48000, "{lane}");
+        }
+    }
+}

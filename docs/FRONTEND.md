@@ -81,3 +81,18 @@ Settings and jukebox own typed music/effects toggles, independent master/engine/
 The current frontend is an accessible text panel with imported character/bike previews. It is not a pixel-identical recreation of the original street, club, showroom, dialogs, credits roll or videos. The exhaustive [screen/item audit](evidence/frontend-menu-audit.json) maps every existing inventory item to the implemented modern equivalent, a declared later-phase dependency, a research gap or an unused slot; missing original screens are reported separately from approximate views. Network Mano-à-Mano is outside the current offline roadmap scope.
 
 [Race contract](RACE_RULES.md), [Part 16 receipts](evidence/part-16.md), [scope/deviations](baseline/DEVIATIONS.md).
+
+## Current graphical presentation
+
+Imported Main/club/showroom art is loaded from the private converted catalog;
+no source image is shipped in Git. Menu rows have focus cards and camera-projected
+mouse hitboxes. The main screen uses larger buttons at the ordinary text scale;
+compact/scaled text keeps the paginated layout. Pointer hover changes focus only
+when the cursor moves, preserving keyboard/controller focus. Hitboxes are tagged
+with their owning screen, and the catalog's preview paths/sizes are cached once.
+
+The race HUD owns health and bike-condition meters, a boost-availability indicator
+with its actual charge count, speed, gear, authoritative session rank and elapsed
+simulation time. The replay fallback derives rank from its snapshot. The source
+nitro capacity is not assumed to be five. Captions, high contrast and existing
+viewport scaling remain available. [Verification and limitations](evidence/native-gameplay-fixes.md).

@@ -595,3 +595,83 @@ fn keyboard_and_controller_navigate_the_same_menu_actions_without_a_mouse() {
         );
     }
 }
+
+#[test]
+fn pointer_menu_uses_camera_viewport_at_normal_hidpi_and_letterboxed_sizes() {
+    use bevy::camera::{ComputedCameraValues, RenderTargetInfo, Viewport};
+    for (physical, scale) in [
+        (UVec2::new(640, 480), 1.),
+        (UVec2::new(1280, 960), 2.),
+        (UVec2::new(1280, 720), 1.),
+    ] {
+        let mut app = app();
+        let factor = (physical.x as f32 / 640.).min(physical.y as f32 / 480.);
+        let size = UVec2::new((640. * factor) as u32, (480. * factor) as u32);
+        let origin = (physical - size) / 2;
+        let mut projection = Projection::Orthographic(OrthographicProjection {
+            scaling_mode: bevy::camera::ScalingMode::Fixed {
+                width: 640.,
+                height: 480.,
+            },
+            ..OrthographicProjection::default_2d()
+        });
+        projection.update(size.x as f32, size.y as f32);
+        let camera = Camera {
+            viewport: Some(Viewport {
+                physical_position: origin,
+                physical_size: size,
+                ..default()
+            }),
+            computed: ComputedCameraValues {
+                clip_from_view: projection.get_clip_from_view(),
+                target_info: Some(RenderTargetInfo {
+                    physical_size: physical,
+                    scale_factor: scale,
+                }),
+                ..default()
+            },
+            ..default()
+        };
+        app.world_mut()
+            .spawn((Camera2d, camera, GlobalTransform::default()));
+        let mut window = Window {
+            resolution: bevy::window::WindowResolution::new(physical.x, physical.y)
+                .with_scale_factor_override(scale),
+            ..default()
+        };
+        let cursor = (origin.as_vec2() + Vec2::new(320., 140.) * factor) / scale;
+        window.set_cursor_position(Some(cursor));
+        app.world_mut().spawn(window);
+        app.world_mut().spawn(view::MenuHitbox {
+            index: 2,
+            screen: Screen::Main,
+            center: Vec2::new(0., 100.),
+            size: Vec2::new(200., 30.),
+        });
+        app.init_resource::<ButtonInput<MouseButton>>()
+            .add_systems(Update, input::pointer);
+        app.update();
+        assert_eq!(app.world().resource::<Shell>().focus, 2);
+        app.world_mut().resource_mut::<Shell>().focus = 0;
+        app.update();
+        assert_eq!(
+            app.world().resource::<Shell>().focus,
+            0,
+            "stationary pointer must not steal keyboard focus"
+        );
+        app.world_mut()
+            .resource_mut::<ButtonInput<MouseButton>>()
+            .press(MouseButton::Left);
+        app.update();
+        assert_eq!(
+            app.world().resource::<Shell>().frontend.screen,
+            Screen::Restroom
+        );
+        // Old rendered hitboxes cannot activate another screen during a redraw.
+        app.update();
+        assert_eq!(
+            app.world().resource::<Shell>().frontend.screen,
+            Screen::Restroom
+        );
+    }
+}

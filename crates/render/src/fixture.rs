@@ -3,8 +3,15 @@ use crate::{Result, raster::Texture, scene::*, source::*};
 use rr_course::{Course, FamilyEvent, Hill, Node, NodeKind, Sample, Section, Terrain, Wall};
 use rr_formats::family::{Family, FamilyNode};
 use std::{collections::BTreeMap, sync::Arc};
-pub const CASES: [&str; 7] = [
-    "straight", "bend", "crest", "valley", "hill", "wall", "building",
+pub const CASES: [&str; 8] = [
+    "straight",
+    "bend",
+    "crest",
+    "valley",
+    "hill",
+    "wall",
+    "building",
+    "building-step",
 ];
 pub fn scene(name: &str) -> Result<Scene> {
     if !CASES.contains(&name) {
@@ -93,7 +100,7 @@ pub fn scene(name: &str) -> Result<Scene> {
         roadside: vec![],
         scenery: vec![],
         scenery_following: None,
-        terrain: if ["hill", "wall", "building"].contains(&name) {
+        terrain: if ["hill", "wall", "building", "building-step"].contains(&name) {
             Some(terrain)
         } else {
             None
@@ -118,7 +125,7 @@ pub fn scene(name: &str) -> Result<Scene> {
             (52, node(52, NodeKind::Start, 0, 0, 0, 0)),
             (60, node(60, NodeKind::End, 0, 0, 0, 0)),
         ]),
-        source_sha256: "authored-render-fixture-v1".into(),
+        source_sha256: "authored-render-fixture-v2".into(),
     };
     let mut assets = SourceAssets::authored();
     let mut pixels = vec![];
@@ -132,6 +139,7 @@ pub fn scene(name: &str) -> Result<Scene> {
         }
     }
     let material = Material {
+        end_texture: Texture::solid([165, 85, 45, 255]),
         texture: Texture::new(
             rr_formats::pixels::Rgba {
                 width: 16,
@@ -175,5 +183,14 @@ pub fn scene(name: &str) -> Result<Scene> {
         sprites: BTreeMap::new(),
     };
     assets.families.insert(1, family);
-    Scene::new(course, assets, SceneOptions::default())
+    let mut scene = Scene::new(course, assets, SceneOptions::default())?;
+    if name == "building-step" {
+        for row in &mut scene.buildings[0][..54] {
+            for p in row.iter_mut().flatten() {
+                p.height = 100;
+                p.depth = 50;
+            }
+        }
+    }
+    Ok(scene)
 }

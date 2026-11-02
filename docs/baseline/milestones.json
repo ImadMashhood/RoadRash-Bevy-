@@ -48,7 +48,9 @@
         "G3"
       ],
       "requires": "Required native-only functional manifest closed in Part 19",
-      "blocking_unknowns": [],
+      "blocking_unknowns": [
+        "Current career driver fails after physical scenery and AI changes; complete-career acceptance must be renewed."
+      ],
       "verification_status": "required Part 19 technical scenarios passed",
       "evidence": "docs/functional-manifest.json"
     },
@@ -70,7 +72,10 @@
         "G3F"
       ],
       "requires": "Native-only functional/UI/verification/packaging acceptance (Parts 19\u201322), with no enhancement prerequisite",
-      "blocking_unknowns": [],
+      "blocking_unknowns": [
+        "Current-source career and replacement-package/performance/soak verification must pass.",
+        "Actual project-owner decision is pending."
+      ],
       "tested_hardware_scope": "Fedora 44 / Ryzen 5 3600 / RTX 3080 only; no lower minimum or other platform certified",
       "verification_status": "passed for documented native scope",
       "acceptance_status": "awaiting_project_owner_acceptance",

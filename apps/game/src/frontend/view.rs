@@ -1,4 +1,16 @@
 use super::*;
+#[derive(Component)]
+pub(super) struct MenuHitbox {
+    pub index: usize,
+    pub screen: Screen,
+    pub center: Vec2,
+    pub size: Vec2,
+}
+#[derive(Component)]
+pub(super) struct HudBar(u8);
+#[derive(Component)]
+pub(super) struct HudLabel(u8);
+
 pub(super) fn banner(mut commands: Commands) {
     commands.spawn((
         RaceBanner,
@@ -17,6 +29,125 @@ pub(super) fn banner(mut commands: Commands) {
         Transform::from_xyz(0., 190., 44.),
         Visibility::Hidden,
     ));
+    commands.spawn((
+        HudBar(3),
+        Sprite::from_color(
+            Color::srgba(0.025, 0.035, 0.045, 0.94),
+            Vec2::new(600., 86.),
+        ),
+        Transform::from_xyz(0., -190., 44.),
+        Visibility::Hidden,
+    ));
+    for (i, color) in [
+        Color::srgb(0.2, 0.9, 0.55),
+        Color::srgb(1., 0.65, 0.15),
+        Color::srgb(0.15, 0.65, 1.),
+    ]
+    .into_iter()
+    .enumerate()
+    {
+        let x = -70. + i as f32 * 145.;
+        commands.spawn((
+            HudBar(4 + i as u8),
+            Sprite::from_color(Color::srgb(0.2, 0.24, 0.28), Vec2::new(120., 6.)),
+            Transform::from_xyz(x + 60., -222., 45.),
+            Visibility::Hidden,
+        ));
+        commands.spawn((
+            HudBar(i as u8),
+            Sprite::from_color(color, Vec2::new(120., 6.)),
+            Transform::from_xyz(x + 60., -222., 46.),
+            Visibility::Hidden,
+        ));
+    }
+    for (i, x, y) in [
+        (0, -282., -158.),
+        (1, -280., -205.),
+        (2, -70., -160.),
+        (3, 75., -160.),
+        (4, 220., -160.),
+    ] {
+        commands.spawn((
+            HudLabel(i),
+            Text2d::new(""),
+            TextFont::default(),
+            TextColor(Color::WHITE),
+            Anchor::TOP_LEFT,
+            Transform::from_xyz(x, y, 47.),
+            Visibility::Hidden,
+        ));
+    }
+}
+#[allow(clippy::type_complexity)]
+pub(super) fn instrument_panel(
+    shell: Res<Shell>,
+    snapshot: Res<PresentedSnapshot>,
+    mut bars: Query<(&HudBar, &mut Sprite, &mut Transform, &mut Visibility), Without<HudLabel>>,
+    mut labels: Query<(&HudLabel, &mut Text2d, &mut TextFont, &mut Visibility), Without<HudBar>>,
+) {
+    let capacity = shell
+        .session
+        .as_ref()
+        .map_or(shell.hud_capacity, RaceSession::condition_capacity);
+    let values = rr_session::ui::HudValues::from_snapshot(&snapshot.0, capacity);
+    let show = shell.race_active() && values.is_some();
+    for (bar, mut sprite, mut transform, mut visibility) in &mut bars {
+        *visibility = if show {
+            Visibility::Visible
+        } else {
+            Visibility::Hidden
+        };
+        let Some(v) = &values else {
+            continue;
+        };
+        if bar.0 < 3 {
+            let fraction = match bar.0 {
+                0 => v.health.max(0) as f32 / v.maximum.max(1) as f32,
+                1 => v.condition_percent as f32 / 100.,
+                _ => {
+                    if v.nitro > 0 {
+                        1.
+                    } else {
+                        0.
+                    }
+                }
+            }
+            .clamp(0., 1.);
+            sprite.custom_size = Some(Vec2::new(120. * fraction, 6.));
+            transform.translation.x = -70. + f32::from(bar.0) * 145. + 60. * fraction;
+        }
+    }
+    for (label, mut text, mut font, mut visibility) in &mut labels {
+        *visibility = if show {
+            Visibility::Visible
+        } else {
+            Visibility::Hidden
+        };
+        let Some(v) = &values else {
+            continue;
+        };
+        let language = shell.frontend.settings.language;
+        text.0 = match label.0 {
+            0 => format!("{:03}", v.speed),
+            1 => format!("{}  {}", shell.ui_text.label("GEAR", language), v.gear),
+            2 => format!(
+                "{}\n{}%",
+                shell.ui_text.label("HEALTH", language),
+                (v.health.max(0) * 100 / v.maximum.max(1)).clamp(0, 100)
+            ),
+            3 => format!(
+                "{}\n{}%",
+                shell.ui_text.label("BIKE", language),
+                v.condition_percent
+            ),
+            _ => format!("{}\n{}", shell.ui_text.label("BOOST", language), v.nitro),
+        };
+        font.font_size = bevy::text::FontSize::Px(if label.0 == 0 {
+            38.
+        } else {
+            shell.layout.font.min(21.)
+        });
+    }
 }
 pub(super) fn menu(shell: &Shell) -> (String, Vec<(String, Act)>) {
     use Screen::*;
@@ -361,32 +492,15 @@ pub(super) fn render(
     mut commands: Commands,
     shell: Res<Shell>,
     media: Option<Res<crate::media::Media>>,
-    (assets, options, snapshot): (Res<AssetServer>, Res<LaunchOptions>, Res<PresentedSnapshot>),
+    (assets, snapshot): (Res<AssetServer>, Res<PresentedSnapshot>),
     existing: Query<Entity, With<MenuEntity>>,
     (mut banner, mut backdrops): HudQueries,
     mut last: Local<String>,
 ) {
-    let countdown = shell
-        .session
-        .as_ref()
-        .map_or(String::new(), |s| match s.phase() {
-            Phase::Countdown { remaining } => format!("{}", remaining.div_ceil(60)),
-            _ => format!(
-                "#{} | {}",
-                s.standings()
-                    .iter()
-                    .find(|r| r.actor == ActorId(1))
-                    .map_or(0, |r| r.place),
-                shell
-                    .ui_text
-                    .counted(
-                        "racer",
-                        s.standings().len() as u64,
-                        shell.frontend.settings.language
-                    )
-                    .expect("racer count")
-            ),
-        });
+    let countdown = shell.session.as_ref().and_then(|s| match s.phase() {
+        Phase::Countdown { remaining } => Some(remaining.div_ceil(60)),
+        _ => None,
+    });
     let capacity = shell
         .session
         .as_ref()
@@ -394,44 +508,59 @@ pub(super) fn render(
     let hud = rr_session::ui::HudValues::from_snapshot(&snapshot.0, capacity);
     let shown = shell.race_active() && hud.is_some();
     let mut status = String::new();
-    if shown && let Some(hud) = hud {
-        let values = std::collections::BTreeMap::from([
-            ("speed", hud.speed.to_string()),
-            ("gear", hud.gear.to_string()),
-            ("health", hud.health.to_string()),
-            ("maximum", hud.maximum.to_string()),
-            ("condition", hud.condition_percent.to_string()),
-            ("nitro", hud.nitro.to_string()),
-        ]);
-        status = shell
-            .ui_text
-            .message(
-                if shell.layout.columns < 32 {
-                    "hud_small"
-                } else {
-                    "hud"
-                },
-                shell.frontend.settings.language,
-                &values,
-            )
-            .expect("HUD parameters");
-        if !countdown.is_empty() {
-            status.push('\n');
-            status.push_str(&countdown);
+    if shown {
+        let field = snapshot.0.actors.len();
+        let player = snapshot
+            .0
+            .actors
+            .iter()
+            .find(|a| a.id == ActorId(1))
+            .and_then(|a| a.rider.as_ref());
+        let snapshot_rank = player.map_or(0, |p| {
+            1 + snapshot
+                .0
+                .actors
+                .iter()
+                .filter(|a| {
+                    a.id != ActorId(1)
+                        && a.rider
+                            .as_ref()
+                            .is_some_and(|r| r.bike.distance_q8 > p.bike.distance_q8)
+                })
+                .count()
+        });
+        let rank = shell
+            .session
+            .as_ref()
+            .and_then(|s| {
+                s.standings()
+                    .iter()
+                    .find(|r| r.actor == ActorId(1))
+                    .map(|r| r.place as usize)
+            })
+            .unwrap_or(snapshot_rank);
+        let seconds = snapshot.0.tick / 60;
+        status = format!(
+            "#{rank} / {field}   {:02}:{:02}",
+            seconds / 60,
+            seconds % 60
+        );
+        if let Some(count) = countdown {
+            status.push_str(&format!("   {count}"));
         }
         if snapshot.0.road_users.iter().any(|a| a.siren) {
-            status.push_str("\nPOLICE");
+            status.push_str("  POLICE");
         }
-        let caption = media.as_ref().map_or("", |m| m.caption.as_str());
-        if !caption.is_empty() {
+        if let Some(media) = &media
+            && !media.caption.is_empty()
+        {
             status.push('\n');
             status.push_str(
                 &shell
                     .ui_text
-                    .label(caption, shell.frontend.settings.language),
+                    .label(&media.caption, shell.frontend.settings.language),
             );
         }
-        status = rr_session::ui::wrap(&status, shell.layout.columns).join("\n");
     }
     for (mut text, mut font) in &mut banner {
         text.0.clone_from(&status);
@@ -485,6 +614,94 @@ pub(super) fn render(
         Sprite::from_color(Color::srgb(0.025, 0.035, 0.055), Vec2::new(2000., 1000.)),
         Transform::from_xyz(0., 0., 40.),
     ));
+    let art = match shell.frontend.screen {
+        Screen::Main | Screen::Characters | Screen::Courses => "IMAGES/MAIN.RRI",
+        Screen::Club | Screen::Schmooze => "IMAGES/PANZER.RRI",
+        Screen::Showroom | Screen::Bike | Screen::Purchase => "IMAGES/OLLEYS.RRI",
+        Screen::Street => "IMAGES/POSTCARD/CITY.RRI",
+        _ => "IMAGES/MAIN.RRI",
+    };
+    if !shell.frontend.settings.high_contrast
+        && let Some((blob, _)) = shell.presentation_art.get(art)
+    {
+        commands.spawn((
+            MenuEntity,
+            Sprite {
+                image: assets.load(blob.clone()),
+                custom_size: Some(Vec2::new(640., 480.)),
+                color: Color::srgb(0.7, 0.7, 0.7),
+                ..default()
+            },
+            Transform::from_xyz(0., 0., 40.2),
+        ));
+    }
+    commands.spawn((
+        MenuEntity,
+        Sprite::from_color(
+            Color::srgba(0.015, 0.025, 0.04, 0.68),
+            Vec2::new(600., 440.),
+        ),
+        Transform::from_xyz(0., 0., 40.5),
+    ));
+    commands.spawn((
+        MenuEntity,
+        Sprite::from_color(Color::srgb(1., 0.64, 0.12), Vec2::new(600., 3.)),
+        Transform::from_xyz(0., 220., 41.),
+    ));
+    if shell.frontend.screen == Screen::Main
+        && !shell.layout.compact
+        && shell.frontend.settings.text_scale == 100
+    {
+        commands.spawn((
+            MenuEntity,
+            Text2d::new(title),
+            TextFont::from_font_size(32.),
+            TextColor(Color::WHITE),
+            Anchor::TOP_LEFT,
+            Transform::from_xyz(-280., 190., 42.),
+        ));
+        for (index, (label, _)) in items.iter().enumerate() {
+            let center = Vec2::new(-100., 90. - index as f32 * 48.);
+            let selected = index == shell.focus;
+            commands.spawn((
+                MenuEntity,
+                MenuHitbox {
+                    index,
+                    screen: Screen::Main,
+                    center,
+                    size: Vec2::new(360., 44.),
+                },
+                Sprite::from_color(
+                    if selected && shell.frontend.settings.high_contrast {
+                        Color::WHITE
+                    } else if selected {
+                        Color::srgba(0.85, 0.48, 0.05, 0.95)
+                    } else {
+                        Color::srgba(0.035, 0.07, 0.10, 0.9)
+                    },
+                    Vec2::new(360., 44.),
+                ),
+                Transform::from_xyz(center.x, center.y, 41.),
+            ));
+            commands.spawn((
+                MenuEntity,
+                Text2d::new(label),
+                TextFont::from_font_size((shell.layout.font * 1.4).min(24.)),
+                TextColor(if selected { Color::BLACK } else { Color::WHITE }),
+                Anchor::CENTER_LEFT,
+                Transform::from_xyz(-266., center.y, 42.),
+            ));
+        }
+        commands.spawn((
+            MenuEntity,
+            Text2d::new("↑ ↓ / D-pad     Enter / A     Esc / B"),
+            TextFont::from_font_size(14.),
+            TextColor(Color::WHITE),
+            Anchor::TOP_LEFT,
+            Transform::from_xyz(-280., -198., 42.),
+        ));
+        return;
+    }
     let title = if shell.layout.compact && shell.frontend.screen == Screen::Credits {
         shell
             .ui_text
@@ -532,7 +749,11 @@ pub(super) fn render(
     } else {
         0
     };
+    let mut hit_rows = vec![];
     for (i, (label, _)) in items.iter().enumerate().skip(first).take(visible) {
+        let start = rr_session::ui::wrap(&body, shell.layout.columns).len();
+        let lines = rr_session::ui::wrap(&format!("> {label}"), shell.layout.columns).len();
+        hit_rows.push((i, start, lines));
         body.push_str(&format!(
             "{} {}\n",
             if i == shell.focus { ">" } else { " " },
@@ -658,9 +879,39 @@ pub(super) fn render(
         "\nUp/Down / D-pad | Enter / A | Esc / B"
     });
     let font = shell.layout.font;
+    for (i, row, lines) in hit_rows {
+        let height = lines as f32 * font * 1.25;
+        let center = Vec2::new(0., 220. - row as f32 * font * 1.25 - height / 2.);
+        commands.spawn((
+            MenuEntity,
+            MenuHitbox {
+                index: i,
+                screen: shell.frontend.screen,
+                center,
+                size: Vec2::new(592., height),
+            },
+            Sprite::from_color(
+                if i == shell.focus {
+                    Color::srgba(0.27, 0.36, 0.46, 0.95)
+                } else {
+                    Color::srgba(0.08, 0.13, 0.18, 0.75)
+                },
+                Vec2::new(592., height - 1.),
+            ),
+            Transform::from_xyz(center.x, center.y, 41.),
+        ));
+        if i == shell.focus {
+            commands.spawn((
+                MenuEntity,
+                Sprite::from_color(Color::srgb(1., 0.64, 0.12), Vec2::new(3., height)),
+                Transform::from_xyz(-298., center.y, 41.5),
+            ));
+        }
+    }
     commands.spawn((
         MenuEntity,
         Text2d::new(rr_session::ui::wrap(&body, shell.layout.columns).join("\n")),
+        bevy::text::LineHeight::RelativeToFont(1.25),
         TextFont {
             font_size: bevy::text::FontSize::Px(font),
             ..default()
@@ -692,20 +943,15 @@ pub(super) fn render(
     } else {
         None
     };
-    if let (Some(path), Some(root)) = (path, &options.catalog)
-        && let Ok(c) = rr_content::Catalog::read(&root.join("catalog.json"))
-        && let Some(entry) = c
-            .entries
-            .iter()
-            .find(|e| e.source.eq_ignore_ascii_case(path))
-        && let Some(blob) = entry.preview_variants.first()
+    if let Some(path) = path
+        && let Some((blob, size)) = shell.presentation_art.get(path)
     {
         commands.spawn((
             MenuEntity,
             Sprite {
                 image: assets.load(blob.clone()),
                 custom_size: Some({
-                    let size = Vec2::new(entry.native_size[0] as f32, entry.native_size[1] as f32);
+                    let size = Vec2::new(size[0] as f32, size[1] as f32);
                     size * (160. / size.x).min(180. / size.y)
                 }),
                 ..default()

@@ -811,6 +811,7 @@ fn cliff_surfaces_keep_landscape_art_when_tunnel_art_is_available() {
     family.groups.insert(
         400,
         rr_render::source::Material {
+            end_texture: Texture::solid([255, 0, 255, 255]),
             texture: Texture::solid([255, 0, 255, 255]),
             height: 300.,
         },
@@ -997,4 +998,27 @@ fn parallel_vertical_stripes_preserve_every_pixel_depth_and_draw_statistic() {
             }
         }
     }
+}
+
+#[test]
+fn buildings_draw_exposed_textured_ends_and_solid_roofs() {
+    let mut scene = rr_render::fixture::scene("building").unwrap();
+    // A tall building behind a short one must expose the first CLGP cell on
+    // its end, independently of its facade and the palette-colored roof.
+    for row in &mut scene.buildings[0][..54] {
+        for p in row.iter_mut().flatten() {
+            p.height = 100;
+            p.depth = 50;
+        }
+    }
+    let (frame, _) = scene
+        .draw(&CameraSpec::default(), &view(), &snap(), false)
+        .unwrap();
+    let pixels = frame.image.pixels.as_chunks::<4>().0;
+    assert!(
+        pixels.iter().filter(|p| **p == [165, 85, 45, 255]).count() > 20,
+        "textured building end missing"
+    );
+    assert!(pixels.contains(&[95, 95, 90, 255]), "solid roof missing");
+    assert!(pixels.contains(&[150, 90, 55, 255]), "facade missing");
 }

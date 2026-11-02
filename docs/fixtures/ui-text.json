@@ -869,6 +869,46 @@
         "[Voz de peatón]",
         "[Voce del pedone]"
       ]
+    },
+    {
+      "key": "hud_gear",
+      "labels": [
+        "GEAR",
+        "RAPPORT",
+        "GANG",
+        "MARCHA",
+        "MARCIA"
+      ]
+    },
+    {
+      "key": "hud_health",
+      "labels": [
+        "HEALTH",
+        "SANTÉ",
+        "KRAFT",
+        "SALUD",
+        "SALUTE"
+      ]
+    },
+    {
+      "key": "hud_bike",
+      "labels": [
+        "BIKE",
+        "MOTO",
+        "MOTORRAD",
+        "MOTO",
+        "MOTO"
+      ]
+    },
+    {
+      "key": "hud_boost",
+      "labels": [
+        "BOOST",
+        "NITRO",
+        "NITRO",
+        "NITRO",
+        "NITRO"
+      ]
     }
   ]
 }

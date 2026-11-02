@@ -183,11 +183,126 @@ impl World {
                         && *s < rider.bike.speed + 1000
                 })
                 .min_by_key(|(p, _, _)| *p);
-            brain.desired_lane = lanes
-                .into_iter()
-                .filter(|l| !blocked(*l))
-                .min_by_key(|l| (*l - rider.bike.lateral).abs())
-                .unwrap_or(rider.bike.lateral);
+            if self.setup.tactics_version == 1 {
+                // Score all available corridors over a speed-dependent horizon,
+                // including actual building/scenery volumes and moving road users.
+                // Aggressive riders also close laterally on rivals for combat.
+                let horizon = (i64::from(rider.bike.speed.max(0)) / 8).clamp(384, 4096);
+                let combat_target = e
+                    .units
+                    .iter()
+                    .filter(|(other, u)| {
+                        **other != id
+                            && u.recovery.phase == Phase::Mounted
+                            && u.recovery.outcome.is_none()
+                            && u.recovery.bike_location.path == at.path
+                            && (u.recovery.bike_location.progress - at.progress).abs() < 384
+                    })
+                    .min_by_key(|(other, u)| {
+                        (
+                            (u.recovery.bike_location.progress - at.progress).abs(),
+                            **other,
+                        )
+                    });
+                let aggression = i64::from(brain.traits.aggression.unwrap_or(64));
+                let hazard_indices = e.obstacle_candidates(
+                    at.path,
+                    at.progress - 1088,
+                    at.progress + horizon + 1024,
+                );
+                let combat_lane = combat_target
+                    .filter(|_| aggression >= 96)
+                    .map(|(target, u)| {
+                        let side = if (id.0 + u64::from(brain.traits.personality.unwrap_or(0)))
+                            .is_multiple_of(2)
+                        {
+                            1
+                        } else {
+                            -1
+                        };
+                        let clearance = (e.setup.rules.dimensions[0] * 2 + 512).clamp(17000, 19968);
+                        (*target, u.recovery.bike_location.lateral + side * clearance)
+                    });
+                let mut candidates = lanes.clone();
+                if let Some((_, lane)) = combat_lane
+                    && lane > (c.ground[sample].left + 50) * 256
+                    && lane < (c.ground[sample].right - 50) * 256
+                {
+                    candidates.push(lane);
+                }
+                let chosen = candidates
+                    .iter()
+                    .copied()
+                    .map(|lane| {
+                        let static_block = hazard_indices
+                            .iter()
+                            .map(|i| &e.setup.rules.obstacles[*i])
+                            .any(|o| {
+                                o.kind != crate::encounter::ObstacleKind::Decorative
+                                    && o.path == at.path
+                                    && o.progress + i64::from(o.half_length) > at.progress - 64
+                                    && o.progress - i64::from(o.half_length) < at.progress + horizon
+                                    && lane > o.left - 10000
+                                    && lane < o.right + 10000
+                            });
+                        let mut score = if static_block { 1_000_000_000i64 } else { 0 };
+                        for (p, l, speed) in &obstacles {
+                            if *p < at.progress - 128 || *p > at.progress + horizon {
+                                continue;
+                            }
+                            let combat_clearance = combat_lane.is_some_and(|(target, _)| {
+                                let location = e.units[&target].recovery.bike_location;
+                                location.progress == *p
+                                    && location.lateral == *l
+                                    && (lane - *l).abs() >= e.setup.rules.dimensions[0] * 2 + 256
+                            });
+                            if (lane - *l).abs() < 24000 && !combat_clearance {
+                                let closing = (rider.bike.speed - *speed).max(0) as i64;
+                                score += 2_000_000
+                                    + (horizon - (*p - at.progress).max(0)) * 100
+                                    + closing * 50;
+                            }
+                        }
+                        if reservations.iter().any(|(path, p, l)| {
+                            *path == at.path
+                                && (*p - at.progress).abs() < 512
+                                && (*l - lane).abs() < 24000
+                        }) {
+                            score += 1_000_000;
+                        }
+                        score += i64::from((lane - rider.bike.lateral).abs()) * 3;
+                        if let Some((_, attack_lane)) = combat_lane {
+                            score += i64::from((lane - attack_lane).abs()) * aggression / 16;
+                        }
+                        (score, lane, static_block)
+                    })
+                    .min_by_key(|(score, lane, _)| (*score, *lane));
+                if let Some((_, lane, static_block)) = chosen {
+                    brain.desired_lane = lane;
+                    if static_block {
+                        brain.target_speed = brain.target_speed.min(2000);
+                    }
+                }
+                if let Some((progress, _, speed)) = obstacles
+                    .iter()
+                    .filter(|(p, l, _)| {
+                        *p > at.progress
+                            && *p - at.progress < horizon
+                            && (*l - brain.desired_lane).abs() < 24000
+                    })
+                    .min_by_key(|(p, _, _)| *p)
+                {
+                    let gap = *progress - at.progress;
+                    let safe_speed = (*speed).max(0) + (gap * 8).min(20000) as i32;
+                    brain.target_speed = brain.target_speed.min(safe_speed);
+                }
+            } else {
+                brain.desired_lane = lanes
+                    .into_iter()
+                    .filter(|l| !blocked(*l))
+                    .min_by_key(|l| (*l - rider.bike.lateral).abs())
+                    .unwrap_or(rider.bike.lateral);
+            }
             brain.yielding = slow.is_some() && blocked(brain.desired_lane);
             if let Some((_, _, speed)) = slow.filter(|_| brain.yielding) {
                 brain.target_speed = brain.target_speed.min((*speed - 500).max(0));

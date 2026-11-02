@@ -131,37 +131,47 @@
       "id": "19.09",
       "title": "Complete a genuine native-asset Big Game career",
       "required": true,
-      "status": "passed",
+      "status": "pending",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Reach level-five finale and reopen the final career. Compare saved money, qualifications and purchases against the transaction ledger; accept no missing required content or synthetic finish shortcut.",
-      "evidence": "docs/evidence/19.09.md"
+      "evidence": "docs/evidence/19.09.md",
+      "completed_children": [
+        "a"
+      ],
+      "reopened_reason": "Building geometry/collision, opponent tactics and interface changed after RC4. Historical RC4 receipts are preserved; candidate-wide revalidation/repackaging is required. See docs/evidence/native-gameplay-fixes.md."
     },
     {
       "id": "19.10",
       "title": "Burn down required functionality defects",
       "required": true,
-      "status": "passed",
+      "status": "pending",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "No blocker or required functional gap remains unassigned, waived implicitly or hidden under a completed scaffold receipt. Closed defects have passing regression evidence.",
-      "evidence": "docs/evidence/19.10.md"
+      "evidence": "docs/evidence/19.10.md",
+      "completed_children": [],
+      "reopened_reason": "Current source needs the replacement career demonstration and release verification; see docs/evidence/native-gameplay-fixes.md."
     },
     {
       "id": "19.11",
       "title": "Demonstrate the game without development tools",
       "required": true,
-      "status": "passed",
+      "status": "pending",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Have a reviewer follow the written clean-profile route and record failures. Resolve every required interruption before handing the candidate to UI and release verification.",
-      "evidence": "docs/evidence/19.11.md"
+      "evidence": "docs/evidence/19.11.md",
+      "completed_children": [],
+      "reopened_reason": "Current source needs the replacement career demonstration and release verification; see docs/evidence/native-gameplay-fixes.md."
     },
     {
       "id": "19.12",
       "title": "Freeze the functional candidate for native release verification",
       "required": true,
-      "status": "passed",
+      "status": "pending",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Confirm every required feature has implementation and evidence, that Parts 20\u201322 have explicit acceptance owners, and that Part 24 production is still locked until G5 signoff.",
-      "evidence": "docs/evidence/19.12.md"
+      "evidence": "docs/evidence/19.12.md",
+      "completed_children": [],
+      "reopened_reason": "Building geometry/collision, opponent tactics and interface changed after RC4. Historical RC4 receipts are preserved; candidate-wide revalidation/repackaging is required. See docs/evidence/native-gameplay-fixes.md."
     },
     {
       "id": "20.01",
@@ -320,64 +330,78 @@
       "id": "21.06",
       "title": "Run all courses and levels in coverage matrix",
       "required": true,
-      "status": "passed",
+      "status": "pending",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Distinguish untested, skipped, failed and passed cases.",
-      "evidence": "docs/evidence/21.06.md"
+      "evidence": "docs/evidence/21.06.md",
+      "completed_children": [],
+      "reopened_reason": "Building geometry/collision, opponent tactics and interface changed after RC4. Historical RC4 receipts are preserved; candidate-wide revalidation/repackaging is required. See docs/evidence/native-gameplay-fixes.md."
     },
     {
       "id": "21.07",
       "title": "Measure CPU and GPU frame times separately",
       "required": true,
-      "status": "passed",
+      "status": "pending",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Report percentiles and hardware rather than a single average FPS.",
-      "evidence": "docs/evidence/21.07.md"
+      "evidence": "docs/evidence/21.07.md",
+      "completed_children": [],
+      "reopened_reason": "Building geometry/collision, opponent tactics and interface changed after RC4. Historical RC4 receipts are preserved; candidate-wide revalidation/repackaging is required. See docs/evidence/native-gameplay-fixes.md."
     },
     {
       "id": "21.08",
       "title": "Measure memory and texture residency",
       "required": true,
-      "status": "passed",
+      "status": "pending",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Run the native asset set on every course, identify the largest contributors and freeze the native residency budget. Enhanced-pack comparisons belong to Part 24 after G5.",
-      "evidence": "docs/evidence/21.08.md"
+      "evidence": "docs/evidence/21.08.md",
+      "completed_children": [],
+      "reopened_reason": "Building geometry/collision, opponent tactics and interface changed after RC4. Historical RC4 receipts are preserved; candidate-wide revalidation/repackaging is required. See docs/evidence/native-gameplay-fixes.md."
     },
     {
       "id": "21.09",
       "title": "Test repeated native import race and unload cycles",
       "required": true,
-      "status": "passed",
+      "status": "pending",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Confirm counts stabilize instead of increasing after every cycle.",
-      "evidence": "docs/evidence/21.09.md"
+      "evidence": "docs/evidence/21.09.md",
+      "completed_children": [],
+      "reopened_reason": "Building geometry/collision, opponent tactics and interface changed after RC4. Historical RC4 receipts are preserved; candidate-wide revalidation/repackaging is required. See docs/evidence/native-gameplay-fixes.md."
     },
     {
       "id": "21.10",
       "title": "Test loading stalls and shader warmup",
       "required": true,
-      "status": "passed",
+      "status": "pending",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Repeat on cold and warm caches and set measured budgets.",
-      "evidence": "docs/evidence/21.10.md"
+      "evidence": "docs/evidence/21.10.md",
+      "completed_children": [],
+      "reopened_reason": "Building geometry/collision, opponent tactics and interface changed after RC4. Historical RC4 receipts are preserved; candidate-wide revalidation/repackaging is required. See docs/evidence/native-gameplay-fixes.md."
     },
     {
       "id": "21.11",
       "title": "Run soak tests on declared hardware",
       "required": true,
-      "status": "passed",
+      "status": "pending",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Document thermal/power settings and any driver-specific failures.",
-      "evidence": "docs/evidence/21.11.md"
+      "evidence": "docs/evidence/21.11.md",
+      "completed_children": [],
+      "reopened_reason": "Building geometry/collision, opponent tactics and interface changed after RC4. Historical RC4 receipts are preserved; candidate-wide revalidation/repackaging is required. See docs/evidence/native-gameplay-fixes.md."
     },
     {
       "id": "21.12",
       "title": "Publish results with skips and limitations",
       "required": true,
-      "status": "passed",
+      "status": "pending",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Avoid claiming coverage for checks that were not actually executed.",
-      "evidence": "docs/evidence/21.12.md"
+      "evidence": "docs/evidence/21.12.md",
+      "completed_children": [],
+      "reopened_reason": "Building geometry/collision, opponent tactics and interface changed after RC4. Historical RC4 receipts are preserved; candidate-wide revalidation/repackaging is required. See docs/evidence/native-gameplay-fixes.md."
     },
     {
       "id": "22.01",
@@ -455,28 +479,34 @@
       "id": "22.09",
       "title": "Create release notes and known issues",
       "required": true,
-      "status": "passed",
+      "status": "pending",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Link each material limitation to a tracked issue or evidence record.",
-      "evidence": "docs/evidence/22.09.md"
+      "evidence": "docs/evidence/22.09.md",
+      "completed_children": [],
+      "reopened_reason": "Building geometry/collision, opponent tactics and interface changed after RC4. Historical RC4 receipts are preserved; candidate-wide revalidation/repackaging is required. See docs/evidence/native-gameplay-fixes.md."
     },
     {
       "id": "22.10",
       "title": "Tag reproducible source revision",
       "required": true,
-      "status": "passed",
+      "status": "pending",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Rebuild from the tag and compare intended reproducibility outputs.",
-      "evidence": "docs/evidence/22.10.md"
+      "evidence": "docs/evidence/22.10.md",
+      "completed_children": [],
+      "reopened_reason": "Building geometry/collision, opponent tactics and interface changed after RC4. Historical RC4 receipts are preserved; candidate-wide revalidation/repackaging is required. See docs/evidence/native-gameplay-fixes.md."
     },
     {
       "id": "22.11",
       "title": "Attach checksums to release artifacts",
       "required": true,
-      "status": "passed",
+      "status": "pending",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Verify downloaded bytes against published checksums.",
-      "evidence": "docs/evidence/22.11.md"
+      "evidence": "docs/evidence/22.11.md",
+      "completed_children": [],
+      "reopened_reason": "Building geometry/collision, opponent tactics and interface changed after RC4. Historical RC4 receipts are preserved; candidate-wide revalidation/repackaging is required. See docs/evidence/native-gameplay-fixes.md."
     },
     {
       "id": "22.12",
@@ -486,12 +516,9 @@
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Leave the release gate open for any unresolved blocking scenario.",
       "evidence": "docs/evidence/22.12.md",
-      "completed_children": [
-        "a",
-        "b",
-        "c"
-      ],
-      "pending_reason": "G5 is assigned to project owner; technical packaged career/release matrix and evidence complete, owner signature absent."
+      "completed_children": [],
+      "pending_reason": "G5 is assigned to project owner; technical packaged career/release matrix and evidence complete, owner signature absent.",
+      "reopened_reason": "Building geometry/collision, opponent tactics and interface changed after RC4. Historical RC4 receipts are preserved; candidate-wide revalidation/repackaging is required. See docs/evidence/native-gameplay-fixes.md."
     }
   ]
 }

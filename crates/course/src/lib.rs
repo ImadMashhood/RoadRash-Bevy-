@@ -1,5 +1,6 @@
 #![forbid(unsafe_code)]
 //! Source-unit course reconstruction, independent of Bevy and frame timing.
+pub mod buildings;
 pub mod decode;
 pub mod export;
 pub mod route;

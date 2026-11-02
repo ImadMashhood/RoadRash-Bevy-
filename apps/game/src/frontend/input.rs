@@ -128,3 +128,49 @@ pub(super) fn script(mut commands: Commands, mut script: ResMut<Script>) {
         commands.queue(move |world: &mut World| apply(world, step.action));
     }
 }
+
+/// Project pointer coordinates through the same camera viewport used for the logical UI.
+/// Only pointer movement changes hover focus, so keyboard/controller focus remains stable.
+pub(super) fn pointer(
+    mouse: Res<ButtonInput<MouseButton>>,
+    windows: Query<&Window>,
+    cameras: Query<(&Camera, &GlobalTransform), With<Camera2d>>,
+    hitboxes: Query<&view::MenuHitbox>,
+    mut previous: Local<Option<Vec2>>,
+    mut shell: ResMut<Shell>,
+    mut commands: Commands,
+) {
+    if !shell.visible() || shell.awaiting_binding.is_some() || shell.awaiting_name.is_some() {
+        return;
+    }
+    let Ok(window) = windows.single() else {
+        return;
+    };
+    let Some(cursor) = window.cursor_position() else {
+        *previous = None;
+        return;
+    };
+    let clicked = mouse.just_pressed(MouseButton::Left);
+    if *previous == Some(cursor) && !clicked {
+        return;
+    }
+    *previous = Some(cursor);
+    let Ok((camera, transform)) = cameras.single() else {
+        return;
+    };
+    let Ok(point) = camera.viewport_to_world_2d(transform, cursor) else {
+        return;
+    };
+    if let Some(hit) = hitboxes.iter().find(|h| {
+        h.screen == shell.frontend.screen && (point - h.center).abs().cmple(h.size / 2.).all()
+    }) {
+        let (_, items) = menu(&shell);
+        if let Some((_, action)) = items.get(hit.index) {
+            shell.focus = hit.index;
+            if clicked {
+                let action = action.clone();
+                commands.queue(move |world: &mut World| apply(world, action));
+            }
+        }
+    }
+}

@@ -153,6 +153,8 @@ pub struct PedestrianAppearance {
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(deny_unknown_fields)]
 pub struct Setup {
+    #[serde(default, skip_serializing_if = "byte_zero")]
+    pub tactics_version: u8,
     #[serde(default, skip_serializing_if = "false_value")]
     pub functional_traffic: bool,
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
@@ -171,6 +173,7 @@ pub struct Setup {
 impl Default for Setup {
     fn default() -> Self {
         Self {
+            tactics_version: 0,
             functional_traffic: false,
             pedestrian_appearances: vec![],
             brains: BTreeMap::new(),
@@ -187,6 +190,9 @@ impl Default for Setup {
 }
 impl Setup {
     pub fn validate(&self, c: &riding::Configuration, e: &encounter::Setup) -> Result<()> {
+        if self.tactics_version > 1 {
+            return Err(Error::Invalid("population tactics version"));
+        }
         if self.pedestrian_appearances.len() > 256 {
             return Err(Error::Invalid("Pedestrian appearance budget"));
         }
