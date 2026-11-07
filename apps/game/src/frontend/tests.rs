@@ -208,6 +208,12 @@ fn quit_confirmation_cancel_returns_to_pause_and_neutral_resume() {
         app.world().resource::<Shell>().frontend.screen,
         Screen::Paused
     );
+    assert!(
+        app.world()
+            .resource::<Shell>()
+            .notice
+            .contains("Release driving controls")
+    );
     app.world_mut()
         .resource_mut::<super::super::LiveInput>()
         .0
@@ -219,6 +225,32 @@ fn quit_confirmation_cancel_returns_to_pause_and_neutral_resume() {
         Screen::Racing
     );
     assert!(!app.world().resource::<PauseState>().paused);
+    assert!(app.world().resource::<Shell>().notice.is_empty());
+    apply(app.world_mut(), Act::Open(Screen::Paused));
+    assert!(app.world().resource::<Shell>().notice.is_empty());
+}
+
+#[test]
+fn quote_information_does_not_spend_and_notices_follow_the_current_context() {
+    let mut app = app();
+    apply(app.world_mut(), Act::Begin(Mode::BigGame));
+    apply(app.world_mut(), Act::Character(1));
+    apply(app.world_mut(), Act::Open(Screen::Showroom));
+    app.world_mut().resource_mut::<Shell>().notice = "Old bike specifications".into();
+    apply(app.world_mut(), Act::Bike(1));
+    assert!(app.world().resource::<Shell>().notice.is_empty());
+    let before = app.world().resource::<Shell>().frontend.career.clone();
+    apply(app.world_mut(), Act::Open(Screen::Purchase));
+    let shell = app.world().resource::<Shell>();
+    assert!(shell.notice.contains("Trade-in:") && shell.notice.contains("Cash available:"));
+    assert_eq!(shell.frontend.career, before);
+    apply(app.world_mut(), Act::Back);
+    assert!(app.world().resource::<Shell>().notice.is_empty());
+    apply(app.world_mut(), Act::Back);
+    apply(app.world_mut(), Act::Open(Screen::Repair));
+    let shell = app.world().resource::<Shell>();
+    assert!(shell.notice.contains("Repair cost:") && shell.notice.contains("Cash available:"));
+    assert_eq!(shell.frontend.career, before);
 }
 #[test]
 fn source_factory_repeated_courses_bikes_and_carried_damage_drop_all_scene_owners() {
@@ -228,6 +260,10 @@ fn source_factory_repeated_courses_bikes_and_carried_damage_drop_all_scene_owner
     ) else {
         return;
     };
+    let native_catalog = Catalog::from_exe(
+        &std::fs::read(std::path::Path::new(&data).join("ROADRASH.EXE")).unwrap(),
+    )
+    .unwrap();
     let mut measurements = vec![];
     for (stem, _) in COURSES {
         let options = LaunchOptions {
@@ -265,6 +301,16 @@ fn source_factory_repeated_courses_bikes_and_carried_damage_drop_all_scene_owner
             assert_eq!(
                 snapshot.actors[0].rider.as_ref().unwrap().bike.condition,
                 (full / 2).max(1)
+            );
+            let mut front = Frontend::default();
+            front.mode = Mode::BigGame;
+            front.bike = (bike - 1) as u8;
+            let mut session = Shell::make_session(&front, &native_catalog, &first.0, 1);
+            assert_eq!(session.condition_capacity(), full);
+            session.quit(&snapshot);
+            assert_eq!(
+                session.summary().unwrap().bike_condition(),
+                ((full / 2).max(1) * 100 / full).clamp(0, 100)
             );
             for a in snapshot.actors.iter().skip(1) {
                 let traits = &setup.population.as_ref().unwrap().brains[&a.id];
@@ -733,5 +779,605 @@ fn original_restroom_disables_save_without_a_career_visually_and_for_pointer_inp
             .query::<(&Text2d, &TextColor)>()
             .iter(world)
             .any(|(text, color)| text.0 == "Save Game" && color.0 == Color::srgb(0.45, 0.45, 0.45))
+    );
+}
+
+#[test]
+#[ignore = "requires private source data/catalog and verifies all 25 course/level factories"]
+fn source_scenery_factories_cover_all_twenty_five_course_levels() {
+    let data = std::env::var("RR_SESSION_DATA").expect("RR_SESSION_DATA");
+    let catalog = std::env::var("RR_SESSION_CATALOG").expect("RR_SESSION_CATALOG");
+    let mut cases = Vec::new();
+    for (stem, _) in COURSES {
+        let mut options = LaunchOptions {
+            data_root: Some(data.clone().into()),
+            catalog: Some(catalog.clone().into()),
+            course: Some(stem.into()),
+            level: 1,
+            bike: 1,
+            opponents: 14,
+            condition_percent: 100,
+            effects: true,
+            ..Default::default()
+        };
+        // Decode artwork once per course. Each level still constructs its own
+        // scene, placements, actual source factory and authoritative world.
+        let base = super::super::course_view(&options, &VisualAssets::default())
+            .unwrap()
+            .unwrap();
+        for level in 1..=5 {
+            options.level = level;
+            let scene = rr_render::Scene::new(
+                base.scene.course.clone(),
+                base.scene.assets.clone(),
+                rr_render::SceneOptions {
+                    course: stem.into(),
+                    level,
+                    branch_mask: options.branch_mask,
+                    seed: 1,
+                },
+            )
+            .unwrap();
+            let presentation = rr_presentation::CoursePresentation {
+                scene: std::sync::Arc::new(scene),
+                camera: base.camera.clone(),
+                start_q8: base.start_q8,
+            };
+            let seed = u32::from(level) + 40;
+            let mut simulation =
+                super::super::build_race(&options, Some(&presentation), seed, Some(1)).0;
+            assert_eq!(simulation.snapshot().actors.len(), 15, "{stem} L{level}");
+            let mut recording = simulation.recording_setup(seed).unwrap();
+            assert_eq!(recording.handling.as_ref().unwrap().motion_version, 3);
+            let setup = serde_json::to_value(recording.encounter.as_ref().unwrap()).unwrap();
+            assert_eq!(setup["rules"]["combat_version"], 4, "{stem} L{level}");
+            assert_eq!(
+                setup["rules"]["body"]["recovery_version"], 2,
+                "{stem} L{level}"
+            );
+            assert!(recording.population.as_ref().unwrap().police.is_some());
+            assert_eq!(setup["rules"]["scenery_version"], 1, "{stem} L{level}");
+            assert_eq!(setup["rules"]["contact_walk_version"], 2, "{stem} L{level}");
+            let profiles = setup["rules"]["source_roads"]["profiles"]
+                .as_array()
+                .unwrap();
+            assert_eq!(
+                profiles.len(),
+                1 << presentation.scene.course.splits().len()
+            );
+            for (mask, profile) in profiles.iter().enumerate() {
+                let choices = profile["choices"].as_array().unwrap();
+                for (bit, choice) in choices.iter().enumerate() {
+                    assert_eq!(choice.as_u64().unwrap(), ((mask >> bit) & 1) as u64);
+                }
+            }
+            let obstacles = setup["rules"]["obstacles"].as_array().unwrap();
+            let mut classes = std::collections::BTreeMap::<u64, usize>::new();
+            for obstacle in obstacles {
+                if let Some(source_box) = obstacle.get("source_box") {
+                    let class = source_box["scenery"]["class"]
+                        .as_u64()
+                        .expect("new source boxes must retain their native query class");
+                    *classes.entry(class).or_default() += 1;
+                }
+            }
+            let initial = serde_json::to_value(simulation.encounters().unwrap()).unwrap();
+            assert!(
+                initial["scenery"].is_object(),
+                "{stem} L{level} omitted loading state"
+            );
+            let initial_hash = simulation.state_hash();
+            for _ in 0..3 {
+                simulation.advance().unwrap();
+            }
+            recording.ticks = 3;
+            let expected = simulation.state_hash();
+            recording.expected_hash = Some(expected.clone());
+            let bytes = serde_json::to_vec(&recording).unwrap();
+            for rate in ["30", "60", "144", "irregular"] {
+                let replay = rr_simulation::replay::Replay::read(&bytes).unwrap();
+                let result = rr_simulation::replay::run(replay, rate).unwrap();
+                assert_eq!(result.state_sha256, expected, "{stem} L{level} {rate}");
+            }
+            cases.push(serde_json::json!({
+                "course": stem, "level": level, "actors": 15,
+                "obstacles": obstacles.len(), "source_classes": classes,
+                "initial_hash": initial_hash, "final_hash": expected,
+                "ticks": 3, "schedules": ["30", "60", "144", "irregular"],
+                "recording_bytes": bytes.len(),
+                "route_profiles": profiles.len(),
+            }));
+        }
+    }
+    assert_eq!(cases.len(), 25);
+    assert!(
+        cases
+            .iter()
+            .any(|case| !case["source_classes"].as_object().unwrap().is_empty())
+    );
+    if let Ok(output) = std::env::var("RR_SCENERY_FACTORY_METRICS") {
+        std::fs::write(
+            output,
+            serde_json::to_vec_pretty(&serde_json::json!({
+                "outcome": "passed", "cases": cases,
+                "scope": "Real content factories and three ordinary ticks at all course/level pairs; no full-race or career claim",
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+    }
+}
+
+#[test]
+#[ignore = "requires private source data/catalog; inventories native scene cache identities"]
+fn source_scenery_native_identity_inventory() {
+    let data = std::env::var("RR_SESSION_DATA").expect("RR_SESSION_DATA");
+    let catalog = std::env::var("RR_SESSION_CATALOG").expect("RR_SESSION_CATALOG");
+    let mut cases = Vec::new();
+    for (stem, _) in COURSES {
+        let options = LaunchOptions {
+            data_root: Some(data.clone().into()),
+            catalog: Some(catalog.clone().into()),
+            course: Some(stem.into()),
+            level: 1,
+            bike: 1,
+            opponents: 14,
+            condition_percent: 100,
+            ..Default::default()
+        };
+        let base = super::super::course_view(&options, &VisualAssets::default())
+            .unwrap()
+            .unwrap();
+        for mask in 0..(1 << base.scene.course.splits().len()) {
+            let scene = rr_render::Scene::new(
+                base.scene.course.clone(),
+                base.scene.assets.clone(),
+                rr_render::SceneOptions {
+                    course: stem.into(),
+                    level: 1,
+                    branch_mask: mask,
+                    seed: 1,
+                },
+            )
+            .unwrap();
+            let mut identities = std::collections::BTreeMap::<
+                (u32, u32),
+                std::collections::BTreeMap<(usize, i32), u8>,
+            >::new();
+            let mut duplicate_same_identity = 0usize;
+            for (sample, point) in scene.route.points.iter().enumerate() {
+                let mut insert = |node, local, offset, road_mask| {
+                    let variants = identities.entry((node, local)).or_default();
+                    if variants.contains_key(&(sample, offset)) {
+                        duplicate_same_identity += 1;
+                    }
+                    *variants.entry((sample, offset)).or_default() |= road_mask;
+                };
+                insert(
+                    point.node,
+                    point.local,
+                    point.offset,
+                    point.dual.as_ref().map_or(3, |dual| 1 << dual.half),
+                );
+                if let Some(dual) = &point.dual {
+                    insert(dual.node, dual.local, dual.offset, 1 << (1 - dual.half));
+                }
+            }
+            let conflicts: Vec<_> = identities.iter().filter(|(_, variants)| variants.len() > 1)
+                .map(|(&(node, local), variants)| serde_json::json!({
+                    "node": node, "local": local,
+                    "variants": variants.iter().map(|(&(sample, offset), &road_mask)|
+                        serde_json::json!({"sample":sample,"offset":offset,"road_mask":road_mask})).collect::<Vec<_>>()
+                })).collect();
+            for level in 1..=5 {
+                let placements = rr_course::scenery::place(&scene.course, level, 1).unwrap();
+                let (mut mapped, mut unmapped, mut conflicting) = (0usize, 0usize, 0usize);
+                let mut unmapped_paths = std::collections::BTreeMap::<u32, usize>::new();
+                for instance in &placements.instances {
+                    let category = match instance.kind.as_str() {
+                        "roadside" => 0,
+                        "billboard" if instance.raw[0] & 0x80000000 == 0 => 4,
+                        _ => continue,
+                    };
+                    let (Some(family), Some(lateral)) = (instance.family, instance.lateral) else {
+                        continue;
+                    };
+                    let Some(bank) = scene.assets.families.get(&family) else {
+                        continue;
+                    };
+                    let Some(boxes) =
+                        bank.collision_boxes(category, usize::from(instance.selector & 63))
+                    else {
+                        continue;
+                    };
+                    if boxes.is_empty() {
+                        continue;
+                    }
+                    let path = &scene.course.sections[instance.section as usize].samples
+                        [instance.sample as usize];
+                    if category == 0 && !(lateral > -path.width[0] && lateral < path.width[1]) {
+                        continue;
+                    }
+                    for (node_id, node) in &scene.course.nodes {
+                        if node.kind != rr_course::NodeKind::Road
+                            || node.link != instance.section
+                            || instance.sample >= node.length
+                        {
+                            continue;
+                        }
+                        if let Some(variants) = identities.get(&(*node_id, instance.sample)) {
+                            mapped += 1;
+                            conflicting += usize::from(variants.len() > 1);
+                        } else {
+                            unmapped += 1;
+                            *unmapped_paths.entry(*node_id).or_default() += 1;
+                        }
+                    }
+                }
+                cases.push(serde_json::json!({
+                    "course":stem,"branch_mask":mask,"level":level,
+                    "identity_keys":identities.len(),"duplicate_same_identity":duplicate_same_identity,
+                    "conflicting_identity_keys":conflicts.len(),"first_conflicts":&conflicts[..conflicts.len().min(12)],
+                    "mapped_physical_instances":mapped,"unmapped_physical_instances":unmapped,
+                    "conflicting_physical_instances":conflicting,"unmapped_paths":unmapped_paths,
+                }));
+            }
+        }
+    }
+    assert_eq!(cases.len(), 130);
+    let path = std::env::var("RR_SCENERY_IDENTITY_METRICS").expect("RR_SCENERY_IDENTITY_METRICS");
+    std::fs::write(path, serde_json::to_vec_pretty(&serde_json::json!({
+        "outcome":"observed", "cases":cases,
+        "scope":"Independent selected/Dual cache identity and physical-instance inventory; conflicts and exclusions require resolution, not automatic acceptance",
+    })).unwrap()).unwrap();
+}
+
+#[test]
+#[ignore = "requires private source data/catalog; controlled physical branch render poses"]
+fn source_physical_branch_presentation_inventory() {
+    use rr_render::camera::{route_encounter_snapshot, route_position, route_snapshot_view};
+    let data = std::env::var("RR_SESSION_DATA").unwrap();
+    let catalog = std::env::var("RR_SESSION_CATALOG").unwrap();
+    let output = std::path::PathBuf::from(std::env::var("RR_BRANCH_RENDER_OUTPUT").unwrap());
+    std::fs::create_dir_all(&output).unwrap();
+    let mut cases = Vec::new();
+    for (stem, _) in COURSES {
+        let options = LaunchOptions {
+            data_root: Some(data.clone().into()),
+            catalog: Some(catalog.clone().into()),
+            course: Some(stem.into()),
+            level: 1,
+            bike: 1,
+            opponents: 0,
+            condition_percent: 100,
+            ..Default::default()
+        };
+        let base = super::super::course_view(&options, &VisualAssets::default())
+            .unwrap()
+            .unwrap();
+        let original = super::super::build_race(&options, Some(&base), 1, Some(1))
+            .0
+            .snapshot();
+        for mask in 0..(1 << base.scene.course.splits().len()) {
+            let selected = base.scene.following_mask(mask).unwrap();
+            let scene = selected.as_ref().unwrap_or(&base.scene);
+            for (index, point) in scene.route.points.iter().enumerate().step_by(257) {
+                assert_eq!(
+                    route_position(&scene.route, point.node, i64::from(point.local) * 256 + 17),
+                    Some(index as i64 * 256 + 17)
+                );
+            }
+            let checkpoints: Vec<_> = scene
+                .route
+                .transitions
+                .iter()
+                .map(|transition| transition.index + 2)
+                .collect();
+            for (checkpoint, index) in checkpoints.into_iter().enumerate() {
+                let point = &scene.route.points[index];
+                let mut snapshot = original.clone();
+                snapshot.actors.retain(|actor| actor.id.0 == 1);
+                snapshot.road_users.clear();
+                let actor = &mut snapshot.actors[0];
+                let location = rr_simulation::topology::Location {
+                    path: point.node,
+                    progress: i64::from(point.local) * 256 + 128,
+                    lateral: point.offset * 256,
+                    ..Default::default()
+                };
+                let unit = actor.encounter.as_mut().unwrap();
+                unit.recovery.bike_location = location;
+                unit.source_route = Some(mask as u8);
+                actor.position.section.0 = point.node;
+                actor.rider.as_mut().unwrap().bike.lateral = location.lateral;
+                let snapshot = route_encounter_snapshot(&scene.route, &snapshot);
+                let camera =
+                    route_snapshot_view(&scene.route, &snapshot, &snapshot, 1., base.start_q8);
+                assert_eq!(camera.position_q8, (index as f64 - 1.) * 256. + 128.);
+                assert_eq!(
+                    snapshot.actors[0].position.progress.0,
+                    (index as i64 * 256 + 128) * 8
+                );
+                let (frame, receipt) = scene.draw(&base.camera, &camera, &snapshot, false).unwrap();
+                assert!(
+                    receipt.rider_bounds.is_some(),
+                    "{stem} mask {mask} checkpoint {checkpoint}"
+                );
+                let filename = format!("{stem}-{mask}-{checkpoint}.png");
+                std::fs::write(output.join(&filename), frame.image.png().unwrap()).unwrap();
+                cases.push(serde_json::json!({"course":stem,"mask":mask,"checkpoint":checkpoint,"sample":index,"node":point.node,"offset":point.offset,"image":filename,"rider_bounds":receipt.rider_bounds}));
+            }
+        }
+    }
+    std::fs::write(output.join("comparison.json"), serde_json::to_vec_pretty(&serde_json::json!({
+        "outcome":"passed", "cases":cases,
+        "scope":"Controlled real-art physical-coordinate presentation poses at all26 route masks; no driven trajectory or native raster identity claim",
+    })).unwrap()).unwrap();
+}
+
+#[test]
+#[ignore = "requires private native per-sample terrain metadata and original art"]
+fn source_native_terrain_inventory() {
+    use rr_simulation::handling::Ground;
+    let native: serde_json::Value =
+        serde_json::from_slice(&std::fs::read(std::env::var("RR_NATIVE_GROUND").unwrap()).unwrap())
+            .unwrap();
+    let data = std::env::var("RR_SESSION_DATA").unwrap();
+    let catalog = std::env::var("RR_SESSION_CATALOG").unwrap();
+    let mut failures = Vec::new();
+    let mut count = 0;
+    let mut kinds = std::collections::BTreeMap::<u8, usize>::new();
+    for (course_id, (stem, _)) in COURSES.into_iter().enumerate() {
+        let options = LaunchOptions {
+            data_root: Some(data.clone().into()),
+            catalog: Some(catalog.clone().into()),
+            course: Some(stem.into()),
+            level: 1,
+            bike: 1,
+            opponents: 0,
+            condition_percent: 100,
+            ..Default::default()
+        };
+        let presentation = super::super::course_view(&options, &VisualAssets::default())
+            .unwrap()
+            .unwrap();
+        for row in native["inventory"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .filter(|row| row["course"].as_u64() == Some(course_id as u64))
+        {
+            let path = row["node"].as_u64().unwrap() as u32;
+            let local = row["local"].as_u64().unwrap() as usize;
+            let boundary =
+                super::super::source_roads::boundary(&presentation.scene, path, local, 0);
+            let surface = boundary.surface.as_ref().unwrap();
+            *kinds.entry(surface.kind).or_default() += 1;
+            let mut actual = vec![i32::from(surface.kind), surface.center];
+            actual.extend(boundary.road);
+            actual.extend(boundary.outer);
+            actual.extend(surface.base);
+            actual.extend(surface.top);
+            actual.extend(surface.height);
+            actual.extend(boundary.selectors.map(i32::from));
+            actual.push(i32::from(boundary.flags));
+            actual.extend(surface.side_height);
+            for point in surface.points.iter().flatten() {
+                actual.extend(point);
+            }
+            actual.extend([
+                i32::from(surface.event_type),
+                i32::from(surface.rail_offset),
+                i32::from(surface.rail_flags),
+                surface.drawn_rail_height.unwrap_or(0),
+            ]);
+            let expected: Vec<i32> = row["boundary"]
+                .as_array()
+                .unwrap()
+                .iter()
+                .map(|v| v.as_i64().unwrap() as i32)
+                .collect();
+            let section = presentation.scene.course.nodes[&path].link as usize;
+            let sample = &presentation.scene.course.sections[section].samples[local];
+            let ground = Ground {
+                left: -sample.width[0],
+                right: sample.width[1],
+                left_shoulder: -sample.width[0] - sample.shoulder[0],
+                right_shoulder: sample.width[1] + sample.shoulder[1],
+                flags: sample.marking_flags,
+                kind: super::super::source_roads::ground_kind(
+                    &presentation.scene.terrain[section][local],
+                    sample.marking_flags,
+                ),
+                ..Default::default()
+            };
+            let positions = [
+                ground.left_shoulder - 1,
+                ground.left_shoulder,
+                ground.left - 49,
+                ground.left,
+                ground.left + 1,
+                ground.right - 1,
+                ground.right,
+                ground.right + 48,
+                ground.right + 49,
+                ground.right_shoulder,
+            ];
+            let classes: Vec<_> = positions
+                .into_iter()
+                .map(|x| ground.surface(x * 256) as u64)
+                .collect();
+            let expected_classes: Vec<_> = row["classes"]
+                .as_array()
+                .unwrap()
+                .iter()
+                .map(|v| v.as_u64().unwrap())
+                .collect();
+            if actual != expected || classes != expected_classes {
+                failures.push(serde_json::json!({"course":stem,"node":path,"local":local,"expected":expected,"actual":actual,"expected_classes":expected_classes,"actual_classes":classes}));
+            }
+            count += 1;
+        }
+    }
+    let output = std::path::PathBuf::from(std::env::var("RR_GROUND_OUTPUT").unwrap());
+    std::fs::write(output.join("terrain-inventory-comparison.json"),serde_json::to_vec_pretty(&serde_json::json!({"outcome":if failures.is_empty(){"passed"}else{"failed"},"observations":count,"mismatches":failures.len(),"kinds":kinds,"first_mismatches":failures.iter().take(12).collect::<Vec<_>>(),"scope":"Every physical source road sample: native terrain geometry, decoded rails and10off-road surface classes; isolated seed1 geometry"})).unwrap()).unwrap();
+    assert!(count > 25000);
+    assert!(
+        failures.is_empty(),
+        "{} source terrain inventory mismatches",
+        failures.len()
+    );
+}
+
+#[test]
+#[ignore = "requires private source content; actual steered branch episodes with original artwork"]
+fn source_steered_branch_episodes() {
+    use rr_render::camera::{route_encounter_snapshot, route_snapshot_view};
+    use rr_simulation::{ActorId, Command, QueuedCommand, Simulation};
+    let data = std::env::var("RR_SESSION_DATA").unwrap();
+    let catalog = std::env::var("RR_SESSION_CATALOG").unwrap();
+    let output = std::path::PathBuf::from(std::env::var("RR_SOURCE_DRIVE_OUTPUT").unwrap());
+    std::fs::create_dir_all(&output).unwrap();
+    let mut cases = Vec::new();
+    for (stem, _) in COURSES {
+        let options = LaunchOptions {
+            data_root: Some(data.clone().into()),
+            catalog: Some(catalog.clone().into()),
+            course: Some(stem.into()),
+            level: 5,
+            bike: 1,
+            opponents: 14,
+            condition_percent: 100,
+            effects: true,
+            ..Default::default()
+        };
+        let base = super::super::course_view(&options, &VisualAssets::default())
+            .unwrap()
+            .unwrap();
+        let original = super::super::build_race(&options, Some(&base), 1, Some(1))
+            .0
+            .recording_setup(1)
+            .unwrap();
+        let split = base
+            .scene
+            .route
+            .transitions
+            .iter()
+            .find(|event| event.kind == rr_course::route::TransitionKind::Split)
+            .unwrap();
+        let before = &base.scene.route.points[split.index - 1];
+        for half in [0usize, 1] {
+            let mut record = original.clone();
+            let config = record.handling.as_ref().unwrap();
+            let setup = record.encounter.as_mut().unwrap();
+            let roads = setup.rules.source_roads.as_ref().unwrap();
+            let fork = &roads.forks[&before.node];
+            let left = roads.profiles[0].identity(fork.halves[0], 0).unwrap();
+            let edge = left[2] + roads.ground[&fork.halves[0]][0].right;
+            let distance = (split.index as i64 - i64::from(config.start_sample) - 2) * 256;
+            assert!(
+                distance < setup.rules.finish_progress.unwrap(),
+                "branch fixture must precede the selected race finish"
+            );
+            let lateral = (edge + if half == 0 { -160 } else { 160 }) * 256;
+            setup.seeds[0].distance = distance;
+            setup.seeds[0].lateral = lateral;
+            setup.seeds[0].speed = 15000;
+            setup.seeds[0].location = Some(setup.topology.locate(distance, lateral, 0).unwrap());
+            assert!(!setup.rules.assists.fast_recovery && !setup.rules.assists.rescue_unreachable);
+            let target = fork.halves[half];
+            let mut sim = Simulation::with_population(
+                record.seed,
+                config.clone(),
+                setup.clone(),
+                record.population.clone().unwrap(),
+            )
+            .unwrap();
+            let mut frames = Vec::new();
+            let mut entered = false;
+            let mut selected = None;
+            for tick in 0..=45 {
+                let canonical = sim.snapshot();
+                let unit = canonical
+                    .actors
+                    .iter()
+                    .find(|actor| actor.id == ActorId(1))
+                    .unwrap()
+                    .encounter
+                    .as_ref()
+                    .unwrap();
+                entered |= unit.recovery.bike_location.path == target;
+                let mask = unit
+                    .recovery
+                    .body
+                    .as_ref()
+                    .and_then(|body| body.source_route)
+                    .or(unit.source_route)
+                    .unwrap();
+                if [0, 6, 12, 24, 45].contains(&tick) {
+                    if selected.as_ref().is_none_or(|scene: &rr_render::Scene| {
+                        scene.options.branch_mask != u32::from(mask)
+                    }) {
+                        selected = base.scene.following_mask(u32::from(mask)).unwrap();
+                    }
+                    let scene = selected.as_ref().unwrap_or(&base.scene);
+                    let snapshot = route_encounter_snapshot(&scene.route, &canonical);
+                    let camera =
+                        route_snapshot_view(&scene.route, &snapshot, &snapshot, 1., base.start_q8);
+                    let camera_spec = rr_render::camera::route_camera_spec(
+                        &scene.route,
+                        &base.camera,
+                        &snapshot,
+                        &snapshot,
+                        1.,
+                    );
+                    let (frame, receipt) =
+                        scene.draw(&camera_spec, &camera, &snapshot, false).unwrap();
+                    let name = format!("{stem}-{half}-{tick}.png");
+                    std::fs::write(output.join(&name), frame.image.png().unwrap()).unwrap();
+                    frames.push(serde_json::json!({"tick":tick,"mask":mask,"path":unit.recovery.bike_location.path,"phase":unit.recovery.phase,"image":name,"rider_bounds":receipt.rider_bounds}));
+                }
+                if tick == 45 {
+                    break;
+                }
+                let input = Command {
+                    throttle: true,
+                    steer: if half == 0 { -1 } else { 1 },
+                    ..Default::default()
+                };
+                record.commands.push(QueuedCommand {
+                    tick: rr_simulation::Tick(tick),
+                    actor: ActorId(1),
+                    sequence: 0,
+                    input,
+                });
+                sim.step(input).unwrap();
+            }
+            record.ticks = 45;
+            record.expected_hash = Some(sim.state_hash());
+            let name = format!("{stem}-{half}.json");
+            let bytes = serde_json::to_vec(&record).unwrap();
+            std::fs::write(output.join(&name), &bytes).unwrap();
+            let mut schedules = Vec::new();
+            for rate in ["30", "60", "144", "irregular"] {
+                let result = rr_simulation::replay::run(
+                    rr_simulation::replay::Replay::read(&bytes).unwrap(),
+                    rate,
+                )
+                .unwrap();
+                assert_eq!(result.state_sha256, sim.state_hash());
+                schedules.push(rate);
+            }
+            cases.push(serde_json::json!({"course":stem,"half":half,"target":target,"entered_target":entered,"frames":frames,"replay":name,"state_sha256":sim.state_hash(),"schedules":schedules}));
+        }
+    }
+    let failures = cases
+        .iter()
+        .filter(|case| case["entered_target"] != true)
+        .count();
+    std::fs::write(output.join("comparison.json"),serde_json::to_vec_pretty(&serde_json::json!({"outcome":if failures==0{"passed"}else{"failed"},"cases":cases,"scope":"Actual ordinary controls fromcontrolledpre-forksourceposes, allrealstaticcontacts/fullpopulation, assistsdisabled; no whole-race claim"})).unwrap()).unwrap();
+    assert_eq!(
+        failures, 0,
+        "source branch episodes failed to enter intended physical fork"
     );
 }

@@ -1,0 +1,54 @@
+{
+  "outcome": "passed",
+  "reference_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+  "reference_dirty_paths": [
+    "src/hud.cpp",
+    "tests/hud_test.cpp"
+  ],
+  "native_library_sha256": "f530ae9ce4ce031cea19ce022fde138f2a3fd77a52d01fc82cdce148e472fb51",
+  "native_trace_sha256": "4b76b6c61c80975c73c22a3929f09a59fd00724294eb53c3c8ab050f9537a986",
+  "executable_sha256": "73d7f9744b5b1a9482b3909950cdf3fe34119fe13d023b031e9c6739a60f18a2",
+  "checks": [
+    {
+      "family": "police_body_shadow_assets",
+      "rows": 90,
+      "native_rows": 90,
+      "outcome": "passed",
+      "mismatches": 0
+    }
+  ],
+  "original_windows_runtime_compared": false,
+  "scope": "Actual high-resolution cop body fallback and shadow sheets, native palette IDs0xde/0xdf, all45 frames per bank; pixel RGBA hashes and independent RRAN registration",
+  "verification": {
+    "public_bank_and_duplicate_draw_regression": "passed",
+    "native_asset_observations": 90,
+    "dynamic_police_race_exclusion": "passed"
+  },
+  "functional_recovery_display": {
+    "native_render_parity": false,
+    "reason": "LOCOP has no upright foot sprites; code37 selects prone frame42 and native fallbacks for38/41 are unsuitable",
+    "policy": "Cop bank1 for mounted/falling/quiet bike; native HIBOB/HISHADOW selected bank0 frames for upright body clips36..41, original palette6 and RRAN registration; preserve authority clocks",
+    "authority_changed": false,
+    "status": "passed: full900tick natural crash/getup/walk/mount/remount sequence at four schedules, inspected CPU frames and release GPU walk capture",
+    "native_uniform_identity": false,
+    "rejected_visual_sequence": "local/source-police-art-live-final",
+    "regression": "local/police-foot-display-test.log",
+    "private_receipt": "local/source-police-art-palette-final/comparison.json",
+    "graphical_release_receipt": "local/source-police-art-recovery-current/gpu.json",
+    "schedules": [
+      "30",
+      "60",
+      "144",
+      "irregular"
+    ],
+    "inspected_frames": [
+      480,
+      585,
+      612,
+      693
+    ],
+    "canonical_before_after_sha256": "a42ea7133b4bd90c60f39e5710cc9c7ef22fb9a136c9f26fd6a551547a04f9bb",
+    "source_uniform_gap": "Original cop sheet has no upright foot sprites; fallback uses original rider6 appearance, including standard bike in mounting pose",
+    "canonical_current_sha256": "3b9833b21edffb920a823d6eb27cfcc07770854ca2eaee6df3597d061575ccb6"
+  }
+}

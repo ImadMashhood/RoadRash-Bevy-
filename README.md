@@ -2159,11 +2159,11 @@ Research: [src/sound.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd
   - [x] **19.08.b — Verify:** Complete profile creation, several races, close/reopen, purchase/repair, corruption recovery and settings reset while preserving funds, unlocks and bindings exactly once.
   - [x] **19.08.c — Attach completion evidence:** Link interfaces, exact native/authored fixtures or recorded input, expected/actual results, error paths and implementation revision in `docs/evidence/19.08.md`. Keep raw commercial assets private. Leave this task open while a required acceptance fails.
 
-- [ ] **19.09 — Complete a genuine native-asset Big Game career**
+- [x] **19.09 — Complete a genuine native-asset Big Game career**
 
   - [x] **19.09.a — Implement:** Record a complete 25-race progression path using real driving/combat commands, source setups and original textures. Include inter-race save/resume, different bikes and failure/recovery branches.
-  - [ ] **19.09.b — Verify:** Reach level-five finale and reopen the final career. Compare saved money, qualifications and purchases against the transaction ledger; accept no missing required content or synthetic finish shortcut.
-  - [ ] **19.09.c — Attach completion evidence:** Link interfaces, exact native/authored fixtures or recorded input, expected/actual results, error paths and implementation revision in `docs/evidence/19.09.md`. Keep raw commercial assets private. Leave this task open while a required acceptance fails.
+  - [x] **19.09.b — Verify:** Reach level-five finale and reopen the final career. Compare saved money, qualifications and purchases against the transaction ledger; accept no missing required content or synthetic finish shortcut.
+  - [x] **19.09.c — Attach completion evidence:** Link interfaces, exact native/authored fixtures or recorded input, expected/actual results, error paths and implementation revision in `docs/evidence/19.09.md`. Keep raw commercial assets private. Leave this task open while a required acceptance fails.
 
 - [ ] **19.10 — Burn down required functionality defects**
 
@@ -2327,11 +2327,11 @@ Research: [docs/VERIFICATION.md](https://github.com/arkits/road-rash/blob/7aecf6
   - [x] **21.05.b — Verify:** Record units and reasons for every nonzero tolerance.
   - [x] **21.05.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/21.05.md`. For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **21.06 — Run all courses and levels in coverage matrix**
+- [x] **21.06 — Run all courses and levels in coverage matrix**
 
-  - [ ] **21.06.a — Implement:** Track every course-level combination with scenario status and evidence path.
-  - [ ] **21.06.b — Verify:** Distinguish untested, skipped, failed and passed cases.
-  - [ ] **21.06.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/21.06.md`. For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
+  - [x] **21.06.a — Implement:** Track every course-level combination with scenario status and evidence path.
+  - [x] **21.06.b — Verify:** Distinguish untested, skipped, failed and passed cases.
+  - [x] **21.06.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/21.06.md`. For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
 - [ ] **21.07 — Measure CPU and GPU frame times separately**
 
@@ -2796,7 +2796,7 @@ Do not report upstream's tests as this project's tests. Do not label the local p
 ## 10. Next work: complete the native-only game
 
 - [ ] Close the current required-defect register and renewed career acceptance in Part 19; retain successful action, actor, dialogue and media checks as scoped evidence.
-- [ ] Revalidate the complete career after the building collision and AI changes. The 67-attempt RC4 career remains historical evidence.
+- [x] Revalidate the complete career after the building collision and AI changes: [31 genuine wins, all 25 cases, 124 replays](docs/evidence/native-career-current.md). The 67-attempt RC4 career remains historical evidence.
 - [ ] Revalidate the new presentation and simulation against the native matrix, performance and soak requirements in Part 21.
 - [ ] Build and verify a replacement for RC4 before Part 22/G5 acceptance. Building rendering/collision, AI and UI fixes are documented in [the correction report](docs/evidence/native-gameplay-fixes.md).
 - [ ] Stabilize optional mod contracts in Part 23, then start Part 24 enhancement production only after recorded G5 acceptance.

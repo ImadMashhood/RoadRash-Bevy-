@@ -1,0 +1,60 @@
+{
+  "outcome": "passed",
+  "scope": "Actual Rust Bevy window; isolated virtual X11 display; ordinary XTest keyboard input and normal window close, not application Act API",
+  "save_body_sha256": "d0dfe289ad933ad48896b5007f8cafdc299e5ec8f1fe9783b59698e9d98e8d7d",
+  "normal_close_exit_code": 0,
+  "inspected_screens": [
+    "01",
+    "05",
+    "08",
+    "10",
+    "13",
+    "23",
+    "26",
+    "27",
+    "29",
+    "30",
+    "31",
+    "32",
+    "39",
+    "40"
+  ],
+  "excluded_misnavigated_screens": [
+    "19",
+    "33",
+    "34",
+    "35"
+  ],
+  "checks": [
+    "new Big Game and original rider/course/menu artwork",
+    "real driving, pause, held-control resume rejection, neutral resume",
+    "real quit outcome and standings pagination",
+    "showroom specifications and full purchase quote",
+    "insufficient funds preserves cash and bike",
+    "manual save slot one, normal close, reopen and load",
+    "French, text scale 125, high contrast and reduced motion persist",
+    "successful resume clears warning before next pause"
+  ],
+  "limitations": [
+    "No controller hardware certification",
+    "Audio and video explicitly disabled for input walkthrough",
+    "Virtual X11 rather than physical desktop; commercial captures remain private"
+  ],
+  "private_receipt_sha256": "c3dfef5675380da9effb555a1238a009313d7d54486621d3238aa484296ec4fd",
+  "save_files_validated": 2,
+  "frontend_tests": {
+    "passed": 15,
+    "ignored": 5,
+    "failed": 0
+  },
+  "carried_condition_factory_cases": 15,
+  "application_binary_sha256": "c8c9c63f12f07852c3ae65916a9ba0efae026f88334252ab8ae562a667a00024",
+  "completed_career_reopen": {
+    "outcome": "passed",
+    "scope": "Unchanged genuine completed save copied to separate profile, opened through ordinary keyboard Main/Resume Big Game/Club/Restroom; observed player level5 in original menu, then normal window close exit0",
+    "original_preserved": true,
+    "source_save_sha256": "11cd18ca80827ba54ca47d876f50eca116b0d92047540d97ce11ec125b441208",
+    "save_body_sha256": "f8003b94a249f2e0ee0f54f7b1e4ff0bede9581759427c7e910f829fb3bc194e",
+    "capture_sha256": "ffacc64cfe6691dd72f9005131d6fa7beaec4031608cb88759e7c9d5f2cb028f"
+  }
+}

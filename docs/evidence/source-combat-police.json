@@ -1,0 +1,46 @@
+{
+  "status": "passed",
+  "profile": {
+    "combat": 4,
+    "recovery": 2,
+    "legacy_omitted_police": true
+  },
+  "reference_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+  "original_windows_runtime_compared": false,
+  "families": {
+    "raw_police_configuration": 1,
+    "police_pursuit": 800,
+    "police_constructor": 135,
+    "police_mounted_motion": 13500,
+    "nonlive_complete_recovery": 76865,
+    "live_complete_recovery": 92535,
+    "police_scan_arrest": 95040,
+    "live_active_player_arrest": 140,
+    "live_coupled_transactions": 81040
+  },
+  "deduplication": "Constructor/pursuit/motion rows common to LIVE and NONLIVE receipts counted once; older reduced matrices superseded. Simultaneous combat, AI, assets and mixed-traffic evidence linked separately.",
+  "pending": [],
+  "limits": [
+    "explicit dt1 fixed host actor order; no variable native scheduler cadence parity",
+    "functional multi-node graph/cache bridge; no complete native TrackRing parity",
+    "changing-terrain/repeated-impact recovery breadth remains stage4"
+  ],
+  "coupled_prefix_overlap": 1490,
+  "coupled_deduplicated": 81040,
+  "deduplicated_observations": 360056,
+  "deduplicated_family_count": 9,
+  "receipts": {
+    "constructor_motion_nonlive_recovery": "local/police-riders-control-transitions-fixed/comparison.json",
+    "constructor_motion_live_recovery": "local/police-riders-live-final/comparison.json",
+    "scan_arrest": "local/police-arrest-final/comparison.json",
+    "live_coupled_through_first_crash": "local/police-pipeline-live-final/comparison.json",
+    "live_coupled_full_recovery": "local/police-pipeline-live-recovery-final/comparison.json",
+    "active_player_arrest": "local/police-active-arrest-final/comparison.json"
+  },
+  "coupled_raw_observations": {
+    "through_first_crash": 79058,
+    "full_recovery": 3472
+  },
+  "parent_integration_receipt": "local/combat-police-integration.json",
+  "remaining_separate_work": "Changing-terrain/repeated-impact breadth is stage4; full career/release/owner review remain open"
+}

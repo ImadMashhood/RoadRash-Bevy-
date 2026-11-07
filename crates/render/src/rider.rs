@@ -14,6 +14,48 @@ pub struct RiderAssets {
     pub color: u8,
 }
 impl RiderAssets {
+    /// Police use the native cop sheets and their separate body/shadow RRAN banks.
+    pub fn load_police(data: &Path) -> Result<Self> {
+        let palette = Palette::read(&fs::read(data.join("DATA/PALETTE.RAW"))?)?;
+        let global = fs::read(data.join("DATA/GLOBAL.RSC"))?;
+        let directory = Directory::read(&global)?;
+        let mut banks = vec![];
+        for (name, id) in [("LOCOP.DAT", 2), ("HISHADOC.DAT", 4)] {
+            let bytes = fs::read(data.join("DATA/BIKERS").join(name))?;
+            let entry = directory
+                .entries
+                .iter()
+                .find(|entry| entry.tag == "ANIM" && entry.id == id)
+                .ok_or("missing police body/shadow RRAN")?;
+            let metadata = entry.payload(&global)?;
+            let mut sprites = vec![];
+            for (index, frame) in decode_bob(&bytes, 45)?.iter().enumerate() {
+                let Some(image) = palette.rgba(
+                    u32::from(frame.width),
+                    u32::from(frame.height),
+                    frame.pixels,
+                    true,
+                    None,
+                )?
+                else {
+                    sprites.push(None);
+                    continue;
+                };
+                let (logical, pivot) = rider_frame_registration(metadata, index as u32)?;
+                sprites.push(Some(SpriteAsset {
+                    texture: Texture::new(image, false)?,
+                    logical,
+                    pivot,
+                }));
+            }
+            banks.push(sprites);
+        }
+        Ok(Self {
+            bodies: banks.remove(0),
+            shadows: banks.remove(0),
+            color: 0xde,
+        })
+    }
     pub fn load(data: &Path, color: u8) -> Result<Self> {
         if color >= 15 {
             return Err("rider palette ID must be 0..14".into());

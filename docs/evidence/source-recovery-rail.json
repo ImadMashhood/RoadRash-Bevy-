@@ -1,0 +1,32 @@
+{
+  "first_mismatches": [],
+  "mismatches": 0,
+  "observations": 2520,
+  "outcome": "passed",
+  "rust_query_forms_per_observation": 2,
+  "scope": "Native rail sub-slice drawn-height byte at camera+31 strict boundary; pending and completed Rust camera forms; controlled query kernel, not full collision/Ring parity",
+  "reference_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+  "reference_dirty_paths": [
+    "src/hud.cpp",
+    "tests/hud_test.cpp"
+  ],
+  "native_trace_sha256": "a4ade361cebe27b0179c6c36482f3e41a4718f2bfae542b8489f03b4984bf8f3",
+  "native_library_sha256": "f530ae9ce4ce031cea19ce022fde138f2a3fd77a52d01fc82cdce148e472fb51",
+  "native_executable_sha256": "3be933701a0455caa2aec33f1fb04cd4d3d838e754198f4a6b5fabde5e26f2db",
+  "source_executable_sha256": "73d7f9744b5b1a9482b3909950cdf3fe34119fe13d023b031e9c6739a60f18a2",
+  "original_windows_runtime_compared": false,
+  "family": "recovery_rail_camera_window",
+  "families": 1,
+  "baseline": {
+    "mismatches": 252,
+    "same_native_trace": true,
+    "private_receipt": "local/recovery-rail-version2-before/comparison.json"
+  },
+  "private_receipt": "local/recovery-rail-final/comparison.json",
+  "public_regression": "local/recovery-rail-public.log",
+  "profile": 2,
+  "legacy_profile1_unchanged": true,
+  "invalid_harness_history": [
+    "local/recovery-rail-before.log: producer warnings-as-errors compilation failure, no native observations"
+  ]
+}

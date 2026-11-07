@@ -1,0 +1,52 @@
+{
+  "outcome": "passed",
+  "observations": 3360,
+  "comparisons": 4200,
+  "regression_control_observations": 420,
+  "mismatches": 0,
+  "reference_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+  "reference_dirty_paths": [
+    "src/hud.cpp",
+    "tests/hud_test.cpp"
+  ],
+  "native_trace_sha256": "cf6d2ea5e6537499a1d8bb8896c12befe35a7ad3335ca78f808c2419d352ebda",
+  "rust_trace_sha256": "e1ff2fc1f9df1ebfc59a619aee4049ada4bf1efcf233cda6acb8627e74f8efd1",
+  "native_library_sha256": "f530ae9ce4ce031cea19ce022fde138f2a3fd77a52d01fc82cdce148e472fb51",
+  "source_executable_sha256": "73d7f9744b5b1a9482b3909950cdf3fe34119fe13d023b031e9c6739a60f18a2",
+  "original_windows_runtime_compared": false,
+  "families": 1,
+  "native_input_cases": 3780,
+  "zero_control_rust_comparisons": 840,
+  "additive_count_policy": "3360 nonzero directional inputs only.420 native0 control rows each compare RustNone and Some(default), excluded from additive count.",
+  "private_receipt": "local/recovery-walk-fixed/comparison.json",
+  "before": {
+    "mismatches": 1560,
+    "counted_nonzero_mismatches": 1248,
+    "zero_control_reference_mismatches": 312,
+    "same_native_trace": true,
+    "private_receipt": "local/recovery-walk-before/comparison.json"
+  },
+  "scope": "Actual native crash_recovery wrapper, eight nonzero cardinal/diagonal walking control combinations, player/NPC eligibility, strict pickup thresholds and initial facing; native0 controls are regression controls excluded from additive count",
+  "public_regressions": {
+    "new_tests": 2,
+    "total_recovery_curvature_tests": 6,
+    "log": "local/recovery-walk-public-first.log"
+  },
+  "mapping": {
+    "forward": "0x800",
+    "back": "0x1000",
+    "left": "0x4000",
+    "right": "0x2000",
+    "none_or_zero": "0; automatic return"
+  },
+  "corrections": [
+    "Source2 Some(Walk::default()) maps to native0 and continues automatic return instead of stopping",
+    "Source2 manual override applies only to human player; NPC controls are ignored",
+    "Source0/1 explicit zero-walk hold behavior remains unchanged"
+  ],
+  "limits": [
+    "Single recovery-decision transaction on controlled valid walking poses; complete trajectories and moving contacts are separate families",
+    "The command API supplies signed directional axes, so opposing raw key bits on one axis are represented by their resolved axis rather than separate simultaneous bits",
+    "Default offline human branch: no attract-demo hold or arrested-state manual-walk claim"
+  ]
+}

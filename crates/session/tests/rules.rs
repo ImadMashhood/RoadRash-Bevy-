@@ -184,6 +184,47 @@ fn stable_standings_follow_overtakes_and_equal_progress() {
     assert_eq!(s.standings()[0].actor, ActorId(2));
 }
 #[test]
+fn dynamic_police_actor_does_not_enter_race_standings_or_finish_order() {
+    let mut snapshot = snap(3);
+    let mut session = RaceSession::new(
+        identity(1, Mode::Thrash, 1, 1, 0, 3),
+        None,
+        &snapshot,
+        0,
+        None,
+    )
+    .unwrap();
+    let config = rr_simulation::fixtures::riding();
+    let setup = rr_simulation::encounter::Setup::authored(&config).unwrap();
+    let mut cop = Simulation::with_encounters(1, config, setup)
+        .unwrap()
+        .snapshot()
+        .actors
+        .remove(0);
+    cop.id = ActorId(16);
+    cop.position.progress.0 = 1000000;
+    cop.encounter.as_mut().unwrap().police = true;
+    cop.encounter.as_mut().unwrap().race_progress = Some(1000000);
+    cop.finished = true;
+    snapshot.actors.push(cop);
+    snapshot.tick = 10;
+    session.observe(&snapshot);
+    assert_eq!(
+        session
+            .standings()
+            .iter()
+            .map(|standing| standing.actor.0)
+            .collect::<Vec<_>>(),
+        vec![1, 2, 3]
+    );
+    snapshot.actors[0].finished = true;
+    snapshot.tick = 11;
+    session.observe(&snapshot);
+    assert_eq!(session.summary().unwrap().place(), 1);
+    assert_eq!(session.summary().unwrap().standings().len(), 3);
+}
+
+#[test]
 fn finish_ties_use_tick_then_stable_actor_id_and_freeze_results() {
     let mut snapshot = snap(3);
     let mut s = RaceSession::new(
@@ -328,6 +369,44 @@ fn unequal_branches_rank_by_fraction_between_rejoin_anchors() {
     assert_eq!(map.at(at(3, 0)), Some(200));
     assert_eq!(map.at(at(4, 99)), None);
     assert_eq!(map.at(at(2, 401)), None);
+}
+
+#[test]
+fn source_standings_use_route_context_remaining_distance_after_unequal_branches() {
+    use rr_simulation::{
+        encounter::{Seed, Setup},
+        fixtures,
+    };
+    let config = fixtures::riding();
+    let mut setup = Setup::authored(&config).unwrap();
+    let mut second = Seed::player();
+    second.id = ActorId(2);
+    second.distance = 100;
+    setup.seeds.push(second);
+    let sim = Simulation::with_encounters(1, config, setup.clone()).unwrap();
+    let mut snapshot = sim.snapshot();
+    snapshot.actors[0].position.progress.0 = 100000;
+    snapshot.actors[1].position.progress.0 = 0;
+    snapshot.actors[0].encounter.as_mut().unwrap().race_progress = Some(100);
+    snapshot.actors[1].encounter.as_mut().unwrap().race_progress = Some(101);
+    let mut session = RaceSession::new(
+        identity(1, Mode::Thrash, 1, 1, 1, 2),
+        Some(setup.topology),
+        &snapshot,
+        0,
+        None,
+    )
+    .unwrap();
+    assert_eq!(session.standings()[0].actor, ActorId(2));
+    assert_eq!(session.standings()[1].progress, Some(100));
+    snapshot.tick = 1;
+    snapshot.actors[1].encounter.as_mut().unwrap().race_progress = Some(100);
+    session.observe(&snapshot);
+    assert_eq!(
+        session.standings()[0].actor,
+        ActorId(1),
+        "same physical remaining distance retains the ActorId tie-break"
+    );
 }
 #[test]
 fn finish_boundary_and_overshoot_are_caught_by_real_simulation() {

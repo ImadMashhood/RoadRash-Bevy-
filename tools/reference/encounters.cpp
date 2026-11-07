@@ -7,6 +7,7 @@
 #include "family.hpp"
 #include "resource.hpp"
 #include "animation.hpp"
+#include "track_ring.hpp"
 namespace rr {
 using AttackCodes=std::array<std::array<std::array<int8_t,4>,2>,2>;
 AttackCodes read_attack_codes(const std::vector<uint8_t>&);
@@ -186,6 +187,77 @@ int main(int argc,char**argv){try{
         for(const auto* r:{&a,&b}){for(int off:out_offsets)std::cout<<","<<r->bike.i32(off);std::cout<<","<<int(r->bike.u8(0x19c));}
         std::cout<<"]";
     }
+    std::cout<<"],\"contact_detection\":[";first=true;int detection_id=0;
+    // Observe the real sorted contact scan, including its early-out tests.
+    // Previous/current poses are controlled classifier inputs, not a claim that
+    // every crossing can be produced by normal 60 Hz native riding motion.
+    for(int fallen:{0,1})for(int scenario=0;scenario<6;++scenario)for(int side:{-1,1})for(int edge:{-1,0,1})for(int speed:{0,30000}){
+        rr::Opponent opponent{specs[0],75,0,0,0,1};rr::Race race(route,route,tables,specs[0],75,{opponent},0);
+        race.set_ride_library(&library,&codes);race.set_crash_library(library,crash_config);race.set_ticks(100);
+        const auto& dims=fallen?crash_config.bike_dimensions:crash_config.normal_dimensions;
+        const int width=dims[0],length=dims[1],height=dims[2];
+        int from_x=2560,to_x=2560,from_y=0,to_y=0,from_z=0,to_z=0;
+        if(scenario==0){to_x+=side*(length*2+edge);from_x=to_x+side*117;}
+        if(scenario==1){to_y=side*(width*2+edge);from_y=to_y+side*10000;}
+        if(scenario==2){to_z=side*(height*2+edge);from_z=to_z+side*2000;}
+        if(scenario==3){from_x-=side*(length*2+2);to_x+=side*(length*2+2+edge);}
+        if(scenario==4){from_y=-side*(width*2+2);to_y=side*(width*2+2+edge);}
+        if(scenario==5){from_x-=length*2+10;to_x+=length*6+100+edge;from_y=-side*width*4;}
+        for(int actor=0;actor<2;++actor){auto& r=race.riders()[size_t(actor)];auto& b=r.bike;
+            r.ai=false;r.frozen=false;r.sample=r.previous_sample=10;
+            r.stamina.base=r.stamina.max=r.stamina.current=2500;r.stamina.strength=7;
+            b.i32(0x18)=1;b.i32(0x1c)=actor?2560:to_x;b.i32(0x28)=actor?0:to_y;b.i32(0x20)=actor?0:to_z;
+            b.i32(0x30)=actor?2560:from_x;b.i32(0x3c)=actor?0:from_y;b.i32(0x34)=actor?0:from_z;
+            for(int j=0;j<3;++j)b.i32(0x174+j*4)=dims[size_t(j)];
+            b.i32(0xec)=b.i32(0x108)=actor?0:speed;b.i32(0xf0)=b.i32(0x10c)=0;b.i32(0xf4)=b.i32(0x110)=0;
+            b.i32(0x2f4)=fallen;b.i32(0x2f0)=150;b.i32(0xc4)=4;b.u8(0xc0)=7;b.u8(0x19c)=0x80;
+        }
+        race.collide_riders();
+        const bool hit=race.riders()[0].bike.u8(0x19c)!=0x80 || race.riders()[1].bike.u8(0x19c)!=0x80;
+        if(!first){std::cout<<",";}first=false;
+        std::cout<<"["<<detection_id++<<","<<fallen<<","<<scenario<<","<<side<<","<<edge<<","<<speed<<","<<width<<","<<length<<","<<height<<","<<from_x<<","<<from_y<<","<<from_z<<","<<to_x<<","<<to_y<<","<<to_z<<","<<(hit?1:0)<<"]";
+    }
+    std::cout<<"],\"static_detection\":[";first=true;int static_detection_id=0;
+    auto static_detection=[&](int fallen,int scenario,int side,int edge,int speed,int phase,int kind){
+        rr::Race race(route,route,tables,specs[0],75);
+        race.set_ride_library(&library,&codes);race.set_crash_library(library,crash_config);race.set_ticks(100);
+        const int frame_bottom=scenario==7?12288:0,frame_top=scenario==7?16384:4096;
+        rr::AnimationFrame frame;frame.boxes.push_back({-1024,frame_bottom,1024,frame_top});
+        race.set_static_frames([&](uint32_t,uint32_t,uint8_t,bool){return &frame;});
+        rr::RingStatics st;st.billboards=1;st.billboard[0].type=uint8_t(kind);
+        race.ring_statics(10,route[10].section,route[10].local,st);
+        const auto& dims=fallen?crash_config.bike_dimensions:crash_config.normal_dimensions;
+        const int width=dims[0],length=dims[1],height=dims[2];
+        const int bottom=kind==1?frame_top-8192:kind==2?frame_top-16383:frame_bottom;
+        int to_x=2688,to_y=0,to_z=0;
+        if(scenario==0)to_x+=side*(length+edge);
+        if(scenario==1)to_y=side*(width+1024+edge);
+        if(scenario==2)to_z=side<0?bottom-height+edge:height+frame_top+edge;
+        if(scenario==3)to_x+=side*(length+2+edge);
+        if(scenario==4)to_x+=length*3+100+edge;
+        if(scenario==5)to_y=side*(width+1024+2+edge);
+        if(scenario==6)to_x=2560+phase;
+        int from_x=to_x-speed/256,from_y=to_y,from_z=to_z;
+        if(scenario==1)from_y=to_y+side*10000;
+        if(scenario==2)from_z=to_z+side*2000;
+        if(scenario==3)from_x=2688-side*(length+2);
+        if(scenario==4){from_x=2688-length-1;from_y=-side*(width+1024)*2;}
+        if(scenario==5)from_y=-side*(width+1024+2);
+        auto& r=race.riders()[0];auto& b=r.bike;r.ai=false;r.frozen=false;r.sample=size_t(to_x>>8);r.previous_sample=size_t(from_x>>8);
+        r.stamina.base=r.stamina.max=r.stamina.current=2500;r.stamina.strength=7;
+        b.i32(0x18)=1;b.i32(0x1c)=to_x;b.i32(0x28)=to_y;b.i32(0x20)=to_z;
+        b.i32(0x30)=from_x;b.i32(0x3c)=from_y;b.i32(0x34)=from_z;
+        for(int j=0;j<3;++j)b.i32(0x174+j*4)=dims[size_t(j)];
+        b.i32(0xec)=b.i32(0x108)=speed;b.i32(0xf0)=b.i32(0x10c)=0;b.i32(0xf4)=b.i32(0x110)=0;
+        b.i32(0x2f4)=fallen;b.i32(0x2f0)=150;b.i32(0xc4)=4;b.u8(0xc0)=7;b.u8(0x19c)=0x80;
+        race.collide_riders();
+        const bool hit=b.u8(0x19c)!=0x80;
+        if(!first){std::cout<<",";}first=false;
+        std::cout<<"["<<static_detection_id++<<","<<fallen<<","<<scenario<<","<<side<<","<<edge<<","<<speed<<","<<phase<<","<<width<<","<<length<<","<<height<<","<<from_x<<","<<from_y<<","<<from_z<<","<<to_x<<","<<to_y<<","<<to_z<<","<<kind<<","<<(hit?1:0)<<"]";
+    };
+    for(int kind:{0,1,2})for(int fallen:{0,1})for(int scenario=0;scenario<6;++scenario)for(int side:{-1,1})for(int edge:{-1,0,1})for(int speed:{0,30000})static_detection(fallen,scenario,side,edge,speed,0,kind);
+    for(int kind:{0,1,2})for(int fallen:{0,1})for(int phase=0;phase<256;++phase)static_detection(fallen,6,1,0,30000,phase,kind);
+    for(int kind:{0,1,2})for(int fallen:{0,1})for(int speed:{0,30000})static_detection(fallen,7,1,0,speed,128,kind);
     std::cout<<"],\"bike_contacts\":[";first=true;int contact_id=0;
     for(int axis:{0,1,2,3})for(int speed:{-1000,0,5000,10999,11000,11001,20000,30000})for(int side:{-1,1})for(int offset:{0,3839,3840,10000})for(int fallen:{0,1})for(int crashed:{0,1})for(int condition:{1,150}){
         rr::Opponent opponent{specs[0],75,0,0,0,1};rr::Race race(route,route,tables,specs[0],75,{opponent},0);
@@ -282,6 +354,16 @@ int main(int argc,char**argv){try{
         for(int off:{0x1c,0x28,0x20})std::cout<<","<<b.bike.i32(off);
         std::cout<<"]";
     }
+    std::cout<<"],\"borr_slots\":[";first=true;int course_id=0;
+    for(const char* stem:{"CITY","HIWAY","MEDLY","NAPA","CANYN"}){
+        const auto course=rr::read_course(assets.read(std::string("DATA/COURSES/")+stem+".CRS"));
+        uint32_t state=1;auto random=[&](){state=state*214013u+2531011u;return(state>>16)&32767u;};
+        for(size_t section=0;section<course.sections.size();++section){
+            const auto slots=rr::road_hazard_spans(course.sections[section],0,random);
+            for(const auto& slot:slots){if(!first){std::cout<<",";}first=false;std::cout<<"["<<course_id<<","<<section<<","<<slot.sample<<","<<slot.lo_q8<<","<<slot.hi_q8<<"]";}
+        }
+        ++course_id;
+    }
     std::cout<<"],\"scenery_boxes\":[";first=true;
     const auto families=assets.read("DATA/FAMILIES.RSC");
     for(const auto& resource:rr::read_resources(families)){
@@ -295,6 +377,8 @@ int main(int argc,char**argv){try{
             if(!first){std::cout<<",";}first=false;
             std::cout<<"["<<resource.id<<","<<offset<<","<<boxes.size();
             for(const auto& box:boxes)for(int value:box)std::cout<<","<<value;
+            const auto& frame=animation.frames[std::min(size_t(2),animation.frames.size()-1)];
+            if(frame.texture)std::cout<<","<<frame.texture->flags;else std::cout<<",-1";
             std::cout<<"]";
         }
     }

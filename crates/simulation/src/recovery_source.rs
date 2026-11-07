@@ -20,6 +20,20 @@ impl State {
         tick: u32,
         mut random: impl FnMut() -> u32,
     ) -> Result<Vec<RecoveryEvent>> {
+        self.step_source_context(bike, c, topology, law, walk, tick, &mut random, None)
+    }
+    #[allow(clippy::too_many_arguments)]
+    pub(crate) fn step_source_context(
+        &mut self,
+        bike: &mut Bike,
+        c: &Configuration,
+        topology: &Topology,
+        law: &BodyLaw,
+        walk: Option<Walk>,
+        tick: u32,
+        mut random: impl FnMut() -> u32,
+        body_context: Option<(&Configuration, &Topology)>,
+    ) -> Result<Vec<RecoveryEvent>> {
         if matches!(self.phase, Phase::Mounted | Phase::Ended) {
             return Ok(vec![]);
         }
@@ -42,11 +56,11 @@ impl State {
         if (crash == 1 || crash == 2)
             && let Some(frame) = self
                 .bike_animation
-                .crash_bike(&c.animation, bike.speed, tick, &mut random)
+                .crash_bike(c.recovery_animation(), bike.speed, tick, &mut random)
                 .map_err(|_| Error::Invalid("source bike recovery animation"))?
         {
             let (cell, _) = c
-                .animation
+                .recovery_animation()
                 .select(0, &frame, 0, 0)
                 .map_err(|_| Error::Invalid("source bike recovery view"))?;
             self.bike_frame = cell.frame;
@@ -57,7 +71,7 @@ impl State {
         let frame = body
             .animation
             .crash_rider(
-                &c.animation,
+                c.recovery_animation(),
                 &mut crash,
                 body.motion.speed,
                 body.motion.height,
@@ -73,6 +87,7 @@ impl State {
             self.elapsed = self.elapsed.saturating_add(1);
         }
         let bike_law = BodyLaw {
+            source_angles: vec![],
             recovery_version: 1,
             motion_version: law.motion_version,
             drag: c.tables.object[9].max(0),
@@ -90,7 +105,10 @@ impl State {
         let body = self.body.as_mut().unwrap();
         body.previous_location = Some(body.location);
         let heading = body.location.heading;
-        let leg = if body.location.path != self.bike_location.path {
+        let (body_config, body_topology) = body_context.unwrap_or((c, topology));
+        let leg = if body.location.path != self.bike_location.path
+            && (body_context.is_none() || body.animation.code == 38)
+        {
             topology.leg(body.location.path, self.bike_location.path)
         } else {
             None
@@ -99,8 +117,8 @@ impl State {
             &mut body.motion,
             &mut body.location,
             heading,
-            c,
-            topology,
+            body_config,
+            body_topology,
             law,
             leg,
         )?;
@@ -109,15 +127,15 @@ impl State {
         if crash == 3 {
             remount = body.animation.code != 41;
         } else if crash == 2 {
-            if self.elapsed > 1200 {
+            if self.elapsed > 1200 && !self.police {
                 if bike.condition == 0 {
                     body.motion.speed = 0;
                     if body.animation.code != 37 {
-                        body.animation.set(&c.animation, 0, 37);
+                        body.animation.set(c.recovery_animation(), 0, 37);
                     }
                     wrecked = true;
                 } else {
-                    body.animation.set(&c.animation, 0, 41);
+                    body.animation.set(c.recovery_animation(), 0, 41);
                     body.animation.queued = Some(2);
                     crash = 3;
                 }
@@ -138,11 +156,11 @@ impl State {
                         body.location.lateral = body.motion.lateral;
                         bike.lateral = body.motion.lateral;
                         self.bike_location.lateral = bike.lateral;
-                        body.animation.set(&c.animation, 0, 41);
+                        body.animation.set(c.recovery_animation(), 0, 41);
                         body.animation.queued = Some(2);
                         crash = 3;
                     } else {
-                        body.animation.set(&c.animation, 0, 37);
+                        body.animation.set(c.recovery_animation(), 0, 37);
                     }
                 } else {
                     let leg = if body.location.path == self.bike_location.path {
@@ -192,7 +210,12 @@ impl State {
                 let distance = ((difference ^ sign).wrapping_sub(sign)) as i32;
                 if bike.condition == 0 && distance < 80 {
                     if body.animation.loops >= 1 {
-                        wrecked = true;
+                        if self.police {
+                            bike.condition = c.spec().condition / 4;
+                            bike.failed = false;
+                        } else {
+                            wrecked = true;
+                        }
                     }
                 } else if body.animation.loops > 1 {
                     body.animation.queued = Some(38);
@@ -214,7 +237,7 @@ impl State {
             bike.skid = 0;
             bike.skid_ticks = 0;
             bike.failed = bike.condition == 0;
-            self.bike_animation.set(&c.animation, 0, 0);
+            self.bike_animation.set(c.recovery_animation(), 0, 0);
             self.bike_animation.queued = Some(0);
             self.phase = Phase::Mounted;
             self.body = None;
@@ -233,7 +256,7 @@ impl State {
         };
         if let Some(frame) = frame {
             let (cell, roll) = c
-                .animation
+                .recovery_animation()
                 .select(
                     0,
                     &frame,
@@ -247,7 +270,7 @@ impl State {
             body.roll = roll;
         }
         body.location.height = body.motion.height;
-        body.projected = topology.projected(body.location);
+        body.projected = body_topology.projected(body.location);
         body.branch = topology.paths[&body.location.path].branch;
         Ok(events)
     }

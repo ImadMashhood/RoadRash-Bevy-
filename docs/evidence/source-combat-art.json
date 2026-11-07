@@ -1,0 +1,46 @@
+{
+  "outcome": "passed",
+  "cases": 14,
+  "ticks_per_case": 120,
+  "frames": 150,
+  "first_hits": {
+    "0-strike-left": 15,
+    "0-strike-right": 15,
+    "0-backhand-left": 10,
+    "0-backhand-right": 10,
+    "1-strike-left": 20,
+    "1-strike-right": 20,
+    "1-backhand-left": 14,
+    "1-backhand-right": 14,
+    "2-strike-left": 16,
+    "2-strike-right": 16,
+    "2-backhand-left": 16,
+    "2-backhand-right": 16,
+    "3-strike-left": 15,
+    "3-strike-right": 15
+  },
+  "schedules": [
+    "30",
+    "60",
+    "144",
+    "irregular"
+  ],
+  "scope": "Controlled source City poses, two ordinary-command riders, target initial stamina1, full source static/bike contacts and recovery; no native pixel identity or career claim",
+  "status": "Current combat4/body2/contactwalk2 full14 source-art cases and four schedules pass; character palettes loaded; release graphical replay matches",
+  "inspected": [
+    "0-strike-left-15.png",
+    "0-strike-left-16.png",
+    "3-strike-right-24.png",
+    "2-backhand-left-18.png"
+  ],
+  "native_raster_identity_claimed": false,
+  "first_crash_visibility_fix": {
+    "authority_changed": false,
+    "native_selected_presence": "Verified simultaneous-combat native case13 tick54: bodycode35, body.selectedNone and quietbike.selectedNone; see source-simultaneous-combat.json first_native_crash_selection",
+    "public_regression": "passed:crash_visibility.rs"
+  },
+  "private_final_receipt": "local/source-combat-art-palette-final/comparison.json",
+  "private_final_log": "local/source-combat-police-art-palette-final.log",
+  "graphical_release_receipt": "local/source-combat-art-recovery-current/gpu.json",
+  "historical_private_receipt": "local/source-combat-art-full-first/comparison.json"
+}

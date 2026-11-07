@@ -296,6 +296,9 @@ impl RaceSession {
         }
     }
     fn progress_of(&self, a: &rr_simulation::ActorSnapshot) -> Option<i64> {
+        if let Some(progress) = a.encounter.as_ref().and_then(|unit| unit.race_progress) {
+            return Some(progress);
+        }
         if let Some(map) = &self.progress {
             let u = a.encounter.as_ref()?;
             let location = if u.recovery.phase == Recovery::Mounted {

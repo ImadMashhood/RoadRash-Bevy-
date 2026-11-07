@@ -1,0 +1,75 @@
+{
+  "first_mismatches": [],
+  "mismatches": 0,
+  "observations": 69120,
+  "outcome": "passed",
+  "scope": "Controlled actual native camera callback sequences with independent quiet-bike/body poses, terminal/arrest ramp and decay; both shifted and unshifted exports; no whole native scheduler/TrackRing parity",
+  "reference_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+  "reference_dirty_paths": [
+    "src/hud.cpp",
+    "tests/hud_test.cpp"
+  ],
+  "native_trace_sha256": "54d17c5ec95ce78a1bab244a1128cb580415efcc6031c3d706604f2f0741c1cf",
+  "native_library_sha256": "f530ae9ce4ce031cea19ce022fde138f2a3fd77a52d01fc82cdce148e472fb51",
+  "native_executable_sha256": "799cf0e56953d4890808c12703ea9d617c8556abb9edfcf12896cace6d5f6782",
+  "source_executable_sha256": "73d7f9744b5b1a9482b3909950cdf3fe34119fe13d023b031e9c6739a60f18a2",
+  "original_windows_runtime_compared": false,
+  "family": "recovery_camera",
+  "families": 1,
+  "cases": 108,
+  "ticks_per_case": 640,
+  "date": "2026-11-07",
+  "base_revision": "a5eff4c",
+  "private_receipt": "local/recovery-camera-body-pose-final/comparison.json",
+  "before": {
+    "outcome": "failed",
+    "mismatches": 69120,
+    "observations": 69120,
+    "private_receipt": "local/recovery-camera-before/comparison.json",
+    "native_expected_unchanged": true
+  },
+  "public_tests": {
+    "passed": 4,
+    "log": "local/recovery-camera-public-complete-final.log",
+    "cases": [
+      "quiet bike lateral/ground versus detached body longitude",
+      "quiet bike on the other dual roadway",
+      "quiet bike outside the visible route",
+      "actual source snapshot exports absolute centre with odd signed rounding"
+    ]
+  },
+  "compatibility": {
+    "mounted_camera_observations": 1980,
+    "counted_previously": true,
+    "private_receipt": "local/recovery-camera-mounted-compatibility/comparison.json",
+    "public_offset_tests": 6,
+    "offset_log": "local/recovery-camera-offset-complete.log",
+    "published_profile2_hash": "passed;local/recovery-camera-legacy-hash.log"
+  },
+  "authority_changed": false,
+  "geometry_policy": "Absolute quiet-road centre captured independently from source physical profile, including invisible branches; original quiet bike pose/ground retained before render body substitution; source bank/render does not alter canonical bytes",
+  "limits": [
+    "Controlled camera callbacks and supplied poses, not whole Race/scheduler/physics trajectories",
+    "Native TrackRing cannot provide complete graph-routing parity; off-route/dual camera ownership is a functional physical-road bridge",
+    "Native terminal/arrest flags are directly controlled here; integrated outcome timing is a separate lifecycle check"
+  ],
+  "invalid_fixture_history": [
+    "local/recovery-camera-public-complete.log: new authored snapshot fixture omitted required contact-walk profile",
+    "local/recovery-camera-public-complete-corrected.log: same fixture omitted required physical combat constants"
+  ],
+  "strict_render_clippy": {
+    "outcome": "passed",
+    "command": "cargo clippy -p rr-render --all-targets --no-deps -- -D warnings",
+    "log": "local/recovery-camera-clippy-render-final.log",
+    "dependency_clippy": "Parent owns final workspace/dependency check; previous dependency check found concurrent encounter.rs let_and_return"
+  },
+  "functional_terminal_merge_pullback": {
+    "outcome": "passed",
+    "test": "terminal_camera_pullback_crosses_the_merge_on_the_players_retained_arm",
+    "profile": 2,
+    "before": "local/recovery-camera-merge-before.log",
+    "fixed": "local/recovery-camera-merge-fixed.log",
+    "native_observations_added": 0,
+    "legacy_profile1_unchanged": true
+  }
+}

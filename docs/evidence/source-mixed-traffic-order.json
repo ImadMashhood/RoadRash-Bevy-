@@ -1,0 +1,373 @@
+{
+  "outcome": "passed",
+  "family": "mixed_traffic_order",
+  "observations": 400,
+  "unique_input_signatures": 400,
+  "reference_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+  "reference_dirty_paths": [
+    "src/hud.cpp",
+    "tests/hud_test.cpp"
+  ],
+  "native_library_sha256": "f530ae9ce4ce031cea19ce022fde138f2a3fd77a52d01fc82cdce148e472fb51",
+  "executable_sha256": "73d7f9744b5b1a9482b3909950cdf3fe34119fe13d023b031e9c6739a60f18a2",
+  "native_trace_sha256": "a5893847ea0b1f149e04f50daa652a5eee29178d66f204e3add3e200b9453722",
+  "first_360_native_trace_sha256": "32aa591cee72ce7b8f715e368a569387199d9087b63b230a72e944be3d91095a",
+  "before": {
+    "first_divergence": {
+      "input": [
+        9,
+        0,
+        0,
+        -1,
+        7,
+        2,
+        1
+      ],
+      "native": [
+        [
+          2688,
+          -1152,
+          10243,
+          2688,
+          352,
+          10243,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          150,
+          0,
+          2500,
+          2500,
+          null
+        ],
+        [
+          2708,
+          -12464,
+          0,
+          2708,
+          -10960,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          150,
+          0,
+          2500,
+          2500,
+          null
+        ],
+        [
+          2700,
+          8847,
+          0,
+          0
+        ]
+      ],
+      "rust": [
+        [
+          2688,
+          -1152,
+          10243,
+          2688,
+          -2112,
+          10243,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          150,
+          0,
+          2500,
+          2500,
+          null
+        ],
+        [
+          2708,
+          -12464,
+          0,
+          2708,
+          -11504,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          150,
+          0,
+          2500,
+          2500,
+          null
+        ],
+        [
+          2700,
+          9005,
+          0,
+          0
+        ]
+      ]
+    },
+    "first_pre_divergence": null,
+    "first_rng_or_hash_divergence": {
+      "input": [
+        360,
+        0,
+        20000,
+        -1,
+        2,
+        2,
+        2,
+        1
+      ],
+      "native_post": 3403800452,
+      "native_pre": 1,
+      "rust_post": 2745024,
+      "rust_pre": 1
+    },
+    "legacy_profile": false,
+    "legacy_runtime_compatibility": false,
+    "mismatches": 150,
+    "native_order_sensitive_cases": 150,
+    "outcome": "failed",
+    "pre_mismatches": 0,
+    "rng_or_legacy_hash_mismatches": 40,
+    "rows": 400,
+    "rust_matches_car_outer_native": 270,
+    "rust_matches_reversed_native": 360,
+    "reference_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+    "reference_dirty_paths": [
+      "src/hud.cpp",
+      "tests/hud_test.cpp"
+    ],
+    "native_trace_sha256": "a5893847ea0b1f149e04f50daa652a5eee29178d66f204e3add3e200b9453722",
+    "source_snapshot_manifest": "local/mixed-legacy-source-snapshot/snapshot-manifest.json",
+    "reconstructed_before": true
+  },
+  "fixed": {
+    "first_divergence": null,
+    "first_pre_divergence": null,
+    "first_rng_or_hash_divergence": null,
+    "legacy_profile": false,
+    "legacy_runtime_compatibility": false,
+    "mismatches": 0,
+    "native_order_sensitive_cases": 150,
+    "outcome": "passed",
+    "pre_mismatches": 0,
+    "rng_or_legacy_hash_mismatches": 0,
+    "rows": 400,
+    "rust_matches_car_outer_native": 360,
+    "rust_matches_reversed_native": 250,
+    "reference_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+    "reference_dirty_paths": [
+      "src/hud.cpp",
+      "tests/hud_test.cpp"
+    ],
+    "native_trace_sha256": "a5893847ea0b1f149e04f50daa652a5eee29178d66f204e3add3e200b9453722",
+    "native_library_sha256": "f530ae9ce4ce031cea19ce022fde138f2a3fd77a52d01fc82cdce148e472fb51",
+    "executable_sha256": "73d7f9744b5b1a9482b3909950cdf3fe34119fe13d023b031e9c6739a60f18a2",
+    "original_windows_runtime_compared": false
+  },
+  "muted": {
+    "first_divergence": null,
+    "first_pre_divergence": null,
+    "first_rng_or_hash_divergence": null,
+    "legacy_profile": false,
+    "legacy_runtime_compatibility": false,
+    "mismatches": 0,
+    "native_order_sensitive_cases": 150,
+    "outcome": "passed",
+    "pre_mismatches": 0,
+    "rng_or_legacy_hash_mismatches": 0,
+    "rows": 400,
+    "rust_matches_car_outer_native": 360,
+    "rust_matches_reversed_native": 250,
+    "reference_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+    "reference_dirty_paths": [
+      "src/hud.cpp",
+      "tests/hud_test.cpp"
+    ],
+    "native_trace_sha256": "a5893847ea0b1f149e04f50daa652a5eee29178d66f204e3add3e200b9453722",
+    "native_library_sha256": "f530ae9ce4ce031cea19ce022fde138f2a3fd77a52d01fc82cdce148e472fb51",
+    "executable_sha256": "73d7f9744b5b1a9482b3909950cdf3fe34119fe13d023b031e9c6739a60f18a2",
+    "original_windows_runtime_compared": false
+  },
+  "legacy_runtime_compatibility": {
+    "first_divergence": null,
+    "first_pre_divergence": null,
+    "first_rng_or_hash_divergence": null,
+    "legacy_profile": true,
+    "legacy_runtime_compatibility": true,
+    "mismatches": 0,
+    "native_order_sensitive_cases": 150,
+    "outcome": "passed",
+    "pre_mismatches": 0,
+    "rng_or_legacy_hash_mismatches": 0,
+    "rows": 400,
+    "rust_matches_car_outer_native": 250,
+    "rust_matches_reversed_native": 290,
+    "reference_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+    "reference_dirty_paths": [
+      "src/hud.cpp",
+      "tests/hud_test.cpp"
+    ],
+    "native_trace_sha256": "a5893847ea0b1f149e04f50daa652a5eee29178d66f204e3add3e200b9453722",
+    "native_library_sha256": "f530ae9ce4ce031cea19ce022fde138f2a3fd77a52d01fc82cdce148e472fb51",
+    "executable_sha256": "73d7f9744b5b1a9482b3909950cdf3fe34119fe13d023b031e9c6739a60f18a2",
+    "original_windows_runtime_compared": false
+  },
+  "legacy_native_differences_preserved": {
+    "full400": 110,
+    "first360": 70,
+    "scope": "Historical source3 health regeneration and shared-RNG behavior are retained, not normalized to native."
+  },
+  "native_phase_rng_checks": 40,
+  "precondition_checks": 400,
+  "effects_enabled_muted_actual_bytes_identical": true,
+  "fresh_body_cases": 50,
+  "elevated_fresh_body_contact_cases": 20,
+  "matrices": [
+    {
+      "rows": [
+        0,
+        359
+      ],
+      "observations": 360,
+      "classes": [
+        0,
+        1,
+        2,
+        3,
+        16
+      ],
+      "speeds": [
+        0,
+        5000,
+        20000
+      ],
+      "sides": [
+        -1,
+        1
+      ],
+      "presence_masks": [
+        1,
+        2,
+        4,
+        7
+      ],
+      "actor_car_pairs": [
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          3
+        ]
+      ]
+    },
+    {
+      "rows": [
+        360,
+        399
+      ],
+      "observations": 40,
+      "classes": [
+        0,
+        1,
+        2,
+        3,
+        16
+      ],
+      "speeds": [
+        20000
+      ],
+      "sides": [
+        -1,
+        1
+      ],
+      "presence_masks": [
+        2,
+        7
+      ],
+      "actor_car_pairs": [
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          3
+        ]
+      ],
+      "retained_secondary_car_height": 4096
+    }
+  ],
+  "incremental_failures": [
+    {
+      "matrix": 80,
+      "mismatches": 20,
+      "native_trace_sha256": "ad3f333d47b05eef8726879f879e020442d7a31862600a26c8eb6fe6b6ed1fc9",
+      "cause": "Population contacts preceded static/rider contacts; actual reversed native matched all80."
+    },
+    {
+      "matrix": 360,
+      "mismatches": 20,
+      "native_trace_sha256": "32aa591cee72ce7b8f715e368a569387199d9087b63b230a72e944be3d91095a",
+      "cause": "Car-outer walk continued a newly crashed bike against later cars."
+    },
+    {
+      "matrix": 400,
+      "mismatches": 20,
+      "native_trace_sha256": "a5893847ea0b1f149e04f50daa652a5eee29178d66f204e3add3e200b9453722",
+      "cause": "Missing human sound/horn/grunt stream draws changed fresh-body jitter."
+    }
+  ],
+  "before_restoration_manifest": {
+    "purpose": "Isolated restoration of pre-change car\u2192owner\u2192parts contact walk for source3 canonical compatibility; shared runtime untouched.",
+    "road_users_sha256": "1fbb012383d4c218d6349b8e85ffeb67bee174a6ab5152c1594b0f7c75011dfa",
+    "shared_road_users_sha256": "d7ccb1d6dc508952932e934b8c01b11f53884f12b546b4ca0db188fa0e412d00",
+    "source4_before_purpose": "Restore pre-correction population-before-world phase, car-outer jobs and omitted contact sound/horn draws in an isolated copy; original data and shared runtime untouched.",
+    "source4_before_files": {
+      "crates/simulation/src/lib.rs": "ee87b2f4eaf70e570a82220dddb486f8c3ea264b538c59ffc66469df34e69460",
+      "crates/simulation/src/encounter/contact.rs": "2fa0902b51f9c381d8fa2081c7fbf1ef662b7d6525d45118a5c54624228e3afa",
+      "crates/simulation/src/population/road_users.rs": "1fbb012383d4c218d6349b8e85ffeb67bee174a6ab5152c1594b0f7c75011dfa"
+    }
+  },
+  "original_windows_runtime_compared": false,
+  "scope": "Controlled full fixed-tick source4 motion and mixed static/rider/car callbacks, including fresh body, car early-stop, shared RNG and retained elevated car poses. Not native traffic driving/controller/pool-reuse or arbitrary native split/merge walker parity.",
+  "verification": {
+    "targeted_public_regressions_passed": 74,
+    "public_suites": {
+      "population": 47,
+      "collision": 12,
+      "contact_detection": 7,
+      "scenery": 8
+    },
+    "previous_native_scenery_regression_observations": 638,
+    "previous_native_scenery_trace_sha256": "9465f7fe43116cad44e6be2ecb1014b3ca71511f3b4ebc758b39b49f254552d1",
+    "strict_simulation_all_targets_clippy": "passed before unrelated in-flight Body2 API edit; parent owns final integrated freeze check",
+    "python_compile": "passed",
+    "diff_check": "passed"
+  }
+}

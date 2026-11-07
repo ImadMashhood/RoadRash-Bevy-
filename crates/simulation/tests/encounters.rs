@@ -1440,11 +1440,11 @@ fn combat_rules_version_is_explicit_and_legacy_encoding_is_unchanged() {
             .unwrap()
             .contains("combat_version")
     );
-    for version in 0..=3 {
+    for version in 0..=4 {
         e.rules.combat_version = version;
         assert!(Simulation::with_encounters(1, c.clone(), e.clone()).is_ok());
     }
-    e.rules.combat_version = 4;
+    e.rules.combat_version = 5;
     assert!(Simulation::with_encounters(1, c, e).is_err());
 }
 

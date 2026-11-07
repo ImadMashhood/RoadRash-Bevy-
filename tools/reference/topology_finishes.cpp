@@ -1,0 +1,5 @@
+// Actual pinned per-route finish queries and physical finish ownership.
+#include "assets.hpp"
+#include "course.hpp"
+#include <iostream>
+int main(int argc,char**argv){try{if(argc!=2){return 2;}rr::Assets assets(argv[1]);bool first=true;int id=0;std::cout<<"[";for(const char*stem:{"CITY","HIWAY","MEDLY","NAPA","CANYN"}){auto c=rr::read_course(assets.read(std::string("DATA/COURSES/")+stem+".CRS"));auto splits=rr::split_nodes(c);for(size_t mask=0;mask<(size_t(1)<<splits.size());++mask){std::vector<int> choices(splits.size());for(size_t bit=0;bit<choices.size();++bit)choices[bit]=int((mask>>bit)&1);auto route=rr::make_route_choices(c,choices);for(int level=0;level<5;++level){int finish=rr::finish_event_sample(c,route,level);if(finish<0)throw std::runtime_error("Missing native finish");auto&p=route[size_t(finish)];if(!first){std::cout<<",";}first=false;std::cout<<"["<<id<<","<<mask<<","<<level+1<<","<<finish<<","<<p.node<<","<<p.local<<"]";}}++id;}std::cout<<"]\n";}catch(const std::exception&e){std::cerr<<e.what()<<"\n";return 1;}}

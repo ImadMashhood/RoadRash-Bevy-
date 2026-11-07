@@ -2,6 +2,9 @@
 use crate::{animation::*, handling::*, riding::*, *};
 pub fn spec() -> BikeSpec {
     BikeSpec {
+        ai: false,
+        rider_value: None,
+        throttle_percent: None,
         id: 1,
         mass: 100,
         contact_steer_gain: 0,
@@ -94,6 +97,7 @@ pub fn library() -> Library {
 }
 pub fn riding() -> Configuration {
     Configuration {
+        recovery_animation: None,
         motion_version: 0,
         actions: None,
         specs: vec![spec()],

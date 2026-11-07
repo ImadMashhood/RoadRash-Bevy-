@@ -1,0 +1,114 @@
+{
+  "outcome": "passed",
+  "observations": 79610,
+  "families": 3,
+  "reference_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+  "reference_dirty_paths": [
+    "src/hud.cpp",
+    "tests/hud_test.cpp"
+  ],
+  "native_library_sha256": "f530ae9ce4ce031cea19ce022fde138f2a3fd77a52d01fc82cdce148e472fb51",
+  "source_executable_sha256": "73d7f9744b5b1a9482b3909950cdf3fe34119fe13d023b031e9c6739a60f18a2",
+  "original_windows_runtime_compared": false,
+  "checks": [
+    {
+      "family": "crowded_recovery_contacts",
+      "cases": 600,
+      "observations": 2400,
+      "initial_pose_checks": 600,
+      "mismatches": 0,
+      "native_trace_sha256": "fe6ea3a74a9f9677007efe4638ce43f07879237de63aa9e8dae379bff19f4db8",
+      "private_receipt": "local/recovery-contacts-final/comparison.json",
+      "contact_walk_version": 2,
+      "additional_fields_not_extra_observations": "Native Race.camera_position versus actual World.scenery_prepare(true) endpoint after each callback walk",
+      "before": {
+        "contact_walk_version": 1,
+        "mismatches": 62,
+        "differing_cases": 22,
+        "pre_mismatches": 0,
+        "private_receipt": "local/recovery-contacts-sorted/comparison.json",
+        "native_trace_sha256_without_camera_extension": "6339344e1b7b177569cf35a9f126a3032c544be6139c172d53917034ca6971b5",
+        "common_native_matrix_sha256": "04cce198ea0821c54a189891c4ebb5533c4dc9490fcecaf51c1b4d79d1416f3e",
+        "common_fields_identical_after_camera_extension": true,
+        "version1_unchanged_after_fix_receipt": "local/recovery-contacts-version1-confirmed/recovery-contacts-comparison.json"
+      }
+    },
+    {
+      "family": "remount_static_contacts",
+      "cases": 384,
+      "observations": 768,
+      "initial_pose_checks": 384,
+      "mismatches": 0,
+      "native_trace_sha256": "a47096a1079a5ff734757697aca8eb9782ea0be3f8528e6b49ffc0ac754dd723",
+      "private_receipt": "local/remount-contacts-final/comparison.json",
+      "before": {
+        "mismatches": 14,
+        "pre_mismatches": 0,
+        "private_receipt": "local/remount-contacts-compiled/comparison.json",
+        "native_expected_unchanged": true,
+        "forced_entry_clock_cases": 6
+      }
+    },
+    {
+      "family": "full_crowded_recovery_motion",
+      "cases": 144,
+      "observations": 76442,
+      "initial_pose_checks": 144,
+      "mismatches": 0,
+      "episodes_all_owners_remounted": 144,
+      "native_trace_sha256": "436830e90a69ec9360d0e954cc3019e1ab4296805cec4b1e6d74b8a8ae23766f",
+      "private_receipt": "local/recovery-multiwalk-camera-aligned/comparison.json",
+      "held_player_inputs": [
+        "neutral",
+        "throttle",
+        "throttle+left+punch"
+      ],
+      "completion": "Every owner first remounts, then30more ticks; no episode reaches3000tick cap",
+      "before": [
+        {
+          "kind": "LIVE outer lateral clamp",
+          "mismatches": 915,
+          "observations": 11578,
+          "cases": 16,
+          "private_receipt": "local/recovery-multiwalk-held/comparison.json",
+          "fixed_receipt": "local/recovery-multiwalk-held-clamp-fixed/comparison.json",
+          "native_trace_sha256": "85e45d6e463b67ede779c1e8806f88931b406bfd7ad960cf24d0091272fd8efa",
+          "scope": "superseded physical-field subset; not added to final count"
+        },
+        {
+          "kind": "first quiet move previous height",
+          "mismatches": 36,
+          "observations": 76442,
+          "cases": 144,
+          "private_receipt": "local/recovery-multiwalk-full-first/comparison.json",
+          "fixed_receipt": "local/recovery-multiwalk-full-lift-fixed/comparison.json",
+          "native_trace_sha256": "305c20f36878615a6f61658dd57ef39cd8ec73c1dc1da72a046ecb09676e6903",
+          "scope": "same final physical fields; effective rider clocks subsequently added without extra observations"
+        }
+      ],
+      "common_physical_fields_identical_after_clock_extension": true,
+      "native_visible_rider_clock": "Actual crash-body clock while detached; mounted ride_animation after remount",
+      "pilot_deduplication": "8neutral/5790ticks and16held/11578ticks are covered by144finalepisodes, not additive",
+      "common_physical_matrix_sha256": "3a491f05d79a2d54022cf193885c774af4148ed3a33f5c27c2f129ebbd970304"
+    }
+  ],
+  "public_regressions": [
+    "source_contact_history_keeps_converged_body_before_its_bike",
+    "source_remount_contact_distinguishes_ignored_entry_from_a_new_fall",
+    "source_body2_first_quiet_move_retains_the_lifted_previous_height"
+  ],
+  "strict_clippy_log": "local/recovery-contacts-expanded-final-clippy.log",
+  "invalid_harness_history": [
+    "local/recovery-contacts-first: stale native sort keys between controlled host transactions and uninitialized animation sentinel mismatch",
+    "local/remount-contacts-first: C++ warnings-as-errors prevented producer execution",
+    "local/recovery-multiwalk-pilot: printer incorrectly canonicalized legitimate clip\u22121 even with retained descriptor selected; corrected8episode subset is nonadditive",
+    "local/recovery-multiwalk-full-clocks: native visible NPC rider clocks used stale constructor previous_camera_position; final producer updates actual source camera each host tick"
+  ],
+  "scope": "Three distinct native families: controlled crowded callbacks, remount/static kernels, and full fixed-dt LIVE3/4-owner motion/contact recovery episodes; full changing-terrain and graphical acceptance remain separate parent gates",
+  "limits": [
+    "No native variable-cadence scheduling claim",
+    "No complete native TrackRing graph parity",
+    "Initial pose checks and camera field extension are not additional observations",
+    "Contact jitter curvature and captured wall-facing sign are counted by separate changing-terrain trajectory evidence"
+  ]
+}

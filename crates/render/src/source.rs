@@ -72,6 +72,7 @@ pub struct FamilyAssets {
     pub groups: BTreeMap<u32, Material>,
     pub sprites: BTreeMap<u32, SpriteAsset>,
     pub collision_boxes: BTreeMap<u32, Vec<[i32; 4]>>,
+    pub collision_flags: BTreeMap<u32, u32>,
     pub pedestrian_frames: BTreeMap<u8, Vec<Option<SpriteAsset>>>,
 }
 impl FamilyAssets {
@@ -127,6 +128,12 @@ impl FamilyAssets {
             .get(&self.resolve(category, selector, frame)?)
             .map(Vec::as_slice)
     }
+    pub fn collision_flags(&self, category: usize, selector: usize) -> Option<u32> {
+        let frame = if category == 4 { Some(0) } else { None };
+        self.collision_flags
+            .get(&self.resolve(category, selector, frame)?)
+            .copied()
+    }
     pub fn sprite(&self, category: usize, selector: usize) -> Option<&SpriteAsset> {
         let frame = if category == 4 { Some(0) } else { None };
         let at = self.resolve(category, selector, frame)?;
@@ -137,6 +144,9 @@ pub type PedestrianVoices = BTreeMap<(u16, u8), [Option<u8>; 2]>;
 #[derive(Clone)]
 pub struct SourceAssets {
     pub police_animation: Option<Arc<rr_simulation::animation::Library>>,
+    pub police_rider: Option<Arc<crate::rider::RiderAssets>>,
+    /// Cop sheets have no upright foot art; use original rider palette 6 for recovery.
+    pub police_foot_rider: Option<Arc<crate::rider::RiderAssets>>,
     pub pedestrian_appearances: Vec<rr_simulation::population::PedestrianAppearance>,
     pub pedestrian_voices: Arc<PedestrianVoices>,
     pub animations: Option<Arc<crate::rider::RiderAssets>>,
@@ -401,8 +411,14 @@ impl SourceAssets {
             }
             let mut sprites = BTreeMap::new();
             let mut collision_boxes = BTreeMap::new();
+            let mut collision_flags = BTreeMap::new();
             for n in &definition.nodes {
                 if n.tag == 0x5252414e {
+                    if let Some(flags) =
+                        rr_formats::animation_boxes::texture_flags(&bytes, n.offset as usize, 2)?
+                    {
+                        collision_flags.insert(n.offset, flags);
+                    }
                     collision_boxes.insert(
                         n.offset,
                         rr_formats::animation_boxes::read(&bytes, n.offset as usize, 2)?,
@@ -432,6 +448,7 @@ impl SourceAssets {
             let mut family = FamilyAssets {
                 pedestrian_frames: BTreeMap::new(),
                 collision_boxes,
+                collision_flags,
                 definition: Arc::new(definition),
                 groups,
                 sprites,
@@ -538,32 +555,11 @@ impl SourceAssets {
             }
             vehicles.push(views);
         }
-        let cop_bytes = fs::read(data.join("DATA/BIKERS/LOCOP.DAT"))?;
-        let cop_frames = rr_formats::decode_bob(&cop_bytes, 45)?;
-        let cop_metadata = resource(&Directory::read(&global)?, &global, "ANIM", 2)?;
-        let mut police = vec![];
-        for (index, frame) in cop_frames.iter().enumerate() {
-            if frame.width == 0 || frame.height == 0 {
-                police.push(None);
-                continue;
-            }
-            let image = palette
-                .rgba(
-                    u32::from(frame.width),
-                    u32::from(frame.height),
-                    frame.pixels,
-                    true,
-                    None,
-                )?
-                .ok_or("cop pixels")?;
-            let (logical, pivot) = rider_frame_registration(cop_metadata, index as u32)?;
-            police.push(Some(SpriteAsset {
-                texture: Texture::new(image, false)?,
-                logical,
-                pivot,
-            }));
-        }
+        let police_rider = Arc::new(crate::rider::RiderAssets::load_police(data)?);
+        let police = police_rider.bodies.clone();
         Ok(Self {
+            police_rider: Some(police_rider),
+            police_foot_rider: Some(Arc::new(crate::rider::RiderAssets::load(data, 6)?)),
             police_animation: Some(Arc::new(rr_simulation::animation::Library::read(
                 &exe_bytes, &global,
             )?)),
@@ -594,6 +590,8 @@ impl SourceAssets {
         let image = |c| Texture::solid(c);
         Self {
             police_animation: None,
+            police_rider: None,
+            police_foot_rider: None,
             pedestrian_appearances: vec![],
             pedestrian_voices: Default::default(),
             palettes: BTreeMap::new(),
@@ -642,7 +640,13 @@ impl SourceAssets {
                 }
             }
         };
-        for bank in self.palettes.values().chain(self.animations.iter()) {
+        for bank in self
+            .palettes
+            .values()
+            .chain(self.animations.iter())
+            .chain(self.police_rider.iter())
+            .chain(self.police_foot_rider.iter())
+        {
             for sprite in bank.bodies.iter().chain(&bank.shadows).flatten() {
                 add("riders_and_shadows", &sprite.texture);
             }

@@ -4,24 +4,49 @@ The game is implemented across the native content, simulation, frontend, career,
 save, media and Linux packaging layers, but **the current game is not complete or
 release-accepted**. Parts 19, 21 and 22 have reopened required acceptance work.
 
-The latest [contact/fighting/recovery report](evidence/source-contact-recovery.md)
-records **327,086 matching native observations across 22 families**. Controlled
-contact classification, physical scenery/building boundaries, complete flat/sloped
-recovery episodes and two-rider dynamic fights/chains pass. Full police behavior,
-dense/simultaneous interactions, other boundary types and career/release acceptance
-remain open. The latest 200-attempt profile-3 pilot completed level 1, visited seven course/level
-cases and ended at level 2 after 72 wins; it still did not complete the campaign.
+The current component evidence totals **1,458,070 matching native observations
+across 61 families**. The [collision/topology follow-up](evidence/source-collision-topology.md)
+adds mixed object walks, mounted motion, steered forks, branch scenery and finish
+boundaries. The [terrain follow-up](evidence/source-terrain-boundaries.md) covers
+building, mountain, tunnel, hill and open-edge queries and responses; complete
+mounted trajectories also check continuous contact and separation/re-impact.
+The [physical-coordinate presentation report](evidence/physical-road-presentation.md)
+covers mounted camera following, unequal branches and real source-art approaches.
+Earlier [scenery](evidence/source-scenery.md), [static queries](evidence/source-static-queries.md)
+and [contact/fighting/recovery](evidence/source-contact-recovery.md) retain their
+recorded scopes. These counts do not establish whole-game parity. The pinned
+native TrackRing cannot walk complete split/merge graphs; the Rust graph bridge
+is an explicitly tested functional extension. [Simultaneous fights](evidence/source-simultaneous-combat.md)
+and [police integration](evidence/source-combat-police.md) now pass their controlled
+native and functional lifecycle gates. [Detached recovery](evidence/source-recovery-terrain.md),
+[crowded motion](evidence/source-recovery-contacts.md) and
+[actual crash entries](evidence/source-recovery-entry.md) now pass their declared
+native scope, with inspected original-art sequences. The [current career](evidence/native-career-current.md) and [ordinary keyboard UI](evidence/source-career-ui.md) now pass their gates; replacement release acceptance remains open.
+The latest historical 200-attempt profile-3 pilot completed level 1, visited seven
+course/level cases and ended at level 2 after 72 wins; it did not finish the campaign.
 
 The [RC4 download](https://github.com/ImadMashhood/RoadRash-Bevy-/releases/tag/native-functional-2026-11-01-rc4)
 and its 67-attempt career, one-hour performance and package receipts are historical.
-They certify that immutable build only. Current source requires a complete career,
-replacement performance/package checks and project-owner G5 acceptance. See the
+They certify that immutable build only. The current career is verified; replacement performance/package checks and project-owner G5 acceptance remain open. See the
 [manifest](functional-manifest.json), [defect register](functional-defects.json) and
 [active detailed checklist](COLLISION_COMBAT_PRIORITY.md).
+
+The [sequential completion ledger](COMPLETION_EXECUTION.md) tracks the owner's
+remaining work. Scenery, collision/topology and combat/police are verified;
+detached recovery and genuine career/ordinary UI are verified. Replacement release verification is active.
+The current workspace has 508 passing tests and 57 explicitly ignored
+private-data tests. All 25 source factories pass four replay schedules, and ten
+ordinary steered fork approaches pass independent current-release replay. The corrected continuous-facade brush passes all four rates and graphical
+replay. Its original fixture crossed an opening and struck a building corner on
+tick42 in both games; that result is preserved without changing physics.
 
 Texture production remains deferred until accepted G5. 3D is outside current
 scope. Original Windows runtime comparison remains owner-waived; the native oracle
 is the pinned C++ port with locally supplied original data.
+
+The [driving-bounce correction](evidence/driving-bounce.md) removes sample-boundary
+bobbing caused by renderer ground-anchor interpolation; physics rules are unchanged.
+Native contact, career and replacement-release acceptance below remain open.
 
 ## Historical Parts 01–18 receipts
 

@@ -1,0 +1,101 @@
+{
+  "outcome": "passed",
+  "observations": 216718,
+  "families": 1,
+  "cases": 400,
+  "initial_state_observations": 400,
+  "remounted_then_30_ticks": 350,
+  "wreck_standing_loop_cases": 50,
+  "configured_limit_cutoffs": 0,
+  "reference_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+  "reference_dirty_paths": [
+    "src/hud.cpp",
+    "tests/hud_test.cpp"
+  ],
+  "native_library_sha256": "f530ae9ce4ce031cea19ce022fde138f2a3fd77a52d01fc82cdce148e472fb51",
+  "source_executable_sha256": "73d7f9744b5b1a9482b3909950cdf3fe34119fe13d023b031e9c6739a60f18a2",
+  "original_windows_runtime_compared": false,
+  "checks": [
+    {
+      "matrix": "recovery-terrain-unique-fixed",
+      "cases": 240,
+      "observations": 127361,
+      "mismatches": 0,
+      "native_trace_sha256": "e3c258f1e6e3bbf58219e28e6f97a9927023f1660614df8719df6c655db88e5b",
+      "rust_trace_sha256": "8005be2860aee18b854ac0ebc0cd32addcee6b9fc69f3be695ddb182c0a2b5c0",
+      "private_receipt": "local/recovery-terrain-unique-fixed/comparison.json",
+      "remounted_then_30_ticks": 210,
+      "wreck_standing_loop_cases": 30,
+      "configured_limit_cutoffs": 0
+    },
+    {
+      "matrix": "recovery-terrain-outer-fixed",
+      "cases": 160,
+      "observations": 89357,
+      "mismatches": 0,
+      "native_trace_sha256": "879a0a5836ab216a9432cee0c45192fbf63cef3db4d8722e4fb7abac5c44636c",
+      "rust_trace_sha256": "4a7bee24a5dbf9e348ea78cd206c7477ec9cf2684bda0e88502d644d57c64283",
+      "private_receipt": "local/recovery-terrain-outer-fixed/comparison.json",
+      "remounted_then_30_ticks": 140,
+      "wreck_standing_loop_cases": 20,
+      "configured_limit_cutoffs": 0
+    }
+  ],
+  "baselines": [
+    {
+      "kind": "missing_source_curvature",
+      "observations": 127361,
+      "mismatches": 62396,
+      "same_native_hash": true,
+      "private_receipt": "local/recovery-terrain-unique-no-curvature-before/comparison.json"
+    },
+    {
+      "kind": "outside_wall_display_uses_scalar_instead_of_captured_forward_speed",
+      "observations": 89357,
+      "mismatches": 1552,
+      "same_native_hash": true,
+      "private_receipt": "local/recovery-terrain-outer-before/comparison.json"
+    },
+    {
+      "kind": "quiet_bike_gear_shift_subset",
+      "observations": 9206,
+      "mismatches": 1048,
+      "fixed_mismatches": 0,
+      "subset_not_additive": true,
+      "private_before": "local/recovery-terrain-pilot-walk-before/comparison.json",
+      "private_after": "local/recovery-terrain-pilot-gear-fixed/comparison.json"
+    }
+  ],
+  "public_regressions": {
+    "tests": 4,
+    "log": "local/recovery-curvature-public-quarantine-corrected.log",
+    "scope": "Native counterexamples for heading, retained gears and remount clock; paired ordinary Simulation held-control quarantine through remount frame"
+  },
+  "scope": "Controlled crash_reason inputs; actual LIVE dt1 half\u2192quiet-bike\u2192sorted contact callbacks across five terrain classes with fixed/changing bend/rise/side-height, both sides, center/shoulder/outside positions; no variable scheduler or TrackRing graph parity",
+  "limits": [
+    "Actual mounted trigger selection is a separate family, not established by direct controlled crash_reason inputs",
+    "Wrecked fixtures stop at the native standing-loop decision threshold; game-over/session cleanup is separate evidence",
+    "Initial visual yaw is zero in this controlled matrix; steering-at-entry copy is separately audited",
+    "Native uninitialized animation code/deadline and inactive crash timer are exported semantically, not byte-identical object images"
+  ],
+  "superseded": [
+    "Original320 raw episodes173581rows duplicated80 center episodes because side had no effect at center0; not counted",
+    "Earlier physical-angle-only49098 failures included duplicated rows; diagnostic only, not final acceptance baseline"
+  ],
+  "invalid_harness_history": [
+    "pilot-first: C++ misleading-indentation compile failure",
+    "pilot-compiled: usize\u2192i64 Rust compile issue",
+    "pilot-rust-corrected: missing scenery_version1 physical-rules input",
+    "pilot-source-valid: direct initial-hit before source topology cache setup",
+    "pilot-cache-valid: first native callback absolute1 versus Simulation absolute0; uninitialized clip/deadline sentinels",
+    "pilot-clock-valid: inactive native crash_timer compared despite being stale after remount",
+    "pilot-gear-before: omitted required native sorted contact callback after movement; superseded by complete-walk baseline"
+  ],
+  "public_suite": {
+    "passed": 251,
+    "ignored": 41,
+    "log": "local/recovery-terrain-public-tests.log",
+    "note": "Run before adding the fourth public quarantine regression; parent workspace gate reruns final integration"
+  },
+  "strict_clippy": "local/recovery-terrain-clippy-final.log"
+}

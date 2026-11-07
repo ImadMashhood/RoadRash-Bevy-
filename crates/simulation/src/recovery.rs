@@ -78,6 +78,8 @@ impl Impact {
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(deny_unknown_fields)]
 pub struct BodyLaw {
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub source_angles: Vec<u8>,
     #[serde(default, skip_serializing_if = "legacy_motion")]
     pub motion_version: u8,
     #[serde(default, skip_serializing_if = "legacy_motion")]
@@ -96,6 +98,7 @@ fn legacy_motion(version: &u8) -> bool {
 impl Default for BodyLaw {
     fn default() -> Self {
         Self {
+            source_angles: vec![],
             motion_version: 0,
             recovery_version: 0,
             drag: 130,
@@ -116,6 +119,7 @@ impl BodyLaw {
             Ok(rr_formats::binary::u32le(raw, i * 4)? as i32)
         };
         let value = Self {
+            source_angles: vec![],
             motion_version: 0,
             recovery_version: 0,
             drag: w(9)?,
@@ -129,9 +133,21 @@ impl BodyLaw {
         value.validate()?;
         Ok(value)
     }
+    pub fn enable_source_curvature(
+        &mut self,
+        bytes: &[u8],
+    ) -> std::result::Result<(), Box<dyn std::error::Error>> {
+        self.source_angles = rr_formats::pe::SupportedExe::read(bytes)?
+            .read_va(0x476768, 257)?
+            .to_vec();
+        self.validate()?;
+        Ok(())
+    }
     pub fn validate(&self) -> Result<()> {
-        if self.motion_version > 1
-            || self.recovery_version > 1
+        if (!self.source_angles.is_empty() && self.source_angles.len() != 257)
+            || self.source_angles.iter().any(|angle| *angle > 128)
+            || self.motion_version > 1
+            || self.recovery_version > 2
             || !(0..=4096).contains(&self.drag)
             || !(0..=4096).contains(&self.contact_drag)
             || !(-65536..=0).contains(&self.landing)
@@ -144,7 +160,7 @@ impl BodyLaw {
         }
         Ok(())
     }
-    fn spec(&self, base: &BikeSpec) -> BikeSpec {
+    pub(crate) fn spec(&self, base: &BikeSpec) -> BikeSpec {
         let mut result = base.clone();
         result.landing = self.landing;
         result.suspension = self.suspension;
@@ -156,6 +172,8 @@ impl BodyLaw {
 }
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Eq)]
 pub struct Body {
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub source_route: Option<u8>,
     pub entity: u64,
     pub owner: ActorId,
     pub location: Location,
@@ -174,6 +192,10 @@ pub struct Body {
 }
 #[derive(Clone, Debug, Default, Serialize, Deserialize, PartialEq, Eq)]
 pub struct State {
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub retained_body_animation: Option<Player>,
+    #[serde(default, skip_serializing_if = "crate::is_false")]
+    pub police: bool,
     pub phase: Phase,
     pub body: Option<Body>,
     pub bike_entity: u64,
@@ -232,6 +254,45 @@ impl State {
     ) -> bool {
         self.begin_profile(owner, bike, c, at, impact, topology, true)
     }
+    /// LIVE callbacks select the quiet bike's first tumble on its first bike think.
+    #[allow(clippy::too_many_arguments)]
+    pub fn begin_live_source(
+        &mut self,
+        owner: ActorId,
+        bike: &mut Bike,
+        c: &Configuration,
+        at: Location,
+        impact: Impact,
+        topology: &Topology,
+    ) -> bool {
+        let quiet_animation = self.bike_animation.clone();
+        let drive = bike.drive;
+        let previous = Location {
+            height: bike.previous_above,
+            ..at
+        };
+        let first = self.incident == 0;
+        let entered = self.begin_profile(owner, bike, c, at, impact, topology, true);
+        if entered {
+            bike.drive = drive;
+            if let Some(body) = &mut self.body {
+                body.visual_heading = bike.source_yaw;
+            }
+
+            self.bike_location.height = bike.height;
+            self.bike_animation = if first {
+                Player::default()
+            } else {
+                quiet_animation
+            };
+            let body = self.body.as_mut().unwrap();
+            body.previous_location = Some(previous);
+            if let Some(retained) = &self.retained_body_animation {
+                body.animation.selected = retained.selected;
+            }
+        }
+        entered
+    }
     #[allow(clippy::too_many_arguments)]
     fn begin_profile(
         &mut self,
@@ -256,6 +317,7 @@ impl State {
             motion.lean = 0;
             motion.skid = 0;
             self.body = Some(Body {
+                source_route: None,
                 entity: owner.0 * 2 + 1,
                 owner,
                 location: Location {
@@ -299,7 +361,7 @@ impl State {
             }
         }
         body.animation.set(
-            &c.animation,
+            c.recovery_animation(),
             0,
             if impact.reason == 2 {
                 29
@@ -318,8 +380,10 @@ impl State {
         self.elapsed = 0;
         self.incident = self.incident.saturating_add(1);
         self.bike_animation = Player::default();
-        self.bike_animation.set(&c.animation, 0, 46);
-        self.bike_animation.queued = Some(44);
+        if !self.police {
+            self.bike_animation.set(c.recovery_animation(), 0, 46);
+            self.bike_animation.queued = Some(44);
+        }
         first
     }
     pub fn can_mount(&self, topology: &Topology) -> bool {
@@ -368,7 +432,20 @@ impl State {
         tick: u32,
         random: impl FnMut() -> u32,
     ) -> Result<Vec<RecoveryEvent>> {
-        if law.recovery_version == 1 && !assists.fast_recovery && !assists.rescue_unreachable {
+        if law.recovery_version == 2 && !assists.fast_recovery && !assists.rescue_unreachable {
+            self.step_live_context(
+                bike,
+                c,
+                topology,
+                law,
+                walk,
+                self.bike_entity == 2 && !self.police,
+                tick,
+                random,
+                None,
+            )
+        } else if law.recovery_version == 1 && !assists.fast_recovery && !assists.rescue_unreachable
+        {
             self.step_source(bike, c, topology, law, walk, tick, random)
         } else {
             self.step_legacy(bike, c, topology, law, assists, walk, tick)
@@ -424,6 +501,7 @@ impl State {
         // Riderless bike and rider body retain independent motion and animation clocks.
         if self.phase != Phase::Mounting {
             let mut bike_law = BodyLaw {
+                source_angles: vec![],
                 motion_version: law.motion_version,
                 recovery_version: 0,
                 drag: c.tables.object[9],
@@ -445,11 +523,11 @@ impl State {
                 None,
             )?;
             if bike.speed == 0 {
-                self.bike_animation.set(&c.animation, 0, 48);
+                self.bike_animation.set(c.recovery_animation(), 0, 48);
             }
             let f = self
                 .bike_animation
-                .advance(&c.animation, 0, tick)
+                .advance(c.recovery_animation(), 0, tick)
                 .map_err(|_| Error::Invalid("crash bike animation"))?;
             if let Some(f) = f {
                 let (cell, _) = c
@@ -518,7 +596,7 @@ impl State {
         }
         let body = self.body.as_mut().unwrap();
         if self.phase == Phase::Sliding && body.motion.speed > 0 && body.animation.code < 0 {
-            body.animation.set(&c.animation, 0, 29);
+            body.animation.set(c.recovery_animation(), 0, 29);
             body.animation.queued = Some(29);
         }
         match self.phase {
@@ -526,12 +604,12 @@ impl State {
                 if body.motion.speed == 0 && body.motion.height <= 0 {
                     self.phase = Phase::GettingUp;
                     self.elapsed = 0;
-                    body.animation.set(&c.animation, 0, 36);
+                    body.animation.set(c.recovery_animation(), 0, 36);
                     body.animation.queued = Some(37);
                     events.push(RecoveryEvent::GetUp);
                 } else if body.motion.height <= 0xfff && matches!(body.animation.code, 33 | 35) {
                     body.animation.set(
-                        &c.animation,
+                        c.recovery_animation(),
                         0,
                         if body.animation.code == 33 { 34 } else { 29 },
                     );
@@ -539,7 +617,7 @@ impl State {
                 }
             }
             Phase::GettingUp if assists.fast_recovery => {
-                body.animation.set(&c.animation, 0, 37);
+                body.animation.set(c.recovery_animation(), 0, 37);
                 self.phase = Phase::Standing;
                 self.assisted = true;
             }
@@ -550,11 +628,11 @@ impl State {
         }
         let f = body
             .animation
-            .advance(&c.animation, 0, tick)
+            .advance(c.recovery_animation(), 0, tick)
             .map_err(|_| Error::Invalid("recovery animation"))?;
         if let Some(f) = f {
             let (cell, roll) = c
-                .animation
+                .recovery_animation()
                 .select(0, &f, body.location.heading, 0)
                 .map_err(|_| Error::Invalid("recovery view"))?;
             body.frame = cell.frame;
@@ -581,7 +659,7 @@ impl State {
                 events.push(RecoveryEvent::Wrecked);
             } else {
                 let body = self.body.as_mut().unwrap();
-                body.animation.set(&c.animation, 0, 41);
+                body.animation.set(c.recovery_animation(), 0, 41);
                 body.animation.queued = Some(2);
                 body.motion.speed = 0;
                 self.phase = Phase::Mounting;
@@ -672,12 +750,14 @@ pub fn motion_step(
         topology,
         law,
         planned,
-        if law.recovery_version == 1 {
+        if law.recovery_version >= 1 {
             crate::handling::VerticalKind::Rider
         } else {
             crate::handling::VerticalKind::Legacy
         },
+        true,
     )
+    .map(|_| ())
 }
 #[allow(clippy::too_many_arguments)]
 pub(crate) fn motion_step_bike(
@@ -696,6 +776,49 @@ pub(crate) fn motion_step_bike(
         law,
         None,
         crate::handling::VerticalKind::Bike,
+        true,
+    )
+    .map(|_| ())
+}
+#[allow(clippy::too_many_arguments)]
+pub(crate) fn motion_step_horizontal(
+    motion: &mut Bike,
+    location: &mut Location,
+    heading: i32,
+    c: &Configuration,
+    topology: &Topology,
+    law: &BodyLaw,
+    planned: Option<crate::topology::Portal>,
+) -> Result<crate::handling::Ground> {
+    motion_step_kind(
+        motion,
+        location,
+        heading,
+        c,
+        topology,
+        law,
+        planned,
+        crate::handling::VerticalKind::Rider,
+        false,
+    )
+}
+pub(crate) fn motion_step_bike_horizontal(
+    motion: &mut Bike,
+    location: &mut Location,
+    c: &Configuration,
+    topology: &Topology,
+    law: &BodyLaw,
+) -> Result<crate::handling::Ground> {
+    motion_step_kind(
+        motion,
+        location,
+        0,
+        c,
+        topology,
+        law,
+        None,
+        crate::handling::VerticalKind::Bike,
+        false,
     )
 }
 #[allow(clippy::too_many_arguments)]
@@ -708,16 +831,27 @@ fn motion_step_kind(
     law: &BodyLaw,
     planned: Option<crate::topology::Portal>,
     kind: crate::handling::VerticalKind,
-) -> Result<()> {
+    vertical: bool,
+) -> Result<crate::handling::Ground> {
     let projected = topology.projected(*location).unwrap_or(motion.distance_q8);
     let sample =
         (i64::from(c.start_sample) + (projected >> 8)).clamp(0, c.ground.len() as i64 - 1) as usize;
     let ground = c.ground[sample];
     let surface = ground.surface(location.lateral);
     recovery_speed_step(motion, &c.tables, surface, law);
+    if kind == crate::handling::VerticalKind::Bike && law.recovery_version == 2 {
+        if c.spec().gears[motion.gear].up < motion.speed {
+            motion.gear = (motion.gear + 1).min(6);
+        } else if motion.speed < c.spec().gears[motion.gear].down {
+            motion.gear = motion.gear.saturating_sub(1);
+        }
+    }
     let (delta, lateral) = if kind == crate::handling::VerticalKind::Bike {
         if motion.contact > 0 {
             motion.air_lateral_speed = motion.lateral_speed;
+        }
+        if law.recovery_version == 2 {
+            motion.update_source_yaw(c.spec(), motion.air_lateral_speed);
         }
         (
             ((motion
@@ -761,6 +895,17 @@ fn motion_step_kind(
         .unwrap_or(projected + i64::from(delta));
     motion.distance_q8 = new_projected;
     motion.lateral = location.lateral;
+    if kind == crate::handling::VerticalKind::Rider
+        && law.recovery_version == 2
+        && !law.source_angles.is_empty()
+    {
+        location.heading = location.heading.wrapping_sub(curve_sweep(
+            c,
+            projected,
+            new_projected,
+            &law.source_angles,
+        ));
+    }
     let mut ground = if delta >= 0 {
         c.swept_ground(projected, new_projected.max(projected))
     } else {
@@ -783,7 +928,52 @@ fn motion_step_kind(
             v[1] += bend;
         }
     }
-    motion.vertical_profile(&law.spec(c.spec()), &c.tables, ground, kind);
-    location.height = motion.height;
-    Ok(())
+    if vertical {
+        motion.vertical_profile(&law.spec(c.spec()), &c.tables, ground, kind);
+        location.height = motion.height;
+    }
+    Ok(ground)
+}
+
+/// The source generic actor retains the curvature accumulated by each cross-sample step.
+pub(crate) fn curve_sweep(c: &Configuration, old: i64, new: i64, angles: &[u8]) -> i32 {
+    let start = i64::from(c.start_sample) * 256;
+    let angle = |position: i64| {
+        let bend =
+            c.ground[((start + position).max(0) >> 8).min(c.ground.len() as i64 - 1) as usize].bend;
+        i32::from(angles[bend.unsigned_abs() as usize]) * 64 * bend.signum()
+    };
+    let cross = |from: i64, to: i64| {
+        if from >> 8 == to >> 8 {
+            angle(to).wrapping_mul((to - from) as i32) / 2
+        } else {
+            let into_new = if to < from {
+                (to & 255) - 256
+            } else {
+                to & 255
+            };
+            let into_old = if to < from {
+                -(from & 255)
+            } else {
+                256 - (from & 255)
+            };
+            angle(from)
+                .wrapping_mul(into_old as i32)
+                .wrapping_add(angle(to).wrapping_mul(into_new as i32))
+                / 2
+        }
+    };
+    let delta = new - old;
+    if ((new >> 8) - (old >> 8)).abs() < 2 {
+        return cross(old, new);
+    }
+    let unit = delta.signum() * 256;
+    let first = delta.signum() * (delta.abs() & 255);
+    let mut at = old + first;
+    let mut total = cross(old, at);
+    for _ in 0..(delta.abs() >> 8) {
+        total = total.wrapping_add(cross(at, at + unit));
+        at += unit;
+    }
+    total
 }

@@ -44,12 +44,12 @@ impl CameraSpec {
             || !self.horizon.is_finite()
             || !(0.0..self.height as f64).contains(&self.horizon)
             || !self.camera_height.is_finite()
-            || !(1.0..=1000.).contains(&self.camera_height)
+            || !(1.0..=1_000_000.).contains(&self.camera_height)
             || !self.near_q8.is_finite()
             || !(1.0..=256.).contains(&self.near_q8)
             || !(2..=65).contains(&self.slices)
             || !self.player_depth_q8.is_finite()
-            || !(256.0..=1024.0).contains(&self.player_depth_q8)
+            || !(1.0..=8192.0).contains(&self.player_depth_q8)
         {
             return Err("invalid classic camera specification".into());
         }
@@ -94,6 +94,225 @@ impl Default for View {
 }
 /// Schema 3 reads source Q8 positions directly. Legacy scenarios retain the
 /// original authored bridge (8 mm per source Q8, 10 mm per lane unit).
+pub fn route_snapshot_view(
+    route: &Route,
+    previous: &rr_simulation::Snapshot,
+    current: &rr_simulation::Snapshot,
+    alpha: f32,
+    start_q8: f64,
+) -> View {
+    let mut view = snapshot_view(previous, current, alpha, start_q8);
+    let player_progress = |snapshot: &rr_simulation::Snapshot| {
+        let actor = snapshot.actors.iter().find(|actor| actor.id.0 == 1)?;
+        let unit = actor.encounter.as_ref()?;
+        let location = unit
+            .recovery
+            .body
+            .as_ref()
+            .map_or(unit.recovery.bike_location, |body| body.location);
+        route_position(route, location.path, location.progress)
+    };
+    let follow_progress = |snapshot: &rr_simulation::Snapshot| {
+        snapshot
+            .camera_follow
+            .as_ref()
+            .and_then(|follow| {
+                route_position(route, follow.location.path, follow.location.progress).map(
+                    |position| {
+                        position
+                            - if follow.back_applied {
+                                0
+                            } else {
+                                i64::from(follow.back)
+                            }
+                    },
+                )
+            })
+            .or_else(|| player_progress(snapshot))
+    };
+    if let (Some(old), Some(new)) = (follow_progress(previous), follow_progress(current)) {
+        let alpha = if alpha.is_finite() {
+            f64::from(alpha.clamp(0., 1.))
+        } else {
+            0.
+        };
+        let old_camera = (old - 256).max(0) as f64;
+        let new_camera = (new - 256).max(0) as f64;
+        view.position_q8 = old_camera + (new_camera - old_camera) * alpha;
+        let camera_lateral = |snapshot: &rr_simulation::Snapshot| {
+            let actor = snapshot.actors.iter().find(|actor| actor.id.0 == 1)?;
+            let follow = snapshot.camera_follow.as_ref();
+            let captured = follow.and_then(|f| f.bike_location);
+            let location =
+                captured.or_else(|| actor.encounter.as_ref().map(|u| u.recovery.bike_location))?;
+            let center = follow.and_then(|f| f.road_center).or_else(|| {
+                let progress = route_position(route, location.path, location.progress)?;
+                let point = route.points.get((progress.max(0) / 256) as usize)?;
+                let (offset, width) = if point.node == location.path {
+                    (point.offset, point.path.width)
+                } else {
+                    let dual = point.dual.as_ref().filter(|d| d.node == location.path)?;
+                    (dual.offset, dual.path.width)
+                };
+                Some((2 * offset + width[1] - width[0]) / 2)
+            })?;
+            let lateral = captured.map_or(actor.rider.as_ref()?.bike.lateral, |p| p.lateral);
+            let distance = lateral / 256 - center;
+            let mut follow = distance - distance / 4;
+            if distance - follow >= 201 {
+                follow = distance - 200;
+            } else if distance - follow < -200 {
+                follow = distance + 200;
+            }
+            Some(f64::from(center + follow))
+        };
+        if let (Some(old_x), Some(new_x)) = (camera_lateral(previous), camera_lateral(current)) {
+            view.lateral = old_x + (new_x - old_x) * alpha;
+        }
+    }
+    if current
+        .actors
+        .iter()
+        .any(|a| a.id.0 == 1 && a.rider.is_some())
+    {
+        let sample = (view.position_q8.max(0.) / 256.) as usize;
+        if let Some(point) = route.points.get(sample) {
+            view.lateral -= f64::from(point.offset);
+        }
+    }
+    view
+}
+
+pub fn route_camera_spec(
+    route: &Route,
+    spec: &CameraSpec,
+    previous: &rr_simulation::Snapshot,
+    current: &rr_simulation::Snapshot,
+    alpha: f32,
+) -> CameraSpec {
+    let height = |snapshot: &rr_simulation::Snapshot| {
+        let actor = snapshot.actors.iter().find(|actor| actor.id.0 == 1)?;
+        actor.encounter.as_ref()?.source_route?;
+        let follow = snapshot.camera_follow.as_ref();
+        let ground = follow
+            .and_then(|f| f.ground_height)
+            .unwrap_or(actor.rider.as_ref()?.bike.previous_ground);
+        let lift = follow.map_or(0, |f| f.back / 3);
+        Some(f64::from((ground + lift).max(150)))
+    };
+    let mut camera = spec.clone();
+    if current.camera_follow.is_some() && previous.camera_follow.is_some() {
+        let depth = |snapshot: &rr_simulation::Snapshot| {
+            let actor = snapshot.actors.iter().find(|actor| actor.id.0 == 1)?;
+            let unit = actor.encounter.as_ref()?;
+            let at = unit
+                .recovery
+                .body
+                .as_ref()
+                .map_or(unit.recovery.bike_location, |body| body.location);
+            let position = route_position(route, at.path, at.progress)?;
+            let follow = snapshot.camera_follow.as_ref()?;
+            let camera = (route_position(route, follow.location.path, follow.location.progress)?
+                - if follow.back_applied {
+                    0
+                } else {
+                    i64::from(follow.back)
+                }
+                - 256)
+                .max(0);
+            Some((position - camera + 256) as f64)
+        };
+        if let (Some(old), Some(new)) = (depth(previous), depth(current)) {
+            let alpha = if alpha.is_finite() {
+                f64::from(alpha.clamp(0., 1.))
+            } else {
+                0.
+            };
+            camera.player_depth_q8 = old + (new - old) * alpha;
+        }
+    }
+    if let (Some(old), Some(new)) = (height(previous), height(current)) {
+        let alpha = if alpha.is_finite() {
+            f64::from(alpha.clamp(0., 1.))
+        } else {
+            0.
+        };
+        camera.camera_height = old + (new - old) * alpha;
+    }
+    camera
+}
+
+/// Project a physical road coordinate into the currently followed road/cache.
+/// Roads outside that route and its dual windows have no visible coordinate.
+pub fn route_position(route: &Route, node: u32, progress: i64) -> Option<i64> {
+    let local = progress.div_euclid(256);
+    let fraction = progress.rem_euclid(256);
+    route.points.iter().enumerate().find_map(|(index, point)| {
+        let own = point.node == node && i64::from(point.local) == local;
+        let other = point
+            .dual
+            .as_ref()
+            .is_some_and(|dual| dual.node == node && i64::from(dual.local) == local);
+        (own || other).then_some(index as i64 * 256 + fraction)
+    })
+}
+
+pub fn route_encounter_snapshot(
+    route: &Route,
+    source: &rr_simulation::Snapshot,
+) -> rr_simulation::Snapshot {
+    let mut source = source.clone();
+    // Native camera x/height are driven by the quiet motorcycle even while
+    // longitudinal following belongs to its independent crash half. Retain the
+    // quiet inputs before encounter_snapshot replaces the rider with its body.
+    if let Some(follow) = &mut source.camera_follow
+        && let Some(actor) = source.actors.iter().find(|a| a.id.0 == 1)
+        && let (Some(unit), Some(rider)) = (&actor.encounter, &actor.rider)
+        && unit.source_route.is_some()
+    {
+        let mut bike_location = unit.recovery.bike_location;
+        bike_location.lateral = rider.bike.lateral;
+        follow.bike_location.get_or_insert(bike_location);
+        follow
+            .ground_height
+            .get_or_insert(rider.bike.previous_ground);
+    }
+    for actor in &mut source.actors {
+        if let Some(body) = actor
+            .encounter
+            .as_mut()
+            .and_then(|unit| unit.recovery.body.as_mut())
+        {
+            body.projected = route_position(route, body.location.path, body.location.progress);
+        }
+    }
+    let mut snapshot = encounter_snapshot(&source);
+    snapshot.actors.retain_mut(|actor| {
+        let Some(unit) = &actor.encounter else {
+            return true;
+        };
+        let location = if actor.id.0 & (1 << 63) == 0 {
+            unit.recovery
+                .body
+                .as_ref()
+                .map_or(unit.recovery.bike_location, |body| body.location)
+        } else {
+            unit.recovery.bike_location
+        };
+        let Some(progress) = route_position(route, location.path, location.progress) else {
+            return false;
+        };
+        actor.position.progress.0 = progress * 8;
+        actor.position.branch.0 = 0;
+        true
+    });
+    snapshot.road_users.retain_mut(|agent| {
+        agent.projected = route_position(route, agent.location.path, agent.location.progress);
+        agent.projected.is_some()
+    });
+    snapshot
+}
+
 pub fn snapshot_view(
     previous: &rr_simulation::Snapshot,
     current: &rr_simulation::Snapshot,
@@ -385,6 +604,11 @@ pub fn interpolated_snapshot(
                     .round() as i32;
                 rider.bike.height = (f64::from(old_rider.bike.height)
                     + (f64::from(rider.bike.height) - f64::from(old_rider.bike.height)) * a)
+                    .round() as i32;
+                rider.bike.previous_ground = (f64::from(old_rider.bike.previous_ground)
+                    + (f64::from(rider.bike.previous_ground)
+                        - f64::from(old_rider.bike.previous_ground))
+                        * a)
                     .round() as i32;
             }
             actor.position.lateral.0 = (old.position.lateral.0 as f64

@@ -164,6 +164,7 @@ pub fn scene(name: &str) -> Result<Scene> {
     };
     root.children[1] = 100;
     let family = FamilyAssets {
+        collision_flags: BTreeMap::new(),
         pedestrian_frames: BTreeMap::new(),
         collision_boxes: BTreeMap::new(),
         definition: Arc::new(Family {

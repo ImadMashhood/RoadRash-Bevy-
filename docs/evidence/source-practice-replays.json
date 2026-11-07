@@ -1,0 +1,39 @@
+{
+  "outcome": "passed",
+  "scope": "Source practice factory/current recording format; two controlled source-art episodes and four replay schedules, not career/release acceptance",
+  "before": [
+    {
+      "path": "local/source-combat-art-gentle-first/0-strike-left.json",
+      "schema": 4,
+      "bytes": 5104929,
+      "sha256": "93b10dbb479b171272c2d1726d0cce6c0006699367b91d23b757cf2827dbcc65",
+      "outcome": "rejected_by_legacy_4MiB_limit"
+    },
+    {
+      "path": "local/source-combat-art-schema6-first/0-strike-left.json",
+      "schema": 5,
+      "bytes": 5105072,
+      "sha256": "4b632e1197be20e14ccf9cc281d52702c0c83156eee55bf5a2e8d4d69fa332d7",
+      "outcome": "rejected_by_legacy_4MiB_limit"
+    }
+  ],
+  "after": {
+    "schema": 6,
+    "bytes": 5105160,
+    "actions_present": true,
+    "population": {
+      "traffic": false,
+      "periodic_police": false,
+      "brains": 0
+    },
+    "schedules": [
+      "30",
+      "60",
+      "144",
+      "irregular"
+    ],
+    "cases": 2,
+    "private_receipt": "local/source-combat-art-current-format/comparison.json"
+  },
+  "legacy_replay_limits_changed": false
+}

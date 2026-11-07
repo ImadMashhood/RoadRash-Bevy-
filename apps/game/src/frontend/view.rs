@@ -527,7 +527,12 @@ pub(super) fn render(
     let shown = shell.race_active() && hud.is_some();
     let mut status = String::new();
     if shown {
-        let field = snapshot.0.actors.len();
+        let field = snapshot
+            .0
+            .actors
+            .iter()
+            .filter(|actor| !actor.encounter.as_ref().is_some_and(|unit| unit.police))
+            .count();
         let player = snapshot
             .0
             .actors
@@ -541,6 +546,7 @@ pub(super) fn render(
                 .iter()
                 .filter(|a| {
                     a.id != ActorId(1)
+                        && !a.encounter.as_ref().is_some_and(|unit| unit.police)
                         && a.rider
                             .as_ref()
                             .is_some_and(|r| r.bike.distance_q8 > p.bike.distance_q8)

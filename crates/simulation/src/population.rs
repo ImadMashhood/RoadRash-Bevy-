@@ -8,6 +8,8 @@ use crate::{
     *,
 };
 mod opponents;
+pub mod police;
+pub mod police_ai;
 mod primitives;
 mod road_users;
 mod source;
@@ -153,6 +155,8 @@ pub struct PedestrianAppearance {
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(deny_unknown_fields)]
 pub struct Setup {
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub police: Option<police::Config>,
     #[serde(default, skip_serializing_if = "byte_zero")]
     pub tactics_version: u8,
     #[serde(default, skip_serializing_if = "false_value")]
@@ -173,6 +177,7 @@ pub struct Setup {
 impl Default for Setup {
     fn default() -> Self {
         Self {
+            police: None,
             tactics_version: 0,
             functional_traffic: false,
             pedestrian_appearances: vec![],
@@ -190,6 +195,26 @@ impl Default for Setup {
 }
 impl Setup {
     pub fn validate(&self, c: &riding::Configuration, e: &encounter::Setup) -> Result<()> {
+        if let Some(police) = &self.police {
+            police.validate()?;
+            if self
+                .brains
+                .values()
+                .any(|traits| traits.personality.is_some_and(|index| index >= 10))
+            {
+                return Err(Error::Invalid("police participant personality"));
+            }
+            if e.inventory.items.keys().any(|key| key.0 >= 0x10000)
+                || e.rules.combat_version < 4
+                || e.seeds.len() > 15
+                || police
+                    .bikes
+                    .iter()
+                    .any(|b| !c.specs.iter().any(|s| s.id == u32::from(*b) + 1))
+            {
+                return Err(Error::Invalid("police rider profile"));
+            }
+        }
         if self.tactics_version > 1 {
             return Err(Error::Invalid("population tactics version"));
         }
@@ -267,6 +292,8 @@ impl Setup {
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Eq)]
 pub struct Agent {
     #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub rider: Option<ActorId>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub cruise_speed: Option<i32>,
     pub id: u64,
     pub kind: Kind,
@@ -296,6 +323,8 @@ pub struct Controller {
 }
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Eq)]
 pub struct World {
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub police: Option<police::Live>,
     pub setup: Setup,
     pub brains: BTreeMap<ActorId, Brain>,
     pub agents: BTreeMap<u64, Agent>,
@@ -338,6 +367,7 @@ impl World {
                 .map(|(id, t)| (*id, Brain::new(t.clone())))
                 .collect(),
             setup,
+            police: None,
             agents: BTreeMap::new(),
             timers: Timers::default(),
             consumed: BTreeSet::new(),
@@ -416,6 +446,7 @@ impl World {
         self.agents.insert(
             id,
             Agent {
+                rider: None,
                 cruise_speed: None,
                 id,
                 kind: s.kind,

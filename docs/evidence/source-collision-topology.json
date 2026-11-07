@@ -1,0 +1,330 @@
+{
+  "outcome": "passed",
+  "scope": "Bounded stage-2 source collision/topology; no whole native TrackRing split/merge, full detached recovery, career or release acceptance",
+  "reference_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+  "native_library_sha256": "f530ae9ce4ce031cea19ce022fde138f2a3fd77a52d01fc82cdce148e472fb51",
+  "source_executable_sha256": "73d7f9744b5b1a9482b3909950cdf3fe34119fe13d023b031e9c6739a60f18a2",
+  "reference_dirty_paths": [
+    "src/hud.cpp",
+    "tests/hud_test.cpp"
+  ],
+  "original_windows_runtime_compared": false,
+  "observations": 168822,
+  "families": 8,
+  "checks": [
+    {
+      "family": "mixed_collision_walk",
+      "observations": 576,
+      "mismatches": 0,
+      "outcome": "passed",
+      "private_receipt": "local/collision-walk-final-current/comparison.json",
+      "native_trace_sha256": "1e0035d9e63c5199c23186e0221c064bdf410863217291af4994e9df5ffc04eb",
+      "valid_before": {
+        "private_receipt": "local/collision-walk-final-before/comparison.json",
+        "mismatches": 197,
+        "identical_native_trace": true,
+        "first_divergences_retained": true
+      }
+    },
+    {
+      "family": "mounted_contact_motion",
+      "observations": 90450,
+      "mismatches": 0,
+      "outcome": "passed",
+      "private_receipt": "local/collision-motion-reachable-final-fixed/comparison.json",
+      "native_trace_sha256": "a80209fb87c23211d9186b128cbb4ccd35e5aaea665199c8336858008abe8152",
+      "valid_before": {
+        "private_receipt": "local/collision-motion-reachable-final-before/comparison.json",
+        "mismatches": 8712,
+        "identical_native_trace": true,
+        "first_divergences_retained": true
+      },
+      "motion_evidence": {
+        "trajectories": 1005,
+        "source_warmup_ticks": 3000,
+        "source_warmup_marker": 0,
+        "moderate_injected_initial_speed": 30000,
+        "injected_validated_initial_speed": 1000000,
+        "maximum_forward_step_q8": {
+          "0": 67,
+          "30000": 117,
+          "1000000": 3902
+        },
+        "maximum_lateral_step_q8": {
+          "0": 3240,
+          "30000": 3240,
+          "1000000": 3240
+        },
+        "exact_diagonal_near_miss_trajectories": 34,
+        "source_warmed_diagonal_trajectories": 30,
+        "source_warmed_swept_box_false_positives": 4,
+        "unchanged_diagonal_ticks": 5400,
+        "full_narrow_obstacle_crossing_trajectories": 135,
+        "crossing_scope": "Marker0 begins from actual native3000tick throttle-from-rest state (then translated to fixture coordinates);30k and1m are injected initial speeds. The source detector remains endpoint-only.",
+        "native_reachable_flat_envelope": {
+          "specifications": 15,
+          "throttle_and_nitro_trajectories": 30,
+          "ticks_per_trajectory": 12000,
+          "initial_speed": 0,
+          "maximum_speed": 21968,
+          "maximum_forward_step_q8": 85,
+          "nitro_active_ticks": 14411,
+          "trace_sha256": "042bba35bee0f7b2e8c173bfa39098a03e9c3e3b8675c639725ed890f002304f",
+          "scope": "Actual native reachability measurement only; not additional differential observation count. Flat road, no steering, source specifications and charge limits; not a bound on every authored course trajectory."
+        },
+        "source_warmed_full_narrow_obstacle_crossings": 0
+      }
+    },
+    {
+      "family": "physical_fork_crossing",
+      "observations": 198,
+      "mismatches": 0,
+      "outcome": "passed",
+      "private_receipt": "local/collision-topology-final-fixed/comparison.json",
+      "native_trace_sha256": "7ceb111d4b7254955796160d1f38240d0e916ec8b25df7eb96bebb0378cb6768",
+      "valid_before": {
+        "private_receipt": "local/collision-topology-final-before/comparison.json",
+        "mismatches": 132,
+        "identical_native_trace": true,
+        "first_divergences_retained": true
+      }
+    },
+    {
+      "family": "held_steering_fork_motion",
+      "observations": 9504,
+      "mismatches": 0,
+      "outcome": "passed",
+      "private_receipt": "local/collision-fork-motion-final-current/comparison.json",
+      "native_trace_sha256": "207d0c49a3514b4f1c04941f4692045e81a47101c32f07754c0e4d97b6f9a6cf"
+    },
+    {
+      "family": "branch_offset_scenery",
+      "observations": 624,
+      "mismatches": 0,
+      "outcome": "passed",
+      "private_receipt": "local/collision-branch-scenery-final-current/comparison.json",
+      "native_trace_sha256": "dd852688f4ba96416d15b2000f04f89e2de4a5630b12ad03458fbce95cc39db0"
+    },
+    {
+      "family": "mounted_terrain_motion",
+      "observations": 67142,
+      "mismatches": 0,
+      "outcome": "passed",
+      "private_receipt": "local/terrain-motion-final-current/comparison.json",
+      "native_trace_sha256": "e39d6a7b026101f0d12f84eef2f6d78287799c49f7a2fb88c916fb3eb4d671bb",
+      "valid_before": {
+        "private_receipt": "local/terrain-motion-final-before/comparison.json",
+        "mismatches": 54422,
+        "identical_native_trace": true,
+        "first_divergences_retained": true
+      },
+      "native_cadence": {
+        "observable_boundary_responses": 18756,
+        "continuous_response_episodes": 722,
+        "continuous_response_across_samples": 698,
+        "separation_then_reimpact_episodes": 468,
+        "held_away_then_back_reimpact_episodes": 60,
+        "stamina_or_condition_damage_ticks": 0
+      }
+    },
+    {
+      "family": "physical_finish_ownership",
+      "observations": 130,
+      "mismatches": 0,
+      "outcome": "passed",
+      "private_receipt": "local/topology-finishes-final-current/comparison.json",
+      "native_trace_sha256": "d736ccc08c017133e10b5bb1e44c60e45e3ae55d98589cf1774bd35385ad5a8a"
+    },
+    {
+      "family": "contact_driven_fork",
+      "observations": 198,
+      "mismatches": 0,
+      "outcome": "passed",
+      "private_receipt": "local/collision-fork-contact-final-current/comparison.json",
+      "native_trace_sha256": "1d40be0c42daeb6a5ed8e587a7d80588400f6d289fa5efb5f3c1da380fd0157d",
+      "valid_before": {
+        "private_receipt": "local/collision-fork-contact-before-2/comparison.json",
+        "mismatches": 132,
+        "identical_native_trace": true,
+        "first_divergences_retained": true
+      }
+    }
+  ],
+  "additional_public_checks": {
+    "physical_route_integration_tests": 16,
+    "incident_and_cache_module_tests": 4,
+    "private_route_integration_log": "local/source-roads-public-dense-final-2.log",
+    "strict_workspace_clippy_log": "local/collision-topology-final-clippy-2.log",
+    "strict_workspace_clippy_outcome": "passed",
+    "note": "Parent owns final workspace/legacy replay/factory/presentation/release integration",
+    "incident_and_cache_log": "local/source-road-incidents-frozen.log"
+  },
+  "graph_functional_adaptations": [
+    "Shared physical merge collision ordering and per-owner accumulated-distance rebasing",
+    "Off-initial-route vehicle bike/body contact coordinate bridges",
+    "Disconnected graph/cache exclusion and independently retained bike/body route masks"
+  ],
+  "preserved_source_policies": [
+    "Endpoint-only contact detection; no CCD substitution",
+    "Isolated seed1 scenery placement and fixed60Hz decision architecture",
+    "Existing traffic movement route policy"
+  ],
+  "related_evidence": [
+    "source-terrain-boundaries.md",
+    "physical-road-presentation.md"
+  ],
+  "remaining_stages": [
+    "Simultaneous combat and full police behavior",
+    "Complete changing-terrain and repeated-impact recovery including backward walking merge context",
+    "Current-source career walkthrough",
+    "Replacement release verification and project-owner release decision"
+  ],
+  "parent_integration": {
+    "status": "passed",
+    "workspace_passed": 444,
+    "workspace_failed": 0,
+    "workspace_ignored": 36,
+    "strict_workspace_clippy": "passed",
+    "python_tests_passed": 36,
+    "all_source_factories": 25,
+    "four_schedule_factory_agreement": true,
+    "ordinary_steered_approaches": 10,
+    "independent_release_replays": 10,
+    "actual_bevy_branch_captures": 2,
+    "private_receipt": "local/collision-topology-integration/integration.json",
+    "wall_brush_receipt": "local/collision-topology-gameplay-corrected-final/receipt.json"
+  },
+  "gameplay_brush_correction": {
+    "scope": "Fixture-correction diagnostic; not added to native-family aggregate counts",
+    "native_producer": "tools/reference/gameplay_brush.cpp",
+    "reference_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+    "native_library_sha256": "f530ae9ce4ce031cea19ce022fde138f2a3fd77a52d01fc82cdce148e472fb51",
+    "source_executable_sha256": "73d7f9744b5b1a9482b3909950cdf3fe34119fe13d023b031e9c6739a60f18a2",
+    "original_fixture": {
+      "private_replay": "local/collision-topology-gameplay-final/wall.json",
+      "failed_private_result": "local/collision-topology-gameplay-final/wall-30.json",
+      "native_trace": "local/collision-topology-gameplay-final/native-original-brush.json",
+      "native_trace_sha256": "8cf8e1a573e9ecd5e88ffa3eb157866f93b5cfe293a4528e2a10c286eb8a4264",
+      "native_first_crash_tick": 42,
+      "source_opening_sample": 57,
+      "source_front_facade_sample": 58,
+      "selectors": [
+        255,
+        64
+      ],
+      "checked_prefixes": [
+        {
+          "tick": 1,
+          "phase": "mounted",
+          "state_sha256": "71876a2ccb383e4fc6745753d933419a5bb98b1779ceb855ca4ecec8a6d96cc9",
+          "matched_physical_words": [
+            12974,
+            -183655,
+            0,
+            11971,
+            20
+          ]
+        },
+        {
+          "tick": 41,
+          "phase": "mounted",
+          "state_sha256": "6fb9b167f101f0585cb3ef8aaa405769f3ed530b5d1311f89f4dec0e8d3afd8a",
+          "matched_physical_words": [
+            14814,
+            -202752,
+            0,
+            11786,
+            20
+          ]
+        },
+        {
+          "tick": 42,
+          "phase": "sliding",
+          "state_sha256": "649409c6ecc3269dba44cb3d011acffe2cdb40500b4e3e781a30be918d4bd862",
+          "matched_physical_words": [
+            14814,
+            -184320,
+            1050,
+            0,
+            20
+          ]
+        }
+      ]
+    },
+    "matched_fields": [
+      "absolute_longitudinal_q8",
+      "lateral_q8",
+      "height_q8",
+      "speed",
+      "previous_ground"
+    ],
+    "engine_changes": false,
+    "original_windows_runtime_compared": false,
+    "corrected_fixture": {
+      "private_receipt": "local/collision-topology-gameplay-corrected-final/receipt.json",
+      "receipt": {
+        "outcome": "passed",
+        "building_volumes": 8929,
+        "static_scenery_volumes": 29,
+        "source_factory_tactics_version": 1,
+        "combat_version": 3,
+        "collision_version": 2,
+        "motion_version": 3,
+        "contact_walk_version": 1,
+        "source_roads_version": 1,
+        "recovery_version": 1,
+        "native_contact_ticks": 45,
+        "settling_ticks": 1,
+        "settled_native_ground": 20,
+        "brush_path": 20,
+        "brush_start_sample": 143,
+        "continuous_facade_samples": 10,
+        "native_shoulder_ground": 20,
+        "wall_incidents": 0,
+        "final_speed": 11789,
+        "bike_inside_native_boundary": true,
+        "building_boundaries": 5886,
+        "source_physical_scenery_boxes": 45,
+        "schedules": [
+          "30",
+          "60",
+          "144",
+          "irregular"
+        ],
+        "rendered_hash_equal": true,
+        "state_sha256": "45d3a6eaf5ba71a8bc36f684990486e947026bbb4d0f6ab149edaf2a769ff48e",
+        "binary_sha256": "8f34d0d5249bedf201cc2ee6da62b364b81e2a45e2e34ce6b58d836eb6282d77",
+        "scope": "Controlled native boundary brush and isolated actors; forward speed preserved, no invented damage or terminal injection. Twelve-second full-field smoke is not career/performance acceptance."
+      },
+      "native_trace": "local/collision-topology-gameplay-final/native-settled-brush.json",
+      "native_trace_sha256": "d67628bb22b0ba6bb7fe673bdac916f9bcb742b9a9a9e77f30c88f443b35a4c9",
+      "native_ticks_including_settle": 46,
+      "native_first_crash_tick": null,
+      "checked_prefixes": [
+        {
+          "tick": 1,
+          "matched_physical_words": [
+            36782,
+            -182865,
+            0,
+            11968,
+            20
+          ],
+          "state_sha256": "9f5c6e0f82df22320aba8cb9fb45f3728e567b97e2bb008b96c9ac4b86bff002"
+        },
+        {
+          "tick": 46,
+          "matched_physical_words": [
+            38852,
+            -184320,
+            0,
+            11789,
+            20
+          ],
+          "state_sha256": "45d3a6eaf5ba71a8bc36f684990486e947026bbb4d0f6ab149edaf2a769ff48e"
+        }
+      ],
+      "visual_inspection": "wall.png inspected: mounted rider at left continuous facade, original native art"
+    }
+  }
+}

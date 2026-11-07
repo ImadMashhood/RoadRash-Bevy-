@@ -101,7 +101,7 @@ impl Definition {
         if version == 0 {
             return Ok(result);
         }
-        if !(1..=3).contains(&version) {
+        if !(1..=4).contains(&version) {
             return Err(Error::Invalid("combat rules version"));
         }
         let mut player = crate::animation::Player::default();
@@ -110,6 +110,9 @@ impl Definition {
         result.windows.clear();
         let mut start = None;
         let attack_code = player.code;
+        if version >= 4 {
+            result.code = attack_code;
+        }
         let mut previous_flags = 0;
         for age in 0..result.duration {
             // The source fight transaction reads the animation retained by

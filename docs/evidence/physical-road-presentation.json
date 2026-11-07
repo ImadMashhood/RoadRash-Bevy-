@@ -1,0 +1,71 @@
+{
+  "legacy_height": false,
+  "mismatches": 0,
+  "observations": 1980,
+  "outcome": "passed",
+  "scope": "mounted no-contact camera lateral, ground-height following and one-sample trailing position; no recovery, lift/pullback or contact lag",
+  "reference_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+  "reference_dirty_paths": [
+    "src/hud.cpp",
+    "tests/hud_test.cpp"
+  ],
+  "native_trace_sha256": "da4b81f024fb8ecb7306c22cece3a1ec7114e5e495d1432db36acfb164d7fa14",
+  "native_library_sha256": "f530ae9ce4ce031cea19ce022fde138f2a3fd77a52d01fc82cdce148e472fb51",
+  "native_executable_sha256": "cab9757ab8a6b670c43205269a68f25aa83b8e5588e7b7c727a5da6c84e68ef7",
+  "source_executable_sha256": "73d7f9744b5b1a9482b3909950cdf3fe34119fe13d023b031e9c6739a60f18a2",
+  "original_windows_runtime_compared": false,
+  "before_mismatches": 990,
+  "before_native_trace_sha256": "da4b81f024fb8ecb7306c22cece3a1ec7114e5e495d1432db36acfb164d7fa14",
+  "initial_lateral_follow": {
+    "observations": 330,
+    "before_mismatches": 321,
+    "fixed_mismatches": 0,
+    "native_trace_sha256": "5406b1e4abe5876caf120d4d7d2e20b036a7835b10eae96bb4cb2ff4e27e3553",
+    "superseded_matrix_count_not_added": true
+  },
+  "controlled_source_art_presentation": {
+    "poses": 132,
+    "route_masks": 26,
+    "courses": 5,
+    "outcome": "passed",
+    "test_seconds": 104.9,
+    "receipt": "local/collision-topology-integration/branch-render/comparison.json",
+    "scope": "Controlled real-art physical-coordinate presentation poses at all26 route masks; no driven trajectory or native raster identity claim",
+    "inspected_examples": [
+      "CITY-1-0.png",
+      "NAPA-7-5.png",
+      "HIWAY-3-0.png"
+    ]
+  },
+  "ordinary_source_approaches": {
+    "cases": 10,
+    "courses": 5,
+    "sides": 2,
+    "ticks_per_case": 45,
+    "schedules": [
+      "30",
+      "60",
+      "144",
+      "irregular"
+    ],
+    "outcome": "passed",
+    "test_seconds": 197.18,
+    "private_receipt": "local/collision-topology-integration/source-drive-turn-approach/comparison.json",
+    "scope": "Ordinary controls from controlled pre-fork level5 poses with full population/static contacts and assists disabled; not whole races"
+  },
+  "verification": {
+    "public_coordinate_camera_tests": 6,
+    "source_scene_cache_released_on_exit": true,
+    "canonical_state_changed_by_camera_metadata": false
+  },
+  "remaining": [
+    "Full recovery and arrest camera trajectories",
+    "Full-race career and replacement release verification"
+  ],
+  "current_release_graphical_approaches": {
+    "outcome": "passed",
+    "cases": 2,
+    "private_receipt": "local/collision-topology-integration/graphical-branches-current.json",
+    "headless_hash_equal": true
+  }
+}

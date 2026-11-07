@@ -12,11 +12,36 @@ pub mod fixtures;
 pub mod handling;
 #[cfg(test)]
 mod native_cases;
+#[cfg(test)]
+mod native_mixed_traffic_order;
+#[cfg(test)]
+mod native_police;
+#[cfg(test)]
+mod native_police_ai;
+#[cfg(test)]
+mod native_police_arrest;
+#[cfg(test)]
+mod native_police_pipeline;
+#[cfg(test)]
+mod native_recovery_contacts;
+#[cfg(test)]
+mod native_recovery_multiwalk;
+#[cfg(test)]
+mod native_remount_contacts;
+#[cfg(test)]
+mod native_simultaneous;
+#[cfg(test)]
+mod native_terrain_boundaries;
+#[cfg(test)]
+mod native_terrain_motion;
 pub mod population;
 pub mod recovery;
+mod recovery_live;
 mod recovery_source;
 pub mod replay;
 pub mod riding;
+pub mod scenery;
+pub mod source_roads;
 pub mod topology;
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
@@ -212,6 +237,8 @@ pub struct ActorSnapshot {
 }
 #[derive(Default, Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct Snapshot {
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub camera_follow: Option<CameraFollow>,
     pub tick: u64,
     pub speed_mm_per_tick: u32,
     pub distance_mm: u64,
@@ -219,6 +246,24 @@ pub struct Snapshot {
     pub actors: Vec<ActorSnapshot>,
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub road_users: Vec<population::Agent>,
+}
+/// Source half-mirror follow pose captured by movement/cache ownership.
+/// Exposed for presentation; canonical bytes already contain its owned state.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+pub struct CameraFollow {
+    pub location: topology::Location,
+    pub back: i32,
+    /// Completed scenery preparation already shifted this location by `back`.
+    #[serde(default, skip_serializing_if = "is_false")]
+    pub back_applied: bool,
+    /// Quiet-bike inputs retained before presentation substitutes its detached body.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub bike_location: Option<topology::Location>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub ground_height: Option<i32>,
+    /// Absolute quiet-road centre, even when its branch is outside the visible route.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub road_center: Option<i32>,
 }
 #[derive(Clone)]
 struct Actor {
@@ -360,7 +405,10 @@ impl Simulation {
         for (id, traits) in &population.brains {
             let mut config = sim.handling.as_ref().unwrap().clone();
             config.selected = traits.bike;
-            let bike = handling::Bike::new(config.spec(), &config.tables)?;
+            let mut bike = handling::Bike::new(config.spec(), &config.tables)?;
+            if config.motion_version >= 3 {
+                bike.contact = config.tables.object[11];
+            }
             let rider = sim.actors.get_mut(id).unwrap().view.rider.as_mut().unwrap();
             let (distance, lateral, height, speed) = (
                 rider.bike.distance_q8,
@@ -381,6 +429,20 @@ impl Simulation {
                 .get_mut(id)
                 .unwrap()
                 .drive = false;
+        }
+        if let Some(config) = &population.police {
+            for (id, unit) in &mut sim.encounter.as_mut().unwrap().units {
+                let index = population
+                    .brains
+                    .get(id)
+                    .and_then(|b| b.personality)
+                    .unwrap_or(0);
+                let words = config
+                    .personalities
+                    .get(usize::from(index))
+                    .ok_or(Error::Invalid("police participant personality"))?;
+                unit.police_relations = Some(population::police_ai::Relations::from_words(words)?);
+            }
         }
         sim.population = Some(population::World::new(population));
         sim.schema_version = if sim.handling.as_ref().is_some_and(|c| c.actions.is_some()) {
@@ -543,6 +605,17 @@ impl Simulation {
         if let Some(p) = &mut self.population {
             p.brains.remove(&id);
             p.navigation.remove(&id);
+            if p.setup.police.is_some() {
+                for brain in p.brains.values_mut() {
+                    if brain.target == Some(id) {
+                        brain.target = None;
+                    }
+                }
+                if let Some(live) = p.police.as_ref().filter(|live| live.actor == id).cloned() {
+                    p.remove(live.agent);
+                    p.police = None;
+                }
+            }
         }
         self.queue.retain(|(_, actor, _), _| *actor != id);
         Ok(())
@@ -637,6 +710,151 @@ impl Simulation {
         })?;
         self.advance()
     }
+    /// Source profile4 runs each rider's think/animation before its own motion.
+    /// Global population decisions retain the fixed60Hz host policy.
+    fn source_riders_step(&mut self) -> Result<()> {
+        let world = self
+            .encounter
+            .as_mut()
+            .ok_or(Error::Invalid("source rider world"))?;
+        let config = self
+            .handling
+            .as_ref()
+            .ok_or(Error::Invalid("source rider handling"))?;
+        let tick = self.tick.0;
+        let external = self.population.as_ref().map_or_else(Vec::new, |p| {
+            p.combat_positions(
+                &world.setup.topology,
+                world.setup.rules.source_roads.is_some(),
+            )
+        });
+        world.navigation = self
+            .population
+            .as_ref()
+            .map_or_else(BTreeMap::new, |p| p.navigation.clone());
+        world.source_fight_begin(&self.actors, &external);
+        let ids: Vec<_> = world.units.keys().copied().collect();
+        for id in ids {
+            let was_mounted = world.units[&id].recovery.phase == recovery::Phase::Mounted;
+            if world.units[&id].police
+                && let Some(p) = &mut self.population
+            {
+                p.police_begin_decisions(world, &mut self.actors, tick, || {
+                    self.gameplay_rng.next()
+                })?;
+                if let Some(portal) = p.navigation.get(&id) {
+                    world.navigation.insert(id, *portal);
+                }
+            }
+            if was_mounted && world.units[&id].recovery.outcome.is_none() {
+                let population = &mut self.population;
+                let random = &mut self.gameplay_rng;
+                world.source_fight_actor(
+                    id,
+                    &mut self.actors,
+                    config,
+                    tick,
+                    |actor, category| {
+                        let value = random.next();
+                        if let Some(p) = population
+                            && p.trace_enabled
+                        {
+                            p.trace.push(population::Draw {
+                                tick,
+                                actor: actor.0,
+                                category,
+                                value,
+                            });
+                        }
+                        value
+                    },
+                    &mut self.effects,
+                )?;
+                if world.units[&id].police
+                    && let Some(p) = &mut self.population
+                {
+                    p.police_finish_decisions(world, &mut self.actors, tick)?;
+                }
+                if world.units[&id].recovery.phase == recovery::Phase::Mounted {
+                    let mut input = self.actors[&id].input;
+                    if world.units[&id].drive {
+                        input.throttle = true;
+                    }
+                    let own = world.configs.get(&id).unwrap_or(config);
+                    self.actors
+                        .get_mut(&id)
+                        .unwrap()
+                        .view
+                        .rider
+                        .as_mut()
+                        .unwrap()
+                        .source_controls(own, input);
+                    if id == ActorId(1)
+                        && let Some(p) = &mut self.population
+                        && p.setup.police.is_some()
+                    {
+                        p.police_progression(world, &self.actors);
+                        if world.units[&id].terminal_request == Some(recovery::Outcome::Arrested) {
+                            self.actors.get_mut(&id).unwrap().input.terminal =
+                                Some(recovery::Outcome::Arrested);
+                        }
+                    }
+                    world.source_animate_actor(id, &mut self.actors, config, tick)?;
+                }
+            }
+            if !was_mounted
+                && world.units[&id].police
+                && let Some(p) = &mut self.population
+            {
+                p.police_finish_decisions(world, &mut self.actors, tick)?;
+            }
+            if !was_mounted && world.setup.rules.body.recovery_version == 2 {
+                world.source_prepare_recovery(
+                    &mut self.actors,
+                    config,
+                    id,
+                    tick,
+                    &mut self.effects,
+                )?;
+                if id == ActorId(1)
+                    && let Some(p) = &mut self.population
+                    && p.setup.police.is_some()
+                {
+                    p.police_progression(world, &self.actors);
+                    if world.units[&id].terminal_request == Some(recovery::Outcome::Arrested) {
+                        self.actors.get_mut(&id).unwrap().input.terminal =
+                            Some(recovery::Outcome::Arrested);
+                    }
+                }
+                if world.units[&id].recovery.phase == recovery::Phase::Mounted {
+                    world.source_animate_actor(id, &mut self.actors, config, tick)?;
+                }
+            }
+            world.movement_selected(
+                &mut self.actors,
+                config,
+                tick,
+                &external,
+                &mut self.effects,
+                || self.gameplay_rng.next(),
+                Some(id),
+            )?;
+            if id == ActorId(1)
+                && !was_mounted
+                && world.setup.rules.body.recovery_version != 2
+                && let Some(p) = &mut self.population
+                && p.setup.police.is_some()
+            {
+                p.police_progression(world, &self.actors);
+            }
+        }
+        world.source_movement_end();
+        if let Some(p) = &mut self.population {
+            p.movement(world, config, tick)?;
+            p.animate(config, tick as u32)?;
+        }
+        Ok(())
+    }
     pub fn advance(&mut self) -> Result<()> {
         let next_tick = self.tick.0.checked_add(1).ok_or(Error::Overflow)?;
         self.last_stages.clear();
@@ -658,12 +876,18 @@ impl Simulation {
                     }
                 }
                 Stage::Spawn => {
+                    if let Some(p) = &mut self.population {
+                        p.trace.clear();
+                        p.cues.clear();
+                    }
+                    self.police_spawn_sync()?;
                     if let (Some(p), Some(e)) = (&mut self.population, &self.encounter) {
                         let rng = &mut self.gameplay_rng;
                         p.spawn_tick(e, &self.actors, self.tick.0, || rng.next())?;
                     }
                 }
                 Stage::Decisions => {
+                    self.police_spawn_sync()?;
                     if let (Some(p), Some(e), Some(c)) =
                         (&mut self.population, &mut self.encounter, &self.handling)
                     {
@@ -672,6 +896,14 @@ impl Simulation {
                     }
                 }
                 Stage::Movement => {
+                    if self
+                        .encounter
+                        .as_ref()
+                        .is_some_and(|world| world.setup.rules.combat_version >= 4)
+                    {
+                        self.source_riders_step()?;
+                        continue;
+                    }
                     if let Some(e) = &mut self.encounter {
                         e.navigation = self
                             .population
@@ -679,10 +911,14 @@ impl Simulation {
                             .map_or_else(BTreeMap::new, |p| p.navigation.clone());
                     }
                     if let (Some(world), Some(config)) = (&mut self.encounter, &self.handling) {
-                        let external_targets = self
-                            .population
-                            .as_ref()
-                            .map_or_else(Vec::new, |p| p.combat_positions(&world.setup.topology));
+                        let external_targets =
+                            self.population.as_ref().map_or_else(Vec::new, |p| {
+                                p.combat_positions(
+                                    &world.setup.topology,
+                                    world.setup.rules.combat_version >= 4
+                                        && world.setup.rules.source_roads.is_some(),
+                                )
+                            });
                         world.movement(
                             &mut self.actors,
                             config,
@@ -769,6 +1005,15 @@ impl Simulation {
                 }
                 Stage::Contacts => {
                     if let (Some(world), Some(config)) = (&mut self.encounter, &self.handling) {
+                        if world.setup.rules.combat_version >= 4 {
+                            world.contacts(
+                                &mut self.actors,
+                                config,
+                                self.tick.0,
+                                &mut self.effects,
+                                || self.gameplay_rng.next(),
+                            )?;
+                        }
                         if let Some(p) = &mut self.population {
                             p.contacts(
                                 world,
@@ -779,13 +1024,15 @@ impl Simulation {
                                 || self.gameplay_rng.next(),
                             )?;
                         }
-                        world.contacts(
-                            &mut self.actors,
-                            config,
-                            self.tick.0,
-                            &mut self.effects,
-                            || self.gameplay_rng.next(),
-                        )?;
+                        if world.setup.rules.combat_version < 4 {
+                            world.contacts(
+                                &mut self.actors,
+                                config,
+                                self.tick.0,
+                                &mut self.effects,
+                                || self.gameplay_rng.next(),
+                            )?;
+                        }
                         continue;
                     }
                     for actor in self.actors.values_mut() {
@@ -800,26 +1047,28 @@ impl Simulation {
                         let random = &mut self.gameplay_rng;
                         let population = &mut self.population;
                         let tick = self.tick.0;
-                        world.combat(
-                            &mut self.actors,
-                            config,
-                            self.tick.0,
-                            |actor, category| {
-                                let value = random.next();
-                                if let Some(p) = population
-                                    && p.trace_enabled
-                                {
-                                    p.trace.push(population::Draw {
-                                        tick,
-                                        actor: actor.0,
-                                        category,
-                                        value,
-                                    });
-                                }
-                                value
-                            },
-                            &mut self.effects,
-                        )?;
+                        if world.setup.rules.combat_version < 4 {
+                            world.combat(
+                                &mut self.actors,
+                                config,
+                                self.tick.0,
+                                |actor, category| {
+                                    let value = random.next();
+                                    if let Some(p) = population
+                                        && p.trace_enabled
+                                    {
+                                        p.trace.push(population::Draw {
+                                            tick,
+                                            actor: actor.0,
+                                            category,
+                                            value,
+                                        });
+                                    }
+                                    value
+                                },
+                                &mut self.effects,
+                            )?;
+                        }
                         if let Some(p) = population {
                             p.combat(world, &self.actors, tick, &mut self.effects);
                         }
@@ -830,9 +1079,10 @@ impl Simulation {
                         if let Some(p) = &mut self.population {
                             p.progression(world, &self.actors);
                         }
-                        world.progress(&mut self.actors, config, self.tick.0, &mut self.effects);
+                        world.progress(&mut self.actors, config, self.tick.0, &mut self.effects)?;
                         if let Some(p) = &mut self.population {
                             p.after_progress(world);
+                            p.police_after_progress(world, &self.actors, self.tick.0);
                         }
                     }
                 }
@@ -864,6 +1114,30 @@ impl Simulation {
     pub fn snapshot(&self) -> Snapshot {
         let player = self.actors.get(&ActorId(1));
         Snapshot {
+            camera_follow: self.encounter.as_ref().and_then(|world| {
+                let roads = world.setup.rules.source_roads.as_ref()?;
+                let state = world.scenery.as_ref()?;
+                let road_center = world.units.get(&ActorId(1)).and_then(|unit| {
+                    let at = unit.recovery.bike_location;
+                    let ground = roads.ground.get(&at.path)?;
+                    let sample =
+                        (at.progress.max(0) as usize / 256).min(ground.len().checked_sub(1)?);
+                    let g = ground.get(sample)?;
+                    let offset = roads
+                        .profiles
+                        .get(usize::from(unit.source_route?))?
+                        .identity(at.path, sample as u32)?[2];
+                    Some((2 * offset + g.left + g.right) / 2)
+                });
+                Some(CameraFollow {
+                    location: state.frame_follow.or(state.pending_camera)?,
+                    back: state.camera_back,
+                    back_applied: state.frame_follow.is_none(),
+                    bike_location: None,
+                    ground_height: None,
+                    road_center,
+                })
+            }),
             tick: self.tick.0,
             speed_mm_per_tick: player.map_or(0, |p| p.view.speed.0),
             distance_mm: player.map_or(0, |p| p.total),
@@ -965,3 +1239,12 @@ impl Simulation {
         format!("{:x}", Sha256::digest(self.canonical_bytes()))
     }
 }
+
+#[cfg(test)]
+mod native_police_active_arrest;
+#[cfg(test)]
+mod native_recovery_entry;
+#[cfg(test)]
+mod native_recovery_terrain;
+#[cfg(test)]
+mod native_recovery_walk;

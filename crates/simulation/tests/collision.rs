@@ -268,3 +268,214 @@ fn a_chained_swing_keeps_the_animation_clock_instead_of_restarting_windup() {
         1
     );
 }
+
+// Exercise the broadphase and response through ordinary ticks, independently of
+// encounter::wall_entry. These authored walls do not certify native BORR parity.
+fn sweep_fixture(speed: i32, bend: i32) -> (riding::Configuration, Setup, handling::Bike) {
+    let (mut c, mut s) = setup();
+    s.seeds[0].distance = 4096;
+    s.seeds[0].speed = speed;
+    s.rules.finish_progress = Some(900000);
+    // Small authored extents let a complete expanded obstacle fit inside one
+    // tick, including at the native speed ceiling of 30000.
+    s.rules.dimensions = [20, 4, 8960];
+    for ground in &mut c.ground {
+        ground.bend = bend;
+    }
+    let mut control = Simulation::with_encounters(7, c.clone(), s.clone()).unwrap();
+    control.advance().unwrap();
+    let bike = control.snapshot().actors[0]
+        .rider
+        .as_ref()
+        .unwrap()
+        .bike
+        .clone();
+    assert!(bike.distance_q8 > s.seeds[0].distance + 20);
+    assert!(!bike.crashed);
+    (c, s, bike)
+}
+fn sweep_wall(progress: i64, left: i32, right: i32) -> Obstacle {
+    Obstacle {
+        id: 1,
+        path: 0,
+        progress,
+        half_length: 1,
+        left,
+        right,
+        height: 100000,
+        kind: ObstacleKind::Building,
+        source_box: None,
+    }
+}
+#[test]
+fn complete_narrow_wall_crossing_is_stopped_through_the_world_broadphase() {
+    for speed in [30000, 1000000] {
+        let (c, mut s, control) = sweep_fixture(speed, 0);
+        let middle = (s.seeds[0].distance + control.distance_q8) / 2;
+        let wall = sweep_wall(middle, -10000, 10000);
+        assert!(s.seeds[0].distance < middle - 5);
+        assert!(
+            control.distance_q8 > middle + 5,
+            "both endpoint boxes must miss"
+        );
+        s.rules.obstacles.push(wall);
+        let mut sim = Simulation::with_encounters(7, c, s).unwrap();
+        sim.advance().unwrap();
+        let snapshot = sim.snapshot();
+        let bike = &snapshot.actors[0].rider.as_ref().unwrap().bike;
+        assert_eq!(bike.distance_q8, middle - 6);
+        assert!(bike.crashed);
+        assert_eq!(
+            sim.effects()
+                .iter()
+                .filter(|e| e.kind == combat::EffectKind::Contact)
+                .count(),
+            1
+        );
+    }
+}
+#[test]
+fn diagonal_swept_box_near_miss_does_not_damage_or_displace_the_bike() {
+    for speed in [30000, 1000000] {
+        for bend in [-127, 127] {
+            for dimensions in [[20, 4, 8960], [7680, 64, 8960]] {
+                let (c, mut s, control) = sweep_fixture(speed, bend);
+                s.rules.dimensions = dimensions;
+                let start = s.seeds[0].distance;
+                let delta = control.distance_q8 - start;
+                assert!(control.lateral.abs() > 1000);
+                let (left, right) = (control.lateral - 100, control.lateral + 100);
+                let wall = sweep_wall(start + 1, left, right);
+                // The path's bounding rectangle overlaps both expanded wall
+                // slabs, but it leaves one before entering the other.
+                let longitudinal_exit =
+                    (wall.progress + 1 + i64::from(dimensions[1]) - start) as f64 / delta as f64;
+                let lateral_entry = (control.lateral.abs() - 100 - dimensions[0]) as f64
+                    / control.lateral.abs() as f64;
+                assert!(longitudinal_exit > 0.0 && longitudinal_exit < lateral_entry);
+                assert!(lateral_entry < 1.0);
+                s.rules.obstacles.push(wall);
+                let mut sim = Simulation::with_encounters(7, c, s).unwrap();
+                sim.advance().unwrap();
+                assert_eq!(
+                    sim.snapshot().actors[0].rider.as_ref().unwrap().bike,
+                    control
+                );
+                assert!(
+                    !sim.effects()
+                        .iter()
+                        .any(|e| e.kind == combat::EffectKind::Contact)
+                );
+            }
+        }
+    }
+}
+
+#[test]
+fn fast_wall_crossing_on_a_disconnected_road_has_no_contact() {
+    let (c, mut s, control) = sweep_fixture(30000, 0);
+    s.topology.paths.insert(1, s.topology.paths[&0].clone());
+    let mut wall = sweep_wall(
+        (s.seeds[0].distance + control.distance_q8) / 2,
+        -10000,
+        10000,
+    );
+    wall.path = 1;
+    s.rules.obstacles.push(wall);
+    let mut sim = Simulation::with_encounters(7, c, s).unwrap();
+    sim.advance().unwrap();
+    assert_eq!(
+        sim.snapshot().actors[0].rider.as_ref().unwrap().bike,
+        control
+    );
+    assert!(
+        !sim.effects()
+            .iter()
+            .any(|e| e.kind == combat::EffectKind::Contact)
+    );
+}
+
+#[test]
+fn a_complete_lateral_wall_crossing_is_resolved_on_both_sides() {
+    for bend in [-127, 127] {
+        let (c, mut s, control) = sweep_fixture(30000, bend);
+        s.rules.dimensions = [7680, 64, 8960];
+        let middle = control.lateral / 2;
+        let wall = sweep_wall(
+            (s.seeds[0].distance + control.distance_q8) / 2,
+            middle - 100,
+            middle + 100,
+        );
+        assert!(middle.abs() > 7780, "both lateral endpoint boxes must miss");
+        let expected_lateral = if middle > 0 {
+            wall.left - 7681
+        } else {
+            wall.right + 7681
+        };
+        s.rules.obstacles.push(wall);
+        let mut sim = Simulation::with_encounters(7, c, s).unwrap();
+        sim.advance().unwrap();
+        let snapshot = sim.snapshot();
+        let bike = &snapshot.actors[0].rider.as_ref().unwrap().bike;
+        assert_eq!(bike.lateral, expected_lateral);
+        assert_eq!(bike.distance_q8, control.distance_q8);
+        assert!(!bike.crashed);
+        assert_eq!(
+            sim.effects()
+                .iter()
+                .filter(|e| e.kind == combat::EffectKind::Contact)
+                .count(),
+            1
+        );
+    }
+}
+
+#[test]
+fn swept_wall_contacts_and_near_misses_replay_at_every_supported_schedule() {
+    use replay::{Playback, Replay, frame_ns};
+    for bend in [0, -127, 127] {
+        let (c, mut s, control) = sweep_fixture(30000, bend);
+        let progress = if bend == 0 {
+            (s.seeds[0].distance + control.distance_q8) / 2
+        } else {
+            s.seeds[0].distance + 1
+        };
+        let lateral = if bend == 0 { 0 } else { control.lateral };
+        s.rules
+            .obstacles
+            .push(sweep_wall(progress, lateral - 100, lateral + 100));
+        let recording = Replay {
+            schema_version: 4,
+            seed: 7,
+            ticks: 120,
+            commands: vec![],
+            route: None,
+            expected_hash: None,
+            handling: Some(c),
+            encounter: Some(s),
+            population: None,
+        };
+        let encoded = serde_json::to_vec(&recording).unwrap();
+        let mut expected = None;
+        for rate in ["30", "60", "144", "irregular"] {
+            for effects in [false, true] {
+                let mut playback = Playback::new(Replay::read(&encoded).unwrap()).unwrap();
+                playback.simulation.set_effects_enabled(effects);
+                while !playback.done() {
+                    playback
+                        .frame(frame_ns(rate, playback.frames).unwrap())
+                        .unwrap();
+                }
+                let actual = (
+                    playback.simulation.state_hash(),
+                    playback.checkpoints.clone(),
+                );
+                if let Some(expected) = &expected {
+                    assert_eq!(&actual, expected);
+                } else {
+                    expected = Some(actual);
+                }
+            }
+        }
+    }
+}

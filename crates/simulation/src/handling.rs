@@ -18,6 +18,12 @@ pub struct Gear {
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(deny_unknown_fields)]
 pub struct BikeSpec {
+    #[serde(default, skip_serializing_if = "crate::is_false")]
+    pub ai: bool,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub rider_value: Option<i32>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub throttle_percent: Option<i32>,
     pub id: u32,
     pub mass: i32,
     #[serde(default, skip_serializing_if = "zero_i32")]
@@ -51,7 +57,11 @@ fn zero_i32(value: &i32) -> bool {
 }
 impl BikeSpec {
     pub fn validate(&self) -> Result<()> {
-        if self.id == 0
+        if self.rider_value.is_some_and(|v| !(1..=1024).contains(&v))
+            || self
+                .throttle_percent
+                .is_some_and(|v| !(1..=200).contains(&v))
+            || self.id == 0
             || self.id > 64
             || !(1..=1000).contains(&self.mass)
             || !(0..=65536).contains(&self.contact_steer_gain)
@@ -106,6 +116,9 @@ impl BikeSpec {
             }
             let w = |offset: usize| d[7 + (offset - 0x1c4) / 4];
             let spec = Self {
+                ai: false,
+                rider_value: None,
+                throttle_percent: None,
                 id: r.id,
                 mass: d[6],
                 contact_steer_gain: w(0x2d8),
@@ -295,6 +308,16 @@ impl Ground {
 }
 #[derive(Clone, Debug, Default, Serialize, Deserialize, PartialEq, Eq)]
 pub struct Bike {
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub source_yaw: Option<i32>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub source_motion_flags: Option<u8>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub ai_roll: Option<i32>,
+    #[serde(default, skip_serializing_if = "zero_i32")]
+    pub scenery_timer: i32,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub scenery_mark: Option<crate::scenery::Mark>,
     pub speed: i32,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub contact_velocity: Option<[i32; 3]>,
@@ -329,15 +352,30 @@ pub struct Bike {
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub(crate) enum VerticalKind {
+    BikeCurrent,
     Legacy,
     Bike,
     Rider,
 }
 impl Bike {
+    pub fn refresh_scenery(&mut self, sample: i64, tick: u64) {
+        if let Some(mark) = &mut self.scenery_mark {
+            if mark.frame != 0 {
+                let elapsed = (tick as u32).wrapping_sub(mark.tick as u32);
+                mark.frame = if sample == mark.sample && elapsed < 12 {
+                    (elapsed / 4 + 1) as u8
+                } else {
+                    0
+                };
+            }
+            mark.display_frame = mark.frame;
+        }
+    }
     pub fn new(spec: &BikeSpec, t: &Tables) -> Result<Self> {
         spec.validate()?;
         t.validate()?;
         Ok(Self {
+            ai_roll: spec.ai.then_some(0),
             condition: spec.condition,
             contact: t.contact,
             gravity: -37,
@@ -430,60 +468,68 @@ impl Bike {
         motion_version: u8,
         resolve: impl FnOnce(i64, i64) -> Ground,
     ) {
-        // 60 Hz host bridge: original physics receives dt=1; source scheduler ticks are 60 Hz.
-        let mass = s.mass + 75;
-        let weight = mass;
-        let max = s.throttle * mass * 256 / weight;
-        let min = s.brake * mass * 256 / weight;
-        let target = if self.failed || input.brake {
-            min
-        } else if input.throttle {
-            max
-        } else {
-            0
-        };
-        if self.failed || input.brake || self.force < 0 {
-            if self.speed == 0 {
-                self.force = 0;
-            } else {
-                let target = target.max(min);
-                if self.force < target {
-                    let rate = min / s.brake_off.min(15);
-                    self.force = if self.force - target > rate {
-                        self.force - rate
-                    } else {
-                        target
-                    };
-                } else if self.force > target {
-                    let rate = min / s.brake_on.min(15);
-                    self.force = if self.force > rate {
-                        self.force + rate
-                    } else {
-                        target
-                    };
-                }
-            }
-            self.drive = self.force >> 8;
-        } else {
-            let target = target.min(max);
-            if self.force < target {
-                self.force += (max / s.throttle_on.min(15)).min(target - self.force);
-            } else if self.force > target {
-                self.force -= (max / s.throttle_off.min(15)).min(self.force - target);
-            }
-            self.drive = if self.force < 1 {
-                self.force >> 8
-            } else {
-                ((i64::from(s.gears[self.gear].force) * i64::from(self.force)) >> 16) as i32
-            };
+        let ground =
+            self.step_motion_with_boost_profile(s, t, input, g, boost_q8, motion_version, resolve);
+        self.finish_motion(s, t, ground, motion_version);
+    }
+    #[allow(clippy::too_many_arguments)]
+    pub(crate) fn step_motion_with_boost_profile(
+        &mut self,
+        s: &BikeSpec,
+        t: &Tables,
+        input: Command,
+        g: Ground,
+        boost_q8: i32,
+        motion_version: u8,
+        resolve: impl FnOnce(i64, i64) -> Ground,
+    ) -> Ground {
+        self.source_controls(s, t, input, boost_q8);
+        self.source_physics_motion(s, t, g, motion_version, resolve)
+    }
+    pub(crate) fn source_controls(
+        &mut self,
+        s: &BikeSpec,
+        t: &Tables,
+        input: Command,
+        boost_q8: i32,
+    ) {
+        self.source_controls_profile(s, t, input, boost_q8, false);
+    }
+    pub(crate) fn source_controls_exact(
+        &mut self,
+        s: &BikeSpec,
+        t: &Tables,
+        input: Command,
+        boost_q8: i32,
+    ) {
+        self.source_controls_profile(s, t, input, boost_q8, true);
+    }
+    fn source_controls_profile(
+        &mut self,
+        s: &BikeSpec,
+        t: &Tables,
+        input: Command,
+        boost_q8: i32,
+        native: bool,
+    ) {
+        if !s.ai {
+            self.source_drive_mode_profile(
+                s,
+                t,
+                if input.brake {
+                    2
+                } else if input.throttle {
+                    1
+                } else {
+                    0
+                },
+                native,
+            );
         }
         if self.drive > 0 {
             self.drive = ((i64::from(self.drive) * i64::from(boost_q8.clamp(0, 1024))) >> 8) as i32;
         }
-        if self.speed <= 0 {
-            self.lateral_force = 0;
-            self.lateral_speed = 0;
-        } else {
+        if !s.ai {
             let mut steering = input
                 .steer_q15
                 .map_or(i32::from(input.steer) * 32767, i32::from);
@@ -492,45 +538,43 @@ impl Bike {
                 steering = lean * 32767;
                 lean = -lean;
             }
-            let limit = 0x2e00 + if lean != 0 { 0x2e00 / 4 } else { 0 };
-            let sn = t.sin((((i64::from(steering) * 0x200000 / 32767) * 16) >> 16) as i32);
-            let target = ((i64::from(sn / 256) * i64::from(self.speed) / i64::from(s.steer_scale))
-                as i32)
-                .clamp(-limit, limit);
-            self.previous_lean = self.lean;
-            let on = s.steer_on * mass / (s.mass + 75 / 4);
-            let off = s.steer_off * mass / (s.mass + 75 / 4);
-            let rate = 0x2e00
-                / if target == 0 || target.abs() <= self.lean.abs() {
-                    off
-                } else {
-                    on
-                };
-            let delta = target - self.lean;
-            let next = if delta < -rate {
-                let current = self.lean - if lean < 0 { s.lean_on * rate / 256 } else { 0 };
-                if lean < 1 {
-                    current - rate
-                } else {
-                    current - s.lean_off * rate / 256
-                }
-            } else if delta > rate {
-                let current = self.lean + if lean > 0 { s.lean_on * rate / 256 } else { 0 };
-                if lean < 0 {
-                    current + s.lean_off * rate / 256
-                } else {
-                    current + rate
-                }
-            } else {
-                target
-            };
-            self.lean = next;
-            self.lateral_speed = (self.lean / 256) * s.steer_scale;
+            self.source_steer(s, t, (i64::from(steering) * 0x200000 / 32767) as i32, lean);
         }
+    }
+    /// Movement after an already completed source think; no control or boost is applied again.
+    pub(crate) fn source_physics_motion(
+        &mut self,
+        s: &BikeSpec,
+        t: &Tables,
+        g: Ground,
+        motion_version: u8,
+        resolve: impl FnOnce(i64, i64) -> Ground,
+    ) -> Ground {
+        // 60 Hz host bridge: original physics receives dt=1; source scheduler ticks are 60 Hz.
+        self.source_traction(s, t, g);
+        self.source_motion_after_traction(s, t, g, motion_version, None, resolve)
+    }
+    pub(crate) fn source_traction(&mut self, s: &BikeSpec, t: &Tables, g: Ground) {
+        self.traction(t, s, g.surface(self.lateral));
+    }
+    #[allow(clippy::too_many_arguments)]
+    pub(crate) fn source_motion_after_traction(
+        &mut self,
+        s: &BikeSpec,
+        t: &Tables,
+        g: Ground,
+        motion_version: u8,
+        contact_override: Option<i32>,
+        resolve: impl FnOnce(i64, i64) -> Ground,
+    ) -> Ground {
         let surface = g.surface(self.lateral);
-        self.traction(t, s, surface);
         if motion_version >= 1 {
-            self.integrate_source_speed(t, surface, t.object[9], t.object[10]);
+            self.integrate_source_speed(
+                t,
+                surface,
+                t.object[9],
+                contact_override.unwrap_or(t.object[10]),
+            );
         } else {
             let base = if self.contact == 0 {
                 self.speed.abs() >> 2
@@ -574,6 +618,9 @@ impl Bike {
         } else {
             self.lateral_speed
         };
+        if contact_override.is_some() {
+            self.update_source_yaw(s, lateral);
+        }
         let mut collision_lateral = lateral;
         if self.speed > 300 {
             let gain = if self.skid != 0 && (self.skid as i8) >= 51 {
@@ -590,8 +637,146 @@ impl Bike {
         if motion_version >= 2 {
             self.contact_velocity = Some([self.speed, collision_lateral, 0]);
         }
+        g
+    }
+    pub(crate) fn update_source_yaw(&mut self, s: &BikeSpec, lateral: i32) {
+        let Some(flags) = self.source_motion_flags else {
+            return;
+        };
+        let (forward, side) = if self.speed < 0 {
+            (self.speed.wrapping_mul(-4), -lateral)
+        } else {
+            (self.speed.wrapping_mul(4), lateral)
+        };
+        let gain = if flags & 4 != 0 {
+            s.skid_yaw_gain
+        } else {
+            s.yaw_gain
+        };
+        let mut yaw =
+            (gain / 256).wrapping_mul(crate::riding::atan2(forward, side).wrapping_mul(65536));
+        if flags & 1 != 0 {
+            yaw = if yaw < 1 { -0x3f0000 } else { 0x3f0000 };
+        }
+        if self.speed < 4000 {
+            yaw = yaw.clamp(-0x180000, 0x180000);
+        }
+        self.source_yaw = Some(yaw);
+    }
+    pub(crate) fn source_drive_mode(&mut self, s: &BikeSpec, t: &Tables, mode: u8) {
+        self.source_drive_mode_profile(s, t, mode, true);
+    }
+    fn source_drive_mode_profile(&mut self, s: &BikeSpec, _t: &Tables, mode: u8, native: bool) {
+        let mass = s.mass + 75;
+        let rider_value = s.rider_value.unwrap_or(75);
+        let weight = mass + ((rider_value - 75) >> 3);
+        let max = s.throttle * mass * 256 / weight;
+        let min = s.brake * mass * 256 / weight;
+        let throttle_limit = max * s.throttle_percent.unwrap_or(100) / 100;
+        let target = if self.failed || mode == 2 {
+            min
+        } else if mode == 1 {
+            throttle_limit
+        } else {
+            0
+        };
+        if self.failed || mode == 2 || (self.force < 0 && (!native || mode != 1)) {
+            if self.speed == 0 {
+                self.force = 0;
+            } else {
+                let target = target.max(min);
+                if self.force < target {
+                    let rate = min / s.brake_off.min(15);
+                    self.force = if self.force - target > rate {
+                        self.force - rate
+                    } else {
+                        target
+                    };
+                } else if self.force > target {
+                    let rate = min / s.brake_on.min(15);
+                    self.force = if self.force > rate {
+                        self.force + rate
+                    } else {
+                        target
+                    };
+                }
+            }
+            self.drive = self.force >> 8;
+        } else {
+            let target = target.min(throttle_limit);
+            if self.force < target {
+                self.force += (max / s.throttle_on.min(15)).min(target - self.force);
+            } else if self.force > target {
+                self.force -= (max / s.throttle_off.min(15)).min(self.force - target);
+            }
+            self.drive = if self.force < 1 {
+                self.force >> 8
+            } else {
+                ((i64::from(s.gears[self.gear].force) * i64::from(self.force)) >> 16) as i32
+            };
+        }
+    }
+    pub(crate) fn source_steer(&mut self, s: &BikeSpec, t: &Tables, angle: i32, lean: i32) {
+        if self.speed <= 0 {
+            self.lateral_force = 0;
+            self.lateral_speed = 0;
+        } else {
+            let limit = 0x2e00 + if lean != 0 { 0x2e00 / 4 } else { 0 };
+            let sn = t.sin(((i64::from(angle.clamp(-0x200000, 0x200000)) * 16) >> 16) as i32);
+            let target = ((i64::from(sn / 256) * i64::from(self.speed) / i64::from(s.steer_scale))
+                as i32)
+                .clamp(-limit, limit);
+            self.previous_lean = self.lean;
+            let mass = s.mass + 75;
+            let rider_value = s.rider_value.unwrap_or(75);
+            let on = s.steer_on * mass / (s.mass + rider_value / 4);
+            let off = s.steer_off * mass / (s.mass + rider_value / 4);
+            let rate = 0x2e00
+                / if target == 0 || target.abs() <= self.lean.abs() {
+                    off
+                } else {
+                    on
+                };
+            let delta = target - self.lean;
+            let next = if delta < -rate {
+                let current = self.lean - if lean < 0 { s.lean_on * rate / 256 } else { 0 };
+                if lean < 1 {
+                    current - rate
+                } else {
+                    current - s.lean_off * rate / 256
+                }
+            } else if delta > rate {
+                let current = self.lean + if lean > 0 { s.lean_on * rate / 256 } else { 0 };
+                if lean < 0 {
+                    current + s.lean_off * rate / 256
+                } else {
+                    current + rate
+                }
+            } else {
+                target
+            };
+            self.lean = next;
+            self.lateral_speed = (self.lean / 256) * s.steer_scale;
+        }
+    }
+    pub(crate) fn finish_motion(
+        &mut self,
+        s: &BikeSpec,
+        t: &Tables,
+        g: Ground,
+        motion_version: u8,
+    ) {
         if motion_version >= 2 {
-            self.vertical_profile(s, t, g, VerticalKind::Bike);
+            self.vertical_profile(
+                s,
+                t,
+                g,
+                if motion_version >= 3 {
+                    VerticalKind::BikeCurrent
+                } else {
+                    VerticalKind::Bike
+                },
+            );
         } else {
             self.vertical(s, t, g);
         }
@@ -599,6 +784,9 @@ impl Bike {
     fn traction(&mut self, t: &Tables, s: &BikeSpec, surface: usize) {
         self.lateral_force = 0;
         if self.contact == 0 || self.crashed {
+            if s.ai {
+                self.ai_roll = Some(source_roll(t.contact, self.lean / 256));
+            }
             self.drive = 0;
             self.lateral_speed = 0;
             self.skid = 0;
@@ -612,6 +800,8 @@ impl Bike {
         } else {
             t.object[8]
         };
+        self.scenery_timer = (self.scenery_timer - 1).max(0);
+        let base = base - self.scenery_timer * 16;
         let mut grip =
             (i64::from(base) * i64::from(s.grip_scale) / 256).clamp(0, i64::from(i32::MAX)) as i32;
         grip = (i64::from(grip) * i64::from(t.grip[surface]) / 256).clamp(0, i64::from(i32::MAX))
@@ -619,7 +809,9 @@ impl Bike {
         grip =
             (i64::from(grip) * i64::from(self.contact) / 256).clamp(0, i64::from(i32::MAX)) as i32;
         grip = grip.max(0);
-        if grip < s.skid_threshold && self.lean.abs() >= 0x2e00 {
+        let mut source_flags = 0u8;
+        if !s.ai && grip < s.skid_threshold && self.lean.abs() >= 0x2e00 {
+            source_flags = 1;
             self.skid_ticks += 1;
             if self.skid_ticks > 25 {
                 self.crashed = true;
@@ -635,7 +827,13 @@ impl Bike {
             0
         };
         let demand = u.abs() + ((self.speed / 2048) * (self.lean >> 8)).abs();
+        let source_term;
         if grip < demand && self.speed >= 0 {
+            source_flags |= if grip < u.abs() {
+                if u < 1 { 0x14 } else { 0xc }
+            } else {
+                4
+            };
             if surface > 1 {
                 self.lean = (t.curve[surface + 4 * ((self.distance_q8 as usize >> 8) & 7)]
                     * self.lean
@@ -643,17 +841,36 @@ impl Bike {
                     .clamp(-0x2e00, 0x2e00);
             }
             let damp = (self.lean - self.previous_lean) * t.damp[surface] / 256;
-            self.lateral_force = (t.gain[surface] * self.lean / 256 + damp) >> 8;
+            source_term = t.gain[surface] * self.lean / 256 + damp;
+            self.lateral_force = source_term >> 8;
             self.skid = (demand as u8).wrapping_sub(grip as u8);
             if self.skid as i8 > 40 {
                 self.speed = (self.speed - t.skid[surface]).max(0);
             }
         } else {
             self.skid = 0;
+            source_term = self.lean;
             self.lateral_force = self.lean >> 8;
         }
         if u < 0 {
-            self.lateral_force = s.brake_steer * self.lateral_force / 256;
+            self.lateral_force = if s.ai {
+                (s.brake_steer * source_term / 256) >> 8
+            } else {
+                s.brake_steer * self.lateral_force / 256
+            };
+        }
+        if self.source_motion_flags.is_some() {
+            self.source_motion_flags = Some(source_flags);
+        }
+        if s.ai {
+            let hv = if self.speed < 4000 {
+                self.lean / 2
+            } else if self.speed > 8000 {
+                self.lean + self.lean / 8
+            } else {
+                self.lean
+            };
+            self.ai_roll = Some(source_roll(t.contact, hv / 256));
         }
     }
     pub(crate) fn vertical(&mut self, s: &BikeSpec, t: &Tables, g: Ground) {
@@ -701,6 +918,9 @@ impl Bike {
             height = 0;
             self.landed = true;
         } else {
+            if kind == VerticalKind::BikeCurrent && threshold < old_height {
+                self.skid = 1;
+            }
             self.vertical_speed = ground_move;
             self.contact =
                 (((g.rise - self.previous_rise) * self.speed / 256) / 8 + t.contact).max(0);
@@ -711,5 +931,14 @@ impl Bike {
         self.airborne = self.contact == 0;
         self.previous_above = old_height;
         self.previous_ground = g.height;
+    }
+}
+
+fn source_roll(contact: i32, lateral: i32) -> i32 {
+    let angle = crate::riding::atan2(contact, lateral) * 65536;
+    if angle > 0x800000 {
+        angle - 0x1000000
+    } else {
+        angle
     }
 }

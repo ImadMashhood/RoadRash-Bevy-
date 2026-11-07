@@ -145,10 +145,10 @@
       "id": "career-after-collision-fix",
       "task": "19.09",
       "severity": "required",
-      "status": "open",
+      "status": "closed",
       "owner": "Implementing agent",
-      "reproducer": "Existing unattended driver fails 25 straight native career attempts under changed collision/AI.",
-      "regression": "docs/evidence/native-gameplay-fixes.md",
+      "reproducer": "Current-source genuine career completed all25 cases in31 wins;124 independent four-schedule replays validate every checkpoint, money transition and save. Final completed save also reopens through ordinary keyboard UI.",
+      "regression": "docs/evidence/native-career-current.md",
       "acceptance_gate": "G3F"
     },
     {
@@ -157,7 +157,7 @@
       "severity": "required",
       "status": "open",
       "owner": "Implementing agent",
-      "reproducer": "Controlled contacts/recovery and two-rider chains now match 327,086 observations. Full police, dense/simultaneous contacts/fights, changing boundary types and renewed career/release remain unaccepted.",
+      "reproducer": "Scenery, collision/topology, combat/police and detached recovery pass their declared scopes: 1,458,070 matching native observations across61 families. Current full career and ordinary UI now pass. Replacement-release acceptance remains open.",
       "regression": "docs/COLLISION_COMBAT_PRIORITY.md",
       "acceptance_gate": "G3F"
     },
@@ -210,7 +210,47 @@
       "reproducer": "Queued chains restarted windup, fresh swings read stale hit descriptors and regeneration ran in the wrong order; combat profile 3 passes 53,760 sequence ticks.",
       "regression": "docs/evidence/source-contact-recovery.md",
       "acceptance_gate": "G3F"
+    },
+    {
+      "id": "flat-driving-render-bounce",
+      "task": "20.01",
+      "severity": "required",
+      "status": "closed",
+      "owner": "Implementing agent",
+      "reproducer": "A fixed-height rider bobs as the camera fraction advances through native nonlinear near-projection scales, even on flat road.",
+      "regression": "docs/evidence/driving-bounce.md",
+      "acceptance_gate": "G5"
+    },
+    {
+      "id": "billboard-query-response-bounds",
+      "task": "19.04",
+      "severity": "required",
+      "status": "closed",
+      "owner": "Implementing agent",
+      "reproducer": "Formerly 22 false contacts, including six grounded cases beneath elevated type-1/2 billboards. Explicit original query bounds now match all 1,980 native static decisions; omitted fields preserve legacy recordings.",
+      "regression": "docs/evidence/source-static-queries.md",
+      "acceptance_gate": "G3F"
+    },
+    {
+      "id": "remaining-source-scenery-semantics",
+      "task": "19.04",
+      "severity": "required",
+      "status": "closed",
+      "owner": "Implementing agent",
+      "reproducer": "Corrected native scenery trace now matches all 638 cases versus 527 preserved legacy failures. Import, physical flags, markings and cache lifecycle are verified; global mixed callbacks, steered topology and moving-body recovery remain separate open interaction work.",
+      "regression": "docs/evidence/source-scenery.md",
+      "acceptance_gate": "G3F"
+    },
+    {
+      "id": "source-practice-replay-format",
+      "task": "19.04",
+      "severity": "required",
+      "status": "closed",
+      "owner": "Implementing agent",
+      "reproducer": "Expanded source practice recordings exceeded the4MiB legacy schema4/5 limit; practice also omitted player action configuration. Practice now supplies native actions and an empty population using schema6; two actual-source recordings pass four rates without changing legacy limits.",
+      "regression": "docs/evidence/source-practice-replays.json",
+      "acceptance_gate": "G3F"
     }
   ],
-  "scope_note": "Current targeted rendering, collision, tactics and interface fixes pass their linked checks. Career-driver and replacement-release verification remain open; old RC4 receipts are historical, not current acceptance."
+  "scope_note": "Current component, career and ordinary UI checks pass their linked scopes. Replacement-release verification and project-owner G5 acceptance remain open; old RC4 receipts remain historical."
 }

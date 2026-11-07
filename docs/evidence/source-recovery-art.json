@@ -1,0 +1,98 @@
+{
+  "outcome": "passed",
+  "scope": "Original-art controlled player recovery and wreck; initial source poses/stamina/condition, ordinary commands, no injected impact/result or recovery assists; not career/release acceptance",
+  "courses": [
+    {
+      "course": "CITY",
+      "first_crash": 16,
+      "remount": 453,
+      "ticks": 477,
+      "frames": 23,
+      "state_sha256": "5a2ceacb6791c5cd19f4bfbafb7c57b34f7381fe0dfa6a3a627d8289dcece8e5"
+    },
+    {
+      "course": "HIWAY",
+      "first_crash": 16,
+      "remount": 450,
+      "ticks": 474,
+      "frames": 22,
+      "state_sha256": "b2b8cf468e7d267041c81316b33afb63cc068d261a66149f270e107c28cb1a67"
+    },
+    {
+      "course": "MEDLY",
+      "first_crash": 16,
+      "remount": 453,
+      "ticks": 477,
+      "frames": 23,
+      "state_sha256": "147382696bd1ae5048552968ac23f01e1ad45bf98b2661eaed064f45df68b03a"
+    },
+    {
+      "course": "NAPA",
+      "first_crash": 16,
+      "remount": 451,
+      "ticks": 475,
+      "frames": 23,
+      "state_sha256": "d97c228886b25164fac2bf093b1af2af25eee79f08ca3c1207ab8b36a74a8b45"
+    },
+    {
+      "course": "CANYN",
+      "first_crash": 16,
+      "remount": 454,
+      "ticks": 478,
+      "frames": 23,
+      "state_sha256": "2bc815dfc94687c8c1a29e4869e2cc2cb83cf19724d0b53e428026acf10a8165"
+    }
+  ],
+  "schedules": [
+    "30",
+    "60",
+    "144",
+    "irregular"
+  ],
+  "source_player_receipt": "local/source-player-recovery-art-palette-final/comparison.json",
+  "wreck_receipt": "local/source-player-wreck-art-palette-final/comparison.json",
+  "wreck_first_crash": 6,
+  "wreck_outcome_tick": 323,
+  "wreck_terminal_back": 900,
+  "inspected_cpu": [
+    "source-player-recovery-art-palette-final/CANYN-330.png",
+    "source-player-recovery-art-palette-final/MEDLY-372.png"
+  ],
+  "native_raster_identity_claimed": false,
+  "native_authority_evidence": [
+    "source-recovery-terrain.json",
+    "source-recovery-contacts.json",
+    "source-recovery-entry.json",
+    "source-recovery-camera.json",
+    "source-recovery-walk.json",
+    "source-recovery-rail.json"
+  ],
+  "graphical_checks": [
+    {
+      "name": "player-canyon",
+      "state_sha256": "2bc815dfc94687c8c1a29e4869e2cc2cb83cf19724d0b53e428026acf10a8165",
+      "report": "local/source-player-recovery-art-current/gpu-canyon.json",
+      "image": "local/source-player-recovery-art-current/gpu-canyon-walk.png"
+    },
+    {
+      "name": "wreck",
+      "state_sha256": "cba0dad43e1405d4f8dc71399b668c808fa23f6c3d268f36d966b5ec062bafec",
+      "report": "local/source-player-wreck-art-current/gpu-631.json",
+      "image": "local/source-player-wreck-art-current/gpu-terminal-631.png"
+    },
+    {
+      "name": "cop",
+      "state_sha256": "3b9833b21edffb920a823d6eb27cfcc07770854ca2eaee6df3597d061575ccb6",
+      "report": "local/source-police-art-recovery-current/gpu.json",
+      "image": "local/source-police-art-recovery-current/gpu-walk.png"
+    },
+    {
+      "name": "chain",
+      "state_sha256": "eb01fde1e86d6a2c4df3167504ebeb9311dbf4f9e3f5c1b39708b60649263b64",
+      "report": "local/source-combat-art-recovery-current/gpu.json",
+      "image": "local/source-combat-art-recovery-current/gpu-chain-contact.png"
+    }
+  ],
+  "palette_fixture_correction": "CPU source-art fixtures now load every recorded seed color, including character1 palette8; earlier practice captures used fallback0. Authority/replay hashes unchanged; actual app replay palettes were correct.",
+  "capture_fixture_history": "The exit-frame terminal screenshot was dropped during async window teardown; tick630 capture retained and independently checked. Both graphical replay state hashes agree."
+}

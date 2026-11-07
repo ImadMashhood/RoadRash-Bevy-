@@ -133,14 +133,15 @@
       "id": "19.09",
       "title": "Complete a genuine native-asset Big Game career",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Reach level-five finale and reopen the final career. Compare saved money, qualifications and purchases against the transaction ledger; accept no missing required content or synthetic finish shortcut.",
       "evidence": "docs/evidence/19.09.md",
       "completed_children": [
-        "a"
-      ],
-      "reopened_reason": "Building geometry/collision, opponent tactics and interface changed after RC4. Historical RC4 receipts are preserved; candidate-wide revalidation/repackaging is required. See docs/evidence/native-gameplay-fixes.md."
+        "a",
+        "b",
+        "c"
+      ]
     },
     {
       "id": "19.10",
@@ -332,12 +333,15 @@
       "id": "21.06",
       "title": "Run all courses and levels in coverage matrix",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Distinguish untested, skipped, failed and passed cases.",
       "evidence": "docs/evidence/21.06.md",
-      "completed_children": [],
-      "reopened_reason": "Building geometry/collision, opponent tactics and interface changed after RC4. Historical RC4 receipts are preserved; candidate-wide revalidation/repackaging is required. See docs/evidence/native-gameplay-fixes.md."
+      "completed_children": [
+        "a",
+        "b",
+        "c"
+      ]
     },
     {
       "id": "21.07",

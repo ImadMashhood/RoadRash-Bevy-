@@ -12,6 +12,8 @@ use std::{
     sync::{Arc, Mutex},
     time::Instant,
 };
+const MAX_TIMING_SAMPLES: usize = 500_000;
+
 #[derive(Resource)]
 pub(super) struct LaunchStart(pub Instant);
 #[derive(Default)]
@@ -50,6 +52,7 @@ struct Metrics {
     samples: Vec<serde_json::Value>,
     first_frame_ms: Option<f64>,
     restarts: u32,
+    driver: acceptance::Driver,
     config: Option<(
         rr_simulation::riding::Configuration,
         rr_simulation::encounter::Setup,
@@ -120,11 +123,14 @@ fn sample(world: &mut World) {
         if metrics.first_frame_ms.is_none() {metrics.first_frame_ms=Some(elapsed*1000.);}
         let settled = metrics.segments[&key].frames > 60 && metrics.cooldown == 0;
         metrics.cooldown = metrics.cooldown.saturating_sub(1);
-        if settled && metrics.wall_ms.len()<500_000 {
-            metrics.wall_ms.push(wall);
+        // Each course owns its timing coverage. A full aggregate must not starve
+        // a later course; aggregate summaries retain their separate bounded prefix.
+        let aggregate = metrics.wall_ms.len() < MAX_TIMING_SAMPLES;
+        if settled && metrics.segments[&key].wall.len() < MAX_TIMING_SAMPLES {
+            if aggregate { metrics.wall_ms.push(wall); }
             metrics.segments.get_mut(&key).unwrap().wall.push(wall);
             if let Some(timing)=world.get_resource::<rr_presentation::RenderTiming>() {
-                metrics.cpu_ms.push(timing.cpu_draw_ms);
+                if aggregate { metrics.cpu_ms.push(timing.cpu_draw_ms); }
                 metrics.segments.get_mut(&key).unwrap().cpu.push(timing.cpu_draw_ms);
             }
             if let Some(store)=world.get_resource::<DiagnosticsStore>() {
@@ -134,7 +140,7 @@ fn sample(world: &mut World) {
                         if metrics.last.get(&path)!=Some(&stamp) {
                             metrics.last.insert(path.clone(),stamp);
                             metrics.segments.get_mut(&key).unwrap().diagnostics.entry(path.clone()).or_default().push(measurement.value);
-                            metrics.diagnostics.entry(path).or_default().push(measurement.value);
+                            if aggregate { metrics.diagnostics.entry(path).or_default().push(measurement.value); }
                         }
                     }
                 }
@@ -189,6 +195,7 @@ fn tour(world: &mut World) {
     metrics.cooldown = 60;
     metrics.restarts += 1;
     metrics.config = None;
+    metrics.driver = acceptance::Driver::default();
     metrics.loads.push(serde_json::json!({"course_index":index,"elapsed_s":elapsed,"load_ms":started.elapsed().as_secs_f64()*1000.}));
 }
 pub(super) fn pilot(world: &mut World) {
@@ -216,6 +223,7 @@ pub(super) fn pilot(world: &mut World) {
             world.resource_mut::<Previous>().0 = Default::default();
             metrics.restarts += 1;
             metrics.config = None;
+            metrics.driver = acceptance::Driver::default();
         }
         if metrics.config.is_none() {
             let race = world.resource::<Race>();
@@ -225,9 +233,10 @@ pub(super) fn pilot(world: &mut World) {
                 metrics.config = Some((c, e));
             }
         }
-        if let Some((c, e)) = &metrics.config {
+        let Metrics { config, driver, .. } = &mut *metrics;
+        if let Some((c, e)) = config {
             let snapshot = world.resource::<Race>().0.snapshot();
-            world.resource_mut::<InputCommand>().0 = acceptance::drive(&snapshot, c, e);
+            world.resource_mut::<InputCommand>().0 = driver.command(&snapshot, c, e);
         }
     });
 }
@@ -266,12 +275,15 @@ fn report(
     let segments: BTreeMap<_,_> = metrics.segments.iter().map(|(key, s)| {
         let gpu: BTreeMap<_,_>=s.diagnostics.iter().map(|(k,v)|(k,distribution(v))).collect();
         (key,serde_json::json!({"frames":s.frames,"warmup_frames_excluded":60,
+            "timing_samples_truncated": s.wall.len() < s.frames.saturating_sub(60) as usize,
             "wall_frame_ms":distribution(&s.wall),"cpu_raster_ms":distribution(&s.cpu),"render_diagnostics":gpu}))
     }).collect();
     let report = serde_json::json!({"schema_version":2,"actual_window":metrics.window,"decoded_texture_bytes_by_role":metrics.decoded_pixels,"background_benchmark_continuous":options.benchmark_pilot,"course_segments":segments,"course_loads":metrics.loads,"tour":options.benchmark_tour,"tour_laps":if options.benchmark_tour {2}else{0},"binary_sha256":binary,"native_only":!options.enhanced,
         "vsync":options.vsync,"course":options.course,"level":options.level,"bike":options.bike,"seed_policy":"initial seed 1; restart seeds increment",
         "duration_s":start.0.elapsed().as_secs_f64(),"first_frame_ms":metrics.first_frame_ms,"frames":metrics.frames,
-        "warmup_frames_excluded":60,"wall_frame_ms":distribution(&metrics.wall_ms),"cpu_raster_ms":distribution(&metrics.cpu_ms),
+        "warmup_frames_excluded":60,"timing_sample_limit_per_segment":MAX_TIMING_SAMPLES,"aggregate_timing_sample_limit":MAX_TIMING_SAMPLES,
+        "aggregate_timing_samples_truncated": metrics.segments.values().map(|s|s.frames.saturating_sub(60)).sum::<u64>() > metrics.wall_ms.len() as u64,
+        "wall_frame_ms":distribution(&metrics.wall_ms),"cpu_raster_ms":distribution(&metrics.cpu_ms),
         "render_diagnostics":diagnostics,"gpu_adapter":gpu.adapter,"gpu_image_bytes_scope":"wgpu texture descriptors and mip extents; driver allocations, nonimage buffers and compressed block rounding excluded",
         "memory_samples":metrics.samples,"race_and_course_restarts":metrics.restarts,"live_simulation_ticks":metrics.live_ticks,"paused_frames":metrics.paused_frames,"simulation_seconds":metrics.live_ticks as f64/60.});
     let result = (|| -> Result<(), String> {
@@ -289,5 +301,42 @@ fn report(
     })();
     if let Err(error) = result {
         eprintln!("Performance report: {error}");
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn later_course_keeps_timing_coverage_after_aggregate_fills() {
+        let mut world = World::new();
+        world.insert_resource(LaunchOptions {
+            course: Some("CANYN".into()),
+            benchmark_tour: true,
+            ..Default::default()
+        });
+        world.insert_resource(LaunchStart(Instant::now()));
+        world.insert_resource(Time::<Real>::default());
+        world.insert_resource(Race::default());
+        world.insert_resource(PauseState::default());
+        let mut metrics = Metrics {
+            tour_index: 9,
+            wall_ms: vec![1.; MAX_TIMING_SAMPLES],
+            ..Default::default()
+        };
+        metrics.segments.insert(
+            "CANYN/lap2".into(),
+            Segment {
+                frames: 60,
+                ..Default::default()
+            },
+        );
+        world.insert_resource(metrics);
+        sample(&mut world);
+        let metrics = world.resource::<Metrics>();
+        assert_eq!(metrics.wall_ms.len(), MAX_TIMING_SAMPLES);
+        assert_eq!(metrics.segments["CANYN/lap2"].wall.len(), 1);
+        assert_eq!(metrics.segments["CANYN/lap2"].frames, 61);
     }
 }

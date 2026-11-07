@@ -31,6 +31,7 @@ jobs:
       - run: sudo apt-get update && sudo apt-get install -y libx11-dev libxi-dev libxkbcommon-dev libudev-dev libasound2-dev ffmpeg
       - run: cargo fmt --all --check
       - run: python3 -m unittest discover -s tools -p 'test_*.py'
+      - run: python3 -m unittest discover -s tools/verification -p 'test_*.py'
       - run: cargo test --locked --release --workspace --target-dir ../target
       - run: cargo clippy --locked --workspace --all-targets --target-dir ../target -- -D warnings
       - run: cargo build --locked --release --workspace --target-dir ../target

@@ -1,0 +1,394 @@
+{
+  "outcome": "passed",
+  "reference_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+  "reference_dirty_paths": [
+    "src/hud.cpp",
+    "tests/hud_test.cpp"
+  ],
+  "native_library_sha256": "f530ae9ce4ce031cea19ce022fde138f2a3fd77a52d01fc82cdce148e472fb51",
+  "executable_sha256": "73d7f9744b5b1a9482b3909950cdf3fe34119fe13d023b031e9c6739a60f18a2",
+  "native_trace_sha256": "9465f7fe43116cad44e6be2ecb1014b3ca71511f3b4ebc758b39b49f254552d1",
+  "before_native_trace_sha256": "9465f7fe43116cad44e6be2ecb1014b3ca71511f3b4ebc758b39b49f254552d1",
+  "same_expected_trace": true,
+  "before_mismatches": 527,
+  "before_first_divergence": {
+    "index": 0,
+    "native": [
+      0,
+      0,
+      16,
+      -1024,
+      0,
+      1,
+      -251393,
+      0,
+      0,
+      2,
+      2688,
+      0,
+      2688,
+      -250529,
+      10243,
+      0,
+      384,
+      256,
+      150,
+      0,
+      256,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    "rust": [
+      0,
+      0,
+      16,
+      -1024,
+      0,
+      1,
+      -251393,
+      0,
+      0,
+      2,
+      2688,
+      0,
+      2688,
+      -251393,
+      0,
+      0,
+      384,
+      256,
+      150,
+      0,
+      256,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "checks": [
+    {
+      "family": "motion",
+      "rows": 108,
+      "native_rows": 108,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "damage",
+      "rows": 35,
+      "native_rows": 35,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "attack_timing",
+      "rows": 458,
+      "native_rows": 458,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "crash_entry",
+      "rows": 24,
+      "native_rows": 24,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "damage_transaction",
+      "rows": 210,
+      "native_rows": 210,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "recovery_motion",
+      "rows": 9,
+      "native_rows": 9,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "recovery_drag",
+      "rows": 1680,
+      "native_rows": 1680,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "fight_impact",
+      "rows": 252,
+      "native_rows": 252,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "fight_sequences",
+      "rows": 53760,
+      "native_rows": 53760,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "strike_transactions",
+      "rows": 336,
+      "native_rows": 336,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "weapon_theft",
+      "rows": 64,
+      "native_rows": 64,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "separation",
+      "rows": 576,
+      "native_rows": 576,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "contact_detection",
+      "rows": 144,
+      "native_rows": 144,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "static_detection",
+      "rows": 1980,
+      "native_rows": 1980,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "bike_contacts",
+      "rows": 2048,
+      "native_rows": 2048,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "car_contacts",
+      "rows": 6144,
+      "native_rows": 6144,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "static_contacts",
+      "rows": 3072,
+      "native_rows": 3072,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "scenery_boxes",
+      "rows": 1663,
+      "native_rows": 1663,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "borr_slots",
+      "rows": 54,
+      "native_rows": 54,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "building_walls",
+      "rows": 20736,
+      "native_rows": 20736,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "recovery_trajectory",
+      "rows": 197877,
+      "native_rows": 197877,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "recovery_regeneration",
+      "rows": 18,
+      "native_rows": 18,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "half_contacts",
+      "rows": 10368,
+      "native_rows": 10368,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "proxy_pairs",
+      "rows": 1728,
+      "native_rows": 1728,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "body_building_walls",
+      "rows": 25920,
+      "native_rows": 25920,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "scenery_semantics",
+      "rows": 638,
+      "native_rows": 638,
+      "outcome": "passed",
+      "mismatches": 0
+    }
+  ],
+  "total_observations": 329902,
+  "families": 26,
+  "scenario_checks": [
+    {
+      "mode": 0,
+      "scenario": "BORR relative expansion boundaries",
+      "observations": 60,
+      "before_mismatches": 34,
+      "fixed_mismatches": 0
+    },
+    {
+      "mode": 1,
+      "scenario": "billboard markings and repeated queries",
+      "observations": 208,
+      "before_mismatches": 208,
+      "fixed_mismatches": 0
+    },
+    {
+      "mode": 2,
+      "scenario": "BORR-before-billboard ordering",
+      "observations": 4,
+      "before_mismatches": 2,
+      "fixed_mismatches": 0
+    },
+    {
+      "mode": 3,
+      "scenario": "prepare/apply readiness and front boundary",
+      "observations": 18,
+      "before_mismatches": 5,
+      "fixed_mismatches": 0
+    },
+    {
+      "mode": 4,
+      "scenario": "back boundary readiness",
+      "observations": 18,
+      "before_mismatches": 3,
+      "fixed_mismatches": 0
+    },
+    {
+      "mode": 5,
+      "scenario": "cross-section modulo-128 cache alias",
+      "observations": 2,
+      "before_mismatches": 1,
+      "fixed_mismatches": 0
+    },
+    {
+      "mode": 6,
+      "scenario": "native countdown visibility",
+      "observations": 1,
+      "before_mismatches": 1,
+      "fixed_mismatches": 0
+    },
+    {
+      "mode": 7,
+      "scenario": "marking timer/grip/clock lifecycle",
+      "observations": 68,
+      "before_mismatches": 68,
+      "fixed_mismatches": 0
+    },
+    {
+      "mode": 8,
+      "scenario": "shared-road native-half history",
+      "observations": 2,
+      "before_mismatches": 1,
+      "fixed_mismatches": 0
+    },
+    {
+      "mode": 9,
+      "scenario": "moving Race.step attached TrackRing",
+      "observations": 12,
+      "before_mismatches": 9,
+      "fixed_mismatches": 0
+    },
+    {
+      "mode": 10,
+      "scenario": "bike-contact flash/display clearing",
+      "observations": 4,
+      "before_mismatches": 4,
+      "fixed_mismatches": 0
+    },
+    {
+      "mode": 11,
+      "scenario": "forward/reverse resident rebuilds",
+      "observations": 241,
+      "before_mismatches": 191,
+      "fixed_mismatches": 0
+    }
+  ],
+  "verification": {
+    "simulation_tests": 182,
+    "simulation_ignored_private_tests": 18,
+    "public_scenery_tests": 8,
+    "detached_history_unit_test": 1,
+    "strict_clippy": "rr-simulation rr-game rr-formats rr-render all targets passed",
+    "legacy_recording_bytes_and_hash": "passed four schedules",
+    "real_factories": {
+      "cases": 25,
+      "ticks": 3,
+      "replay_schedules": 4,
+      "scope": "factory/import/replay, not complete races",
+      "confirmed_exit_code": 0,
+      "receipt": "local/source-scenery-completion/factory-25-confirmed.json"
+    },
+    "identity_inventory": {
+      "cases": 130,
+      "identity_conflicts": 0,
+      "duplicate_identities": 0,
+      "cases_with_current_cache_exclusions": 120,
+      "max_excluded_instances": 133
+    },
+    "formats_render_tests": 59,
+    "formats_render_ignored_tests": 1,
+    "workspace": {
+      "passed": 412,
+      "failed": 0,
+      "ignored": 21,
+      "clippy": "strict workspace all targets passed",
+      "formatting": "passed"
+    },
+    "gameplay_smoke": {
+      "outcome": "passed",
+      "seconds": 12,
+      "boundary_ticks": 45,
+      "schedules": 4,
+      "rendered_hash_equal": true,
+      "binary_sha256": "8945e375fe5566bcb9e19eeb3b389b44c5f7b14a568b0de2607e331cbdefecf6",
+      "receipt": "local/source-scenery-gameplay-final/receipt.json"
+    }
+  },
+  "invalid_development_receipts": "Earlier 290/311 and early 345 lifecycle drive-as-0xf0 adapters invalid; separate corrected-fields 345 matrix is valid (288 baseline mismatches, fixed 345 passed; trace 7cb8231144cc1e79a902efabbfe2a8c08de44494f7ddd2aa45bcdf7b12785a68), superseded by final 638 cases.",
+  "original_windows_runtime_compared": false,
+  "remaining": [
+    "Global mixed contact callback ordering and dense multi-actor coverage",
+    "Dynamic steered path selection",
+    "Native TrackRing split/merge walkers unsupported in pinned oracle; straight live-ring scope only",
+    "Full police, career and release acceptance"
+  ]
+}

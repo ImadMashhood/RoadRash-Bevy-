@@ -1,0 +1,137 @@
+{
+  "family": "simultaneous_combat",
+  "rows": 64512,
+  "native_rows": 64512,
+  "outcome": "passed",
+  "mismatches": 0,
+  "cases": 672,
+  "actor_tick_observations": 322560,
+  "combat_profile": 4,
+  "reference_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+  "reference_dirty_paths": [
+    "src/hud.cpp",
+    "tests/hud_test.cpp"
+  ],
+  "native_trace_sha256": "7939aebf88d032f5a2b4202c3195bcf3e4ee3fb97781118a0e4529946369db6c",
+  "rust_trace_sha256": "ffb3394efb982764c1ba772fce76c9f07dde359a9eabdbede37362d349ed7de2",
+  "native_library_sha256": "f530ae9ce4ce031cea19ce022fde138f2a3fd77a52d01fc82cdce148e472fb51",
+  "source_executable_sha256": "73d7f9744b5b1a9482b3909950cdf3fe34119fe13d023b031e9c6739a60f18a2",
+  "rng_policy": "Each trajectory anchors MSVC RNG once, then free-runs across all actors and ticks.",
+  "scope": "672 controlled 3/4/8-rider live-list fight/animation trajectories over authored captured poses, plus six authored physical-road combat bridge invariants. Native kernel equality does not claim full Race/AI/physics scheduling, TrackRing graph parity, 15-bike handling or whole-game parity.",
+  "original_windows_runtime_compared": false,
+  "date": "2026-11-07",
+  "base_revision": "a5eff4c",
+  "suite": "controlled live-list simultaneous combat kernel",
+  "before": {
+    "combat_profile": 3,
+    "outcome": "failed",
+    "rows": 64512,
+    "mismatches": 52917,
+    "first_divergence": {
+      "tick": 15,
+      "actor": 1,
+      "native_animation": 22,
+      "rust_animation": 9,
+      "cause": "Earlier actor hit followed by the victim own held-attack think; historical implementation batches initiation before hits and imposes fixed stun."
+    },
+    "native_expected_unchanged": true,
+    "comparison_sha256": "3bab082975317ae755e2748992b6e4ad62f2863476639578250ef9bf4184de3b"
+  },
+  "observed_theft_acquisitions": 48,
+  "first_native_crash_selection": {
+    "case": 13,
+    "tick": 54,
+    "actor": 1,
+    "body_animation": 35,
+    "body_selected": false,
+    "quiet_bike_selected": false,
+    "body_present": true,
+    "native_actor_index": 0,
+    "rust_actor_id": 1,
+    "native_actor_fields": [
+      2492,
+      0,
+      150,
+      100,
+      3000,
+      84,
+      0,
+      0,
+      35,
+      0,
+      -1,
+      0,
+      1,
+      35,
+      0,
+      0
+    ],
+    "native_row_rng": 2172805640,
+    "native_trace_sha256": "7939aebf88d032f5a2b4202c3195bcf3e4ee3fb97781118a0e4529946369db6c",
+    "field_layout_reference": "tick_row_layout per_actor",
+    "interpretation": "New crash body animation 35 and quiet bike both have selected descriptor absent immediately after the controlled native fight/animation transaction."
+  },
+  "legacy_profile3": {
+    "rows": 53760,
+    "mismatches": 0,
+    "scope": "Historical two-rider chain oracle, intentionally retains its original per-tick RNG reseeding; compatibility check only."
+  },
+  "validation": {
+    "source4_public_kernel_tests_passed": 16,
+    "version_acceptance_and_published_legacy_hash_tests_passed": 2,
+    "strict_simulation_clippy_all_targets": "passed",
+    "cpp_warnings_as_errors": "passed",
+    "formatting": "passed",
+    "diff_check": "passed"
+  },
+  "invalid_harness_runs": [
+    {
+      "paths": [
+        "local/simultaneous-before-full",
+        "local/simultaneous-fixed-expanded",
+        "local/simultaneous-fixed-expanded-2"
+      ],
+      "reason": "Dynamic authored poses installed without updating native cached schedule sort keys; not valid retargeting acceptance. Retained separately."
+    },
+    {
+      "paths": [
+        "local/simultaneous-fixed-full",
+        "local/simultaneous-fixed-full-diagnostic"
+      ],
+      "reason": "Incomplete Rust writer while investigating unavailable bank-1 queued animation 6 fallback. No completed comparison trace; not a passing/complete parity run."
+    },
+    {
+      "paths": [
+        "local/combat-physical-public.log"
+      ],
+      "reason": "Authored graph fixture supplied invalid steer_scale=0; setup rejected before transactions. Validated fixture uses supported scale1 and wider ground."
+    }
+  ],
+  "native_producer_sha256": "e5080ff3a9ef4235e90858b12dc52f98c01a62d73f03367b7fbfe8b4b91218ae",
+  "producer_source_sha256": "a71f9ceb36c5ad1f32a5377e475a4448348b9474365f78f2b0459d9357b83e5b",
+  "tick_row_layout": [
+    "tick",
+    "shared_msvc_rng_state",
+    "per_actor: maximum_stamina,current_stamina,bike_condition,signed_speed,lean,hit_until,steal_until,carried_weapon,animation_code,frame,queued,loops,body_present,body_animation,body_selected,quiet_bike_selected"
+  ],
+  "accepted_output": "local/simultaneous-physical-final/",
+  "physical_combat_bridge": {
+    "tests": 6,
+    "paired_ordinary_trajectories": 4,
+    "paired_trajectory_ticks": 96,
+    "outcome": "passed",
+    "policy": "Per-origin stable half-list history rebased through Roads.physical_delta, with source mask filtering and independent detached-body route ownership. No global unequal-branch distance axis is invented.",
+    "coverage": [
+      "shared road after unequal branch histories",
+      "forward and reverse direct seams",
+      "three-actor zero-gap merged ties and stable convergence history",
+      "bilateral opposite-branch masks",
+      "connected nonadjacent and disconnected paths",
+      "detached body route independent of quiet bike",
+      "external road-user fallback on unselected local path and near seam"
+    ],
+    "native_graph_oracle": false,
+    "native_kernel_trace_unchanged": true,
+    "log": "local/combat-physical-public-valid.log"
+  }
+}

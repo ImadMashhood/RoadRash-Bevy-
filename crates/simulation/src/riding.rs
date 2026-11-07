@@ -8,6 +8,8 @@ use std::path::Path;
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct Configuration {
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub recovery_animation: Option<Library>,
     #[serde(default, skip_serializing_if = "legacy_motion")]
     pub motion_version: u8,
     #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -25,10 +27,15 @@ fn legacy_motion(version: &u8) -> bool {
 impl Configuration {
     pub fn validate(&self) -> Result<()> {
         self.tables.validate()?;
+        if let Some(library) = &self.recovery_animation {
+            library
+                .validate()
+                .map_err(|_| Error::Invalid("recovery animation bank"))?;
+        }
         if let Some(actions) = self.actions {
             actions.validate()?;
         }
-        if self.motion_version > 2
+        if self.motion_version > 3
             || self.specs.is_empty()
             || self.specs.len() > 64
             || self.ground.is_empty()
@@ -81,6 +88,7 @@ impl Configuration {
     ) -> std::result::Result<Self, Box<dyn std::error::Error>> {
         let exe = std::fs::read(data.join("ROADRASH.EXE"))?;
         let config = Self {
+            recovery_animation: None,
             motion_version: 0,
             actions: None,
             specs: BikeSpec::read(&std::fs::read(data.join("DATA/BIKESPEC.RSC"))?)?,
@@ -136,6 +144,9 @@ impl Configuration {
         ground.bend_movement = bend as i32;
         ground
     }
+    pub(crate) fn recovery_animation(&self) -> &Library {
+        self.recovery_animation.as_ref().unwrap_or(&self.animation)
+    }
     pub fn spec(&self) -> &BikeSpec {
         self.specs
             .iter()
@@ -165,6 +176,9 @@ impl Rider {
         animation.set(&c.animation, 0, 2);
         let mut bike = Bike::new(c.spec(), &c.tables)?;
         bike.previous_rise = c.ground[c.start_sample as usize].rise;
+        if c.motion_version >= 3 {
+            bike.contact = c.tables.object[11];
+        }
         Ok(Self {
             actions: None,
             bike,
@@ -190,6 +204,21 @@ impl Rider {
         tick: u32,
         combat_version: u8,
     ) -> Result<()> {
+        let ground = self.step_with_combat_profile_motion(c, input, tick, combat_version)?;
+        self.finish_motion(c, ground);
+        Ok(())
+    }
+    pub(crate) fn finish_motion(&mut self, c: &Configuration, ground: Ground) {
+        self.bike
+            .finish_motion(c.spec(), &c.tables, ground, c.motion_version);
+    }
+    pub(crate) fn step_with_combat_profile_motion(
+        &mut self,
+        c: &Configuration,
+        input: Command,
+        tick: u32,
+        combat_version: u8,
+    ) -> Result<Ground> {
         let old_weapon = self.weapon;
         if let Some(w) = input.weapon {
             self.weapon = w;
@@ -238,17 +267,8 @@ impl Rider {
         let index = (i64::from(c.start_sample) + (self.bike.distance_q8 >> 8))
             .clamp(0, c.ground.len() as i64 - 1) as usize;
         let ground = c.ground[index];
-        if self.bike.crashed {
-            self.bike.speed = (self.bike.speed - self.bike.speed / 32 - 20).max(0);
-            self.bike.lateral_speed = 0;
-        }
-        let boost = match (&mut self.actions, c.actions) {
-            (Some(state), Some(config)) => {
-                state.tick(config, input, !self.bike.crashed && !self.bike.failed)
-            }
-            _ => 256,
-        };
-        self.bike.step_with_boost_profile(
+        let boost = self.source_action_tick(c, input);
+        let ground = self.bike.step_motion_with_boost_profile(
             c.spec(),
             &c.tables,
             input,
@@ -257,7 +277,64 @@ impl Rider {
             c.motion_version,
             |old, new| c.swept_ground(old, new),
         );
-        Ok(())
+        Ok(ground)
+    }
+    fn source_action_tick(&mut self, c: &Configuration, input: Command) -> i32 {
+        if self.bike.crashed {
+            self.bike.speed = (self.bike.speed - self.bike.speed / 32 - 20).max(0);
+            self.bike.lateral_speed = 0;
+        }
+        match (&mut self.actions, c.actions) {
+            (Some(state), Some(config)) => {
+                state.tick(config, input, !self.bike.crashed && !self.bike.failed)
+            }
+            _ => 256,
+        }
+    }
+    /// Source think controls, executed once before animation and movement.
+    pub(crate) fn source_controls(&mut self, c: &Configuration, input: Command) {
+        if let Some(weapon) = input.weapon {
+            self.weapon = weapon;
+        }
+        self.bike.damage(input.damage);
+        let boost = self.source_action_tick(c, input);
+        self.bike
+            .source_controls_exact(c.spec(), &c.tables, input, boost);
+    }
+    /// Source movement after controls/animation; vertical integration remains with the boundary owner.
+    pub(crate) fn source_physics_motion(&mut self, c: &Configuration) -> Ground {
+        let index = (i64::from(c.start_sample) + (self.bike.distance_q8 >> 8))
+            .clamp(0, c.ground.len() as i64 - 1) as usize;
+        self.bike.source_physics_motion(
+            c.spec(),
+            &c.tables,
+            c.ground[index],
+            c.motion_version,
+            |old, new| c.swept_ground(old, new),
+        )
+    }
+    pub(crate) fn source_traction(&mut self, c: &Configuration) -> Ground {
+        let index = (i64::from(c.start_sample) + (self.bike.distance_q8 >> 8))
+            .clamp(0, c.ground.len() as i64 - 1) as usize;
+        let ground = c.ground[index];
+        self.bike.source_motion_flags.get_or_insert(0);
+        self.bike.source_traction(c.spec(), &c.tables, ground);
+        ground
+    }
+    pub(crate) fn source_motion_after_traction(
+        &mut self,
+        c: &Configuration,
+        ground: Ground,
+        crashed: bool,
+    ) -> Ground {
+        self.bike.source_motion_after_traction(
+            c.spec(),
+            &c.tables,
+            ground,
+            c.motion_version,
+            Some(if crashed { 95 } else { c.tables.object[10] }),
+            |old, new| c.swept_ground(old, new),
+        )
     }
     pub(crate) fn advance_animation(&mut self, c: &Configuration, tick: u32) -> Result<()> {
         let f = self

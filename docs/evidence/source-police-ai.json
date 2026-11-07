@@ -1,0 +1,111 @@
+{
+  "outcome": "passed",
+  "scope": "Native cop decision transactions and raw-lane import only; coupled whole police lifecycle acceptance belongs to source-combat-police evidence",
+  "reference_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+  "native_library_sha256": "f530ae9ce4ce031cea19ce022fde138f2a3fd77a52d01fc82cdce148e472fb51",
+  "source_executable_sha256": "73d7f9744b5b1a9482b3909950cdf3fe34119fe13d023b031e9c6739a60f18a2",
+  "reference_dirty_paths": [
+    "src/hud.cpp",
+    "tests/hud_test.cpp"
+  ],
+  "original_windows_runtime_compared": false,
+  "observations": 92502,
+  "families": 3,
+  "checks": [
+    {
+      "family": "source_police_ai",
+      "observations": 43740,
+      "mismatches": 0,
+      "native_trace_sha256": "03576db82cee5387540721b43321794c0077fe328be03ca41a400d5255d41a96",
+      "private_receipt": "local/police-ai-source-controls-fixed/comparison.json",
+      "baselines": [
+        {
+          "kind": "frozen_unaccepted_scaffold",
+          "mismatches": 42384,
+          "private_receipt": "local/police-ai-source-scaffold-before/comparison.json",
+          "same_native_trace": true,
+          "first_divergence_retained": true
+        },
+        {
+          "kind": "signed_angle_wrap",
+          "mismatches": 480,
+          "private_receipt": "local/police-ai-source-wrap-before/comparison.json",
+          "same_native_trace": true,
+          "first_divergence_retained": true
+        }
+      ]
+    },
+    {
+      "family": "source_police_ai_objects",
+      "observations": 14580,
+      "mismatches": 0,
+      "native_trace_sha256": "68aca73e4012e5ad000ff54546982c4a0fd7fb3d704eef440da7fffb306aab4c",
+      "private_receipt": "local/police-ai-source-objects-fixed/comparison.json",
+      "baselines": [
+        {
+          "kind": "attack_target_before_replan",
+          "mismatches": 7,
+          "private_receipt": "local/police-ai-objects-gates-before/comparison.json",
+          "same_native_trace": true,
+          "first_divergence_retained": true
+        }
+      ]
+    },
+    {
+      "family": "source_police_ai_lane_geometry",
+      "observations": 34182,
+      "mismatches": 0,
+      "native_trace_sha256": "54a111cbd21c705c91653e2da8f0cd5e508e1072ae6e145456c17a9cbbf08ddc",
+      "private_receipt": "local/police-ai-source-geometry-fixed/comparison.json",
+      "baselines": []
+    }
+  ],
+  "public_component_tests": 3,
+  "public_component_log": "local/police-ai-public-final.log",
+  "invalid_harness_history": [
+    {
+      "private_receipt": "local/police-ai-first-fixed-2/comparison.json",
+      "reason": "481 mixed residuals include480 real signed-wrap engine mismatches plus1 requested/effective animation fallback adapter mismatch; replaced by valid480-only baseline"
+    }
+  ],
+  "integration_evidence": "source-combat-police.md",
+  "graph_scope": "Functional physical ownership adapters; no whole native TrackRing split/merge parity",
+  "functional_graph": {
+    "outcome": "passed",
+    "tests": 8,
+    "private_log": "local/police-graph-final.log",
+    "native_parity_claimed": false,
+    "scope": "Authored SourceRoads split/unequal merge, independent bike/body routes, spawn, pursuit, crash/recovery, arrest, disconnected exclusion and bounded-window cleanup; four replay frame schedules",
+    "before_logs": [
+      "local/police-graph-body-route-before.log",
+      "local/police-graph-body-proxy-before.log",
+      "local/police-graph-multinode-before.log"
+    ],
+    "native_observations_added": 0,
+    "default_disengage_samples": 64,
+    "strict_clippy_log": "local/police-ai-graph-clippy-final.log"
+  },
+  "freeze_rechecks": [
+    {
+      "family": "source_police_ai",
+      "private_receipt": "local/police-ai-freeze-controls/comparison.json",
+      "observations": 43740,
+      "mismatches": 0,
+      "same_native_trace": true
+    },
+    {
+      "family": "source_police_ai_objects",
+      "private_receipt": "local/police-ai-freeze-objects/comparison.json",
+      "observations": 14580,
+      "mismatches": 0,
+      "same_native_trace": true
+    },
+    {
+      "family": "source_police_ai_lane_geometry",
+      "private_receipt": "local/police-ai-freeze-geometry/comparison.json",
+      "observations": 34182,
+      "mismatches": 0,
+      "same_native_trace": true
+    }
+  ]
+}

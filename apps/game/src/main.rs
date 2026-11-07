@@ -7,6 +7,12 @@ mod media;
 mod performance;
 mod population_cues;
 mod race_recording;
+#[cfg(test)]
+mod source_combat_art;
+#[cfg(test)]
+mod source_recovery_art;
+mod source_roads;
+mod source_scenery;
 use bevy::{
     app::AppExit,
     prelude::*,
@@ -478,6 +484,9 @@ fn course_view(
     if let Some(default) = &assets.animations {
         assets.palettes.insert(0, default.clone());
     }
+    if let Some(foot) = &assets.police_foot_rider {
+        assets.palettes.insert(6, foot.clone());
+    }
     for color in std::iter::once(options.rider_color)
         .chain(
             (0..if options.replay.is_none() && options.practice_riders == 0 {
@@ -573,13 +582,12 @@ fn build_race(
             eprintln!("handling startup: {e}");
             std::process::exit(2)
         });
-        config.motion_version = 2;
+        config.motion_version = 3;
         for (g, p) in config.ground.iter_mut().zip(&course.scene.route.points) {
-            g.kind = match course.scene.terrain[p.section as usize][p.local as usize].kind {
-                rr_render::scene::TerrainKind::Wall => 1,
-                rr_render::scene::TerrainKind::Building => 4,
-                _ => 0,
-            };
+            g.kind = source_roads::ground_kind(
+                &course.scene.terrain[p.section as usize][p.local as usize],
+                g.flags,
+            );
         }
         // Derived specification 16 isolates the player's carried damage. Opponents
         // continue selecting the original 1..15 specs, and replays capture this setup.
@@ -608,6 +616,7 @@ fn build_race(
             eprintln!("encounter startup: {e}");
             std::process::exit(2)
         });
+        source_roads::import(&mut setup, &course.scene).expect("validated physical source roads");
         let mut building_offsets = std::collections::BTreeMap::new();
         for p in &course.scene.route.points {
             building_offsets.insert((p.node, p.local), p.offset);
@@ -622,33 +631,21 @@ fn build_race(
             .iter()
             .filter(|(_, n)| n.kind == rr_course::NodeKind::Road)
         {
-            let section = &course.scene.course.sections[node.link as usize];
-            for (sample, data) in section
-                .samples
-                .iter()
-                .enumerate()
-                .take(node.length as usize)
-            {
-                let terrain = &course.scene.terrain[node.link as usize][sample];
-                let offset = building_offsets
-                    .get(&(*path, sample as u32))
-                    .copied()
-                    .unwrap_or(0);
-                setup
-                    .rules
-                    .building_boundaries
-                    .push(rr_simulation::building_wall::Boundary {
-                        path: *path,
-                        sample: sample as u32,
-                        building: terrain.kind == rr_render::scene::TerrainKind::Building,
-                        road: [offset - data.width[0], offset + data.width[1]],
-                        outer: [
-                            offset - data.width[0] - data.shoulder[0],
-                            offset + data.width[1] + data.shoulder[1],
-                        ],
-                        selectors: terrain.selectors,
-                        flags: data.marking_flags,
-                    });
+            for sample in 0..node.length as usize {
+                let offset = if setup.rules.source_roads.is_some() {
+                    0
+                } else {
+                    building_offsets
+                        .get(&(*path, sample as u32))
+                        .copied()
+                        .unwrap_or(0)
+                };
+                setup.rules.building_boundaries.push(source_roads::boundary(
+                    &course.scene,
+                    *path,
+                    sample,
+                    offset,
+                ));
             }
         }
         setup
@@ -664,83 +661,8 @@ fn build_race(
                     | rr_simulation::encounter::ObstacleKind::Decorative
             )
         });
-        let placements = rr_course::scenery::place(&course.scene.course, options.level, 1)
-            .expect("validated source placements");
-        let mut per_slice = std::collections::BTreeMap::new();
-        for instance in placements
-            .instances
-            .iter()
-            .filter(|i| i.kind == "billboard" && i.raw[0] & 0x80000000 == 0)
-        {
-            let count = per_slice
-                .entry((instance.section, instance.sample))
-                .or_insert(0u8);
-            if *count >= 2 {
-                continue;
-            }
-            *count += 1;
-            let class = instance.raw[0] & 15;
-            if class >= 3 {
-                continue;
-            }
-            let (Some(family), Some(lateral)) = (instance.family, instance.lateral) else {
-                continue;
-            };
-            let Some(bank) = course.scene.assets.families.get(&family) else {
-                continue;
-            };
-            if bank
-                .sprite(4, usize::from(instance.selector & 63))
-                .is_none()
-            {
-                continue;
-            }
-            let Some(boxes) = bank.collision_boxes(4, usize::from(instance.selector & 63)) else {
-                continue;
-            };
-            for (path, node) in course.scene.course.nodes.iter().filter(|(_, n)| {
-                n.kind == rr_course::NodeKind::Road
-                    && n.link == instance.section
-                    && instance.sample < n.length
-            }) {
-                let offset = building_offsets
-                    .get(&(*path, instance.sample))
-                    .copied()
-                    .unwrap_or(0);
-                let anchor = (lateral + offset) * 256;
-                for source in boxes {
-                    let mut bounds = *source;
-                    bounds[0] += anchor;
-                    bounds[2] += anchor;
-                    if class == 1 {
-                        bounds[1] = bounds[3] - 8192;
-                    } else if class == 2 {
-                        bounds[1] = bounds[3] - 16383;
-                    }
-                    if bounds[0] >= bounds[2] || bounds[1] >= bounds[3] {
-                        continue;
-                    }
-                    setup
-                        .rules
-                        .obstacles
-                        .push(rr_simulation::encounter::Obstacle {
-                            id: setup.rules.obstacles.len() as u64 + 1,
-                            path: *path,
-                            progress: i64::from(instance.sample) * 256 + 128,
-                            half_length: 1,
-                            left: bounds[0],
-                            right: bounds[2],
-                            height: bounds[3].max(1),
-                            kind: rr_simulation::encounter::ObstacleKind::Solid,
-                            source_box: Some(rr_simulation::encounter::StaticBox {
-                                bounds,
-                                lateral: anchor,
-                            }),
-                        });
-                }
-                let _ = node;
-            }
-        }
+        source_scenery::import(&mut setup, &course.scene, options.level)
+            .expect("validated source scenery boxes");
         for (path_id, node) in &course.scene.course.nodes {
             if node.kind != rr_course::NodeKind::Road {
                 continue;
@@ -763,16 +685,24 @@ fn build_race(
                                 progress: (start + end) / 2,
                                 half_length: ((end - start + 1) / 2) as i32,
                                 left: (bounds[0]
-                                    + building_offsets
-                                        .get(&(*path_id, local as u32))
-                                        .copied()
-                                        .unwrap_or(0))
+                                    + if setup.rules.source_roads.is_some() {
+                                        0
+                                    } else {
+                                        building_offsets
+                                            .get(&(*path_id, local as u32))
+                                            .copied()
+                                            .unwrap_or(0)
+                                    })
                                     * 256,
                                 right: (bounds[1]
-                                    + building_offsets
-                                        .get(&(*path_id, local as u32))
-                                        .copied()
-                                        .unwrap_or(0))
+                                    + if setup.rules.source_roads.is_some() {
+                                        0
+                                    } else {
+                                        building_offsets
+                                            .get(&(*path_id, local as u32))
+                                            .copied()
+                                            .unwrap_or(0)
+                                    })
                                     * 256,
                                 height: profile.height * 256,
                                 kind: rr_simulation::encounter::ObstacleKind::Building,
@@ -781,14 +711,14 @@ fn build_race(
                 }
             }
         }
-        setup
-            .validate(&config)
-            .expect("shared building collision geometry");
         setup.rules.collision_version = 2;
+        setup.rules.contact_walk_version = 2;
+        setup.rules.scenery_version = 1;
+        setup.rules.scenery_start_ready = true;
         setup.rules.collision = Some(
             rr_simulation::collision::Profile::from_exe(&exe).expect("verified collision physics"),
         );
-        setup.rules.combat_version = 3;
+        setup.rules.combat_version = 4;
         let pe = rr_formats::pe::SupportedExe::read(&exe).expect("verified interaction tables");
         setup.rules.steal_codes = Some(std::array::from_fn(|i| {
             rr_formats::binary::u32le(
@@ -799,15 +729,37 @@ fn build_race(
             .expect("steal code") as i8
         }));
         setup.rules.body.motion_version = 1;
-        setup.rules.body.recovery_version = 1;
+        setup.rules.body.recovery_version = 2;
+        setup
+            .rules
+            .body
+            .enable_source_curvature(&exe)
+            .expect("verified source recovery angles");
         setup.seeds[0].color = options.rider_color;
         setup.rules.assists.fast_recovery = options.fast_recovery;
         setup.rules.assists.rescue_unreachable = options.rescue_recovery;
+        config.actions = Some(
+            rr_simulation::actions::Config::read(
+                &std::fs::read(data.join("DATA/BIKESPEC.RSC")).expect("verified bike data"),
+                options.bike,
+            )
+            .expect("validated player actions"),
+        );
         let mut sim = if options.practice_riders > 0 {
             if let Some(character) = character {
                 apply_character(&exe, character, options.level - 1, &mut setup);
             }
-            Simulation::with_encounters(seed, config, setup).unwrap()
+            Simulation::with_population(
+                seed,
+                config,
+                setup,
+                rr_simulation::population::Setup {
+                    traffic: false,
+                    periodic_police: false,
+                    ..Default::default()
+                },
+            )
+            .unwrap()
         } else {
             let mut population = rr_simulation::population::Setup::source(
                 &config,
@@ -823,6 +775,10 @@ fn build_race(
             });
             population.functional_traffic = true;
             population.tactics_version = 1;
+            population.police = Some(
+                rr_simulation::population::police::Config::read(&exe)
+                    .expect("validated native police tables"),
+            );
             population.vehicle_masks = course.scene.assets.vehicle_masks.clone();
             population.pedestrian_appearances = course.scene.assets.pedestrian_appearances.clone();
             let requested = population.spawns.len();
@@ -846,13 +802,6 @@ fn build_race(
             if let Some(character) = character {
                 apply_character(&exe, character, options.level - 1, &mut setup);
             }
-            config.actions = Some(
-                rr_simulation::actions::Config::read(
-                    &std::fs::read(data.join("DATA/BIKESPEC.RSC")).expect("verified bike data"),
-                    options.bike,
-                )
-                .expect("validated player actions"),
-            );
             Simulation::with_population(seed, config, setup, population).unwrap()
         };
         sim.set_effects_enabled(options.effects);

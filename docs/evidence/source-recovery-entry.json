@@ -1,0 +1,196 @@
+{
+  "first_divergences": [],
+  "first_precondition_divergences": [],
+  "mismatches": 0,
+  "observations": 576,
+  "outcome": "passed",
+  "precondition_mismatches": 0,
+  "reference_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+  "reference_dirty_paths": [
+    "src/hud.cpp",
+    "tests/hud_test.cpp"
+  ],
+  "native_trace_sha256": "f65d4b952a52578f33411884c7f01b02b0795c13ff979ee7e86db3742c1acfa8",
+  "rust_trace_sha256": "891b99a25c72a5c968a7627f8cd3ed53d438f4dc2e088df416eb70c19b428038",
+  "native_library_sha256": "f530ae9ce4ce031cea19ce022fde138f2a3fd77a52d01fc82cdce148e472fb51",
+  "native_executable_sha256": "bb84627cdf2a659d15a91c0cbfa518d6e9f8ebc574d5f233f9734917cf2740a8",
+  "source_executable_sha256": "73d7f9744b5b1a9482b3909950cdf3fe34119fe13d023b031e9c6739a60f18a2",
+  "original_windows_runtime_compared": false,
+  "families": 1,
+  "profile": {
+    "combat": 4,
+    "recovery": 2,
+    "contact_walk": 2
+  },
+  "callback_groups": [
+    {
+      "kind": 0,
+      "name": "depletion_unarmed_helper",
+      "observations": 48,
+      "crashes": 36,
+      "reasons": {
+        "4": 36
+      }
+    },
+    {
+      "kind": 1,
+      "name": "depletion_weapon_helper",
+      "observations": 48,
+      "crashes": 36,
+      "reasons": {
+        "5": 36
+      }
+    },
+    {
+      "kind": 2,
+      "name": "car_entry_callback",
+      "observations": 48,
+      "crashes": 48,
+      "reasons": {
+        "2": 48
+      }
+    },
+    {
+      "kind": 3,
+      "name": "actual_skid_move",
+      "observations": 48,
+      "crashes": 27,
+      "reasons": {
+        "0": 27
+      }
+    },
+    {
+      "kind": 4,
+      "name": "actual_wall_callback",
+      "observations": 48,
+      "crashes": 36,
+      "reasons": {
+        "6": 36
+      }
+    },
+    {
+      "kind": 5,
+      "name": "actual_rail_callback",
+      "observations": 48,
+      "crashes": 24,
+      "reasons": {
+        "3": 24
+      }
+    },
+    {
+      "kind": 6,
+      "name": "actual_hard_landing_move",
+      "observations": 48,
+      "crashes": 0,
+      "reasons": {}
+    },
+    {
+      "kind": 7,
+      "name": "functional_dismount_entry_policy",
+      "observations": 48,
+      "crashes": 48,
+      "reasons": {
+        "4": 48
+      }
+    },
+    {
+      "kind": 8,
+      "name": "previous_move_car_entry",
+      "observations": 48,
+      "crashes": 48,
+      "reasons": {
+        "2": 48
+      }
+    },
+    {
+      "kind": 9,
+      "name": "previous_move_wall_entry",
+      "observations": 48,
+      "crashes": 36,
+      "reasons": {
+        "6": 36
+      }
+    },
+    {
+      "kind": 10,
+      "name": "previous_move_rail_entry",
+      "observations": 48,
+      "crashes": 32,
+      "reasons": {
+        "3": 24,
+        "6": 8
+      }
+    },
+    {
+      "kind": 11,
+      "name": "previous_move_car_then_quiet_callback",
+      "observations": 48,
+      "crashes": 48,
+      "reasons": {
+        "2": 48
+      },
+      "controlled_quiet_pose": "variation2: height=suspension+1 andverticalspeed\u22121 immediatelybeforequietcallback; otherposesfollowactualcarentry"
+    }
+  ],
+  "private_receipt": "local/recovery-entry-quiet-final/comparison.json",
+  "scope": "Actual named decision callbacks with controlled initial mounted poses and native entry wrappers; 48 repo voluntary-action policy calls use native reason4 zero-vector primitive, not an original dismount input. No native variable scheduler or whole-race/RNG claim.",
+  "public_regressions": 4,
+  "public_log": "local/recovery-entry-public-freeze.log",
+  "legacy_replay_log": "local/recovery-entry-published-replay.log",
+  "legacy_profile_policy": "Body0/1 and combat<=3 do not activate optional source yaw/flags and retain their historical authority.",
+  "before_receipts": [
+    {
+      "private_receipt": "local/recovery-entry-compiled/comparison.json",
+      "observations": 384,
+      "mismatches": 27,
+      "precondition_mismatches": 0,
+      "native_trace_sha256": "089feb86a5997867e702b618061d97be28bd31b6c5a9cd3961f84723744993de",
+      "corrected_receipt": "local/recovery-entry-skid-fixed/comparison.json",
+      "cause": "Skid enters before mounted horizontal physics, reason0 without impulses; quiet contact drag95."
+    },
+    {
+      "private_receipt": "local/recovery-entry-drive-before/comparison.json",
+      "observations": 432,
+      "mismatches": 222,
+      "precondition_mismatches": 0,
+      "native_trace_sha256": "73421bc8751b26866d200ae22af4beb5f58d1f12eab722145cfa96470b1b544a",
+      "corrected_receipt": "local/recovery-entry-drive-yaw-green/comparison.json",
+      "cause": "Native entry preserves quiet drive and prior display yaw; weapon depletion also preserves drive before condition reaches0."
+    },
+    {
+      "private_receipt": "local/recovery-entry-warm-walls-corrected/comparison.json",
+      "observations": 528,
+      "mismatches": 16,
+      "precondition_mismatches": 0,
+      "native_trace_sha256": "2102b96db9232fce31a78da082f3130ae52c03151c1cc4a3ead1ac720f2f4370",
+      "corrected_receipt": "local/recovery-entry-warm-walls-fixed-frozen/recovery-entry-comparison.json",
+      "cause": "Mounted nonangled wall6 clears display yaw before entry; rail3 enters before the clear."
+    },
+    {
+      "private_receipt": "local/recovery-entry-quiet-gentle-valid-before/comparison.json",
+      "observations": 576,
+      "mismatches": 24,
+      "precondition_mismatches": 0,
+      "native_trace_sha256": "f65d4b952a52578f33411884c7f01b02b0795c13ff979ee7e86db3742c1acfa8",
+      "corrected_receipt": "local/recovery-entry-quiet-final/comparison.json",
+      "cause": "Quiet callback clears prior slip before movement, refreshes display yaw, and applies native gentle-landing slipbit1."
+    }
+  ],
+  "deduplication": "Count final576/1 only. Earlier384/432/528 and earlier576withoutgentle samples are superseded; do not add their observations, columns or precondition checks.",
+  "invalid_harness_history": [
+    "Initial C++ build failed warnings-as-errors; no native run.",
+    "First warm-wall adapter dispatched cases9/10 to car callback; invalid callback mapping.",
+    "First warm-rail producer moved from already initialized rail height/lateral and crashed before precondition capture;48 initial states differed.",
+    "Warm-wall adapter initially warmed with the entry lateral velocity7000 instead of the recorded earlier velocity; corrected before accepting nonzero yaw comparisons."
+  ],
+  "limits": [
+    "One callback transaction per controlled case; no variable native actor cadence or whole-game acceptance.",
+    "Hard-landing samples call real mounted physics and do not crash in this measured native matrix; no automatic severe-landing fall is invented.",
+    "Car rows use the actual native car-entry wrapper; overlap detection/contact walk has separate evidence.",
+    "Depletion rows call actual native knock_off with source reason defaults; windup/strike acquisition has separate combat evidence.",
+    "Voluntary dismount is a repo action policy; pinned source has no dismount input flag or wrapper.",
+    "Commercial traces stay private."
+  ],
+  "clippy_log": "local/recovery-entry-clippy-complete.log",
+  "fields_per_snapshot": 35
+}

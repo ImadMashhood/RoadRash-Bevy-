@@ -1,0 +1,140 @@
+# Remaining native-game completion work
+
+Owner instruction, 2026-11-06: complete all remaining required work, using
+sequential chat subtasks. Start the next requirement after the current one is
+implemented and verified. Keep original assets; enhancement and 3D remain gated.
+
+The current working tree already contains verified driving-bounce, billboard
+query/response and native contact-detection corrections. Their evidence remains
+valid for its recorded scope and must be preserved during subsequent changes.
+No full-game or release acceptance is implied by those component checks.
+
+| Order | Work | State | Required exit evidence |
+| --- | --- | --- | --- |
+| 1 | Remaining source scenery: BORR, ordering, markings and loaded slices | Verified; evidence/source-scenery.md | Actual native detection/transactions; preserved failures; old replays; all source course/level imports |
+| 2 | Collision height, jumps, continuous scrapes and dense/topology interactions | Verified; evidence/source-collision-topology.md | Native boundary/incident matrices and deterministic multi-actor replay; visual contact checks |
+| 3 | Simultaneous combat, weapon ownership and complete police behavior | Verified; evidence/source-combat-police.md | Native whole transactions, police stamina/crash/recovery/arrest and contested equipment |
+| 4 | Changing-terrain and repeated-impact recovery | Verified; evidence/source-recovery-terrain.md | Complete trajectories/timing, remount-edge cases and inspected native-art sequences |
+| 5 | Genuine current-source career and ordinary player walkthrough | Verified; evidence/native-career-current.md and source-career-ui.md | All 25 course/level cases, ledger/save audit, independently replayed real commands and clean-profile route |
+| 6 | Replacement release verification and packaging | In progress; release_performance and release_package | Current immutable build, performance/memory/soak, import/install/download checks and reproducible package receipts |
+| 7 | Project-owner release decision | Pending owner review | Concrete candidate and evidence for owner G5 acceptance; never self-signed |
+
+The detailed acceptance source remains [the interaction checklist](COLLISION_COMBAT_PRIORITY.md),
+[the feature manifest](functional-manifest.json), [the defect register](functional-defects.json)
+and Parts 19–22 of the README. Completing a bounded subtask does not close its
+parent while required cases remain untested or failing. Preserve older failed
+and historical release receipts rather than relabeling them as current passes.
+
+The scenery, collision/topology, combat/police, recovery and career subtasks are
+verified. The active release subtask uses `release_performance` and
+`release_package` in this chat. The parent integrates changes and owns the task ledger, defect register,
+overall acceptance and final release validation. The next subtask is created only
+after the preceding requirement is verified.
+
+Implementation audit notes for the collision/topology subtask: mounted source
+movement currently passes population navigation into `Topology::advance`, whose
+fallback prefers the preselected route. Verify actual player steering at split
+boundaries against the native producer, including ground/configuration and
+camera/cache ownership after changing paths. A graph API or a launch-time branch
+mask alone is not evidence that ordinary driving chooses the correct branch.
+
+
+Scenery verification correction: the initial 290/311-case producer/adapter pair
+mixed throttle drive with native steering speed in one column. Those receipts
+are retained privately as invalid harness history, not counted as engine
+failures or accepted parity. Fresh corrected before/fixed runs now cover 638 observations, including multi-tick
+marking state and camera/cache behavior: 527 baseline mismatches and zero after correction.
+
+The collision/topology subtask must also compare the complete mixed object walk:
+the native outer object meets its scenery before later sorted rider/body pairs,
+whereas the present Rust contact pass resolves all rider pairs before scenery.
+Scenery-internal BORR/billboard ordering alone does not prove that mixed sequence.
+Measure sorted-list early exits, callback-updated poses and captured velocities,
+and preserve historical recordings when correcting the ordering.
+
+Verify coordinate conventions at nonzero dual-road offsets in that same subtask:
+source handling ground edges include `RoutePoint.offset`, while the presentation
+view treats lateral values relative to a road center. Compare actual native/Rust
+rider and traffic poses at branch offsets; do not infer correctness from straight
+road tests where the offset is zero. Correct adapters without changing legacy
+replay authority merely to align a picture.
+
+When integrating police as full rider combatants, inherit the chase owner's
+native road half at spawn, including shared sections after a merge. A shared
+road-mask value alone does not reconstruct the owner's retained half or its
+ring-cache flags. Keep bike/body identities and cache cleanup bounded through
+spawn, crashes, recovery, arrest and despawn.
+
+
+Scenery confirmation: the corrected 638-case actual-native trace passes, against
+527 failures under preserved version-0 behavior. Together with the extended
+existing native suite this is 329,902 observations across 26 families. The
+independent 130-case identity inventory reports no conflicting identities and
+explicit current-cache exclusions. The final 25-case factory/replay confirmation
+completed with exit code 0; an earlier background shell returned SIGTERM after
+its test printed pass and is retained separately, not used as the command receipt.
+Global mixed callbacks, steered topology and full moving-body camera episodes
+remain assigned to the subsequent collision/recovery subtasks.
+
+Collision/topology integration passed on the current build: 444 workspace tests,
+36 Python tests, strict workspace Clippy and formatting; all 25 source factories
+at four schedules; ten ordinary steered approaches and independent release
+replays; two inspected actual Bevy branch captures; and the corrected native
+continuous-facade brush at four schedules plus graphical/headless agreement.
+The original brush fixture hits a building corner on tick42 in both native and
+Rust; it remains preserved as failed fixture history. No physics was weakened.
+Private final integration receipt: `local/collision-topology-integration/integration.json`.
+Current aggregate: 568,606 matching native observations across 38 families.
+Full police/fights, complete detached recovery, career and release remain open.
+
+
+Combat/police integration is verified: 517,560 additional deduplicated native
+observations across 15 families, giving **1,086,166 across 53 families** overall.
+The simultaneous kernel contributes64,512, police integration360,056, cop AI92,502,
+cop assets90 and mixed traffic400. LIVE/NONLIVE shared constructor rows and the
+coupled recovery prefix count once; actor-ticks are not added to field ticks.
+All486 workspace tests pass (47 explicit private-data skips), along with36 Python
+tests, strict workspace Clippy, formatting and diff checks. All25 source factories
+pass four replay schedules with combat4/recovery2. Fourteen source-art attacks
+and a natural900-tick cop crash/get-up/walk/mount/remount replay pass four rates;
+actual release game-window replays agree on the final hashes. Cop foot art uses
+an explicit original HIBOB palette6 adaptation because LOCOP has no upright foot
+sprites; no native uniform/raster identity is claimed. Private integration receipt:
+`local/combat-police-integration.json`. Changing-terrain/repeated-impact breadth,
+full career and replacement release remain open. Stage4 starts after these checks.
+
+
+Stage5 carried-condition audit is resolved: the frontend session explicitly uses
+the original bike specification for condition capacity, including when the player
+uses derived specification16. Fifteen actual-data course/bike combinations retain
+50% carried condition and report 50% in the real quit summary. No normalization
+defect was found. Private receipt: `local/career-carried-condition-audit.json`.
+
+
+Recovery integration is verified. Stage4 contributes **371,904 deduplicated native
+observations across 8 families**: terrain 216,718 (400uniqueepisodes), camera 69,120,
+rail window 2,520, recovery contacts 79,610 (three families), entry 576 and manual
+walk 3,360. Zero-walk controls, duplicate centers, actor-ticks and superseded pilots
+are excluded. Overall component total: **1,458,070 across 61 families**.
+Published legacy replay checks pass. The full workspace passes 506 tests/56 explicit
+skips, with an additional new linked-bike safety regression passing separately
+(507 total current tests). Strict workspace Clippy, targeted final test/helper
+Clippy, formatting, 36 Python tests and diff checks pass. All 25 current factories
+pass four schedules. Original-art player recovery passes all five courses, 14 attacks
+and a full cop cycle remain green, and a genuine parked-car wreck completes terminal
+pullback; all four schedules and four actual game-window replays agree. Palette
+harness fallback was corrected without changing authority. Private integration:
+`local/recovery-integration.json`. Stage5 begins after these verified gates.
+
+
+Stage5 is verified: 31 genuine qualifying finishes cover all 25 course/level cases,
+with 124 independent four-schedule replays checking every checkpoint, financial
+transition and saved checksum. Final career: completed, $12,797, bike 8, condition
+98%; five purchases, three paid repairs and six recovered crashes. The unchanged
+final save also opens through ordinary keyboard navigation. The actual UI route
+covers real driving/quit/results, neutral resume, quoted/denied purchase, save/load
+and preference persistence. New source checks pass 508 tests/57 explicit skips,
+36 root Python tests, 16 verifier tests, strict workspace Clippy, formatting and
+diff checks. Evidence: `evidence/native-career-current.md` and
+`evidence/source-career-ui.md`. Replacement release stage6 now begins; no old RC4
+receipt or owner signoff is relabeled as current.

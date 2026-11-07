@@ -1,0 +1,21 @@
+// Coupled cop AI + shared fight/animation + full source motion, until first crash.
+#include "race.hpp"
+namespace rr {using AttackCodes=std::array<std::array<std::array<int8_t,4>,2>,2>;AttackCodes read_attack_codes(const std::vector<uint8_t>&);}
+#include "assets.hpp"
+#include "police.hpp"
+#include "animation.hpp"
+#include "crash.hpp"
+#include <iostream>
+#include <cstdlib>
+int main(int argc,char**argv){try{if(argc!=2){return 2;}rr::Assets assets(argv[1]);auto exe=assets.read("ROADRASH.EXE");auto tables=rr::read_physics_tables(exe);auto specs=rr::read_bike_specs(assets.read("DATA/BIKESPEC.RSC"));auto personalities=rr::read_personalities(exe);auto police=rr::read_police_config(exe);auto crash=rr::read_crash_config(exe);rr::ActorAnimationLibrary library(exe,assets.read("DATA/GLOBAL.RSC"));auto codes=rr::read_attack_codes(exe);const bool live=std::getenv("RR_PIPELINE_NONLIVE")==nullptr;const bool recovery=std::getenv("RR_PIPELINE_RECOVERY")!=nullptr;bool first=true;int id=0;std::cout<<"[";
+ for(int level:{0,4})for(int side:{-1,1})for(int initial:{0,5000})for(int attack:{0,1})for(int gap:{-2561,-2560,-2559,-65,-64,-63,0,63,64,65,300,2559,2560,2561}){
+ if(recovery && (initial!=0 || attack!=1 || (gap!=-63 && gap!=0))){continue;}
+ rr::RouteSample sample{{0,0,500,500,512,512},0,0,0};std::vector<rr::RouteSample> route(2048,sample);std::vector<rr::Opponent> opponents;for(int n=0;n<2;++n){rr::Opponent o;o.spec=specs[0];o.rider_value=75;o.base_speed=100;o.cur2_speed=60;o.lane=0;o.slot=n+1;o.rider=0;opponents.push_back(o);}rr::Race race(route,route,tables,specs[0],75,opponents,level,0,personalities,exe);race.set_ride_library(&library,&codes);race.set_crash_library(library,crash);race.set_police(police,specs,&library);
+ for(size_t n=0;n<race.riders().size();++n){auto&r=race.riders()[n];r.ai=false;r.frozen=false;r.sample=r.previous_sample=n==0?19:n==1?size_t((12800+gap)>>8):500;r.bike.i32(0x1c)=r.bike.i32(0x30)=n==0?4864:n==1?12800+gap:128000;r.bike.i32(0x28)=r.bike.i32(0x3c)=n==1?(attack?64000:0)+side*16000:0;r.bike.i32(0xec)=r.bike.i32(0x108)=0;r.bike.i32(0x18)=1;}
+ if(live){race.set_live_schedule(true);}
+ race.set_rng_state(1);if(!race.spawn_cop(31))throw std::runtime_error("cop spawn");auto&cop=race.riders().back();cop.bike.i32(0x18)=1;cop.bike.i32(0xec)=cop.bike.i32(0x108)=initial;race.set_ticks(0);race.previous_camera_position_=4608;
+ if(!first){std::cout<<",";}first=false;std::cout<<"{\"id\":"<<id++<<",\"live\":"<<(live?"true":"false")<<(recovery?",\"recovery\":true":"")<<",\"level\":"<<level<<",\"side\":"<<side<<",\"initial\":"<<initial<<",\"attack\":"<<attack<<",\"gap\":"<<gap<<",\"seed_after_spawn\":"<<race.rng_state()<<",\"rows\":[";
+ bool saw_crash=false;int remounted_at=-1;
+ for(int tick=0;tick<(recovery?1800:360);++tick){race.set_ticks(tick);race.previous_camera_position_=4608;race.riders()[0].place=3;for(size_t n=0;n<race.riders().size();++n){auto&r=race.riders()[n];const uint32_t controls=n==1&&attack&&(!recovery||!saw_crash)?rr::control_punch:0;if(live){r.bike.i32(0x18)=1;r.half_sched_last=r.sched_last=tick-1;race.run_half_node(r,controls,false);race.run_bike_node(r,controls,false);}else{race.step_rider(r,controls,n==0);}}if(live){race.sort_schedule();}race.collide_riders();if(tick){std::cout<<",";}std::cout<<"["<<tick<<","<<race.rng_state();for(int n:{1,3}){auto&r=race.riders()[size_t(n)];auto&b=r.bike;for(int off:{0x1c,0x28,0x20,0xec,0xf0,0xf4,0x114,0x288,0x2f0,0x2f4})std::cout<<","<<b.i32(off);std::cout<<","<<r.stamina.current<<","<<r.stamina.max<<","<<r.hit_until<<","<<r.steal_until<<","<<r.weapon;const auto&anim=r.crash_active?r.crash_actor.animation:r.ride_animation;std::cout<<","<<int(anim.animation)<<","<<int(anim.frame)<<","<<int(anim.queued);}auto&a=cop.brain;std::cout<<","<<a.state<<","<<a.target_rider<<","<<a.target_step<<","<<a.target_position<<","<<a.target_x<<","<<a.target_speed<<","<<a.replan_ticks<<"]";if(recovery){if(cop.crash_active)saw_crash=true;if(saw_crash&&!cop.crash_active&&remounted_at<0)remounted_at=tick;if(remounted_at>=0&&tick-remounted_at>=30)break;}else if(race.riders()[1].crash_active ||cop.crash_active)break;}std::cout<<"]}";
+ }std::cout<<"]\n";
+}catch(const std::exception&e){std::cerr<<e.what()<<"\n";return 1;}}

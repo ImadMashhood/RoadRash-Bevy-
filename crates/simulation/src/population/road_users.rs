@@ -9,8 +9,6 @@ impl World {
         tick: u64,
         mut random: impl FnMut() -> u32,
     ) -> Result<()> {
-        self.trace.clear();
-        self.cues.clear();
         let Some(player) = e.units.get(&ActorId(1)) else {
             return Ok(());
         };
@@ -23,7 +21,20 @@ impl World {
             .as_ref()
             .map_or(player.recovery.bike_location, |b| b.location);
         let topology = &e.setup.topology;
-        let progress = topology.projected(at).unwrap_or(self.previous_progress);
+        let progress = if e.setup.rules.source_roads.is_some() {
+            player.recovery.body.as_ref().map_or(
+                actors[&ActorId(1)]
+                    .view
+                    .rider
+                    .as_ref()
+                    .unwrap()
+                    .bike
+                    .distance_q8,
+                |body| body.motion.distance_q8,
+            )
+        } else {
+            topology.projected(at).unwrap_or(self.previous_progress)
+        };
         let delta = (progress - self.previous_progress).clamp(-10000, 10000) as i32;
         self.previous_progress = progress;
         let zones = self.setup.zones.clone();
@@ -72,7 +83,29 @@ impl World {
             && !self.agents.values().any(|a| a.kind == Kind::Police)
         {
             let mut location = at;
-            topology.advance(&mut location, 960, None)?;
+            if self.setup.police.is_some() {
+                if let Some(roads) = &e.setup.rules.source_roads {
+                    let index = player
+                        .recovery
+                        .body
+                        .as_ref()
+                        .and_then(|b| b.source_route)
+                        .or(player.source_route)
+                        .ok_or(Error::Invalid("police spawn owner route"))?;
+                    let origin = roads
+                        .origin(topology)
+                        .ok_or(Error::Invalid("police spawn origin"))?;
+                    let distance =
+                        ((((progress + origin) >> 8) - 0x27) * 256 - origin).max(-origin);
+                    location = roads
+                        .location(index, distance, origin, at.lateral, 0)
+                        .ok_or(Error::Invalid("police periodic spawn"))?;
+                } else {
+                    topology.advance(&mut location, -0x27 * 256, None)?;
+                }
+            } else {
+                topology.advance(&mut location, 960, None)?;
+            }
             location.lateral = at.lateral;
             self.spawn(
                 &Spawn {
@@ -213,6 +246,9 @@ impl World {
         let mut remove = vec![];
         let mut reservations: Vec<(u32, i64, i32)> = vec![];
         for a in self.agents.values_mut() {
+            if a.rider.is_some() {
+                continue;
+            }
             a.previous = a.location;
             if a.state == AgentState::Hit {
                 if tick - a.state_since >= 180 {
@@ -238,11 +274,34 @@ impl World {
                 Kind::Vehicle => {
                     if self.setup.functional_traffic && a.subtype != 1 {
                         let nominal = *a.cruise_speed.get_or_insert(a.speed);
-                        let projected = t.projected(a.location).unwrap_or(0);
-                        let index = (i64::from(config.start_sample) + (projected >> 8))
-                            .clamp(0, config.ground.len() as i64 - 1)
-                            as usize;
-                        let ground = config.ground[index];
+                        let ground = if let Some(roads) = &e.setup.rules.source_roads {
+                            let samples = roads
+                                .ground
+                                .get(&a.location.path)
+                                .ok_or(Error::Invalid("vehicle physical ground"))?;
+                            let local =
+                                ((a.location.progress >> 8) as usize).min(samples.len() - 1);
+                            let identity =
+                                roads
+                                    .physical_identity(a.location.path, local as u32)
+                                    .ok_or(Error::Invalid("vehicle physical road identity"))?;
+                            let mut ground = *roads
+                                .ground
+                                .get(&a.location.path)
+                                .and_then(|samples| samples.get(local))
+                                .ok_or(Error::Invalid("vehicle physical ground"))?;
+                            ground.left += identity[2];
+                            ground.right += identity[2];
+                            ground.left_shoulder += identity[2];
+                            ground.right_shoulder += identity[2];
+                            ground
+                        } else {
+                            let projected = t.projected(a.location).unwrap_or(0);
+                            let index = (i64::from(config.start_sample) + (projected >> 8))
+                                .clamp(0, config.ground.len() as i64 - 1)
+                                as usize;
+                            config.ground[index]
+                        };
                         let center = (ground.left + ground.right) * 128;
                         let blocked = |lane: i32| {
                             occupied.iter().any(|(id, _, _, location, _, _)| {
@@ -430,16 +489,26 @@ impl World {
         }
         Ok(())
     }
-    pub(crate) fn combat_positions(&self, topology: &Topology) -> Vec<combat::Position> {
+    pub(crate) fn combat_positions(
+        &self,
+        topology: &Topology,
+        physical: bool,
+    ) -> Vec<combat::Position> {
         self.agents
             .values()
-            .filter(|a| !matches!(a.state, AgentState::Hit | AgentState::Recovering))
+            .filter(|a| {
+                a.rider.is_none() && !matches!(a.state, AgentState::Hit | AgentState::Recovering)
+            })
             .filter_map(|a| {
                 Some(combat::Position {
                     route: 1,
                     branch: topology.paths.get(&a.location.path)?.branch,
                     path: a.location.path,
-                    progress: topology.projected(a.location)?,
+                    progress: if physical {
+                        a.location.progress
+                    } else {
+                        topology.projected(a.location)?
+                    },
                     lateral: a.location.lateral,
                     height: a.location.height,
                 })
@@ -481,6 +550,7 @@ impl World {
                 .values()
                 .filter(|a| {
                     a.kind == Kind::Police
+                        && a.rider.is_none()
                         && !matches!(a.state, AgentState::Hit | AgentState::Recovering)
                         && e.setup
                             .topology
@@ -548,30 +618,213 @@ impl World {
         mut random: impl FnMut() -> u32,
     ) -> Result<()> {
         let mut active = BTreeSet::new();
-        let ids: Vec<_> = self.agents.keys().copied().collect();
-        for id in ids {
+        // The source scans all cars for one bike, stops that bike pass on
+        // crash, then scans all cars again for its detached body. Resolve
+        // each job from current state: a preceding car can create that body.
+        let source = e.setup.rules.combat_version >= 4 && e.setup.rules.collision_version == 2;
+        let mut jobs = Vec::new();
+        if source {
+            for rider in e.units.keys().copied() {
+                for detached in [false, true] {
+                    for agent in self.agents.values().filter(|a| a.kind == Kind::Vehicle) {
+                        jobs.push((agent.id, Some((rider, detached))));
+                    }
+                }
+            }
+            jobs.extend(
+                self.agents
+                    .values()
+                    .filter(|a| a.kind != Kind::Vehicle)
+                    .map(|a| (a.id, None)),
+            );
+        } else {
+            jobs.extend(self.agents.keys().map(|id| (*id, None)));
+        }
+        let mut stopped_bikes = BTreeSet::new();
+        for (id, selected) in jobs {
+            if selected.is_some_and(|(rider, detached)| !detached && stopped_bikes.contains(&rider))
+            {
+                continue;
+            }
             let mut a = self.agents[&id].clone();
-            if matches!(a.state, AgentState::Hit | AgentState::Recovering)
+            if a.rider.is_some()
+                || matches!(a.state, AgentState::Hit | AgentState::Recovering)
                 || (a.kind == Kind::Pedestrian && a.hit_count > 0)
             {
                 continue;
             }
-            for (rider_id, unit) in e.units.clone() {
+            let riders: Vec<_> = if let Some((rider, _)) = selected {
+                vec![(rider, e.units[&rider].clone())]
+            } else {
+                e.units.clone().into_iter().collect()
+            };
+            for (rider_id, unit) in riders {
                 if unit.recovery.outcome.is_some() {
                     continue;
                 }
                 if a.kind == Kind::Vehicle && e.setup.rules.collision_version == 2 {
                     let bike_at = unit.recovery.bike_location;
-                    let bike_here = bike_at.path == a.location.path;
+                    let physical = e.setup.rules.source_roads.is_some();
+                    let here = |at: Location| {
+                        at.path == a.location.path
+                            || (physical
+                                && crate::source_roads::Roads::physical_delta(
+                                    &e.setup.topology,
+                                    at,
+                                    a.location,
+                                )
+                                .is_some())
+                    };
+                    let bike_here = here(bike_at);
                     let rider_here = unit
                         .recovery
                         .body
                         .as_ref()
-                        .is_some_and(|b| b.location.path == a.location.path);
+                        .is_some_and(|b| here(b.location));
                     if !bike_here && !rider_here {
                         continue;
                     }
                     let topology = &e.setup.topology;
+                    if physical
+                        || topology.projected(a.location).is_none()
+                        || topology.projected(a.previous).is_none()
+                    {
+                        let mut hits = [false; 2];
+                        for (index, detached) in [false, true].into_iter().enumerate() {
+                            if selected.is_some_and(|(_, part)| part != detached) {
+                                continue;
+                            }
+                            if detached && e.units[&rider_id].recovery.body.is_none() {
+                                continue;
+                            }
+                            let object = crate::encounter::ContactObject {
+                                owner: rider_id,
+                                detached,
+                            };
+                            let at = e.contact_location(object);
+                            let Some(gap) = crate::source_roads::Roads::physical_delta(
+                                &e.setup.topology,
+                                at,
+                                a.location,
+                            ) else {
+                                continue;
+                            };
+                            if physical {
+                                let own = e.road_identity_object(
+                                    object,
+                                    at.path,
+                                    (at.progress >> 8) as u32,
+                                );
+                                let road = e.road_identity_object(
+                                    object,
+                                    a.location.path,
+                                    (a.location.progress >> 8) as u32,
+                                );
+                                let (Some(own), Some(road)) = (own, road) else {
+                                    continue;
+                                };
+                                if own[3] != 3 && road[3] != 3 && own[3] != road[3] {
+                                    continue;
+                                }
+                            }
+                            let anchor =
+                                i64::from(e.proxy_body(object, actors, c).position[0]) + gap;
+                            let previous = anchor
+                                + crate::source_roads::Roads::physical_delta(
+                                    &e.setup.topology,
+                                    a.location,
+                                    a.previous,
+                                )
+                                .ok_or(Error::Invalid("vehicle previous physical road"))?;
+                            let mut car = crate::collision::Body {
+                                position: [anchor as i32, a.location.lateral, a.location.height],
+                                previous: [previous as i32, a.previous.lateral, a.previous.height],
+                                half: [64, 16384, 8960],
+                                velocity: if a.state == AgentState::Crossing {
+                                    [0, a.speed * i32::from(a.direction) / 4, 0]
+                                } else {
+                                    [a.speed * i32::from(a.direction), 0, 0]
+                                },
+                                speed: a.speed,
+                                mass: 1800,
+                                category: 16,
+                                flags: 0,
+                                impulse: [0; 3],
+                            };
+                            let hit = if detached {
+                                e.source_detached_object_contact(
+                                    rider_id,
+                                    actors,
+                                    &mut car,
+                                    c,
+                                    (tick, effects),
+                                    &mut random,
+                                )?
+                            } else {
+                                e.source_object_contact_with_random(
+                                    rider_id,
+                                    actors,
+                                    &mut car,
+                                    c,
+                                    tick,
+                                    effects,
+                                    &mut random,
+                                )?
+                            };
+                            hits[index] = hit;
+                            if hit
+                                && !detached
+                                && source
+                                && actors[&rider_id].view.rider.as_ref().unwrap().bike.crashed
+                            {
+                                stopped_bikes.insert(rider_id);
+                            }
+                            if hit {
+                                let route = if detached {
+                                    e.units[&rider_id]
+                                        .recovery
+                                        .body
+                                        .as_ref()
+                                        .and_then(|body| body.source_route)
+                                        .or(e.units[&rider_id].source_route)
+                                } else {
+                                    e.units[&rider_id].source_route
+                                };
+                                let context = e
+                                    .setup
+                                    .rules
+                                    .source_roads
+                                    .as_ref()
+                                    .zip(route)
+                                    .map(|(roads, route)| roads.topology(route, &e.setup.topology))
+                                    .transpose()?;
+                                let topology = context.as_ref().unwrap_or(&e.setup.topology);
+                                topology.advance(
+                                    &mut a.location,
+                                    i64::from(car.position[0]) - anchor,
+                                    None,
+                                )?;
+                                a.location.lateral = car.position[1];
+                                a.location.height = car.position[2];
+                                a.previous = a.location;
+                                a.projected = e.setup.topology.projected(a.location);
+                                let key = (rider_id.0 * 2 + u64::from(detached), id);
+                                active.insert(key);
+                                if !self.contacts.contains(&key) {
+                                    effects.push(Effect {
+                                        tick,
+                                        actor: rider_id,
+                                        other: None,
+                                        kind: EffectKind::Contact,
+                                    });
+                                }
+                            }
+                        }
+                        if hits.into_iter().any(|hit| hit) {
+                            self.agents.insert(id, a.clone());
+                        }
+                        continue;
+                    }
                     let mut car = crate::collision::Body {
                         position: [
                             topology.projected(a.location).unwrap() as i32,
@@ -596,9 +849,19 @@ impl World {
                         impulse: [0; 3],
                     };
                     let start = car.position[0];
-                    let bike_hit = bike_here
-                        && e.source_object_contact(rider_id, actors, &mut car, c, tick, effects)?;
-                    let rider_hit = rider_here
+                    let bike_hit = selected.is_none_or(|(_, detached)| !detached)
+                        && bike_here
+                        && e.source_object_contact_with_random(
+                            rider_id,
+                            actors,
+                            &mut car,
+                            c,
+                            tick,
+                            effects,
+                            &mut random,
+                        )?;
+                    let rider_hit = selected.is_none_or(|(_, detached)| detached)
+                        && rider_here
                         && e.source_detached_object_contact(
                             rider_id,
                             actors,
@@ -607,6 +870,12 @@ impl World {
                             (tick, effects),
                             &mut random,
                         )?;
+                    if bike_hit
+                        && source
+                        && actors[&rider_id].view.rider.as_ref().unwrap().bike.crashed
+                    {
+                        stopped_bikes.insert(rider_id);
+                    }
                     for (detached, hit) in [(false, bike_hit), (true, rider_hit)] {
                         if !hit {
                             continue;
@@ -745,6 +1014,7 @@ impl World {
         for p in self.agents.values_mut().filter(|a| {
             (a.kind == Kind::Pedestrian && a.state == AgentState::Crossing && a.hit_count == 0)
                 || (a.kind == Kind::Police
+                    && a.rider.is_none()
                     && !matches!(a.state, AgentState::Hit | AgentState::Recovering))
         }) {
             if cars.iter().any(|car| {
@@ -768,7 +1038,11 @@ impl World {
         Ok(())
     }
     pub(crate) fn animate(&mut self, c: &riding::Configuration, tick: u32) -> Result<()> {
-        for a in self.agents.values_mut().filter(|a| a.kind == Kind::Police) {
+        for a in self
+            .agents
+            .values_mut()
+            .filter(|a| a.kind == Kind::Police && a.rider.is_none())
+        {
             let wanted = if a.state == AgentState::Hit { 33 } else { 2 };
             let code = c.animation.resolve(1, wanted).map_or(2, |i| i as i8);
             if a.animation.code != code {
@@ -843,6 +1117,9 @@ impl World {
         }
     }
     pub(crate) fn progression(&mut self, e: &mut Encounters, actors: &BTreeMap<ActorId, Actor>) {
+        if self.setup.police.is_some() {
+            return;
+        }
         let Some(player) = e.units.get_mut(&ActorId(1)) else {
             return;
         };

@@ -1,0 +1,384 @@
+{
+  "outcome": "passed",
+  "reference_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+  "reference_dirty_paths": [
+    "src/hud.cpp",
+    "tests/hud_test.cpp"
+  ],
+  "compared_reference_sources_clean": true,
+  "probe_access_shim": "Private header copy exposes native handlers for diagnostic calls; declaration layout and linked native library unchanged.",
+  "native_library_sha256": "f530ae9ce4ce031cea19ce022fde138f2a3fd77a52d01fc82cdce148e472fb51",
+  "executable_sha256": "73d7f9744b5b1a9482b3909950cdf3fe34119fe13d023b031e9c6739a60f18a2",
+  "checks": [
+    {
+      "family": "motion",
+      "rows": 108,
+      "native_rows": 108,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "damage",
+      "rows": 35,
+      "native_rows": 35,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "attack_timing",
+      "rows": 458,
+      "native_rows": 458,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "crash_entry",
+      "rows": 24,
+      "native_rows": 24,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "damage_transaction",
+      "rows": 210,
+      "native_rows": 210,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "recovery_motion",
+      "rows": 9,
+      "native_rows": 9,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "recovery_drag",
+      "rows": 1680,
+      "native_rows": 1680,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "fight_impact",
+      "rows": 252,
+      "native_rows": 252,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "fight_sequences",
+      "rows": 53760,
+      "native_rows": 53760,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "strike_transactions",
+      "rows": 336,
+      "native_rows": 336,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "weapon_theft",
+      "rows": 64,
+      "native_rows": 64,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "separation",
+      "rows": 576,
+      "native_rows": 576,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "contact_detection",
+      "rows": 144,
+      "native_rows": 144,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "static_detection",
+      "rows": 1980,
+      "native_rows": 1980,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "bike_contacts",
+      "rows": 2048,
+      "native_rows": 2048,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "car_contacts",
+      "rows": 6144,
+      "native_rows": 6144,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "static_contacts",
+      "rows": 3072,
+      "native_rows": 3072,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "scenery_boxes",
+      "rows": 1663,
+      "native_rows": 1663,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "building_walls",
+      "rows": 20736,
+      "native_rows": 20736,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "recovery_trajectory",
+      "rows": 197877,
+      "native_rows": 197877,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "recovery_regeneration",
+      "rows": 18,
+      "native_rows": 18,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "half_contacts",
+      "rows": 10368,
+      "native_rows": 10368,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "proxy_pairs",
+      "rows": 1728,
+      "native_rows": 1728,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "body_building_walls",
+      "rows": 25920,
+      "native_rows": 25920,
+      "outcome": "passed",
+      "mismatches": 0
+    }
+  ],
+  "native_trace_sha256": "5f901e85cde13abc84c21a24c438011e527ca3eb12f92fa74a096584da4390a2",
+  "physical_original_game_compared": false,
+  "scope": "Normal/fallen bike static-query detector comparisons for authored type-0/1/2 billboard frames, strict midpoint and asymmetric box boundaries, native-max-speed sampling and injected crossing/diagonal controls. BORR, live slice visibility, all static classes, full detached static transactions, reachable curved/vertical trajectories and complete CCD acceptance remain open.",
+  "date": "2026-11-06",
+  "base_revision": "a5eff4c",
+  "total_compared_observations": 329210,
+  "new_family": "static_detection",
+  "new_family_summary": [
+    {
+      "scenario": "longitudinal_midpoint_edge",
+      "rows": 72,
+      "hits": 24,
+      "misses": 48
+    },
+    {
+      "scenario": "lateral_box_edge",
+      "rows": 72,
+      "hits": 48,
+      "misses": 24
+    },
+    {
+      "scenario": "height_edge",
+      "rows": 72,
+      "hits": 20,
+      "misses": 52
+    },
+    {
+      "scenario": "complete_longitudinal_crossing",
+      "rows": 72,
+      "hits": 0,
+      "misses": 72
+    },
+    {
+      "scenario": "diagonal_near_miss",
+      "rows": 72,
+      "hits": 0,
+      "misses": 72
+    },
+    {
+      "scenario": "complete_lateral_crossing",
+      "rows": 72,
+      "hits": 0,
+      "misses": 72
+    },
+    {
+      "scenario": "max_speed_all_sample_fractions",
+      "rows": 1536,
+      "hits": 762,
+      "misses": 774
+    },
+    {
+      "scenario": "grounded_below_raised_frame",
+      "rows": 12,
+      "hits": 0,
+      "misses": 12
+    }
+  ],
+  "fixture": "Authored frame boxes attached through native set_static_frames/ring_statics, then real collide_riders\u2192sweep_statics; Rust imported source_box obstacles.",
+  "native_frame_types": [
+    0,
+    1,
+    2
+  ],
+  "before_correction": {
+    "outcome": "failed",
+    "static_family": {
+      "family": "static_detection",
+      "rows": 1980,
+      "native_rows": 1980,
+      "outcome": "failed",
+      "mismatches": 22,
+      "first_divergence": {
+        "index": 170,
+        "native": [
+          170,
+          0,
+          2,
+          -1,
+          0,
+          0,
+          0,
+          7680,
+          64,
+          8960,
+          2688,
+          0,
+          -15056,
+          2688,
+          0,
+          -13056,
+          1,
+          0
+        ],
+        "rust": [
+          170,
+          0,
+          2,
+          -1,
+          0,
+          0,
+          0,
+          7680,
+          64,
+          8960,
+          2688,
+          0,
+          -15056,
+          2688,
+          0,
+          -13056,
+          1,
+          1
+        ]
+      }
+    },
+    "total_compared_observations": 329210,
+    "native_trace_sha256": "5f901e85cde13abc84c21a24c438011e527ca3eb12f92fa74a096584da4390a2",
+    "native_expected_unchanged_after_fix": true,
+    "rust_family_sha256": "813823217355fb0bc61d542a22ceb056caa32053168aeb47043fbe6bd60ec8e2",
+    "failed_comparison_sha256": "734811d33a6a163e36e2880eae0bb6e8990db2b7c496770ea88144659b18f3b5",
+    "earlier_1968_case_failure": {
+      "mismatches": 16,
+      "comparison_sha256": "3ff615e15c749deba9e43c7a0853b0b6ae9a7c32476ff89542b1732452d9db63"
+    }
+  },
+  "correction": "Optional validated source_box.query_bounds retains pre-response frame geometry; detection uses it when present, while contact response keeps lowered bounds. Missing field retains historical behavior/encoding.",
+  "legacy_recording": {
+    "ticks": 180,
+    "schedules": [
+      "30",
+      "60",
+      "144",
+      "irregular"
+    ],
+    "encoded_sha256": "f434690b138adff9fa33e8640b2a7c47acde88a2b00f66d5068c26f9cec5ae3d",
+    "final_state_sha256": "fe031e380ce44adccf91a046c8b572e0e8d184fe0478b5199b9c590436b8cdeb",
+    "both_hashes_captured_before_optional_field_added": true,
+    "after_correction": "unchanged"
+  },
+  "swept_contact_acceptance": "open",
+  "public_contact_detection_tests_passed": 7,
+  "opt_in_native_tests_passed": 16,
+  "changed_probe_sha256": {
+    "tools/reference/encounters.cpp": "24ac7a883c458e5a58f8774580648d79fd21ca71838407d8c0df6ea3dacba915",
+    "tools/reference/check_encounters.py": "8e7c5dbbed59eaf0f62c56f3b03262324a8647eda600150d18a3481b1272afe5",
+    "crates/simulation/src/native_cases.rs": "c8889c0c3434b48656038a92c0da482426651d041c8ebd153b7fc70329b14c55"
+  },
+  "validation": {
+    "opt_in_native_tests_passed": 16,
+    "public_contact_detection_tests_passed": 7,
+    "simulation_and_game_clippy_all_targets": "passed",
+    "formatting": "passed",
+    "diff_check": "passed"
+  },
+  "runtime_validation": {
+    "workspace_tests_passed": 401,
+    "ordinary_tests_ignored": 17,
+    "private_native_comparison_tests_explicitly_passed": 16,
+    "native_projection_test_explicitly_passed": 1,
+    "python_tests_passed": 36,
+    "workspace_clippy_all_targets": "passed",
+    "source_factory": {
+      "outcome": "passed",
+      "courses": 5,
+      "level": 1,
+      "bikes_per_course": [
+        1,
+        8,
+        15
+      ],
+      "city_character_cases": true,
+      "scene_owners_released": true
+    },
+    "native_gameplay": {
+      "outcome": "passed",
+      "building_volumes": 8929,
+      "static_scenery_volumes": 6,
+      "source_factory_tactics_version": 1,
+      "combat_version": 3,
+      "collision_version": 2,
+      "motion_version": 2,
+      "recovery_version": 1,
+      "native_contact_ticks": 45,
+      "wall_incidents": 0,
+      "final_speed": 11317,
+      "bike_inside_native_boundary": true,
+      "building_boundaries": 5886,
+      "source_physical_scenery_boxes": 6,
+      "schedules": [
+        "30",
+        "60",
+        "144",
+        "irregular"
+      ],
+      "rendered_hash_equal": true,
+      "state_sha256": "a006d8bb19ca2da2ff0e2deeadacc9cfeb2e0bf296f6e86eae97bab6873456e9",
+      "binary_sha256": "b43616326630fe554f025df343094f6075c7ad425dac63097c6d2c810345dcd3",
+      "scope": "Controlled native boundary brush and isolated actors; forward speed preserved, no invented damage or terminal injection. Twelve-second full-field smoke is not career/performance acceptance."
+    },
+    "city_factory_explicit_query_boxes": 6,
+    "release_acceptance": "open"
+  }
+}

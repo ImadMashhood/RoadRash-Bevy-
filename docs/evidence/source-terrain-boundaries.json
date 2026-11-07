@@ -1,0 +1,61 @@
+{
+  "outcome": "passed",
+  "reference_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+  "native_library_sha256": "f530ae9ce4ce031cea19ce022fde138f2a3fd77a52d01fc82cdce148e472fb51",
+  "source_executable_sha256": "73d7f9744b5b1a9482b3909950cdf3fe34119fe13d023b031e9c6739a60f18a2",
+  "original_windows_runtime_compared": false,
+  "observations": 67902,
+  "families": 3,
+  "checks": [
+    {
+      "family": "terrain_boundary_transactions",
+      "observations": 15360,
+      "mismatches": 0,
+      "before_mismatches": 5247,
+      "native_trace_sha256": "0f61d3e2945066b0b8a64b0010bc1307348f9263f08a975b092515f4d0cde3e0",
+      "same_native_before_fixed": true,
+      "before": "local/terrain-boundaries-before-compiled/comparison.json",
+      "fixed": "local/terrain-boundaries-fixed-current/comparison.json"
+    },
+    {
+      "family": "terrain_height_queries",
+      "observations": 18360,
+      "mismatches": 0,
+      "before_mismatches": 8064,
+      "native_trace_sha256": "8f7ed840d9e829117eee042dbe4f03632fa7e301deba419536823036072a36f3",
+      "same_native_before_fixed": true,
+      "before": "local/terrain-ground-isolated-legacy/comparison.json",
+      "fixed": "local/terrain-ground-isolated/comparison.json",
+      "baseline_scope": "Legacy absent surface profile returns the factory old zero terrain ground; not an existing old terrain_height implementation"
+    },
+    {
+      "family": "source_terrain_inventory",
+      "observations": 34182,
+      "mismatches": 0,
+      "before_mismatches": 3229,
+      "native_trace_sha256": "8f7ed840d9e829117eee042dbe4f03632fa7e301deba419536823036072a36f3",
+      "before": "local/terrain-inventory-before/terrain-inventory-comparison.json",
+      "fixed": "local/terrain-inventory-fixed/terrain-inventory-comparison.json",
+      "same_frozen_native_input": true,
+      "surface_class_samples_per_record": 10,
+      "terrain_kind_counts": {
+        "0": 10206,
+        "1": 4416,
+        "3": 244,
+        "4": 19316
+      }
+    }
+  ],
+  "mounted_pipeline_counted_in": "docs/evidence/source-collision-topology.json",
+  "camera_counted_in": "docs/evidence/physical-road-presentation.json",
+  "scope": "Frozen boundary/height queries and every source physical road sample on matching isolated seed-1 terrain stream; mounted trajectory follow-up counted separately; full detached recovery remains stage4",
+  "verification": {
+    "public_boundary_regressions": 5
+  },
+  "invalid_development_receipts": [
+    "local/terrain-boundaries-before: native fixture route too short, producer failure",
+    "local/terrain-boundaries-before-valid: Rust adapter failed to compile",
+    "local/terrain-boundaries-fixed: unrelated in-progress test failed to compile",
+    "local/terrain-ground-fixed-initial/inventory.log: CourseScene interleaved scenery RNG differs from documented Rust isolated terrain stream; full inventory is invalid for engine failure counts"
+  ]
+}

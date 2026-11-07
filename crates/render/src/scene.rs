@@ -24,6 +24,7 @@ pub struct TerrainSample {
     pub kind: TerrainKind,
     pub selectors: [u8; 2],
     pub points: [Vec<[f64; 2]>; 2],
+    pub source_walls: Option<[[i32; 3]; 2]>,
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
 pub enum TerrainKind {
@@ -57,6 +58,8 @@ pub struct Scene {
 #[derive(Default, Serialize)]
 pub struct RenderReceipt {
     pub rider_bounds: Option<[f64; 4]>,
+    /// Body frames submitted to the rasterizer, keyed by disposable actor/proxy id.
+    pub actor_frames: BTreeMap<u64, usize>,
     pub stats: Statistics,
     pub source_samples: usize,
     pub terrain_categories: BTreeMap<String, usize>,
@@ -67,6 +70,103 @@ pub struct RenderReceipt {
     pub framing_policy: String,
 }
 struct Random(u32);
+
+/// LOCOP has no upright foot art; these selected body clips use HIBOB/HISHADOW.
+fn police_foot_display(actor: &rr_simulation::ActorSnapshot) -> bool {
+    actor.id.0 & (1u64 << 63) == 0
+        && actor.encounter.as_ref().is_some_and(|unit| {
+            unit.police
+                && unit.recovery.body.as_ref().is_some_and(|body| {
+                    body.animation
+                        .selected
+                        .is_some_and(|(code, _)| (36..=41).contains(&code))
+                })
+        })
+}
+
+/// Resolve cop falling/quiet-bike clips in a disposable display copy.
+/// Recovery clocks and physical state remain unchanged.
+fn police_recovery_display(
+    actor: &rr_simulation::ActorSnapshot,
+    library: Option<&rr_simulation::animation::Library>,
+) -> Option<rr_simulation::ActorSnapshot> {
+    if police_foot_display(actor) {
+        return None;
+    }
+    let unit = actor.encounter.as_ref().filter(|unit| unit.police)?;
+    let body = unit.recovery.body.as_ref()?;
+    let library = library?;
+    let quiet = actor.id.0 & (1u64 << 63) != 0;
+    let state = if quiet {
+        &unit.recovery.bike_animation
+    } else {
+        &body.animation
+    };
+    let (code, frame) = state.selected?;
+    let resolved = library.resolve(1, code as i8)?;
+    let sequence = library.banks.get(1)?.get(resolved)?.as_ref()?;
+    let descriptor = sequence.get(frame.min(sequence.len().checked_sub(1)?))?;
+    let heading = if quiet {
+        unit.recovery.bike_location.heading
+    } else {
+        body.visual_heading.unwrap_or(body.location.heading)
+    };
+    let (cell, roll) = library.select(1, descriptor, heading, 0).ok()?;
+    let mut copy = actor.clone();
+    let rider = copy.rider.as_mut()?;
+    rider.frame = cell.frame;
+    rider.mirror = cell.flags & 1 != 0;
+    rider.view_flags = cell.flags;
+    rider.roll = roll;
+    Some(copy)
+}
+
+#[cfg(test)]
+mod police_display_tests {
+    use super::police_recovery_display;
+    use rr_simulation::{Command, Simulation, encounter::Setup, fixtures, recovery::Impact};
+
+    #[test]
+    fn missing_cop_recovery_clips_use_source_fallback_without_changing_authority() {
+        let config = fixtures::riding();
+        let setup = Setup::authored(&config).unwrap();
+        let mut sim = Simulation::with_encounters(1, config, setup).unwrap();
+        sim.step(Command {
+            impact: Some(Impact::default()),
+            ..Default::default()
+        })
+        .unwrap();
+        let hash = sim.state_hash();
+        let mut actor = sim.snapshot().actors.remove(0);
+        let unit = actor.encounter.as_mut().unwrap();
+        unit.police = true;
+        unit.recovery.body.as_mut().unwrap().animation.selected = Some((35, 1));
+        unit.recovery.bike_animation.selected = Some((44, 3));
+        let mut library = fixtures::library();
+        library.banks[1][35] = None;
+        library.fallback[35] = 33;
+        library.banks[1][44] = None;
+        library.fallback[44] = 48;
+        library.views[1] = vec![
+            vec![rr_simulation::animation::Cell { frame: 7, flags: 1 }],
+            vec![rr_simulation::animation::Cell { frame: 8, flags: 0 }],
+        ];
+        library.banks[1][48].as_mut().unwrap()[0].render[..4].copy_from_slice(&1u32.to_le_bytes());
+        let original = actor.clone();
+        let body = police_recovery_display(&actor, Some(&library)).unwrap();
+        assert_eq!(body.rider.as_ref().unwrap().frame, 7);
+        assert!(body.rider.as_ref().unwrap().mirror);
+        assert_eq!(body.encounter, actor.encounter);
+        actor.id.0 |= 1u64 << 63;
+        let bike = police_recovery_display(&actor, Some(&library)).unwrap();
+        assert_eq!(bike.rider.as_ref().unwrap().frame, 8);
+        assert!(!bike.rider.as_ref().unwrap().mirror);
+        actor.id.0 &= !(1u64 << 63);
+        assert_eq!(actor, original);
+        assert_eq!(sim.state_hash(), hash);
+    }
+}
+
 impl Random {
     fn draw(&mut self) -> u32 {
         self.0 = self.0.wrapping_mul(214013).wrapping_add(2531011);
@@ -86,6 +186,37 @@ struct HillPoint {
     dh: i32,
 }
 impl Scene {
+    pub fn following_mask(&self, mask: u32) -> Result<Option<Self>> {
+        if mask == self.options.branch_mask {
+            return Ok(None);
+        }
+        let mut options = self.options.clone();
+        options.branch_mask = mask;
+        Self::new(self.course.clone(), self.assets.clone(), options).map(Some)
+    }
+
+    /// Follow the physical road entered by driving, preserving other split choices.
+    pub fn following_node(&self, node: u32) -> Result<Option<Self>> {
+        if self.route.points.iter().any(|point| point.node == node) {
+            return Ok(None);
+        }
+        let count = self.route.choices.len();
+        let current = self.options.branch_mask;
+        let candidates = (0..count)
+            .map(|bit| current ^ (1 << bit))
+            .chain((0..(1 << count)).filter(|mask| (mask ^ current).count_ones() > 1));
+        for mask in candidates {
+            let choices: Vec<_> = (0..count).map(|bit| ((mask >> bit) & 1) as u8).collect();
+            let route = self.course.route(&choices)?;
+            if route.points.iter().any(|point| point.node == node) {
+                let mut options = self.options.clone();
+                options.branch_mask = mask;
+                return Self::new(self.course.clone(), self.assets.clone(), options).map(Some);
+            }
+        }
+        Err("physical rider road is absent from all course routes".into())
+    }
+
     pub fn new(course: Course, assets: SourceAssets, options: SceneOptions) -> Result<Self> {
         if !(1..=5).contains(&options.level)
             || course.splits().len() > 16
@@ -654,6 +785,9 @@ impl Scene {
         }
         if snapshot.actors.iter().any(|a| a.id.0 == 1) {
             for agent in &snapshot.road_users {
+                if agent.rider.is_some() {
+                    continue;
+                }
                 let Some(z) = crate::camera::road_user_depth(snapshot, agent, spec.player_depth_q8)
                 else {
                     continue;
@@ -717,7 +851,12 @@ impl Scene {
                     self,
                     &slices,
                     z,
-                    f64::from(agent.location.lateral) / 256.,
+                    f64::from(agent.location.lateral) / 256.
+                        - road_offset(self, view, z, agent.location.path),
+                    ActorGround {
+                        node: Some(agent.location.path),
+                        height: None,
+                    },
                     spec,
                     &self.assets.depths,
                 );
@@ -747,15 +886,41 @@ impl Scene {
             }
         }
         for actor in &snapshot.actors {
+            let police_display =
+                police_recovery_display(actor, self.assets.police_animation.as_deref());
+            let actor = police_display.as_ref().unwrap_or(actor);
+            if let Some(unit) = actor
+                .encounter
+                .as_ref()
+                .filter(|unit| unit.source_route.is_some())
+                && let Some(body) = &unit.recovery.body
+            {
+                let selected = if actor.id.0 & (1u64 << 63) == 0 {
+                    body.animation.selected
+                } else {
+                    unit.recovery.bike_animation.selected
+                };
+                if selected.is_none() {
+                    continue;
+                }
+            }
             let Some(z) = relative_actor_depth(snapshot, actor, spec.player_depth_q8) else {
                 continue;
             };
             if actor.id.0 == 1 || z > spec.near_q8 {
-                let animation_assets = actor
-                    .encounter
-                    .as_ref()
-                    .and_then(|u| self.assets.palettes.get(&u.color))
-                    .or(self.assets.animations.as_ref());
+                let animation_assets = if actor.encounter.as_ref().is_some_and(|u| u.police) {
+                    if police_foot_display(actor) {
+                        self.assets.police_foot_rider.as_ref()
+                    } else {
+                        self.assets.police_rider.as_ref()
+                    }
+                } else {
+                    actor
+                        .encounter
+                        .as_ref()
+                        .and_then(|u| self.assets.palettes.get(&u.color))
+                        .or(self.assets.animations.as_ref())
+                };
                 let animated = actor
                     .rider
                     .as_ref()
@@ -776,7 +941,10 @@ impl Scene {
                 } else {
                     &sprite.texture
                 };
-                let lateral = if actor.id.0 == 1 {
+                let lateral = if let Some(rider) = &actor.rider {
+                    f64::from(rider.bike.lateral) / 256.
+                        - road_offset(self, view, z, actor.position.section.0)
+                } else if actor.id.0 == 1 {
                     view.lateral
                 } else {
                     actor
@@ -786,7 +954,23 @@ impl Scene {
                             f64::from(r.bike.lateral) / 256.
                         })
                 };
-                let mut anchor = actor_anchor(self, &slices, z, lateral, spec, &self.assets.depths);
+                let mut anchor = actor_anchor(
+                    self,
+                    &slices,
+                    z,
+                    lateral,
+                    ActorGround {
+                        node: actor.rider.as_ref().map(|_| actor.position.section.0),
+                        height: actor
+                            .encounter
+                            .as_ref()
+                            .filter(|unit| unit.source_route.is_some())
+                            .and(actor.rider.as_ref())
+                            .map(|rider| f64::from(rider.bike.previous_ground)),
+                    },
+                    spec,
+                    &self.assets.depths,
+                );
                 if let Some(rider) = &actor.rider {
                     if let Some(shadow) = animation_assets.and_then(|a| a.shadow(rider.frame)) {
                         billboards.push(Billboard {
@@ -811,7 +995,7 @@ impl Scene {
                     anchor[1] += f64::from(rider.bike.height) / 256.;
                 }
                 // Source empty BOB slots mean no body draw, never a stale fallback pose.
-                if actor.rider.is_some() && self.assets.animations.is_some() && animated.is_none() {
+                if actor.rider.is_some() && animation_assets.is_some() && animated.is_none() {
                     continue;
                 }
                 if actor.id.0 == 1 {
@@ -822,6 +1006,9 @@ impl Scene {
                     let left = x - width * pivot[0];
                     let top = y - height * pivot[1];
                     receipt.rider_bounds = Some([left, top, left + width, top + height]);
+                }
+                if let Some(rider) = &actor.rider {
+                    receipt.actor_frames.insert(actor.id.0, rider.frame);
                 }
                 billboards.push(Billboard {
                     id: format!("actor/{:020}", actor.id.0),
@@ -948,6 +1135,7 @@ pub fn terrain_geometry(course: &Course, seed: u32) -> Vec<Vec<TerrainSample>> {
         }
         for (j, path) in section.samples.iter().enumerate() {
             let mut geom = TerrainSample {
+                source_walls: None,
                 kind: TerrainKind::None,
                 selectors: [255; 2],
                 points: [vec![], vec![]],
@@ -958,6 +1146,7 @@ pub fn terrain_geometry(course: &Course, seed: u32) -> Vec<Vec<TerrainSample>> {
                     "DLBR" => geom.kind = TerrainKind::Building,
                     "NTMR" | "DWDR" => {
                         geom.kind = TerrainKind::Wall;
+                        geom.source_walls = Some([[0; 3]; 2]);
                         for side in 0..2 {
                             let records = &t.wall_records[side];
                             if j > 0
@@ -978,6 +1167,11 @@ pub fn terrain_geometry(course: &Course, seed: u32) -> Vec<Vec<TerrainSample>> {
                                     .clamp(0, i32::from(p[4]) * 4);
                             }
                             let height = r.base_height + v[1];
+                            geom.source_walls.as_mut().unwrap()[side] = [
+                                v[0],
+                                v[2] + (i32::from(p[2]) + i32::from(p[5]) * 2) * 2,
+                                height,
+                            ];
                             let height = if height < 1 { -path.elevation } else { height };
                             let shoulder = path.shoulder[side];
                             let a = shoulder + v[0];
@@ -1064,8 +1258,9 @@ pub fn terrain_geometry(course: &Course, seed: u32) -> Vec<Vec<TerrainSample>> {
 }
 
 /// Bind a sprite foot to the same projected strip/depth convention as the road.
-/// Source lookup scales are nonlinear near the camera, so interpolating raw
-/// heights alone is insufficient for ground contact.
+/// Interpolate projected endpoints in lookup-scale space. The source projection
+/// is not reciprocal depth near the camera: using 1/z here makes a grounded rider
+/// bob as the surrounding road samples pass the fixed player depth.
 pub fn contact_anchor(
     near: &Surface,
     far: &Surface,
@@ -1075,12 +1270,18 @@ pub fn contact_anchor(
     spec: &CameraSpec,
     depths: &DepthTable,
 ) -> [f64; 2] {
-    let inv = 1. / z;
-    let beta = ((inv - 1. / near.z) / (1. / far.z - 1. / near.z)).clamp(0., 1.);
     let scale = depths.scale(z);
     if scale <= 0. {
         return [near.x + lateral, near.y + ground[0]];
     }
+    let scale_span = far.scale - near.scale;
+    let beta = if scale_span != 0. {
+        ((scale - near.scale) / scale_span).clamp(0., 1.)
+    } else if far.z != near.z {
+        ((z - near.z) / (far.z - near.z)).clamp(0., 1.)
+    } else {
+        0.
+    };
     let x0 = (near.x + lateral) * near.scale;
     let x1 = (far.x + lateral) * far.scale;
     let y0 = (spec.camera_height - near.y - ground[0]) * near.scale;
@@ -1090,28 +1291,66 @@ pub fn contact_anchor(
         spec.camera_height - (y0 + (y1 - y0) * beta) / scale,
     ]
 }
+fn road_offset(scene: &Scene, view: &View, z: f64, node: u32) -> f64 {
+    let index = ((view.position_q8 + z - 256.).max(0.) / 256.) as usize;
+    scene.route.points.get(index).map_or(0., |point| {
+        f64::from(
+            point
+                .dual
+                .as_ref()
+                .filter(|d| d.node == node)
+                .map_or(point.offset, |d| d.offset),
+        )
+    })
+}
+
+#[derive(Clone, Copy)]
+struct ActorGround {
+    node: Option<u32>,
+    height: Option<f64>,
+}
+
 fn actor_anchor(
     scene: &Scene,
     slices: &[Slice],
     z: f64,
     lateral: f64,
+    ground: ActorGround,
     spec: &CameraSpec,
     depths: &DepthTable,
 ) -> [f64; 2] {
     for pair in slices.windows(2) {
         if pair[0].roads[0].z <= z && z <= pair[1].roads[0].z {
-            let a = &pair[0].roads[pair[0].own as usize];
-            let b = &pair[1].roads[pair[1].own as usize];
-            let near = ground_height(
-                &scene.terrain[a.section as usize][a.local as usize],
-                &a.path,
-                lateral,
-            );
-            let far = ground_height(
-                &scene.terrain[b.section as usize][b.local as usize],
-                &b.path,
-                lateral,
-            );
+            let half = |slice: &Slice| {
+                ground
+                    .node
+                    .and_then(|node| {
+                        scene.route.points.get(slice.index).and_then(|point| {
+                            point
+                                .dual
+                                .as_ref()
+                                .filter(|dual| dual.node == node)
+                                .map(|dual| 1 - dual.half)
+                        })
+                    })
+                    .unwrap_or(slice.own) as usize
+            };
+            let a = &pair[0].roads[half(&pair[0])];
+            let b = &pair[1].roads[half(&pair[1])];
+            let near = ground.height.unwrap_or_else(|| {
+                ground_height(
+                    &scene.terrain[a.section as usize][a.local as usize],
+                    &a.path,
+                    lateral,
+                )
+            });
+            let far = ground.height.unwrap_or_else(|| {
+                ground_height(
+                    &scene.terrain[b.section as usize][b.local as usize],
+                    &b.path,
+                    lateral,
+                )
+            });
             return contact_anchor(a, b, z, lateral, [near, far], spec, depths);
         }
     }

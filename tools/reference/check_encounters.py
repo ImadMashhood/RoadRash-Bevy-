@@ -54,7 +54,7 @@ def main():
     native_env.update(RR_NATIVE_DATA=str(d),RR_NATIVE_EXPECTED=str(o/'native.json'),RR_NATIVE_OUTPUT=str(o),CARGO_TARGET_DIR=str(a.rust.resolve().parent))
     subprocess.run(['cargo','test','--locked','-p','rr-simulation','native_cases::native_','--','--ignored'],env=native_env,check=True)
     checks=[]
-    for name in ['motion','damage','attack_timing','crash_entry','damage_transaction','recovery_motion','recovery_drag','fight_impact','fight_sequences','strike_transactions','weapon_theft','separation','bike_contacts','car_contacts','static_contacts','scenery_boxes','building_walls','recovery_trajectory','recovery_regeneration','half_contacts','proxy_pairs','body_building_walls']:
+    for name in ['motion','damage','attack_timing','crash_entry','damage_transaction','recovery_motion','recovery_drag','fight_impact','fight_sequences','strike_transactions','weapon_theft','separation','contact_detection','static_detection','bike_contacts','car_contacts','static_contacts','scenery_boxes','borr_slots','building_walls','recovery_trajectory','recovery_regeneration','half_contacts','proxy_pairs','body_building_walls']:
         result=json.loads((o/f'{name}-rust.json').read_bytes())
         checks.append(compare_cases(name,expected[name],result))
     outcome='passed' if all(row['outcome']=='passed' for row in checks) else 'failed'

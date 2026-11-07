@@ -1,0 +1,249 @@
+{
+  "outcome": "passed",
+  "reference_revision": "7aecf6044f2dd773b925b325823f30d648d61c89",
+  "reference_dirty_paths": [
+    "src/hud.cpp",
+    "tests/hud_test.cpp"
+  ],
+  "compared_reference_sources_clean": true,
+  "probe_access_shim": "Private header copy exposes native handlers for diagnostic calls; declaration layout and linked native library unchanged.",
+  "native_library_sha256": "f530ae9ce4ce031cea19ce022fde138f2a3fd77a52d01fc82cdce148e472fb51",
+  "executable_sha256": "73d7f9744b5b1a9482b3909950cdf3fe34119fe13d023b031e9c6739a60f18a2",
+  "checks": [
+    {
+      "family": "motion",
+      "rows": 108,
+      "native_rows": 108,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "damage",
+      "rows": 35,
+      "native_rows": 35,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "attack_timing",
+      "rows": 458,
+      "native_rows": 458,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "crash_entry",
+      "rows": 24,
+      "native_rows": 24,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "damage_transaction",
+      "rows": 210,
+      "native_rows": 210,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "recovery_motion",
+      "rows": 9,
+      "native_rows": 9,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "recovery_drag",
+      "rows": 1680,
+      "native_rows": 1680,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "fight_impact",
+      "rows": 252,
+      "native_rows": 252,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "fight_sequences",
+      "rows": 53760,
+      "native_rows": 53760,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "strike_transactions",
+      "rows": 336,
+      "native_rows": 336,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "weapon_theft",
+      "rows": 64,
+      "native_rows": 64,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "separation",
+      "rows": 576,
+      "native_rows": 576,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "contact_detection",
+      "rows": 144,
+      "native_rows": 144,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "bike_contacts",
+      "rows": 2048,
+      "native_rows": 2048,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "car_contacts",
+      "rows": 6144,
+      "native_rows": 6144,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "static_contacts",
+      "rows": 3072,
+      "native_rows": 3072,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "scenery_boxes",
+      "rows": 1663,
+      "native_rows": 1663,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "building_walls",
+      "rows": 20736,
+      "native_rows": 20736,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "recovery_trajectory",
+      "rows": 197877,
+      "native_rows": 197877,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "recovery_regeneration",
+      "rows": 18,
+      "native_rows": 18,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "half_contacts",
+      "rows": 10368,
+      "native_rows": 10368,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "proxy_pairs",
+      "rows": 1728,
+      "native_rows": 1728,
+      "outcome": "passed",
+      "mismatches": 0
+    },
+    {
+      "family": "body_building_walls",
+      "rows": 25920,
+      "native_rows": 25920,
+      "outcome": "passed",
+      "mismatches": 0
+    }
+  ],
+  "native_trace_sha256": "0ea55372a9a572c8b17b9f3775772f67263a06d4863f2fc015cb445668db1934",
+  "physical_original_game_compared": false,
+  "scope": "Actual native sorted rider contact scan and Rust world contact scan with controlled previous/current poses, mounted/fallen box extents, 0/30000 velocities, inclusive endpoint edges, full crossings and diagonal near misses. Complete source-box scenery sweeps, reachable 60 Hz crossing trajectories and continuous collision acceptance remain open.",
+  "date": "2026-11-06",
+  "base_revision": "a5eff4c",
+  "new_family": "contact_detection",
+  "previous_compared_observations": 327086,
+  "total_compared_observations": 327230,
+  "new_family_summary": [
+    {
+      "scenario": "longitudinal_endpoint",
+      "rows": 24,
+      "hits": 16,
+      "misses": 8
+    },
+    {
+      "scenario": "lateral_endpoint",
+      "rows": 24,
+      "hits": 16,
+      "misses": 8
+    },
+    {
+      "scenario": "height_endpoint",
+      "rows": 24,
+      "hits": 16,
+      "misses": 8
+    },
+    {
+      "scenario": "complete_longitudinal_crossing",
+      "rows": 24,
+      "hits": 0,
+      "misses": 24
+    },
+    {
+      "scenario": "complete_lateral_crossing",
+      "rows": 24,
+      "hits": 0,
+      "misses": 24
+    },
+    {
+      "scenario": "diagonal_near_miss",
+      "rows": 24,
+      "hits": 0,
+      "misses": 24
+    }
+  ],
+  "new_family_observations": 144,
+  "new_family_mismatches": 0,
+  "swept_contact_acceptance": "open",
+  "native_crossing_behavior": "Endpoint-only: both native and Rust miss controlled paths whose endpoints clear the target, including paths crossing through it.",
+  "normal_native_max_speed": 30000,
+  "normal_native_zero_acceleration_step_q8": 117,
+  "complete_longitudinal_probe_step_q8": [
+    259,
+    260,
+    261
+  ],
+  "controlled_pose_warning": "Full longitudinal/lateral crossings are injected diagnostic poses and must not be represented as ordinarily reachable one-tick native riding.",
+  "native_producer_sha256": "a621b77b6c30162a0c97a40da89b1373a24e6150b7847c35895e2233db097e25",
+  "changed_probe_sha256": {
+    "tools/reference/encounters.cpp": "da7183ae4dbb0342ce17094e1eac2e254adecd51b114360d0a95dbb8dafe8138",
+    "tools/reference/check_encounters.py": "7a6d98bc379865cbf04342e42040673872803d422883f86eb09418a8509f18a8",
+    "crates/simulation/src/native_cases.rs": "bc9a8f9cdef1131fa059aa5a185369f7324f618c18ba35e788d41c99bb18e7e6"
+  },
+  "public_regressions": {
+    "target": "contact_detection",
+    "passed": 2
+  },
+  "validation": {
+    "private_native_tests_passed": 15,
+    "simulation_clippy_all_targets": "passed",
+    "formatting": "passed",
+    "diff_check": "passed"
+  }
+}

@@ -245,6 +245,7 @@ impl Shell {
                 .snapshot()
                 .actors
                 .iter()
+                .filter(|actor| !actor.encounter.as_ref().is_some_and(|unit| unit.police))
                 .map(|a| Entry {
                     actor: a.id,
                     name: if a.id == ActorId(1) {
@@ -409,8 +410,40 @@ fn apply(world: &mut World, action: Act) {
                 Act::Begin(mode) => shell.frontend.begin(mode),
                 Act::Open(screen) => {
                     shell.frontend.open(screen)?;
+                    shell.notice.clear();
+                    shell.notice_page = 0;
                     if screen == Screen::Paused {
                         world.resource_mut::<PauseState>().paused = true;
+                    }
+                    if screen == Screen::Purchase {
+                        let career = shell
+                            .frontend
+                            .career
+                            .as_ref()
+                            .ok_or("Start a Big Game first")?;
+                        let price = shell.catalog.bike(shell.frontend.selected_bike)?.price;
+                        let trade = shell.catalog.bike(career.bike)?.price / 2;
+                        let balance = i64::from(price) - i64::from(trade);
+                        let total = if balance >= 0 {
+                            format!("To pay: ${balance}")
+                        } else {
+                            format!("Cash back: ${}", -balance)
+                        };
+                        shell.notice = format!(
+                            "Price: ${price}\nTrade-in: ${trade}\n{total}\nCash available: ${}",
+                            career.cash
+                        );
+                        shell.notice_page = 0;
+                    } else if screen == Screen::Repair {
+                        let career = shell
+                            .frontend
+                            .career
+                            .as_ref()
+                            .ok_or("Start a Big Game first")?;
+                        let cost = career.repair_quote(&shell.catalog)?;
+                        shell.notice =
+                            format!("Repair cost: ${cost}\nCash available: ${}", career.cash);
+                        shell.notice_page = 0;
                     }
                 }
                 Act::Back => {
@@ -418,9 +451,12 @@ fn apply(world: &mut World, action: Act) {
                         return resume(world, &mut shell);
                     }
                     shell.frontend.back();
+                    shell.notice.clear();
+                    shell.notice_page = 0;
                 }
                 Act::Main => {
                     shell.frontend.return_main();
+                    shell.notice.clear();
                     release_race(world, &mut shell);
                 }
                 Act::Character(id) => {
@@ -462,6 +498,8 @@ fn apply(world: &mut World, action: Act) {
                     shell.catalog.bike(bike)?;
                     shell.frontend.selected_bike = bike;
                     shell.frontend.open(Screen::Bike)?;
+                    shell.notice.clear();
+                    shell.notice_page = 0;
                 }
                 Act::Buy => {
                     let catalog = shell.catalog.clone();
@@ -701,6 +739,7 @@ fn apply(world: &mut World, action: Act) {
                 Act::Videos => shell.frontend.settings.videos = !shell.frontend.settings.videos,
                 Act::Continue => {
                     shell.frontend.return_from_results()?;
+                    shell.notice.clear();
                     release_race(world, &mut shell);
                 }
                 Act::Resume => return resume(world, &mut shell),
@@ -736,6 +775,7 @@ fn resume(world: &mut World, shell: &mut Shell) -> Result<(), String> {
     shell.frontend.screen = Screen::Racing;
     world.resource_mut::<PauseState>().paused = false;
     world.resource_mut::<PauseState>().release_required = false;
+    shell.notice.clear();
     Ok(())
 }
 fn release_race(world: &mut World, shell: &mut Shell) {
@@ -769,37 +809,7 @@ fn coordinate(world: &mut World) {
             let catalog = shell.catalog.clone();
             match shell.frontend.completed(&catalog, summary) {
                 Ok(()) => {
-                    if shell.frontend.mode == Mode::BigGame {
-                        let mut events = std::mem::take(&mut shell.social_events);
-                        if shell
-                            .frontend
-                            .settlement
-                            .as_ref()
-                            .is_some_and(|s| s.game_over)
-                        {
-                            events.clear();
-                        }
-                        let language = shell.frontend.settings.language;
-                        let character = shell.frontend.character;
-                        let mut relations =
-                            shell.frontend.career.as_ref().and_then(|c| c.relationships);
-                        if let Some(text) = shell.texts.get(&language) {
-                            if relations.is_none() {
-                                relations = text.dialogue.relations(character).ok();
-                            }
-                            if let Some(values) = &mut relations {
-                                for (partner, event) in events {
-                                    text.dialogue
-                                        .react(values, partner, event)
-                                        .map_err(|e| e.to_string())
-                                        .unwrap_or_else(|e| warn!("Social event: {e}"));
-                                }
-                            }
-                        }
-                        if let Some(career) = shell.frontend.career.as_mut() {
-                            career.relationships = relations;
-                        }
-                    }
+                    settle_social(&mut shell);
                     if shell.frontend.mode == Mode::BigGame
                         && let Err(e) = save(world, &shell)
                     {
@@ -934,6 +944,42 @@ fn presentation_preferences(
     }
     if let Some(accessibility) = accessibility.as_deref_mut() {
         accessibility.reduced_motion = shell.frontend.settings.reduced_motion;
+    }
+}
+
+/// Apply the observed race social events through the same source dialogue rules.
+/// Shared with the real-command career verifier; this never changes gameplay RNG.
+pub(crate) fn settle_social(shell: &mut Shell) {
+    if shell.frontend.mode != Mode::BigGame {
+        return;
+    }
+    let mut events = std::mem::take(&mut shell.social_events);
+    if shell
+        .frontend
+        .settlement
+        .as_ref()
+        .is_some_and(|s| s.game_over)
+    {
+        events.clear();
+    }
+    let language = shell.frontend.settings.language;
+    let character = shell.frontend.character;
+    let mut relations = shell.frontend.career.as_ref().and_then(|c| c.relationships);
+    if let Some(text) = shell.texts.get(&language) {
+        if relations.is_none() {
+            relations = text.dialogue.relations(character).ok();
+        }
+        if let Some(values) = &mut relations {
+            for (partner, event) in events {
+                text.dialogue
+                    .react(values, partner, event)
+                    .map_err(|e| e.to_string())
+                    .unwrap_or_else(|e| warn!("Social event: {e}"));
+            }
+        }
+    }
+    if let Some(career) = shell.frontend.career.as_mut() {
+        career.relationships = relations;
     }
 }
 

@@ -7,7 +7,10 @@ use bevy::{
     render::render_resource::{Extent3d, TextureDimension, TextureFormat},
     window::PrimaryWindow,
 };
-use rr_render::{CameraSpec, Scene, camera::snapshot_view};
+use rr_render::{
+    CameraSpec, Scene,
+    camera::{route_camera_spec, route_encounter_snapshot, route_snapshot_view},
+};
 use std::sync::Arc;
 #[derive(Resource)]
 pub struct CoursePresentation {
@@ -16,9 +19,14 @@ pub struct CoursePresentation {
     pub start_q8: f64,
 }
 #[derive(Resource)]
-struct CourseSurface(Handle<Image>);
+struct CourseSurface(Handle<Image>, FollowingScene);
 #[derive(Component)]
 struct CourseScreen;
+#[derive(Default)]
+struct FollowingScene {
+    source: Option<Arc<Scene>>,
+    selected: Option<Arc<Scene>>,
+}
 pub fn has_course(course: Option<Res<CoursePresentation>>) -> bool {
     course.is_some()
 }
@@ -71,12 +79,16 @@ fn setup(
             ..OrthographicProjection::default_2d()
         }),
     ));
-    commands.insert_resource(CourseSurface(handle));
+    commands.insert_resource(CourseSurface(handle, FollowingScene::default()));
 }
 fn visibility(
     course: Option<Res<CoursePresentation>>,
+    mut surface: ResMut<CourseSurface>,
     mut screens: Query<&mut Visibility, With<CourseScreen>>,
 ) {
+    if course.is_none() {
+        surface.1 = FollowingScene::default();
+    }
     for mut visible in &mut screens {
         *visible = if course.is_some() {
             Visibility::Visible
@@ -122,20 +134,61 @@ fn draw(
     mut images: ResMut<Assets<Image>>,
     mut last_mode: Local<Option<bool>>,
 ) {
-    let previous = rr_render::camera::encounter_snapshot(&view.1);
-    let current = rr_render::camera::encounter_snapshot(&view.0);
-    let mut camera = snapshot_view(&previous, &current, view.2, course.start_q8);
+    let selected = &mut surface.1;
+    if selected
+        .source
+        .as_ref()
+        .is_none_or(|source| !Arc::ptr_eq(source, &course.scene))
+    {
+        selected.source = Some(course.scene.clone());
+        selected.selected = None;
+    }
+    let active = selected.selected.as_ref().unwrap_or(&course.scene);
+    let player = view
+        .0
+        .actors
+        .iter()
+        .find(|actor| actor.id.0 == 1)
+        .and_then(|actor| actor.encounter.as_ref());
+    let player_node = player.map(|unit| {
+        unit.recovery
+            .body
+            .as_ref()
+            .map_or(unit.recovery.bike_location.path, |body| body.location.path)
+    });
+    let following = if let Some(mask) = player.and_then(|unit| {
+        unit.recovery
+            .body
+            .as_ref()
+            .and_then(|body| body.source_route)
+            .or(unit.source_route)
+    }) {
+        Some(active.following_mask(u32::from(mask)))
+    } else {
+        player_node
+            .filter(|node| active.course.nodes.contains_key(node))
+            .map(|node| active.following_node(node))
+    };
+    if let Some(following) = following {
+        match following {
+            Ok(Some(scene)) => selected.selected = Some(Arc::new(scene)),
+            Ok(None) => {}
+            Err(error) => {
+                error!("course route selection: {error}");
+                return;
+            }
+        }
+    }
+    let scene = selected.selected.as_ref().unwrap_or(&course.scene);
+    let previous = route_encounter_snapshot(&scene.route, &view.1);
+    let current = route_encounter_snapshot(&scene.route, &view.0);
+    let mut camera =
+        route_snapshot_view(&scene.route, &previous, &current, view.2, course.start_q8);
     camera.position_q8 = camera
         .position_q8
-        .clamp(0., course.scene.route.len_q8() as f64 - 1.);
+        .clamp(0., scene.route.len_q8() as f64 - 1.);
     if accessibility.is_some_and(|a| a.reduced_motion) {
-        let sample = (camera.position_q8.max(0.) / 256.) as usize;
-        camera.lateral = course
-            .scene
-            .route
-            .points
-            .get(sample)
-            .map_or(0., |p| f64::from(p.offset));
+        camera.lateral = 0.;
     }
     let enhanced = visual.initially_enhanced ^ visual.switch_tick.is_some_and(|t| view.0.tick >= t);
     if last_mode.is_some_and(|mode| mode != enhanced) {
@@ -146,12 +199,10 @@ fn draw(
     }
     *last_mode = Some(enhanced);
     let snapshot = rr_render::camera::interpolated_snapshot(&previous, &current, view.2);
+    let camera_spec = route_camera_spec(&scene.route, &course.camera, &previous, &current, view.2);
     let start = std::time::Instant::now();
     let workers = std::thread::available_parallelism().map_or(1, |n| n.get().min(6));
-    let rendered =
-        course
-            .scene
-            .draw_parallel(&course.camera, &camera, &snapshot, enhanced, workers);
+    let rendered = scene.draw_parallel(&camera_spec, &camera, &snapshot, enhanced, workers);
     if let Some(timing) = timing.as_deref_mut() {
         timing.cpu_draw_ms = start.elapsed().as_secs_f64() * 1000.;
         timing.draws += 1;
@@ -272,8 +323,13 @@ mod session_surface_tests {
             );
             assert_eq!(app.world().resource::<Assets<Image>>().len(), first);
         }
+        let scene = Arc::downgrade(&app.world().resource::<CoursePresentation>().scene);
         app.world_mut().remove_resource::<CoursePresentation>();
         app.update();
+        assert!(
+            scene.upgrade().is_none(),
+            "leaving a race must release its cached source scene"
+        );
         let mut query = app
             .world_mut()
             .query_filtered::<&Visibility, With<CourseScreen>>();

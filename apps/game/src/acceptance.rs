@@ -43,6 +43,8 @@ pub(super) fn run(
         if career.completed {
             break;
         }
+        let preparation_before = career.clone();
+        let mut transactions = vec![];
         // Earn upgrades by replaying the current-level Peninsula race; these are
         // ordinary prize transactions, not seeded money or forced qualifications.
         let goal = [1u8, 13, 7, 10, 8][usize::from(career.level - 1)] - 1;
@@ -53,17 +55,21 @@ pub(super) fn run(
             && career.cash + u64::from(catalog.bike(career.bike)?.price / 2)
                 >= u64::from(upgrade.price) + reserve
         {
+            let before = career.clone();
             career.purchase(&catalog, goal, career.revision())?;
+            transactions.push(serde_json::json!({"kind":"purchase","from_bike":before.bike,"to_bike":goal,"price":upgrade.price,"trade_in":catalog.bike(before.bike)?.price/2,"cash_before":before.cash,"cash_after":career.cash}));
         }
         let needs_upgrade = catalog.bike(career.bike)?.price < upgrade.price;
-        let course = if needs_upgrade {
+        let course = if needs_upgrade && career.level < 4 {
             3
         } else {
             (0..5).find(|i| career.qualified & (1 << i) == 0).unwrap() as u8 + 1
         };
         let cost = career.repair_quote(&catalog)?;
         if cost <= career.cash {
-            career.repair(&catalog, career.revision())?;
+            let before = career.clone();
+            let paid = career.repair(&catalog, career.revision())?;
+            transactions.push(serde_json::json!({"kind":"repair","quote":cost,"paid":paid,"cash_before":before.cash,"cash_after":career.cash,"condition_before":before.condition,"condition_after":career.condition}));
         }
         let mut launch = options.clone();
         launch.level = career.level;
@@ -93,6 +99,20 @@ pub(super) fn run(
         )
         .0;
         let record = sim.recording_setup(attempt as u32 + 1)?;
+        let encounter = record
+            .encounter
+            .as_ref()
+            .ok_or("Source encounter required")?;
+        if encounter.rules.assists.fast_recovery
+            || encounter.rules.assists.rescue_unreachable
+            || encounter.seeds.len() != 15
+            || record
+                .population
+                .as_ref()
+                .is_none_or(|p| p.police.is_none())
+        {
+            return Err("Career acceptance requires the full source field, police and disabled recovery assists".into());
+        }
         let mut frontend = rr_session::flow::Frontend::default();
         frontend.mode = Mode::BigGame;
         frontend.character = career.character;
@@ -102,6 +122,11 @@ pub(super) fn run(
         frontend.career = Some(career.clone());
         let id = career.allocate_race()?;
         let mut session = frontend::Shell::make_session(&frontend, &catalog, &sim, id);
+        let condition_capacity = session.condition_capacity();
+        let mut social = frontend::Shell::new(&launch, &sim, false);
+        social.frontend = frontend;
+        social.frontend.career = Some(career.clone());
+        let mut pilot = Driver::default();
         let mut commands = vec![];
         let mut previous = None;
         let mut crashes = 0;
@@ -112,7 +137,7 @@ pub(super) fn run(
                 continue;
             }
             let snapshot = sim.snapshot();
-            let command = drive(
+            let command = pilot.command(
                 &snapshot,
                 record.handling.as_ref().unwrap(),
                 record.encounter.as_ref().unwrap(),
@@ -127,6 +152,7 @@ pub(super) fn run(
                 previous = Some(command);
             }
             sim.step(command)?;
+            frontend::observe_social(&mut social, &sim);
             crashes += sim
                 .effects()
                 .iter()
@@ -164,6 +190,14 @@ pub(super) fn run(
             .settle(&catalog, summary)?
             .ok_or("No career settlement")?;
         assert!(career.settle(&catalog, summary)?.is_none());
+        social.frontend.career = Some(career.clone());
+        social.frontend.settlement = Some(settlement.clone());
+        frontend::settle_social(&mut social);
+        career = social
+            .frontend
+            .career
+            .take()
+            .ok_or("Social settlement lost career")?;
         let bytes = persistence::encode(&career, &catalog, &requirements)?;
         disk::write(
             &save,
@@ -186,8 +220,9 @@ pub(super) fn run(
         rr_simulation::replay::Replay::read(&replay_bytes)?;
         std::fs::write(&replay_path, replay_bytes)?;
         let report = serde_json::json!({"attempt":attempt+1,"level":launch.level,"course":launch.course,"bike":launch.bike,
+            "authority_profile":{"combat":replay.encounter.as_ref().unwrap().rules.combat_version,"recovery":replay.encounter.as_ref().unwrap().rules.body.recovery_version,"contact_walk":replay.encounter.as_ref().unwrap().rules.contact_walk_version,"opponents":14,"police":true,"recovery_assists":false},
             "ticks":sim.tick().0,"outcome":summary.outcome(),"place":summary.place(),"crashes":crashes,
-            "settlement":settlement,"money_before":before.0,"money_after":career.cash,"qualified":career.qualified,
+            "settlement":settlement,"preparation_before":preparation_before,"shop_transactions":transactions,"condition_capacity":condition_capacity,"condition_initial_percent":launch.condition_percent,"condition_final_percent":summary.bike_condition(),"money_before":before.0,"money_after":career.cash,"qualified":career.qualified,
             "state_sha256":sim.state_hash(),"wall_ms":wall.elapsed().as_millis(),"replay":replay_path.file_name().and_then(|s|s.to_str())});
         eprintln!("{}", report);
         records.push(report);
@@ -300,10 +335,61 @@ fn wreck(options: &LaunchOptions, output: &Path) -> Result<(), Box<dyn std::erro
     )?;
     Ok(())
 }
+/// Route-specific planning state. The recorded commands remain the sole race input.
+#[derive(Default)]
+pub(super) struct Driver {
+    routes: std::collections::BTreeMap<
+        u8,
+        (
+            rr_simulation::riding::Configuration,
+            rr_simulation::topology::Topology,
+        ),
+    >,
+}
+impl Driver {
+    pub(super) fn command(
+        &mut self,
+        snapshot: &rr_simulation::Snapshot,
+        config: &rr_simulation::riding::Configuration,
+        encounter: &rr_simulation::encounter::Setup,
+    ) -> Command {
+        if let Some((roads, route)) = encounter.rules.source_roads.as_ref().zip(
+            snapshot
+                .actors
+                .first()
+                .and_then(|a| a.encounter.as_ref())
+                .and_then(|u| u.source_route),
+        ) && route != roads.initial
+        {
+            let (config, topology) = self.routes.entry(route).or_insert_with(|| {
+                let mut current = config.clone();
+                current.ground = roads.ground(route).expect("validated source driver ground");
+                (
+                    current,
+                    roads
+                        .topology(route, &encounter.topology)
+                        .expect("validated source driver route"),
+                )
+            });
+            return drive_on_route(snapshot, config, encounter, topology);
+        }
+        drive_on_route(snapshot, config, encounter, &encounter.topology)
+    }
+}
+
 pub(super) fn drive(
     snapshot: &rr_simulation::Snapshot,
     config: &rr_simulation::riding::Configuration,
     encounter: &rr_simulation::encounter::Setup,
+) -> Command {
+    Driver::default().command(snapshot, config, encounter)
+}
+
+fn drive_on_route(
+    snapshot: &rr_simulation::Snapshot,
+    config: &rr_simulation::riding::Configuration,
+    encounter: &rr_simulation::encounter::Setup,
+    topology: &rr_simulation::topology::Topology,
 ) -> Command {
     let hazards = &encounter.rules.obstacles;
     let physical_hazard = |o: &rr_simulation::encounter::Obstacle| {
@@ -311,9 +397,12 @@ pub(super) fn drive(
             && !(o.kind == rr_simulation::encounter::ObstacleKind::Building
                 && !encounter.rules.building_boundaries.is_empty())
     };
-    let topology = &encounter.topology;
     let ground = &config.ground;
     let start = config.start_sample;
+    let route = snapshot.actors[0]
+        .encounter
+        .as_ref()
+        .and_then(|u| u.source_route);
     let actor = &snapshot.actors[0];
     let bike = &actor.rider.as_ref().unwrap().bike;
     let unit = actor.encounter.as_ref().unwrap();
@@ -455,13 +544,28 @@ pub(super) fn drive(
                         let section = &sections[i];
                         if section.building && section.flags & 0x38 == 0 {
                             let widen = (((projected_at.progress & 255) * 250 / 3) >> 8) as i32;
-                            let left = section.outer[0]
+                            let offset = encounter
+                                .rules
+                                .source_roads
+                                .as_ref()
+                                .and_then(|roads| {
+                                    route.and_then(|route| roads.profiles.get(usize::from(route)))
+                                })
+                                .and_then(|profile| {
+                                    profile.identity(
+                                        projected_at.path,
+                                        (projected_at.progress >> 8) as u32,
+                                    )
+                                })
+                                .map_or(0, |identity| identity[2]);
+                            let left = offset + section.outer[0]
                                 - if section.selectors[0] == 255 {
                                     widen
                                 } else {
                                     0
                                 };
-                            let right = section.outer[1]
+                            let right = offset
+                                + section.outer[1]
                                 + if section.selectors[1] == 255 {
                                     widen
                                 } else {
@@ -518,10 +622,13 @@ pub(super) fn drive(
                             },
                             None,
                         );
-                        if other_at.path != projected_at.path {
+                        let Some(gap) = rr_simulation::source_roads::Roads::physical_delta(
+                            topology,
+                            projected_at,
+                            other_at,
+                        ) else {
                             continue;
-                        }
-                        let p = other_at.progress;
+                        };
                         let lateral = other.location.lateral
                             + if other.state == rr_simulation::population::AgentState::Crossing {
                                 other.speed * i32::from(other.direction)
@@ -535,11 +642,16 @@ pub(super) fn drive(
                                 0
                             };
                         let (long_clearance, side_clearance) = match other.kind {
-                            rr_simulation::population::Kind::Vehicle => (160, 27000),
+                            // Cars can choose a new lane and move laterally by 1024
+                            // per tick. Reserve that reachable band, rather than
+                            // assuming their current lateral position is fixed.
+                            rr_simulation::population::Kind::Vehicle => {
+                                (384, 30000 + (ahead as i32 * 1024).min(48000))
+                            }
                             rr_simulation::population::Kind::Police => (72, 10000),
                             rr_simulation::population::Kind::Pedestrian => (72, 10000),
                         };
-                        if (p - world_progress).abs() < long_clearance
+                        if gap.abs() < long_clearance
                             && (b.lateral - lateral).abs() < side_clearance
                         {
                             score += 100_000_000;
@@ -595,5 +707,56 @@ pub(super) fn drive(
             side: rr_simulation::combat::Side::Auto,
         }),
         ..Default::default()
+    }
+}
+
+#[cfg(test)]
+mod diagnostic {
+    use super::*;
+    #[test]
+    #[ignore = "private real-command incident diagnosis"]
+    fn recorded_career_incidents() {
+        let path = std::path::PathBuf::from(std::env::var_os("RR_CAREER_REPLAY").unwrap());
+        let replay = rr_simulation::replay::Replay::read(&std::fs::read(path).unwrap()).unwrap();
+        let limit = replay.ticks;
+        let expected = replay.expected_hash.clone();
+        let mut playback = rr_simulation::replay::Playback::new(replay).unwrap();
+        let mut last = std::collections::VecDeque::new();
+        for tick in 0..limit {
+            let before = playback.simulation.encounters().unwrap().units[&ActorId(1)]
+                .fighter
+                .stats;
+            playback.simulation.advance().unwrap();
+            let effects: Vec<_> = playback
+                .simulation
+                .effects()
+                .iter()
+                .filter(|e| e.actor == ActorId(1) || e.other == Some(ActorId(1)))
+                .cloned()
+                .collect();
+            for e in &effects {
+                last.push_back((tick, e.clone()));
+            }
+            while last.len() > 12 {
+                last.pop_front();
+            }
+            if effects.iter().any(|e| {
+                e.actor == ActorId(1) && e.kind == rr_simulation::combat::EffectKind::Crash
+            }) {
+                let snapshot = playback.simulation.snapshot();
+                let hero = &snapshot.actors[0];
+                let unit = hero.encounter.as_ref().unwrap();
+                let at = unit.recovery.bike_location;
+                let others:Vec<_>=snapshot.actors.iter().skip(1).filter_map(|a| {
+                    let u=a.encounter.as_ref()?;let b=a.rider.as_ref()?;
+                    (u.recovery.bike_location.path==at.path&&(u.recovery.bike_location.progress-at.progress).abs()<512).then_some(serde_json::json!({"id":a.id,"police":u.police,"phase":u.recovery.phase,"distance":u.recovery.bike_location.progress-at.progress,"side":b.bike.lateral-hero.rider.as_ref().unwrap().bike.lateral,"weapon":b.weapon}))
+                }).collect();
+                eprintln!(
+                    "{}",
+                    serde_json::json!({"tick":tick,"before_stats":before,"hero":hero,"near_riders":others,"near_road_users":snapshot.road_users.iter().filter(|a| rr_simulation::source_roads::Roads::physical_delta(&playback.simulation.encounters().unwrap().setup.topology, at,a.location).is_some_and(|gap| gap.abs()<1024)).collect::<Vec<_>>(),"events":last})
+                );
+            }
+        }
+        assert_eq!(Some(playback.simulation.state_hash()), expected);
     }
 }

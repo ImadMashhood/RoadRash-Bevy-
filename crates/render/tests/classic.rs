@@ -82,7 +82,7 @@ fn camera_spec_declares_classic_projection_and_validates_bad_parameters() {
         (s.width, s.height, s.horizon, s.camera_height, s.slices),
         (640, 480, 180., 150., 33)
     );
-    for v in [f64::NAN, f64::INFINITY, -1., 5000.] {
+    for v in [f64::NAN, f64::INFINITY, -1., 1_000_001.] {
         let mut bad = s.clone();
         bad.camera_height = v;
         assert!(bad.validate().is_err());
@@ -673,6 +673,7 @@ fn rider_and_scenery_ground_follow_the_rendered_shoulder_ramp() {
     p.shoulder = [80, 80];
     p.side_height = [40, 40];
     let terrain = TerrainSample {
+        source_walls: None,
         kind: TerrainKind::Building,
         selectors: [255; 2],
         points: [vec![], vec![]],
@@ -1021,4 +1022,93 @@ fn buildings_draw_exposed_textured_ends_and_solid_roofs() {
     );
     assert!(pixels.contains(&[95, 95, 90, 255]), "solid roof missing");
     assert!(pixels.contains(&[150, 90, 55, 255]), "facade missing");
+}
+
+#[test]
+fn flat_driving_keeps_the_player_ground_anchor_stable_through_sample_wrap() {
+    let mut scene = scene();
+    // Authored nonlinear near-depth curve; no original table bytes are needed.
+    // A reciprocal-depth table hides the mismatch between camera interpolation
+    // and the source-style projection scales.
+    for (index, value) in scene.assets.depths.0.iter_mut().enumerate() {
+        *value = if index <= 128 {
+            163840
+        } else if index <= 256 {
+            163840 - ((index - 128) * 131072 / 128) as i32
+        } else {
+            8388608 / (index as i32 * 2 - 256)
+        };
+    }
+    assert_stable_flat_driving(scene);
+}
+
+#[test]
+#[ignore = "requires a privately supplied supported executable"]
+fn native_projection_keeps_flat_driving_stable_through_sample_wrap() {
+    let root = std::path::PathBuf::from(std::env::var_os("RR_NATIVE_DATA").unwrap());
+    let bytes = std::fs::read(root.join("ROADRASH.EXE")).unwrap();
+    let exe = rr_formats::pe::SupportedExe::read(&bytes).unwrap();
+    let mut scene = scene();
+    scene.assets.depths = DepthTable::source(&exe).unwrap();
+    assert_stable_flat_driving(scene);
+}
+
+fn assert_stable_flat_driving(scene: Scene) {
+    let spec = CameraSpec::default();
+    // A static actor excludes suspension, gravity and animation as causes.
+    let snapshot = snap();
+    let mut feet = Vec::new();
+    for fraction in (0..=256).step_by(16) {
+        let view = View {
+            position_q8: 50. * 256. + f64::from(fraction),
+            ..Default::default()
+        };
+        let (frame, receipt) = scene.draw(&spec, &view, &snapshot, false).unwrap();
+        let bounds = receipt.rider_bounds.unwrap();
+        feet.push(bounds[3]);
+        let bottom = frame
+            .image
+            .pixels
+            .as_chunks::<4>()
+            .0
+            .iter()
+            .enumerate()
+            .filter(|(_, pixel)| **pixel == [230, 45, 60, 255])
+            .map(|(index, _)| index / frame.image.width as usize)
+            .max()
+            .expect("player must still contribute visible pixels");
+        assert!(
+            (bottom as f64 + 1. - bounds[3]).abs() <= 1.,
+            "player feet clipped at fraction {fraction}: pixel bottom {bottom}, bounds {bounds:?}"
+        );
+    }
+    let min = feet.iter().copied().fold(f64::INFINITY, f64::min);
+    let max = feet.iter().copied().fold(f64::NEG_INFINITY, f64::max);
+    assert!(
+        max - min <= 1.,
+        "flat-road player bounced {} pixels: {feet:?}",
+        max - min
+    );
+}
+
+#[test]
+fn flat_contact_on_a_projection_plateau_is_finite_and_keeps_ground_height() {
+    let s = scene();
+    let spec = CameraSpec::default();
+    let slices = project(&s.route, &spec, &s.assets.depths, &view()).unwrap();
+    let mut near = slices[0].roads[0].clone();
+    let mut far = slices[1].roads[0].clone();
+    near.scale = 1.;
+    far.scale = 1.;
+    let depths = DepthTable(vec![32768; 4352]);
+    for fraction in [0., 0.25, 0.5, 0.75, 1.] {
+        let z = near.z + (far.z - near.z) * fraction;
+        let anchor = contact_anchor(&near, &far, z, 12., [7., 7.], &spec, &depths);
+        assert!(anchor.iter().all(|v| v.is_finite()));
+        assert_eq!(anchor, [12., 7.]);
+    }
+    // A single repeated sample should also stay finite, rather than divide by
+    // the coincident endpoint depths in the fallback interpolation.
+    let anchor = contact_anchor(&near, &near, near.z, 12., [7., 7.], &spec, &depths);
+    assert_eq!(anchor, [12., 7.]);
 }
