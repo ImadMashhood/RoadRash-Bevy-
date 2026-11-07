@@ -88,6 +88,37 @@ class PerformanceReceipts(unittest.TestCase):
         extra['binary_sha256'] = 'a'*64; extra['actual_window'] = dict(logical=[640, 480])
         with self.assertRaisesRegex(ValueError, 'window'): frame_profile(r, [extra])
 
+    def test_independent_capped_wall_or_cpu_series_is_rejected(self):
+        for key in ['wall_frame_ms', 'cpu_raster_ms']:
+            with self.subTest(key=key):
+                rows = self.independent_courses()
+                rows[-1]['course_segments']['CANYN'][key]['count'] = 400
+                with self.assertRaisesRegex(ValueError, 'Truncated'):
+                    per_course_profiles(rows)
+
+    def test_tour_missing_cpu_coverage_requires_complete_supplement(self):
+        r = receipt()
+        r['course_segments']['CANYN/lap2']['cpu_raster_ms']['count'] = 400
+        with self.assertRaisesRegex(ValueError, 'Truncated'):
+            frame_profile(r)
+        extra = self.independent_courses()[-1]
+        self.assertEqual(frame_profile(r, [extra])['outcome'], 'passed')
+        extra['course_segments']['CANYN']['cpu_raster_ms']['count'] = 400
+        with self.assertRaisesRegex(ValueError, 'Supplement itself'):
+            frame_profile(r, [extra])
+
+    def test_segment_markers_and_aggregate_prefix_have_distinct_scopes(self):
+        r = receipt()
+        r['aggregate_timing_samples_truncated'] = True
+        self.assertEqual(frame_profile(r)['outcome'], 'passed')
+        r['course_segments']['CANYN/lap2']['timing_samples_truncated'] = True
+        with self.assertRaisesRegex(ValueError, 'truncation marker'):
+            frame_profile(r)
+        r['course_segments']['CANYN/lap2']['wall_frame_ms']['count'] = 400
+        r['course_segments']['CANYN/lap2']['cpu_raster_ms']['count'] = 400
+        with self.assertRaisesRegex(ValueError, 'Truncated'):
+            frame_profile(r)
+
     def test_complete_slow_segment_cannot_be_replaced_after_observation(self):
         r = receipt(); extra = self.independent_courses()[-1]
         with self.assertRaisesRegex(ValueError, 'Cannot replace'): frame_profile(r, [extra])

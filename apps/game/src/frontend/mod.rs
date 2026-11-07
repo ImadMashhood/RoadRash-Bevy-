@@ -386,6 +386,7 @@ impl Plugin for FrontendPlugin {
                 (banner, original::setup, load_script, clear_initial_menu),
             )
             .add_systems(Update, script.before(navigate))
+            .add_systems(Last, original::release_unused_glyph_atlases)
             .add_systems(
                 Update,
                 (

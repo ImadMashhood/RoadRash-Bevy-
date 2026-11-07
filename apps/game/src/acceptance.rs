@@ -338,6 +338,7 @@ fn wreck(options: &LaunchOptions, output: &Path) -> Result<(), Box<dyn std::erro
 /// Route-specific planning state. The recorded commands remain the sole race input.
 #[derive(Default)]
 pub(super) struct Driver {
+    hazards: Option<std::collections::BTreeMap<u32, Vec<usize>>>,
     routes: std::collections::BTreeMap<
         u8,
         (
@@ -353,6 +354,19 @@ impl Driver {
         config: &rr_simulation::riding::Configuration,
         encounter: &rr_simulation::encounter::Setup,
     ) -> Command {
+        // A Driver belongs to one immutable race setup and resets between races.
+        let hazards = self.hazards.get_or_insert_with(|| {
+            let mut paths = std::collections::BTreeMap::<u32, Vec<usize>>::new();
+            for (index, obstacle) in encounter.rules.obstacles.iter().enumerate() {
+                if obstacle.kind != rr_simulation::encounter::ObstacleKind::Decorative
+                    && !(obstacle.kind == rr_simulation::encounter::ObstacleKind::Building
+                        && !encounter.rules.building_boundaries.is_empty())
+                {
+                    paths.entry(obstacle.path).or_default().push(index);
+                }
+            }
+            paths
+        });
         if let Some((roads, route)) = encounter.rules.source_roads.as_ref().zip(
             snapshot
                 .actors
@@ -371,9 +385,9 @@ impl Driver {
                         .expect("validated source driver route"),
                 )
             });
-            return drive_on_route(snapshot, config, encounter, topology);
+            return drive_on_route(snapshot, config, encounter, topology, hazards);
         }
-        drive_on_route(snapshot, config, encounter, &encounter.topology)
+        drive_on_route(snapshot, config, encounter, &encounter.topology, hazards)
     }
 }
 
@@ -390,12 +404,15 @@ fn drive_on_route(
     config: &rr_simulation::riding::Configuration,
     encounter: &rr_simulation::encounter::Setup,
     topology: &rr_simulation::topology::Topology,
+    hazard_paths: &std::collections::BTreeMap<u32, Vec<usize>>,
 ) -> Command {
     let hazards = &encounter.rules.obstacles;
-    let physical_hazard = |o: &rr_simulation::encounter::Obstacle| {
-        o.kind != rr_simulation::encounter::ObstacleKind::Decorative
-            && !(o.kind == rr_simulation::encounter::ObstacleKind::Building
-                && !encounter.rules.building_boundaries.is_empty())
+    let hazards_on_path = |path: u32| {
+        hazard_paths
+            .get(&path)
+            .into_iter()
+            .flatten()
+            .map(|&index| &hazards[index])
     };
     let ground = &config.ground;
     let start = config.start_sample;
@@ -444,12 +461,9 @@ fn drive_on_route(
                     *p > at.progress - 128 && *p < at.progress + 1200 && (*l - *lane).abs() < 30000
                 })
                 .count();
-            let solid = hazards
-                .iter()
+            let solid = hazards_on_path(at.path)
                 .filter(|o| {
-                    o.path == at.path
-                        && physical_hazard(o)
-                        && o.progress > at.progress - 128
+                    o.progress > at.progress - 128
                         && o.progress < at.progress + 2048
                         && *lane > o.left - 12000
                         && *lane < o.right + 12000
@@ -488,6 +502,9 @@ fn drive_on_route(
             bike.speed < limit,
             bike.speed > limit + 1000,
         );
+        // Other objects follow the same forecast for every steering candidate.
+        // Build each lookahead lazily, preserving advance's mutated error pose.
+        let mut forecasts: [Option<Forecast>; 12] = std::array::from_fn(|_| None);
         for mode in 0..3 {
             if mode > 0 && best.0 < 100_000_000 {
                 break;
@@ -582,46 +599,18 @@ fn drive_on_route(
                         }
                     }
                     let world_progress = projected_at.progress;
-                    for other in snapshot.actors.iter().skip(1) {
-                        let Some(u) = &other.encounter else {
-                            continue;
-                        };
-                        if u.recovery.bike_location.path != at.path || u.recovery.outcome.is_some()
-                        {
-                            continue;
-                        }
-                        let other_bike = &other.rider.as_ref().unwrap().bike;
-                        let mut other_at = u.recovery.bike_location;
-                        let _ = topology.advance(
-                            &mut other_at,
-                            i64::from(other_bike.speed / 256) * ahead as i64,
-                            None,
-                        );
+                    let forecast = forecasts[(ahead / 5 - 1) as usize]
+                        .get_or_insert_with(|| Forecast::new(snapshot, topology, at.path, ahead));
+                    for &(other_at, lateral) in &forecast.riders {
                         if other_at.path != projected_at.path {
                             continue;
                         }
                         let p = other_at.progress;
-                        if (p - world_progress).abs() < 256
-                            && (b.lateral - other_bike.lateral).abs() < 20000
-                        {
+                        if (p - world_progress).abs() < 256 && (b.lateral - lateral).abs() < 20000 {
                             score += 100_000_000;
                         }
                     }
-                    for other in &snapshot.road_users {
-                        let mut other_at = other.location;
-                        let _ = topology.advance(
-                            &mut other_at,
-                            if other.kind == rr_simulation::population::Kind::Pedestrian
-                                || other.state == rr_simulation::population::AgentState::Crossing
-                            {
-                                0
-                            } else {
-                                i64::from(other.speed / 256)
-                                    * i64::from(other.direction)
-                                    * ahead as i64
-                            },
-                            None,
-                        );
+                    for (other, &other_at) in snapshot.road_users.iter().zip(&forecast.road_users) {
                         let Some(gap) = rr_simulation::source_roads::Roads::physical_delta(
                             topology,
                             projected_at,
@@ -657,10 +646,7 @@ fn drive_on_route(
                             score += 100_000_000;
                         }
                     }
-                    for hazard in hazards
-                        .iter()
-                        .filter(|o| o.path == projected_at.path && physical_hazard(o))
-                    {
+                    for hazard in hazards_on_path(projected_at.path) {
                         if (hazard.progress - world_progress).abs() < 128
                             && b.lateral > hazard.left - 10000
                             && b.lateral < hazard.right + 10000
@@ -760,3 +746,57 @@ mod diagnostic {
         assert_eq!(Some(playback.simulation.state_hash()), expected);
     }
 }
+
+/// Candidate-independent positions at one of the twelve existing lookahead times.
+struct Forecast {
+    riders: Vec<(rr_simulation::topology::Location, i32)>,
+    road_users: Vec<rr_simulation::topology::Location>,
+}
+impl Forecast {
+    fn new(
+        snapshot: &rr_simulation::Snapshot,
+        topology: &rr_simulation::topology::Topology,
+        path: u32,
+        ahead: u64,
+    ) -> Self {
+        let riders = snapshot
+            .actors
+            .iter()
+            .skip(1)
+            .filter_map(|other| {
+                let unit = other.encounter.as_ref()?;
+                if unit.recovery.bike_location.path != path || unit.recovery.outcome.is_some() {
+                    return None;
+                }
+                let bike = &other.rider.as_ref().unwrap().bike;
+                let mut at = unit.recovery.bike_location;
+                let _ = topology.advance(&mut at, i64::from(bike.speed / 256) * ahead as i64, None);
+                Some((at, bike.lateral))
+            })
+            .collect();
+        let road_users = snapshot
+            .road_users
+            .iter()
+            .map(|other| {
+                let mut at = other.location;
+                let _ = topology.advance(
+                    &mut at,
+                    if other.kind == rr_simulation::population::Kind::Pedestrian
+                        || other.state == rr_simulation::population::AgentState::Crossing
+                    {
+                        0
+                    } else {
+                        i64::from(other.speed / 256) * i64::from(other.direction) * ahead as i64
+                    },
+                    None,
+                );
+                at
+            })
+            .collect();
+        Self { riders, road_users }
+    }
+}
+
+#[cfg(test)]
+#[path = "acceptance_driver_tests.rs"]
+mod driver_tests;

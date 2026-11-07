@@ -65,6 +65,17 @@ def segment_statistics(course, segment):
                 gpu_pass_ms=gpu, meets_60_hz_p95_target=True)
 
 
+def complete_timing(segment):
+    """Accept every settled wall/CPU observation, including old flagless receipts."""
+    expected = segment['frames'] - 60
+    complete = expected > 0 and all(segment[key]['count'] == expected
+                                     for key in ['wall_frame_ms', 'cpu_raster_ms'])
+    truncated = segment.get('timing_samples_truncated', False)
+    if type(truncated) is not bool or (truncated and complete):
+        raise ValueError('Invalid timing truncation marker')
+    return complete and not truncated
+
+
 def per_course_profiles(reports):
     rows, courses, identities = [], set(), set()
     for report in reports:
@@ -79,6 +90,8 @@ def per_course_profiles(reports):
         course, segment = next(iter(segments.items()))
         if course not in COURSES or course in courses or segment['frames'] <= 60:
             raise ValueError('Invalid or duplicate independent course coverage')
+        if not complete_timing(segment):
+            raise ValueError('Truncated timing sample coverage: ' + course)
         courses.add(course); identities.add(report['binary_sha256'])
         row = segment_statistics(course, segment)
         row.update(memory=memory, duration_s=report['duration_s'], simulation_seconds=report['simulation_seconds'],
@@ -108,13 +121,13 @@ def frame_profile(report, supplemental=()):
         course, segment = next(iter(extra['course_segments'].items()))
         if course not in COURSES or course in extras:
             raise ValueError('Invalid or duplicate supplemental course')
-        if segment['wall_frame_ms']['count'] != segment['frames'] - 60:
+        if not complete_timing(segment):
             raise ValueError('Supplement itself has truncated timing samples')
         extras[course] = (extra, extra_memory)
     rows, used = [], set()
     for course in COURSES:
         segment = report['course_segments'][course + '/lap2']
-        if segment['wall_frame_ms']['count'] != segment['frames'] - 60:
+        if not complete_timing(segment):
             if course not in extras:
                 raise ValueError('Truncated timing sample coverage: ' + course)
             extra, extra_memory = extras[course]; used.add(course)

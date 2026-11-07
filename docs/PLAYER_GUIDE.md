@@ -16,7 +16,8 @@ In the ISO picker, Ctrl+L opens its location field; enter your file path and pre
 Enter. Import progress can be canceled, retaining the previous verified import.
 
 Choose Thrash for a quick race: select a rider, course and optional level. Choose
-New Big Game for a career: select a rider, then Race on the street. Finish in the
+New Big Game for a career: select a rider, enter Der Panzer Klub on the street,
+then choose Bulletin Board / Courses. Finish in the
 first three to qualify on a course. Qualify on all five courses to advance; finish
 level five to reach the finale. Replaying a qualified course earns normal prizes
 without duplicating qualifications. The showroom buys bikes with the current
@@ -39,7 +40,7 @@ held controls are quarantined until released. Menu navigation owns its controls
 while menus are open. Physical controller models beyond the recorded Linux
 virtual/backend checks have not been certified.
 
-Restroom → Settings controls language (English, French, Spanish, German or
+Restroom → Graphics Options controls language (English, French, Spanish, German or
 Italian), text scale (75–150%), high contrast, reduced camera motion, reduced
 flashes, sound captions, audio buses, automatic videos and vsync. Modern keyed
 labels and original local dialogue/credits use the selected language; proper

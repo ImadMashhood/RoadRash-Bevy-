@@ -28,6 +28,33 @@ pub(super) struct Dashboard;
 #[derive(Component)]
 pub(super) struct DashboardText(usize);
 
+/// Font atlases cache sizes after their menu entities have gone away. Keep every
+/// page referenced by a live text layout, including hidden HUD labels, and release
+/// only orphan pages after text layout has completed for the frame.
+pub(super) fn release_unused_glyph_atlases(
+    atlases: Option<ResMut<bevy::text::FontAtlasSet>>,
+    mut images: ResMut<Assets<Image>>,
+    texts: Query<&bevy::text::TextLayoutInfo>,
+) {
+    let Some(mut atlases) = atlases else {
+        return;
+    };
+    let used: std::collections::HashSet<_> = texts
+        .iter()
+        .flat_map(|layout| layout.glyphs.iter().map(|glyph| glyph.atlas_info.texture))
+        .collect();
+    atlases.retain(|_, pages| {
+        pages.retain(|page| {
+            let keep = used.contains(&page.texture.id());
+            if !keep {
+                images.remove(page.texture.id());
+            }
+            keep
+        });
+        !pages.is_empty()
+    });
+}
+
 fn dashboard_surface(images: &mut Assets<Image>) -> Handle<Image> {
     // Upload releases the previous owned texture. Never release Bevy's shared
     // default white image: solid-color sprites still depend on that asset.
@@ -428,6 +455,69 @@ pub(super) fn update(
 #[cfg(test)]
 mod ownership_tests {
     use super::*;
+    #[test]
+    fn orphan_font_pages_release_images_but_hidden_live_glyphs_and_other_images_remain() {
+        use bevy::text::{
+            FontAtlas, FontAtlasKey, FontAtlasSet, GlyphAtlasInfo, PositionedGlyph, TextLayoutInfo,
+        };
+        let mut app = App::new();
+        let mut images = Assets::<Image>::default();
+        let shared = Handle::<Image>::default();
+        images.insert(shared.id(), Image::default()).unwrap();
+        let surface = dashboard_surface(&mut images);
+        let live = FontAtlas::new(&mut images, UVec2::splat(32), Default::default());
+        let live_id = live.texture.id();
+        let orphan = FontAtlas::new(&mut images, UVec2::splat(32), Default::default());
+        let orphan_id = orphan.texture.id();
+        let key = FontAtlasKey {
+            id: 1,
+            index: 0,
+            font_size_bits: 27f32.to_bits(),
+            variations_hash: 0,
+            hinting: Default::default(),
+            font_smoothing: Default::default(),
+        };
+        let mut atlases = FontAtlasSet::default();
+        atlases.insert(key, vec![live, orphan]);
+        app.insert_resource(images).insert_resource(atlases);
+        let text = app
+            .world_mut()
+            .spawn((
+                Visibility::Hidden,
+                TextLayoutInfo {
+                    glyphs: vec![PositionedGlyph {
+                        position: Vec2::ZERO,
+                        atlas_info: GlyphAtlasInfo {
+                            texture: live_id,
+                            rect: Rect::default(),
+                            offset: Vec2::ZERO,
+                            is_alpha_mask: true,
+                        },
+                        section_index: 0,
+                        line_index: 0,
+                    }],
+                    ..Default::default()
+                },
+            ))
+            .id();
+        app.add_systems(Last, release_unused_glyph_atlases);
+        app.update();
+        let images = app.world().resource::<Assets<Image>>();
+        assert!(images.get(live_id).is_some());
+        assert!(images.get(orphan_id).is_none());
+        assert!(images.get(shared.id()).is_some());
+        assert!(images.get(surface.id()).is_some());
+        assert_eq!(app.world().resource::<FontAtlasSet>()[&key].len(), 1);
+        app.world_mut().despawn(text);
+        app.update();
+        assert!(
+            app.world()
+                .resource::<Assets<Image>>()
+                .get(live_id)
+                .is_none()
+        );
+        assert!(app.world().resource::<FontAtlasSet>().is_empty());
+    }
     #[test]
     fn dashboard_upload_preserves_shared_white_and_owns_one_surface() {
         let mut images = Assets::<Image>::default();

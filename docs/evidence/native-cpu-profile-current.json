@@ -1,0 +1,163 @@
+{
+  "outcome": "diagnostic_completed",
+  "timing_acceptance": false,
+  "binary_sha256": "6b5e0229b5b0afde01baaa2d529977838ab2708b9a8b95533b2316efd2026cf8",
+  "sampled_thread_count": 20,
+  "samples": 9970,
+  "lost_samples": 0,
+  "estimated_user_cycles": 194828640623,
+  "sampling_hz": 99,
+  "startup_exclusion_ms": 3000,
+  "stack_dump_bytes": 16384,
+  "policy_changed": false,
+  "main_tid_share_percent": 5.659539708710725,
+  "whole_top": [
+    {
+      "symbol": "<rr_render::raster::Frame>::polygon",
+      "percent": 58.72200807959338
+    },
+    {
+      "symbol": "compiler_builtins::math::libm_math::fmod::fmod",
+      "percent": 7.4059026274890725
+    },
+    {
+      "symbol": "floor",
+      "percent": 4.52096454650322
+    },
+    {
+      "symbol": "rr_game::acceptance::drive_on_route",
+      "percent": 3.772220516705894
+    },
+    {
+      "symbol": "fmod",
+      "percent": 3.511243365002678
+    },
+    {
+      "symbol": "rr_render::scene::draw_horizon",
+      "percent": 3.1634704098389124
+    },
+    {
+      "symbol": "__memmove_avx_unaligned_erms",
+      "percent": 2.6810150054413335
+    },
+    {
+      "symbol": "<rr_render::raster::Frame>::new",
+      "percent": 2.412750000702447
+    },
+    {
+      "symbol": "__memset_avx2_unaligned_erms",
+      "percent": 2.0206967555750834
+    },
+    {
+      "symbol": "<rr_render::scene::Scene>::draw_columns",
+      "percent": 1.6930747807160917
+    },
+    {
+      "symbol": "[unknown]",
+      "percent": 1.4537042638820568
+    },
+    {
+      "symbol": "rr_game::frontend::original::raster::blit",
+      "percent": 0.312183717473517
+    },
+    {
+      "symbol": "<rr_simulation::source_roads::Roads>::ground",
+      "percent": 0.27493398983186523
+    },
+    {
+      "symbol": "__memmove_avx_unaligned",
+      "percent": 0.2593763485615284
+    },
+    {
+      "symbol": "<bevy_ecs::schedule::executor::multi_threaded::Context>::tick_executor",
+      "percent": 0.2297257916335136
+    },
+    {
+      "symbol": "<rr_render::source::FamilyAssets>::resolve",
+      "percent": 0.2230251602693286
+    },
+    {
+      "symbol": "<rr_simulation::encounter::World>::source_combat_relative_position",
+      "percent": 0.21811296975699068
+    },
+    {
+      "symbol": "malloc",
+      "percent": 0.20919571973438333
+    },
+    {
+      "symbol": "<rr_simulation::source_roads::Profile>::identity",
+      "percent": 0.1789726915329287
+    },
+    {
+      "symbol": "_int_malloc",
+      "percent": 0.16101199033001273
+    }
+  ],
+  "main_multiframe_parent_cycle_coverage_percent": 14.272084743477228,
+  "callchain_limitation": "Everyknownleaf is included; extraancestors areonlywhatCFI actuallyunwound. Moststacks areabsent/shallow inthisoptimizedbinary, sochild-inclusivecallpath attribution is incomplete. FlatleafCPU attribution remainsvalid.",
+  "scope": "Separate 30-second default-policy application launched as the profiler child. Userspace cycles and call chains, all owned process threads. Profiled frame times are excluded from performance acceptance. Shares describe CPU cycles, not wall time or waits.",
+  "main_top": [
+    {
+      "symbol": "rr_game::acceptance::drive_on_route",
+      "period": 7349365954,
+      "main_percent": 66.65242600736566,
+      "process_percent": 3.772220516705894
+    },
+    {
+      "symbol": "<rr_simulation::topology::Topology>::advance",
+      "period": 306210580,
+      "main_percent": 2.777066505310469,
+      "process_percent": 0.15716918160535123
+    },
+    {
+      "symbol": "<bevy_ecs::schedule::executor::multi_threaded::Context>::tick_executor",
+      "period": 173955832,
+      "main_percent": 1.5776297293536203,
+      "process_percent": 0.08928658098919368
+    },
+    {
+      "symbol": "<fixedbitset::FixedBitSet>::is_disjoint",
+      "period": 172666362,
+      "main_percent": 1.565935345878684,
+      "process_percent": 0.08862473271274075
+    },
+    {
+      "symbol": "[unknown]",
+      "period": 170498007,
+      "main_percent": 1.5462702316225974,
+      "process_percent": 0.0875117777626542
+    },
+    {
+      "symbol": "malloc",
+      "period": 167020972,
+      "main_percent": 1.5147365157193384,
+      "process_percent": 0.08572711458947724
+    },
+    {
+      "symbol": "<rr_simulation::handling::Bike>::source_steer",
+      "period": 160833987,
+      "main_percent": 1.4586258848836622,
+      "process_percent": 0.08255151115652405
+    },
+    {
+      "symbol": "<rr_simulation::animation::Library>::select",
+      "period": 154554804,
+      "main_percent": 1.401679097512648,
+      "process_percent": 0.07932858511242644
+    },
+    {
+      "symbol": "<rr_simulation::riding::Rider>::step",
+      "period": 121489121,
+      "main_percent": 1.1018018015207403,
+      "process_percent": 0.062356910468356425
+    },
+    {
+      "symbol": "_int_malloc",
+      "period": 91745979,
+      "main_percent": 0.8320570937745446,
+      "process_percent": 0.04709060162131479
+    }
+  ],
+  "harness_history": "Initial external-PID recording was denied; no security setting changed. An owned child recording with explicit userspace call chains succeeded. Both histories remain private.",
+  "raw_trace_sha256": "f02a4798352e4f1697202b66af5b77cd784a0aa1959e65587b8648b3879742a2"
+}

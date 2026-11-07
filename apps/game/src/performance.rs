@@ -29,6 +29,8 @@ struct Segment {
     frames: u64,
     wall: Vec<f64>,
     cpu: Vec<f64>,
+    prepare: Vec<f64>,
+    upload: Vec<f64>,
     diagnostics: BTreeMap<String, Vec<f64>>,
 }
 #[derive(Resource, Default)]
@@ -47,11 +49,16 @@ struct Metrics {
     frames: u64,
     wall_ms: Vec<f64>,
     cpu_ms: Vec<f64>,
+    prepare_ms: Vec<f64>,
+    upload_ms: Vec<f64>,
     diagnostics: BTreeMap<String, Vec<f64>>,
     last: BTreeMap<String, String>,
     samples: Vec<serde_json::Value>,
     first_frame_ms: Option<f64>,
     restarts: u32,
+    pilot_calls: u64,
+    pilot_cpu_ms: Vec<f64>,
+    driver_cpu_ms: Vec<f64>,
     driver: acceptance::Driver,
     config: Option<(
         rr_simulation::riding::Configuration,
@@ -130,8 +137,15 @@ fn sample(world: &mut World) {
             if aggregate { metrics.wall_ms.push(wall); }
             metrics.segments.get_mut(&key).unwrap().wall.push(wall);
             if let Some(timing)=world.get_resource::<rr_presentation::RenderTiming>() {
-                if aggregate { metrics.cpu_ms.push(timing.cpu_draw_ms); }
-                metrics.segments.get_mut(&key).unwrap().cpu.push(timing.cpu_draw_ms);
+                if aggregate {
+                    metrics.cpu_ms.push(timing.cpu_draw_ms);
+                    metrics.prepare_ms.push(timing.cpu_prepare_ms);
+                    metrics.upload_ms.push(timing.cpu_upload_ms);
+                }
+                let segment = metrics.segments.get_mut(&key).unwrap();
+                segment.cpu.push(timing.cpu_draw_ms);
+                segment.prepare.push(timing.cpu_prepare_ms);
+                segment.upload.push(timing.cpu_upload_ms);
             }
             if let Some(store)=world.get_resource::<DiagnosticsStore>() {
                 for diagnostic in store.iter() {
@@ -202,6 +216,7 @@ pub(super) fn pilot(world: &mut World) {
     if !world.resource::<LaunchOptions>().benchmark_pilot {
         return;
     }
+    let started = Instant::now();
     world.resource_scope(|world, mut metrics: Mut<Metrics>| {
         let snapshot = world.resource::<Race>().0.snapshot();
         let ended = snapshot.actors.first().is_some_and(|a| {
@@ -233,10 +248,25 @@ pub(super) fn pilot(world: &mut World) {
                 metrics.config = Some((c, e));
             }
         }
-        let Metrics { config, driver, .. } = &mut *metrics;
+        let Metrics {
+            config,
+            driver,
+            driver_cpu_ms,
+            ..
+        } = &mut *metrics;
         if let Some((c, e)) = config {
             let snapshot = world.resource::<Race>().0.snapshot();
+            let command_started = Instant::now();
             world.resource_mut::<InputCommand>().0 = driver.command(&snapshot, c, e);
+            if driver_cpu_ms.len() < MAX_TIMING_SAMPLES {
+                driver_cpu_ms.push(command_started.elapsed().as_secs_f64() * 1000.);
+            }
+        }
+        metrics.pilot_calls += 1;
+        if metrics.pilot_cpu_ms.len() < MAX_TIMING_SAMPLES {
+            metrics
+                .pilot_cpu_ms
+                .push(started.elapsed().as_secs_f64() * 1000.);
         }
     });
 }
@@ -276,9 +306,10 @@ fn report(
         let gpu: BTreeMap<_,_>=s.diagnostics.iter().map(|(k,v)|(k,distribution(v))).collect();
         (key,serde_json::json!({"frames":s.frames,"warmup_frames_excluded":60,
             "timing_samples_truncated": s.wall.len() < s.frames.saturating_sub(60) as usize,
-            "wall_frame_ms":distribution(&s.wall),"cpu_raster_ms":distribution(&s.cpu),"render_diagnostics":gpu}))
+            "wall_frame_ms":distribution(&s.wall),"cpu_raster_ms":distribution(&s.cpu),
+            "cpu_course_prepare_ms":distribution(&s.prepare),"cpu_surface_upload_ms":distribution(&s.upload),"render_diagnostics":gpu}))
     }).collect();
-    let report = serde_json::json!({"schema_version":2,"actual_window":metrics.window,"decoded_texture_bytes_by_role":metrics.decoded_pixels,"background_benchmark_continuous":options.benchmark_pilot,"course_segments":segments,"course_loads":metrics.loads,"tour":options.benchmark_tour,"tour_laps":if options.benchmark_tour {2}else{0},"binary_sha256":binary,"native_only":!options.enhanced,
+    let mut report = serde_json::json!({"schema_version":2,"actual_window":metrics.window,"decoded_texture_bytes_by_role":metrics.decoded_pixels,"background_benchmark_continuous":options.benchmark_pilot,"course_segments":segments,"course_loads":metrics.loads,"tour":options.benchmark_tour,"tour_laps":if options.benchmark_tour {2}else{0},"binary_sha256":binary,"native_only":!options.enhanced,
         "vsync":options.vsync,"course":options.course,"level":options.level,"bike":options.bike,"seed_policy":"initial seed 1; restart seeds increment",
         "duration_s":start.0.elapsed().as_secs_f64(),"first_frame_ms":metrics.first_frame_ms,"frames":metrics.frames,
         "warmup_frames_excluded":60,"timing_sample_limit_per_segment":MAX_TIMING_SAMPLES,"aggregate_timing_sample_limit":MAX_TIMING_SAMPLES,
@@ -286,6 +317,24 @@ fn report(
         "wall_frame_ms":distribution(&metrics.wall_ms),"cpu_raster_ms":distribution(&metrics.cpu_ms),
         "render_diagnostics":diagnostics,"gpu_adapter":gpu.adapter,"gpu_image_bytes_scope":"wgpu texture descriptors and mip extents; driver allocations, nonimage buffers and compressed block rounding excluded",
         "memory_samples":metrics.samples,"race_and_course_restarts":metrics.restarts,"live_simulation_ticks":metrics.live_ticks,"paused_frames":metrics.paused_frames,"simulation_seconds":metrics.live_ticks as f64/60.});
+    let observer = serde_json::json!({
+        "benchmark_pilot_policy": if !options.benchmark_pilot { "disabled" } else if std::env::var_os("RR_DRIVER_LEGACY").is_some() { "legacy proportional controls (RR_DRIVER_LEGACY)" } else { "default cached route planner with 60-tick prediction" },
+        "benchmark_pilot_cpu_scope":"Elapsed CPU time around each FixedUpdate pilot callback, including snapshot/config/restart work. Driver::command is a nested subset; do not add its percentile to whole callback. Includes thread descheduling, excludes simulation advance and raster.",
+        "benchmark_pilot_calls":metrics.pilot_calls,"benchmark_pilot_cpu_ms":distribution(&metrics.pilot_cpu_ms),"benchmark_driver_command_cpu_ms":distribution(&metrics.driver_cpu_ms),
+        "benchmark_pilot_cpu_sample_limit":MAX_TIMING_SAMPLES,"benchmark_pilot_cpu_samples_truncated":metrics.pilot_calls > metrics.pilot_cpu_ms.len() as u64,
+        "cpu_course_prepare_ms":distribution(&metrics.prepare_ms),"cpu_surface_upload_ms":distribution(&metrics.upload_ms),
+        "cpu_course_prepare_scope":"Course draw system scene selection, camera and owned snapshot preparation before draw_parallel; excludes other Bevy/application systems.",
+        "cpu_surface_upload_scope":"Direct main-world upload_rgba asset update only; excludes Bevy render-asset extraction, GPU transfers, sprite retargeting and post-draw frame cleanup."
+    });
+    report
+        .as_object_mut()
+        .expect("performance report object")
+        .extend(
+            observer
+                .as_object()
+                .expect("observer timing object")
+                .clone(),
+        );
     let result = (|| -> Result<(), String> {
         let path = rr_session::persistence::disk::guarded(path, options.data_root.as_deref())?;
         if let Some(parent) = path.parent() {

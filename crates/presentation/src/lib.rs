@@ -29,6 +29,8 @@ struct PlayerTextures {
 }
 #[derive(Resource, Default)]
 pub struct RenderTiming {
+    pub cpu_prepare_ms: f64,
+    pub cpu_upload_ms: f64,
     pub cpu_draw_ms: f64,
     pub draws: u64,
 }

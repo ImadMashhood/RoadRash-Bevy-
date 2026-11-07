@@ -1,0 +1,66 @@
+{
+  "outcome": "passed",
+  "scope": "Original menu font atlas ownership and actual ten start/countdown/pause/player-quit/results/Main cycles; fixed existing sixteen-image budget unchanged. Not full performance or G5 acceptance.",
+  "before": {
+    "binary_sha256": "6efe6d66d1267faf38970e929445a28fa36f3228b8c2023a7a9e0ff2772fe1b5",
+    "max_cpu_images": 20,
+    "max_gpu_images": 20,
+    "warmed_images": 19,
+    "retained_font_atlas_pages": 11,
+    "entity_index_slots": [
+      512
+    ],
+    "original_failure_preserved": true
+  },
+  "after": {
+    "binary_sha256": "fa8508b29ec6b2cba9db5604d3dcb1dd0c15fd0fa37b20288a80712b712615a6",
+    "cycles": 10,
+    "source_courses": 5,
+    "character_selections": 8,
+    "max_cpu_images": 15,
+    "max_gpu_images": 15,
+    "sample_count": 41,
+    "warmed_cpu_images": [
+      13,
+      14,
+      15
+    ],
+    "warmed_gpu_images": [
+      14,
+      15
+    ],
+    "warmed_entity_index_slots": [
+      512
+    ],
+    "duration_s": 41.294206845,
+    "normal_exit_code": 0
+  },
+  "correction": "After text layout, retain atlas pages referenced by any live TextLayoutInfo glyph, including hidden HUD labels; remove only orphan font pages and their image assets. Fonts, raster sizes, source artwork and image-count telemetry remain unchanged.",
+  "regression": {
+    "test": "orphan_font_pages_release_images_but_hidden_live_glyphs_and_other_images_remain",
+    "passed": true,
+    "checks": [
+      "Orphan page image is released",
+      "Hidden live glyph page remains",
+      "Shared default white and owned dashboard image remain",
+      "Last remaining font page is released after its text entity despawns"
+    ],
+    "strict_rr_game_clippy": "passed"
+  },
+  "pixel_comparison": {
+    "scope": "Actual Bevy native Main after one real start/quit cycle, identical scripted frame90 and 960x720 window, before and after correction",
+    "different_channels": 0,
+    "unmasked": true,
+    "both_png_sha256": "2704c9728a18dcfb26c7327348a3bd19648b7bca9887ab074b2149cd8773ec27",
+    "visually_inspected": true
+  },
+  "private_receipts": {
+    "baseline_report_sha256": "fe2c7013dee21e35a2939ac3f0f5c662fbe093fee88e12b8a68e537c07406ba0",
+    "fixed_lifecycle_receipt_sha256": "0f3592b2c013be0e40e0560c93eaf96289710c1ac8eac0dea1b865060e6d47c3"
+  },
+  "limitations": [
+    "The final application also includes the parent raster stack-allocation change; simulation authority is unchanged.",
+    "Original commercial images, font inventory and event traces remain under ignored local/.",
+    "An initial capture lacked its output directory; its failed log is retained and excluded. Corrected captures have equal complete pixels."
+  ]
+}

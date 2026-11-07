@@ -1,0 +1,55 @@
+{
+  "outcome": "short_wall_target_missed",
+  "scope": "Uncontended30s development instrumented CITYL3/bike8 after UIatlas and stack-clipping fixes. Defaultpredictive policy, allnative physics/opponents/roadusers, audio/videooff. This is diagnostic attribution, not five-minute or hour acceptance. Different scopes have different clocks/samplecadence; do not sum/subtract their percentiles as matching frames.",
+  "binary_sha256": "6b5e0229b5b0afde01baaa2d529977838ab2708b9a8b95533b2316efd2026cf8",
+  "duration_s": 30.176279486,
+  "simulation_seconds": 29.1,
+  "paused_frames": 0,
+  "benchmark_pilot_policy": "default cached route planner with 60-tick prediction",
+  "benchmark_pilot_cpu_ms": {
+    "count": 1746,
+    "max": 7.073747,
+    "p50": 2.313917,
+    "p95": 2.915812,
+    "p99": 6.162823
+  },
+  "benchmark_driver_command_cpu_ms": {
+    "count": 1746,
+    "max": 7.008825,
+    "p50": 2.274002,
+    "p95": 2.858165,
+    "p99": 6.148377
+  },
+  "cpu_course_prepare_scope": "Course draw system scene selection, camera and owned snapshot preparation before draw_parallel; excludes other Bevy/application systems.",
+  "cpu_surface_upload_scope": "Direct main-world upload_rgba asset update only; excludes Bevy render-asset extraction, GPU transfers, sprite retargeting and post-draw frame cleanup.",
+  "wall_frame_ms": {
+    "count": 1518,
+    "max": 30.966544,
+    "p50": 18.397852,
+    "p95": 23.987102999999998,
+    "p99": 28.138216
+  },
+  "cpu_raster_ms": {
+    "count": 1518,
+    "max": 22.259953,
+    "p50": 11.797009000000001,
+    "p95": 14.940286,
+    "p99": 17.003084
+  },
+  "cpu_course_prepare_ms": {
+    "count": 1518,
+    "max": 0.30935799999999997,
+    "p50": 0.065793,
+    "p95": 0.110968,
+    "p99": 0.12439300000000002
+  },
+  "cpu_surface_upload_ms": {
+    "count": 1518,
+    "max": 0.009538000000000001,
+    "p50": 0.001402,
+    "p95": 0.002064,
+    "p99": 0.002384
+  },
+  "report_sha256": "8de86cbd472d32b3043f889dc1b425ec1e6bc2e876a930d742bc6e715e4317bc",
+  "conclusion": "Course camera/snapshot preparation and direct main-world upload are small in this scope. Further CPU callstack attribution is required before a targeted correction. Bevy render-asset/GPU upload cost is outside direct upload timer."
+}

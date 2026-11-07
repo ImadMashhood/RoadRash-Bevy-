@@ -250,6 +250,16 @@
       "reproducer": "Expanded source practice recordings exceeded the4MiB legacy schema4/5 limit; practice also omitted player action configuration. Practice now supplies native actions and an empty population using schema6; two actual-source recordings pass four rates without changing legacy limits.",
       "regression": "docs/evidence/source-practice-replays.json",
       "acceptance_gate": "G3F"
+    },
+    {
+      "id": "native-ui-image-residency",
+      "task": "21.09",
+      "severity": "required",
+      "status": "closed",
+      "owner": "release_ui_assets",
+      "reproducer": "Ten-cycle original-menu start/quit/unload previously retained20 CPU/GPU image handles. Orphan glyph atlas pages now release only after live text layouts are checked, including hidden glyphs. Final uninstrumented cycle peaks15 against unchanged16 limit; original Main pixels match exactly and entity index storage remains512.",
+      "regression": "docs/evidence/native-ui-image-residency-current.md",
+      "acceptance_gate": "G5"
     }
   ],
   "scope_note": "Current component, career and ordinary UI checks pass their linked scopes. Replacement-release verification and project-owner G5 acceptance remain open; old RC4 receipts remain historical."

@@ -1,0 +1,519 @@
+{
+  "command_comparisons": 536874,
+  "course_level_cases": 25,
+  "outcome": "passed",
+  "races": 31,
+  "rows": [
+    {
+      "attempt": 1,
+      "commands_equal": 11421,
+      "course": "MEDLY",
+      "level": 1,
+      "recovery_phases": {
+        "Mounted": 11421
+      },
+      "replay_sha256": "9812b2c642c65ba5a7e374a0d04c45debb019a517948f5fadeeccaefb3c3e5d9",
+      "source_routes": [
+        0
+      ],
+      "state_sha256": "050d42a3e75d82d99677d048bc1c58b3c8058b06731af1ec365f5968be88e33f",
+      "ticks": 11421
+    },
+    {
+      "attempt": 2,
+      "commands_equal": 11105,
+      "course": "MEDLY",
+      "level": 1,
+      "recovery_phases": {
+        "Mounted": 11105
+      },
+      "replay_sha256": "640b2797a7561f2f9f5fa107c1285976bb2cc7ea7447cb0731837ba137a03fc7",
+      "source_routes": [
+        0
+      ],
+      "state_sha256": "b330cd9ce9b912fc3f723d1d0c8b802987fcbe6d474a8425bbef3f19ea85a5b8",
+      "ticks": 11105
+    },
+    {
+      "attempt": 3,
+      "commands_equal": 12219,
+      "course": "MEDLY",
+      "level": 1,
+      "recovery_phases": {
+        "GettingUp": 90,
+        "Mounted": 11832,
+        "Mounting": 81,
+        "Sliding": 150,
+        "Standing": 48,
+        "Walking": 18
+      },
+      "replay_sha256": "4f4c8c706e5efbf789e60e7ae909f2ffc4245096147c2ede117f57b1c4e06f37",
+      "source_routes": [
+        0,
+        1
+      ],
+      "state_sha256": "3a9e436ba557bb420ab0c2d92806cf196c426b5a09193b8dd71f924922daed48",
+      "ticks": 12219
+    },
+    {
+      "attempt": 4,
+      "commands_equal": 10302,
+      "course": "CITY",
+      "level": 1,
+      "recovery_phases": {
+        "Mounted": 10302
+      },
+      "replay_sha256": "a4bae3b6ca8ddf684d9e8fbfc73b45b4b3df58437c09ac666fc6d71807f91134",
+      "source_routes": [
+        0
+      ],
+      "state_sha256": "0cfa1722e7ee26ed094f164de3b4ac4ddaafc5783209bf4390c34ef3803766ae",
+      "ticks": 10302
+    },
+    {
+      "attempt": 5,
+      "commands_equal": 10385,
+      "course": "HIWAY",
+      "level": 1,
+      "recovery_phases": {
+        "Mounted": 10385
+      },
+      "replay_sha256": "97d9e2ff31168116ab0174921f17a24c87330fb713d76b8e17a269c14db7b765",
+      "source_routes": [
+        0
+      ],
+      "state_sha256": "37d5cef27a134bb4f064a1afab4430ac65849b9b6e2a7247c8b5b4b03957ff0c",
+      "ticks": 10385
+    },
+    {
+      "attempt": 6,
+      "commands_equal": 9571,
+      "course": "NAPA",
+      "level": 1,
+      "recovery_phases": {
+        "Mounted": 9571
+      },
+      "replay_sha256": "45fd44b8756b1f1f2bdc3c33859b4b2c075f3242f5718a04358560b62a6aa649",
+      "source_routes": [
+        0
+      ],
+      "state_sha256": "b52e282a1450ae41c053231409875820279736d2ec00247bdb16c779497a5886",
+      "ticks": 9571
+    },
+    {
+      "attempt": 7,
+      "commands_equal": 10478,
+      "course": "CANYN",
+      "level": 1,
+      "recovery_phases": {
+        "Mounted": 10478
+      },
+      "replay_sha256": "07c27462f97b3607fd24eaef9f04ab77881fbe96cb653ecd486f15671d83962c",
+      "source_routes": [
+        0
+      ],
+      "state_sha256": "2befb6f0283d0d966657805381e2f2d793f70cda7b610eee4e0271438658c674",
+      "ticks": 10478
+    },
+    {
+      "attempt": 8,
+      "commands_equal": 17527,
+      "course": "MEDLY",
+      "level": 2,
+      "recovery_phases": {
+        "GettingUp": 180,
+        "Mounted": 16504,
+        "Mounting": 162,
+        "Sliding": 206,
+        "Standing": 96,
+        "Walking": 379
+      },
+      "replay_sha256": "d5774a0a6a32843aa4c423ef51789a18d34e6ceef81fe7d80584b23f424aba28",
+      "source_routes": [
+        0
+      ],
+      "state_sha256": "1ac7a09d264dd600c6e89a4cfbffa3d05fc22c17a6b7c478b5b4c67777822b97",
+      "ticks": 17527
+    },
+    {
+      "attempt": 9,
+      "commands_equal": 15543,
+      "course": "MEDLY",
+      "level": 2,
+      "recovery_phases": {
+        "Mounted": 15543
+      },
+      "replay_sha256": "0f72f1856327559cb60d613fc3926807ef365dd5e1398a7305f4f0a249d96644",
+      "source_routes": [
+        0
+      ],
+      "state_sha256": "3be5bf692d1a6fc0ad41f1f225d160a5ea72e061125d83f2d33b112128c58429",
+      "ticks": 15543
+    },
+    {
+      "attempt": 10,
+      "commands_equal": 15392,
+      "course": "MEDLY",
+      "level": 2,
+      "recovery_phases": {
+        "Mounted": 15392
+      },
+      "replay_sha256": "0b925f0702dcc61f6392d31fdfe417dca54d750b956c2491a568eba8813d243a",
+      "source_routes": [
+        0
+      ],
+      "state_sha256": "273209de50ba2fbeb90a46edaa3a7c047e2dfc338923955c3eba142af0ce7bd5",
+      "ticks": 15392
+    },
+    {
+      "attempt": 11,
+      "commands_equal": 16073,
+      "course": "MEDLY",
+      "level": 2,
+      "recovery_phases": {
+        "GettingUp": 90,
+        "Mounted": 15660,
+        "Mounting": 81,
+        "Sliding": 162,
+        "Standing": 48,
+        "Walking": 32
+      },
+      "replay_sha256": "84161a832948e566b201584983ec17f8b33b74cfbf9903e839f629123df6c4a1",
+      "source_routes": [
+        0
+      ],
+      "state_sha256": "2d3e2a7d32a2321aef3bf9bf43a596a72e8c6c8078151b507fa3dba212304963",
+      "ticks": 16073
+    },
+    {
+      "attempt": 12,
+      "commands_equal": 14854,
+      "course": "CITY",
+      "level": 2,
+      "recovery_phases": {
+        "Mounted": 14854
+      },
+      "replay_sha256": "47fc73f9ef8332eeaab193db49eb37035d5b5ebd99ec5cae8559b03506d97b68",
+      "source_routes": [
+        0
+      ],
+      "state_sha256": "2837d26838d24ec60a02c57d2d183a82398b6d66662d5eb1113e7844e2ae1147",
+      "ticks": 14854
+    },
+    {
+      "attempt": 13,
+      "commands_equal": 14599,
+      "course": "HIWAY",
+      "level": 2,
+      "recovery_phases": {
+        "Mounted": 14599
+      },
+      "replay_sha256": "f75c8ff903336ca5548824815a2c4f575821616352674fd840027413313970ca",
+      "source_routes": [
+        0
+      ],
+      "state_sha256": "4e2e16a4a04c5c1d8c1821043e8adbe2595c3b4c095d56ea3f2be497970d3806",
+      "ticks": 14599
+    },
+    {
+      "attempt": 14,
+      "commands_equal": 13205,
+      "course": "NAPA",
+      "level": 2,
+      "recovery_phases": {
+        "Mounted": 13205
+      },
+      "replay_sha256": "55c0d3ce3feacb2d3964c6199efabc2245abb42fe8e4b60aa66a0c31f6aeacd0",
+      "source_routes": [
+        0
+      ],
+      "state_sha256": "5ed2fbfa160dfdcbd687dbbf9b72e0a7cfa7cc3171eea9a56d49b3ab2ec3a0cd",
+      "ticks": 13205
+    },
+    {
+      "attempt": 15,
+      "commands_equal": 14237,
+      "course": "CANYN",
+      "level": 2,
+      "recovery_phases": {
+        "Mounted": 14237
+      },
+      "replay_sha256": "a475d19e596c3224e35bc035b79d375049b40e96089aaa820de3facb9f6b61fb",
+      "source_routes": [
+        0
+      ],
+      "state_sha256": "fe55e110ef0f23d2e7d1ec3e92835246d7cdcade84afb452f385795326a9e4f7",
+      "ticks": 14237
+    },
+    {
+      "attempt": 16,
+      "commands_equal": 19531,
+      "course": "MEDLY",
+      "level": 3,
+      "recovery_phases": {
+        "Mounted": 19531
+      },
+      "replay_sha256": "0c60527f0c3b84e0607bcc66668399b5bb996eeb189b388439b1b64b09b93dba",
+      "source_routes": [
+        0,
+        1
+      ],
+      "state_sha256": "55c8c2fd1317b4123626b60843ac94a3aa2f6f82c0bf7075ea50a7394751a955",
+      "ticks": 19531
+    },
+    {
+      "attempt": 17,
+      "commands_equal": 19530,
+      "course": "MEDLY",
+      "level": 3,
+      "recovery_phases": {
+        "Mounted": 19530
+      },
+      "replay_sha256": "e26e6487632eb1c47ff0fa7212ac10862c0c17bd1b196b8cde69771d79bb1452",
+      "source_routes": [
+        0,
+        1
+      ],
+      "state_sha256": "04f4762792f99881d150b65b1e67130c5cac4aa70e97b41f34b2a8364968853b",
+      "ticks": 19530
+    },
+    {
+      "attempt": 18,
+      "commands_equal": 18605,
+      "course": "CITY",
+      "level": 3,
+      "recovery_phases": {
+        "Mounted": 18605
+      },
+      "replay_sha256": "4bd3434e717771abacd643cd5d2cd17a51a642aea805a2370a406d11f9cb60da",
+      "source_routes": [
+        0
+      ],
+      "state_sha256": "32b836930407c472fa4a74046591f2214ef69db5482f098b1b3a5136f6e984d2",
+      "ticks": 18605
+    },
+    {
+      "attempt": 19,
+      "commands_equal": 16184,
+      "course": "HIWAY",
+      "level": 3,
+      "recovery_phases": {
+        "Mounted": 16184
+      },
+      "replay_sha256": "561ec022972c364222c9d8a41dc52fa99d09a764f39a028da752ad515d9e2dbf",
+      "source_routes": [
+        0
+      ],
+      "state_sha256": "e0d3c2aa23aa8cefafe71b592d3001508f97bcea62305e4757c2ccfa0709b965",
+      "ticks": 16184
+    },
+    {
+      "attempt": 20,
+      "commands_equal": 16619,
+      "course": "NAPA",
+      "level": 3,
+      "recovery_phases": {
+        "Mounted": 16619
+      },
+      "replay_sha256": "ba53717d00c9044a1a2f2be05f929850f4a2feb95ed892e6289a836a152fcbc5",
+      "source_routes": [
+        0
+      ],
+      "state_sha256": "6354c8c082c6368d1f5cd6fc171982e5565572f7e26e7473c2ba042d921293ca",
+      "ticks": 16619
+    },
+    {
+      "attempt": 21,
+      "commands_equal": 17315,
+      "course": "CANYN",
+      "level": 3,
+      "recovery_phases": {
+        "Mounted": 17315
+      },
+      "replay_sha256": "8e3c5910db30c0824896f83c92d434e56f27fbd5ac5d24845d81b10a9f00e0d1",
+      "source_routes": [
+        0,
+        2
+      ],
+      "state_sha256": "d217debe8d6ca8694ea1b31df0de6e540788d798399228e111fb3c98e03f3c7d",
+      "ticks": 17315
+    },
+    {
+      "attempt": 22,
+      "commands_equal": 21080,
+      "course": "CITY",
+      "level": 4,
+      "recovery_phases": {
+        "Mounted": 21080
+      },
+      "replay_sha256": "02528717f83349c8c72c439b71125b00f1506fffba7e7d909d1824f5362c96ce",
+      "source_routes": [
+        0
+      ],
+      "state_sha256": "057cda03701c767d2a8b72c57bd4809348b7c028f0f256788c794bc2af332bca",
+      "ticks": 21080
+    },
+    {
+      "attempt": 23,
+      "commands_equal": 20595,
+      "course": "HIWAY",
+      "level": 4,
+      "recovery_phases": {
+        "Mounted": 20595
+      },
+      "replay_sha256": "e2ab200e78f80f3f7211e217350f71cf79bd6ece5e6997192d1134e53c89dde7",
+      "source_routes": [
+        0
+      ],
+      "state_sha256": "52d0d7547b973011d2e022883c2d44333edfa0ff94caa7ae9958b5b052d36ec1",
+      "ticks": 20595
+    },
+    {
+      "attempt": 24,
+      "commands_equal": 24933,
+      "course": "MEDLY",
+      "level": 4,
+      "recovery_phases": {
+        "Mounted": 24933
+      },
+      "replay_sha256": "84bba2371604188eccc18fb7f529586bea0e192b77474731b474c39c4443eb33",
+      "source_routes": [
+        0
+      ],
+      "state_sha256": "6fc06de04d3b7af77d56bf0d2f8034ce95fca03e22e0936ec97c83aa219745e7",
+      "ticks": 24933
+    },
+    {
+      "attempt": 25,
+      "commands_equal": 19824,
+      "course": "NAPA",
+      "level": 4,
+      "recovery_phases": {
+        "Mounted": 19824
+      },
+      "replay_sha256": "356035ae39b9ec80979d87dbd30ae62ae6a051741d005b5eab6b673cb33019b2",
+      "source_routes": [
+        0
+      ],
+      "state_sha256": "d8a045cf050a200a8360a4ca9fe578e27aba4315accda355de8252c6797037a2",
+      "ticks": 19824
+    },
+    {
+      "attempt": 26,
+      "commands_equal": 18762,
+      "course": "CANYN",
+      "level": 4,
+      "recovery_phases": {
+        "Mounted": 18762
+      },
+      "replay_sha256": "167f510e946813d20f03215284502f1e0de67b766cc681ba325ff31f04a27e03",
+      "source_routes": [
+        0,
+        2
+      ],
+      "state_sha256": "dfffb84289d1b02924a9a92ca0435bc6c173991bb630664b08f45aa5f94ec7e4",
+      "ticks": 18762
+    },
+    {
+      "attempt": 27,
+      "commands_equal": 24255,
+      "course": "CITY",
+      "level": 5,
+      "recovery_phases": {
+        "Mounted": 24255
+      },
+      "replay_sha256": "0b034e8eeab7325c49dfe649c76a5395baf97ee9a46f0379a55a87ed848fc27e",
+      "source_routes": [
+        0
+      ],
+      "state_sha256": "086d0b10ced4763c219cc5ed9ba81cafd955fe7608b9ab4989b752455fd29f90",
+      "ticks": 24255
+    },
+    {
+      "attempt": 28,
+      "commands_equal": 25184,
+      "course": "HIWAY",
+      "level": 5,
+      "recovery_phases": {
+        "Mounted": 25184
+      },
+      "replay_sha256": "68acaf0fb853752eb2f85a1553c16298e575df55a691582e54d254624f7ebef9",
+      "source_routes": [
+        0
+      ],
+      "state_sha256": "95112adde9f40fd32dc25a4a46a47a3ab101ed03c1a41214af7bb42a7c39f48b",
+      "ticks": 25184
+    },
+    {
+      "attempt": 29,
+      "commands_equal": 25252,
+      "course": "MEDLY",
+      "level": 5,
+      "recovery_phases": {
+        "Mounted": 25252
+      },
+      "replay_sha256": "392d89200642f070c377375f8262e9bd51782bace293094e2c635e8f66014289",
+      "source_routes": [
+        0
+      ],
+      "state_sha256": "854ec5d54a0e5603eface5b4067a20c83ea764b989165d05d4e324b3c7d545c6",
+      "ticks": 25252
+    },
+    {
+      "attempt": 30,
+      "commands_equal": 27392,
+      "course": "NAPA",
+      "level": 5,
+      "recovery_phases": {
+        "Mounted": 27392
+      },
+      "replay_sha256": "71e3a0188d8ec3cfcf7de71c4b25aa27f9f48126056e71465e0e613244904d4c",
+      "source_routes": [
+        0
+      ],
+      "state_sha256": "b5fbd210e40804905476e080df203e98126d107b03c78689057012ace8862625",
+      "ticks": 27392
+    },
+    {
+      "attempt": 31,
+      "commands_equal": 24902,
+      "course": "CANYN",
+      "level": 5,
+      "recovery_phases": {
+        "GettingUp": 180,
+        "Mounted": 24449,
+        "Mounting": 162,
+        "Sliding": 2,
+        "Standing": 96,
+        "Walking": 13
+      },
+      "replay_sha256": "b919410cb3a34f8ede4d53fbd29b1878494bde8626cfce926d5135de06a70ba1",
+      "source_routes": [
+        0,
+        2
+      ],
+      "state_sha256": "a0b53f2efaf68bf84735b86964241de23dc6e05b837277607595bc48feae4fd9",
+      "ticks": 24902
+    }
+  ],
+  "scope": "Every optimized default-driver command compared with the immutable pre-optimization genuine current-career command stream, then original replay commands advanced the unchanged simulation; all final canonical hashes verified.",
+  "original_career_application_sha256": "c8c9c63f12f07852c3ae65916a9ba0efae026f88334252ab8ae562a667a00024",
+  "original_career_replay_binary_sha256": "397de51a3c2714d35f4897724f0615986c1b18cd74d89e1c9c53e4ebd0ea3d8b",
+  "private_receipt_sha256": "fb8a5c253c91d450f0dc8b36e894afa0b39762e0c83bfb8b7fd9699865ad2ae1",
+  "driver_test_binary_sha256": "be9bb6ab5297405f8f8c7ae287a7bbe2260d5c39a59f82edefd65e9e7779e8cb",
+  "command_policy_changed": false,
+  "physics_ai_or_rules_changed": false,
+  "public_regressions": {
+    "forecast_advance_error_pose_crossings": "passed",
+    "strict_rr_game_presentation_clippy": "passed"
+  },
+  "recovery_phase_observations": {
+    "Mounted": 534598,
+    "GettingUp": 540,
+    "Mounting": 486,
+    "Sliding": 520,
+    "Standing": 288,
+    "Walking": 442
+  },
+  "scope_note": "This proves command equivalence against immutable pre-optimization actual-race recordings, including all25cases and six realcrash/recovery episodes. It is not full nativevariable-dtparity or a frame-time acceptance."
+}

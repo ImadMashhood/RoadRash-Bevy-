@@ -1,0 +1,89 @@
+{
+  "outcome": "exploratory_wall_target_missed",
+  "source_revision": "9ff9c95eb9174823e1847150ae63a22c5b05faf5",
+  "scope": "Three short8s City level3/bike8 probes, native original graphics, audio/video off, vsync off. No short probe supplies required five-minute or hour acceptance. Preserved misses motivated uncontended320s diagnosis; switching simple planner did not improve the virtual-display short scope. No causal conclusion about display alone.",
+  "thresholds_unchanged": true,
+  "rows": [
+    {
+      "probe": "hardware-check",
+      "display": ":199",
+      "pilot": "default cached MPC",
+      "binary_sha256": "6efe6d66d1267faf38970e929445a28fa36f3228b8c2023a7a9e0ff2772fe1b5",
+      "duration_s": 8.17123463,
+      "simulation_seconds": 7.083333333333333,
+      "frames": 334,
+      "paused_frames": 0,
+      "gpu_adapter": "AdapterInfo { name: \"NVIDIA GeForce RTX 3080\", vendor: 4318, device: 8726, device_type: DiscreteGpu, device_pci_bus_id: \"0000:0a:00.0\", driver: \"NVIDIA\", driver_info: \"615.78.08\", backend: Vulkan, subgroup_min_size: 32, subgroup_max_size: 32, transient_saves_memory: Some(false), limit_bucket: None }",
+      "wall_frame_ms": {
+        "count": 274,
+        "max": 24.92781,
+        "p50": 21.022005,
+        "p95": 23.119588,
+        "p99": 23.558719
+      },
+      "cpu_raster_ms": {
+        "count": 274,
+        "max": 17.78414,
+        "p50": 12.588763,
+        "p95": 14.416151000000001,
+        "p99": 15.743483
+      },
+      "report_sha256": "b6abc9dbf4de38ef8423f3e033904bf9682e7a477c062147b9120a88ca3acbc5",
+      "wall_p95_target_met_in_short_scope": false
+    },
+    {
+      "probe": "xwayland-short",
+      "display": ":0",
+      "pilot": "default cached MPC",
+      "binary_sha256": "6efe6d66d1267faf38970e929445a28fa36f3228b8c2023a7a9e0ff2772fe1b5",
+      "duration_s": 8.169207789,
+      "simulation_seconds": 7.083333333333333,
+      "frames": 447,
+      "paused_frames": 0,
+      "gpu_adapter": "AdapterInfo { name: \"NVIDIA GeForce RTX 3080\", vendor: 4318, device: 8726, device_type: DiscreteGpu, device_pci_bus_id: \"0000:0a:00.0\", driver: \"NVIDIA\", driver_info: \"615.78.08\", backend: Vulkan, subgroup_min_size: 32, subgroup_max_size: 32, transient_saves_memory: Some(false), limit_bucket: None }",
+      "wall_frame_ms": {
+        "count": 387,
+        "max": 22.201169999999998,
+        "p50": 15.833822000000001,
+        "p95": 19.172516,
+        "p99": 21.961823
+      },
+      "cpu_raster_ms": {
+        "count": 387,
+        "max": 14.663444,
+        "p50": 10.23435,
+        "p95": 12.822600999999999,
+        "p99": 13.706835
+      },
+      "report_sha256": "8d4182d858d74f4917f7e5c80a0eb055394cec3856fe3edfc84e936b116776c7",
+      "wall_p95_target_met_in_short_scope": false
+    },
+    {
+      "probe": "simple-pilot-short",
+      "display": ":199",
+      "pilot": "RR_DRIVER_LEGACY=1",
+      "binary_sha256": "6efe6d66d1267faf38970e929445a28fa36f3228b8c2023a7a9e0ff2772fe1b5",
+      "duration_s": 8.17514357,
+      "simulation_seconds": 7.133333333333334,
+      "frames": 329,
+      "paused_frames": 0,
+      "gpu_adapter": "AdapterInfo { name: \"NVIDIA GeForce RTX 3080\", vendor: 4318, device: 8726, device_type: DiscreteGpu, device_pci_bus_id: \"0000:0a:00.0\", driver: \"NVIDIA\", driver_info: \"615.78.08\", backend: Vulkan, subgroup_min_size: 32, subgroup_max_size: 32, transient_saves_memory: Some(false), limit_bucket: None }",
+      "wall_frame_ms": {
+        "count": 269,
+        "max": 34.509269,
+        "p50": 22.133214,
+        "p95": 23.463462,
+        "p99": 24.114959
+      },
+      "cpu_raster_ms": {
+        "count": 269,
+        "max": 15.689041000000001,
+        "p50": 12.108135,
+        "p95": 14.563627,
+        "p99": 15.262143
+      },
+      "report_sha256": "3af0d90251fc2bb68597ad430cb1756355e3d4a93c1aa4938ae055a8f46d1cf6",
+      "wall_p95_target_met_in_short_scope": false
+    }
+  ]
+}

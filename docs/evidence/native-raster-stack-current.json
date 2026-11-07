@@ -1,0 +1,13 @@
+{
+  "outcome": "passed",
+  "scope": "Old raster from 65310d2 and corrected root raster, using the same instrumented verifier reporter. All 25 course/level cases and 75 fixed camera views compare exactly. Each also compares serial versus 6-worker parallel pixels, depth and full render receipt. No masks or tolerances.",
+  "course_level_cases": 25,
+  "fixed_camera_cases": 75,
+  "rgba_depth_render_receipt_equal": true,
+  "old_binary_sha256": "3a3dd0ee50275c771cf1752a4689e3d7e4abd82bf792878b5d34a4a254880406",
+  "new_binary_sha256": "50d1366855a6efd3e05b8eab5a8472dc210c095b39ca55dc8355589d4695e504",
+  "before_report_sha256": "9bc989fb2d7b5a860fa94ad09ec3083ee0c94349a43326cf6f3c15a06ce1349d",
+  "after_report_sha256": "9bc989fb2d7b5a860fa94ad09ec3083ee0c94349a43326cf6f3c15a06ce1349d",
+  "authority_changed": false,
+  "harness_history": "Initial shared-target after-build reused the old renderer library/binary despite Cargo reporting fresh. Matching executable identities exposed that invalid run, which is excluded. Explicitly rebuilding the changed root library produced the distinct corrected binary; identities were checked before accepting the comparison."
+}

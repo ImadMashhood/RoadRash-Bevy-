@@ -80,7 +80,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                     )
                     .into());
                 }
-                captures.push(serde_json::json!({"sample":sample,"rgba_sha256":rr_content::hash(&serial.image.pixels),"different_pixels":0,"depth_equal":true}));
+                let depth_bytes: Vec<_> = serial
+                    .depth
+                    .iter()
+                    .flat_map(|value| value.to_bits().to_le_bytes())
+                    .collect();
+                captures.push(serde_json::json!({"sample":sample,"rgba_sha256":rr_content::hash(&serial.image.pixels),"depth_sha256":rr_content::hash(&depth_bytes),"render_receipt_sha256":rr_content::hash(&serde_json::to_vec(&receipt)?),"different_pixels":0,"depth_equal":true}));
             }
             rows.push(serde_json::json!({"course":stem,"level":level,"status":"passed","animated_pedestrian_appearances":assets.pedestrian_appearances.len(),"pedestrian_voice_references":assets.pedestrian_voices.values().flatten().filter(|v|v.is_some()).count(),"animated_pose_cases":poses,"fixed_camera_cases":captures}));
         }

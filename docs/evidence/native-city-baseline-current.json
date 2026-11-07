@@ -1,0 +1,81 @@
+{
+  "outcome": "diagnostic_failed",
+  "scope": "One uncontended full320s CITY level3/bike8 diagnostic of preserved before-fix executable. Ordinary user desktop untouched. Native original graphics and hardware Vulkan; audio/video off, frontend/session ownership suppressed but nativeHUD/physics/roadusers active, real terminal restarts. Not complete five-course or hour acceptance.",
+  "source_revision": "9ff9c95eb9174823e1847150ae63a22c5b05faf5",
+  "binary_sha256": "6efe6d66d1267faf38970e929445a28fa36f3228b8c2023a7a9e0ff2772fe1b5",
+  "started_utc": "2026-11-07T11:13:21.550737+00:00",
+  "duration_s": 320.170228894,
+  "simulation_seconds": 319.06666666666666,
+  "paused_frames": 0,
+  "restarts": 1,
+  "gpu_adapter": "AdapterInfo { name: \"NVIDIA GeForce RTX 3080\", vendor: 4318, device: 8726, device_type: DiscreteGpu, device_pci_bus_id: \"0000:0a:00.0\", driver: \"NVIDIA\", driver_info: \"615.78.08\", backend: Vulkan, subgroup_min_size: 32, subgroup_max_size: 32, transient_saves_memory: Some(false), limit_bucket: None }",
+  "actual_window": {
+    "logical": [
+      960.0,
+      720.0
+    ],
+    "physical": [
+      960,
+      720
+    ],
+    "scale_factor": 1.0
+  },
+  "timing": {
+    "error": "Native 60 Hz frame budget exceeded: CITY",
+    "wall_frame_ms": {
+      "count": 16864,
+      "max": 70.14313,
+      "p50": 18.653791,
+      "p95": 24.312991999999998,
+      "p99": 27.0713
+    },
+    "cpu_raster_ms": {
+      "count": 16864,
+      "max": 22.58431,
+      "p50": 11.913606999999999,
+      "p95": 15.577007,
+      "p99": 17.434722
+    },
+    "gpu_pass_ms": {
+      "render/auxiliary_views/elapsed_gpu": {
+        "count": 16802,
+        "max": 0.011264,
+        "p50": 0.008192,
+        "p95": 0.009216,
+        "p99": 0.01024
+      },
+      "render/main_opaque_pass_2d/elapsed_gpu": {
+        "count": 16802,
+        "max": 0.009216,
+        "p50": 0.007168,
+        "p95": 0.007168,
+        "p99": 0.007168
+      },
+      "render/main_transparent_pass_2d/elapsed_gpu": {
+        "count": 16802,
+        "max": 0.292864,
+        "p50": 0.254976,
+        "p95": 0.268288,
+        "p99": 0.273408
+      },
+      "render/upscaling/elapsed_gpu": {
+        "count": 16802,
+        "max": 0.128,
+        "p50": 0.096256,
+        "p95": 0.106496,
+        "p99": 0.110592
+      }
+    }
+  },
+  "memory": {
+    "max_rss_bytes": 799531008,
+    "max_decoded_pixel_bytes": 172492716,
+    "max_gpu_image_bytes": 6651932,
+    "max_cpu_images": 11,
+    "max_gpu_images": 11,
+    "entity_index_slots": [
+      512
+    ]
+  },
+  "report_sha256": "b0f7d7dcfea8100348788a0e4e52f125271298a58aaf70f546b8128582efb654"
+}

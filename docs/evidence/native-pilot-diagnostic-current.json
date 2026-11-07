@@ -1,0 +1,84 @@
+{
+  "outcome": "short_wall_target_missed",
+  "scope": "Exploratory uncontended30s CITY level3/bike8 after sourceUI orphan-atlas and exact-pixel stack-clipping corrections, including newFixedUpdatepilot diagnostics. Not a five-minute or hour acceptance and not a matched full-duration before/after speedup comparison. Ordinary user desktop untouched.",
+  "binary_sha256": "fa1747c9933a362b0b3b4be32dd9a116f55a9596d627a6b727843d6d42676457",
+  "source_status": "development instrumentation; final source freeze pending",
+  "duration_s": 30.17287999,
+  "simulation_seconds": 29.083333333333332,
+  "paused_frames": 0,
+  "actual_window": {
+    "logical": [
+      960.0,
+      720.0
+    ],
+    "physical": [
+      960,
+      720
+    ],
+    "scale_factor": 1.0
+  },
+  "gpu_adapter": "AdapterInfo { name: \"NVIDIA GeForce RTX 3080\", vendor: 4318, device: 8726, device_type: DiscreteGpu, device_pci_bus_id: \"0000:0a:00.0\", driver: \"NVIDIA\", driver_info: \"615.78.08\", backend: Vulkan, subgroup_min_size: 32, subgroup_max_size: 32, transient_saves_memory: Some(false), limit_bucket: None }",
+  "benchmark_pilot_policy": "default cached route planner with 60-tick prediction",
+  "benchmark_pilot_calls": 1745,
+  "benchmark_pilot_cpu_ms": {
+    "count": 1745,
+    "max": 6.753859,
+    "p50": 2.3951290000000003,
+    "p95": 2.906685,
+    "p99": 5.610571
+  },
+  "benchmark_driver_command_cpu_ms": {
+    "count": 1745,
+    "max": 6.710087,
+    "p50": 2.340115,
+    "p95": 2.8484360000000004,
+    "p99": 5.585113
+  },
+  "timer_scope": "Elapsed CPU time around each FixedUpdate pilot callback, including snapshot/config/restart work. Driver::command is a nested subset; do not add its percentile to whole callback. Includes thread descheduling, excludes simulation advance and raster.",
+  "wall_frame_ms": {
+    "count": 1503,
+    "max": 30.372944,
+    "p50": 18.337438000000002,
+    "p95": 24.72334,
+    "p99": 27.247229
+  },
+  "cpu_raster_ms": {
+    "count": 1503,
+    "max": 20.04392,
+    "p50": 11.708825000000001,
+    "p95": 15.16174,
+    "p99": 16.579371
+  },
+  "gpu_pass_ms": {
+    "render/auxiliary_views/elapsed_gpu": {
+      "count": 1463,
+      "max": 0.01024,
+      "p50": 0.007168,
+      "p95": 0.008192,
+      "p99": 0.008192
+    },
+    "render/main_opaque_pass_2d/elapsed_gpu": {
+      "count": 1463,
+      "max": 0.013312,
+      "p50": 0.007168,
+      "p95": 0.007168,
+      "p99": 0.007168
+    },
+    "render/main_transparent_pass_2d/elapsed_gpu": {
+      "count": 1463,
+      "max": 0.280576,
+      "p50": 0.253952,
+      "p95": 0.263168,
+      "p99": 0.273408
+    },
+    "render/upscaling/elapsed_gpu": {
+      "count": 1463,
+      "max": 0.111616,
+      "p50": 0.095232,
+      "p95": 0.104448,
+      "p99": 0.108544
+    }
+  },
+  "report_sha256": "b52ab28cf07f72b431c28e00e6c83ca91b6769a565e9aa430f043228a2b241c4",
+  "interpretation": "Pilot contributes measurable CPU work but no causal attribution of the entire wall/raster difference is established. Percentiles from different scopes cannot be summed or subtracted as matching frames."
+}

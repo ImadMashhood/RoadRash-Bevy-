@@ -1,0 +1,20 @@
+{
+  "outcome": "passed_for_allocator_budget",
+  "source_revision": "9ff9c95eb9174823e1847150ae63a22c5b05faf5",
+  "binary_sha256": "6efe6d66d1267faf38970e929445a28fa36f3228b8c2023a7a9e0ff2772fe1b5",
+  "tool": "Heaptrack1.5.0; private extracted Fedora tools in space-free /tmp path; --record-only and CLI analysis",
+  "duration_s": 60.195016565,
+  "frames": 1546,
+  "source_courses": 5,
+  "course_laps": 2,
+  "peak_heap_display": "484.97M",
+  "sampled_massif_peak_heap_bytes": 484921973,
+  "profiled_heap_budget_bytes": 805306368,
+  "peak_rss_with_profiler_display": "1.17G",
+  "allocation_calls": 19307337,
+  "unreleased_at_process_exit_display": "1.01M",
+  "suppressed_global_library_allocations_display": "162.26K",
+  "scope": "Frozen native original-art application, two five-course tours, audio off. Clean-source rebuild overlapped this allocation-only trace, so frame timing is excluded from acceptance. Full hour and ordinary process residency have separate checks. Nonzero process-exit retention includes framework/global caches and persistent raster workers; not a zero-leak claim.",
+  "private_trace_sha256": "f62612137fded20633f99fa4701006aadeac66eb3b9265373507611c459bfc14",
+  "harness_history": "Initial CLI analysis selected single .zst suffix; heaptrack had added another .zst. File-open failure retained, then correct trace analyzed successfully; no application failure."
+}

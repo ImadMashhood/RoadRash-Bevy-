@@ -1,0 +1,13 @@
+{
+  "outcome": "passed",
+  "course_level_cases": 25,
+  "fixed_camera_views": 75,
+  "rgba_depth_render_receipts_equal": true,
+  "before_report_sha256": "9bc989fb2d7b5a860fa94ad09ec3083ee0c94349a43326cf6f3c15a06ce1349d",
+  "after_report_sha256": "9bc989fb2d7b5a860fa94ad09ec3083ee0c94349a43326cf6f3c15a06ce1349d",
+  "old_binary_sha256": "3a3dd0ee50275c771cf1752a4689e3d7e4abd82bf792878b5d34a4a254880406",
+  "new_binary_sha256": "db9bc3aacfe80841b63be513b4fc51ad6631ec6e50613815bd5aec9254e56a8d",
+  "scalar_compatibility_cases_at_least": 2200000,
+  "scalar_scope": "100,000 deterministic f64 bit patterns at 11 texture widths, repeat and clamp, plus signed zero, subnormals, infinities/NaNs, large integers and both neighbors of texel boundaries. Exact original-formula index equality, not timing acceptance.",
+  "profile_basis": "Sampled userspace CPU: Frame::polygon 58.722%, fmod/floor 15.438% on the 6b5e diagnostic executable. Profiled times are excluded from acceptance."
+}

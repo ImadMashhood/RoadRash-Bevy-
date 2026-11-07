@@ -34,8 +34,9 @@ They certify that immutable build only. The current career is verified; replacem
 The [sequential completion ledger](COMPLETION_EXECUTION.md) tracks the owner's
 remaining work. Scenery, collision/topology and combat/police are verified;
 detached recovery and genuine career/ordinary UI are verified. Replacement release verification is active.
-The current workspace has 508 passing tests and 57 explicitly ignored
-private-data tests. All 25 source factories pass four replay schedules, and ten
+The last full release-mode workspace run passes 510 tests with 57 explicit
+private-data skips. The new texture-index and driver-forecast regressions also pass;
+536,874 optimized driver decisions exactly match the recorded genuine career. All 25 source factories pass four replay schedules, and ten
 ordinary steered fork approaches pass independent current-release replay. The corrected continuous-facade brush passes all four rates and graphical
 replay. Its original fixture crossed an opening and struck a building corner on
 tick42 in both games; that result is preserved without changing physics.

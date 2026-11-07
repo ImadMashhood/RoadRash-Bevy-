@@ -134,6 +134,7 @@ fn draw(
     mut images: ResMut<Assets<Image>>,
     mut last_mode: Local<Option<bool>>,
 ) {
+    let prepare_started = std::time::Instant::now();
     let selected = &mut surface.1;
     if selected
         .source
@@ -200,22 +201,30 @@ fn draw(
     *last_mode = Some(enhanced);
     let snapshot = rr_render::camera::interpolated_snapshot(&previous, &current, view.2);
     let camera_spec = route_camera_spec(&scene.route, &course.camera, &previous, &current, view.2);
+    let prepare_ms = prepare_started.elapsed().as_secs_f64() * 1000.;
     let start = std::time::Instant::now();
     let workers = std::thread::available_parallelism().map_or(1, |n| n.get().min(6));
     let rendered = scene.draw_parallel(&camera_spec, &camera, &snapshot, enhanced, workers);
     if let Some(timing) = timing.as_deref_mut() {
+        timing.cpu_prepare_ms = prepare_ms;
+        timing.cpu_upload_ms = 0.;
         timing.cpu_draw_ms = start.elapsed().as_secs_f64() * 1000.;
         timing.draws += 1;
     }
     match rendered {
         Ok((frame, _)) => {
-            if crate::upload_rgba(
+            let upload_started = std::time::Instant::now();
+            let replaced = crate::upload_rgba(
                 &mut images,
                 &mut surface.0,
                 frame.image.width,
                 frame.image.height,
                 frame.image.pixels,
-            ) {
+            );
+            if let Some(timing) = timing.as_deref_mut() {
+                timing.cpu_upload_ms = upload_started.elapsed().as_secs_f64() * 1000.;
+            }
+            if replaced {
                 for mut sprite in &mut surfaces {
                     sprite.image = surface.0.clone();
                 }

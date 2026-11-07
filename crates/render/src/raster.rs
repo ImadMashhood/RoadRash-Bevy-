@@ -120,27 +120,34 @@ impl Frame {
             self.stats.degenerate += 1;
             return;
         }
-        let clipped = clip_near(vertices, spec.near_q8);
+        // The accepted input has at most 16 vertices. Clipping one plane emits
+        // at most an intersection and the original vertex per input edge.
+        // Keep this hot path on the stack for every polygon/raster stripe.
+        let mut clipped = [vertices[0]; 32];
+        let mut count = 0;
+        visit_near(vertices, spec.near_q8, |vertex| {
+            clipped[count] = vertex;
+            count += 1;
+        });
+        let clipped = &clipped[..count];
         if clipped.len() != vertices.len() || vertices.iter().any(|v| v.z < spec.near_q8) {
             self.stats.clipped += 1
         }
         if clipped.len() < 3 {
             return;
         }
-        let projected: Vec<_> = clipped
-            .iter()
-            .map(|v| {
-                let scale = depths.scale(v.z);
-                [
-                    f64::from(spec.width) / 2. + v.x * scale,
-                    spec.horizon + (spec.camera_height - v.y) * scale,
-                    v.z,
-                    v.u,
-                    v.v,
-                ]
-            })
-            .collect();
-        for i in 1..projected.len() - 1 {
+        let mut projected = [[0.; 5]; 32];
+        for (point, v) in projected.iter_mut().zip(clipped) {
+            let scale = depths.scale(v.z);
+            *point = [
+                f64::from(spec.width) / 2. + v.x * scale,
+                spec.horizon + (spec.camera_height - v.y) * scale,
+                v.z,
+                v.u,
+                v.v,
+            ];
+        }
+        for i in 1..clipped.len() - 1 {
             self.triangle([projected[0], projected[i], projected[i + 1]], texture)
         }
     }
@@ -225,16 +232,8 @@ impl Frame {
                         .sum::<f64>()
                         / inv
                 };
-                let texel = |v: f64, size: u32| {
-                    let v = if texture.repeat {
-                        v.rem_euclid(1.)
-                    } else {
-                        v.clamp(0., 1. - f64::EPSILON)
-                    };
-                    (v * f64::from(size)).floor().clamp(0., f64::from(size - 1)) as u32
-                };
-                let tx = texel(uv(3), image.width);
-                let ty = texel(uv(4), image.height);
+                let tx = texel_index(uv(3), image.width, texture.repeat);
+                let ty = texel_index(uv(4), image.height, texture.repeat);
                 let source = ((ty * image.width + tx) * 4) as usize;
                 let pixel = &image.pixels[source..source + 4];
                 if pixel[3] == 0 {
@@ -257,25 +256,118 @@ impl Frame {
         }
     }
 }
+#[inline]
+fn texel_index(value: f64, size: u32, repeat: bool) -> u32 {
+    let value = if repeat {
+        if (0. ..1.).contains(&value) {
+            value
+        } else {
+            // Modulo one has an exactly representable integral divisor. Removing
+            // the integral part preserves its fractional remainder; only negative
+            // fractions need the same +1 used by rem_euclid.
+            let fraction = value - value.trunc();
+            if fraction < 0. {
+                fraction + 1.
+            } else {
+                fraction
+            }
+        }
+    } else {
+        value.clamp(0., 1. - f64::EPSILON)
+    };
+    // The normalized coordinate is nonnegative (or NaN). Rust's saturating
+    // float-to-integer cast already performs the old floor/lower clamp here.
+    ((value * f64::from(size)) as u32).min(size - 1)
+}
 pub fn clip_near(vertices: &[Vertex], near: f64) -> Vec<Vertex> {
-    if vertices.is_empty() {
-        return vec![];
-    }
     let mut result = vec![];
+    visit_near(vertices, near, |vertex| result.push(vertex));
+    result
+}
+
+#[cfg(test)]
+mod texel_tests {
+    use super::texel_index;
+
+    fn previous_index(value: f64, size: u32, repeat: bool) -> u32 {
+        let value = if repeat {
+            value.rem_euclid(1.)
+        } else {
+            value.clamp(0., 1. - f64::EPSILON)
+        };
+        (value * f64::from(size))
+            .floor()
+            .clamp(0., f64::from(size - 1)) as u32
+    }
+
+    #[test]
+    fn texture_indices_preserve_wrapping_boundaries_and_all_float_classes() {
+        let sizes = [1, 2, 3, 7, 255, 256, 257, 640, 4096, 65535, u32::MAX];
+        let check = |value: f64| {
+            for size in sizes {
+                for repeat in [false, true] {
+                    assert_eq!(
+                        texel_index(value, size, repeat),
+                        previous_index(value, size, repeat),
+                        "bits={:016x} size={size} repeat={repeat}",
+                        value.to_bits()
+                    );
+                }
+            }
+        };
+        for value in [
+            f64::NAN,
+            f64::INFINITY,
+            f64::NEG_INFINITY,
+            f64::MAX,
+            -f64::MAX,
+            0.,
+            -0.,
+            f64::MIN_POSITIVE,
+            -f64::MIN_POSITIVE,
+            f64::from_bits(1),
+            -f64::from_bits(1),
+            2f64.powi(52),
+            -2f64.powi(52),
+        ] {
+            check(value);
+        }
+        for size in sizes {
+            for texel in [0, 1, size / 2, size - 1, size] {
+                for tile in -3..=3 {
+                    let edge = f64::from(tile) + f64::from(texel) / f64::from(size);
+                    check(edge);
+                    check(edge.next_down());
+                    check(edge.next_up());
+                }
+            }
+        }
+        let mut bits = 0x6a09e667f3bcc909u64;
+        for _ in 0..100_000 {
+            bits ^= bits << 13;
+            bits ^= bits >> 7;
+            bits ^= bits << 17;
+            check(f64::from_bits(bits));
+        }
+    }
+}
+fn visit_near(vertices: &[Vertex], near: f64, mut emit: impl FnMut(Vertex)) {
+    if vertices.is_empty() {
+        return;
+    }
     let mut previous = *vertices.last().unwrap();
     for &current in vertices {
         let a = previous.z >= near;
         let b = current.z >= near;
         if a != b {
             let t = (near - previous.z) / (current.z - previous.z);
-            result.push(Vertex::mix(previous, current, t))
+            emit(Vertex::mix(previous, current, t))
         }
         if b {
-            result.push(current)
+            emit(current)
         }
         previous = current;
     }
-    result
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
 pub enum SpriteClass {

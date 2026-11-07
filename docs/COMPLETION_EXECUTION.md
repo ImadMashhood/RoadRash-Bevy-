@@ -138,3 +138,17 @@ and preference persistence. New source checks pass 508 tests/57 explicit skips,
 diff checks. Evidence: `evidence/native-career-current.md` and
 `evidence/source-career-ui.md`. Replacement release stage6 now begins; no old RC4
 receipt or owner signoff is relabeled as current.
+
+
+Stage6 preflight found and corrected orphaned font atlas retention: the actual
+ten-cycle UI peaks at15 images against the unchanged16 limit, with exact Main
+pixels and stable512 index slots. A full320-second City baseline genuinely missed
+the wall-frame target; the preserved failure is not relabeled. Userspace profiling
+identified polygon and texture-coordinate work plus repeated planner forecasts.
+Bounded clipping buffers and exact texel indexing retain all75 native view
+RGBA/depth/receipt hashes; at least2.2million original-formula index comparisons
+pass. Driver caching preserves every one of536,874 recorded commands and31 final
+hashes. The combined default-policy30-second probe meets its short-scope target
+(p95 wall15.677ms), while proper long-run and replacement artifact gates remain
+open. All timings identify their own binaries; no short probe substitutes for the
+required five-minute or hour checks.
