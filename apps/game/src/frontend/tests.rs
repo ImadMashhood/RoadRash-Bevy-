@@ -548,6 +548,7 @@ fn preference_adapter_persists_bindings_audio_and_graphics_independently_from_ca
         .frontend
         .settings
         .wide = true;
+    apply(app.world_mut(), Act::Upscaled);
     app.world_mut()
         .resource_mut::<crate::Bindings>()
         .0
@@ -563,6 +564,7 @@ fn preference_adapter_persists_bindings_audio_and_graphics_independently_from_ca
             .unwrap();
     assert_eq!(p.settings.music_volume, 37);
     assert!(p.settings.wide);
+    assert!(p.settings.upscaled);
     assert_eq!(
         p.bindings.contexts[&rr_input::Context::Race][&rr_input::Action::Accelerate],
         vec![rr_input::Key::F10]
@@ -574,9 +576,53 @@ fn preference_adapter_persists_bindings_audio_and_graphics_independently_from_ca
         rr_session::persistence::preferences::Preferences::decode(&std::fs::read(&path).unwrap())
             .unwrap();
     assert!(!p.settings.wide);
+    assert!(!p.settings.upscaled);
     assert_eq!(p.settings.music_volume, 37);
     std::fs::remove_file(&path).unwrap();
     std::fs::remove_file(rr_session::persistence::disk::sidecar(&path, ".bak")).unwrap();
+}
+
+#[test]
+fn upscaled_menu_switch_updates_live_presentation_without_changing_the_race() {
+    let mut app = app();
+    start(&mut app, Mode::Thrash, 1);
+    apply(app.world_mut(), Act::Open(Screen::Paused));
+    apply(app.world_mut(), Act::Open(Screen::Settings));
+    let race = app.world().resource::<Race>().0.state_hash();
+    assert!(
+        menu(app.world().resource::<Shell>())
+            .1
+            .iter()
+            .any(|(label, _)| label == "UPSCALED: OFF")
+    );
+    app.world_mut().resource_mut::<VisualAssets>().switch_tick = Some(1);
+    apply(app.world_mut(), Act::Upscaled);
+    let visual = app.world().resource::<VisualAssets>();
+    assert!(visual.initially_enhanced);
+    assert!(visual.switch_tick.is_none());
+    assert!(app.world().resource::<LaunchOptions>().enhanced);
+    assert!(
+        menu(app.world().resource::<Shell>())
+            .1
+            .iter()
+            .any(|(label, _)| label == "UPSCALED: ON")
+    );
+    assert_eq!(app.world().resource::<Race>().0.state_hash(), race);
+    apply(app.world_mut(), Act::ResetGraphics);
+    assert!(!app.world().resource::<VisualAssets>().initially_enhanced);
+    assert!(!app.world().resource::<Shell>().frontend.settings.upscaled);
+    assert_eq!(app.world().resource::<Race>().0.state_hash(), race);
+    apply(app.world_mut(), Act::Back);
+    assert_eq!(
+        app.world().resource::<Shell>().frontend.screen,
+        Screen::Paused
+    );
+    apply(app.world_mut(), Act::Resume);
+    assert_eq!(
+        app.world().resource::<Shell>().frontend.screen,
+        Screen::Racing
+    );
+    assert!(!app.world().resource::<PauseState>().paused);
 }
 
 #[test]

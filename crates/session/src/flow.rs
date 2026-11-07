@@ -52,7 +52,9 @@ pub struct Settings {
     pub music_volume: u8,
     pub effect_volume: u8,
     pub track: Option<u8>,
-    pub enhanced: bool,
+    // Keep the stored key readable by existing releases.
+    #[serde(rename = "enhanced", alias = "upscaled")]
+    pub upscaled: bool,
     pub wide: bool,
 }
 impl Default for Settings {
@@ -73,7 +75,7 @@ impl Default for Settings {
             music_volume: 80,
             effect_volume: 80,
             track: None,
-            enhanced: false,
+            upscaled: false,
             wide: false,
         }
     }
@@ -96,7 +98,7 @@ impl Settings {
         Ok(())
     }
     pub fn reset_graphics(&mut self) {
-        self.enhanced = false;
+        self.upscaled = false;
         self.wide = false;
     }
 }
@@ -164,7 +166,7 @@ impl Frontend {
                 | (Settings, Credits | QuitConfirm)
                 | (Results, Standings)
                 | (Racing, Paused)
-                | (Paused, QuitConfirm)
+                | (Paused, Settings | QuitConfirm)
         );
         if !valid || self.stack.len() >= 16 {
             return Err("unavailable frontend transition".into());

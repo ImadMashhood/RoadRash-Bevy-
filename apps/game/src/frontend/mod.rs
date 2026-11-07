@@ -76,7 +76,7 @@ impl Shell {
         frontend.settings.vsync = options.vsync;
         frontend.settings.videos = options.video;
         frontend.settings.effects = options.effects;
-        frontend.settings.enhanced = options.enhanced;
+        frontend.settings.upscaled = options.enhanced;
         frontend.settings.wide = options.framing == rr_render::Framing::Wide;
         let mut active_slot = 0;
         if options.settings_file.exists() {
@@ -94,7 +94,7 @@ impl Shell {
         frontend.settings.vsync = options.vsync;
         frontend.settings.videos = options.video;
         frontend.settings.effects = options.effects;
-        frontend.settings.enhanced = options.enhanced;
+        frontend.settings.upscaled = options.enhanced;
         frontend.settings.wide = options.framing == rr_render::Framing::Wide;
         if options.career_file.exists() {
             match storage::load(&options.career_file, &catalog) {
@@ -322,7 +322,8 @@ enum Act {
     StopMusic,
     Effects,
     Music,
-    Enhanced,
+    #[serde(alias = "enhanced")]
+    Upscaled,
     Vsync,
     Language,
     TextScale,
@@ -622,8 +623,9 @@ fn apply(world: &mut World, action: Act) {
                         .max(1);
                     shell.credits_page = (shell.credits_page + pages - 1) % pages;
                 }
-                Act::Enhanced => {
-                    shell.frontend.settings.enhanced = !shell.frontend.settings.enhanced
+                Act::Upscaled => {
+                    shell.frontend.settings.upscaled = !shell.frontend.settings.upscaled;
+                    select_upscaled(world, shell.frontend.settings.upscaled);
                 }
                 Act::Wide => shell.frontend.settings.wide = !shell.frontend.settings.wide,
                 Act::MusicVolume => {
@@ -713,7 +715,10 @@ fn apply(world: &mut World, action: Act) {
                     shell.frontend.sync_career();
                     shell.notice = "Backup restored. Damaged primary retained separately.".into();
                 }
-                Act::ResetGraphics => shell.frontend.settings.reset_graphics(),
+                Act::ResetGraphics => {
+                    shell.frontend.settings.reset_graphics();
+                    select_upscaled(world, false);
+                }
                 Act::RestorePreferences => {
                     let options = world.resource::<LaunchOptions>();
                     rr_session::persistence::disk::restore(
@@ -726,6 +731,7 @@ fn apply(world: &mut World, action: Act) {
                     let bytes = rr_session::persistence::disk::read(&options.settings_file)?;
                     let (p, _) = rr_session::persistence::preferences::Preferences::decode(&bytes)?;
                     shell.frontend.settings = p.settings;
+                    select_upscaled(world, shell.frontend.settings.upscaled);
                     world.resource_mut::<crate::Bindings>().0 = p.bindings;
                     shell.notice = "Preferences backup restored.".into();
                 }
@@ -765,6 +771,17 @@ fn apply(world: &mut World, action: Act) {
             shell.focus = 0;
         }
     });
+}
+fn select_upscaled(world: &mut World, enabled: bool) {
+    {
+        let mut visual = world.resource_mut::<VisualAssets>();
+        visual.initially_enhanced = enabled;
+        // An explicit menu choice takes over from developer timed-switch probes.
+        visual.switch_tick = None;
+    }
+    let mut options = world.resource_mut::<LaunchOptions>();
+    options.enhanced = enabled;
+    options.switch_tick = None;
 }
 fn resume(world: &mut World, shell: &mut Shell) -> Result<(), String> {
     if !world.resource::<super::LiveInput>().0.drive.neutral()
@@ -844,7 +861,7 @@ fn coordinate(world: &mut World) {
             .catalog
             .character(shell.frontend.character)
             .map_or(0, |c| c.personality);
-        options.enhanced = shell.frontend.settings.enhanced;
+        options.enhanced = shell.frontend.settings.upscaled;
         options.effects = shell.frontend.settings.effects;
         options.condition_percent = if shell.frontend.mode == Mode::BigGame {
             shell.frontend.career.as_ref().map_or(100, |c| c.condition)

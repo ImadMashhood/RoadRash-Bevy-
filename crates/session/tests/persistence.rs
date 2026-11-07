@@ -244,6 +244,25 @@ fn preferences_defaults_legacy_unknown_keys_and_volume_limits() {
     assert!(Preferences::decode(br#"{"bindings":{"schema_version":99}}"#).is_err());
 }
 #[test]
+fn upscaled_preferences_keep_existing_profiles_compatible() {
+    assert!(!Preferences::default().settings.upscaled);
+    for key in ["enhanced", "upscaled"] {
+        let raw = format!(r#"{{"settings":{{"{key}":true}}}}"#);
+        let (mut preferences, warnings) = Preferences::decode(raw.as_bytes()).unwrap();
+        assert!(warnings.is_empty());
+        assert!(preferences.settings.upscaled);
+        let encoded: serde_json::Value =
+            serde_json::from_slice(&preferences.encode().unwrap()).unwrap();
+        // RC6 and older versions still read the same persisted boolean key.
+        assert_eq!(encoded["settings"]["enhanced"], true);
+        assert!(encoded["settings"].get("upscaled").is_none());
+        preferences.settings.reset_graphics();
+        assert!(!preferences.settings.upscaled);
+    }
+    assert!(Preferences::decode(br#"{"settings":{"enhanced":false,"upscaled":true}}"#).is_err());
+    assert!(Preferences::decode(br#"{"settings":{"upscaled":"on"}}"#).is_err());
+}
+#[test]
 fn graphics_reset_and_clean_profile_recovery_leave_career_independent() {
     let dir = root();
     let paths = UserPaths::profile(&dir);
@@ -262,7 +281,7 @@ fn graphics_reset_and_clean_profile_recovery_leave_career_independent() {
     .unwrap();
     let mut prefs = Preferences::default();
     prefs.settings.wide = true;
-    prefs.settings.enhanced = true;
+    prefs.settings.upscaled = true;
     prefs.settings.music_volume = 37;
     let cfg = paths.settings();
     disk::write(

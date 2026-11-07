@@ -321,10 +321,7 @@ pub(super) fn menu(shell: &Shell) -> (String, Vec<(String, Act)>) {
                 format!("SOUND CAPTIONS: {}", f.settings.subtitles),
                 Act::Subtitles
             );
-            item!(
-                format!("ENHANCED TEXTURES: {}", f.settings.enhanced),
-                Act::Enhanced
-            );
+            item!(format!("UPSCALED: {}", f.settings.upscaled), Act::Upscaled);
             item!(format!("WIDE FRAMING: {}", f.settings.wide), Act::Wide);
             item!(format!("EFFECTS: {}", f.settings.effects), Act::Effects);
             item!(format!("MUSIC: {}", f.settings.music), Act::Music);
@@ -442,6 +439,7 @@ pub(super) fn menu(shell: &Shell) -> (String, Vec<(String, Act)>) {
             item!("RESUME", Act::Resume);
             item!("RESTART RACE", Act::Restart);
             item!("QUIT RACE", Act::Open(QuitConfirm));
+            item!("SETTINGS", Act::Open(Settings));
             "PAUSED".into()
         }
         QuitConfirm => {

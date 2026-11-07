@@ -58,6 +58,13 @@ corrupt primary save is reported; recovery is an explicit action, never a silent
 cash/progression rollback. Original Windows binary saves cannot be imported.
 Settings and bindings are independent of career slots and survive graphics reset.
 
+**Upscaled** in Settings selects replacement artwork when available. It defaults
+to Off (original artwork), is saved with your preferences and applies immediately
+when switching back to the race. On still uses originals for assets without a
+replacement. Reset Graphics returns it to Off. The switch does not generate or
+install upscaled artwork or alter gameplay. Existing saved texture preferences
+remain compatible.
+
 Application files can be read-only. Imported data defaults to
 `$XDG_DATA_HOME/roadrash-rust` (normally `~/.local/share/roadrash-rust`), while
 preferences use the platform configuration directory. The game supports

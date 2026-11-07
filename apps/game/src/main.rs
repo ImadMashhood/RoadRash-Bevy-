@@ -330,8 +330,8 @@ fn options() -> Result<LaunchOptions, String> {
             Some("--texture-mode") => {
                 options.enhanced = match value.to_str() {
                     Some("native") => false,
-                    Some("enhanced") => true,
-                    _ => return Err("texture-mode must be native or enhanced".into()),
+                    Some("enhanced" | "upscaled") => true,
+                    _ => return Err("texture-mode must be native, upscaled, or enhanced".into()),
                 }
             }
             Some("--switch-textures-at") => {
@@ -368,7 +368,7 @@ fn options() -> Result<LaunchOptions, String> {
                     options.effects = p.settings.effects;
                 }
                 if !options.explicit.contains("--texture-mode") {
-                    options.enhanced = p.settings.enhanced;
+                    options.enhanced = p.settings.upscaled;
                 }
                 if !options.explicit.contains("--framing") {
                     options.framing = if p.settings.wide {
