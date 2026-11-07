@@ -3,7 +3,7 @@
 **Current RC6:** actual download, fresh career, ordinary keyboard recovery,
 graphical finale, standalone packaging and heap/startup/lifecycle/audio preflights
 pass their linked scopes. The real one-hour run passes all five complete warm-course gates; owner G5
-remains pending. See [the RC6 review packet](NATIVE_RC6_REVIEW.md). RC5's dismount panic
+acceptance is recorded. See [the RC6 review packet](NATIVE_RC6_REVIEW.md). RC5's dismount panic
 is preserved in [its failed route](evidence/native-ordinary-terminal-rc5.md);
 older receipts retain their original identities.
 
@@ -112,7 +112,8 @@ licensing. The archive is a review candidate until release acceptance is recorde
 The implementing agent owns reproducible scenario execution and evidence; the
 project owner reviews the delivered candidate. Never sign on the owner's behalf.
 G5 remains open for a required failing scenario or missing release signoff.
-Part 24 enhancement production stays locked behind G5. No upscaled asset is needed
+Part 24 enhancement production requires G5 and further owner authorization;
+the current owner instruction explicitly stops before those changes. No upscaled asset is needed
 for these checks, and no upscaling batch is part of Parts 19–22.
 
 [Player guide](PLAYER_GUIDE.md) · [Native interface results](evidence/native-interface.json)

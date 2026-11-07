@@ -45,6 +45,6 @@
     "manual-dismount-before.log": "fc4ce11823ba97e7cbae2c9965837dd764a5600ddf8c95b4ea050dbf47d7048d",
     "manual-dismount-after-final.log": "1ca733679202b492ab64caff44c1043298515f01fc8cebb324113fbaa37e289a"
   },
-  "release_status": "Source correction and actual delivered RC6 recovery/package/career/preflights/real-hour checks pass. Only project-owner G5 decision remains pending; no mod/upscaling changes follow this pass.",
+  "release_status": "Source correction and delivered RC6 checks pass; owner G5 acceptance is now recorded. Base-game work is complete and stops before mod/upscaling improvements.",
   "delivered_keyboard_evidence": "native-voluntary-downloaded-rc6.json"
 }

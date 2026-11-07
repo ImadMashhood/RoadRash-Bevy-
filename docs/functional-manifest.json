@@ -215,7 +215,7 @@
       "required": true,
       "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
-      "acceptance": "Confirm every required feature has implementation and evidence, that Parts 20–22 have explicit acceptance owners, and that Part 24 production is still locked until G5 signoff.",
+      "acceptance": "Confirm every required feature has implementation and evidence, that Parts 20\u201322 have explicit acceptance owners, and that Part 24 production is still locked until G5 signoff.",
       "evidence": "docs/evidence/19.12.md",
       "completed_children": [
         "a",
@@ -717,7 +717,7 @@
       "id": "22.12",
       "title": "Complete native-only full career and functional release acceptance",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Leave the release gate open for any unresolved blocking scenario.",
       "evidence": "docs/evidence/22.12.md",
@@ -726,8 +726,8 @@
         "b",
         "c"
       ],
-      "pending_reason": "Only project-owner G5 review and signature for the actual downloaded RC6 remain pending; technical checks and children a/b/c passed."
+      "acceptance_record": "docs/evidence/owner-acceptance-rc6.md"
     }
   ],
-  "active_priority": "docs/NATIVE_RC6_REVIEW.md"
+  "active_priority": "docs/evidence/owner-acceptance-rc6.md"
 }

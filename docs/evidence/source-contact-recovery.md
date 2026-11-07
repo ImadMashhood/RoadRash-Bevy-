@@ -3,8 +3,7 @@
 **Current disposition:** all technical follow-up work below is complete through
 actual RC6. Native component totals are1,458,070/61families; subsequent source
 collision/combat/recovery reports retain their exact scopes. Fresh career,
-ordinary recovery and real-hour/package checks pass. Only project-owner G5
-remains open. The older observations/warnings below are historical context,
+ordinary recovery and real-hour/package checks pass. Owner G5 acceptance is recorded in [the owner instruction](owner-acceptance-rc6.md). The older observations/warnings below are historical context,
 not current unassigned defects. [Completion ledger](../COMPLETION_EXECUTION.md),
 [RC6 review](../NATIVE_RC6_REVIEW.md). Stop before mod support/upscaling.
 
@@ -134,7 +133,7 @@ Original follow-up list, updated with current disposition:
 - [x] Render and inspect complete native-art fights and crash-to-remount sequences.
 - [x] Finish all 25 career course/level cases and independently replay/audit the
   successful career, then rerun performance/memory/full soak/package verification.
-- [ ] Project-owner G5 acceptance. Texture enhancement and 3D remain deferred.
+- [x] Project-owner G5 acceptance. Texture enhancement and 3D remain deferred.
 
 ## Reproduce with a private verified import
 

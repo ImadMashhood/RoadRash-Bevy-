@@ -5,7 +5,7 @@ contains the flat-road bounce correction and the same-tick dismount fix.
 The actual download passes repeated ordinary recovery, a fresh 31-win/25-case
 career, independent exact-byte audit coverage, graphical finale and standalone
 package checks. All 514 workspace tests and strict checks pass. Its actual
-one-hour run passes all five complete warm-course gates; owner G5 remains pending.
+one-hour run passes all five complete warm-course gates; owner G5 acceptance is recorded.
 [Review packet](docs/NATIVE_RC6_REVIEW.md) · [Player guide](docs/PLAYER_GUIDE.md) ·
 [Known limits](docs/RELEASE_NOTES.md).
 
@@ -24,7 +24,7 @@ and [architecture](docs/ARCHITECTURE.md).
 
 Completed phases are collapsed individually, preserving detailed checks and
 receipts. Remaining Parts 19–22 acceptance is recorded below; the final release
-now requires only the assigned project-owner review. Future mod/enhancement work stays gated.
+is complete, including the recorded project-owner acceptance. Future mod/enhancement work stays gated.
 
 Run the current source-course view after local import/conversion:
 
@@ -2392,11 +2392,14 @@ Research: [docs/VERIFICATION.md](https://github.com/arkits/road-rash/blob/7aecf6
 
 ### Phase 22 — Packaging and native-asset release
 
+<details>
+<summary>Completed — detailed checklist and evidence</summary>
+
 **Prerequisites:** Functional completion in 19, UI/localization in 20, verification in 21 and G3. Enhanced art and mod production are not prerequisites. These are phase-entry dependencies, not a requirement to finish every numbered phase strictly in order.
 
 **Inputs:** Tagged source, locked dependencies, the native-only acceptance manifest and an approved packaging manifest.
 
-**Required outputs:** Native-asset distributable, checksums, notices and signed G5 functional release acceptance; all required game functions must work with no enhancement pack. Technical RC6 outputs pass; the outstanding project-owner decision is explicit in [the G5 record](docs/evidence/release-signoff.json).
+**Required outputs:** Native-asset distributable, checksums, notices and signed G5 functional release acceptance; all required game functions must work with no enhancement pack. Technical RC6 outputs pass; the recorded project-owner acceptance is explicit in [the G5 record](docs/evidence/release-signoff.json).
 
 **Invariant:** Test shipped artifacts from a fresh profile without development caches.
 
@@ -2471,7 +2474,7 @@ Research: [docs/USER_GUIDE.md](https://github.com/arkits/road-rash/blob/7aecf604
   - [x] **22.11.b — Verify:** Verify downloaded bytes against published checksums.
   - [x] **22.11.c — Attach completion evidence:** Link the changed module or document, exact fixture/capture used, expected versus actual result, and implementation revision in `docs/evidence/22.11.md`. For manual review, include the review procedure and outcome; for automated checks, include the command and result. Record remaining deviations and do not close this parent item while its acceptance check fails.
 
-- [ ] **22.12 — Complete native-only full career and functional release acceptance**
+- [x] **22.12 — Complete native-only full career and functional release acceptance**
 
   - [x] **22.12.a — Implement:** Complete the campaign and release matrix using packaged builds.
   - [x] **22.12.b — Verify:** Leave the release gate open for any unresolved blocking scenario.
@@ -2479,6 +2482,8 @@ Research: [docs/USER_GUIDE.md](https://github.com/arkits/road-rash/blob/7aecf604
 
 
 **Exit evidence:** a reproducible demonstration of packaging and release, linked implementation revision, recorded checks and known limitations. Dependent phases may prototype early, but this gate stays open until its checks pass.
+
+</details>
 
 ### Phase 23 — Mod support and content contracts
 

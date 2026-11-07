@@ -20,7 +20,7 @@ gates pass (wall p95 14.151–16.265 ms); peak RSS is 1,126,232,064 bytes with
 [Final performance receipt](evidence/native-performance-rc6.md). No other
 acceptance app/build/profiler overlapped. Only the owned audio/display resources
 were stopped afterward; original audio defaults are verified after automatic
-policy settling, without restoration commands. Owner G5 remains pending; stop
+policy settling, without restoration commands. Owner G5 acceptance is recorded; stop
 before mod support/upscaling.
 
 RC5's following hour remains valid only for its exact bytes and tested scope.

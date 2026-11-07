@@ -48,7 +48,7 @@ at most 15 CPU/16 GPU images against 16, and verified isolated audio routing.
 The actual downloaded RC6 completes 3600.329 real seconds and 3598.517 simulated seconds, with zero paused frames. All five complete warm-course timing gates pass: wall p95 14.151–16.265 ms under16.7; peak RSS 1,126,232,064 bytes under1.5GiB. Both laps and prior failures remain published.
 [Final performance receipt](evidence/native-performance-rc6.md). The owned sink
 and display were removed after normal exit; original audio defaults are verified
-after policy settling. All technical base-game checks pass. Only owner G5 remains.
+after policy settling. All technical base-game checks pass. Owner G5 acceptance is now recorded.
 
 [Unchanged-component proof](evidence/native-unchanged-components-rc6.md) scopes
 historical UI/media/physical evidence: source trees are unchanged outside the
@@ -79,8 +79,9 @@ remains unselected; dependency/font notices grant no original-media rights.
 
 ## Owner decision
 
-[The acceptance policy](NATIVE_ACCEPTANCE.md) assigns the decision to the project
-owner: “the project owner reviews the delivered candidate. Never sign on the
-owner's behalf.” G5 remains pending until required technical checks pass and the
-owner records a decision for this exact candidate. Enhancement and 3D production
-remain deferred.
+The owner directed completion of all remaining legacy/base-game checkboxes after
+RC6 and its remaining G5 acceptance were identified. [The acceptance record](evidence/owner-acceptance-rc6.md)
+contains the exact instruction and candidate identities. Acceptance is recorded
+from that instruction; no additional human playtest or cryptographic signature
+is asserted. All base-game tasks are complete. Stop before mod support,
+upscaling and other non-legacy improvements, as the owner instructed.

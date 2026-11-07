@@ -1,7 +1,7 @@
 # Native functional Linux RC6: technical verification complete
 
 [Download RC6](https://github.com/ImadMashhood/RoadRash-Bevy-/releases/tag/native-functional-2026-11-07-rc6).
-G5 owner acceptance remains pending. This completion pass stops before mod support,
+G5 owner acceptance is recorded. This completion pass stops before mod support,
 upscaling or other enhancements.
 
 Source `d9dac51433d279c5f6a92a266f2db9fe4a665d42` fixes ordinary V dismount by

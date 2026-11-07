@@ -230,4 +230,7 @@ The current full career, downloaded package and replacement-hour evidence pass t
 
 All technical priority rows now close with [actual RC6 career](evidence/native-packaged-career-rc6.md),
 [ordinary recovery](evidence/native-voluntary-downloaded-rc6.md) and [final hour](evidence/native-performance-rc6.md).
-Only owner G5 is pending; stop before mod support/upscaling.
+Owner G5 acceptance is recorded; stop before mod support/upscaling.
+
+[The recorded owner instruction](evidence/owner-acceptance-rc6.md) now closes G5.
+All base-game checklist work is complete; stop before non-legacy improvements.

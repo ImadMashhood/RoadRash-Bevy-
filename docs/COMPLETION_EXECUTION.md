@@ -23,7 +23,7 @@ No full-game or release acceptance is implied by those component checks.
 | 4 | Changing-terrain and repeated-impact recovery | Verified; original native comparisons plus corrected ordinary dismount context | Complete trajectories/timing, remount-edge cases and inspected native-art sequences |
 | 5 | Genuine current-source career and ordinary player walkthrough | Verified; evidence/native-career-current.md and source-career-ui.md | All 25 course/level cases, ledger/save audit, independently replayed real commands and clean-profile route |
 | 6 | Replacement release verification and packaging | Verified; actual RC6 career/package/recovery/finale/preflights/hour | Current immutable build, performance/memory/soak, import/install/download checks and reproducible package receipts |
-| 7 | Project-owner release decision | Pending owner review | Concrete candidate and evidence for owner G5 acceptance; never self-signed |
+| 7 | Project-owner release decision | Accepted from subsequent owner chat instruction | Concrete candidate and evidence for owner G5 acceptance; never self-signed |
 
 The detailed acceptance source remains [the interaction checklist](COLLISION_COMBAT_PRIORITY.md),
 [the feature manifest](functional-manifest.json), [the defect register](functional-defects.json)
@@ -204,3 +204,10 @@ policy settling without restoration commands. All47 technical manifest parents
 and144 children pass. Only owner G5 remains pending, never self-signed.
 [Final RC6 receipt](evidence/native-performance-rc6.md). This pass stops before
 mod support, upscaling and all Part23–25 enhancements.
+
+
+Final owner acceptance is recorded in [owner-acceptance-rc6.md](evidence/owner-acceptance-rc6.md).
+The owner instructed completion of the last base-game checkbox after RC6/G5 were
+identified. All48 base-game tasks and144children are complete. No separate human
+playtest is asserted. Stop before mod support, upscaling and Parts23–25 improvements.
+Earlier pending/unsigned entries above are chronological history.

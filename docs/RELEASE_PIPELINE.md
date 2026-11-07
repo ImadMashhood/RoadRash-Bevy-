@@ -31,8 +31,7 @@ The [RC6 allocator/startup/lifecycle/audio preflights](evidence/native-preflight
 pass unchanged budgets. The [official RC6 hour](evidence/native-performance-rc6.md)
 also passes: 3,600.329 real seconds, 3,598.517 simulated, zero paused frames and
 all five complete predeclared warm-course timing gates at unchanged thresholds.
-Both laps and earlier failures remain scoped. The remaining decision is owner
-G5; this completion pass stops before mod support/upscaling. No owner signature
+Both laps and earlier failures remain scoped. Owner G5 acceptance is recorded; this completion pass stops before mod support/upscaling. No owner signature
 or enhancement authorization is fabricated.
 
 RC5 is historical: its exact-byte hour remains valid for its tested scope, but

@@ -4,7 +4,7 @@ The current [RC6 review candidate](NATIVE_RC6_REVIEW.md) uses frozen source
 `d9dac51433d279c5f6a92a266f2db9fe4a665d42`. Actual downloaded-byte package,
 career, ordinary keyboard recovery, graphical finale and memory/startup/lifecycle/
 audio preflights pass. Its real one-hour run passes all five complete warm-course gates; project-owner
-G5 remains pending. Enhancement and 3D production remain deferred.
+G5 acceptance is recorded. Enhancement and 3D production remain deferred.
 
 The fresh [downloaded career](evidence/native-packaged-career-rc6.md) covers all
 25 course/level cases in 31 genuine wins, ending with $12,797, bike 8 and 98%

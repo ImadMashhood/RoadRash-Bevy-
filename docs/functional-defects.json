@@ -290,5 +290,5 @@
       ]
     }
   ],
-  "scope_note": "All required RC6 technical defects are closed with current source/actual-artifact evidence. Only project-owner G5 review remains. Stop before mod support, upscaling and other enhancements; prior-candidate failures and limited scopes remain preserved."
+  "scope_note": "All required RC6 technical defects are closed and owner G5 acceptance is recorded from the subsequent chat instruction. Base-game scope is complete. Stop before mod support, upscaling and other non-legacy improvements; historical candidate scopes/failures remain preserved."
 }

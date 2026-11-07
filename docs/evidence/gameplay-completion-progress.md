@@ -3,8 +3,7 @@
 **Current disposition:** all technical follow-up work below is complete through
 actual RC6. Native component totals are1,458,070/61families; subsequent source
 collision/combat/recovery reports retain their exact scopes. Fresh career,
-ordinary recovery and real-hour/package checks pass. Only project-owner G5
-remains open. The older observations/warnings below are historical context,
+ordinary recovery and real-hour/package checks pass. Owner G5 acceptance is recorded in [the owner instruction](owner-acceptance-rc6.md). The older observations/warnings below are historical context,
 not current unassigned defects. [Completion ledger](../COMPLETION_EXECUTION.md),
 [RC6 review](../NATIVE_RC6_REVIEW.md). Stop before mod support/upscaling.
 
@@ -71,7 +70,7 @@ identities, test results, native library identity and explicit remaining gates.
   including all 25 course/level combinations, economy, saves, upgrades and finale.
 - [x] Rerun performance, memory/residency, load/unload and warmup checks plus the
   real soak on the final source; package/tag/download-verify a replacement build.
-- [ ] Obtain project-owner G5 acceptance of that verified replacement candidate.
+- [x] Obtain project-owner G5 acceptance of that verified replacement candidate.
 
 The original mapping was to required manifest items 19.04, 19.09–19.12, 21.06–21.12 and
 22.09–22.12. Texture production and the architecture/optimization report remain
@@ -121,4 +120,4 @@ require the supplied private data; writer success alone is not parity—the Pyth
 comparison must report zero mismatches.
 
 The current manifest closes every technical item in that original mapping;
-only project-owner G5 remains open.
+owner G5 is accepted; the base-game scope is complete.
