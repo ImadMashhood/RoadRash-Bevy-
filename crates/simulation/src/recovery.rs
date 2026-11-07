@@ -80,6 +80,8 @@ impl Impact {
 pub struct BodyLaw {
     #[serde(default, skip_serializing_if = "legacy_motion")]
     pub motion_version: u8,
+    #[serde(default, skip_serializing_if = "legacy_motion")]
+    pub recovery_version: u8,
     pub drag: i32,
     pub contact_drag: i32,
     pub landing: i32,
@@ -95,6 +97,7 @@ impl Default for BodyLaw {
     fn default() -> Self {
         Self {
             motion_version: 0,
+            recovery_version: 0,
             drag: 130,
             contact_drag: 70,
             landing: -2560,
@@ -114,6 +117,7 @@ impl BodyLaw {
         };
         let value = Self {
             motion_version: 0,
+            recovery_version: 0,
             drag: w(9)?,
             contact_drag: 70,
             landing: w(12)?,
@@ -127,6 +131,7 @@ impl BodyLaw {
     }
     pub fn validate(&self) -> Result<()> {
         if self.motion_version > 1
+            || self.recovery_version > 1
             || !(0..=4096).contains(&self.drag)
             || !(0..=4096).contains(&self.contact_drag)
             || !(-65536..=0).contains(&self.landing)
@@ -154,6 +159,10 @@ pub struct Body {
     pub entity: u64,
     pub owner: ActorId,
     pub location: Location,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub previous_location: Option<Location>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub visual_heading: Option<i32>,
     pub motion: Bike,
     pub animation: Player,
     pub frame: usize,
@@ -254,6 +263,8 @@ impl State {
                     ..at
                 },
                 motion,
+                previous_location: None,
+                visual_heading: None,
                 animation: Player::default(),
                 frame: 2,
                 mirror: false,
@@ -343,6 +354,37 @@ impl State {
         walk: Option<Walk>,
         tick: u32,
     ) -> Result<Vec<RecoveryEvent>> {
+        self.step_with_random(bike, c, topology, law, assists, walk, tick, || 0)
+    }
+    #[allow(clippy::too_many_arguments)]
+    pub fn step_with_random(
+        &mut self,
+        bike: &mut Bike,
+        c: &Configuration,
+        topology: &Topology,
+        law: &BodyLaw,
+        assists: Assists,
+        walk: Option<Walk>,
+        tick: u32,
+        random: impl FnMut() -> u32,
+    ) -> Result<Vec<RecoveryEvent>> {
+        if law.recovery_version == 1 && !assists.fast_recovery && !assists.rescue_unreachable {
+            self.step_source(bike, c, topology, law, walk, tick, random)
+        } else {
+            self.step_legacy(bike, c, topology, law, assists, walk, tick)
+        }
+    }
+    #[allow(clippy::too_many_arguments)]
+    fn step_legacy(
+        &mut self,
+        bike: &mut Bike,
+        c: &Configuration,
+        topology: &Topology,
+        law: &BodyLaw,
+        assists: Assists,
+        walk: Option<Walk>,
+        tick: u32,
+    ) -> Result<Vec<RecoveryEvent>> {
         let mut events = vec![];
         if self.phase == Phase::Mounted || self.phase == Phase::Ended {
             return Ok(events);
@@ -383,6 +425,7 @@ impl State {
         if self.phase != Phase::Mounting {
             let mut bike_law = BodyLaw {
                 motion_version: law.motion_version,
+                recovery_version: 0,
                 drag: c.tables.object[9],
                 contact_drag: 95,
                 landing: c.spec().landing,
@@ -572,6 +615,13 @@ pub enum RecoveryEvent {
 }
 /// Source generic actor integrator (advance_actor_motion), including 32-bit wrap products.
 pub fn actor_delta(speed: i32, acceleration: i32, heading: i32, tables: &Tables) -> (i32, i32) {
+    let [forward, lateral] = actor_velocity(speed, heading, tables);
+    (
+        forward.wrapping_mul(2).wrapping_sub(acceleration) >> 9,
+        lateral,
+    )
+}
+pub fn actor_velocity(speed: i32, heading: i32, tables: &Tables) -> [i32; 2] {
     let (forward, lateral) = if heading == 0 {
         (speed, 0)
     } else {
@@ -581,10 +631,7 @@ pub fn actor_delta(speed: i32, acceleration: i32, heading: i32, tables: &Tables)
             (tables.sin(angle) / 256).wrapping_mul(speed) / 256,
         )
     };
-    (
-        forward.wrapping_mul(2).wrapping_sub(acceleration) >> 9,
-        lateral,
-    )
+    [forward, lateral]
 }
 /// Fixed-dt counterpart of the source speed integrator for detached actors.
 /// Profile 0 is retained byte-for-byte for historical recordings.
@@ -617,13 +664,90 @@ pub fn motion_step(
     law: &BodyLaw,
     planned: Option<crate::topology::Portal>,
 ) -> Result<()> {
+    motion_step_kind(
+        motion,
+        location,
+        heading,
+        c,
+        topology,
+        law,
+        planned,
+        if law.recovery_version == 1 {
+            crate::handling::VerticalKind::Rider
+        } else {
+            crate::handling::VerticalKind::Legacy
+        },
+    )
+}
+#[allow(clippy::too_many_arguments)]
+pub(crate) fn motion_step_bike(
+    motion: &mut Bike,
+    location: &mut Location,
+    c: &Configuration,
+    topology: &Topology,
+    law: &BodyLaw,
+) -> Result<()> {
+    motion_step_kind(
+        motion,
+        location,
+        0,
+        c,
+        topology,
+        law,
+        None,
+        crate::handling::VerticalKind::Bike,
+    )
+}
+#[allow(clippy::too_many_arguments)]
+fn motion_step_kind(
+    motion: &mut Bike,
+    location: &mut Location,
+    heading: i32,
+    c: &Configuration,
+    topology: &Topology,
+    law: &BodyLaw,
+    planned: Option<crate::topology::Portal>,
+    kind: crate::handling::VerticalKind,
+) -> Result<()> {
     let projected = topology.projected(*location).unwrap_or(motion.distance_q8);
     let sample =
         (i64::from(c.start_sample) + (projected >> 8)).clamp(0, c.ground.len() as i64 - 1) as usize;
     let ground = c.ground[sample];
     let surface = ground.surface(location.lateral);
     recovery_speed_step(motion, &c.tables, surface, law);
-    let (delta, lateral) = actor_delta(motion.speed, motion.acceleration, heading, &c.tables);
+    let (delta, lateral) = if kind == crate::handling::VerticalKind::Bike {
+        if motion.contact > 0 {
+            motion.air_lateral_speed = motion.lateral_speed;
+        }
+        (
+            ((motion
+                .speed
+                .wrapping_mul(2)
+                .wrapping_sub(motion.acceleration))
+                >> 1)
+                / 256,
+            if motion.speed > 300 {
+                motion.air_lateral_speed
+            } else {
+                0
+            },
+        )
+    } else {
+        actor_delta(motion.speed, motion.acceleration, heading, &c.tables)
+    };
+    if kind != crate::handling::VerticalKind::Legacy {
+        let [forward, side] = if kind == crate::handling::VerticalKind::Bike {
+            [motion.speed, motion.air_lateral_speed]
+        } else {
+            actor_velocity(motion.speed, heading, &c.tables)
+        };
+        let vertical = if kind == crate::handling::VerticalKind::Bike {
+            0
+        } else {
+            motion.contact_velocity.map_or(0, |v| v[2])
+        };
+        motion.contact_velocity = Some([forward, side, vertical]);
+    }
     let old_path = location.path;
     let old_position = location.progress;
     let old_grade = topology.grade(*location);
@@ -651,7 +775,15 @@ pub fn motion_step(
     ground.height = 0;
     ground.rise = topology.grade(*location);
     ground.movement = grade_movement;
-    motion.vertical(&law.spec(c.spec()), &c.tables, ground);
+    if kind == crate::handling::VerticalKind::Bike && motion.speed > 300 {
+        let bend = ground.bend_movement * 400 / 256;
+        location.lateral = location.lateral.saturating_add(bend);
+        motion.lateral = location.lateral;
+        if let Some(v) = &mut motion.contact_velocity {
+            v[1] += bend;
+        }
+    }
+    motion.vertical_profile(&law.spec(c.spec()), &c.tables, ground, kind);
     location.height = motion.height;
     Ok(())
 }

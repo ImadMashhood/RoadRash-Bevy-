@@ -2,7 +2,7 @@
 
 **Active gameplay priority: [collision, fighting and crash accuracy](docs/COLLISION_COMBAT_PRIORITY.md).** This gate comes before additional presentation/enhancement work and the architecture report. It tracks native expected/actual comparisons and keeps unverified mechanics open.
 
-**Latest verification: [3,176 native observations match](docs/evidence/gameplay-completion-progress.md).** Signed recovery/drag, full strike timing, damage/immunity and weapon-theft transactions are corrected. Complete contact physics, police parity, recovery trajectories and current career/release acceptance remain open.
+**Latest verification: [327,086 native observations match](docs/evidence/source-contact-recovery.md).** Controlled contact classification, physical scenery/building boundaries, complete recovery episodes and two-rider fight chains pass. Full police behavior, dense/simultaneous interactions and current career/release acceptance remain open.
 
 > **Current implementation:** 3D is deferred. The active target is the classic game in Rust/Bevy using separate bounded format readers, a renderer-independent simulation, and a 2D presentation plugin. See [implementation status](docs/STATUS.md), [build instructions](docs/GETTING_STARTED.md), and [architecture](docs/ARCHITECTURE.md). The detailed roadmap below includes future preparation; those items do not expand the current scope.
 

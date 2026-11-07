@@ -38,10 +38,11 @@ def verify(a):
     buildings = [o for o in obstacles if o['kind'] == 'building']
     assert len(buildings) > 1000, 'Native factory did not import building volumes'
     assert record['population']['tactics_version'] == 1
-    assert encounter['rules']['combat_version'] == 2
-    assert encounter['rules']['collision_version'] == 1
+    assert encounter['rules']['combat_version'] == 3
+    assert encounter['rules']['collision_version'] == 2
     assert encounter['rules']['body']['motion_version'] == 1
-    assert record['handling']['motion_version'] == 1
+    assert encounter['rules']['body']['recovery_version'] == 1
+    assert record['handling']['motion_version'] == 2
     contact = copy.deepcopy(record)
     e, p = contact['encounter'], contact['population']
     start = contact['handling']['start_sample'] * 256
@@ -73,13 +74,16 @@ def verify(a):
         assert result['tick_hashes'] == reference['tick_hashes'], 'Replay divergence'
         actor = result['final_snapshot']['actors'][0]
         unit, bike = actor['encounter'], actor['rider']['bike']
-        assert unit['fighter']['hit_count'] == 1, 'Wall panels repeated a crash'
-        assert unit['recovery']['phase'] == 'sliding' and bike['speed'] == 0
+        assert unit['fighter']['hit_count'] == 0, 'A boundary brush invented condition/stamina damage'
+        assert unit['recovery']['phase'] == 'mounted' and bike['speed'] > 0, 'Side brush stopped forward motion'
         at = unit['recovery']['bike_location']
-        assert not any(o['path'] == at['path']
-                       and abs(o['progress'] - at['progress']) < o['half_length'] + length
-                       and o['left'] - width < bike['lateral'] < o['right'] + width
-                       for o in buildings), 'Bike penetrated a wall'
+        boundaries=e['rules']['building_boundaries']
+        boundary=next(b for b in boundaries if b['path']==at['path'] and b['sample']==at['progress']//256)
+        if boundary['building'] and not boundary['flags'] & 0x38:
+            widen=(((at['progress']&255)*250//3)>>8)
+            left=boundary['outer'][0]-(widen if boundary['selectors'][0]==255 else 0)
+            right=boundary['outer'][1]+(widen if boundary['selectors'][1]==255 else 0)
+            assert bike['lateral']-width >= left*256 and bike['lateral']+width <= right*256, 'Bike crossed an active native boundary'
         rates.append(rate)
     run(base + ['--replay', path, '--render-hz', '60', '--capture-frame', '22',
                 '--capture', a.output / 'wall.png', '--report', a.output / 'rendered.json'],
@@ -88,13 +92,15 @@ def verify(a):
     assert rendered['state_sha256'] == reference['state_sha256']
     receipt = dict(outcome='passed', building_volumes=len(buildings),
                    static_scenery_volumes=sum(o['kind'] == 'solid' for o in obstacles),
-                   source_factory_tactics_version=1, combat_version=2, collision_version=1,
-                   motion_version=1, native_contact_ticks=45,
-                   wall_incidents=1, final_speed=0, bike_outside_wall=True,
+                   source_factory_tactics_version=1, combat_version=3, collision_version=2,
+                   motion_version=2, recovery_version=1, native_contact_ticks=45,
+                   wall_incidents=0, final_speed=bike['speed'], bike_inside_native_boundary=True,
+                   building_boundaries=len(e['rules']['building_boundaries']),
+                   source_physical_scenery_boxes=sum(o.get('source_box') is not None for o in obstacles),
                    schedules=rates, rendered_hash_equal=True,
                    state_sha256=reference['state_sha256'],
                    binary_sha256=hashlib.sha256(a.game.read_bytes()).hexdigest(),
-                   scope='Controlled native bike/wall geometry and isolated actors; no terminal injection. Twelve-second full-field smoke is not career/performance acceptance.')
+                   scope='Controlled native boundary brush and isolated actors; forward speed preserved, no invented damage or terminal injection. Twelve-second full-field smoke is not career/performance acceptance.')
     (a.output / 'receipt.json').write_text(json.dumps(receipt, indent=2) + '\n')
     print(json.dumps(receipt, indent=2))
 

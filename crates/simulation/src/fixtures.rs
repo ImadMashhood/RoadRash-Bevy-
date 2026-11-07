@@ -4,6 +4,7 @@ pub fn spec() -> BikeSpec {
     BikeSpec {
         id: 1,
         mass: 100,
+        contact_steer_gain: 0,
         gears: (0..7)
             .map(|i| Gear {
                 ratio: 256,

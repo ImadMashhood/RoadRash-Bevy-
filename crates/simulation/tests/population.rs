@@ -1171,6 +1171,7 @@ fn modern_tactics_avoid_scenery_and_legacy_policy_remains_available() {
         e.seeds[1].lateral = 0;
         e.seeds[1].speed = 9000;
         e.rules.obstacles.push(encounter::Obstacle {
+            source_box: None,
             id: 1,
             path: 0,
             progress: 1500,

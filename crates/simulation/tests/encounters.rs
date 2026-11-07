@@ -345,6 +345,7 @@ fn collision_and_obstacle_policies_distinguish_decorative_and_solid() {
         let (c, mut s) = setup(1);
         s.seeds[0].speed = 9000;
         s.rules.obstacles.push(Obstacle {
+            source_box: None,
             id: 1,
             path: 0,
             progress: 116,
@@ -366,6 +367,7 @@ fn collision_and_obstacle_policies_distinguish_decorative_and_solid() {
 fn sustained_obstacle_overlap_does_not_repeat_same_incident() {
     let (c, mut s) = setup(1);
     s.rules.obstacles.push(Obstacle {
+        source_box: None,
         id: 1,
         path: 0,
         progress: 100,
@@ -1256,6 +1258,7 @@ fn building_front_stops_bikes_without_repeated_damage_and_open_lane_stays_open()
         let (c, mut e) = setup(1);
         e.seeds[0].speed = speed;
         e.rules.obstacles.push(Obstacle {
+            source_box: None,
             id: 1,
             path: 0,
             progress: 180,
@@ -1284,6 +1287,7 @@ fn building_front_stops_bikes_without_repeated_damage_and_open_lane_stays_open()
     let (c, mut e) = setup(1);
     e.seeds[0].speed = 9000;
     e.rules.obstacles.push(Obstacle {
+        source_box: None,
         id: 1,
         path: 0,
         progress: 180,
@@ -1307,6 +1311,7 @@ fn adjacent_building_panels_do_not_restart_an_existing_crash() {
     e.seeds[0].speed = 30000;
     for (id, progress) in [(1, 116), (2, 132), (3, 148)] {
         e.rules.obstacles.push(Obstacle {
+            source_box: None,
             id,
             path: 0,
             progress,
@@ -1435,7 +1440,11 @@ fn combat_rules_version_is_explicit_and_legacy_encoding_is_unchanged() {
             .unwrap()
             .contains("combat_version")
     );
-    e.rules.combat_version = 3;
+    for version in 0..=3 {
+        e.rules.combat_version = version;
+        assert!(Simulation::with_encounters(1, c.clone(), e.clone()).is_ok());
+    }
+    e.rules.combat_version = 4;
     assert!(Simulation::with_encounters(1, c, e).is_err());
 }
 
@@ -1486,6 +1495,7 @@ fn shallow_building_corner_slides_out_instead_of_trapping_a_slow_bike() {
     e.seeds[0].speed = 1000;
     e.seeds[0].lateral = 17000;
     e.rules.obstacles.push(Obstacle {
+        source_box: None,
         id: 1,
         path: 0,
         progress: 220,
@@ -1507,4 +1517,49 @@ fn shallow_building_corner_slides_out_instead_of_trapping_a_slow_bike() {
     assert!(unit(&sim, 1).recovery.bike_location.progress > 300);
     assert!(rider(&sim, 1).bike.lateral < 20000 - 7680);
     assert_eq!(unit(&sim, 1).recovery.phase, Phase::Mounted);
+}
+
+#[test]
+fn published_profile_two_replay_hash_is_unchanged() {
+    use replay::{Playback, Replay, frame_ns};
+    let (c, mut s) = setup(2);
+    s.rules.combat_version = 2;
+    s.rules.collision_version = 1;
+    let recording = Replay {
+        schema_version: 4,
+        seed: 3,
+        ticks: 1600,
+        commands: vec![
+            QueuedCommand {
+                tick: Tick(0),
+                actor: ActorId(1),
+                sequence: 0,
+                input: request(AttackKind::Kick, Side::Right),
+            },
+            QueuedCommand {
+                tick: Tick(25),
+                actor: ActorId(1),
+                sequence: 1,
+                input: crash_command(),
+            },
+        ],
+        route: None,
+        expected_hash: None,
+        handling: Some(c),
+        encounter: Some(s),
+        population: None,
+    };
+    let encoded = serde_json::to_vec(&recording).unwrap();
+    if let Some(path) = std::env::var_os("RR_LEGACY_FIXTURE") {
+        std::fs::write(path, &encoded).unwrap();
+    }
+    let mut p = Playback::new(Replay::read(&encoded).unwrap()).unwrap();
+    while !p.done() {
+        p.frame(frame_ns("60", p.frames).unwrap()).unwrap();
+    }
+    // Pinned to the published dba66c6 executable, rather than this implementation.
+    assert_eq!(
+        p.simulation.state_hash(),
+        "e30f2c04243754c538b4380cb835ec79d92a62625b725e47f2fdb7666e3a5b6f"
+    );
 }

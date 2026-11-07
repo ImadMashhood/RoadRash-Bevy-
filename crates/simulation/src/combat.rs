@@ -101,7 +101,7 @@ impl Definition {
         if version == 0 {
             return Ok(result);
         }
-        if !(1..=2).contains(&version) {
+        if !(1..=3).contains(&version) {
             return Err(Error::Invalid("combat rules version"));
         }
         let mut player = crate::animation::Player::default();
@@ -121,7 +121,7 @@ impl Definition {
                 .advance(lib, 0, u32::from(age))
                 .map_err(|_| Error::Invalid("combat animation timing"))?;
             previous_flags = selected.as_ref().map_or(0, |f| f.flags);
-            let active = if version == 2 {
+            let active = if version >= 2 {
                 before_active
             } else {
                 selected.is_some_and(|f| f.flags & 0x600000 != 0) || player.frame == 2

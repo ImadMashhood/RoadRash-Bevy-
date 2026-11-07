@@ -1,8 +1,15 @@
 # Crash and recovery contract
 
-**Signed-motion correction:** [current verification](evidence/gameplay-completion-progress.md) fixes the former six backward-motion failures. Explicit `motion_version: 1` in handling and the body law shares signed speed/drag integration; all nine original observations and 1,680 drag observations match. Version 0 remains for old recordings. Complete coupled trajectories and state timings remain open.
+**Current source profiles:** handling motion 2, body motion 1, recovery 1 and
+combat 3. [Controlled native comparison](evidence/source-contact-recovery.md)
+passes 328 complete crash-to-remount episodes, including backward starts, slopes,
+launch/bounce, lateral memory and animation RNG variants. Changing terrain,
+repeated moving-population contacts and full police parity remain open.
 
-**Current native rule profile:** `combat_version: 1` and `2` preserve signed crash-entry impulses and ignores entry while a crash body is already active, matching the measured C++ entry API. It does not reset the incident, body, elapsed time or animation or emit another crash event. Historical version-0 recordings retain their repeated-impulse/reset policy described below. Full multi-tick trajectory parity remains an [open accuracy gate](COLLISION_COMBAT_PRIORITY.md).
+`recovery_version: 1` uses think/animation before motion and walking/pickup after
+motion. Omitted recovery 0 retains the historical transaction below. Combat
+profiles 1–3 preserve signed, idempotent crash entry; version 0 retains historical
+re-entry. Existing combat profiles 0–2 remain frozen for published replays.
 
 `recovery.rs` owns linked rider/bike state; `topology.rs` owns validated bidirectional route navigation. Schema 4 serializes every hidden motion, phase, animation, ownership, assist and terminal field. Rendering consumes copies and cannot remove a recovery target. [Combat](COMBAT.md) explains impact producers and [Part 12 acceptance](evidence/part-12.md) records verification.
 

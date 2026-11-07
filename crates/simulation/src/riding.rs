@@ -28,7 +28,7 @@ impl Configuration {
         if let Some(actions) = self.actions {
             actions.validate()?;
         }
-        if self.motion_version > 1
+        if self.motion_version > 2
             || self.specs.is_empty()
             || self.specs.len() > 64
             || self.ground.is_empty()
@@ -181,6 +181,15 @@ impl Rider {
         })
     }
     pub fn step(&mut self, c: &Configuration, input: Command, tick: u32) -> Result<()> {
+        self.step_with_combat_profile(c, input, tick, 0)
+    }
+    pub(crate) fn step_with_combat_profile(
+        &mut self,
+        c: &Configuration,
+        input: Command,
+        tick: u32,
+        combat_version: u8,
+    ) -> Result<()> {
         let old_weapon = self.weapon;
         if let Some(w) = input.weapon {
             self.weapon = w;
@@ -218,10 +227,39 @@ impl Rider {
             self.animation.queued = match wanted {
                 Pose::GetUp => Some(37),
                 Pose::Remount => Some(2),
+                _ if combat_version >= 3 => self.animation.queued,
                 _ => None,
             };
         }
         self.pose_ticks = self.pose_ticks.saturating_add(1);
+        if combat_version < 3 {
+            self.advance_animation(c, tick)?;
+        }
+        let index = (i64::from(c.start_sample) + (self.bike.distance_q8 >> 8))
+            .clamp(0, c.ground.len() as i64 - 1) as usize;
+        let ground = c.ground[index];
+        if self.bike.crashed {
+            self.bike.speed = (self.bike.speed - self.bike.speed / 32 - 20).max(0);
+            self.bike.lateral_speed = 0;
+        }
+        let boost = match (&mut self.actions, c.actions) {
+            (Some(state), Some(config)) => {
+                state.tick(config, input, !self.bike.crashed && !self.bike.failed)
+            }
+            _ => 256,
+        };
+        self.bike.step_with_boost_profile(
+            c.spec(),
+            &c.tables,
+            input,
+            ground,
+            boost,
+            c.motion_version,
+            |old, new| c.swept_ground(old, new),
+        );
+        Ok(())
+    }
+    pub(crate) fn advance_animation(&mut self, c: &Configuration, tick: u32) -> Result<()> {
         let f = self
             .animation
             .advance(&c.animation, 0, tick)
@@ -263,28 +301,6 @@ impl Rider {
         } else {
             self.contact_frame = false;
         }
-        let index = (i64::from(c.start_sample) + (self.bike.distance_q8 >> 8))
-            .clamp(0, c.ground.len() as i64 - 1) as usize;
-        let ground = c.ground[index];
-        if self.bike.crashed {
-            self.bike.speed = (self.bike.speed - self.bike.speed / 32 - 20).max(0);
-            self.bike.lateral_speed = 0;
-        }
-        let boost = match (&mut self.actions, c.actions) {
-            (Some(state), Some(config)) => {
-                state.tick(config, input, !self.bike.crashed && !self.bike.failed)
-            }
-            _ => 256,
-        };
-        self.bike.step_with_boost_profile(
-            c.spec(),
-            &c.tables,
-            input,
-            ground,
-            boost,
-            c.motion_version,
-            |old, new| c.swept_ground(old, new),
-        );
         Ok(())
     }
 }

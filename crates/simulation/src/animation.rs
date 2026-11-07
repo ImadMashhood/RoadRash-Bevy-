@@ -673,3 +673,79 @@ const BINDINGS: &[(usize, u32, u32, usize)] = &[
     (1, 0x00474b98, 0x004b9be0, 3),
     (1, 0x00474a40, 0x004b9490, 4),
 ];
+
+impl Player {
+    pub(crate) fn crash_bike(
+        &mut self,
+        lib: &Library,
+        speed: i32,
+        tick: u32,
+        random: &mut impl FnMut() -> u32,
+    ) -> Result<Option<Frame>> {
+        if speed == 0 {
+            self.set(lib, 0, 48);
+        } else if !(44..=48).contains(&self.code) {
+            self.set(lib, 0, 46 + i8::from(random() & 1 == 0));
+            self.queued = Some(44);
+        }
+        self.advance(lib, 0, tick)
+    }
+    pub(crate) fn crash_rider(
+        &mut self,
+        lib: &Library,
+        crash: &mut u8,
+        speed: i32,
+        height: i32,
+        tick: u32,
+        random: &mut impl FnMut() -> u32,
+    ) -> Result<Option<Frame>> {
+        if *crash == 1 {
+            if speed == 0 {
+                *crash = 2;
+                self.set(lib, 0, 36);
+                self.queued = Some(37);
+            } else if matches!(self.code, 35 | 33) {
+                if height <= 4095 {
+                    if self.code == 33 {
+                        self.set(lib, 0, 34);
+                        self.queued = Some(if speed < 8001 {
+                            if random() & 3 == 0 { 30 } else { 28 }
+                        } else {
+                            29
+                        });
+                    } else {
+                        self.set(lib, 0, 29);
+                        self.queued = Some(29);
+                    }
+                }
+            } else if self.code != 34 {
+                if speed < 7001 {
+                    if speed < 2500 {
+                        self.set(lib, 0, 36);
+                    } else {
+                        let mut next = self.code;
+                        if random() & 3 == 0 || matches!(next, 29 | 28) {
+                            next = match random() & 3 {
+                                0 | 1 => 30,
+                                2 => 31,
+                                _ => 32,
+                            };
+                        }
+                        // Native -1 means no queued transition; bank zero is
+                        // only the playback view, not a queued animation code.
+                        self.queued = if next < 0 {
+                            None
+                        } else {
+                            lib.resolve(0, next).map(|i| i as i8)
+                        };
+                    }
+                } else if !matches!(self.code, 28 | 29) {
+                    self.set(lib, 0, 29);
+                } else {
+                    self.queued = Some(28);
+                }
+            }
+        }
+        self.advance(lib, 0, tick)
+    }
+}

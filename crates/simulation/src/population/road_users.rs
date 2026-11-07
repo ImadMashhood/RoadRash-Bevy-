@@ -456,7 +456,7 @@ impl World {
         tick: u64,
         effects: &mut Vec<combat::Effect>,
     ) {
-        if !self.setup.functional_traffic || e.setup.rules.combat_version != 2 {
+        if !self.setup.functional_traffic || e.setup.rules.combat_version < 2 {
             return;
         }
         for (id, unit) in &e.units {
@@ -469,7 +469,7 @@ impl World {
             let Some(swing) = &unit.fighter.swing else {
                 continue;
             };
-            if !swing.definition.active(tick.saturating_sub(swing.started)) {
+            if !e.swing_active(*id, tick) {
                 continue;
             }
             let Some(at) = e.position(*id, actors) else {
@@ -545,11 +545,12 @@ impl World {
         c: &riding::Configuration,
         tick: u64,
         effects: &mut Vec<combat::Effect>,
+        mut random: impl FnMut() -> u32,
     ) -> Result<()> {
         let mut active = BTreeSet::new();
         let ids: Vec<_> = self.agents.keys().copied().collect();
         for id in ids {
-            let a = self.agents[&id].clone();
+            let mut a = self.agents[&id].clone();
             if matches!(a.state, AgentState::Hit | AgentState::Recovering)
                 || (a.kind == Kind::Pedestrian && a.hit_count > 0)
             {
@@ -557,6 +558,83 @@ impl World {
             }
             for (rider_id, unit) in e.units.clone() {
                 if unit.recovery.outcome.is_some() {
+                    continue;
+                }
+                if a.kind == Kind::Vehicle && e.setup.rules.collision_version == 2 {
+                    let bike_at = unit.recovery.bike_location;
+                    let bike_here = bike_at.path == a.location.path;
+                    let rider_here = unit
+                        .recovery
+                        .body
+                        .as_ref()
+                        .is_some_and(|b| b.location.path == a.location.path);
+                    if !bike_here && !rider_here {
+                        continue;
+                    }
+                    let topology = &e.setup.topology;
+                    let mut car = crate::collision::Body {
+                        position: [
+                            topology.projected(a.location).unwrap() as i32,
+                            a.location.lateral,
+                            a.location.height,
+                        ],
+                        previous: [
+                            topology.projected(a.previous).unwrap() as i32,
+                            a.previous.lateral,
+                            a.previous.height,
+                        ],
+                        half: [64, 16384, 8960],
+                        velocity: if a.state == AgentState::Crossing {
+                            [0, a.speed * i32::from(a.direction) / 4, 0]
+                        } else {
+                            [a.speed * i32::from(a.direction), 0, 0]
+                        },
+                        speed: a.speed,
+                        mass: 1800,
+                        category: 16,
+                        flags: 0,
+                        impulse: [0; 3],
+                    };
+                    let start = car.position[0];
+                    let bike_hit = bike_here
+                        && e.source_object_contact(rider_id, actors, &mut car, c, tick, effects)?;
+                    let rider_hit = rider_here
+                        && e.source_detached_object_contact(
+                            rider_id,
+                            actors,
+                            &mut car,
+                            c,
+                            (tick, effects),
+                            &mut random,
+                        )?;
+                    for (detached, hit) in [(false, bike_hit), (true, rider_hit)] {
+                        if !hit {
+                            continue;
+                        }
+                        let key = (rider_id.0 * 2 + u64::from(detached), id);
+                        active.insert(key);
+                        if !self.contacts.contains(&key) {
+                            effects.push(Effect {
+                                tick,
+                                actor: rider_id,
+                                other: None,
+                                kind: EffectKind::Contact,
+                            });
+                        }
+                    }
+                    if bike_hit || rider_hit {
+                        let agent = self.agents.get_mut(&id).unwrap();
+                        e.setup.topology.advance(
+                            &mut agent.location,
+                            i64::from(car.position[0] - start),
+                            None,
+                        )?;
+                        agent.location.lateral = car.position[1];
+                        agent.location.height = car.position[2];
+                        agent.previous = agent.location;
+                        agent.projected = e.setup.topology.projected(agent.location);
+                        a = agent.clone();
+                    }
                     continue;
                 }
                 let at = unit
@@ -773,11 +851,27 @@ impl World {
             .body
             .as_ref()
             .map_or(player.recovery.bike_location, |b| b.location);
-        let speed = player.recovery.body.as_ref().map_or(
-            actors[&ActorId(1)].view.rider.as_ref().unwrap().bike.speed,
-            |b| b.motion.speed,
-        );
-        let crash = if player.recovery.phase == Phase::Mounted {
+        let source = e.setup.rules.collision_version == 2;
+        let bike_speed = actors[&ActorId(1)].view.rider.as_ref().unwrap().bike.speed;
+        // Native arrest reads bike velocity even while targeting the detached
+        // rider position, and distinguishes the sliding and get-up states.
+        let speed = if source {
+            bike_speed
+        } else {
+            player
+                .recovery
+                .body
+                .as_ref()
+                .map_or(bike_speed, |b| b.motion.speed)
+        };
+        let crash = if source {
+            match player.recovery.phase {
+                Phase::Mounted => 0,
+                Phase::Sliding => 1,
+                Phase::Mounting => 3,
+                _ => 2,
+            }
+        } else if player.recovery.phase == Phase::Mounted {
             0
         } else {
             2
@@ -786,7 +880,7 @@ impl World {
             cop.kind == Kind::Police
                 && cop.state == AgentState::Chase
                 && cop.location.path == target.path
-                && (cop.location.lateral - target.lateral).abs() < 32000
+                && (source || (cop.location.lateral - target.lateral).abs() < 32000)
                 && arrest(
                     crash,
                     speed,
@@ -892,6 +986,81 @@ mod combat_tests {
             p.combat(s.encounter.as_ref().unwrap(), &s.actors, age, &mut effects);
             assert!(p.agents.values().next().unwrap().hit_count <= 1);
             assert!(effects.len() <= 1);
+        }
+    }
+}
+
+#[cfg(test)]
+mod arrest_input_tests {
+    use super::*;
+    #[test]
+    fn source_arrest_uses_the_bike_speed_and_preserves_crash_state() {
+        for (speed, body_speed, phase, lateral, expected) in [
+            (0, 10000, Phase::Sliding, 0, true),
+            (2000, 0, Phase::Sliding, 0, false),
+            (1700, 10000, Phase::Walking, 0, true),
+            (1800, 0, Phase::Standing, 0, false),
+            (0, 0, Phase::Standing, 48000, true),
+        ] {
+            let c = fixtures::riding();
+            let mut setup = encounter::Setup::authored(&c).unwrap();
+            setup.rules.collision_version = 2;
+            setup.rules.combat_version = 2;
+            setup.rules.collision = Some(crate::collision::Profile {
+                mounted: [7680, 64, 8960],
+                fallen: [7680, 64, 3840],
+                mass: 256,
+                elasticity: 192,
+                rider: None,
+            });
+            let mut sim = Simulation::with_encounters(1, c.clone(), setup).unwrap();
+            let e = sim.encounter.as_mut().unwrap();
+            let rider = sim
+                .actors
+                .get_mut(&ActorId(1))
+                .unwrap()
+                .view
+                .rider
+                .as_mut()
+                .unwrap();
+            let unit = e.units.get_mut(&ActorId(1)).unwrap();
+            unit.recovery.begin_source(
+                ActorId(1),
+                &mut rider.bike,
+                &c,
+                unit.recovery.bike_location,
+                Impact::default(),
+                &e.setup.topology,
+            );
+            rider.bike.speed = speed;
+            unit.recovery.body.as_mut().unwrap().motion.speed = body_speed;
+            unit.recovery.phase = phase;
+            let mut p = World::new(Setup::default());
+            p.spawn(
+                &Spawn {
+                    id: 1,
+                    kind: Kind::Police,
+                    location: Location {
+                        lateral,
+                        ..unit.recovery.bike_location
+                    },
+                    family: None,
+                    selector: 0,
+                    subtype: 0,
+                    speed: 0,
+                    direction: 1,
+                },
+                0,
+                &e.setup.topology,
+            )
+            .unwrap();
+            p.agents.values_mut().next().unwrap().state = AgentState::Chase;
+            p.progression(e, &sim.actors);
+            assert_eq!(
+                e.units[&ActorId(1)].terminal_request == Some(Outcome::Arrested),
+                expected,
+                "{speed} {body_speed} {phase:?} {lateral}"
+            );
         }
     }
 }

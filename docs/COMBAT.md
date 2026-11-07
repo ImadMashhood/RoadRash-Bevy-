@@ -1,6 +1,6 @@
 # Combat and contact contract
 
-**Active accuracy gate:** [collision, fighting and crash priority](COLLISION_COMBAT_PRIORITY.md). New native races record `combat_version: 2`; omitted/version-0 recordings retain the historical rules. Profiles 0/1 retain their historical policies. The complete contact classifier and full fight/recovery parity remain open. See the [3,176-observation correction receipt](evidence/gameplay-completion-progress.md).
+**Active accuracy gate:** [collision, fighting and crash priority](COLLISION_COMBAT_PRIORITY.md). New native races record `combat_version: 3`. Profiles 0–2 keep published transitions and hashes. Profile 3 orders regeneration, hit testing and animation advancement per actor and preserves native queued clip chains. Controlled two-rider sequences pass; full police and simultaneous multi-actor parity remain open. See [327,086 matched native observations](evidence/source-contact-recovery.md).
 
 Schema 4 adds ordered encounter systems to source-unit handling. `combat.rs` defines immutable attack windows, stamina, reach, target ordering, unique weapon ownership and cosmetic result events. `encounter.rs` owns the movement/contact/combat/progression transactions; `recovery.rs` owns detached motion. They contain no Bevy or asset-cache dependencies. Configuration is validated once before a race. Serializing an authored setup provides an editable, replayable rules boundary; imported source tables remain private.
 

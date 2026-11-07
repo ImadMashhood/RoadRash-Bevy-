@@ -1,5 +1,9 @@
 # Gameplay correction progress — completion gate remains open
 
+**Follow-up:** [source contact/fight/recovery verification](source-contact-recovery.md)
+now records 327,086 matching observations. Earlier counts and career runs below
+remain historical. Full police/career/release acceptance is still open.
+
 This pass starts from `5c47d5e6396a7d18b8669f532f774ad2503db127`.
 The game is **not yet complete**. These scoped native comparisons close measured
 bugs; they do not establish whole-game parity or a release-ready career.

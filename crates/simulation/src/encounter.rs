@@ -1,4 +1,7 @@
 //! Ordered schema-4 contact/combat/recovery systems. No Bevy, filesystem or presentation RNG.
+mod contact;
+mod fighting;
+mod legacy;
 use crate::{
     combat::{
         self, AttackKind, Combatant, Definition, Effect, EffectKind, Inventory, Position, Request,
@@ -31,6 +34,14 @@ pub struct Obstacle {
     pub right: i32,
     pub height: i32,
     pub kind: ObstacleKind,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub source_box: Option<StaticBox>,
+}
+#[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+pub struct StaticBox {
+    pub bounds: [i32; 4],
+    pub lateral: i32,
 }
 // Slab intersection with rational comparisons: a complete tick sweep cannot
 // tunnel through a narrow wall, and a diagonal near miss stays a near miss.
@@ -98,6 +109,10 @@ fn wall_entry(
 pub struct Rules {
     #[serde(default, skip_serializing_if = "legacy_combat")]
     pub collision_version: u8,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub collision: Option<crate::collision::Profile>,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub building_boundaries: Vec<crate::building_wall::Boundary>,
     /// 0 preserves historical replays; 1 uses measured source attack/crash entry rules.
     #[serde(default, skip_serializing_if = "legacy_combat")]
     pub combat_version: u8,
@@ -129,6 +144,8 @@ impl Rules {
             .map_or(12, |v| v.iter().map(|f| f.duration as u16).sum::<u16>() + 1);
         Ok(Self {
             collision_version: 0,
+            collision: None,
+            building_boundaries: vec![],
             combat_version: 0,
             steal_codes: None,
             level,
@@ -146,11 +163,19 @@ impl Rules {
     }
     pub fn validate(&self, topology: &Topology) -> Result<()> {
         self.body.validate()?;
+        if let Some(profile) = &self.collision {
+            profile.validate()?;
+        }
+        if self.collision_version == 2 && (self.collision.is_none() || self.combat_version < 2) {
+            return Err(Error::Invalid(
+                "collision profile 2 requires combat profile 2 and physical constants",
+            ));
+        }
         if self
             .steal_codes
             .is_some_and(|codes| codes.iter().any(|c| !(-1..=51).contains(c)))
-            || self.collision_version > 1
-            || self.combat_version > 2
+            || self.collision_version > 2
+            || self.combat_version > 3
             || self.level > 4
             || self.stun == 0
             || self.stun > 10000
@@ -165,8 +190,42 @@ impl Rules {
         {
             return Err(Error::Invalid("combat/contact rules"));
         }
+        if self.building_boundaries.len() > 1_000_000 {
+            return Err(Error::Invalid("building boundary budget"));
+        }
+        let mut previous = None;
+        for boundary in &self.building_boundaries {
+            let key = (boundary.path, boundary.sample);
+            if previous.is_some_and(|p| p >= key)
+                || !topology.paths.contains_key(&boundary.path)
+                || i64::from(boundary.sample) * 256 >= topology.paths[&boundary.path].length
+                || boundary.road[0] > boundary.road[1]
+                || boundary.outer[0] > boundary.road[0]
+                || boundary.outer[1] < boundary.road[1]
+                || boundary
+                    .road
+                    .iter()
+                    .chain(boundary.outer.iter())
+                    .any(|v| v.unsigned_abs() > 1_000_000)
+            {
+                return Err(Error::Invalid("source building boundary"));
+            }
+            previous = Some(key);
+        }
         let mut ids = BTreeSet::new();
         for o in &self.obstacles {
+            if let Some(b) = &o.source_box
+                && (b.bounds[0] >= b.bounds[2]
+                    || b.bounds[1] >= b.bounds[3]
+                    || b.bounds
+                        .iter()
+                        .chain(std::iter::once(&b.lateral))
+                        .any(|v| v.unsigned_abs() > 256_000_000)
+                    || b.bounds[2] - b.bounds[0] > 1_048_576
+                    || b.bounds[3] - b.bounds[1] > 1_048_576)
+            {
+                return Err(Error::Invalid("source physical collision box"));
+            }
             if o.id == 0
                 || o.id >= (1u64 << 63)
                 || !ids.insert(o.id)
@@ -361,6 +420,7 @@ impl Setup {
                     right: center + 0x800,
                     height: 0x2300,
                     kind,
+                    source_box: None,
                 });
                 let _ = node;
             }
@@ -380,6 +440,16 @@ pub struct Unit {
     pub drive: bool,
     pub terminal_request: Option<Outcome>,
 }
+#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
+pub(crate) struct ContactObject {
+    pub owner: ActorId,
+    pub detached: bool,
+}
+impl ContactObject {
+    fn key(self) -> u64 {
+        self.owner.0 * 2 + u64::from(self.detached)
+    }
+}
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct World {
     pub setup: Setup,
@@ -394,6 +464,12 @@ pub struct World {
     obstacle_bins: BTreeMap<(u32, i64), Vec<usize>>,
     #[serde(skip)]
     building_keys: BTreeMap<u32, u64>,
+    // Half-think stamina belongs to each combat transaction, after earlier
+    // riders' hits. Direct contact/strike probes do not schedule think work.
+    #[serde(skip)]
+    pending_regeneration: BTreeSet<ActorId>,
+    #[serde(skip)]
+    source_swing_gates: BTreeMap<ActorId, bool>,
 }
 impl World {
     pub(crate) fn new(
@@ -413,6 +489,9 @@ impl World {
                 .rider
                 .as_mut()
                 .ok_or(Error::Invalid("missing source rider"))?;
+            if setup.rules.combat_version >= 3 {
+                rider.animation.queued = Some(2);
+            }
             rider.bike.distance_q8 = setup.topology.projected(at).unwrap_or(seed.distance);
             rider.bike.lateral = at.lateral;
             rider.bike.height = at.height;
@@ -460,6 +539,8 @@ impl World {
         }
         Ok(Self {
             building_keys,
+            pending_regeneration: BTreeSet::new(),
+            source_swing_gates: BTreeMap::new(),
             inventory: setup.inventory.clone(),
             setup,
             units,
@@ -574,7 +655,11 @@ impl World {
         tick: u64,
         external_targets: &[Position],
         events: &mut Vec<Effect>,
+        mut random: impl FnMut() -> u32,
     ) -> Result<()> {
+        if self.setup.rules.combat_version < 3 {
+            return self.legacy_movement(actors, c, tick, external_targets, events);
+        }
         let positions: BTreeMap<_, _> = self
             .units
             .keys()
@@ -640,7 +725,16 @@ impl World {
                 if a.input.impact.is_some() {
                     continue;
                 }
-                let recovery_events = u.recovery.step(
+                // Source half-think regenerates twice in get-up/walk/mount;
+                // the player wrapper contributes one additional dt. Sliding
+                // gets no regeneration, including the tick it leaves phase 1.
+                if self.setup.rules.body.recovery_version == 1 && u.recovery.phase != Phase::Sliding
+                {
+                    u.fighter.stats.health =
+                        (u.fighter.stats.health + 2 + i32::from(*id == ActorId(1)))
+                            .min(u.fighter.stats.maximum);
+                }
+                let recovery_events = u.recovery.step_with_random(
                     &mut r.bike,
                     c,
                     &self.setup.topology,
@@ -648,6 +742,7 @@ impl World {
                     self.setup.rules.assists,
                     a.input.walk,
                     tick as u32,
+                    &mut random,
                 )?;
                 for event in recovery_events {
                     let kind = match event {
@@ -665,21 +760,18 @@ impl World {
                 }
                 continue;
             }
-            u.fighter.stats.regenerate();
-            let mut continuation = None;
-            if u.fighter
-                .swing
-                .as_ref()
-                .is_some_and(|s| tick - s.started >= u64::from(s.definition.duration))
-            {
-                if self.setup.rules.combat_version == 2 {
-                    continuation = u
-                        .fighter
-                        .swing
-                        .as_ref()
-                        .filter(|s| s.repeat)
-                        .map(|s| s.request);
+            if self.setup.rules.combat_version >= 3 {
+                self.pending_regeneration.insert(*id);
+            } else {
+                u.fighter.stats.regenerate();
+            }
+            if u.fighter.swing.as_ref().is_some_and(|s| {
+                if self.setup.rules.combat_version >= 3 {
+                    r.animation.code != s.definition.code
+                } else {
+                    tick - s.started >= u64::from(s.definition.duration)
                 }
+            }) {
                 u.fighter.swing = None;
                 r.pose = animation::Pose::Ride;
             }
@@ -702,7 +794,6 @@ impl World {
             let request = a
                 .input
                 .attack
-                .or(continuation)
                 .or_else(|| a.input.pose.and_then(Request::from_pose));
             let mut command = a.input;
             command.pose = None;
@@ -727,7 +818,7 @@ impl World {
                 if request.side == Side::Auto {
                     let target_lateral =
                         chosen.map(|other| positions[&other].lateral).or_else(|| {
-                            (self.setup.rules.combat_version == 2)
+                            (self.setup.rules.combat_version >= 3)
                                 .then(|| {
                                     external_targets
                                         .iter()
@@ -779,7 +870,7 @@ impl World {
             if u.drive {
                 command.throttle = true;
             }
-            r.step(c, command, tick as u32)?;
+            r.step_with_combat_profile(c, command, tick as u32, self.setup.rules.combat_version)?;
 
             let delta = r.bike.distance_q8 - positions[id].progress;
             self.setup.topology.advance(
@@ -802,6 +893,19 @@ impl World {
                 Self::emit(events, tick, *id, None, EffectKind::Crash);
             }
             let _ = carried;
+        }
+        if self.setup.rules.collision_version == 2 {
+            let ids: Vec<_> = self.units.keys().copied().collect();
+            for id in ids {
+                let had_body = self.units[&id].recovery.body.is_some();
+                self.source_building_contact(id, actors, c, tick, events)?;
+                if had_body
+                    && self.units[&id].recovery.body.is_some()
+                    && self.setup.rules.collision.as_ref().unwrap().rider.is_some()
+                {
+                    self.source_detached_boundary(id, actors, c)?;
+                }
+            }
         }
         Ok(())
     }
@@ -881,9 +985,13 @@ impl World {
         c: &Configuration,
         tick: u64,
         events: &mut Vec<Effect>,
+        mut random: impl FnMut() -> u32,
     ) -> Result<()> {
         let mut active = BTreeSet::new();
-        let ids: Vec<_> = self.units.keys().copied().collect();
+        let mut ids: Vec<_> = self.units.keys().copied().collect();
+        if self.setup.rules.collision_version == 2 {
+            ids.sort_by_key(|id| (self.position(*id, actors).unwrap().progress, *id));
+        }
         for id in &ids {
             let input = actors[id].input;
             if let Some(impact) = input.impact {
@@ -905,7 +1013,39 @@ impl World {
             }
         }
         let [width, length, height] = self.setup.rules.dimensions;
-        if self.setup.rules.bike_contacts {
+        if self.setup.rules.bike_contacts && self.setup.rules.collision_version == 2 {
+            let mut objects = vec![];
+            for id in &ids {
+                if self.units[id].recovery.outcome.is_some() {
+                    continue;
+                }
+                objects.push(ContactObject {
+                    owner: *id,
+                    detached: false,
+                });
+                if self.units[id].recovery.body.is_some()
+                    && self.setup.rules.collision.as_ref().unwrap().rider.is_some()
+                {
+                    objects.push(ContactObject {
+                        owner: *id,
+                        detached: true,
+                    });
+                }
+            }
+            objects.sort_by_key(|o| (self.proxy_body(*o, actors, c).position[0], o.key()));
+            for (index, a) in objects.iter().enumerate() {
+                for b in objects.iter().skip(index + 1) {
+                    if self.source_proxy_pair((*a, *b), actors, c, (tick, events), &mut random)? {
+                        let key = (a.key().min(b.key()), a.key().max(b.key()));
+                        active.insert(key);
+                        if a.owner != b.owner && !self.active_contacts.contains(&key) {
+                            Self::emit(events, tick, a.owner, Some(b.owner), EffectKind::Contact);
+                        }
+                    }
+                }
+            }
+        }
+        if self.setup.rules.bike_contacts && self.setup.rules.collision_version != 2 {
             for (i, a) in ids.iter().enumerate() {
                 for b in ids.iter().skip(i + 1) {
                     let pa = self.position(*a, actors).unwrap();
@@ -1011,7 +1151,27 @@ impl World {
                 .iter()
                 .map(|index| &self.setup.rules.obstacles[*index])
                 .filter(|o| {
-                    o.kind != ObstacleKind::Decorative
+                    if self.setup.rules.collision_version == 2
+                        && let Some(b) = &o.source_box
+                    {
+                        let bike = &actors[&id].view.rider.as_ref().unwrap().bike;
+                        let profile = self.setup.rules.collision.as_ref().unwrap();
+                        let dims = if bike.crashed {
+                            profile.fallen
+                        } else {
+                            profile.mounted
+                        };
+                        return o.path == p.path
+                            && (current.progress - o.progress).abs() < i64::from(dims[1])
+                            && b.bounds[0] <= bike.lateral + dims[0]
+                            && bike.lateral - dims[0] <= b.bounds[2]
+                            && b.bounds[1] <= bike.height + dims[2]
+                            && bike.height - dims[2] < b.bounds[3];
+                    }
+                    !(self.setup.rules.collision_version == 2
+                        && !self.setup.rules.building_boundaries.is_empty()
+                        && o.kind == ObstacleKind::Building)
+                        && o.kind != ObstacleKind::Decorative
                         && o.path == p.path
                         && p.height < o.height
                         && (current.progress.min(previous_progress) - i64::from(length)
@@ -1038,6 +1198,38 @@ impl World {
                 .cloned()
                 .collect();
             for obstacle in hazard_hits {
+                if self.setup.rules.collision_version == 2
+                    && let Some(b) = &obstacle.source_box
+                {
+                    let at = self.units[&id].recovery.bike_location;
+                    let progress = self
+                        .setup
+                        .topology
+                        .projected(Location {
+                            progress: obstacle.progress,
+                            ..at
+                        })
+                        .unwrap() as i32;
+                    let mut object = crate::collision::Body {
+                        position: [progress, b.lateral, 0],
+                        previous: [progress, b.lateral, 0],
+                        half: [0, b.bounds[2] - b.bounds[0], b.bounds[3] - b.bounds[1]],
+                        velocity: [0; 3],
+                        speed: 0,
+                        mass: 0x1000000,
+                        category: 1,
+                        flags: 0,
+                        impulse: [0; 3],
+                    };
+                    if self.source_object_contact(id, actors, &mut object, c, tick, events)? {
+                        let key = (id.0, (1u64 << 63) | obstacle.id);
+                        active.insert(key);
+                        if !self.active_contacts.contains(&key) {
+                            Self::emit(events, tick, id, None, EffectKind::Contact);
+                        }
+                    }
+                    break;
+                }
                 let kind = obstacle.kind;
                 // Adjacent source panels share one continuous wall-contact incident.
                 let contact_id = if kind == ObstacleKind::Building {
@@ -1049,6 +1241,8 @@ impl World {
                     obstacle.id
                 };
                 let key = (id.0, (1u64 << 63) | contact_id);
+                let mut frontal = true;
+                let mut side_speed = 0;
                 if kind == ObstacleKind::Building {
                     let rider = actors.get_mut(&id).unwrap().view.rider.as_mut().unwrap();
                     let unit = self.units.get_mut(&id).unwrap();
@@ -1065,7 +1259,7 @@ impl World {
                         width,
                     )
                     .unwrap_or(0);
-                    if self.setup.rules.collision_version == 1 && axis == 0 {
+                    if self.setup.rules.collision_version >= 1 && axis == 0 {
                         let clearance = (i64::from(rider.bike.lateral) - i64::from(obstacle.left)
                             + i64::from(width))
                         .min(
@@ -1079,6 +1273,8 @@ impl World {
                             axis = 1;
                         }
                     }
+                    frontal = axis == 0;
+                    side_speed = rider.bike.lateral_speed.abs();
                     if axis == 1
                         && i64::from(previous.lateral) * 2
                             <= i64::from(obstacle.left) + i64::from(obstacle.right)
@@ -1115,23 +1311,27 @@ impl World {
                 {
                     let speed = actors[&id].view.rider.as_ref().unwrap().bike.speed;
                     let reason = if kind == ObstacleKind::Rail { 3 } else { 1 };
+                    let side_brush = self.setup.rules.collision_version == 2
+                        && kind == ObstacleKind::Building
+                        && !frontal;
+                    let strength = if side_brush { side_speed } else { speed };
                     self.hit(
                         actors,
                         c,
                         id,
                         Impact {
                             reason,
-                            bike_damage: (speed / 1024).clamp(0, i32::from(u16::MAX)) as u16,
+                            bike_damage: (strength / 1024).clamp(0, i32::from(u16::MAX)) as u16,
                             rider_velocity: Some([0, 0, 512]),
                             bike_velocity: Some([0, 0, 256]),
                             ..Default::default()
                         },
                         tick,
-                        speed > 6000 || kind == ObstacleKind::Cliff,
+                        (!side_brush && speed > 6000) || kind == ObstacleKind::Cliff,
                         events,
                     )?;
                     Self::emit(events, tick, id, None, EffectKind::Contact);
-                    if kind == ObstacleKind::Building {
+                    if kind == ObstacleKind::Building && !side_brush {
                         actors
                             .get_mut(&id)
                             .unwrap()
@@ -1145,242 +1345,78 @@ impl World {
                 }
             }
         }
-        self.active_contacts = active;
-        Ok(())
-    }
-    pub(crate) fn combat(
-        &mut self,
-        actors: &mut BTreeMap<ActorId, crate::Actor>,
-        c: &Configuration,
-        tick: u64,
-        mut random: impl FnMut(ActorId, &'static str) -> u32,
-        events: &mut Vec<Effect>,
-    ) -> Result<()> {
-        let ids: Vec<_> = self.units.keys().copied().collect();
-        for id in ids {
-            let u = &self.units[&id];
-            if u.recovery.phase != Phase::Mounted
-                || u.recovery.outcome.is_some()
-                || tick < u.fighter.stun_until
-            {
-                continue;
-            }
-            let Some(swing) = u.fighter.swing.clone() else {
-                continue;
-            };
-            let age = tick - swing.started;
-            if (swing.resolved && self.setup.rules.combat_version < 2)
-                || !swing.definition.active(age)
-            {
-                continue;
-            }
-            if !swing.swish {
-                self.units
-                    .get_mut(&id)
-                    .unwrap()
-                    .fighter
-                    .swing
-                    .as_mut()
-                    .unwrap()
-                    .swish = true;
-                Self::emit(events, tick, id, swing.target, EffectKind::Swing);
-            }
-            let selected = if self.setup.rules.combat_version == 2 {
-                let at = self.position(id, actors).unwrap();
-                combat::target(
-                    id,
-                    at,
-                    self.units
-                        .iter()
-                        .filter(|(other, u)| {
-                            **other != id
-                                && u.recovery.phase == Phase::Mounted
-                                && u.recovery.outcome.is_none()
-                        })
-                        .map(|(other, _)| (*other, self.position(*other, actors).unwrap())),
-                )
-            } else {
-                swing.target
-            };
-            let Some(target) = selected.filter(|t| {
-                self.units.contains_key(t)
-                    && self.units[t].recovery.phase == Phase::Mounted
-                    && self.units[t].recovery.outcome.is_none()
-                    && (self.setup.rules.combat_version < 2
-                        || actors[t].view.rider.as_ref().unwrap().animation.code != 9)
-            }) else {
-                continue;
-            };
-            let a = self.position(id, actors).unwrap();
-            let b = self.position(target, actors).unwrap();
-            let slot = combat::weapon_slot(swing.request.kind, swing.weapon);
-            if !combat::in_reach(a, b, swing.request.side, slot, self.setup.rules.reach) {
-                continue;
-            }
-            self.units
-                .get_mut(&id)
-                .unwrap()
-                .fighter
-                .swing
-                .as_mut()
-                .unwrap()
-                .resolved = true;
-            let theft = self.inventory.carried(target).filter(|_| {
-                swing.weapon == animation::Weapon::Fists
-                    && swing.request.kind != AttackKind::Kick
-                    && tick > self.units[&target].fighter.steal_until
-                    && self.units[&target].fighter.swing.as_ref().is_some_and(|s| {
-                        if self.setup.rules.combat_version == 2 {
-                            actors[&target].view.rider.as_ref().unwrap().animation.frame < 2
-                        } else {
-                            s.definition.frame(tick - s.started) < 2
-                        }
-                    })
-            });
-            if let Some((item, kind)) = theft.filter(|_| random(id, "weapon_theft") & 3 == 3)
-                && self.inventory.transfer(item, target, id)
-            {
-                self.units.get_mut(&id).unwrap().fighter.steal_until = tick + 300;
-                self.units.get_mut(&target).unwrap().fighter.swing = None;
-                self.units.get_mut(&id).unwrap().fighter.swing = None;
-                let victim_code = actors[&target].view.rider.as_ref().unwrap().animation.code;
-                let left = victim_code == c.animation.attacks[0][0][0]
-                    || victim_code == c.animation.attacks[0][1][0];
-                let receiver = actors.get_mut(&id).unwrap().view.rider.as_mut().unwrap();
-                if self.setup.rules.combat_version == 2
-                    && let Some(codes) = self.setup.rules.steal_codes
-                {
-                    receiver.pose = animation::Pose::Steal;
-                    receiver.animation.set(
-                        &c.animation,
-                        0,
-                        codes[kind as usize + usize::from(left) * 4],
-                    );
-                    receiver.animation.queued = Some(2);
-                } else {
-                    receiver.pose = animation::Pose::Ride;
-                    receiver.animation.set(&c.animation, 0, 2);
-                }
-                actors
-                    .get_mut(&id)
-                    .unwrap()
-                    .view
-                    .rider
-                    .as_mut()
-                    .unwrap()
-                    .weapon = kind;
-                let victim = actors
-                    .get_mut(&target)
-                    .unwrap()
-                    .view
-                    .rider
-                    .as_mut()
-                    .unwrap();
-                victim.weapon = animation::Weapon::Fists;
-                victim.pose = animation::Pose::Ride;
-                victim.animation.set(&c.animation, 0, 2);
-                if self.setup.rules.combat_version == 2 {
-                    victim.animation.queued = Some(2);
-                }
-                Self::emit(events, tick, id, Some(target), EffectKind::Stolen);
-                continue;
-            }
-            if tick <= self.units[&target].fighter.hit_until {
-                if self.setup.rules.combat_version == 2 && slot == 3 {
-                    let direction = if swing.request.side == Side::Right {
-                        1
-                    } else {
-                        -1
-                    };
-                    let rider = actors
-                        .get_mut(&target)
-                        .unwrap()
-                        .view
-                        .rider
-                        .as_mut()
-                        .unwrap();
-                    rider.bike.lean = (rider.bike.lean + direction * 8000).clamp(-11776, 11776);
-                }
-                continue;
-            }
-            let damage = self.units[&id]
-                .fighter
-                .stats
-                .damage(self.setup.rules.damage[slot]);
-            let condition = if slot == 3 { damage / 4 + 1 } else { 0 };
-            self.hit(
-                actors,
-                c,
-                target,
-                Impact {
-                    reason: if slot == 3 { 5 } else { 4 },
-                    stamina_damage: damage as u16,
-                    bike_damage: condition as u16,
-                    ..Default::default()
-                },
-                tick,
-                false,
-                events,
-            )?;
-            self.units.get_mut(&target).unwrap().fighter.hit_until =
-                tick + u64::from(self.setup.rules.immunity);
-            if self.setup.rules.combat_version == 2
-                && random(id, "attack_chain").is_multiple_of(u32::from(6 - self.setup.rules.level))
-            {
-                self.units
-                    .get_mut(&id)
-                    .unwrap()
-                    .fighter
-                    .swing
-                    .as_mut()
-                    .unwrap()
-                    .repeat = true;
-            }
-            let direction = if swing.request.side == Side::Right {
-                1
-            } else {
-                -1
-            };
-            let target_rider = actors
-                .get_mut(&target)
-                .unwrap()
-                .view
-                .rider
-                .as_mut()
-                .unwrap();
-            target_rider.bike.lean = (target_rider.bike.lean
-                + direction * if slot == 3 { 11000 } else { 3000 })
-            .clamp(-11776, 11776);
-            if swing.request.kind == AttackKind::Backhand {
-                target_rider.bike.speed = if self.setup.rules.combat_version == 2 {
-                    target_rider.bike.speed - 300
-                } else {
-                    (target_rider.bike.speed - 300).max(0)
+        if self.setup.rules.collision_version == 2
+            && self.setup.rules.collision.as_ref().unwrap().rider.is_some()
+        {
+            for id in self.units.keys().copied().collect::<Vec<_>>() {
+                let recovery = &self.units[&id].recovery;
+                let Some(rider) = recovery
+                    .body
+                    .as_ref()
+                    .filter(|_| recovery.outcome.is_none())
+                else {
+                    continue;
                 };
-                actors
-                    .get_mut(&id)
+                let at = rider.location;
+                let dimensions = self
+                    .setup
+                    .rules
+                    .collision
+                    .as_ref()
                     .unwrap()
-                    .view
                     .rider
-                    .as_mut()
+                    .as_ref()
                     .unwrap()
-                    .bike
-                    .speed += 300;
+                    .dimensions;
+                let obstacle = self
+                    .setup
+                    .rules
+                    .obstacles
+                    .iter()
+                    .find(|o| {
+                        let Some(b) = &o.source_box else {
+                            return false;
+                        };
+                        o.path == at.path
+                            && (o.progress - at.progress).abs() < i64::from(dimensions[1])
+                            && b.bounds[0] <= rider.motion.lateral + dimensions[0]
+                            && rider.motion.lateral - dimensions[0] <= b.bounds[2]
+                            && b.bounds[1] <= rider.motion.height + dimensions[2]
+                            && rider.motion.height - dimensions[2] < b.bounds[3]
+                    })
+                    .cloned();
+                if let Some(obstacle) = obstacle {
+                    let b = obstacle.source_box.as_ref().unwrap();
+                    let progress = rider.motion.distance_q8 + obstacle.progress - at.progress;
+                    let mut solid = crate::collision::Body {
+                        position: [progress as i32, b.lateral, 0],
+                        previous: [progress as i32, b.lateral, 0],
+                        half: [0, b.bounds[2] - b.bounds[0], b.bounds[3] - b.bounds[1]],
+                        velocity: [0; 3],
+                        speed: 0,
+                        mass: 0x1000000,
+                        category: 1,
+                        flags: 0,
+                        impulse: [0; 3],
+                    };
+                    if self.source_detached_object_contact(
+                        id,
+                        actors,
+                        &mut solid,
+                        c,
+                        (tick, events),
+                        &mut random,
+                    )? {
+                        let key = (id.0 * 2 + 1, (1u64 << 63) | obstacle.id);
+                        active.insert(key);
+                        if !self.active_contacts.contains(&key) {
+                            Self::emit(events, tick, id, None, EffectKind::Contact);
+                        }
+                    }
+                }
             }
-            let attacker = actors.get_mut(&id).unwrap().view.rider.as_mut().unwrap();
-            attacker.bike.lean = (attacker.bike.lean - direction * 1000).clamp(-11776, 11776);
-            Self::emit(
-                events,
-                tick,
-                id,
-                Some(target),
-                if slot == 3 {
-                    EffectKind::Kick
-                } else {
-                    EffectKind::Hit
-                },
-            );
         }
+        self.active_contacts = active;
         Ok(())
     }
     pub(crate) fn progress(
@@ -1444,6 +1480,7 @@ mod wall_tests {
     #[test]
     fn sweeps_stop_frontal_and_lateral_tunneling_but_allow_diagonal_misses() {
         let o = Obstacle {
+            source_box: None,
             id: 1,
             path: 0,
             progress: 1000,

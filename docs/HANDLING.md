@@ -56,7 +56,10 @@ The schedules include 1,800 ticks of throttle followed by 600 ticks of brake/coa
 
 ## Signed motion profile
 
-New native races set `motion_version: 1`. Mounted and detached motion share the
+New native races set handling `motion_version: 2` and body `motion_version: 1`.
+Profile 2 additionally preserves airborne lateral memory and captures impact
+velocity separately from callback-updated scalar speed. Profiles 0/1 retain their
+historical arithmetic. Mounted and detached motion share the
 signed acceleration/contact-drag integrator; backwards travel persists and
 negative-speed braking approaches zero without immediately clipping motion.
 Omitted/profile-0 configurations retain the old arithmetic and canonical replay

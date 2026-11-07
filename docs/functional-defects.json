@@ -157,7 +157,7 @@
       "severity": "required",
       "status": "open",
       "owner": "Implementing agent",
-      "reproducer": "Whole-contact classifier, complete fight transaction and multi-tick recovery trajectories have not been shown to match the native source port.",
+      "reproducer": "Controlled contacts/recovery and two-rider chains now match 327,086 observations. Full police, dense/simultaneous contacts/fights, changing boundary types and renewed career/release remain unaccepted.",
       "regression": "docs/COLLISION_COMBAT_PRIORITY.md",
       "acceptance_gate": "G3F"
     },
@@ -169,6 +169,46 @@
       "owner": "Implementing agent",
       "reproducer": "The former six negative-speed failures now match under explicit motion profile 1; legacy profile 0 remains available for old replays.",
       "regression": "docs/evidence/gameplay-completion-progress.md",
+      "acceptance_gate": "G3F"
+    },
+    {
+      "id": "source-contact-transactions",
+      "task": "19.04",
+      "severity": "required",
+      "status": "closed",
+      "owner": "Implementing agent",
+      "reproducer": "Overlap/mean-speed bike contacts and display-sized scenery boxes replaced with compared source classifier, responses and physical boxes.",
+      "regression": "docs/evidence/source-contact-recovery.md",
+      "acceptance_gate": "G3F"
+    },
+    {
+      "id": "source-building-boundaries",
+      "task": "19.04",
+      "severity": "required",
+      "status": "closed",
+      "owner": "Implementing agent",
+      "reproducer": "Display building panels created false frontal barriers; source type-0 bike/body boundaries and openings now match native cases.",
+      "regression": "docs/evidence/source-contact-recovery.md",
+      "acceptance_gate": "G3F"
+    },
+    {
+      "id": "source-coupled-recovery",
+      "task": "19.04",
+      "severity": "required",
+      "status": "closed",
+      "owner": "Implementing agent",
+      "reproducer": "Signed bounce, animation queue, bike/body ordering and pickup timer now match 328 complete controlled native episodes.",
+      "regression": "docs/evidence/source-contact-recovery.md",
+      "acceptance_gate": "G3F"
+    },
+    {
+      "id": "source-fight-chain-clock",
+      "task": "19.04",
+      "severity": "required",
+      "status": "closed",
+      "owner": "Implementing agent",
+      "reproducer": "Queued chains restarted windup, fresh swings read stale hit descriptors and regeneration ran in the wrong order; combat profile 3 passes 53,760 sequence ticks.",
+      "regression": "docs/evidence/source-contact-recovery.md",
       "acceptance_gate": "G3F"
     }
   ],

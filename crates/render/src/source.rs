@@ -71,6 +71,7 @@ pub struct FamilyAssets {
     pub definition: Arc<Family>,
     pub groups: BTreeMap<u32, Material>,
     pub sprites: BTreeMap<u32, SpriteAsset>,
+    pub collision_boxes: BTreeMap<u32, Vec<[i32; 4]>>,
     pub pedestrian_frames: BTreeMap<u8, Vec<Option<SpriteAsset>>>,
 }
 impl FamilyAssets {
@@ -119,6 +120,12 @@ impl FamilyAssets {
             }
         }
         None
+    }
+    pub fn collision_boxes(&self, category: usize, selector: usize) -> Option<&[[i32; 4]]> {
+        let frame = if category == 4 { Some(0) } else { None };
+        self.collision_boxes
+            .get(&self.resolve(category, selector, frame)?)
+            .map(Vec::as_slice)
     }
     pub fn sprite(&self, category: usize, selector: usize) -> Option<&SpriteAsset> {
         let frame = if category == 4 { Some(0) } else { None };
@@ -393,8 +400,13 @@ impl SourceAssets {
                     });
             }
             let mut sprites = BTreeMap::new();
+            let mut collision_boxes = BTreeMap::new();
             for n in &definition.nodes {
                 if n.tag == 0x5252414e {
+                    collision_boxes.insert(
+                        n.offset,
+                        rr_formats::animation_boxes::read(&bytes, n.offset as usize, 2)?,
+                    );
                     match scenery_sprite(&bytes, n.offset as usize, &palette)? {
                         Some(sprite) => {
                             pixel_budget += sprite
@@ -419,6 +431,7 @@ impl SourceAssets {
             }
             let mut family = FamilyAssets {
                 pedestrian_frames: BTreeMap::new(),
+                collision_boxes,
                 definition: Arc::new(definition),
                 groups,
                 sprites,

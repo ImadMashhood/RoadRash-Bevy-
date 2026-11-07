@@ -127,22 +127,6 @@ pub(super) fn run(
                 previous = Some(command);
             }
             sim.step(command)?;
-            if sim.effects().iter().any(|e| {
-                e.actor == ActorId(1) && e.kind == rr_simulation::combat::EffectKind::Crash
-            }) {
-                let s = sim.snapshot();
-                eprintln!(
-                    "CRASH t{} bike {:?} location {:?}",
-                    s.tick,
-                    s.actors[0].rider.as_ref().unwrap().bike,
-                    s.actors[0]
-                        .encounter
-                        .as_ref()
-                        .unwrap()
-                        .recovery
-                        .bike_location
-                );
-            }
             crashes += sim
                 .effects()
                 .iter()
@@ -322,6 +306,11 @@ pub(super) fn drive(
     encounter: &rr_simulation::encounter::Setup,
 ) -> Command {
     let hazards = &encounter.rules.obstacles;
+    let physical_hazard = |o: &rr_simulation::encounter::Obstacle| {
+        o.kind != rr_simulation::encounter::ObstacleKind::Decorative
+            && !(o.kind == rr_simulation::encounter::ObstacleKind::Building
+                && !encounter.rules.building_boundaries.is_empty())
+    };
     let topology = &encounter.topology;
     let ground = &config.ground;
     let start = config.start_sample;
@@ -370,7 +359,7 @@ pub(super) fn drive(
                 .iter()
                 .filter(|o| {
                     o.path == at.path
-                        && o.kind != rr_simulation::encounter::ObstacleKind::Decorative
+                        && physical_hazard(o)
                         && o.progress > at.progress - 128
                         && o.progress < at.progress + 2048
                         && *lane > o.left - 12000
@@ -458,6 +447,36 @@ pub(super) fn drive(
                     if b.crashed || b.failed {
                         score += 1_000_000_000;
                     }
+                    let sections = &encounter.rules.building_boundaries;
+                    if let Ok(i) = sections.binary_search_by_key(
+                        &(projected_at.path, (projected_at.progress >> 8) as u32),
+                        |s| (s.path, s.sample),
+                    ) {
+                        let section = &sections[i];
+                        if section.building && section.flags & 0x38 == 0 {
+                            let widen = (((projected_at.progress & 255) * 250 / 3) >> 8) as i32;
+                            let left = section.outer[0]
+                                - if section.selectors[0] == 255 {
+                                    widen
+                                } else {
+                                    0
+                                };
+                            let right = section.outer[1]
+                                + if section.selectors[1] == 255 {
+                                    widen
+                                } else {
+                                    0
+                                };
+                            let width = encounter
+                                .rules
+                                .collision
+                                .as_ref()
+                                .map_or(encounter.rules.dimensions[0], |p| p.mounted[0]);
+                            if b.lateral - width < left * 256 || b.lateral + width > right * 256 {
+                                score += 100_000_000;
+                            }
+                        }
+                    }
                     let world_progress = projected_at.progress;
                     for other in snapshot.actors.iter().skip(1) {
                         let Some(u) = &other.encounter else {
@@ -515,14 +534,21 @@ pub(super) fn drive(
                             } else {
                                 0
                             };
-                        if (p - world_progress).abs() < 384 && (b.lateral - lateral).abs() < 24000 {
+                        let (long_clearance, side_clearance) = match other.kind {
+                            rr_simulation::population::Kind::Vehicle => (160, 27000),
+                            rr_simulation::population::Kind::Police => (72, 10000),
+                            rr_simulation::population::Kind::Pedestrian => (72, 10000),
+                        };
+                        if (p - world_progress).abs() < long_clearance
+                            && (b.lateral - lateral).abs() < side_clearance
+                        {
                             score += 100_000_000;
                         }
                     }
-                    for hazard in hazards.iter().filter(|o| {
-                        o.path == projected_at.path
-                            && o.kind != rr_simulation::encounter::ObstacleKind::Decorative
-                    }) {
+                    for hazard in hazards
+                        .iter()
+                        .filter(|o| o.path == projected_at.path && physical_hazard(o))
+                    {
                         if (hazard.progress - world_progress).abs() < 128
                             && b.lateral > hazard.left - 10000
                             && b.lateral < hazard.right + 10000
@@ -562,7 +588,7 @@ pub(super) fn drive(
                 a.kind == rr_simulation::population::Kind::Police
                     && a.location.path == at.path
                     && (a.location.progress - at.progress).abs() < 48
-                    && (a.location.lateral - at.lateral).abs() < 8000
+                    && (a.location.lateral - at.lateral).abs() < 20480
             })))
         .then_some(rr_simulation::combat::Request {
             kind: rr_simulation::combat::AttackKind::Kick,

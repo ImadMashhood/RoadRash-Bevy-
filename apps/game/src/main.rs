@@ -573,7 +573,7 @@ fn build_race(
             eprintln!("handling startup: {e}");
             std::process::exit(2)
         });
-        config.motion_version = 1;
+        config.motion_version = 2;
         for (g, p) in config.ground.iter_mut().zip(&course.scene.route.points) {
             g.kind = match course.scene.terrain[p.section as usize][p.local as usize].kind {
                 rr_render::scene::TerrainKind::Wall => 1,
@@ -615,34 +615,130 @@ fn build_race(
                 building_offsets.insert((dual.node, dual.local), dual.offset);
             }
         }
-        // Scenery contacts follow source visual registration/scale, not a universal
-        // eight-unit box. Decorative classes retain their source disposition.
-        for obstacle in &mut setup.rules.obstacles {
-            let node = &course.scene.course.nodes[&obstacle.path];
-            let local = (obstacle.progress / 256) as u32;
-            let offset = building_offsets
-                .get(&(obstacle.path, local))
-                .copied()
-                .unwrap_or(0);
-            if let Some(object) =
-                course
-                    .scene
-                    .objects
-                    .get(&(node.link, local))
-                    .and_then(|objects| {
-                        objects.iter().find(|o| {
-                            (o.lateral * 256.) as i32 == (obstacle.left + obstacle.right) / 2
-                        })
-                    })
+        for (path, node) in course
+            .scene
+            .course
+            .nodes
+            .iter()
+            .filter(|(_, n)| n.kind == rr_course::NodeKind::Road)
+        {
+            let section = &course.scene.course.sections[node.link as usize];
+            for (sample, data) in section
+                .samples
+                .iter()
+                .enumerate()
+                .take(node.length as usize)
             {
-                let width = object.asset.logical[0] * object.size;
-                let center = object.lateral + f64::from(offset);
-                obstacle.left = ((center - width * object.asset.pivot[0]) * 256.).floor() as i32;
-                obstacle.right =
-                    ((center + width * (1. - object.asset.pivot[0])) * 256.).ceil() as i32;
-                obstacle.right = obstacle.right.max(obstacle.left + 1);
-                obstacle.height =
-                    (object.asset.logical[1] * object.size * 256.).clamp(1., 1_048_576.) as i32;
+                let terrain = &course.scene.terrain[node.link as usize][sample];
+                let offset = building_offsets
+                    .get(&(*path, sample as u32))
+                    .copied()
+                    .unwrap_or(0);
+                setup
+                    .rules
+                    .building_boundaries
+                    .push(rr_simulation::building_wall::Boundary {
+                        path: *path,
+                        sample: sample as u32,
+                        building: terrain.kind == rr_render::scene::TerrainKind::Building,
+                        road: [offset - data.width[0], offset + data.width[1]],
+                        outer: [
+                            offset - data.width[0] - data.shoulder[0],
+                            offset + data.width[1] + data.shoulder[1],
+                        ],
+                        selectors: terrain.selectors,
+                        flags: data.marking_flags,
+                    });
+            }
+        }
+        setup
+            .rules
+            .building_boundaries
+            .sort_by_key(|b| (b.path, b.sample));
+        // Physical source boxes are independent of rendered sprite size, pivot
+        // and any future texture override. A frame with no boxes is not solid.
+        setup.rules.obstacles.retain(|o| {
+            !matches!(
+                o.kind,
+                rr_simulation::encounter::ObstacleKind::Solid
+                    | rr_simulation::encounter::ObstacleKind::Decorative
+            )
+        });
+        let placements = rr_course::scenery::place(&course.scene.course, options.level, 1)
+            .expect("validated source placements");
+        let mut per_slice = std::collections::BTreeMap::new();
+        for instance in placements
+            .instances
+            .iter()
+            .filter(|i| i.kind == "billboard" && i.raw[0] & 0x80000000 == 0)
+        {
+            let count = per_slice
+                .entry((instance.section, instance.sample))
+                .or_insert(0u8);
+            if *count >= 2 {
+                continue;
+            }
+            *count += 1;
+            let class = instance.raw[0] & 15;
+            if class >= 3 {
+                continue;
+            }
+            let (Some(family), Some(lateral)) = (instance.family, instance.lateral) else {
+                continue;
+            };
+            let Some(bank) = course.scene.assets.families.get(&family) else {
+                continue;
+            };
+            if bank
+                .sprite(4, usize::from(instance.selector & 63))
+                .is_none()
+            {
+                continue;
+            }
+            let Some(boxes) = bank.collision_boxes(4, usize::from(instance.selector & 63)) else {
+                continue;
+            };
+            for (path, node) in course.scene.course.nodes.iter().filter(|(_, n)| {
+                n.kind == rr_course::NodeKind::Road
+                    && n.link == instance.section
+                    && instance.sample < n.length
+            }) {
+                let offset = building_offsets
+                    .get(&(*path, instance.sample))
+                    .copied()
+                    .unwrap_or(0);
+                let anchor = (lateral + offset) * 256;
+                for source in boxes {
+                    let mut bounds = *source;
+                    bounds[0] += anchor;
+                    bounds[2] += anchor;
+                    if class == 1 {
+                        bounds[1] = bounds[3] - 8192;
+                    } else if class == 2 {
+                        bounds[1] = bounds[3] - 16383;
+                    }
+                    if bounds[0] >= bounds[2] || bounds[1] >= bounds[3] {
+                        continue;
+                    }
+                    setup
+                        .rules
+                        .obstacles
+                        .push(rr_simulation::encounter::Obstacle {
+                            id: setup.rules.obstacles.len() as u64 + 1,
+                            path: *path,
+                            progress: i64::from(instance.sample) * 256 + 128,
+                            half_length: 1,
+                            left: bounds[0],
+                            right: bounds[2],
+                            height: bounds[3].max(1),
+                            kind: rr_simulation::encounter::ObstacleKind::Solid,
+                            source_box: Some(rr_simulation::encounter::StaticBox {
+                                bounds,
+                                lateral: anchor,
+                            }),
+                        });
+                }
+                let _ = node;
             }
         }
         for (path_id, node) in &course.scene.course.nodes {
@@ -661,6 +757,7 @@ fn build_race(
                             .rules
                             .obstacles
                             .push(rr_simulation::encounter::Obstacle {
+                                source_box: None,
                                 id: setup.rules.obstacles.len() as u64 + 1,
                                 path: *path_id,
                                 progress: (start + end) / 2,
@@ -687,8 +784,11 @@ fn build_race(
         setup
             .validate(&config)
             .expect("shared building collision geometry");
-        setup.rules.collision_version = 1;
-        setup.rules.combat_version = 2;
+        setup.rules.collision_version = 2;
+        setup.rules.collision = Some(
+            rr_simulation::collision::Profile::from_exe(&exe).expect("verified collision physics"),
+        );
+        setup.rules.combat_version = 3;
         let pe = rr_formats::pe::SupportedExe::read(&exe).expect("verified interaction tables");
         setup.rules.steal_codes = Some(std::array::from_fn(|i| {
             rr_formats::binary::u32le(
@@ -699,6 +799,7 @@ fn build_race(
             .expect("steal code") as i8
         }));
         setup.rules.body.motion_version = 1;
+        setup.rules.body.recovery_version = 1;
         setup.seeds[0].color = options.rider_color;
         setup.rules.assists.fast_recovery = options.fast_recovery;
         setup.rules.assists.rescue_unreachable = options.rescue_recovery;

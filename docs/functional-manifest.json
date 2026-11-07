@@ -91,7 +91,7 @@
       "acceptance": "Drive scripted dense, split-route, intersection and simultaneous-incident cases. Required behaviors work with native graphics, deterministic identities and no stale contacts or sirens.",
       "evidence": "docs/evidence/19.04.md",
       "completed_children": [],
-      "reopened_reason": "3,176 scoped native observations now match after signed recovery and combat-profile-2 fixes. Complete contact physics, police parity, dynamic fights/chaining and coupled recovery remain open; see docs/evidence/gameplay-completion-progress.md."
+      "reopened_reason": "327,086 controlled native contact/fight/recovery observations match. Full police, dense/simultaneous interactions and career/release acceptance remain open; see docs/evidence/source-contact-recovery.md."
     },
     {
       "id": "19.05",

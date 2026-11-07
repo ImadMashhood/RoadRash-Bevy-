@@ -246,6 +246,7 @@ fn static_obstacle_overlap_survives_recovery_without_restarting_crashes() {
     e.seeds[0].distance = 1000;
     e.seeds[0].speed = 7000;
     e.rules.obstacles = vec![encounter::Obstacle {
+        source_box: None,
         id: 1,
         path: 0,
         progress: 1020,

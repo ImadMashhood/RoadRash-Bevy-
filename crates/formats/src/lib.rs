@@ -1,6 +1,7 @@
 #![forbid(unsafe_code)]
 //! Independently implemented bounded readers. No graphics or private data dependencies.
 use std::fmt;
+pub mod animation_boxes;
 pub mod binary;
 pub mod family;
 pub mod pe;

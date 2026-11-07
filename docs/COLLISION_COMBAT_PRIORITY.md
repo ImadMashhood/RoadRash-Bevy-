@@ -38,6 +38,33 @@ setups and detailed traces stay private.
 [Execution receipt](evidence/collision-combat-priority.json) records results and
 scope. These corrections do not close the remaining items below.
 
+## Current contact/recovery/fight follow-up
+
+[Detailed report and aggregate receipt](evidence/source-contact-recovery.md):
+**327,086 observations across 22 families match.** Broad multi-actor and full-game
+acceptance below stays open unless its complete coverage passes.
+
+- [x] Source classifier, original-width separation, masses, elasticity and ordered
+  bike/bike, bike/car and bike/static responses: 11,840 observations.
+- [x] Read and independently compare 1,663 physical RRAN frame-box records; use
+  source frame-two scenery colliders independently of sprite/display dimensions.
+- [x] Compare 20,736 bike and 25,920 detached type-0 building boundary cases,
+  including selectors, emergence, speed/depth and street openings.
+- [x] Use a separate detached mass/box/handler: 10,368 response cases and 1,728
+  combined bike/body transactions, including linked own-quiet-bike behavior.
+- [x] Preserve changed scalar speed/previous pose between callbacks while keeping
+  captured impact velocity separate for later contacts on the same tick.
+- [x] Compare 328 complete controlled crash episodes (197,877 ticks), including
+  negative starts, slopes, airborne starts, lateral memory and RNG variants.
+- [x] Compare recovery-state player/rival stamina regeneration: 18 observations.
+- [x] Compare 53,760 ticks of two-rider fights: all supported attack/side/equipment
+  variants, held/pulsed commands, targets entering/leaving/crossing reach and
+  both outcomes of the native clip-chain RNG branch.
+- [x] Correct regeneration order, retain queued animation/clock through chains,
+  preserve the initial return queue and reject stale descriptors on fresh windup.
+- [x] Regression-test source contact/recovery replays at 30/60/144/irregular
+  schedules with effects enabled/disabled, remount identity and disconnected roads.
+
 ## Verification follow-up
 
 - [x] Rerun the 625 existing native observations and the focused gameplay tests.
@@ -49,8 +76,8 @@ scope. These corrections do not close the remaining items below.
   probe as separate evidence; do not confuse a harness mistake with engine behavior.
 - [x] Correct and version the isolated negative-speed integration failures; all
   nine counterexamples/controls and 1,680 surface/contact drag observations match.
-- [ ] Compare complete coupled trajectories, gravity, bounce, terrain and all
-  crash-to-remount states; isolated longitudinal results do not close this gate.
+- [x] Compare complete controlled flat/sloped crash-to-remount episodes;
+  changing terrain and recovery in moving populations remain open below.
 
 The [original failed verification](evidence/interaction-verification.md) remains
 as history. The [new correction report](evidence/gameplay-completion-progress.md)
@@ -58,13 +85,13 @@ supersedes its six integration failures. The overall interaction gate stays open
 
 ## Required collision coverage
 
-- [ ] Compare the complete native contact classifier, not just an overlap box:
+- [x] Compare the complete native contact classifier, not just an overlap box:
   contained versus glancing contacts, relative longitudinal/lateral/vertical
   motion, object height/class, elasticity, mass and source impulse ordering.
-- [ ] Compare bike/bike rear-end, side-swipe and crossing contacts at equal speed,
+- [x] Compare bike/bike rear-end, side-swipe and crossing contacts at equal speed,
   opposing motion and just below/at/above the native speed-gap boundary. Verify
   which rider is displaced or knocked off and whether bike/stamina damage applies.
-- [ ] Compare bike/car and bike/static contacts separately. Test stopped/moving
+- [x] Compare bike/car and bike/static contacts separately. Test stopped/moving
   vehicles, head-on contacts, signs/trees, building corners and street openings.
 - [ ] Verify swept contacts at maximum supported speed and lateral motion;
   include a genuine diagonal near miss and crossing an entire narrow obstacle
@@ -99,10 +126,11 @@ supersedes its six integration failures. The overall interaction gate stays open
 
 ## Required crash and recovery coverage
 
-- [ ] Compare multi-tick detached rider and bike trajectories, not just entry:
-  signed motion after a backward throw, surface drag, gravity, bounce, slopes,
-  lateral impulses and stopping distance. The present recovery integrator still
-  contains modern policies, including subsequent speed clamping.
+- [x] Compare complete controlled detached rider/bike trajectories: signed
+  backward throws, drag, gravity, bounce, fixed slopes, lateral memory and stopping
+  distance. Source recovery no longer uses the legacy positive-speed clamp.
+- [ ] Extend those comparisons to changing curves/elevation, other boundary types
+  and three-or-more-body contact walks throughout crash recovery.
 - [ ] Compare low-speed falls, high-speed impacts, depleted stamina, a wrecked
   bike, skid loss and severe landing. Verify reason-specific animation changes.
 - [ ] Verify repeated impacts during sliding, getting up, walking and mounting,
@@ -116,8 +144,8 @@ supersedes its six integration failures. The overall interaction gate stays open
 
 ## Acceptance before moving on
 
-- [ ] Publish native expected/actual cases and first divergences; retain failures
-  and mark remaining approximations explicitly. Do not close this gate because
+- [x] Publish aggregate native expected/actual counts and failure hashes; retain
+  raw first divergences privately and mark remaining approximations explicitly. Do not close this gate because
   authored tests, internal replay hashes or a screenshot pass.
 - [ ] Verify old replay compatibility and new-rule replay agreement at
   30/60/144/irregular schedules, including simultaneous incidents.
@@ -142,5 +170,6 @@ supersedes its six integration failures. The overall interaction gate stays open
   automatic swing side from nearby road users when no rider target exists.
   This adapter does not establish native police stamina/knock-off parity.
 - [x] Regression-test low-speed shallow building-corner lateral escape.
-- [ ] Compare attack chaining through complete native clip loops, dynamic
-  impact retargeting, simultaneous actors and police as full rider combatants.
+- [x] Compare complete two-rider native clip chains and moving-target reach.
+- [ ] Extend to three-or-more-actor retargeting/simultaneous fights and police as
+  full rider combatants. Current cop one-hit disable/kinematic policy is unaccepted.

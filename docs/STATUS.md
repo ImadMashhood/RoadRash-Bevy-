@@ -4,13 +4,13 @@ The game is implemented across the native content, simulation, frontend, career,
 save, media and Linux packaging layers, but **the current game is not complete or
 release-accepted**. Parts 19, 21 and 22 have reopened required acceptance work.
 
-The latest [gameplay correction report](evidence/gameplay-completion-progress.md)
-records 3,176 matching native observations for the scoped combat/recovery probes.
-Signed backward recovery, surface drag, strike timing, immunity, kick response,
-backhand transfer and weapon theft have local corrections. A police strike now
-requires the active swing and strict reach; its complete native rider model is
-still absent. Full contact classification and crash-to-remount parity remain open.
-The unattended career has individual wins but has not completed the campaign.
+The latest [contact/fighting/recovery report](evidence/source-contact-recovery.md)
+records **327,086 matching native observations across 22 families**. Controlled
+contact classification, physical scenery/building boundaries, complete flat/sloped
+recovery episodes and two-rider dynamic fights/chains pass. Full police behavior,
+dense/simultaneous interactions, other boundary types and career/release acceptance
+remain open. The latest 200-attempt profile-3 pilot completed level 1, visited seven course/level
+cases and ended at level 2 after 72 wins; it still did not complete the campaign.
 
 The [RC4 download](https://github.com/ImadMashhood/RoadRash-Bevy-/releases/tag/native-functional-2026-11-01-rc4)
 and its 67-attempt career, one-hour performance and package receipts are historical.

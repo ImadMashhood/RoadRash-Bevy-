@@ -20,6 +20,8 @@ pub struct Gear {
 pub struct BikeSpec {
     pub id: u32,
     pub mass: i32,
+    #[serde(default, skip_serializing_if = "zero_i32")]
+    pub contact_steer_gain: i32,
     pub gears: Vec<Gear>,
     pub throttle: i32,
     pub throttle_on: i32,
@@ -44,11 +46,15 @@ pub struct BikeSpec {
     pub launch_cap: i32,
     pub condition: i32,
 }
+fn zero_i32(value: &i32) -> bool {
+    *value == 0
+}
 impl BikeSpec {
     pub fn validate(&self) -> Result<()> {
         if self.id == 0
             || self.id > 64
             || !(1..=1000).contains(&self.mass)
+            || !(0..=65536).contains(&self.contact_steer_gain)
             || self.gears.len() != 7
             || self.gears.iter().any(|g| {
                 !(0..=1024).contains(&g.force)
@@ -102,6 +108,7 @@ impl BikeSpec {
             let spec = Self {
                 id: r.id,
                 mass: d[6],
+                contact_steer_gain: w(0x2d8),
                 gears: (0..7)
                     .map(|i| Gear {
                         ratio: w(0x1cc + i * 16),
@@ -289,6 +296,10 @@ impl Ground {
 #[derive(Clone, Debug, Default, Serialize, Deserialize, PartialEq, Eq)]
 pub struct Bike {
     pub speed: i32,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub contact_velocity: Option<[i32; 3]>,
+    #[serde(default, skip_serializing_if = "zero_i32")]
+    pub air_lateral_speed: i32,
     pub lateral: i32,
     pub lateral_speed: i32,
     pub distance_q8: i64,
@@ -315,6 +326,12 @@ pub struct Bike {
     pub pitch: i32,
     pub airborne: bool,
     pub landed: bool,
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub(crate) enum VerticalKind {
+    Legacy,
+    Bike,
+    Rider,
 }
 impl Bike {
     pub fn new(spec: &BikeSpec, t: &Tables) -> Result<Self> {
@@ -512,7 +529,7 @@ impl Bike {
         }
         let surface = g.surface(self.lateral);
         self.traction(t, s, surface);
-        if motion_version == 1 {
+        if motion_version >= 1 {
             self.integrate_source_speed(t, surface, t.object[9], t.object[10]);
         } else {
             let base = if self.contact == 0 {
@@ -549,6 +566,15 @@ impl Bike {
         if old_distance >> 8 != self.distance_q8 >> 8 {
             self.previous_rise = old_rise;
         }
+        if motion_version >= 2 && self.contact > 0 {
+            self.air_lateral_speed = self.lateral_speed;
+        }
+        let lateral = if motion_version >= 2 {
+            self.air_lateral_speed
+        } else {
+            self.lateral_speed
+        };
+        let mut collision_lateral = lateral;
         if self.speed > 300 {
             let gain = if self.skid != 0 && (self.skid as i8) >= 51 {
                 800
@@ -557,10 +583,18 @@ impl Bike {
             };
             self.lateral = self
                 .lateral
-                .saturating_add(self.lateral_speed)
+                .saturating_add(lateral)
                 .saturating_add(g.bend_movement * gain / 256);
+            collision_lateral += g.bend_movement * gain / 256;
         }
-        self.vertical(s, t, g);
+        if motion_version >= 2 {
+            self.contact_velocity = Some([self.speed, collision_lateral, 0]);
+        }
+        if motion_version >= 2 {
+            self.vertical_profile(s, t, g, VerticalKind::Bike);
+        } else {
+            self.vertical(s, t, g);
+        }
     }
     fn traction(&mut self, t: &Tables, s: &BikeSpec, surface: usize) {
         self.lateral_force = 0;
@@ -623,6 +657,15 @@ impl Bike {
         }
     }
     pub(crate) fn vertical(&mut self, s: &BikeSpec, t: &Tables, g: Ground) {
+        self.vertical_profile(s, t, g, VerticalKind::Legacy);
+    }
+    pub(crate) fn vertical_profile(
+        &mut self,
+        s: &BikeSpec,
+        t: &Tables,
+        g: Ground,
+        kind: VerticalKind,
+    ) {
         let ground_move = (g.height - self.previous_ground) * 256 + g.movement;
         let above = (i64::from(self.vertical_speed) - i64::from(ground_move)
             + i64::from(self.height))
@@ -640,11 +683,18 @@ impl Bike {
             self.contact = 0;
             self.gravity = -s.gravity;
         } else if threshold < old_height && vy < s.landing {
-            self.lean = ((((i64::from(vy).abs() * i64::from(self.lean)) >> 12) + 1) as i32)
-                .clamp(-0x5c00, 0x5c00);
+            if kind != VerticalKind::Rider {
+                self.lean = ((((i64::from(vy).abs() * i64::from(self.lean)) >> 12) + 1) as i32)
+                    .clamp(-0x5c00, 0x5c00);
+            }
             let rebound = (-(i64::from(s.rebound) * i64::from(vy) / 256))
                 .clamp(-1_000_000_000, 1_000_000_000) as i32;
-            self.vertical_speed = (g.rise + 5) * (self.speed >> 7) + rebound;
+            let slope = if kind != VerticalKind::Legacy && self.speed < 0 {
+                -5 - g.rise
+            } else {
+                g.rise + 5
+            };
+            self.vertical_speed = slope * (self.speed >> 7) + rebound;
             self.gravity = -s.gravity * 2;
             self.pitch = -4096;
             self.contact = t.contact;

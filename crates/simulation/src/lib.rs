@@ -4,6 +4,8 @@
 pub mod actions;
 pub mod animation;
 pub mod arithmetic;
+pub mod building_wall;
+pub mod collision;
 pub mod combat;
 pub mod encounter;
 pub mod fixtures;
@@ -12,6 +14,7 @@ pub mod handling;
 mod native_cases;
 pub mod population;
 pub mod recovery;
+mod recovery_source;
 pub mod replay;
 pub mod riding;
 pub mod topology;
@@ -686,6 +689,7 @@ impl Simulation {
                             self.tick.0,
                             &external_targets,
                             &mut self.effects,
+                            || self.gameplay_rng.next(),
                         )?;
                         if let Some(p) = &mut self.population {
                             p.movement(world, config, self.tick.0)?;
@@ -772,9 +776,16 @@ impl Simulation {
                                 config,
                                 self.tick.0,
                                 &mut self.effects,
+                                || self.gameplay_rng.next(),
                             )?;
                         }
-                        world.contacts(&mut self.actors, config, self.tick.0, &mut self.effects)?;
+                        world.contacts(
+                            &mut self.actors,
+                            config,
+                            self.tick.0,
+                            &mut self.effects,
+                            || self.gameplay_rng.next(),
+                        )?;
                         continue;
                     }
                     for actor in self.actors.values_mut() {
