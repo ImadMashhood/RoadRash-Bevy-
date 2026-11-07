@@ -14,9 +14,9 @@ No full-game or release acceptance is implied by those component checks.
 | 1 | Remaining source scenery: BORR, ordering, markings and loaded slices | Verified; evidence/source-scenery.md | Actual native detection/transactions; preserved failures; old replays; all source course/level imports |
 | 2 | Collision height, jumps, continuous scrapes and dense/topology interactions | Verified; evidence/source-collision-topology.md | Native boundary/incident matrices and deterministic multi-actor replay; visual contact checks |
 | 3 | Simultaneous combat, weapon ownership and complete police behavior | Verified; evidence/source-combat-police.md | Native whole transactions, police stamina/crash/recovery/arrest and contested equipment |
-| 4 | Changing-terrain and repeated-impact recovery | Verified; evidence/source-recovery-terrain.md | Complete trajectories/timing, remount-edge cases and inspected native-art sequences |
+| 4 | Changing-terrain and repeated-impact recovery | Native comparisons retained; narrowly reopened for ordinary same-tick dismount cache | Complete trajectories/timing, remount-edge cases and inspected native-art sequences |
 | 5 | Genuine current-source career and ordinary player walkthrough | Verified; evidence/native-career-current.md and source-career-ui.md | All 25 course/level cases, ledger/save audit, independently replayed real commands and clean-profile route |
-| 6 | Replacement release verification and packaging | In progress; release_performance and release_package | Current immutable build, performance/memory/soak, import/install/download checks and reproducible package receipts |
+| 6 | Replacement release verification and packaging | Reopened: ordinary V dismount panic in RC5; fix_manual_dismount | Current immutable build, performance/memory/soak, import/install/download checks and reproducible package receipts |
 | 7 | Project-owner release decision | Pending owner review | Concrete candidate and evidence for owner G5 acceptance; never self-signed |
 
 The detailed acceptance source remains [the interaction checklist](COLLISION_COMBAT_PRIORITY.md),
@@ -152,3 +152,24 @@ hashes. The combined default-policy30-second probe meets its short-scope target
 (p95 wall15.677ms), while proper long-run and replacement artifact gates remain
 open. All timings identify their own binaries; no short probe substitutes for the
 required five-minute or hour checks.
+
+
+RC5 final ordinary-control gate found a real blocker after the completed hour:
+CITY level5 stationary brake→V exits101 at encounter.rs1358 because the LIVE body
+is created after per-tick road preparation but uses its independent body cache
+in that same movement pass. Physical impact bodies normally start later, so the
+existing collision traces did not cover this input-timing boundary. The narrow
+cache-initialization correction and regression are assigned to
+`fix_manual_dismount`. Earlier 31-win career, actual hour and package results
+remain valid for their scoped RC5 bytes; they do not accept the broken dismount.
+A new candidate and renewed release checks follow the fix. G5 stays unsigned.
+
+
+The narrow source fix now passes two meaningful authored regressions: both
+movement dispatch modes prepare the independent route body context, and two
+complete schema6 dismount/remount episodes release and recreate it correctly.
+All514 workspace tests pass (58 explicit ignores), strict Clippy/formatting and
+39+16 Python checks pass. The actual local rebuilt game also visibly completes
+V→fallen rider/bike→get-up→remount→driving at level1; repeated and level5 ordinary
+checks are in progress before freezing the replacement. No physical law, RNG,
+V eligibility or legacy profile changed. [Fix receipt](evidence/source-manual-dismount.md).

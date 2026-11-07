@@ -1,0 +1,132 @@
+{
+  "outcome": "diagnostic_passed",
+  "scope": "One uncontended full320s CITY level3/bike8 diagnostic of corrected predictive-driver caches and exact-index renderer. Ordinary user desktop untouched. Native original graphics and hardware Vulkan; audio/video off, frontend/session ownership suppressed but nativeHUD/physics/roadusers active, real terminal restarts. Not complete five-course or hour acceptance.",
+  "source_status": "Runtime source frozen and published during this measurement; exact tested local application SHA pinned. Actual downloaded review artifact still requires separate acceptance.",
+  "source_base_revision": "65310d26f374563eecdbfca729f0f6d16a4f83df",
+  "binary_sha256": "55051bf76fcac2225bac25d24bf24863f2ea0f2c7a5357d982daa9d148fee922",
+  "started_utc": "2026-11-07T12:01:13.025669+00:00",
+  "duration_s": 320.186644509,
+  "simulation_seconds": 319.1,
+  "paused_frames": 0,
+  "restarts": 1,
+  "gpu_adapter": "AdapterInfo { name: \"NVIDIA GeForce RTX 3080\", vendor: 4318, device: 8726, device_type: DiscreteGpu, device_pci_bus_id: \"0000:0a:00.0\", driver: \"NVIDIA\", driver_info: \"615.78.08\", backend: Vulkan, subgroup_min_size: 32, subgroup_max_size: 32, transient_saves_memory: Some(false), limit_bucket: None }",
+  "actual_window": {
+    "logical": [
+      960.0,
+      720.0
+    ],
+    "physical": [
+      960,
+      720
+    ],
+    "scale_factor": 1.0
+  },
+  "timing": {
+    "course": "CITY",
+    "wall_frame_ms": {
+      "count": 24219,
+      "max": 61.314794,
+      "p50": 13.252771,
+      "p95": 16.10776,
+      "p99": 17.463305
+    },
+    "cpu_raster_ms": {
+      "count": 24219,
+      "max": 16.827446,
+      "p50": 8.796578,
+      "p95": 11.209291,
+      "p99": 12.368729
+    },
+    "gpu_pass_ms": {
+      "render/auxiliary_views/elapsed_gpu": {
+        "count": 24032,
+        "max": 0.012288,
+        "p50": 0.008192,
+        "p95": 0.009216,
+        "p99": 0.009216
+      },
+      "render/main_opaque_pass_2d/elapsed_gpu": {
+        "count": 24032,
+        "max": 0.011264,
+        "p50": 0.007168,
+        "p95": 0.007168,
+        "p99": 0.008192
+      },
+      "render/main_transparent_pass_2d/elapsed_gpu": {
+        "count": 24032,
+        "max": 0.304128,
+        "p50": 0.258048,
+        "p95": 0.273408,
+        "p99": 0.287744
+      },
+      "render/upscaling/elapsed_gpu": {
+        "count": 24032,
+        "max": 0.144384,
+        "p50": 0.095232,
+        "p95": 0.105472,
+        "p99": 0.110592
+      }
+    },
+    "meets_60_hz_p95_target": true
+  },
+  "memory": {
+    "max_rss_bytes": 805298176,
+    "max_decoded_pixel_bytes": 172492716,
+    "max_gpu_image_bytes": 6651932,
+    "max_cpu_images": 11,
+    "max_gpu_images": 11,
+    "entity_index_slots": [
+      512
+    ]
+  },
+  "report_sha256": "408e1b05ad9f087d7f7d859db1b0edddaaa460d87490597f94aca6ab0e7091db",
+  "source_revision": "24d05dcf399035fe6c6e70bb19fe1b12488c1cec",
+  "benchmark_pilot_policy": "default cached route planner with 60-tick prediction",
+  "benchmark_pilot_cpu_ms": {
+    "count": 19146,
+    "max": 39.578298,
+    "p50": 0.31522,
+    "p95": 0.483494,
+    "p99": 0.615892
+  },
+  "benchmark_driver_command_cpu_ms": {
+    "count": 19146,
+    "max": 0.982337,
+    "p50": 0.274273,
+    "p95": 0.395429,
+    "p99": 0.568423
+  },
+  "cpu_course_prepare_ms": {
+    "count": 24219,
+    "max": 0.959734,
+    "p50": 0.330458,
+    "p95": 0.6145900000000001,
+    "p99": 0.712993
+  },
+  "cpu_surface_upload_ms": {
+    "count": 24219,
+    "max": 0.019757,
+    "p50": 0.001402,
+    "p95": 0.002044,
+    "p99": 0.002355
+  },
+  "private_original_receipt_sha256": "efce868654bb2a6328c17628183c5bc12864dbe0fe2967f8aa116417b5924e37",
+  "observed_policies": {
+    "cpu_governors": [
+      "schedutil"
+    ],
+    "gpu_temperature_c_min_max": [
+      32.0,
+      37.0
+    ],
+    "gpu_power_w_min_max": [
+      8.41,
+      73.39
+    ],
+    "gpu_power_limit_w": [
+      370.0
+    ],
+    "policy_changes": false,
+    "scope": "Sampled5s NVIDIA and CPUgovernor observations; no system policychanges, ordinarydesktop leftuntouched."
+  }
+}

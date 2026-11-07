@@ -1,0 +1,34 @@
+{
+  "outcome": "passed",
+  "source_visible": false,
+  "cargo_in_path": null,
+  "app_read_only": true,
+  "app_outside_checkout": true,
+  "missing_disc_exit": 1,
+  "missing_disc_guidance": true,
+  "first_launch_exit": 0,
+  "first_launch_total_s": 9.006768112070858,
+  "cached_launch_exit": 0,
+  "cached_launch_total_s": 3.6060328289167956,
+  "old_version_open_exit": 0,
+  "private_import_verified_files": 341,
+  "upgrade_preserves_all_profile_json_and_active_import_pointer": true,
+  "uninstall_only_disposable_app_preserves_same_files": true,
+  "profile_files": 3,
+  "retained_sha256": {
+    "profile/config/settings.json": "1991be698253dfae6c8cd329dcc4d079d3ae3ec956f3568f495831388a2b1b6f",
+    "profile/data/careers/default-slot-1.json": "1baed9c8bb3e006a721a755b19430d0a357124bd43ba7c28b31d4aaa453cbf47",
+    "profile/data/careers/default.json": "1baed9c8bb3e006a721a755b19430d0a357124bd43ba7c28b31d4aaa453cbf47",
+    "runtime/import/active.json": "4f1b8f2ee3325b80da96e47feb50628041ad65b9dcbe20ffaab5375cfd458934"
+  },
+  "import_and_catalog_preserved": {
+    "files": 6486,
+    "tree_sha256": "1e145eeebecb3cd87f0572cffd1f851b60175f8ed99b56925bc1f1f7d8cac2e6"
+  },
+  "active_pointer_sha256": "4f1b8f2ee3325b80da96e47feb50628041ad65b9dcbe20ffaab5375cfd458934",
+  "game_sha256": "55051bf76fcac2225bac25d24bf24863f2ea0f2c7a5357d982daa9d148fee922",
+  "scope": "Local Fedora-built artifact only. Actual read-only application in source-hidden Bubblewrap; no Cargo in PATH. Fresh own-ISO import and conversion; old RC4 to new application replacement; ordinary keyboard source profile reopened by 120-frame smoke launches, not represented as a repeated human keyboard walkthrough. Physical desktop and original ISO untouched.",
+  "source_revision": "24d05dcf399035fe6c6e70bb19fe1b12488c1cec",
+  "local_archive_sha256": "a58ea675286babc9b030a7164698769f374546ba358b88c7aee29a8db8e36eeb",
+  "g5_accepted": false
+}

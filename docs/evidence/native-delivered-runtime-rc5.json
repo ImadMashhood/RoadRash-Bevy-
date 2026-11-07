@@ -1,0 +1,118 @@
+{
+  "scope": "Complete graphical playback of genuine downloaded-build career commands; not manual whole-career play, not performance acceptance.",
+  "source_revision": "24d05dcf399035fe6c6e70bb19fe1b12488c1cec",
+  "game_sha256": "4520d5a27a77ba5cbfadf2f2a7045dc206557dbf73be378eb47e67daea499f21",
+  "source_replay": "/home/imad/Documents/ChatGPT/Rust Roadrash/RoadRash-Rust/local/career-downloaded-rc5/race-030.json",
+  "source_replay_sha256": "b919410cb3a34f8ede4d53fbd29b1878494bde8626cfce926d5135de06a70ba1",
+  "expected_hash": "a0b53f2efaf68bf84735b86964241de23dc6e05b837277607595bc48feae4fd9",
+  "ticks": 24902,
+  "capture_frame": 12431,
+  "course": "CANYN",
+  "level": 5,
+  "bike": 8,
+  "render_hz": "30",
+  "source_hidden": true,
+  "read_only_application": true,
+  "cargo_in_path": null,
+  "original_assets": true,
+  "state_injection": false,
+  "audio": false,
+  "videos": false,
+  "concurrent_correctness_only_audit": "local/career-downloaded-rc5-audit",
+  "performance_acceptance": false,
+  "started_utc": "2026-11-07T12:39:37.232013+00:00",
+  "application_command": [
+    "/tmp/rr/app/bin/rr-game",
+    "--install-root",
+    "/tmp/rr/data/runtime/import",
+    "--catalog",
+    "/tmp/rr/data/runtime/catalog-rr-content-3",
+    "--course",
+    "CANYN",
+    "--level",
+    "5",
+    "--bike",
+    "8",
+    "--frontend",
+    "off",
+    "--audio",
+    "off",
+    "--videos",
+    "off",
+    "--window-size",
+    "640x480",
+    "--render-hz",
+    "30",
+    "--profile-root",
+    "/tmp/rr/data/profile",
+    "--replay",
+    "/tmp/rr/data/replay.json",
+    "--report",
+    "/tmp/rr/data/finale-report.json",
+    "--capture",
+    "/tmp/rr/data/finale.png",
+    "--capture-frame",
+    "12431"
+  ],
+  "elapsed_s": 196.74017104296945,
+  "exit_code": 0,
+  "outcome": "passed",
+  "final_state_sha256": "a0b53f2efaf68bf84735b86964241de23dc6e05b837277607595bc48feae4fd9",
+  "presentation_frames": 12452,
+  "capture_tick": 24861,
+  "capture_frames_before_exit": 21,
+  "capture_sha256": "8f518f7b5aa17c25dec5e58447422d280f2a589f9b7de98e30e65c0675bfe23b",
+  "capture_metadata_sha256": "94fb1f07c0e2f427fbf5eb55d255efa5f05f7266d8333ce59d04f27f4b64777f",
+  "final_report_sha256": "5b1db1a156ee3ad734d25cbc3897779d3cc2087eef883e8b6df52ae8e039321b",
+  "visual_qa": {
+    "outcome": "passed_for_scene_and_actor_presentation",
+    "observed": [
+      "originalCANYNroad/cliff/horizonart",
+      "checkerfinishmarkers",
+      "mountedriderandbikewithgroundshadow",
+      "nativebike8dashboard"
+    ],
+    "capture_private_path": "local/native-delivered-runtime-rc5/finale.png",
+    "native_window": [
+      640,
+      480
+    ],
+    "caption_limitation": "HeadlessreplayHUD retains frontenddefaultnameAxle because originaldashboard readsShell.frontend.character; authoritativegenuinecharacter3 setup/color2 andcanonicalstate remainfromunchangedrecord. HUDnameisnotusedasidentityevidence. PixelperfectUIcaptionparitynotclaimed."
+  },
+  "g5_accepted": false,
+  "ended_utc": "2026-11-07T12:42:53.972654+00:00",
+  "character": 3,
+  "player_palette": 2,
+  "artifacts": [
+    {
+      "private_path": "local/native-delivered-runtime-rc5/replay.json",
+      "bytes": 5386725,
+      "sha256": "b919410cb3a34f8ede4d53fbd29b1878494bde8626cfce926d5135de06a70ba1"
+    },
+    {
+      "private_path": "local/native-delivered-runtime-rc5/process.json",
+      "bytes": 1750,
+      "sha256": "30022edcbc90cdd79d38bb0666e5250fb89ccb02800a1f7bb37c13f4fd24e5ba"
+    },
+    {
+      "private_path": "local/native-delivered-runtime-rc5/game.log",
+      "bytes": 766,
+      "sha256": "5d2d7a78db352d46ab6b1105ba457bb5a30c6eb5c3609f1dbcee8d7fe7c70c8a"
+    },
+    {
+      "private_path": "local/native-delivered-runtime-rc5/finale-report.json",
+      "bytes": 194644,
+      "sha256": "5b1db1a156ee3ad734d25cbc3897779d3cc2087eef883e8b6df52ae8e039321b"
+    },
+    {
+      "private_path": "local/native-delivered-runtime-rc5/finale.capture.json",
+      "bytes": 1066,
+      "sha256": "94fb1f07c0e2f427fbf5eb55d255efa5f05f7266d8333ce59d04f27f4b64777f"
+    },
+    {
+      "private_path": "local/native-delivered-runtime-rc5/finale.png",
+      "bytes": 461204,
+      "sha256": "8f518f7b5aa17c25dec5e58447422d280f2a589f9b7de98e30e65c0675bfe23b"
+    }
+  ]
+}

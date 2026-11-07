@@ -68,10 +68,12 @@
       "id": "19.02",
       "title": "Complete the original player action set",
       "required": true,
-      "status": "passed",
+      "status": "pending",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Exercise press, hold, release, depletion, simultaneous controls and crash/remount transitions. Verify actions through the real input adapter and include their state in replays.",
-      "evidence": "docs/evidence/19.02.md"
+      "evidence": "docs/evidence/19.02.md",
+      "completed_children": [],
+      "reopened_reason": "Downloaded RC5 exits101 on ordinary stationary V dismount: a LIVE body is created after per-tick source-road preparation, then indexes a missing independent body config in encounter.rs1358. Correct transition initialization, keyboard recovery and a replacement candidate are required; RC5 scoped career/performance passes remain historical evidence."
     },
     {
       "id": "19.03",
@@ -91,7 +93,7 @@
       "acceptance": "Drive scripted dense, split-route, intersection and simultaneous-incident cases. Required behaviors work with native graphics, deterministic identities and no stale contacts or sirens.",
       "evidence": "docs/evidence/19.04.md",
       "completed_children": [],
-      "reopened_reason": "Source scenery, collision/topology, combat/police, recovery and the genuine career pass their declared scopes: 1,458,070 native observations across61 families plus124 career replays. Replacement-release verification remains open."
+      "reopened_reason": "Downloaded RC5 exits101 on ordinary stationary V dismount: a LIVE body is created after per-tick source-road preparation, then indexes a missing independent body config in encounter.rs1358. Correct transition initialization, keyboard recovery and a replacement candidate are required; RC5 scoped career/performance passes remain historical evidence."
     },
     {
       "id": "19.05",
@@ -152,7 +154,7 @@
       "acceptance": "No blocker or required functional gap remains unassigned, waived implicitly or hidden under a completed scaffold receipt. Closed defects have passing regression evidence.",
       "evidence": "docs/evidence/19.10.md",
       "completed_children": [],
-      "reopened_reason": "Current source requires replacement-candidate release verification; the genuine31-race/25-case career and ordinary source UI are now verified. See docs/COMPLETION_EXECUTION.md."
+      "reopened_reason": "Downloaded RC5 exits101 on ordinary stationary V dismount: a LIVE body is created after per-tick source-road preparation, then indexes a missing independent body config in encounter.rs1358. Correct transition initialization, keyboard recovery and a replacement candidate are required; RC5 scoped career/performance passes remain historical evidence."
     },
     {
       "id": "19.11",
@@ -163,7 +165,7 @@
       "acceptance": "Have a reviewer follow the written clean-profile route and record failures. Resolve every required interruption before handing the candidate to UI and release verification.",
       "evidence": "docs/evidence/19.11.md",
       "completed_children": [],
-      "reopened_reason": "Current source requires replacement-candidate release verification; the genuine31-race/25-case career and ordinary source UI are now verified. See docs/COMPLETION_EXECUTION.md."
+      "reopened_reason": "Downloaded RC5 exits101 on ordinary stationary V dismount: a LIVE body is created after per-tick source-road preparation, then indexes a missing independent body config in encounter.rs1358. Correct transition initialization, keyboard recovery and a replacement candidate are required; RC5 scoped career/performance passes remain historical evidence."
     },
     {
       "id": "19.12",
@@ -174,7 +176,7 @@
       "acceptance": "Confirm every required feature has implementation and evidence, that Parts 20\u201322 have explicit acceptance owners, and that Part 24 production is still locked until G5 signoff.",
       "evidence": "docs/evidence/19.12.md",
       "completed_children": [],
-      "reopened_reason": "Current source requires replacement-candidate release verification; the genuine31-race/25-case career and ordinary source UI are now verified. See docs/COMPLETION_EXECUTION.md."
+      "reopened_reason": "Downloaded RC5 exits101 on ordinary stationary V dismount: a LIVE body is created after per-tick source-road preparation, then indexes a missing independent body config in encounter.rs1358. Correct transition initialization, keyboard recovery and a replacement candidate are required; RC5 scoped career/performance passes remain historical evidence."
     },
     {
       "id": "20.01",
@@ -352,7 +354,7 @@
       "acceptance": "Report percentiles and hardware rather than a single average FPS.",
       "evidence": "docs/evidence/21.07.md",
       "completed_children": [],
-      "reopened_reason": "Current source requires replacement-candidate release verification; the genuine31-race/25-case career and ordinary source UI are now verified. See docs/COMPLETION_EXECUTION.md."
+      "reopened_reason": "Downloaded RC5 exits101 on ordinary stationary V dismount: a LIVE body is created after per-tick source-road preparation, then indexes a missing independent body config in encounter.rs1358. Correct transition initialization, keyboard recovery and a replacement candidate are required; RC5 scoped career/performance passes remain historical evidence."
     },
     {
       "id": "21.08",
@@ -363,7 +365,7 @@
       "acceptance": "Run the native asset set on every course, identify the largest contributors and freeze the native residency budget. Enhanced-pack comparisons belong to Part 24 after G5.",
       "evidence": "docs/evidence/21.08.md",
       "completed_children": [],
-      "reopened_reason": "Current source requires replacement-candidate release verification; the genuine31-race/25-case career and ordinary source UI are now verified. See docs/COMPLETION_EXECUTION.md."
+      "reopened_reason": "Downloaded RC5 exits101 on ordinary stationary V dismount: a LIVE body is created after per-tick source-road preparation, then indexes a missing independent body config in encounter.rs1358. Correct transition initialization, keyboard recovery and a replacement candidate are required; RC5 scoped career/performance passes remain historical evidence."
     },
     {
       "id": "21.09",
@@ -374,7 +376,7 @@
       "acceptance": "Confirm counts stabilize instead of increasing after every cycle.",
       "evidence": "docs/evidence/21.09.md",
       "completed_children": [],
-      "reopened_reason": "Current source requires replacement-candidate release verification; the genuine31-race/25-case career and ordinary source UI are now verified. See docs/COMPLETION_EXECUTION.md."
+      "reopened_reason": "Downloaded RC5 exits101 on ordinary stationary V dismount: a LIVE body is created after per-tick source-road preparation, then indexes a missing independent body config in encounter.rs1358. Correct transition initialization, keyboard recovery and a replacement candidate are required; RC5 scoped career/performance passes remain historical evidence."
     },
     {
       "id": "21.10",
@@ -385,7 +387,7 @@
       "acceptance": "Repeat on cold and warm caches and set measured budgets.",
       "evidence": "docs/evidence/21.10.md",
       "completed_children": [],
-      "reopened_reason": "Current source requires replacement-candidate release verification; the genuine31-race/25-case career and ordinary source UI are now verified. See docs/COMPLETION_EXECUTION.md."
+      "reopened_reason": "Downloaded RC5 exits101 on ordinary stationary V dismount: a LIVE body is created after per-tick source-road preparation, then indexes a missing independent body config in encounter.rs1358. Correct transition initialization, keyboard recovery and a replacement candidate are required; RC5 scoped career/performance passes remain historical evidence."
     },
     {
       "id": "21.11",
@@ -396,7 +398,7 @@
       "acceptance": "Document thermal/power settings and any driver-specific failures.",
       "evidence": "docs/evidence/21.11.md",
       "completed_children": [],
-      "reopened_reason": "Current source requires replacement-candidate release verification; the genuine31-race/25-case career and ordinary source UI are now verified. See docs/COMPLETION_EXECUTION.md."
+      "reopened_reason": "Downloaded RC5 exits101 on ordinary stationary V dismount: a LIVE body is created after per-tick source-road preparation, then indexes a missing independent body config in encounter.rs1358. Correct transition initialization, keyboard recovery and a replacement candidate are required; RC5 scoped career/performance passes remain historical evidence."
     },
     {
       "id": "21.12",
@@ -407,7 +409,7 @@
       "acceptance": "Avoid claiming coverage for checks that were not actually executed.",
       "evidence": "docs/evidence/21.12.md",
       "completed_children": [],
-      "reopened_reason": "Current source requires replacement-candidate release verification; the genuine31-race/25-case career and ordinary source UI are now verified. See docs/COMPLETION_EXECUTION.md."
+      "reopened_reason": "Downloaded RC5 exits101 on ordinary stationary V dismount: a LIVE body is created after per-tick source-road preparation, then indexes a missing independent body config in encounter.rs1358. Correct transition initialization, keyboard recovery and a replacement candidate are required; RC5 scoped career/performance passes remain historical evidence."
     },
     {
       "id": "22.01",
@@ -490,7 +492,7 @@
       "acceptance": "Link each material limitation to a tracked issue or evidence record.",
       "evidence": "docs/evidence/22.09.md",
       "completed_children": [],
-      "reopened_reason": "Current source requires replacement-candidate release verification; the genuine31-race/25-case career and ordinary source UI are now verified. See docs/COMPLETION_EXECUTION.md."
+      "reopened_reason": "Downloaded RC5 exits101 on ordinary stationary V dismount: a LIVE body is created after per-tick source-road preparation, then indexes a missing independent body config in encounter.rs1358. Correct transition initialization, keyboard recovery and a replacement candidate are required; RC5 scoped career/performance passes remain historical evidence."
     },
     {
       "id": "22.10",
@@ -501,7 +503,7 @@
       "acceptance": "Rebuild from the tag and compare intended reproducibility outputs.",
       "evidence": "docs/evidence/22.10.md",
       "completed_children": [],
-      "reopened_reason": "Current source requires replacement-candidate release verification; the genuine31-race/25-case career and ordinary source UI are now verified. See docs/COMPLETION_EXECUTION.md."
+      "reopened_reason": "Downloaded RC5 exits101 on ordinary stationary V dismount: a LIVE body is created after per-tick source-road preparation, then indexes a missing independent body config in encounter.rs1358. Correct transition initialization, keyboard recovery and a replacement candidate are required; RC5 scoped career/performance passes remain historical evidence."
     },
     {
       "id": "22.11",
@@ -512,7 +514,7 @@
       "acceptance": "Verify downloaded bytes against published checksums.",
       "evidence": "docs/evidence/22.11.md",
       "completed_children": [],
-      "reopened_reason": "Current source requires replacement-candidate release verification; the genuine31-race/25-case career and ordinary source UI are now verified. See docs/COMPLETION_EXECUTION.md."
+      "reopened_reason": "Downloaded RC5 exits101 on ordinary stationary V dismount: a LIVE body is created after per-tick source-road preparation, then indexes a missing independent body config in encounter.rs1358. Correct transition initialization, keyboard recovery and a replacement candidate are required; RC5 scoped career/performance passes remain historical evidence."
     },
     {
       "id": "22.12",
@@ -523,9 +525,8 @@
       "acceptance": "Leave the release gate open for any unresolved blocking scenario.",
       "evidence": "docs/evidence/22.12.md",
       "completed_children": [],
-      "pending_reason": "Current gameplay source still needs native interaction/career acceptance, replacement performance/package checks and project-owner G5 acceptance.",
-      "reopened_reason": "Current source requires replacement-candidate release verification; the genuine31-race/25-case career and ordinary source UI are now verified. See docs/COMPLETION_EXECUTION.md."
+      "reopened_reason": "Downloaded RC5 exits101 on ordinary stationary V dismount: a LIVE body is created after per-tick source-road preparation, then indexes a missing independent body config in encounter.rs1358. Correct transition initialization, keyboard recovery and a replacement candidate are required; RC5 scoped career/performance passes remain historical evidence."
     }
   ],
-  "active_priority": "docs/COLLISION_COMBAT_PRIORITY.md"
+  "active_priority": "docs/COMPLETION_EXECUTION.md"
 }

@@ -1,6 +1,10 @@
 # Native functional candidate: Parts 19–22
 
-**Current-source correction:** building/collision/AI/UI changes supersede the RC4 candidate. The [correction report](evidence/native-gameplay-fixes.md) separates new passing checks from the failed career-driver probe. Historical receipts below do not certify these changes; the affected career and replacement-release tasks are open.
+**Replacement source:** the dismount cache fix now passes 514 workspace tests and ordinary local City level1/level5 recovery, including repeated episodes and normal exit. A new immutable RC6 and delivered-byte verification are being prepared. The rejected RC5 record below remains preserved.
+
+**Release blocked:** ordinary stationary V dismount crashes RC5 (exit101, missing body configuration). The failure requires a code fix, a new candidate and renewed release checks. Earlier RC5 passes below retain their exact scopes; they are not release acceptance. See [the completion ledger](COMPLETION_EXECUTION.md).
+
+**Current RC5 scope:** native interaction/recovery comparisons, the genuine source and downloaded careers, original-art graphical finale, CI and standalone package/UI checks now pass their linked scopes. Final delivered-byte memory/startup/lifecycle and real-hour checks pass, including all five complete warm-course timing gates and verified isolated audio routing. The last ordinary-keyboard natural-terminal demonstration is in progress, followed by owner G5 review. See [the current review packet](NATIVE_RC5_REVIEW.md). Historical RC4 receipts below retain their original scope.
 
 The acceptance scope is the modern **offline** Thrash and Big Game game on
 Fedora Linux, using the owner's verified original disc and original graphics.
@@ -95,7 +99,9 @@ fixture proves physical wreck; it is not represented as a fresh-character career
 The clean-profile/read-only/package/UID checks run on this Fedora host, including
 rootless distinct Linux UIDs. They do not claim a second physical machine, Windows,
 macOS, a certified physical controller, a human playability review or every GPU.
-Source menus are modern text panels with original previews, not original layouts.
+Original menu artwork, fonts and dashboards are restored at standard settings;
+scaled text and high contrast use accessible modern panels. Exact original menu
+layout parity is not claimed.
 Some diagnostics/result prose remain English. Original binary save import,
 network play, full spatial/Doppler/random voice parity and 3D are deferred.
 The owner has not selected a project-wide license; dependency/font notices do
@@ -174,6 +180,8 @@ A supplement cannot replace a complete failed segment and must preserve the
 executable, native mode, window, level and bike. [Release artifact checks and
 source reproducibility](RELEASE_PIPELINE.md), [player-facing procedure](PLAYER_GUIDE.md).
 
-The final delivered candidate is [RC4](https://github.com/ImadMashhood/RoadRash-Bevy-/releases/tag/native-functional-2026-11-01-rc4), source `234337749774a5a5a6d3fc9cafa88b9c1d55f3dd`. Its current [package checks](evidence/native-download-rc4.json), [67-attempt career](evidence/native-packaged-career.json), [graphical finale](evidence/native-delivered-runtime.json), [source-hidden import/upgrade/removal](evidence/native-package-sandbox-rc4.json) and [full hour/performance evidence](evidence/native-performance.json) supplement the original native/UI receipts. The render-only pool change preserves all source serial/parallel image/depth/receipt results, the actual pre-change Bevy image and all 67 recorded career inputs/results. Earlier receipt identities remain explicit; other source/UID/media/UI checks are not relabeled as new human reviews.
+### Historical RC4 delivered candidate
+
+The historical delivered candidate is [RC4](https://github.com/ImadMashhood/RoadRash-Bevy-/releases/tag/native-functional-2026-11-01-rc4), source `234337749774a5a5a6d3fc9cafa88b9c1d55f3dd`. Its current [package checks](evidence/native-download-rc4.json), [67-attempt career](evidence/native-packaged-career.json), [graphical finale](evidence/native-delivered-runtime.json), [source-hidden import/upgrade/removal](evidence/native-package-sandbox-rc4.json) and [full hour/performance evidence](evidence/native-performance.json) supplement the original native/UI receipts. The render-only pool change preserves all source serial/parallel image/depth/receipt results, the actual pre-change Bevy image and all 67 recorded career inputs/results. Earlier receipt identities remain explicit; other source/UID/media/UI checks are not relabeled as new human reviews.
 
 The final hour rendered 514,442 frames and reached the bounded 500,000 timing-sample cap. Stability/liveness/memory observations cover the full hour, but the final Canyon timing series is incomplete. A separate full 320-second run of the same downloaded executable/settings supplies Canyon acceptance. The validator refuses incomplete coverage or replacement of a complete failed segment. [Exact samples and coverage](evidence/native-performance.json).

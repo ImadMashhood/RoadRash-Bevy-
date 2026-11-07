@@ -1,5 +1,7 @@
 # RoadRash-Rust — complete recreation roadmap
 
+**Replacement source:** RC5 was rejected after an ordinary V-dismount panic. The narrow body-cache fix passes 514 workspace tests and actual local level1/level5 repeated recovery. A new immutable RC6 and its delivered verification are being prepared. [Fix and scope](docs/evidence/source-manual-dismount.md).
+
 **Active gameplay priority: [collision, fighting and crash accuracy](docs/COLLISION_COMBAT_PRIORITY.md).** This gate comes before additional presentation/enhancement work and the architecture report. It tracks native expected/actual comparisons and keeps unverified mechanics open.
 
 **Latest verification: [327,086 native observations match](docs/evidence/source-contact-recovery.md).** Controlled contact classification, physical scenery/building boundaries, complete recovery episodes and two-rider fight chains pass. Full police behavior, dense/simultaneous interactions and current career/release acceptance remain open.
@@ -2117,11 +2119,11 @@ Research: [src/sound.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd
   - [x] **19.01.b — Verify:** Run the manifest with all enhanced packs disabled. Each required entry has an executable scenario and an expected result; unresolved required functions remain open.
   - [x] **19.01.c — Attach completion evidence:** Link interfaces, exact native/authored fixtures or recorded input, expected/actual results, error paths and implementation revision in `docs/evidence/19.01.md`. Keep raw commercial assets private. Leave this task open while a required acceptance fails.
 
-- [x] **19.02 — Complete the original player action set**
+- [ ] **19.02 — Complete the original player action set**
 
-  - [x] **19.02.a — Implement:** Implement and bind remaining required controls, including nitro/boost and intentional dismount; resolve steering/lean semantics, inventory limits, ground/air/recovery eligibility and pause/input ownership from the pinned source or an explicit approved rule.
-  - [x] **19.02.b — Verify:** Exercise press, hold, release, depletion, simultaneous controls and crash/remount transitions. Verify actions through the real input adapter and include their state in replays.
-  - [x] **19.02.c — Attach completion evidence:** Link interfaces, exact native/authored fixtures or recorded input, expected/actual results, error paths and implementation revision in `docs/evidence/19.02.md`. Keep raw commercial assets private. Leave this task open while a required acceptance fails.
+  - [ ] **19.02.a — Implement:** Implement and bind remaining required controls, including nitro/boost and intentional dismount; resolve steering/lean semantics, inventory limits, ground/air/recovery eligibility and pause/input ownership from the pinned source or an explicit approved rule.
+  - [ ] **19.02.b — Verify:** Exercise press, hold, release, depletion, simultaneous controls and crash/remount transitions. Verify actions through the real input adapter and include their state in replays.
+  - [ ] **19.02.c — Attach completion evidence:** Link interfaces, exact native/authored fixtures or recorded input, expected/actual results, error paths and implementation revision in `docs/evidence/19.02.md`. Keep raw commercial assets private. Leave this task open while a required acceptance fails.
 
 - [x] **19.03 — Complete actor appearances and animation states**
 
@@ -2283,6 +2285,7 @@ Research: [src/hud.cpp](https://github.com/arkits/road-rash/blob/7aecf6044f2dd77
 </details>
 
 ### Phase 21 — Verification and performance
+
 
 **Prerequisites:** Native-only functional candidate from 19, UI/localization from 20, the 06 replay harness and each system under comparison. These are phase-entry dependencies, not a requirement to finish every numbered phase strictly in order.
 

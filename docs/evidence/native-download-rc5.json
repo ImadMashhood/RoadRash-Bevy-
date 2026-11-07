@@ -1,0 +1,22 @@
+{
+  "outcome": "passed",
+  "release_url": "https://github.com/ImadMashhood/RoadRash-Bevy-/releases/tag/native-functional-2026-11-07-rc5",
+  "archive_url": "https://github.com/ImadMashhood/RoadRash-Bevy-/releases/download/native-functional-2026-11-07-rc5/RoadRash-Rust-linux-candidate.tar.gz",
+  "archive_sha256": "6656faaed67e79fb2d54898513806ce4a522efd48898028851781edc9c5cd910",
+  "archive_bytes": 29744932,
+  "published_checksum_matches": true,
+  "source_revision": "24d05dcf399035fe6c6e70bb19fe1b12488c1cec",
+  "source_files_sha256": "9c0b39e7b6da9bdba14fc3629a74227ef132e5c4db6aa1c9d8a8f575fd51514a",
+  "all_manifest_files_verified": 712,
+  "dependency_notices": 369,
+  "embedded_font_notice": true,
+  "private_game_payloads": false,
+  "game_sha256": "4520d5a27a77ba5cbfadf2f2a7045dc206557dbf73be378eb47e67daea499f21",
+  "local_fedora_game_sha256": "55051bf76fcac2225bac25d24bf24863f2ea0f2c7a5357d982daa9d148fee922",
+  "separate_ubuntu_and_fedora_build_identities": true,
+  "host_outside_checkout": true,
+  "host_application_read_only": true,
+  "private_external_path": "/tmp/roadrash-native-rc5-review-1000/RoadRash-Rust",
+  "external_copy_all_manifest_files_verified": true,
+  "g5_accepted": false
+}

@@ -1,0 +1,153 @@
+{
+  "outcome": "passed",
+  "cycles": 10,
+  "courses": 5,
+  "character_selections": 8,
+  "scenario": "Begin/real native factory/countdown/pause/player quit/results/Main; no synthetic finish.",
+  "max_entity_index_slots": 512,
+  "max_cpu_images": 14,
+  "max_gpu_images": 15,
+  "sample_count": 11,
+  "binary_sha256": "4520d5a27a77ba5cbfadf2f2a7045dc206557dbf73be378eb47e67daea499f21",
+  "samples": [
+    {
+      "course": "CITY",
+      "cpu_images": 11,
+      "elapsed_s": 1.375414537,
+      "entities": 512,
+      "gpu_image_bytes": 5783580,
+      "gpu_images": 10,
+      "live_ticks": 0,
+      "restarts": 0,
+      "rss": "VmRSS:\t  681104 kB",
+      "simulation_tick": 0
+    },
+    {
+      "course": "CITY",
+      "cpu_images": 14,
+      "elapsed_s": 2.001581021,
+      "entities": 512,
+      "gpu_image_bytes": 9977884,
+      "gpu_images": 14,
+      "live_ticks": 0,
+      "restarts": 0,
+      "rss": "VmRSS:\t  738860 kB",
+      "simulation_tick": 0
+    },
+    {
+      "course": "HIWAY",
+      "cpu_images": 14,
+      "elapsed_s": 3.00127981,
+      "entities": 512,
+      "gpu_image_bytes": 9977884,
+      "gpu_images": 14,
+      "live_ticks": 0,
+      "restarts": 0,
+      "rss": "VmRSS:\t  773496 kB",
+      "simulation_tick": 0
+    },
+    {
+      "course": "MEDLY",
+      "cpu_images": 12,
+      "elapsed_s": 4.000099334,
+      "entities": 512,
+      "gpu_image_bytes": 7700508,
+      "gpu_images": 12,
+      "live_ticks": 0,
+      "restarts": 0,
+      "rss": "VmRSS:\t  775344 kB",
+      "simulation_tick": 0
+    },
+    {
+      "course": "NAPA",
+      "cpu_images": 12,
+      "elapsed_s": 5.000099397,
+      "entities": 512,
+      "gpu_image_bytes": 7700508,
+      "gpu_images": 12,
+      "live_ticks": 0,
+      "restarts": 0,
+      "rss": "VmRSS:\t  777112 kB",
+      "simulation_tick": 0
+    },
+    {
+      "course": "CANYN",
+      "cpu_images": 12,
+      "elapsed_s": 6.006492163,
+      "entities": 512,
+      "gpu_image_bytes": 7700508,
+      "gpu_images": 12,
+      "live_ticks": 0,
+      "restarts": 0,
+      "rss": "VmRSS:\t  778104 kB",
+      "simulation_tick": 0
+    },
+    {
+      "course": "CITY",
+      "cpu_images": 12,
+      "elapsed_s": 7.004944101,
+      "entities": 512,
+      "gpu_image_bytes": 7700508,
+      "gpu_images": 12,
+      "live_ticks": 0,
+      "restarts": 0,
+      "rss": "VmRSS:\t  782664 kB",
+      "simulation_tick": 0
+    },
+    {
+      "course": "HIWAY",
+      "cpu_images": 12,
+      "elapsed_s": 8.005914137,
+      "entities": 512,
+      "gpu_image_bytes": 7700508,
+      "gpu_images": 12,
+      "live_ticks": 0,
+      "restarts": 0,
+      "rss": "VmRSS:\t  787952 kB",
+      "simulation_tick": 0
+    },
+    {
+      "course": "MEDLY",
+      "cpu_images": 12,
+      "elapsed_s": 9.001055944,
+      "entities": 512,
+      "gpu_image_bytes": 7700508,
+      "gpu_images": 12,
+      "live_ticks": 0,
+      "restarts": 0,
+      "rss": "VmRSS:\t  792616 kB",
+      "simulation_tick": 0
+    },
+    {
+      "course": "NAPA",
+      "cpu_images": 14,
+      "elapsed_s": 10.013123663,
+      "entities": 512,
+      "gpu_image_bytes": 10740124,
+      "gpu_images": 15,
+      "live_ticks": 0,
+      "restarts": 0,
+      "rss": "VmRSS:\t  794488 kB",
+      "simulation_tick": 0
+    },
+    {
+      "course": "CANYN",
+      "cpu_images": 13,
+      "elapsed_s": 11.051326476,
+      "entities": 512,
+      "gpu_image_bytes": 9977884,
+      "gpu_images": 14,
+      "live_ticks": 0,
+      "restarts": 0,
+      "rss": "VmRSS:\t  795692 kB",
+      "simulation_tick": 0
+    }
+  ],
+  "limitation": "The schema-2 entities field is Entities.len: allocated index slots, not spawned entities (Bevy 0.20). This isolates scene/resource lifetime, not race victory or CPU frame-time acceptance. Telemetry retains bounded observations.",
+  "warmed_entity_index_slots": [
+    512
+  ],
+  "source_revision": "24d05dcf399035fe6c6e70bb19fe1b12488c1cec",
+  "release_tag": "native-functional-2026-11-07-rc5",
+  "archive_sha256": "6656faaed67e79fb2d54898513806ce4a522efd48898028851781edc9c5cd910"
+}

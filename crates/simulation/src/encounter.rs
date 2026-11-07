@@ -1016,6 +1016,13 @@ impl World {
                         );
                         if let Some(body) = &mut u.recovery.body {
                             body.source_route = u.source_route;
+                            if let Some(route) = body.source_route {
+                                // Unlike a post-movement collision, this input creates
+                                // a body after road preparation and moves it immediately.
+                                // Its first half-motion needs the same independent route
+                                // context that preparation supplies on following ticks.
+                                self.body_configs.insert(*id, (route, c.clone()));
+                            }
                         }
                     } else {
                         u.recovery.begin(

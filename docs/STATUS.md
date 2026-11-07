@@ -1,53 +1,63 @@
 # Implementation status
 
-The game is implemented across the native content, simulation, frontend, career,
-save, media and Linux packaging layers, but **the current game is not complete or
-release-accepted**. Parts 19, 21 and 22 have reopened required acceptance work.
+**Replacement source:** the dismount cache fix now passes 514 workspace tests and ordinary local City level1/level5 recovery, including repeated episodes and normal exit. A new immutable RC6 and delivered-byte verification are being prepared. The rejected RC5 record below remains preserved.
 
-The current component evidence totals **1,458,070 matching native observations
-across 61 families**. The [collision/topology follow-up](evidence/source-collision-topology.md)
-adds mixed object walks, mounted motion, steered forks, branch scenery and finish
-boundaries. The [terrain follow-up](evidence/source-terrain-boundaries.md) covers
-building, mountain, tunnel, hill and open-edge queries and responses; complete
-mounted trajectories also check continuous contact and separation/re-impact.
-The [physical-coordinate presentation report](evidence/physical-road-presentation.md)
-covers mounted camera following, unequal branches and real source-art approaches.
-Earlier [scenery](evidence/source-scenery.md), [static queries](evidence/source-static-queries.md)
-and [contact/fighting/recovery](evidence/source-contact-recovery.md) retain their
-recorded scopes. These counts do not establish whole-game parity. The pinned
-native TrackRing cannot walk complete split/merge graphs; the Rust graph bridge
-is an explicitly tested functional extension. [Simultaneous fights](evidence/source-simultaneous-combat.md)
-and [police integration](evidence/source-combat-police.md) now pass their controlled
-native and functional lifecycle gates. [Detached recovery](evidence/source-recovery-terrain.md),
-[crowded motion](evidence/source-recovery-contacts.md) and
-[actual crash entries](evidence/source-recovery-entry.md) now pass their declared
-native scope, with inspected original-art sequences. The [current career](evidence/native-career-current.md) and [ordinary keyboard UI](evidence/source-career-ui.md) now pass their gates; replacement release acceptance remains open.
-The latest historical 200-attempt profile-3 pilot completed level 1, visited seven
-course/level cases and ended at level 2 after 72 wins; it did not finish the campaign.
+**Release blocked:** ordinary stationary V dismount crashes RC5 (exit101, missing body configuration). The failure requires a code fix, a new candidate and renewed release checks. Earlier RC5 passes below retain their exact scopes; they are not release acceptance. See [the completion ledger](COMPLETION_EXECUTION.md).
 
-The [RC4 download](https://github.com/ImadMashhood/RoadRash-Bevy-/releases/tag/native-functional-2026-11-01-rc4)
-and its 67-attempt career, one-hour performance and package receipts are historical.
-They certify that immutable build only. The current career is verified; replacement performance/package checks and project-owner G5 acceptance remain open. See the
-[manifest](functional-manifest.json), [defect register](functional-defects.json) and
-[active detailed checklist](COLLISION_COMBAT_PRIORITY.md).
+The offline native Rust game is implemented and its current RC5 source, career,
+package and performance checks pass their declared scopes. The final ordinary
+keyboard crash/recovery and natural-terminal demonstration is in progress.
+Project-owner G5 release acceptance remains pending; enhancement and 3D production
+remain deferred.
 
-The [sequential completion ledger](COMPLETION_EXECUTION.md) tracks the owner's
-remaining work. Scenery, collision/topology and combat/police are verified;
-detached recovery and genuine career/ordinary UI are verified. Replacement release verification is active.
-The last full release-mode workspace run passes 510 tests with 57 explicit
-private-data skips. The new texture-index and driver-forecast regressions also pass;
-536,874 optimized driver decisions exactly match the recorded genuine career. All 25 source factories pass four replay schedules, and ten
-ordinary steered fork approaches pass independent current-release replay. The corrected continuous-facade brush passes all four rates and graphical
-replay. Its original fixture crossed an opening and struck a building corner on
-tick42 in both games; that result is preserved without changing physics.
+The [published RC5](https://github.com/ImadMashhood/RoadRash-Bevy-/releases/tag/native-functional-2026-11-07-rc5)
+uses frozen source `24d05dcf399035fe6c6e70bb19fe1b12488c1cec`. Its
+[review packet](NATIVE_RC5_REVIEW.md) records exact downloaded archive/application
+identities, the reviewer procedure and known limitations. The downloaded package
+passes source-hidden read-only first import, missing-disc guidance, ordinary
+keyboard backup recovery and purchase/save/settings flows, upgrade/uninstall
+retention, clean rebuild and reproducible local archives.
 
-Texture production remains deferred until accepted G5. 3D is outside current
-scope. Original Windows runtime comparison remains owner-waived; the native oracle
-is the pinned C++ port with locally supplied original data.
+The genuine source and [downloaded careers](evidence/native-packaged-career-rc5.md)
+each cover all 25 course/level cases in 31 wins, with 124 independent replay audits,
+five purchases, three paid repairs and six recovered crashes. Both end with
+$12,797, bike 8 and 98% condition. The actual downloaded graphical finale matches
+the final canonical hash. Old 67-attempt RC4 and failed newer pilots remain
+historical, rather than being relabeled as current passes.
 
-The [driving-bounce correction](evidence/driving-bounce.md) removes sample-boundary
-bobbing caused by renderer ground-anchor interpolation; physics rules are unchanged.
-Native contact, career and replacement-release acceptance below remain open.
+The [actual downloaded hour](evidence/native-performance-rc5.md) passes unchanged
+budgets: 3,600.308 real seconds, 3,598.367 simulated seconds, zero paused frames,
+all five complete warm-course timing series, wall p95 14.139–16.340 ms, about
+1.05 GiB maximum RSS and 11 CPU/GPU image handles. Both laps, observed thermals
+and power, strict owned audio routing and global audio-default preservation are
+published. [Heap/startup/lifecycle preflights](evidence/native-preflight-rc5.md)
+pass separately; no profiler timing substitutes for ordinary frame acceptance.
+
+Component evidence totals **1,458,070 deduplicated native observations across
+61 families**, covering scenery, mixed collision/topology, simultaneous fighting,
+police and changing-terrain/repeated-impact recovery. See the
+[interaction checklist](COLLISION_COMBAT_PRIORITY.md) and
+[sequential completion ledger](COMPLETION_EXECUTION.md). The pinned native
+TrackRing cannot walk full split/merge graphs; the Rust fixed-step graph bridge
+is an explicitly tested functional extension. Original Windows runtime comparison
+is owner-waived. Full native variable scheduler/RNG and pixel-perfect menu parity
+are not claimed.
+
+Frozen-source validation passes 512 release-mode workspace tests, with 58 explicit
+private-data ignores, strict Clippy, formatting, 39 general Python checks and 16
+career-auditor checks. Separately executed private suites have their own receipts.
+All 536,874 optimized driver commands exactly match the genuine career recordings;
+all 75 raster view pixel/depth/statistics hashes remain unchanged. Exact source
+and build-request [CI](evidence/native-ci-rc5.json) pass. Evidence-only follow-up
+commits do not change the frozen application source.
+
+The [flat-road bounce fix](evidence/driving-bounce.md) corrects the renderer's
+ground-anchor interpolation. Original-art menus/fonts/dashboards, collision and
+recovery behavior, transactions and bounded font-atlas ownership are included in
+RC5. [The manifest](functional-manifest.json), [defect register](functional-defects.json)
+and [G5 decision record](evidence/release-signoff.json) are authoritative for
+remaining acceptance. Known media/controller/platform and recolored police-foot
+art limitations remain explicit in [release notes](RELEASE_NOTES.md).
 
 ## Historical Parts 01–18 receipts
 
@@ -81,4 +91,4 @@ Parts 17–18 complete [persistence](SAVES.md) and [media](AUDIO.md): five schem
 
 Completed README parts 01–18 are collapsed individually. Roadmap revision 2 adds required gap closure in **19**, UI/accessibility/localization in **20**, verification in **21**, native release in **22**, mod contracts in **23**, enhancement in **24**, deferred 3D preparation in **25**. [Migration map](ROADMAP_REORDER.md) preserves old future ticket identities; completed IDs remain stable. G5 native acceptance remains open, and enhancement production is gated behind it. This is not yet a claim of a fully functional, accepted recreation.
 
-The final hour rendered 514,442 frames and reached the bounded 500,000 timing-sample cap. Stability/liveness/memory observations cover the full hour, but the final Canyon timing series is incomplete. A separate full 320-second run of the same downloaded executable/settings supplies Canyon acceptance. The validator refuses incomplete coverage or replacement of a complete failed segment. [Exact samples and coverage](evidence/native-performance.json).
+Historical RC4 hour: the final hour rendered 514,442 frames and reached the bounded 500,000 timing-sample cap. Stability/liveness/memory observations cover the full hour, but the final Canyon timing series is incomplete. A separate full 320-second run of the same downloaded executable/settings supplies Canyon acceptance. The validator refuses incomplete coverage or replacement of a complete failed segment. [Exact samples and coverage](evidence/native-performance.json).

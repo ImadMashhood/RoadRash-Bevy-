@@ -1,0 +1,72 @@
+{
+  "outcome": "passed",
+  "scope": "Actual downloaded native audioon/effectson 12s routing calibration only; not hour or performance acceptance. Per-process ALSA node-name configuration plus PIPEWIRE_NODE/PULSE_SINK routes only this process to ownednullsink. Global defaults and preexisting stream routes preserved.",
+  "module_id": 536870916,
+  "sink_name": "rr_rc5_24d_hour",
+  "sink_index": 18413,
+  "pipewire_node_id": 66,
+  "pipewire_node_env": "rr_rc5_24d_hour",
+  "binary_sha256": "4520d5a27a77ba5cbfadf2f2a7045dc206557dbf73be378eb47e67daea499f21",
+  "source_revision": "24d05dcf399035fe6c6e70bb19fe1b12488c1cec",
+  "archive_sha256": "6656faaed67e79fb2d54898513806ce4a522efd48898028851781edc9c5cd910",
+  "verified_owned_pid": 1153407,
+  "routing_observations": 21,
+  "route_observer": "PipeWireClient.application.process.id\u2192Node.client.id\u2192Link.inputnode, plusPulseproperties.client.id; allownedlinks/streams targetownnull",
+  "normal_exit": 0,
+  "default_sink_preserved": true,
+  "default_source_preserved": true,
+  "preexisting_streams_modified": false,
+  "policy_restoration_commands_count": 0,
+  "sampled_owner_links": {
+    "pid": 1153407,
+    "owned_client_ids": [
+      67
+    ],
+    "owned_output_node_ids": [
+      118
+    ],
+    "owned_sink_inputs": [
+      {
+        "index": 18480,
+        "sink": 18413,
+        "pipewire_client_id": "67",
+        "pipewire_node_id": "118",
+        "direct_pid": null
+      }
+    ],
+    "links": [
+      {
+        "id": 120,
+        "output_node": 118,
+        "input_node": 66,
+        "state": "active"
+      },
+      {
+        "id": 153,
+        "output_node": 118,
+        "input_node": 66,
+        "state": "active"
+      }
+    ],
+    "wrong_target": false,
+    "verified": true,
+    "expected_sink_index": 18413,
+    "expected_pipewire_node_id": 66
+  },
+  "hour_not_started": false,
+  "failed_harness_history": [
+    "ALSA_CONFIG_PATH in whitespace repository path couldnotload; private routing unverified, ownedmodulecleaned",
+    "Pulse stream lacksPID and numericPWglobalID targets ambiguous; wronghardwarecalibrations rejected, modulescleaned",
+    "Successful per-process NODE NAME configuration/PIPEWIRE_NODE plus ClientPID\u2192Node\u2192Link ownership verifiesactualprivateoutput"
+  ],
+  "cleanup_status": "Own module remains exclusively for ROOT-reviewed officialhour; cleanup afterward only this owner_moduleID, preserving globaldefaults/otherstreams.",
+  "private_evidence_sha256": {
+    "audio.json": "cbfc67b3dda1703bb37d5622f8a30e39c66c5497b19556eef44afb4b1bc7209d",
+    "before.json": "a5172e49770a7de26a248e25ca9b4d3f11a81d7710d8df71e42b3091e32365cb",
+    "after.json": "d38caeaed7da6c7ed47f913ef8db9c8e5366071569a9c424c3c3c04b44c0337e",
+    "creation-policy-history.json": "e96492a1626cf61a514ba280e4fdc1065ee4141e4ce2a1f3a0804d9cdfec4c6b",
+    "routing-samples.jsonl": "5b0585a55d7e5588a95046d264b5c4b0689b47e9e854a21b37ff6d2c23f9ff19",
+    "media.json": "d79707748036bd3d197d68f31605f339f4f8626fb8dc79e7f05d631dca834c7d"
+  },
+  "official_hour_status": "ROOT started a separate officialhour after this calibration; calibration doesnot certify its outcome."
+}

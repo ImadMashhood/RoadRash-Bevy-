@@ -1,0 +1,37 @@
+{
+  "outcome": "passed",
+  "source_visible": false,
+  "cargo_in_path": null,
+  "app_read_only": true,
+  "app_outside_checkout": true,
+  "missing_disc_exit": 1,
+  "missing_disc_guidance": true,
+  "first_launch_exit": 0,
+  "first_launch_total_s": 9.140382508048788,
+  "cached_launch_exit": 0,
+  "cached_launch_total_s": 3.513341838028282,
+  "old_version_open_exit": 0,
+  "private_import_verified_files": 341,
+  "upgrade_preserves_all_profile_json_and_active_import_pointer": true,
+  "uninstall_only_disposable_app_preserves_same_files": true,
+  "profile_files": 3,
+  "retained_sha256": {
+    "profile/config/settings.json": "1991be698253dfae6c8cd329dcc4d079d3ae3ec956f3568f495831388a2b1b6f",
+    "profile/data/careers/default-slot-1.json": "1baed9c8bb3e006a721a755b19430d0a357124bd43ba7c28b31d4aaa453cbf47",
+    "profile/data/careers/default.json": "1baed9c8bb3e006a721a755b19430d0a357124bd43ba7c28b31d4aaa453cbf47",
+    "runtime/import/active.json": "1c78739c87bcd302c86828ab1b3a8c3b887234da66bbffa9d30c0938dff77e56"
+  },
+  "import_and_catalog_preserved": {
+    "files": 6486,
+    "tree_sha256": "e89134ac59486c497738a3eb8f011b21149fdedb1aabd921ee0d9ee6eaa28b94"
+  },
+  "active_pointer_sha256": "1c78739c87bcd302c86828ab1b3a8c3b887234da66bbffa9d30c0938dff77e56",
+  "game_sha256": "4520d5a27a77ba5cbfadf2f2a7045dc206557dbf73be378eb47e67daea499f21",
+  "scope": "Actual checksum-verified Ubuntu CI RC5 download. Actual read-only application in source-hidden Bubblewrap; no Cargo in PATH. Fresh own-ISO import and conversion; old RC4 to new application replacement; ordinary keyboard source profile reopened by 120-frame smoke launches, not represented as a repeated human keyboard walkthrough. Physical desktop and original ISO untouched.",
+  "source_revision": "24d05dcf399035fe6c6e70bb19fe1b12488c1cec",
+  "archive_sha256": "6656faaed67e79fb2d54898513806ce4a522efd48898028851781edc9c5cd910",
+  "host_outside_checkout": true,
+  "host_external_application": "/tmp/roadrash-native-rc5-review-1000/RoadRash-Rust",
+  "g5_accepted": false,
+  "ordinary_keyboard_evidence": "docs/evidence/native-packaged-ui-rc5.json"
+}

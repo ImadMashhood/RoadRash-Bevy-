@@ -345,6 +345,146 @@ mod incident_tests {
 #[cfg(test)]
 mod cache_tests {
     use super::*;
+    fn live_dismount_fixture() -> (Configuration, Setup) {
+        let mut c = crate::fixtures::riding();
+        c.motion_version = 3;
+        c.actions = Some(crate::actions::Config {
+            recharge: 17,
+            multiplier_q8: 384,
+            maximum: 120,
+            charges: 3,
+            minimum: 30,
+            tail: 15,
+        });
+        let mut setup = Setup::authored(&c).unwrap();
+        setup.rules.combat_version = 4;
+        setup.rules.contact_walk_version = 2;
+        setup.rules.collision_version = 2;
+        setup.rules.scenery_version = 1;
+        setup.rules.collision = Some(crate::collision::Profile {
+            mounted: [10, 4, 10],
+            fallen: [10, 4, 4],
+            mass: 256,
+            elasticity: 192,
+            rider: None,
+        });
+        setup.rules.body.recovery_version = 2;
+        setup.rules.body.motion_version = 1;
+        setup.rules.obstacles.clear();
+        let mut ground = c.ground.clone();
+        for sample in &mut ground {
+            // Source courses encode elevation through topology grades, leaving
+            // Ground.height zero. Use a real width difference to distinguish
+            // the body context from the base configuration without an artificial
+            // vertical discontinuity at the start of the fixture.
+            sample.right += 256;
+            sample.right_shoulder += 256;
+        }
+        setup.rules.source_roads = Some(crate::source_roads::Roads {
+            version: 1,
+            initial: 0,
+            lanes_q8: None,
+            ground: BTreeMap::from([(0, ground)]),
+            forks: BTreeMap::new(),
+            profiles: vec![crate::source_roads::Profile {
+                finish_progress: None,
+                choices: vec![],
+                selected: BTreeMap::from([(0, 0)]),
+                identities: BTreeMap::from([(
+                    0,
+                    (0..128).map(|local| [local, local, 0, 3]).collect(),
+                )]),
+            }],
+        });
+        (c, setup)
+    }
+    #[test]
+    fn ordinary_dismount_prepares_body_context_before_same_tick_source_motion() {
+        for selected in [false, true] {
+            let (c, setup) = live_dismount_fixture();
+            let expected_ground = setup
+                .rules
+                .source_roads
+                .as_ref()
+                .unwrap()
+                .ground(0)
+                .unwrap();
+            assert_ne!(expected_ground, c.ground);
+            let mut sim = crate::Simulation::with_encounters(1, c.clone(), setup).unwrap();
+            let dismount = crate::Command {
+                dismount: true,
+                ..Default::default()
+            };
+            sim.actors.get_mut(&ActorId(1)).unwrap().input = dismount;
+            let mut world = sim.encounter.take().unwrap();
+            world
+                .movement_selected(
+                    &mut sim.actors,
+                    &c,
+                    0,
+                    &[],
+                    &mut vec![],
+                    || 0,
+                    selected.then_some(ActorId(1)),
+                )
+                .unwrap();
+            sim.encounter = Some(world);
+            let world = sim.encounter.as_ref().unwrap();
+            let body = world.units[&ActorId(1)].recovery.body.as_ref().unwrap();
+            assert_eq!(body.source_route, Some(0));
+            assert_eq!(world.body_configs[&ActorId(1)].0, 0);
+            assert_eq!(world.body_configs[&ActorId(1)].1.ground, expected_ground);
+            assert!(world.road_topologies.contains_key(&0));
+        }
+    }
+    #[test]
+    fn ordinary_dismount_body_context_is_released_and_rebuilt_on_the_next_episode() {
+        let (c, setup) = live_dismount_fixture();
+        let mut sim = crate::Simulation::with_population(
+            1,
+            c,
+            setup,
+            crate::population::Setup {
+                traffic: false,
+                periodic_police: false,
+                ..Default::default()
+            },
+        )
+        .unwrap();
+        for episode in 0..2 {
+            assert!(sim.encounter.as_ref().unwrap().body_configs.is_empty());
+            sim.step(crate::Command {
+                dismount: true,
+                ..Default::default()
+            })
+            .unwrap();
+            assert!(
+                sim.encounter.as_ref().unwrap().units[&ActorId(1)]
+                    .recovery
+                    .body
+                    .is_some(),
+                "ordinary dismount must begin episode {episode}"
+            );
+            let mut remounted = false;
+            for _ in 0..2000 {
+                sim.step(crate::Command::default()).unwrap();
+                if sim.encounter.as_ref().unwrap().units[&ActorId(1)]
+                    .recovery
+                    .phase
+                    == Phase::Mounted
+                {
+                    remounted = true;
+                    break;
+                }
+            }
+            assert!(
+                remounted,
+                "ordinary recovery episode {episode} must complete"
+            );
+            sim.step(crate::Command::default()).unwrap();
+            assert!(sim.encounter.as_ref().unwrap().body_configs.is_empty());
+        }
+    }
     #[test]
     fn serialized_route_state_rebuilds_configs_and_topologies_deterministically() {
         let mut c = crate::fixtures::riding();

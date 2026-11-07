@@ -1,9 +1,15 @@
-# Active priority: collision, fighting and crashes
+# Native interaction accuracy: collision, fighting and crashes
 
-This is the next required gameplay gate, ahead of additional presentation work,
-texture enhancement and the architecture/optimization report. The owner asked
-for stronger emphasis on accurate collisions, fighting and crashing. A plausible
-render or deterministic replay alone does not establish accurate interactions.
+**Current component gate: verified.** Scenery, collision/topology, simultaneous
+fighting, police and detached recovery match **1,458,070 deduplicated native
+observations across 61 families**, with separately inspected original-art integration.
+The genuine source and downloaded careers, package and hour gates also pass;
+see [the completion ledger](COMPLETION_EXECUTION.md) and [RC5 review](NATIVE_RC5_REVIEW.md).
+Project-owner G5 remains separate. The historical progression below preserves
+failing comparisons and bounded intermediate scopes.
+
+The owner required accurate collisions, fighting and crashing before enhancement.
+A plausible render or deterministic replay alone does not establish that accuracy.
 
 Reference: arkits/road-rash at `7aecf6044f2dd773b925b325823f30d648d61c89`,
 particularly `race.cpp`, `crash.cpp`, `actor_animation.cpp` and their public APIs.
@@ -220,4 +226,4 @@ landing is measured without inventing an automatic crash; voluntary dismount is
 an explicit functional control adaptation. Missing-bike/disconnected-branch safety
 and retained-arm camera pullback are functional graph checks, not native Ring parity.
 Current aggregate1,458,070 observations/61families excludes superseded pilots.
-The full career and replacement-release rows remain open.
+The current full career, downloaded package and replacement-hour evidence pass their linked scopes. The final ordinary-keyboard recovery demonstration and owner G5 remain tracked separately in the completion ledger.

@@ -1,0 +1,101 @@
+{
+  "outcome": "passed_for_declared_controls_profile_and_transaction_scope",
+  "source_revision": "24d05dcf399035fe6c6e70bb19fe1b12488c1cec",
+  "release_tag": "native-functional-2026-11-07-rc5",
+  "game_sha256": "4520d5a27a77ba5cbfadf2f2a7045dc206557dbf73be378eb47e67daea499f21",
+  "keyboard_transport": "Ordinary XTest key events in actual Bevy window, privateX11 display:199; noapplicationActAPI",
+  "source_hidden": true,
+  "application_read_only": true,
+  "cargo_in_path": null,
+  "normal_final_window_close_exit": 0,
+  "corruption_fixture": {
+    "original_preserved": true,
+    "good_sha256": "1baed9c8bb3e006a721a755b19430d0a357124bd43ba7c28b31d4aaa453cbf47",
+    "damaged_sha256": "c08d50fd3bf04359597c7fcf57a54e041231b562d260a7f56d6211e0ea85a1f4",
+    "scope": "Only disposablecopiedprimary changedcash200to201 whileleavingoriginalchecksum; validbackup andoriginalsourceprofile preserved."
+  },
+  "original_source_preserved": true,
+  "restored_primary_matches_original_exactly": true,
+  "damaged_primary_preserved": [
+    "local/rc5-packaged-ui/user-data/profile/data/careers/default-slot-1.json.corrupt.1133800.0"
+  ],
+  "save_body_sha256": "d0dfe289ad933ad48896b5007f8cafdc299e5ec8f1fe9783b59698e9d98e8d7d",
+  "final_cash": 200,
+  "final_level": 1,
+  "purchase_quote": {
+    "price": 4495,
+    "trade_in": 1624,
+    "to_pay": 2871,
+    "cash_available": 200,
+    "confirmation_outcome": "insufficient_funds",
+    "career_unchanged": true
+  },
+  "preferences_survive_reopen": {
+    "language": "french",
+    "text_scale": 125,
+    "high_contrast": true,
+    "active_slot": 1
+  },
+  "screens": {
+    "corrupt_rejection": {
+      "private_path": "local/rc5-packaged-ui/00-corrupt-primary-rejected.png",
+      "sha256": "c61547661c12ae1e45035df7f53e07ca5858151d64b9073ffbd0155cc475a7c6"
+    },
+    "restore_selected": {
+      "private_path": "local/rc5-packaged-ui/03-restore-selected.png",
+      "sha256": "04d7b0f87f1f5c2483c923ff51c4828495477284caac8ab3cab1efff82c8e0ce"
+    },
+    "restore_success": {
+      "private_path": "local/rc5-packaged-ui/04-backup-restored.png",
+      "sha256": "bcb9d5b7be9de3467183856c09a8348a388ef98307b2793f6b04d526c2422842"
+    },
+    "held_resume_rejection": {
+      "private_path": "local/rc5-packaged-ui/06-held-control-resume-blocked.png",
+      "sha256": "85fe914b99c7f94d2dd02f23dbe58612d1945a16697a50f98bba4e11abcda658"
+    },
+    "neutral_resume_warning_cleared": {
+      "private_path": "local/rc5-packaged-ui/07-neutral-resume-warning-cleared.png",
+      "sha256": "6371406ed11ed1df707572ab3efc56b3e0950bc71489266714430939f8b45f8e"
+    },
+    "real_quit_results": {
+      "private_path": "local/rc5-packaged-ui/09-real-quit-results.png",
+      "sha256": "39383150528e5935015d25745a7b961fb817931cb93bfcedb353c3269abb812d"
+    },
+    "normal_reopen": {
+      "private_path": "local/rc5-packaged-ui/14-restored-reopened-main.png",
+      "sha256": "e24632e5b251d33dd1a766b72a161763cd802ac77edf68333b2255288b728637"
+    },
+    "career_street": {
+      "private_path": "local/rc5-packaged-ui/15-restored-career-street.png",
+      "sha256": "8385467109c6994e4a596d457a7a26383d2174f7d825e5b831cfad9e8a89c9eb"
+    },
+    "bike_preview": {
+      "private_path": "local/rc5-packaged-ui/16-bike-preview.png",
+      "sha256": "5b1bd5dedcb0e9978e04bf382a25e231f3153fd8f5fb64d13f08ce9f1017c44a"
+    },
+    "priced_quote": {
+      "private_path": "local/rc5-packaged-ui/17-real-purchase-quote.png",
+      "sha256": "bec25344e2365fb16877801b3de873649b838210cebc46a54992507b5a6e8744"
+    },
+    "denied_purchase": {
+      "private_path": "local/rc5-packaged-ui/18-real-insufficient-funds.png",
+      "sha256": "6b0953fe3dc6b32cacf315117d203b3963657261dcde24a08281e1a22bb44526"
+    }
+  },
+  "excluded_misnavigation": [
+    "01-settings-restore-route.png",
+    "10-return-main.png",
+    "11-purchase-price-quote.png",
+    "12-insufficient-funds.png",
+    "13-confirmed-main.png (notcaptured; apphadclosednormally)"
+  ],
+  "observation": "AtFrench125% theSettingsheading/upperstroke touches thefixedtop/orange separator afterrestore. Implementingagentreview foundtitlelegible andallactions/notice/footerreadable; nonblockingcosmetic observation. Pixelperfectoriginalmenusnotclaimed.",
+  "limitations": [
+    "VirtualX11 ratherthanphysicaldesktop",
+    "Audio/videos off for UIinputscope",
+    "No certifiedphysicalcontroller",
+    "Headlesslauncher sourceargument usedforimport; not a newGUI filepicker certification"
+  ],
+  "g5_accepted": false,
+  "private_receipt_sha256": "bc441ac775e5b2123ac6fbc9092a3ae8f496b9eec0b1decdea73c89f1c1ea08c"
+}

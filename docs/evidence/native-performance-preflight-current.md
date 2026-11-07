@@ -1,9 +1,11 @@
 # Current-source performance preflight
 
-These are bounded development measurements of source
+This is a chronological development record. The initial measurements use source
 `9ff9c95eb9174823e1847150ae63a22c5b05faf5`, application SHA256
 `6efe6d66d1267faf38970e929445a28fa36f3228b8c2023a7a9e0ff2772fe1b5`.
-They do not certify a later candidate or replace its required five-course hour.
+Later corrections identify their different tested binaries separately. These
+measurements do not certify a later downloaded artifact or replace its required
+five-course hour.
 
 Five complete level-three career recordings pass the production simulation and
 owned snapshot budgets, with exact expected final hashes. Simulation p95 ranges
@@ -59,12 +61,33 @@ extraction and GPU transfers. These small preparation/update values do not
 explain the remaining wall target miss; CPU callstack profiling is the next
 attribution step. [Stage diagnostic](native-stage-diagnostic-current.json).
 
-The ten-cycle frontend lifetime probe also fails the fixed 16-image-handle budget:
+The subsequent exact-index texture optimization and
+[command-equivalent driver caches](native-driver-cache-current.md) meet the
+unchanged targets in a new 30-second probe: wall p95 15.677 ms, p99 17.164 ms,
+raster p95 10.769 ms and whole pilot p95 0.489 ms. All 2,282 settled samples and
+1,746 pilot callbacks are present, with the default predictive policy and original
+graphics. This is a positive short diagnostic, not long-run acceptance; a proper
+320-second diagnostic and the final candidate's full release checks remain
+separate. [Bounded short receipt](native-performance-correction-short.json).
+
+The corrected full 320-second City diagnostic then passes the unchanged budgets:
+wall p95 16.108 ms and p99 17.463 ms, with all 24,219 settled samples present.
+It contains 319.1 simulation seconds, zero paused frames and one real restart
+over 320.187 real seconds. Hardware GPU timings and residency limits also pass.
+The tested local application is pinned by hash and matches frozen runtime source
+`24d05dcf399035fe6c6e70bb19fe1b12488c1cec`. No other local acceptance app, build or
+profiler overlapped this run. This is a one-course gate; the actual downloaded
+review artifact still needs its separate five-course and hour-long acceptance.
+[Corrected full diagnostic](native-city-corrected-current.json).
+
+The initial ten-cycle frontend lifetime probe failed the fixed 16-image-handle budget:
 CPU/GPU registries peak at 20 and warm at 19, while entity index storage remains
 stable at 512. Its private report is retained under
-`local/release-perf-current/lifecycle/`. The source-font atlas ownership correction
-and replacement performance measurements are separate follow-up work; these
-failures are not converted into passes by increasing budgets.
+`local/release-perf-current/lifecycle/`. The subsequent
+[source-font atlas ownership correction](native-ui-image-residency-current.md)
+passes the same ten-cycle check at 15 CPU/GPU image handles, with identical Main
+pixels. The failed run remains history; its budget was not increased. Final
+downloaded-byte lifetime checks remain separately identified.
 
 The benchmark now caches its route planner per race and resets on real restarts
 and course changes. Each course segment has its own bounded timing storage, so

@@ -1,3 +1,76 @@
+# Post-RC5 dismount correction: replacement verification in progress
+
+Ordinary V dismount exposed a same-tick independent body-cache initialization
+failure in RC5. The narrow correction passes two targeted regressions, 514 full
+workspace tests and actual local City level1/level5 repeated recovery with resumed
+driving and normal exit. Physics/RNG/eligibility and historical replay profiles
+are unchanged. The new source career also matches all original 31 replay/save
+bytes. Its independent audit and the new immutable RC6 verification are pending.
+See [the source correction](evidence/source-manual-dismount.md). G5 remains unsigned.
+
+## Historical rejected RC5
+
+### Native functional Linux review candidate RC5
+
+**Release blocked:** ordinary stationary V dismount crashes RC5 (exit101, missing body configuration). The failure requires a code fix, a new candidate and renewed release checks. Earlier RC5 passes below retain their exact scopes; they are not release acceptance. See [the completion ledger](COMPLETION_EXECUTION.md).
+
+[Download RC5](https://github.com/ImadMashhood/RoadRash-Bevy-/releases/tag/native-functional-2026-11-07-rc5).
+This is an offline original-art review candidate. G5 owner acceptance remains
+pending; enhancement and 3D production are deferred.
+
+Source: `24d05dcf399035fe6c6e70bb19fe1b12488c1cec`.
+Archive SHA256: `6656faaed67e79fb2d54898513806ce4a522efd48898028851781edc9c5cd910`.
+Downloaded game SHA256:
+`4520d5a27a77ba5cbfadf2f2a7045dc206557dbf73be378eb47e67daea499f21`.
+The adjacent SHA256SUMS and all 712 packaged manifest files verify. No original
+or converted commercial media is distributed; import your own supported disc.
+
+RC5 fixes the flat-road rider-anchor bounce, source scenery and mixed contact
+ordering, split/merge coordinates, fighting and police transactions, detached
+recovery and remount edges. It restores original menus/fonts/dashboards, quotes
+purchases and repairs, clears stale menu/resume notices and releases orphaned
+font atlases. Measured raster and planner optimizations preserve exact native
+view output and every recorded career command.
+
+Validation includes 512 release-mode workspace tests, strict Clippy/formatting,
+39 general Python tests and 16 independent career-auditor regressions. The scoped
+native component matrix totals 1,458,070 observations across 61 families. The
+actual downloaded package completes 31 genuine wins/all 25 course-level cases,
+with 124 independent replays and a graphical finale matching the canonical hash.
+Read-only source-hidden first import, ordinary keyboard backup recovery and
+player flows, upgrade/uninstall retention, clean rebuild and normalized archives
+pass. Exact downloaded-byte heap/startup/lifetime preflights and the real hour
+also pass: 3,600.308 seconds elapsed, zero paused frames, all five complete warm
+course timing gates, about 1.05 GiB peak RSS. Both laps, prior failed probes and
+platform limitations remain explicit. The final ordinary-keyboard natural-terminal
+route is being checked before technical handoff.
+
+Known scope: Fedora Linux offline play, fixed 60 Hz decisions and a tested modern
+split/merge graph bridge. Original Windows runtime comparison is owner-waived;
+full scheduler/RNG trajectory and exact menu-layout parity are not claimed.
+Police foot/mount art uses original rider artwork recolored for police because
+the cop sheet has no upright foot sequence. Some diagnostic prose remains English.
+PCM soundtrack playback replaces MIDI/SBK synthesis; sound captions are not film
+transcripts. Physical controller models beyond the recorded backend checks remain
+uncertified. Replay-only HUD captions may use the isolated frontend default rider
+name; canonical character setup/color and state verification are separate.
+
+The project-wide source license remains unselected; dependency/font notices do
+not grant rights to the original game data. Read the packaged license-scope
+statement and [player guide](PLAYER_GUIDE.md).
+
+Current evidence and review procedure: [RC5 review packet](NATIVE_RC5_REVIEW.md),
+[package report](evidence/native-package-rc5.md),
+[downloaded career](evidence/native-packaged-career-rc5.md),
+[graphical finale](evidence/native-delivered-runtime-rc5.md),
+[preflight budgets](evidence/native-preflight-rc5.md),
+[actual hour](evidence/native-performance-rc5.md),
+[CI](evidence/native-ci-rc5.json).
+
+---
+
+## Historical RC4 notes
+
 # Native functional Linux candidate RC4
 
 **Current source supersedes this candidate.** Building ends, building collision, scenery bounds, AI planning and interface presentation are corrected after RC4. The results below describe the immutable RC4 download; they do not certify the changed source. See [the correction report](evidence/native-gameplay-fixes.md). G5 remains open for replacement-build verification and owner acceptance.

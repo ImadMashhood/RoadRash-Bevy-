@@ -1,0 +1,89 @@
+{
+  "outcome": "passed",
+  "source_revision": "24d05dcf399035fe6c6e70bb19fe1b12488c1cec",
+  "source_tree": "02696807d1a1f3301cc0e4e71f5a85d37390b242",
+  "clean_worktree": true,
+  "all11_workspace_crates_recompiled": true,
+  "locked_external_dependency_artifacts_reused": true,
+  "binary_comparison": [
+    {
+      "binary": "rr-game",
+      "frozen_sha256": "55051bf76fcac2225bac25d24bf24863f2ea0f2c7a5357d982daa9d148fee922",
+      "clean_source_rebuilt_sha256": "55051bf76fcac2225bac25d24bf24863f2ea0f2c7a5357d982daa9d148fee922",
+      "identical": true
+    },
+    {
+      "binary": "rr-import",
+      "frozen_sha256": "3aa6a1708495ea67c881a5c6b30a1e20a1a5fa73f81235424f35dee83036459a",
+      "clean_source_rebuilt_sha256": "3aa6a1708495ea67c881a5c6b30a1e20a1a5fa73f81235424f35dee83036459a",
+      "identical": true
+    },
+    {
+      "binary": "rr-content",
+      "frozen_sha256": "85aacf0575bb667246880026f966823f385010307697189062117a721075c65e",
+      "clean_source_rebuilt_sha256": "85aacf0575bb667246880026f966823f385010307697189062117a721075c65e",
+      "identical": true
+    },
+    {
+      "binary": "rr-replay",
+      "frozen_sha256": "397de51a3c2714d35f4897724f0615986c1b18cd74d89e1c9c53e4ebd0ea3d8b",
+      "clean_source_rebuilt_sha256": "397de51a3c2714d35f4897724f0615986c1b18cd74d89e1c9c53e4ebd0ea3d8b",
+      "identical": true
+    },
+    {
+      "binary": "rr-profile-replay",
+      "frozen_sha256": "f78b9e89a1f4e609296a1f0683386d1b2da261f5aa0afd4f93ebc3b3f4ac28f4",
+      "clean_source_rebuilt_sha256": "f78b9e89a1f4e609296a1f0683386d1b2da261f5aa0afd4f93ebc3b3f4ac28f4",
+      "identical": true
+    }
+  ],
+  "scope": "Local Fedora clean-source rebuild and normalized package reproducibility only; not the separate Ubuntu CI download or owner G5 acceptance.",
+  "archive_reproducibility": {
+    "source": "24d05dcf399035fe6c6e70bb19fe1b12488c1cec",
+    "outcome": "passed",
+    "archive_sha256": "a58ea675286babc9b030a7164698769f374546ba358b88c7aee29a8db8e36eeb",
+    "archives": [
+      "local/rc5-clean-source/local/package-a/RoadRash-Rust-linux-candidate.tar.gz",
+      "local/rc5-clean-source/local/package-b/RoadRash-Rust-linux-candidate.tar.gz"
+    ],
+    "identical": true,
+    "bytes": 29719220
+  },
+  "manifest": {
+    "outcome": "passed",
+    "all_manifest_files_verified": 712,
+    "dependency_notice_count": 369,
+    "embedded_font_notice": true,
+    "private_game_payloads": false,
+    "source_revision": "24d05dcf399035fe6c6e70bb19fe1b12488c1cec",
+    "source_files_sha256": "9c0b39e7b6da9bdba14fc3629a74227ef132e5c4db6aa1c9d8a8f575fd51514a",
+    "cargo_lock_sha256": "97b2848e368123f74843b766e670191e00ef2d779c8322f6255226443f990137",
+    "toolchain": "rustc 1.99.1 (58cf8f9c3 2026-10-13)",
+    "game_sha256": "55051bf76fcac2225bac25d24bf24863f2ea0f2c7a5357d982daa9d148fee922"
+  },
+  "frozen_source_epoch": 1794053008,
+  "g5_accepted": false,
+  "private_game_data_included": false,
+  "artifacts": [
+    {
+      "private_path": "local/rc5-package-checks/clean-all-source-final-24d05dc.log",
+      "sha256": "b9ef34f17c3e09155116dea328c56ab381abf613263f2d468adad0d8e7151383"
+    },
+    {
+      "private_path": "local/rc5-package-checks/package-a.log",
+      "sha256": "f26857f3b793756b43eaca3cdff000e138cc737c09321d5ed252ab0aaec55493"
+    },
+    {
+      "private_path": "local/rc5-package-checks/package-b.log",
+      "sha256": "c0eab6515371d3c00207d6dd31c9e92bf53a10550dae44927f4b8f8a1b83c7d7"
+    },
+    {
+      "private_path": "local/rc5-package-checks/rebuild-final.json",
+      "sha256": "83cc51e7b02300b4294afb52e51804cc98f99a348d884b9e1629f3c0ded7d18b"
+    },
+    {
+      "private_path": "local/rc5-package-checks/local-manifest-final.json",
+      "sha256": "9cefa0ff944d924934e691125c77966220ef790fb49128c4f81d31040a7d98fd"
+    }
+  ]
+}

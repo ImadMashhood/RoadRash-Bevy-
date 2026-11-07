@@ -1,0 +1,481 @@
+{
+  "outcome": "passed",
+  "source_revision": "24d05dcf399035fe6c6e70bb19fe1b12488c1cec",
+  "build_request_revision": "f451dc9acd2e72953ebc7919623782a562152ce8",
+  "tag": "native-functional-2026-11-07-rc5",
+  "g5_accepted": false,
+  "scope": "Exact frozen source and request revisions. Public CI passes formatting, public Python and Rust checks, Clippy, locked build, normalized artifact checksums and prerelease publication. Private commercial-data acceptance is recorded separately; this does not sign owner G5 or certify later evidence-only commits.",
+  "runs": [
+    {
+      "id": 42370786393,
+      "name": "Rust foundation",
+      "head_sha": "24d05dcf399035fe6c6e70bb19fe1b12488c1cec",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/ImadMashhood/RoadRash-Bevy-/actions/runs/42370786393",
+      "created_at": "2026-11-07T12:03:31Z",
+      "updated_at": "2026-11-07T12:15:36Z",
+      "jobs": [
+        {
+          "id": 128398282265,
+          "name": "headless",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-07T12:03:34Z",
+          "completed_at": "2026-11-07T12:06:20Z",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run dtolnay/rust-toolchain@stable",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run sudo apt-get update && sudo apt-get install -y ffmpeg",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python3 -m unittest discover -s tools -p 'test_*.py' -v",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python3 -m unittest discover -s tools/verification -p 'test_*.py' -v",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python3 tools/private_corpus.py",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python3 tools/check_workflow_guards.py",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run cargo fmt --all --check",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run cargo test --locked -p rr-formats -p rr-simulation -p rr-import -p rr-content -p rr-course -p rr-render -p rr-input -p rr-session -p rr-media",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run cargo clippy --locked -p rr-formats -p rr-simulation -p rr-import -p rr-content -p rr-course -p rr-render -p rr-input -p rr-session -p rr-media --all-targets -- -D warnings",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "id": 128398282453,
+          "name": "desktop-check (ubuntu-latest)",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-07T12:03:33Z",
+          "completed_at": "2026-11-07T12:15:35Z",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run dtolnay/rust-toolchain@stable",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run sudo apt-get update && sudo apt-get install -y libx11-dev libxi-dev libxkbcommon-dev libudev-dev libasound2-dev ffmpeg",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run cargo clippy --locked --workspace --all-targets -- -D warnings",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run cargo build --locked --release --workspace",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run cargo test --locked --release -p rr-game -p rr-presentation",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run cargo run --locked --release -p rr-formats --bin rr-format-fuzz -- 1000 /tmp/rr-format-fuzz.json",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run cargo run --locked --release -p rr-simulation --bin rr-replay -- docs/fixtures/replay.json irregular /tmp/rr-replay.json",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run cargo run --locked --release -p rr-simulation --bin rr-replay -- docs/fixtures/encounter-replay.json irregular /tmp/rr-encounter-replay.json",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run cargo run --locked --release -p rr-simulation --bin rr-replay -- docs/fixtures/population-replay.json irregular /tmp/rr-population-replay.json",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run cargo run --locked --release -p rr-session --bin rr-race-check -- docs/fixtures/race-rules-replay.json irregular /tmp/rr-race-rules.json",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 42371146167,
+      "name": "Rust foundation",
+      "head_sha": "f451dc9acd2e72953ebc7919623782a562152ce8",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/ImadMashhood/RoadRash-Bevy-/actions/runs/42371146167",
+      "created_at": "2026-11-07T12:08:24Z",
+      "updated_at": "2026-11-07T12:18:14Z",
+      "jobs": [
+        {
+          "id": 128399353037,
+          "name": "desktop-check (ubuntu-latest)",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-07T12:08:26Z",
+          "completed_at": "2026-11-07T12:18:13Z",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run dtolnay/rust-toolchain@stable",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run sudo apt-get update && sudo apt-get install -y libx11-dev libxi-dev libxkbcommon-dev libudev-dev libasound2-dev ffmpeg",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run cargo clippy --locked --workspace --all-targets -- -D warnings",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run cargo build --locked --release --workspace",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run cargo test --locked --release -p rr-game -p rr-presentation",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run cargo run --locked --release -p rr-formats --bin rr-format-fuzz -- 1000 /tmp/rr-format-fuzz.json",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run cargo run --locked --release -p rr-simulation --bin rr-replay -- docs/fixtures/replay.json irregular /tmp/rr-replay.json",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run cargo run --locked --release -p rr-simulation --bin rr-replay -- docs/fixtures/encounter-replay.json irregular /tmp/rr-encounter-replay.json",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run cargo run --locked --release -p rr-simulation --bin rr-replay -- docs/fixtures/population-replay.json irregular /tmp/rr-population-replay.json",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run cargo run --locked --release -p rr-session --bin rr-race-check -- docs/fixtures/race-rules-replay.json irregular /tmp/rr-race-rules.json",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "id": 128399353268,
+          "name": "headless",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-07T12:08:27Z",
+          "completed_at": "2026-11-07T12:11:16Z",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run dtolnay/rust-toolchain@stable",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run sudo apt-get update && sudo apt-get install -y ffmpeg",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python3 -m unittest discover -s tools -p 'test_*.py' -v",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python3 -m unittest discover -s tools/verification -p 'test_*.py' -v",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python3 tools/private_corpus.py",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python3 tools/check_workflow_guards.py",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run cargo fmt --all --check",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run cargo test --locked -p rr-formats -p rr-simulation -p rr-import -p rr-content -p rr-course -p rr-render -p rr-input -p rr-session -p rr-media",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run cargo clippy --locked -p rr-formats -p rr-simulation -p rr-import -p rr-content -p rr-course -p rr-render -p rr-input -p rr-session -p rr-media --all-targets -- -D warnings",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 42371146183,
+      "name": "Native Linux review candidate",
+      "head_sha": "f451dc9acd2e72953ebc7919623782a562152ce8",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/ImadMashhood/RoadRash-Bevy-/actions/runs/42371146183",
+      "created_at": "2026-11-07T12:08:24Z",
+      "updated_at": "2026-11-07T12:18:59Z",
+      "jobs": [
+        {
+          "id": 128399353490,
+          "name": "build",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-07T12:08:26Z",
+          "completed_at": "2026-11-07T12:18:47Z",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python3 tools/release/candidate_request.py",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run git checkout --detach '24d05dcf399035fe6c6e70bb19fe1b12488c1cec'",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run dtolnay/rust-toolchain@stable",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run sudo apt-get update && sudo apt-get install -y libx11-dev libxi-dev libxkbcommon-dev libudev-dev libasound2-dev ffmpeg",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run cargo fmt --all --check",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python3 -m unittest discover -s tools -p 'test_*.py'",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python3 -m unittest discover -s tools/verification -p 'test_*.py'",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run cargo test --locked --release --workspace --target-dir ../target",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run cargo clippy --locked --workspace --all-targets --target-dir ../target -- -D warnings",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run cargo build --locked --release --workspace --target-dir ../target",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python3 tools/release/package.py --output local/native-candidate",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run cd local/native-candidate && sha256sum --check SHA256SUMS",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@v4",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "id": 128401600861,
+          "name": "publish",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-07T12:18:49Z",
+          "completed_at": "2026-11-07T12:18:58Z",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/download-artifact@v4",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Publish immutable review candidate",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

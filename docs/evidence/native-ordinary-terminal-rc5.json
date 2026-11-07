@@ -1,0 +1,281 @@
+{
+  "outcome": "failed_release_blocking",
+  "release_tag": "native-functional-2026-11-07-rc5",
+  "source_revision": "24d05dcf399035fe6c6e70bb19fe1b12488c1cec",
+  "game_sha256": "4520d5a27a77ba5cbfadf2f2a7045dc206557dbf73be378eb47e67daea499f21",
+  "scope": "OrdinaryXTestkeyboardinactualread-onlysource-hiddenapp; noMPC/testcontrolAPI/state/HP/moneyedits/assists. NormalUIThrashlevelselectionallowed.",
+  "episodes": [
+    {
+      "course": "CITY",
+      "level": 1,
+      "character": "Axle(defaultordinaryselection)",
+      "natural_outcome": "Arrested/BUSTED",
+      "place": 15,
+      "time_display_seconds": 76.62,
+      "normal_window_close_exit": 0,
+      "recovery_proved": false,
+      "optional_observer_export": "missing; excluded, noindependenthashclaim",
+      "private_root": "local/ordinary-terminal-rc5"
+    },
+    {
+      "course": "CANYN",
+      "level": 1,
+      "character": "Axle",
+      "natural_outcome": "Arrested/BUSTED",
+      "place": 15,
+      "time_display_seconds": 76.62,
+      "recovery_proved": false,
+      "passive_observer_commands": 1515,
+      "independent_audit": {
+        "outcome": "passed_for_second_natural_arrest_only",
+        "binary_sha256": "397de51a3c2714d35f4897724f0615986c1b18cd74d89e1c9c53e4ebd0ea3d8b",
+        "replay_sha256": "d6c49c00fafe2dd0aacdf16e976501ac5e96720f384ce384c6ac35dc59a5eafb",
+        "state_sha256": "c880d51fd310dfdfb0cbc231d5d9b33421ea9f0c3f68449363a2e87e743d7d5d",
+        "ticks": 4597,
+        "commands": 1515,
+        "forbidden_control_fields_absent": true,
+        "rows": [
+          {
+            "rate": "30",
+            "ticks": 4597,
+            "hash": "c880d51fd310dfdfb0cbc231d5d9b33421ea9f0c3f68449363a2e87e743d7d5d",
+            "player_recovery": {
+              "phase": "ended",
+              "body": null,
+              "bike_entity": 2,
+              "bike_location": {
+                "path": 20,
+                "progress": 50106,
+                "lateral": -120320,
+                "height": 0,
+                "heading": 0
+              },
+              "bike_available": true,
+              "bike_animation": {
+                "code": 0,
+                "frame": 0,
+                "queued": null,
+                "loops": 0,
+                "deadline": null,
+                "selected": null
+              },
+              "bike_frame": 0,
+              "bike_mirror": false,
+              "elapsed": 0,
+              "incident": 0,
+              "outcome": "arrested",
+              "assisted": false
+            }
+          },
+          {
+            "rate": "60",
+            "ticks": 4597,
+            "hash": "c880d51fd310dfdfb0cbc231d5d9b33421ea9f0c3f68449363a2e87e743d7d5d",
+            "player_recovery": {
+              "phase": "ended",
+              "body": null,
+              "bike_entity": 2,
+              "bike_location": {
+                "path": 20,
+                "progress": 50106,
+                "lateral": -120320,
+                "height": 0,
+                "heading": 0
+              },
+              "bike_available": true,
+              "bike_animation": {
+                "code": 0,
+                "frame": 0,
+                "queued": null,
+                "loops": 0,
+                "deadline": null,
+                "selected": null
+              },
+              "bike_frame": 0,
+              "bike_mirror": false,
+              "elapsed": 0,
+              "incident": 0,
+              "outcome": "arrested",
+              "assisted": false
+            }
+          },
+          {
+            "rate": "144",
+            "ticks": 4597,
+            "hash": "c880d51fd310dfdfb0cbc231d5d9b33421ea9f0c3f68449363a2e87e743d7d5d",
+            "player_recovery": {
+              "phase": "ended",
+              "body": null,
+              "bike_entity": 2,
+              "bike_location": {
+                "path": 20,
+                "progress": 50106,
+                "lateral": -120320,
+                "height": 0,
+                "heading": 0
+              },
+              "bike_available": true,
+              "bike_animation": {
+                "code": 0,
+                "frame": 0,
+                "queued": null,
+                "loops": 0,
+                "deadline": null,
+                "selected": null
+              },
+              "bike_frame": 0,
+              "bike_mirror": false,
+              "elapsed": 0,
+              "incident": 0,
+              "outcome": "arrested",
+              "assisted": false
+            }
+          },
+          {
+            "rate": "irregular",
+            "ticks": 4597,
+            "hash": "c880d51fd310dfdfb0cbc231d5d9b33421ea9f0c3f68449363a2e87e743d7d5d",
+            "player_recovery": {
+              "phase": "ended",
+              "body": null,
+              "bike_entity": 2,
+              "bike_location": {
+                "path": 20,
+                "progress": 50106,
+                "lateral": -120320,
+                "height": 0,
+                "heading": 0
+              },
+              "bike_available": true,
+              "bike_animation": {
+                "code": 0,
+                "frame": 0,
+                "queued": null,
+                "loops": 0,
+                "deadline": null,
+                "selected": null
+              },
+              "bike_frame": 0,
+              "bike_mirror": false,
+              "elapsed": 0,
+              "incident": 0,
+              "outcome": "arrested",
+              "assisted": false
+            }
+          }
+        ]
+      },
+      "private_root": "local/ordinary-recovery-rc5"
+    },
+    {
+      "course": "CITY",
+      "level": 5,
+      "level_selection": "ordinaryRestroomPlayerLevel1\u21925fourEnteractions, thenThrashAxle/CITY",
+      "bike": "automaticallyassignedfromordinaryAxlelevel-fivechoice; numericIDnotindependentlyverified",
+      "physical_route": "actualsteeringmaychangehalf; notasserted",
+      "observation": "HardRight+Eafter20sUp; hiddenriderframes08\u201311 andmountedframes12\u201315 areNOTacceptedcrash/recoveryproof.",
+      "last_inputs": "Downheld1s/released, thenordinaryVtapnearstandstill; XTesteventcompletion14:39:33.180198UTC",
+      "exit_code": 101,
+      "ended_utc": "2026-11-07T14:39:33.142058+00:00",
+      "panic": {
+        "thread": "Compute Task Pool (2)",
+        "file": "crates/simulation/src/encounter.rs",
+        "line": 1358,
+        "column": 49,
+        "message": "no entry found for key"
+      },
+      "recovery_proved": false,
+      "optional_observer_export": "currentCITYL5recordunavailablebecausepanic; precedingCANYNrecordpreserved",
+      "private_root": "local/ordinary-recovery-rc5"
+    }
+  ],
+  "required_remaining": "Fixandverifyordinaryvoluntarydismount/walk/remount, publishnewcandidate; RC5isnotaccepted. NaturalArrestedproofretainedbutnotusedtosignrecovery/G5.",
+  "g5_accepted": false,
+  "artifacts": [
+    {
+      "private_path": "local/ordinary-terminal-rc5/process.json",
+      "bytes": 798,
+      "sha256": "f51a844a74ad8a1db5750d082d0048b3fd8f391b5c08349a422a6f0710349091"
+    },
+    {
+      "private_path": "local/ordinary-terminal-rc5/events.jsonl",
+      "bytes": 5765,
+      "sha256": "13409aaba46ef1caa6e33764ba1364b40d981cffd5dc5c60b3664f0e23125c10"
+    },
+    {
+      "private_path": "local/ordinary-terminal-rc5/game.log",
+      "bytes": 963,
+      "sha256": "90479ec7a78ed241db9073f01a8f64966032ed9ccc21bc6c38421a7572638508"
+    },
+    {
+      "private_path": "local/ordinary-terminal-rc5/07-natural-arrested.png",
+      "bytes": 524340,
+      "sha256": "129c80fda6984b4b4e3c2ff07612a126cdeda2a8ac21350d9850f98d053c0e0d"
+    },
+    {
+      "private_path": "local/ordinary-recovery-rc5/process.json",
+      "bytes": 776,
+      "sha256": "f2ab38195468acf76c5e1172e8a18d49d80233b3c19ee61227c054d4737c20eb"
+    },
+    {
+      "private_path": "local/ordinary-recovery-rc5/events.jsonl",
+      "bytes": 13561,
+      "sha256": "599eee697f88e0bc14fb7aca565bd682a6081bc358b18c9cff304c4ae189e7d5"
+    },
+    {
+      "private_path": "local/ordinary-recovery-rc5/game.log",
+      "bytes": 1408,
+      "sha256": "5b3756aaa3e941c05015c3cde5c12199f8c42dee333a26c5344e70ff9eee4365"
+    },
+    {
+      "private_path": "local/ordinary-recovery-rc5/06-level-menu.png",
+      "bytes": 428106,
+      "sha256": "bb55d9e23111c7aa9b9a9c0abe309deea70e8d40e2b04ca392a971653a77279a"
+    },
+    {
+      "private_path": "local/ordinary-recovery-rc5/07-level-five-selected.png",
+      "bytes": 428269,
+      "sha256": "0d9e0a15804b33548423604f95714193897f57845c34dd0f136cc44682039c12"
+    },
+    {
+      "private_path": "local/ordinary-recovery-rc5/08-hard-lean.png",
+      "bytes": 223754,
+      "sha256": "df21dee8ee4d1ded959afb90e374d0b0c1becb606bf099cc57d15291b3772737"
+    },
+    {
+      "private_path": "local/ordinary-recovery-rc5/09-contact.png",
+      "bytes": 224618,
+      "sha256": "1c917734d53be292c9513f97dd28f999252a23be059676bdd86e2055b0c87174"
+    },
+    {
+      "private_path": "local/ordinary-recovery-rc5/10-contact.png",
+      "bytes": 224629,
+      "sha256": "04b19ccc4895d079eae1fc7a3664c549b3a11b4d531458ef219f89a483da5aa3"
+    },
+    {
+      "private_path": "local/ordinary-recovery-rc5/11-after-contact.png",
+      "bytes": 225073,
+      "sha256": "01d49326635c1714bd4d62ba0b914eb01d66873d624b5492174ee70268c7142d"
+    },
+    {
+      "private_path": "local/ordinary-recovery-rc5/12-recovery-progress.png",
+      "bytes": 225530,
+      "sha256": "8fd8cd4143e4e5e30136a2b1d90fb64422375e99e468f2c00d5e41ed8844a785"
+    },
+    {
+      "private_path": "local/ordinary-recovery-rc5/15-after-brake.png",
+      "bytes": 225530,
+      "sha256": "8fd8cd4143e4e5e30136a2b1d90fb64422375e99e468f2c00d5e41ed8844a785"
+    },
+    {
+      "private_path": "local/ordinary-recovery-rc5/canyon-natural-arrested-original.json",
+      "bytes": 4667333,
+      "sha256": "d6c49c00fafe2dd0aacdf16e976501ac5e96720f384ce384c6ac35dc59a5eafb"
+    },
+    {
+      "private_path": "local/ordinary-recovery-rc5/canyon-arrest-audit.json",
+      "bytes": 3557,
+      "sha256": "c109a8b21ffa74734c92fe30fb5cf1473932281f03ef158629e6918335db904d"
+    }
+  ]
+}

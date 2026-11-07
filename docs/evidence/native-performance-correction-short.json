@@ -1,0 +1,53 @@
+{
+  "outcome": "short_scope_targets_met_not_release_acceptance",
+  "scope": "Uncontended30s CITYL3/bike8, exact-index texel optimization, exact-command Driver caches, UI orphan-atlas cleanup and observer diagnostics. Same defaultpredictive policy, original graphics and fullnativefield; noqualityreduction. This short probe cannot replace required320s/five-course/hour measurements.",
+  "binary_sha256": "55051bf76fcac2225bac25d24bf24863f2ea0f2c7a5357d982daa9d148fee922",
+  "duration_s": 30.178985782,
+  "simulation_seconds": 29.1,
+  "paused_frames": 0,
+  "benchmark_pilot_policy": "default cached route planner with 60-tick prediction",
+  "benchmark_pilot_cpu_ms": {
+    "count": 1746,
+    "max": 1.79156,
+    "p50": 0.290053,
+    "p95": 0.489345,
+    "p99": 0.7004999999999999
+  },
+  "benchmark_driver_command_cpu_ms": {
+    "count": 1746,
+    "max": 0.921674,
+    "p50": 0.259876,
+    "p95": 0.408734,
+    "p99": 0.664412
+  },
+  "wall_frame_ms": {
+    "count": 2282,
+    "max": 20.918266000000003,
+    "p50": 12.489203000000002,
+    "p95": 15.677275000000002,
+    "p99": 17.163575
+  },
+  "cpu_raster_ms": {
+    "count": 2282,
+    "max": 14.332450999999999,
+    "p50": 8.504902999999999,
+    "p95": 10.768707000000001,
+    "p99": 11.92585
+  },
+  "cpu_course_prepare_ms": {
+    "count": 2282,
+    "max": 0.314237,
+    "p50": 0.07331700000000001,
+    "p95": 0.116759,
+    "p99": 0.13664600000000002
+  },
+  "cpu_surface_upload_ms": {
+    "count": 2282,
+    "max": 0.003456,
+    "p50": 0.0016229999999999999,
+    "p95": 0.0023250000000000002,
+    "p99": 0.002615
+  },
+  "report_sha256": "e7e31618c52a02646246bad6d6fa314659ed75c4e1f2626a64731c0fb2f2bba2",
+  "source_status": "Corrected development executable; finalcandidatefreeze pending"
+}

@@ -1,22 +1,22 @@
 {
   "schema_version": 1,
   "gate": "G5",
-  "status": "requires_revalidation_after_gameplay_fixes",
+  "status": "blocked_by_manual_dismount_failure",
   "acceptance_owner": "Project owner",
   "owner_decision": null,
   "owner_signature": null,
   "owner_accepted_at": null,
-  "technical_verification": "Historical RC4 verification is superseded for current source by building/collision/AI/UI fixes. Candidate-wide revalidation and a replacement package remain required; see native-gameplay-fixes.md.",
-  "source_revision": "234337749774a5a5a6d3fc9cafa88b9c1d55f3dd",
-  "release_tag": "native-functional-2026-11-01-rc4",
-  "archive_sha256": "02821ad359c978cebf82350e62d79bafddc159e945177ef47e694d56162d3f11",
-  "release_url": "https://github.com/ImadMashhood/RoadRash-Bevy-/releases/tag/native-functional-2026-11-01-rc4",
+  "technical_verification": "Downloaded RC5 exits101 on ordinary stationary V dismount: a LIVE body is created after per-tick source-road preparation, then indexes a missing independent body config in encounter.rs1358. Correct transition initialization, keyboard recovery and a replacement candidate are required; RC5 scoped career/performance passes remain historical evidence.",
+  "source_revision": "24d05dcf399035fe6c6e70bb19fe1b12488c1cec",
+  "release_tag": "native-functional-2026-11-07-rc5",
+  "archive_sha256": "6656faaed67e79fb2d54898513806ce4a522efd48898028851781edc9c5cd910",
+  "release_url": "https://github.com/ImadMashhood/RoadRash-Bevy-/releases/tag/native-functional-2026-11-07-rc5",
   "known_issues": "../RELEASE_NOTES.md",
   "criteria": [
     {
       "id": "launch",
       "agent_verification": "passed for documented scope",
-      "evidence": "native-package-sandbox.json",
+      "evidence": "native-package-sandbox-rc5.json",
       "owner_acceptance": "pending"
     },
     {
@@ -28,40 +28,54 @@
     {
       "id": "career",
       "agent_verification": "passed for documented scope",
-      "evidence": "native-packaged-career.json",
+      "evidence": "native-packaged-career-rc5.json",
       "owner_acceptance": "pending"
     },
     {
       "id": "stability",
       "agent_verification": "passed for documented scope",
-      "evidence": "native-performance.json",
+      "evidence": "native-performance-rc5.json",
       "owner_acceptance": "pending"
     },
     {
       "id": "performance",
       "agent_verification": "passed for documented scope",
-      "evidence": "native-performance.json",
+      "evidence": "native-performance-rc5.json",
       "owner_acceptance": "pending"
     },
     {
       "id": "import",
       "agent_verification": "passed for documented scope",
-      "evidence": "parts-01-03.md",
+      "evidence": "native-package-sandbox-rc5.json",
       "owner_acceptance": "pending"
     },
     {
       "id": "privacy",
       "agent_verification": "passed for documented scope",
-      "evidence": "native-download-rc4.json",
+      "evidence": "native-download-rc5.json",
       "owner_acceptance": "pending"
     },
     {
       "id": "fidelity",
       "agent_verification": "passed for documented scope",
-      "evidence": "native-regression.json",
+      "evidence": "source-recovery-terrain.json",
+      "owner_acceptance": "pending"
+    },
+    {
+      "id": "ordinary-recovery",
+      "agent_verification": "failed: normal stationary V dismount exits101",
+      "evidence": "native-ordinary-terminal-rc5.json",
       "owner_acceptance": "pending"
     }
   ],
   "enhancement_production_allowed": false,
-  "procedure": "Review exact candidate, checksums, guide, scope/known issues and receipts; record an explicit owner accept/reject decision for this artifact. Reopen required scenarios if a blocking defect is found."
+  "procedure": "Review exact candidate, checksums, guide, scope/known issues and receipts; record an explicit owner accept/reject decision for this artifact. Reopen required scenarios if a blocking defect is found.",
+  "historical_candidate": {
+    "source_revision": "234337749774a5a5a6d3fc9cafa88b9c1d55f3dd",
+    "release_tag": "native-functional-2026-11-01-rc4",
+    "archive_sha256": "02821ad359c978cebf82350e62d79bafddc159e945177ef47e694d56162d3f11",
+    "release_url": "https://github.com/ImadMashhood/RoadRash-Bevy-/releases/tag/native-functional-2026-11-01-rc4"
+  },
+  "application_sha256": "4520d5a27a77ba5cbfadf2f2a7045dc206557dbf73be378eb47e67daea499f21",
+  "review_packet": "../NATIVE_RC5_REVIEW.md"
 }
