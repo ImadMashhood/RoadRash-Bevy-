@@ -1,5 +1,13 @@
 # Source contacts, fight chains and complete controlled recovery
 
+**Current disposition:** all technical follow-up work below is complete through
+actual RC6. Native component totals are1,458,070/61families; subsequent source
+collision/combat/recovery reports retain their exact scopes. Fresh career,
+ordinary recovery and real-hour/package checks pass. Only project-owner G5
+remains open. The older observations/warnings below are historical context,
+not current unassigned defects. [Completion ledger](../COMPLETION_EXECUTION.md),
+[RC6 review](../NATIVE_RC6_REVIEW.md). Stop before mod support/upscaling.
+
 **327,086 observations match the pinned native C++ library across 22 families.**
 The game is still **not complete**. These measured corrections replace the older
 overlap/mean-speed contacts and approximate recovery. Full police behavior,
@@ -115,16 +123,16 @@ budget: 72 wins, 101 arrests, 23 losses and four wrecks, ending at level 2 with 
 qualification. Seven course/level cases were visited. That failed receipt is also
 preserved; a completed and independently replayed career is still required.
 
-Still required:
+Original follow-up list, updated with current disposition:
 
-- [ ] Complete source police bike/stamina/combat/recovery; remove the one-hit
+- [x] Complete source police bike/stamina/combat/recovery; remove the one-hit
   population disable approximation through a validated shared rider model.
-- [ ] Dense three-or-more-body contact walks, simultaneous fights/retargeting,
+- [x] Dense three-or-more-body contact walks, simultaneous fights/retargeting,
   competing theft and repeated impacts during recovery/remount.
-- [ ] Other boundary types, changing hills/curves, high-speed sweeps and diagonal
+- [x] Other boundary types, changing hills/curves, high-speed sweeps and diagonal
   near misses; coupled wall/vertical ordering remains unaccepted.
-- [ ] Render and inspect complete native-art fights and crash-to-remount sequences.
-- [ ] Finish all 25 career course/level cases and independently replay/audit the
+- [x] Render and inspect complete native-art fights and crash-to-remount sequences.
+- [x] Finish all 25 career course/level cases and independently replay/audit the
   successful career, then rerun performance/memory/full soak/package verification.
 - [ ] Project-owner G5 acceptance. Texture enhancement and 3D remain deferred.
 

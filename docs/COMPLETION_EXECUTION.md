@@ -4,6 +4,12 @@ Owner instruction, 2026-11-06: complete all remaining required work, using
 sequential chat subtasks. Start the next requirement after the current one is
 implemented and verified. Keep original assets; enhancement and 3D remain gated.
 
+Owner clarification, 2026-11-07: finish every remaining base-game checkbox
+through release acceptance, then stop before mod support, upscaling or other
+additional improvements. Parts23–25 remain outside this execution; no production
+changes for them are authorized by this completion pass. The owner-specific G5
+decision must still be recorded honestly for the concrete delivered candidate.
+
 The current working tree already contains verified driving-bounce, billboard
 query/response and native contact-detection corrections. Their evidence remains
 valid for its recorded scope and must be preserved during subsequent changes.
@@ -14,9 +20,9 @@ No full-game or release acceptance is implied by those component checks.
 | 1 | Remaining source scenery: BORR, ordering, markings and loaded slices | Verified; evidence/source-scenery.md | Actual native detection/transactions; preserved failures; old replays; all source course/level imports |
 | 2 | Collision height, jumps, continuous scrapes and dense/topology interactions | Verified; evidence/source-collision-topology.md | Native boundary/incident matrices and deterministic multi-actor replay; visual contact checks |
 | 3 | Simultaneous combat, weapon ownership and complete police behavior | Verified; evidence/source-combat-police.md | Native whole transactions, police stamina/crash/recovery/arrest and contested equipment |
-| 4 | Changing-terrain and repeated-impact recovery | Native comparisons retained; narrowly reopened for ordinary same-tick dismount cache | Complete trajectories/timing, remount-edge cases and inspected native-art sequences |
+| 4 | Changing-terrain and repeated-impact recovery | Verified; original native comparisons plus corrected ordinary dismount context | Complete trajectories/timing, remount-edge cases and inspected native-art sequences |
 | 5 | Genuine current-source career and ordinary player walkthrough | Verified; evidence/native-career-current.md and source-career-ui.md | All 25 course/level cases, ledger/save audit, independently replayed real commands and clean-profile route |
-| 6 | Replacement release verification and packaging | Reopened: ordinary V dismount panic in RC5; fix_manual_dismount | Current immutable build, performance/memory/soak, import/install/download checks and reproducible package receipts |
+| 6 | Replacement release verification and packaging | Verified; actual RC6 career/package/recovery/finale/preflights/hour | Current immutable build, performance/memory/soak, import/install/download checks and reproducible package receipts |
 | 7 | Project-owner release decision | Pending owner review | Concrete candidate and evidence for owner G5 acceptance; never self-signed |
 
 The detailed acceptance source remains [the interaction checklist](COLLISION_COMBAT_PRIORITY.md),
@@ -173,3 +179,28 @@ All514 workspace tests pass (58 explicit ignores), strict Clippy/formatting and
 V→fallen rider/bike→get-up→remount→driving at level1; repeated and level5 ordinary
 checks are in progress before freezing the replacement. No physical law, RNG,
 V eligibility or legacy profile changed. [Fix receipt](evidence/source-manual-dismount.md).
+
+
+RC6 is published from frozen source d9dac51433d279c5f6a92a266f2db9fe4a665d42.
+All six exact-source/request/candidate CI jobs pass. The actual downloaded a26b
+application passes repeated ordinary CITYL1/L5 voluntary recovery and eight new
+replay checks. Its fresh 31-win/25-case career matches the newly audited source
+bytes; 124 actual source replay executions are reused by strict byte/dependency/
+341-file identity, with zero additional executions claimed. Actual full graphical
+finale hash matches. All712 package entries,369 notices, source-hidden first
+import and profile/data retention pass. Local clean rebuild/all5binary equality
+and normalized duplicate archives pass. Final delivered heap/startup/lifecycle/
+audio/hour checks follow in serialized slots; owner G5 remains unsigned.
+[Current RC6 review packet](NATIVE_RC6_REVIEW.md).
+
+
+Final RC6 technical release verification is complete. Its actual downloaded game
+exits zero after3,600.329 real seconds/3,598.517 simulated seconds, zero paused
+frames, all five complete warm-course timing gates, bounded memory/images and
+701 strict owned-audio observations. Both laps, temperatures/power, original
+failed probes and rejected RC5 remain retained. Only owned null-sink/display
+resources were removed; audio defaults match the original selections after
+policy settling without restoration commands. All47 technical manifest parents
+and144 children pass. Only owner G5 remains pending, never self-signed.
+[Final RC6 receipt](evidence/native-performance-rc6.md). This pass stops before
+mod support, upscaling and all Part23–25 enhancements.

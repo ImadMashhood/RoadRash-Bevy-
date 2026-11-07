@@ -1,0 +1,51 @@
+{
+  "outcome": "passed",
+  "source_visible": false,
+  "cargo_in_path": null,
+  "app_read_only": true,
+  "app_outside_checkout": true,
+  "missing_disc_exit": 1,
+  "missing_disc_guidance": true,
+  "first_launch_exit": 0,
+  "first_launch_total_s": 8.65519179601688,
+  "cached_launch_exit": 0,
+  "cached_launch_total_s": 3.459915547980927,
+  "old_version_open_exit": 0,
+  "private_import_verified_files": 341,
+  "upgrade_preserves_all_profile_json_and_active_import_pointer": true,
+  "uninstall_only_disposable_app_preserves_same_files": true,
+  "profile_files": 3,
+  "retained_sha256": {
+    "profile/config/settings.json": "1991be698253dfae6c8cd329dcc4d079d3ae3ec956f3568f495831388a2b1b6f",
+    "profile/data/careers/default-slot-1.json": "1baed9c8bb3e006a721a755b19430d0a357124bd43ba7c28b31d4aaa453cbf47",
+    "profile/data/careers/default.json": "1baed9c8bb3e006a721a755b19430d0a357124bd43ba7c28b31d4aaa453cbf47",
+    "runtime/import/active.json": "c3724b3e0ad8205b6c78052013dc3b285a7ba8d5a5dba64d393b45259bdfacf4"
+  },
+  "import_and_catalog_preserved": {
+    "files": 6486,
+    "tree_sha256": "e3c6819ae8c3e05dfa041ab5f75dc21d8a32827a40172b7d0ca6d05cec7e8166"
+  },
+  "active_pointer_sha256": "c3724b3e0ad8205b6c78052013dc3b285a7ba8d5a5dba64d393b45259bdfacf4",
+  "previous_game_sha256": "4520d5a27a77ba5cbfadf2f2a7045dc206557dbf73be378eb47e67daea499f21",
+  "previous_source_revision": "24d05dcf399035fe6c6e70bb19fe1b12488c1cec",
+  "game_sha256": "a26b1530633b3f53c6a399d7b401bb17b19358223dc576e6b8433becc21cffea",
+  "scope": "Actual read-only application in source-hidden Bubblewrap; no Cargo in PATH. Fresh own-ISO import and conversion; previous verified application to new application replacement; ordinary keyboard source profile reopened by 120-frame smoke launches, not represented as a repeated human keyboard walkthrough. Physical desktop and original ISO untouched.",
+  "source_revision": "d9dac51433d279c5f6a92a266f2db9fe4a665d42",
+  "archive_sha256": "08d7de03ca59e50a4f1cab4d6a0c44d10653771831fed6e5ba3885ad9896d1e6",
+  "tag": "native-functional-2026-11-07-rc6",
+  "performance_acceptance": false,
+  "g5_accepted": false,
+  "manifest": {
+    "outcome": "passed",
+    "all_manifest_files_verified": 712,
+    "dependency_notice_count": 369,
+    "embedded_font_notice": true,
+    "private_game_payloads": false,
+    "source_revision": "d9dac51433d279c5f6a92a266f2db9fe4a665d42",
+    "source_files_sha256": "c7923ae098a084240d8fdea81e861323af98151f8f96e81a2c8b90b300bb3f4e",
+    "cargo_lock_sha256": "97b2848e368123f74843b766e670191e00ef2d779c8322f6255226443f990137",
+    "toolchain": "rustc 1.99.1 (58cf8f9c3 2026-10-13)",
+    "game_sha256": "a26b1530633b3f53c6a399d7b401bb17b19358223dc576e6b8433becc21cffea"
+  },
+  "private_evidence": "local/rc6-package-download-sandbox"
+}

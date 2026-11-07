@@ -1,0 +1,421 @@
+{
+  "started_utc": "2026-11-07T15:21:37.021459+00:00",
+  "application_command": [
+    "/tmp/rr/app/bin/rr-game",
+    "--install-root",
+    "/tmp/rr/data/runtime/import",
+    "--catalog",
+    "/tmp/rr/data/runtime/catalog-rr-content-3",
+    "--course",
+    "CITY",
+    "--frontend",
+    "on",
+    "--audio",
+    "off",
+    "--videos",
+    "off",
+    "--window-size",
+    "640x480",
+    "--profile-root",
+    "/tmp/rr/data/profile",
+    "--record-replay",
+    "/tmp/rr/data/manual.json"
+  ],
+  "game_sha256": "a26b1530633b3f53c6a399d7b401bb17b19358223dc576e6b8433becc21cffea",
+  "source_revision": "d9dac51433d279c5f6a92a266f2db9fe4a665d42",
+  "scope": "ACTUALpublishedRC6ordinarykeyboard, passiveobserveronly",
+  "source_hidden": true,
+  "app_read_only": true,
+  "exit_code": 0,
+  "ended_utc": "2026-11-07T15:25:48.472590+00:00",
+  "outcome": "passed_actual_downloaded_rc6",
+  "archive_sha256": "08d7de03ca59e50a4f1cab4d6a0c44d10653771831fed6e5ba3885ad9896d1e6",
+  "voluntary_not_impact_induced": true,
+  "controls": "Ordinary XTest keyboard; native menus, V, brief Left/Up walking, remount and resumed Up driving/brake. No state/HP/money edits, MPC, test input API or assists.",
+  "verified_cases": [
+    {
+      "course": "CITY",
+      "level": 1,
+      "episodes": 2,
+      "natural_terminal": "arrested",
+      "result_time_s": 76.57
+    },
+    {
+      "course": "CITY",
+      "level": 5,
+      "episodes": 2,
+      "level_selection": "03-confirm-level-five.png;04-city-l5-countdown.png",
+      "end": "UI Quit only; not a natural terminal"
+    }
+  ],
+  "passive_audit": {
+    "outcome": "passed",
+    "replay_binary_sha256": "8f12478ecce2aedecbfc12b30ac601d479bfbabe1dcffc639bd6d9c4a21f8d3e",
+    "records": [
+      {
+        "name": "manual-race-3.json",
+        "sha256": "5c7a613731ab90810063fde0b5fd9f4ec9167655fddef4bbe7ba83e356c345bc",
+        "ticks": 1509,
+        "expected_hash": "77a0bb5091959e8d7ef15b68205e8d4fe5596ffb14c063b19d027a34a5679e68"
+      },
+      {
+        "name": "manual.json",
+        "sha256": "2efaaf719b999488e00a0040934a6476d8d454a3b668df4986acc90018dd68cc",
+        "ticks": 4594,
+        "expected_hash": "a7f619fa82daee41585176ec73a4ef309c632ecb11c6f1a7f9928230937097c9"
+      }
+    ],
+    "rows": [
+      {
+        "record": "manual-race-3.json",
+        "rate": "30",
+        "ticks": 1509,
+        "hash": "77a0bb5091959e8d7ef15b68205e8d4fe5596ffb14c063b19d027a34a5679e68",
+        "phase": "mounted",
+        "incident": 2,
+        "outcome": null,
+        "assisted": false
+      },
+      {
+        "record": "manual-race-3.json",
+        "rate": "60",
+        "ticks": 1509,
+        "hash": "77a0bb5091959e8d7ef15b68205e8d4fe5596ffb14c063b19d027a34a5679e68",
+        "phase": "mounted",
+        "incident": 2,
+        "outcome": null,
+        "assisted": false
+      },
+      {
+        "record": "manual-race-3.json",
+        "rate": "144",
+        "ticks": 1509,
+        "hash": "77a0bb5091959e8d7ef15b68205e8d4fe5596ffb14c063b19d027a34a5679e68",
+        "phase": "mounted",
+        "incident": 2,
+        "outcome": null,
+        "assisted": false
+      },
+      {
+        "record": "manual-race-3.json",
+        "rate": "irregular",
+        "ticks": 1509,
+        "hash": "77a0bb5091959e8d7ef15b68205e8d4fe5596ffb14c063b19d027a34a5679e68",
+        "phase": "mounted",
+        "incident": 2,
+        "outcome": null,
+        "assisted": false
+      },
+      {
+        "record": "manual.json",
+        "rate": "30",
+        "ticks": 4594,
+        "hash": "a7f619fa82daee41585176ec73a4ef309c632ecb11c6f1a7f9928230937097c9",
+        "phase": "ended",
+        "incident": 2,
+        "outcome": "arrested",
+        "assisted": false
+      },
+      {
+        "record": "manual.json",
+        "rate": "60",
+        "ticks": 4594,
+        "hash": "a7f619fa82daee41585176ec73a4ef309c632ecb11c6f1a7f9928230937097c9",
+        "phase": "ended",
+        "incident": 2,
+        "outcome": "arrested",
+        "assisted": false
+      },
+      {
+        "record": "manual.json",
+        "rate": "144",
+        "ticks": 4594,
+        "hash": "a7f619fa82daee41585176ec73a4ef309c632ecb11c6f1a7f9928230937097c9",
+        "phase": "ended",
+        "incident": 2,
+        "outcome": "arrested",
+        "assisted": false
+      },
+      {
+        "record": "manual.json",
+        "rate": "irregular",
+        "ticks": 4594,
+        "hash": "a7f619fa82daee41585176ec73a4ef309c632ecb11c6f1a7f9928230937097c9",
+        "phase": "ended",
+        "incident": 2,
+        "outcome": "arrested",
+        "assisted": false
+      }
+    ]
+  },
+  "performance_acceptance": false,
+  "g5_accepted": false,
+  "prior_failure": "Actual RC5 V panic exit101 remains recorded and release-blocking in native-ordinary-terminal-rc5.json; RC6 fixes that path.",
+  "private_evidence": [
+    {
+      "private_path": "local/downloaded-voluntary-rc6/00-city-l1-countdown.png",
+      "bytes": 249536,
+      "sha256": "de25675da92b962b98570e6aa55677222b4fc54b4c30e9fb41b1018120f70512"
+    },
+    {
+      "private_path": "local/downloaded-voluntary-rc6/01-l1-resumed-driving.png",
+      "bytes": 234165,
+      "sha256": "6287d0e37f486a1f327edae83c73972d7a32464af37c27caf2429d4cced3e05f"
+    },
+    {
+      "private_path": "local/downloaded-voluntary-rc6/02-natural-result.png",
+      "bytes": 524481,
+      "sha256": "7bebea7650687c9d56037dbcc3a8f1356a3994ef4d32a38fe5c106847f48f30b"
+    },
+    {
+      "private_path": "local/downloaded-voluntary-rc6/03-confirm-level-five.png",
+      "bytes": 428269,
+      "sha256": "0d9e0a15804b33548423604f95714193897f57845c34dd0f136cc44682039c12"
+    },
+    {
+      "private_path": "local/downloaded-voluntary-rc6/04-city-l5-countdown.png",
+      "bytes": 246215,
+      "sha256": "cccab7f8cf6f51fd15434b69246864748d21176ed82b2a9110f180c7d92141cd"
+    },
+    {
+      "private_path": "local/downloaded-voluntary-rc6/05-l5-resumed.png",
+      "bytes": 233210,
+      "sha256": "28cd1b24f970bdc6254a7accd3d7b3fd05024367f23471657347cd55f6a1c335"
+    },
+    {
+      "private_path": "local/downloaded-voluntary-rc6/06-l5-resumed-repeat.png",
+      "bytes": 226453,
+      "sha256": "915f16fd7f7f7ae9fae41fb6c9035468e927af3182fdce0c8fefb60e810f2cc1"
+    },
+    {
+      "private_path": "local/downloaded-voluntary-rc6/07-l5-quit-results.png",
+      "bytes": 518532,
+      "sha256": "e4c701c07943f3c4ee6efa5662e81e3903f2338308c66e1f85d80bf419c285b3"
+    },
+    {
+      "private_path": "local/downloaded-voluntary-rc6/08-after-continue.png",
+      "bytes": 443463,
+      "sha256": "d0a7c516c3feab2bb1ba03a361b592a84b0edf1a59efd7f528b98a61d5d286e9"
+    },
+    {
+      "private_path": "local/downloaded-voluntary-rc6/city-l1-first/events.jsonl",
+      "bytes": 3484,
+      "sha256": "905ac8fe6bdcba14e755cad4dbf680f2626d9211d436e6ba69abcdb7e060f28a"
+    },
+    {
+      "private_path": "local/downloaded-voluntary-rc6/city-l1-first/v1-0.10s.png",
+      "bytes": 239450,
+      "sha256": "3bcbd5c36c31bbace4ac048fa14882546d82f810d8e7e61cc39b5b5830c4c0d8"
+    },
+    {
+      "private_path": "local/downloaded-voluntary-rc6/city-l1-first/v1-0.25s.png",
+      "bytes": 240344,
+      "sha256": "d3a111b9cd210fd14f02b27d9cfcc21c0f500551cf15a03e75d86c7094de8060"
+    },
+    {
+      "private_path": "local/downloaded-voluntary-rc6/city-l1-first/v1-0.50s.png",
+      "bytes": 239301,
+      "sha256": "4e676bd14c725bd0a1a3946226ffcf885e76a710e33b21dcc599340fc6f4feb1"
+    },
+    {
+      "private_path": "local/downloaded-voluntary-rc6/city-l1-first/v1-1.00s.png",
+      "bytes": 237989,
+      "sha256": "81e6f61e9f6549060e15f01cfe0fa62c5f3794064d0f8880f5e8fc6fec711651"
+    },
+    {
+      "private_path": "local/downloaded-voluntary-rc6/city-l1-first/v1-2.00s.png",
+      "bytes": 242050,
+      "sha256": "73fafbc68b7441c241151bc4d51fa7bbab16896ebddd079d796adf55da7259be"
+    },
+    {
+      "private_path": "local/downloaded-voluntary-rc6/city-l1-first/v1-3.00s.png",
+      "bytes": 243906,
+      "sha256": "d64ac36c322b063c998469a99bb2fdf6927b9529efdf88af5a844a66f4c47f24"
+    },
+    {
+      "private_path": "local/downloaded-voluntary-rc6/city-l1-first/v1-4.00s.png",
+      "bytes": 244643,
+      "sha256": "e8592c474b8a9560c6ecbc2102f7e0bc5a78c49206f7b650ae1901826d94411f"
+    },
+    {
+      "private_path": "local/downloaded-voluntary-rc6/city-l1-first/v1-6.00s.png",
+      "bytes": 256765,
+      "sha256": "6b4dca88a27b73db542b774062bcf58cab1c493222aef3a3800614e9df220a4d"
+    },
+    {
+      "private_path": "local/downloaded-voluntary-rc6/city-l1-first/v1-8.00s.png",
+      "bytes": 257475,
+      "sha256": "de12dd14b41f2769615173c8dbc6da4a674809d751d070709c70aecf9d37cfb5"
+    },
+    {
+      "private_path": "local/downloaded-voluntary-rc6/city-l1-repeat/events.jsonl",
+      "bytes": 3484,
+      "sha256": "b1d2220fdca24f9cace78c1d08a1f5c59906317bde5942d2e0d4789706f70710"
+    },
+    {
+      "private_path": "local/downloaded-voluntary-rc6/city-l1-repeat/v2-0.10s.png",
+      "bytes": 227022,
+      "sha256": "ee6a758fbb7694bbeb95743b4d3ff84d82ff617682934e7cb68c7fec6a67089f"
+    },
+    {
+      "private_path": "local/downloaded-voluntary-rc6/city-l1-repeat/v2-0.25s.png",
+      "bytes": 226065,
+      "sha256": "d346021fc76644bcf5b231526b563d3bf26e210fa1d36a1fed472dbeb5ad92c3"
+    },
+    {
+      "private_path": "local/downloaded-voluntary-rc6/city-l1-repeat/v2-0.50s.png",
+      "bytes": 225806,
+      "sha256": "d87e419970d538bc5ed9e5b5d43e52697a6c716f5735c9ec6124cd30b968a2a9"
+    },
+    {
+      "private_path": "local/downloaded-voluntary-rc6/city-l1-repeat/v2-1.00s.png",
+      "bytes": 224547,
+      "sha256": "0f8d178b2f75e8ba769110eea3d241c9cabd9cc077f815a6c98681188cdcae79"
+    },
+    {
+      "private_path": "local/downloaded-voluntary-rc6/city-l1-repeat/v2-2.00s.png",
+      "bytes": 230065,
+      "sha256": "11180aca955eec404d0682e180f31425ddbc01830cc7d3dd3d6001140788cc7e"
+    },
+    {
+      "private_path": "local/downloaded-voluntary-rc6/city-l1-repeat/v2-3.00s.png",
+      "bytes": 228568,
+      "sha256": "21230d4e21391c48f3611f80d03d5f3ecab8249a7447baeca49de5c5fca4fbee"
+    },
+    {
+      "private_path": "local/downloaded-voluntary-rc6/city-l1-repeat/v2-4.00s.png",
+      "bytes": 234351,
+      "sha256": "63f2a1f6add86bf459f658bff1bdc1365bb249cfd82b30933dc9efad2e3766a8"
+    },
+    {
+      "private_path": "local/downloaded-voluntary-rc6/city-l1-repeat/v2-6.00s.png",
+      "bytes": 238103,
+      "sha256": "104bdf3d461781ec0f7abe2cf1675918954490db95d52ad6f92d1147fa8976cf"
+    },
+    {
+      "private_path": "local/downloaded-voluntary-rc6/city-l1-repeat/v2-8.00s.png",
+      "bytes": 232008,
+      "sha256": "07325ebfbec73bec5d44b7c76716c97a16e0f0b21695b0ec6c5010131e27e0ae"
+    },
+    {
+      "private_path": "local/downloaded-voluntary-rc6/city-l5-first/events.jsonl",
+      "bytes": 3484,
+      "sha256": "695a4b664752375ebd4f6e15c5ec7280e789d9d0ac1d786a758d89801068421c"
+    },
+    {
+      "private_path": "local/downloaded-voluntary-rc6/city-l5-first/v3-0.10s.png",
+      "bytes": 234376,
+      "sha256": "5c22e90daa747a2f7c47fb4819fd46fff58bae7a3b54b2390d8a3dc12c603ee5"
+    },
+    {
+      "private_path": "local/downloaded-voluntary-rc6/city-l5-first/v3-0.25s.png",
+      "bytes": 235593,
+      "sha256": "f1b409ce47d3c55fb3af1fe5f293c286543171a019a45a2d676b002a3baafb81"
+    },
+    {
+      "private_path": "local/downloaded-voluntary-rc6/city-l5-first/v3-0.50s.png",
+      "bytes": 234363,
+      "sha256": "65f4ca67e4031bb8153c72a33cda94a52568aae6633f129c1959081b26607983"
+    },
+    {
+      "private_path": "local/downloaded-voluntary-rc6/city-l5-first/v3-1.00s.png",
+      "bytes": 233481,
+      "sha256": "f275171dcdd7cf462aee2acc54959b186c239c870aa595123cae0863ec1c65c0"
+    },
+    {
+      "private_path": "local/downloaded-voluntary-rc6/city-l5-first/v3-2.00s.png",
+      "bytes": 247971,
+      "sha256": "e0dae9d0314fe584608deeba7b1eb42fbb69c47fbc379122964beafe312618dc"
+    },
+    {
+      "private_path": "local/downloaded-voluntary-rc6/city-l5-first/v3-3.00s.png",
+      "bytes": 240884,
+      "sha256": "43afad4e176820ea83c92c83e97a1c05ff532ebb34c55e18bc3d3839fa722eaa"
+    },
+    {
+      "private_path": "local/downloaded-voluntary-rc6/city-l5-first/v3-4.00s.png",
+      "bytes": 242169,
+      "sha256": "c4aa7da20c698bd0aa776eba20c4567cea58c123f716e82384f014f4ec4907c6"
+    },
+    {
+      "private_path": "local/downloaded-voluntary-rc6/city-l5-first/v3-6.00s.png",
+      "bytes": 246484,
+      "sha256": "6318587aae6489b49f64e49219b4d36b0445822991f3aa43ac32f8c677f084ac"
+    },
+    {
+      "private_path": "local/downloaded-voluntary-rc6/city-l5-first/v3-8.00s.png",
+      "bytes": 250953,
+      "sha256": "1710f57d08cfcf69e4578b896c712580c74a2f98f758c1ece9d2ef47fe83a969"
+    },
+    {
+      "private_path": "local/downloaded-voluntary-rc6/city-l5-repeat/events.jsonl",
+      "bytes": 3484,
+      "sha256": "6868dd464f5c26f55bf8aad2df1eed4ecf2f8894178d83ce46301fbaf11658dc"
+    },
+    {
+      "private_path": "local/downloaded-voluntary-rc6/city-l5-repeat/v4-0.10s.png",
+      "bytes": 233530,
+      "sha256": "b18693042a7b031081a40cc3427bbbaccdf9b3df4dd5302da3abf29d890071ae"
+    },
+    {
+      "private_path": "local/downloaded-voluntary-rc6/city-l5-repeat/v4-0.25s.png",
+      "bytes": 233901,
+      "sha256": "f9052661acd1a3bd5037f68f85dfc3d669608ddf7531e466a38e7e0c98ddca6a"
+    },
+    {
+      "private_path": "local/downloaded-voluntary-rc6/city-l5-repeat/v4-0.50s.png",
+      "bytes": 233253,
+      "sha256": "683c1919173624df247d8bd1df3c6387f153e82e357483e1c0aab3aad9ac1343"
+    },
+    {
+      "private_path": "local/downloaded-voluntary-rc6/city-l5-repeat/v4-1.00s.png",
+      "bytes": 233181,
+      "sha256": "0e12c44ebdf8ad2363437356da5d3a36eb7585e0ce2d82819d7ca4d50c83cb12"
+    },
+    {
+      "private_path": "local/downloaded-voluntary-rc6/city-l5-repeat/v4-2.00s.png",
+      "bytes": 237311,
+      "sha256": "4d4c6aeb511a01097b38019b520a813c4b620e5ffb37bc035c2ddf254ac9981c"
+    },
+    {
+      "private_path": "local/downloaded-voluntary-rc6/city-l5-repeat/v4-3.00s.png",
+      "bytes": 239071,
+      "sha256": "1640a87470328a8ade86aaa39750fcbdf3dd41fee357aa93c12709b687d8124c"
+    },
+    {
+      "private_path": "local/downloaded-voluntary-rc6/city-l5-repeat/v4-4.00s.png",
+      "bytes": 234812,
+      "sha256": "6235805d39a1f16a709cb54071a7402d24d8bd5a7e008bf7030f2acfd4b58621"
+    },
+    {
+      "private_path": "local/downloaded-voluntary-rc6/city-l5-repeat/v4-6.00s.png",
+      "bytes": 229476,
+      "sha256": "6bce0063804268f3cd898ca5ac815aa70db1e681c2fb24e8f8276c5702d5c5d1"
+    },
+    {
+      "private_path": "local/downloaded-voluntary-rc6/city-l5-repeat/v4-8.00s.png",
+      "bytes": 230322,
+      "sha256": "310a69a8c93631d7d4a66055a6ff9f97bc459a74a0374d677946a42001fa40b3"
+    },
+    {
+      "private_path": "local/downloaded-voluntary-rc6/events.jsonl",
+      "bytes": 10045,
+      "sha256": "1f7c7ff823231e7149b04d991edc5cccaea5d8f936c742e5b5aa421fce592e82"
+    },
+    {
+      "private_path": "local/downloaded-voluntary-rc6/process.json",
+      "bytes": 830,
+      "sha256": "5fb1e0c9731e0fdc7c78d76459e261ecbfbc4c6bf0df6afa7cc2d550ae9b9304"
+    },
+    {
+      "private_path": "local/downloaded-voluntary-rc6/user-data/manual-race-3.json",
+      "bytes": 5459349,
+      "sha256": "5c7a613731ab90810063fde0b5fd9f4ec9167655fddef4bbe7ba83e356c345bc"
+    },
+    {
+      "private_path": "local/downloaded-voluntary-rc6/user-data/manual.json",
+      "bytes": 5429831,
+      "sha256": "2efaaf719b999488e00a0040934a6476d8d454a3b668df4986acc90018dd68cc"
+    }
+  ]
+}

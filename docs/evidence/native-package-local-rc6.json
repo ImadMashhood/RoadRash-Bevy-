@@ -1,0 +1,41 @@
+{
+  "outcome": "passed",
+  "source_visible": false,
+  "cargo_in_path": null,
+  "app_read_only": true,
+  "app_outside_checkout": true,
+  "missing_disc_exit": 1,
+  "missing_disc_guidance": true,
+  "first_launch_exit": 0,
+  "first_launch_total_s": 9.261572565999813,
+  "cached_launch_exit": 0,
+  "cached_launch_total_s": 3.9382761530578136,
+  "old_version_open_exit": 0,
+  "private_import_verified_files": 341,
+  "upgrade_preserves_all_profile_json_and_active_import_pointer": true,
+  "uninstall_only_disposable_app_preserves_same_files": true,
+  "profile_files": 3,
+  "retained_sha256": {
+    "profile/config/settings.json": "1991be698253dfae6c8cd329dcc4d079d3ae3ec956f3568f495831388a2b1b6f",
+    "profile/data/careers/default-slot-1.json": "1baed9c8bb3e006a721a755b19430d0a357124bd43ba7c28b31d4aaa453cbf47",
+    "profile/data/careers/default.json": "1baed9c8bb3e006a721a755b19430d0a357124bd43ba7c28b31d4aaa453cbf47",
+    "runtime/import/active.json": "0ab6475ffe55b3ee39f058fa5006c655bf84c89fd0a5f6c3ef50d4eec6939f59"
+  },
+  "import_and_catalog_preserved": {
+    "files": 6486,
+    "tree_sha256": "a94052bed42e65ba22b519b9038400ca1a5d15179313d38a67db641982c8e2ef"
+  },
+  "active_pointer_sha256": "0ab6475ffe55b3ee39f058fa5006c655bf84c89fd0a5f6c3ef50d4eec6939f59",
+  "game_sha256": "666d897859240b9e929f69d2853d4fcef7513937d30a35359604b0dd523ad683",
+  "scope": "Local Fedora RC6-source d9 application; actual read-only source-hidden/no-Cargo own-ISO firstlaunch. Previous checksum-verified Ubuntu RC5 application replaced by local RC6 application; profiles/import/catalog preserved through upgrade and disposable-app uninstall.120-frame smoke only, not manualkeyboard or deliveredRC6 acceptance.",
+  "previous_application": {
+    "source_revision": "24d05dcf399035fe6c6e70bb19fe1b12488c1cec",
+    "game_sha256": "4520d5a27a77ba5cbfadf2f2a7045dc206557dbf73be378eb47e67daea499f21",
+    "release_tag": "native-functional-2026-11-07-rc5"
+  },
+  "scope_correction": "Generic reusedharnessrawscope saidRC4; actual--old-app argument wasverifiedRC5externalbundle. Rawreceiptpreservedseparately; measurementsunchanged.",
+  "source_revision": "d9dac51433d279c5f6a92a266f2db9fe4a665d42",
+  "local_archive_sha256": "bd0ebf933a7126915d528328f5368a95ba50d786564619494b9e325a5a47acdb",
+  "delivered_rc6_acceptance": false,
+  "g5_accepted": false
+}

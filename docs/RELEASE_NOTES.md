@@ -1,4 +1,48 @@
-# Post-RC5 dismount correction: replacement verification in progress
+# Native functional Linux RC6: technical verification complete
+
+[Download RC6](https://github.com/ImadMashhood/RoadRash-Bevy-/releases/tag/native-functional-2026-11-07-rc6).
+G5 owner acceptance remains pending. This completion pass stops before mod support,
+upscaling or other enhancements.
+
+Source `d9dac51433d279c5f6a92a266f2db9fe4a665d42` fixes ordinary V dismount by
+initializing the new LIVE body's independent road cache before same-tick movement.
+RC5's panic remains preserved as a release failure. The flat-road bounce and all
+preceding native gameplay/interface corrections are included.
+
+Archive SHA256: `08d7de03ca59e50a4f1cab4d6a0c44d10653771831fed6e5ba3885ad9896d1e6`.
+Downloaded game: `a26b1530633b3f53c6a399d7b401bb17b19358223dc576e6b8433becc21cffea`.
+All 712 manifest entries, 369 notices and font OFL verify. Clean rebuilds reproduce
+all five local binaries and two normalized archives; local and Ubuntu bytes are
+kept distinct. No original media ships; import your supported disc.
+
+Validation passes 514 workspace tests, strict Clippy/formatting and all six frozen
+source/request/candidate CI jobs. Actual City levels one/five repeated ordinary
+recovery and eight replay checks pass. A fresh downloaded career completes all
+25 cases in 31 wins, ending at $12,797, bike 8, 98% condition. Its replay/save and
+campaign authority bytes match the newly audited source corpus: 124 source replay
+executions apply by strict exact-byte/dependency proof, with zero extra executions
+claimed. The actual graphical finale matches the canonical final hash.
+
+The actual downloaded hour passes: 3,600.329 seconds elapsed, 3,598.517 simulated,
+zero paused frames, complete warm-course wall p95 14.151–16.265 ms, all unchanged
+CPU/GPU/residency gates. Peak RSS is 1,126,232,064 bytes, with 11 CPU/GPU image
+handles. Both laps, first-lap values, sampled hardware/thermal/power observations
+and earlier failures are retained. Heap, ten startup and ten lifecycle probes pass
+separately. Audio routing is verified for the owned process; after cleanup the
+original defaults settle naturally without restoration commands.
+
+[Review, limitations and owner decision](NATIVE_RC6_REVIEW.md) ·
+[Performance](evidence/native-performance-rc6.md) ·
+[Career](evidence/native-packaged-career-rc6.md) ·
+[Keyboard recovery](evidence/native-voluntary-downloaded-rc6.md) ·
+[Package](evidence/native-package-sandbox-rc6.md) ·
+[Unchanged-component reuse](evidence/native-unchanged-components-rc6.md).
+Declared scope and nonblocking media/controller/UI/source-parity/license limits
+are explicit in the review packet. No human owner acceptance is fabricated.
+
+## Historical replacement preparation and rejected RC5
+
+### Post-RC5 correction preparation
 
 Ordinary V dismount exposed a same-tick independent body-cache initialization
 failure in RC5. The narrow correction passes two targeted regressions, 514 full

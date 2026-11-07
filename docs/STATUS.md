@@ -1,63 +1,47 @@
 # Implementation status
 
-**Replacement source:** the dismount cache fix now passes 514 workspace tests and ordinary local City level1/level5 recovery, including repeated episodes and normal exit. A new immutable RC6 and delivered-byte verification are being prepared. The rejected RC5 record below remains preserved.
+The current [RC6 review candidate](NATIVE_RC6_REVIEW.md) uses frozen source
+`d9dac51433d279c5f6a92a266f2db9fe4a665d42`. Actual downloaded-byte package,
+career, ordinary keyboard recovery, graphical finale and memory/startup/lifecycle/
+audio preflights pass. Its real one-hour run passes all five complete warm-course gates; project-owner
+G5 remains pending. Enhancement and 3D production remain deferred.
 
-**Release blocked:** ordinary stationary V dismount crashes RC5 (exit101, missing body configuration). The failure requires a code fix, a new candidate and renewed release checks. Earlier RC5 passes below retain their exact scopes; they are not release acceptance. See [the completion ledger](COMPLETION_EXECUTION.md).
+The fresh [downloaded career](evidence/native-packaged-career-rc6.md) covers all
+25 course/level cases in 31 genuine wins, ending with $12,797, bike 8 and 98%
+condition. All replay/save/campaign authority bytes match the new source audit;
+124 executed source replays apply through strict identity proof, with zero
+additional replay executions claimed. The downloaded graphical finale matches
+the final canonical hash. Actual City levels1/5 repeated voluntary recovery
+and natural arrest pass eight new independent keyboard-recording replays.
 
-The offline native Rust game is implemented and its current RC5 source, career,
-package and performance checks pass their declared scopes. The final ordinary
-keyboard crash/recovery and natural-terminal demonstration is in progress.
-Project-owner G5 release acceptance remains pending; enhancement and 3D production
-remain deferred.
+The [dismount fix](evidence/source-manual-dismount.md) initializes the new LIVE
+body's independent road context before its first movement. The original RC5
+panic and invalid/misnavigated preliminary captures remain explicitly failed or
+excluded. Source validation passes 514 workspace tests with 58 explicit private-
+data ignores, strict Clippy/formatting, 39 general and 16 frozen auditor tests.
+Eight new exact-reuse checker regressions pass separately. All six exact-source/
+request/candidate [CI jobs](evidence/native-ci-rc6.json) pass.
 
-The [published RC5](https://github.com/ImadMashhood/RoadRash-Bevy-/releases/tag/native-functional-2026-11-07-rc5)
-uses frozen source `24d05dcf399035fe6c6e70bb19fe1b12488c1cec`. Its
-[review packet](NATIVE_RC5_REVIEW.md) records exact downloaded archive/application
-identities, the reviewer procedure and known limitations. The downloaded package
-passes source-hidden read-only first import, missing-disc guidance, ordinary
-keyboard backup recovery and purchase/save/settings flows, upgrade/uninstall
-retention, clean rebuild and reproducible local archives.
+Native component comparisons retain **1,458,070 deduplicated observations across
+61 families**. The fixed-step split/merge bridge is an explicitly tested extension
+of the pinned reference TrackRing, which cannot walk full split/merge graphs.
+Original Windows runtime comparison remains owner-waived; full native variable
+scheduler/RNG trajectory and pixel-perfect menus are not claimed. The
+[flat-road bounce correction](evidence/driving-bounce.md) is included.
 
-The genuine source and [downloaded careers](evidence/native-packaged-career-rc5.md)
-each cover all 25 course/level cases in 31 wins, with 124 independent replay audits,
-five purchases, three paid repairs and six recovered crashes. Both end with
-$12,797, bike 8 and 98% condition. The actual downloaded graphical finale matches
-the final canonical hash. Old 67-attempt RC4 and failed newer pilots remain
-historical, rather than being relabeled as current passes.
+The actual package verifies all712 manifest entries,369 dependency notices and
+font OFL; own-disc341-file import, source-hidden/read-only/no-Cargo launch,
+preserved-profile reopen and upgrade/uninstall retention pass. Clean rebuilds
+match all five local binaries, and two normalized local archives match. Local
+Fedora and delivered Ubuntu bytes are distinguished. [Unchanged-component
+proof](evidence/native-unchanged-components-rc6.md) preserves historical scope
+without relabeling old UI/media observations as new executions.
 
-The [actual downloaded hour](evidence/native-performance-rc5.md) passes unchanged
-budgets: 3,600.308 real seconds, 3,598.367 simulated seconds, zero paused frames,
-all five complete warm-course timing series, wall p95 14.139–16.340 ms, about
-1.05 GiB maximum RSS and 11 CPU/GPU image handles. Both laps, observed thermals
-and power, strict owned audio routing and global audio-default preservation are
-published. [Heap/startup/lifecycle preflights](evidence/native-preflight-rc5.md)
-pass separately; no profiler timing substitutes for ordinary frame acceptance.
-
-Component evidence totals **1,458,070 deduplicated native observations across
-61 families**, covering scenery, mixed collision/topology, simultaneous fighting,
-police and changing-terrain/repeated-impact recovery. See the
-[interaction checklist](COLLISION_COMBAT_PRIORITY.md) and
-[sequential completion ledger](COMPLETION_EXECUTION.md). The pinned native
-TrackRing cannot walk full split/merge graphs; the Rust fixed-step graph bridge
-is an explicitly tested functional extension. Original Windows runtime comparison
-is owner-waived. Full native variable scheduler/RNG and pixel-perfect menu parity
-are not claimed.
-
-Frozen-source validation passes 512 release-mode workspace tests, with 58 explicit
-private-data ignores, strict Clippy, formatting, 39 general Python checks and 16
-career-auditor checks. Separately executed private suites have their own receipts.
-All 536,874 optimized driver commands exactly match the genuine career recordings;
-all 75 raster view pixel/depth/statistics hashes remain unchanged. Exact source
-and build-request [CI](evidence/native-ci-rc5.json) pass. Evidence-only follow-up
-commits do not change the frozen application source.
-
-The [flat-road bounce fix](evidence/driving-bounce.md) corrects the renderer's
-ground-anchor interpolation. Original-art menus/fonts/dashboards, collision and
-recovery behavior, transactions and bounded font-atlas ownership are included in
-RC5. [The manifest](functional-manifest.json), [defect register](functional-defects.json)
-and [G5 decision record](evidence/release-signoff.json) are authoritative for
-remaining acceptance. Known media/controller/platform and recolored police-foot
-art limitations remain explicit in [release notes](RELEASE_NOTES.md).
+Current allocator/startup/lifecycle/routing results are in
+[the preflight record](evidence/native-preflight-rc6.md). [Full-hour results](evidence/native-performance-rc6.md) pass. The [manifest](functional-manifest.json), [defect register](functional-defects.json),
+[completion ledger](COMPLETION_EXECUTION.md) and [G5 record](evidence/release-signoff.json)
+track remaining acceptance. Known media/controller/platform and recolored police-
+foot art limits are explicit in [release notes](RELEASE_NOTES.md).
 
 ## Historical Parts 01–18 receipts
 

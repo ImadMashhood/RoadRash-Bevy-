@@ -1,0 +1,68 @@
+{
+  "module_id": 536870916,
+  "sink_name": "rr_rc6_final_hour",
+  "sink_index": 19969,
+  "pipewire_node_id": 66,
+  "pipewire_node_env": "rr_rc6_final_hour",
+  "verified_owned_pid": 1220654,
+  "routing_observations": 21,
+  "route_observer": "PipeWireClient.application.process.id\u2192Node.client.id\u2192Link.inputnode, plusPulseproperties.client.id; allownedlinks/streams targetownnull",
+  "normal_exit": 0,
+  "source_revision": "d9dac51433d279c5f6a92a266f2db9fe4a665d42",
+  "release_tag": "native-functional-2026-11-07-rc6",
+  "archive_sha256": "08d7de03ca59e50a4f1cab4d6a0c44d10653771831fed6e5ba3885ad9896d1e6",
+  "binary_sha256": "a26b1530633b3f53c6a399d7b401bb17b19358223dc576e6b8433becc21cffea",
+  "outcome": "passed",
+  "scope": "Actual downloaded native audio/effects-on 12s calibration only; not an hour or frame-performance pass. Process-local ALSA overrides both default and pipewire PCM; PIPEWIRE_NODE/PULSE_SINK target only owned node name. Exact owned ClientPID/Node/Link routing verified; no raw device names/serials or other streams published.",
+  "default_sink_preserved": true,
+  "default_source_preserved": true,
+  "preexisting_stream_routes_preserved": true,
+  "policy_restoration_commands_count": 0,
+  "sampled_owner_links": {
+    "pid": 1220654,
+    "owned_client_ids": [
+      160
+    ],
+    "owned_output_node_ids": [
+      118
+    ],
+    "owned_sink_inputs": [
+      {
+        "index": 20036,
+        "sink": 19969,
+        "pipewire_client_id": "160",
+        "pipewire_node_id": "118",
+        "direct_pid": null
+      }
+    ],
+    "links": [
+      {
+        "id": 156,
+        "output_node": 118,
+        "input_node": 66,
+        "state": "active"
+      },
+      {
+        "id": 115,
+        "output_node": 118,
+        "input_node": 66,
+        "state": "active"
+      }
+    ],
+    "wrong_target": false,
+    "verified": true,
+    "expected_sink_index": 19969,
+    "expected_pipewire_node_id": 66
+  },
+  "wrong_target_observations": 0,
+  "cleanup_status": "Only this owned module remains for ROOT-reviewed hour; ROOT must unload only verified owned module after owned apps exit and confirm unchanged defaults.",
+  "official_hour_status": "Not started by preflight preparer; separate complete ROOT-owned receipt required.",
+  "private_evidence_sha256": {
+    "audio.json": "e1d53df80ca0811c20a2753daaa8d20dcb8d59b8029560fb07a4d770df99d2ad",
+    "before.json": "a5172e49770a7de26a248e25ca9b4d3f11a81d7710d8df71e42b3091e32365cb",
+    "after.json": "7fed8ae9ab7ef52950169701269806b794891ac0b2d40ea77ecd26ab65f8102f",
+    "creation-policy-history.json": "ecd52f81af172d06ff9948832fc2badc64a518db6c51dfda490a2e6db7a1f316",
+    "routing-samples.jsonl": "c777b2a2689b4f69e2fdd899b709b2ff7dccbbf6b00d2b8cda00dc0ae55bbce5",
+    "media.json": "d79707748036bd3d197d68f31605f339f4f8626fb8dc79e7f05d631dca834c7d"
+  }
+}

@@ -5,7 +5,42 @@ runs formatting, Python/Rust checks and Clippy, collects dependency/font notices
 packages only the application, and verifies SHA256SUMS before publishing a
 **prerelease**. Original game data is supplied locally at first launch.
 
-The current review artifact is [RC5](https://github.com/ImadMashhood/RoadRash-Bevy-/releases/tag/native-functional-2026-11-07-rc5),
+The current review artifact is [RC6](https://github.com/ImadMashhood/RoadRash-Bevy-/releases/tag/native-functional-2026-11-07-rc6),
+frozen source `d9dac51433d279c5f6a92a266f2db9fe4a665d42`, request
+`7e957c46a15b3dcccdce7ef530b768ab1abb013e`. Its 29,746,334-byte Ubuntu archive
+has SHA-256 `08d7de03ca59e50a4f1cab4d6a0c44d10653771831fed6e5ba3885ad9896d1e6`;
+actual downloaded game SHA-256 is
+`a26b1530633b3f53c6a399d7b401bb17b19358223dc576e6b8433becc21cffea`.
+All six [source/request CI jobs](evidence/native-ci-rc6.json) pass;
+[712 manifest files and 369 notices](evidence/native-download-rc6.json) verify.
+[Local reproducibility](evidence/native-repro-rc6.json) is recorded separately
+from Ubuntu artifact identity.
+
+RC6 [source-hidden import/retention](evidence/native-package-sandbox-rc6.md),
+[ordinary keyboard/profile compatibility checks](evidence/native-packaged-ui-rc6.json),
+[repeated ordinary V recovery at levels 1 and 5](evidence/native-voluntary-downloaded-rc6.md)
+and [complete graphical level-five finale](evidence/native-delivered-runtime-rc6.md)
+pass for their stated scopes. The actual downloaded game completes its own
+[31-win/25-case fresh career](evidence/native-packaged-career-rc6.md); byte equality
+to the corrected source career supports reuse of its 124 executed independent
+replays (zero additional audit executions), rather than claiming a second audit.
+The actual 341-file own-disc import and complete private campaign evidence remain
+separate from public CI's explicit private-fixture skips.
+
+The [RC6 allocator/startup/lifecycle/audio preflights](evidence/native-preflight-rc6.md)
+pass unchanged budgets. The [official RC6 hour](evidence/native-performance-rc6.md)
+also passes: 3,600.329 real seconds, 3,598.517 simulated, zero paused frames and
+all five complete predeclared warm-course timing gates at unchanged thresholds.
+Both laps and earlier failures remain scoped. The remaining decision is owner
+G5; this completion pass stops before mod support/upscaling. No owner signature
+or enhancement authorization is fabricated.
+
+RC5 is historical: its exact-byte hour remains valid for its tested scope, but
+later ordinary V recovery panicked and rejected it as the current candidate.
+RC6's linked ordinary recovery checks address that blocker. The RC5 receipts
+below retain their original scope and do not replace RC6 verification.
+
+The historical review artifact is [RC5](https://github.com/ImadMashhood/RoadRash-Bevy-/releases/tag/native-functional-2026-11-07-rc5),
 frozen source `24d05dcf399035fe6c6e70bb19fe1b12488c1cec`. Its 29,744,932-byte
 Ubuntu archive has SHA-256
 `6656faaed67e79fb2d54898513806ce4a522efd48898028851781edc9c5cd910`;

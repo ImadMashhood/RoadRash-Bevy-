@@ -26,3 +26,7 @@ ordinary voluntary recovery, including repeated episodes, resumed driving and
 normal exit. Misnavigated/menu-only captures are excluded. This is a local source
 preflight; the replacement delivered candidate remains required. No owner G5
 acceptance is signed.
+
+[Actual downloaded RC6 keyboard proof](native-voluntary-downloaded-rc6.md) now
+passes repeated ordinary recovery at both City levels, eight independent
+replays and normal exits. The separate [final RC6 hour](native-performance-rc6.md) now passes.

@@ -1,0 +1,1109 @@
+{
+  "outcome": "passed_local_patched_preflight_only",
+  "delivered_rc6_acceptance": false,
+  "game_sha256": "666d897859240b9e929f69d2853d4fcef7513937d30a35359604b0dd523ad683",
+  "support_bundle": "RC5 supportbundle withonlylocallyrebuiltgame replaced; package manifeststillRC5",
+  "source_hidden": true,
+  "app_read_only": true,
+  "controls": "OrdinaryXTestkeyboardonly: normalThrashmenus, Vdismount, briefLeft/Upinputduringrecovery, ordinaryUpdriving/brake, normalUIQuitResults/Continue/windowclose. No state/HP/moneyedits/MPC/testcontrolAPI/assists.",
+  "verified_cases": [
+    {
+      "course": "CITY",
+      "level": 1,
+      "evidence": "l1-valid-first/v1-0.50s.png prone/fallenbike; v1-2.00s.png onfoot; v1-4.00s/v1-8.00s remounted",
+      "outcome": "no panic; normal voluntary recovery"
+    },
+    {
+      "course": "CITY",
+      "level": 5,
+      "level_selection": "normalRestroomPlayerLevel fourEntercycles1\u21925, captured07; Citycountdowncaptured08",
+      "episodes": 2,
+      "evidence": "city-l5-valid-first/v4-* andcity-l5-valid-repeat/v5-* showfallen\u2192onfoot\u2192remounted;10-city-l5-resumed-repeat.png showsresumeddriving",
+      "outcome": "no panic; repeatedordinaryVworks"
+    }
+  ],
+  "excluded_or_mislabeled_probes": [
+    "l1-first: initialstartupBadWindow leftthisburstinmenus; excluded",
+    "l1-repeat: firstvalidracehadnaturallyArrested beforeattempt; not repeatedVproof",
+    "l5-first/v3: actuallyHIWAYlevel1 aftermisnavigation, validVbutexcludedfromCITYL5claim",
+    "02-level-five.png and03-l5-start.png frommisnavigation are notlevel5proof"
+  ],
+  "normal_exit": 0,
+  "quit_scope": "UIQuit wasusedONLYtolocalpreflightexit/flush; notclaimedasnaturalterminal/fullrace",
+  "passive_audit": {
+    "outcome": "passed_local_fixed_binary_only",
+    "replay_binary_sha256": "8f12478ecce2aedecbfc12b30ac601d479bfbabe1dcffc639bd6d9c4a21f8d3e",
+    "records": [
+      {
+        "name": "manual-race-3-race-4.json",
+        "sha256": "1482145602e2c9bf6ed0223fac0f29ed96b4659458a88fe2391d19d0f9b22ce2",
+        "commands": 574
+      },
+      {
+        "name": "manual-race-3.json",
+        "sha256": "948b5c029492190a7a909e397edb541b5968a35f72d0237f22417be76d1a5346",
+        "commands": 223
+      },
+      {
+        "name": "manual.json",
+        "sha256": "c3366faccfcafb3b7506e928661e71aa9a185bf629796c5e7fa4e13de5a6b870",
+        "commands": 90
+      }
+    ],
+    "rows": [
+      {
+        "record": "manual-race-3-race-4.json",
+        "rate": "30",
+        "ticks": 1506,
+        "hash": "4077aef4526ef469e94fd10e64dfbf4aee8a8c8306933c3639cab0fbf3c16a0a",
+        "recovery": {
+          "retained_body_animation": {
+            "code": 0,
+            "frame": 0,
+            "queued": 0,
+            "loops": 0,
+            "deadline": null,
+            "selected": [
+              41,
+              4
+            ]
+          },
+          "phase": "mounted",
+          "body": null,
+          "bike_entity": 2,
+          "bike_location": {
+            "path": 20,
+            "progress": 17937,
+            "lateral": -52094,
+            "height": 0,
+            "heading": 0
+          },
+          "bike_available": true,
+          "bike_animation": {
+            "code": 0,
+            "frame": 0,
+            "queued": 0,
+            "loops": 0,
+            "deadline": null,
+            "selected": null
+          },
+          "bike_frame": 321,
+          "bike_mirror": false,
+          "elapsed": 0,
+          "incident": 2,
+          "outcome": null,
+          "assisted": false
+        }
+      },
+      {
+        "record": "manual-race-3-race-4.json",
+        "rate": "60",
+        "ticks": 1506,
+        "hash": "4077aef4526ef469e94fd10e64dfbf4aee8a8c8306933c3639cab0fbf3c16a0a",
+        "recovery": {
+          "retained_body_animation": {
+            "code": 0,
+            "frame": 0,
+            "queued": 0,
+            "loops": 0,
+            "deadline": null,
+            "selected": [
+              41,
+              4
+            ]
+          },
+          "phase": "mounted",
+          "body": null,
+          "bike_entity": 2,
+          "bike_location": {
+            "path": 20,
+            "progress": 17937,
+            "lateral": -52094,
+            "height": 0,
+            "heading": 0
+          },
+          "bike_available": true,
+          "bike_animation": {
+            "code": 0,
+            "frame": 0,
+            "queued": 0,
+            "loops": 0,
+            "deadline": null,
+            "selected": null
+          },
+          "bike_frame": 321,
+          "bike_mirror": false,
+          "elapsed": 0,
+          "incident": 2,
+          "outcome": null,
+          "assisted": false
+        }
+      },
+      {
+        "record": "manual-race-3-race-4.json",
+        "rate": "144",
+        "ticks": 1506,
+        "hash": "4077aef4526ef469e94fd10e64dfbf4aee8a8c8306933c3639cab0fbf3c16a0a",
+        "recovery": {
+          "retained_body_animation": {
+            "code": 0,
+            "frame": 0,
+            "queued": 0,
+            "loops": 0,
+            "deadline": null,
+            "selected": [
+              41,
+              4
+            ]
+          },
+          "phase": "mounted",
+          "body": null,
+          "bike_entity": 2,
+          "bike_location": {
+            "path": 20,
+            "progress": 17937,
+            "lateral": -52094,
+            "height": 0,
+            "heading": 0
+          },
+          "bike_available": true,
+          "bike_animation": {
+            "code": 0,
+            "frame": 0,
+            "queued": 0,
+            "loops": 0,
+            "deadline": null,
+            "selected": null
+          },
+          "bike_frame": 321,
+          "bike_mirror": false,
+          "elapsed": 0,
+          "incident": 2,
+          "outcome": null,
+          "assisted": false
+        }
+      },
+      {
+        "record": "manual-race-3-race-4.json",
+        "rate": "irregular",
+        "ticks": 1506,
+        "hash": "4077aef4526ef469e94fd10e64dfbf4aee8a8c8306933c3639cab0fbf3c16a0a",
+        "recovery": {
+          "retained_body_animation": {
+            "code": 0,
+            "frame": 0,
+            "queued": 0,
+            "loops": 0,
+            "deadline": null,
+            "selected": [
+              41,
+              4
+            ]
+          },
+          "phase": "mounted",
+          "body": null,
+          "bike_entity": 2,
+          "bike_location": {
+            "path": 20,
+            "progress": 17937,
+            "lateral": -52094,
+            "height": 0,
+            "heading": 0
+          },
+          "bike_available": true,
+          "bike_animation": {
+            "code": 0,
+            "frame": 0,
+            "queued": 0,
+            "loops": 0,
+            "deadline": null,
+            "selected": null
+          },
+          "bike_frame": 321,
+          "bike_mirror": false,
+          "elapsed": 0,
+          "incident": 2,
+          "outcome": null,
+          "assisted": false
+        }
+      },
+      {
+        "record": "manual-race-3.json",
+        "rate": "30",
+        "ticks": 4963,
+        "hash": "619e61e42a8323100c86962a59ff3e43c5ee0e4210d3ced1c7f71c3c97b953e9",
+        "recovery": {
+          "retained_body_animation": {
+            "code": 0,
+            "frame": 0,
+            "queued": 0,
+            "loops": 0,
+            "deadline": null,
+            "selected": [
+              41,
+              4
+            ]
+          },
+          "phase": "ended",
+          "body": null,
+          "bike_entity": 2,
+          "bike_location": {
+            "path": 20,
+            "progress": 15523,
+            "lateral": 16266,
+            "height": 0,
+            "heading": 0
+          },
+          "bike_available": true,
+          "bike_animation": {
+            "code": 0,
+            "frame": 0,
+            "queued": 0,
+            "loops": 0,
+            "deadline": null,
+            "selected": null
+          },
+          "bike_frame": 321,
+          "bike_mirror": false,
+          "elapsed": 0,
+          "incident": 1,
+          "outcome": "arrested",
+          "assisted": false
+        }
+      },
+      {
+        "record": "manual-race-3.json",
+        "rate": "60",
+        "ticks": 4963,
+        "hash": "619e61e42a8323100c86962a59ff3e43c5ee0e4210d3ced1c7f71c3c97b953e9",
+        "recovery": {
+          "retained_body_animation": {
+            "code": 0,
+            "frame": 0,
+            "queued": 0,
+            "loops": 0,
+            "deadline": null,
+            "selected": [
+              41,
+              4
+            ]
+          },
+          "phase": "ended",
+          "body": null,
+          "bike_entity": 2,
+          "bike_location": {
+            "path": 20,
+            "progress": 15523,
+            "lateral": 16266,
+            "height": 0,
+            "heading": 0
+          },
+          "bike_available": true,
+          "bike_animation": {
+            "code": 0,
+            "frame": 0,
+            "queued": 0,
+            "loops": 0,
+            "deadline": null,
+            "selected": null
+          },
+          "bike_frame": 321,
+          "bike_mirror": false,
+          "elapsed": 0,
+          "incident": 1,
+          "outcome": "arrested",
+          "assisted": false
+        }
+      },
+      {
+        "record": "manual-race-3.json",
+        "rate": "144",
+        "ticks": 4963,
+        "hash": "619e61e42a8323100c86962a59ff3e43c5ee0e4210d3ced1c7f71c3c97b953e9",
+        "recovery": {
+          "retained_body_animation": {
+            "code": 0,
+            "frame": 0,
+            "queued": 0,
+            "loops": 0,
+            "deadline": null,
+            "selected": [
+              41,
+              4
+            ]
+          },
+          "phase": "ended",
+          "body": null,
+          "bike_entity": 2,
+          "bike_location": {
+            "path": 20,
+            "progress": 15523,
+            "lateral": 16266,
+            "height": 0,
+            "heading": 0
+          },
+          "bike_available": true,
+          "bike_animation": {
+            "code": 0,
+            "frame": 0,
+            "queued": 0,
+            "loops": 0,
+            "deadline": null,
+            "selected": null
+          },
+          "bike_frame": 321,
+          "bike_mirror": false,
+          "elapsed": 0,
+          "incident": 1,
+          "outcome": "arrested",
+          "assisted": false
+        }
+      },
+      {
+        "record": "manual-race-3.json",
+        "rate": "irregular",
+        "ticks": 4963,
+        "hash": "619e61e42a8323100c86962a59ff3e43c5ee0e4210d3ced1c7f71c3c97b953e9",
+        "recovery": {
+          "retained_body_animation": {
+            "code": 0,
+            "frame": 0,
+            "queued": 0,
+            "loops": 0,
+            "deadline": null,
+            "selected": [
+              41,
+              4
+            ]
+          },
+          "phase": "ended",
+          "body": null,
+          "bike_entity": 2,
+          "bike_location": {
+            "path": 20,
+            "progress": 15523,
+            "lateral": 16266,
+            "height": 0,
+            "heading": 0
+          },
+          "bike_available": true,
+          "bike_animation": {
+            "code": 0,
+            "frame": 0,
+            "queued": 0,
+            "loops": 0,
+            "deadline": null,
+            "selected": null
+          },
+          "bike_frame": 321,
+          "bike_mirror": false,
+          "elapsed": 0,
+          "incident": 1,
+          "outcome": "arrested",
+          "assisted": false
+        }
+      },
+      {
+        "record": "manual.json",
+        "rate": "30",
+        "ticks": 4593,
+        "hash": "283186c1a726fd6cd65daff78e5d8870819f612148bc15b8ab6da5a9f0e2c8e6",
+        "recovery": {
+          "retained_body_animation": {
+            "code": 0,
+            "frame": 0,
+            "queued": 0,
+            "loops": 0,
+            "deadline": null,
+            "selected": [
+              41,
+              4
+            ]
+          },
+          "phase": "ended",
+          "body": null,
+          "bike_entity": 2,
+          "bike_location": {
+            "path": 20,
+            "progress": 13142,
+            "lateral": 19843,
+            "height": 0,
+            "heading": 0
+          },
+          "bike_available": true,
+          "bike_animation": {
+            "code": 0,
+            "frame": 0,
+            "queued": 0,
+            "loops": 0,
+            "deadline": null,
+            "selected": null
+          },
+          "bike_frame": 321,
+          "bike_mirror": false,
+          "elapsed": 0,
+          "incident": 1,
+          "outcome": "arrested",
+          "assisted": false
+        }
+      },
+      {
+        "record": "manual.json",
+        "rate": "60",
+        "ticks": 4593,
+        "hash": "283186c1a726fd6cd65daff78e5d8870819f612148bc15b8ab6da5a9f0e2c8e6",
+        "recovery": {
+          "retained_body_animation": {
+            "code": 0,
+            "frame": 0,
+            "queued": 0,
+            "loops": 0,
+            "deadline": null,
+            "selected": [
+              41,
+              4
+            ]
+          },
+          "phase": "ended",
+          "body": null,
+          "bike_entity": 2,
+          "bike_location": {
+            "path": 20,
+            "progress": 13142,
+            "lateral": 19843,
+            "height": 0,
+            "heading": 0
+          },
+          "bike_available": true,
+          "bike_animation": {
+            "code": 0,
+            "frame": 0,
+            "queued": 0,
+            "loops": 0,
+            "deadline": null,
+            "selected": null
+          },
+          "bike_frame": 321,
+          "bike_mirror": false,
+          "elapsed": 0,
+          "incident": 1,
+          "outcome": "arrested",
+          "assisted": false
+        }
+      },
+      {
+        "record": "manual.json",
+        "rate": "144",
+        "ticks": 4593,
+        "hash": "283186c1a726fd6cd65daff78e5d8870819f612148bc15b8ab6da5a9f0e2c8e6",
+        "recovery": {
+          "retained_body_animation": {
+            "code": 0,
+            "frame": 0,
+            "queued": 0,
+            "loops": 0,
+            "deadline": null,
+            "selected": [
+              41,
+              4
+            ]
+          },
+          "phase": "ended",
+          "body": null,
+          "bike_entity": 2,
+          "bike_location": {
+            "path": 20,
+            "progress": 13142,
+            "lateral": 19843,
+            "height": 0,
+            "heading": 0
+          },
+          "bike_available": true,
+          "bike_animation": {
+            "code": 0,
+            "frame": 0,
+            "queued": 0,
+            "loops": 0,
+            "deadline": null,
+            "selected": null
+          },
+          "bike_frame": 321,
+          "bike_mirror": false,
+          "elapsed": 0,
+          "incident": 1,
+          "outcome": "arrested",
+          "assisted": false
+        }
+      },
+      {
+        "record": "manual.json",
+        "rate": "irregular",
+        "ticks": 4593,
+        "hash": "283186c1a726fd6cd65daff78e5d8870819f612148bc15b8ab6da5a9f0e2c8e6",
+        "recovery": {
+          "retained_body_animation": {
+            "code": 0,
+            "frame": 0,
+            "queued": 0,
+            "loops": 0,
+            "deadline": null,
+            "selected": [
+              41,
+              4
+            ]
+          },
+          "phase": "ended",
+          "body": null,
+          "bike_entity": 2,
+          "bike_location": {
+            "path": 20,
+            "progress": 13142,
+            "lateral": 19843,
+            "height": 0,
+            "heading": 0
+          },
+          "bike_available": true,
+          "bike_animation": {
+            "code": 0,
+            "frame": 0,
+            "queued": 0,
+            "loops": 0,
+            "deadline": null,
+            "selected": null
+          },
+          "bike_frame": 321,
+          "bike_mirror": false,
+          "elapsed": 0,
+          "incident": 1,
+          "outcome": "arrested",
+          "assisted": false
+        }
+      }
+    ],
+    "forbidden_controls_absent": true
+  },
+  "prior_rc5_failure": "docs/evidence/native-ordinary-terminal-rc5.md preservedunchanged",
+  "g5_accepted": false,
+  "artifacts": [
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/00-countdown.png",
+      "bytes": 248338,
+      "sha256": "8482aa4ed4619a32fa1d3e84b4471bf8429dbb770831c24017a96f7c1e33f39a"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/01-resumed-driving-and-stop.png",
+      "bytes": 524628,
+      "sha256": "49636615536010265cce30482b8f8864ebbdb8af0c03b4df61558d3d1432352b"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/02-level-five.png",
+      "bytes": 210359,
+      "sha256": "930386b18947e19f35426cb6792efd8518c34cd9b88c5254d355f5cf4921a3ba"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/03-l5-start.png",
+      "bytes": 206553,
+      "sha256": "9dadf55db301caeb024e2e5b0d6357dd16bb780bc90f9419455f4ad295a11dee"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/04-l5-resumed-driving.png",
+      "bytes": 203966,
+      "sha256": "bfc149e638652285967973ef89104da64863c9958c7deefcb2eca82cf1c54f40"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/05-current-pause.png",
+      "bytes": 524477,
+      "sha256": "d5c310ccafde3c95aaeffd0e504636ed6d53a8d76fd2c7e0956b371b4256e01f"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/06-confirmed-level-menu.png",
+      "bytes": 428106,
+      "sha256": "bb55d9e23111c7aa9b9a9c0abe309deea70e8d40e2b04ca392a971653a77279a"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/07-confirmed-level-five.png",
+      "bytes": 428269,
+      "sha256": "0d9e0a15804b33548423604f95714193897f57845c34dd0f136cc44682039c12"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/08-confirmed-city-l5-countdown.png",
+      "bytes": 240071,
+      "sha256": "80a674d19a37f02c4ff4e8404a502adb52deab9108aae41236c88f52007a23db"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/09-city-l5-resumed.png",
+      "bytes": 230755,
+      "sha256": "3cc57d4ee1685a5acb5fbf88c13d93e4292269b31bdad08be8a58054748e7bc5"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/10-city-l5-resumed-repeat.png",
+      "bytes": 226676,
+      "sha256": "4c7af4755281285896bc3041a1b4b8315aa353147ca980bca77a01ea23f470a7"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/11-local-quit-results.png",
+      "bytes": 518544,
+      "sha256": "ee09dc1814b7bc2e238952606bc3a10a51f6a8436a7200245a8ead219f310f2b"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/12-after-continue.png",
+      "bytes": 443463,
+      "sha256": "d0a7c516c3feab2bb1ba03a361b592a84b0edf1a59efd7f528b98a61d5d286e9"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/audit.json",
+      "bytes": 13196,
+      "sha256": "c15d8cb6fed8578f0a1c8f90da78aa71a9f6c18c0284b71794f1dd35e0388e1f"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/city-l5-valid-first/events.jsonl",
+      "bytes": 3484,
+      "sha256": "90d0f157e8d28d1076f0d17323bd7f07c1e586c7237958b89c684bdddcdd2f82"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/city-l5-valid-first/v4-0.10s.png",
+      "bytes": 234318,
+      "sha256": "7a34447a8a352bb23c7932b971b4e0113928dea59065570d85d92253c8397c02"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/city-l5-valid-first/v4-0.25s.png",
+      "bytes": 235514,
+      "sha256": "72d421a62526abd65d8931b35ab3bee27eba5e37cf3edd77394397b2dfbed42d"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/city-l5-valid-first/v4-0.50s.png",
+      "bytes": 234245,
+      "sha256": "99941af4e9aad77cd3dc5e178b4c8ec90722fdc40df561c48560ac08ccc06dba"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/city-l5-valid-first/v4-1.00s.png",
+      "bytes": 233433,
+      "sha256": "08dfb80ca98cb22fef802ad64b3718ad73bb772fcff04d5f26c5043592c501ed"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/city-l5-valid-first/v4-2.00s.png",
+      "bytes": 248052,
+      "sha256": "eab3f07ed559ab177b4466dceb31645f7a1a5c3f261b3beba641e88f2fd2c1c0"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/city-l5-valid-first/v4-3.00s.png",
+      "bytes": 240683,
+      "sha256": "6195673fa2a51959b2efef0fcd33d413617a40e5cab9b6c8ae8a76455f56cc1c"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/city-l5-valid-first/v4-4.00s.png",
+      "bytes": 242144,
+      "sha256": "356bbce5484bbc0118385aad0146a62a44bbacac2082eee41135cd70b2dbe788"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/city-l5-valid-first/v4-6.00s.png",
+      "bytes": 248563,
+      "sha256": "7621f1dcd5e7fe5752859377062efc09e01045a9ba260fd3ef5f9a0692bc58f3"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/city-l5-valid-first/v4-8.00s.png",
+      "bytes": 250232,
+      "sha256": "599ef552e6cc5ade41f44e6172d73f63476dec00d73c26d49a89a5ee213b9d9c"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/city-l5-valid-repeat/events.jsonl",
+      "bytes": 3484,
+      "sha256": "00f70e98ead34821b0e91892a7677b9795e3d234545205be798b038b7caed0f5"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/city-l5-valid-repeat/v5-0.10s.png",
+      "bytes": 232772,
+      "sha256": "a529091b53d48a63d9ea8fbb56e26e42b525950c5950471bf437e2abfb8dd1b8"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/city-l5-valid-repeat/v5-0.25s.png",
+      "bytes": 233212,
+      "sha256": "c73e7acf9dc4a3edeb0902ab24cfc25ef63fa4c3925b4753f4c81090b356b2ba"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/city-l5-valid-repeat/v5-0.50s.png",
+      "bytes": 232601,
+      "sha256": "664372b86eab62889c6bf38ebe91da55c0c545b5b6420967aae8c2886aafc12c"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/city-l5-valid-repeat/v5-1.00s.png",
+      "bytes": 231938,
+      "sha256": "18e40aa55b52f502a674e42452b172e083e07618f37913c882cef1d5e13e0744"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/city-l5-valid-repeat/v5-2.00s.png",
+      "bytes": 241077,
+      "sha256": "8dc067df7b37c8290703898bedd37d6965d0aade7f2fb0d3bdd9ad64433733e8"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/city-l5-valid-repeat/v5-3.00s.png",
+      "bytes": 241260,
+      "sha256": "e7bb1c65bd242d0640579c2c688a1b45ef53b1461095cadd831366828218d22a"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/city-l5-valid-repeat/v5-4.00s.png",
+      "bytes": 239041,
+      "sha256": "bf088a8ac225016bf0e848bbe60e77465e823829ccf0a320cb08407f6318e697"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/city-l5-valid-repeat/v5-6.00s.png",
+      "bytes": 235835,
+      "sha256": "81e44fe2202794eae00e939b646b3b5eb633368f232d1e51577c7f9cda9691be"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/city-l5-valid-repeat/v5-8.00s.png",
+      "bytes": 228555,
+      "sha256": "bdccc5a6505960a1a10c09cb745871735a3a56471dbdb84c6d4d444b52cd1a1e"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/events.jsonl",
+      "bytes": 14682,
+      "sha256": "56aaa94fd5754d7bb25421efc663597538aabfffd753031ebcdc5ccd64e853ce"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/game.log",
+      "bytes": 1527,
+      "sha256": "04627c657f2c83a694fbb5656af5e88fb143ac5e9733b107aa55c31fa5d393e6"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/l1-first/events.jsonl",
+      "bytes": 3484,
+      "sha256": "6fab47d426580460a2ae62128315f6fce40275b42d903c7217354a87e7bc3195"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/l1-first/v1-0.10s.png",
+      "bytes": 340706,
+      "sha256": "d7062c2bc187f18b26f2355cb3dbba83cc3f314b40f9d9c038d8bae5a3b867c1"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/l1-first/v1-0.25s.png",
+      "bytes": 340706,
+      "sha256": "d7062c2bc187f18b26f2355cb3dbba83cc3f314b40f9d9c038d8bae5a3b867c1"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/l1-first/v1-0.50s.png",
+      "bytes": 340706,
+      "sha256": "d7062c2bc187f18b26f2355cb3dbba83cc3f314b40f9d9c038d8bae5a3b867c1"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/l1-first/v1-1.00s.png",
+      "bytes": 340706,
+      "sha256": "d7062c2bc187f18b26f2355cb3dbba83cc3f314b40f9d9c038d8bae5a3b867c1"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/l1-first/v1-2.00s.png",
+      "bytes": 340706,
+      "sha256": "d7062c2bc187f18b26f2355cb3dbba83cc3f314b40f9d9c038d8bae5a3b867c1"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/l1-first/v1-3.00s.png",
+      "bytes": 336454,
+      "sha256": "d3b7aaf16b25858cf1bb04654ce87a64d738f8d50e2ddb0da1ffa7c0121e0458"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/l1-first/v1-4.00s.png",
+      "bytes": 336454,
+      "sha256": "d3b7aaf16b25858cf1bb04654ce87a64d738f8d50e2ddb0da1ffa7c0121e0458"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/l1-first/v1-6.00s.png",
+      "bytes": 351266,
+      "sha256": "9431d56093afeca5bc50008c2e004f86ff1cfa4ea60793d3d9f1156d5e43291f"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/l1-first/v1-8.00s.png",
+      "bytes": 351266,
+      "sha256": "9431d56093afeca5bc50008c2e004f86ff1cfa4ea60793d3d9f1156d5e43291f"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/l1-repeat/events.jsonl",
+      "bytes": 3484,
+      "sha256": "a86af0fc4a65d4c9ccc6432fe968f577be2a6bfd8dca94a0df36208549222727"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/l1-repeat/v2-0.10s.png",
+      "bytes": 524628,
+      "sha256": "49636615536010265cce30482b8f8864ebbdb8af0c03b4df61558d3d1432352b"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/l1-repeat/v2-0.25s.png",
+      "bytes": 524628,
+      "sha256": "49636615536010265cce30482b8f8864ebbdb8af0c03b4df61558d3d1432352b"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/l1-repeat/v2-0.50s.png",
+      "bytes": 524628,
+      "sha256": "49636615536010265cce30482b8f8864ebbdb8af0c03b4df61558d3d1432352b"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/l1-repeat/v2-1.00s.png",
+      "bytes": 524628,
+      "sha256": "49636615536010265cce30482b8f8864ebbdb8af0c03b4df61558d3d1432352b"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/l1-repeat/v2-2.00s.png",
+      "bytes": 524628,
+      "sha256": "49636615536010265cce30482b8f8864ebbdb8af0c03b4df61558d3d1432352b"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/l1-repeat/v2-3.00s.png",
+      "bytes": 524628,
+      "sha256": "49636615536010265cce30482b8f8864ebbdb8af0c03b4df61558d3d1432352b"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/l1-repeat/v2-4.00s.png",
+      "bytes": 524628,
+      "sha256": "49636615536010265cce30482b8f8864ebbdb8af0c03b4df61558d3d1432352b"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/l1-repeat/v2-6.00s.png",
+      "bytes": 524699,
+      "sha256": "d347e1c165f71b58b3f3795a0a6c4cffbff561bab9bc3573e26f172a5391647f"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/l1-repeat/v2-8.00s.png",
+      "bytes": 524699,
+      "sha256": "d347e1c165f71b58b3f3795a0a6c4cffbff561bab9bc3573e26f172a5391647f"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/l1-valid-first/events.jsonl",
+      "bytes": 3484,
+      "sha256": "70497f5117fad4bb48c75f564d2f28b10ae9ab0dd165007f6c1df2b48710c819"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/l1-valid-first/v1-0.10s.png",
+      "bytes": 234272,
+      "sha256": "e367457a6bac364e04889e2dbf29650343c3552e5faca2a5accd09a2dc0e2632"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/l1-valid-first/v1-0.25s.png",
+      "bytes": 235424,
+      "sha256": "b96fe1a07fbb5b190056b0abde210d456e2cc8f05da4b6fcb2377bb230537245"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/l1-valid-first/v1-0.50s.png",
+      "bytes": 233915,
+      "sha256": "39adc41f03e507e862def81fb2f7557898c34394fdc644a8640c30f92f47810f"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/l1-valid-first/v1-1.00s.png",
+      "bytes": 233530,
+      "sha256": "db6d176e2f2419dd4a46a56bf44ff10f8948190013940a94bd9e52aea4bc56e1"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/l1-valid-first/v1-2.00s.png",
+      "bytes": 238793,
+      "sha256": "706e503648f92794f86155765a1b75e19893ea1669ccf7a44b07d48656f4d57a"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/l1-valid-first/v1-3.00s.png",
+      "bytes": 240982,
+      "sha256": "1e4f104f8cae0bd08bf2a7f0b8084467b4c2cd00a6fb8c36fc9b74b0a86ecc08"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/l1-valid-first/v1-4.00s.png",
+      "bytes": 243680,
+      "sha256": "67ecfae6802f005c056fed19f24e7499cfb25ff0cbd7d86a488577569cfd8783"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/l1-valid-first/v1-6.00s.png",
+      "bytes": 255705,
+      "sha256": "c68b2db69e1237c44abec12d8608fb993f91b8ed15d7c20d1c3687284f1053f8"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/l1-valid-first/v1-8.00s.png",
+      "bytes": 255398,
+      "sha256": "76175f9a66efc164e60a80bea9fd41a79fa2887fe581f6c3d040d13d7acdd669"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/l5-first/events.jsonl",
+      "bytes": 3484,
+      "sha256": "b16f22b62a648421d848e66594944f537f4c4776ce10acb14833165fe4578be9"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/l5-first/v3-0.10s.png",
+      "bytes": 203768,
+      "sha256": "57ae05ba8b339304e10798986b191846ca0fd42bd84cbde531f543ec7ac277e5"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/l5-first/v3-0.25s.png",
+      "bytes": 203214,
+      "sha256": "498b85488707fe4be052970d24136fff2928b417901b3fd0c806c297cc3cf163"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/l5-first/v3-0.50s.png",
+      "bytes": 201933,
+      "sha256": "27e86698e7abbd665c29b194f471f1d08597e3c6071b9972cd4b7d4a46c81519"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/l5-first/v3-1.00s.png",
+      "bytes": 201196,
+      "sha256": "aa3681aa76650413af29e82d548c8237c27ace9749bf065442837c7e3e5b7168"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/l5-first/v3-2.00s.png",
+      "bytes": 211049,
+      "sha256": "b10df6c3b17241bfc52a598326092ba45e0d4049f91e9924042f454be38c1738"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/l5-first/v3-3.00s.png",
+      "bytes": 210754,
+      "sha256": "a7fdb8f4b039bbb1ab50b12410f1cd92b5ff2421160481cdead9d29932dc4021"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/l5-first/v3-4.00s.png",
+      "bytes": 206034,
+      "sha256": "907821216e9796d823be0ae66611fcac146bd332d839feea57d9b6d45ba46b32"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/l5-first/v3-6.00s.png",
+      "bytes": 207447,
+      "sha256": "1d340173b19e423f88bbfce501a3329ee23a5ff06bffef4123d9caebc68182a6"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/l5-first/v3-8.00s.png",
+      "bytes": 206573,
+      "sha256": "3560ae8a7dd1cd15bd7182fad60d8cee184eceabd01a212f393d72a0958dd610"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/manual-144-audit.json",
+      "bytes": 110183,
+      "sha256": "f868150c59e592f0ac5c4d519058429ec7d980909b8c9fac17af416cfdae5fba"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/manual-144-audit.log",
+      "bytes": 65,
+      "sha256": "90a9124c50a90f20a2683f4adc087b2d631556a73b6e6e6241b2a0c8a995d431"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/manual-30-audit.json",
+      "bytes": 110181,
+      "sha256": "f713e8decf48ea5d8bf8f4a687e44fb018e48c8f3e1b5411cd85ae9d58deb71e"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/manual-30-audit.log",
+      "bytes": 65,
+      "sha256": "90a9124c50a90f20a2683f4adc087b2d631556a73b6e6e6241b2a0c8a995d431"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/manual-60-audit.json",
+      "bytes": 110181,
+      "sha256": "c7eb5d000cb1416dc64c77f35e1049020f0493b19caa1baa1d5b0a97ab2debd5"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/manual-60-audit.log",
+      "bytes": 65,
+      "sha256": "90a9124c50a90f20a2683f4adc087b2d631556a73b6e6e6241b2a0c8a995d431"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/manual-irregular-audit.json",
+      "bytes": 110188,
+      "sha256": "49f0c342b036652ee9e4c0012089691f4552b5cf57395cf82fef643aec83ebff"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/manual-irregular-audit.log",
+      "bytes": 65,
+      "sha256": "90a9124c50a90f20a2683f4adc087b2d631556a73b6e6e6241b2a0c8a995d431"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/manual-race-3-144-audit.json",
+      "bytes": 121777,
+      "sha256": "98b52f3677b378b7daab8850c7e657b40018cf2f91b7720fde72aebbe60e4da4"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/manual-race-3-144-audit.log",
+      "bytes": 65,
+      "sha256": "4eb5d46bbb16e361298b9bbef340c3a4d85b7a8400dc7a330f03e1a1182188cb"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/manual-race-3-30-audit.json",
+      "bytes": 121775,
+      "sha256": "5c4f6395e108156e71f406fe422c0466ffd9dd38fd410d9bd5ad46851afbe6f3"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/manual-race-3-30-audit.log",
+      "bytes": 65,
+      "sha256": "4eb5d46bbb16e361298b9bbef340c3a4d85b7a8400dc7a330f03e1a1182188cb"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/manual-race-3-60-audit.json",
+      "bytes": 121775,
+      "sha256": "e348205fa14c7ddeb0f0284aef7a6dce23a31a91c975cac357a4717f28354f50"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/manual-race-3-60-audit.log",
+      "bytes": 65,
+      "sha256": "4eb5d46bbb16e361298b9bbef340c3a4d85b7a8400dc7a330f03e1a1182188cb"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/manual-race-3-irregular-audit.json",
+      "bytes": 121782,
+      "sha256": "64b972db346facac0af441347d7281ed39a73800ecfd8c64c08a4105b48487a7"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/manual-race-3-irregular-audit.log",
+      "bytes": 65,
+      "sha256": "4eb5d46bbb16e361298b9bbef340c3a4d85b7a8400dc7a330f03e1a1182188cb"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/manual-race-3-race-4-144-audit.json",
+      "bytes": 100519,
+      "sha256": "ea02d4805eb8bc169f6abf1c75f6f8744090ec60da4307465006fe0c3cdc4165"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/manual-race-3-race-4-144-audit.log",
+      "bytes": 65,
+      "sha256": "d19ba2b11407c21b7d8484e90a3f9630260c0b06e12f4860a31f9ea6e214e8c3"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/manual-race-3-race-4-30-audit.json",
+      "bytes": 100517,
+      "sha256": "938a48b058ac791bfd5c1b741ce42411f20d99d251784f80971cee35e70c12aa"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/manual-race-3-race-4-30-audit.log",
+      "bytes": 65,
+      "sha256": "d19ba2b11407c21b7d8484e90a3f9630260c0b06e12f4860a31f9ea6e214e8c3"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/manual-race-3-race-4-60-audit.json",
+      "bytes": 100518,
+      "sha256": "7d8763f4996c61b33208aa24acb48e17f2ca060cdd6e48114d2e10c94e776025"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/manual-race-3-race-4-60-audit.log",
+      "bytes": 65,
+      "sha256": "d19ba2b11407c21b7d8484e90a3f9630260c0b06e12f4860a31f9ea6e214e8c3"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/manual-race-3-race-4-irregular-audit.json",
+      "bytes": 100525,
+      "sha256": "2026238990a914ff0eb42ebd85c12fbf51e9fb0d07ff025003fd3f1948c3112e"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/manual-race-3-race-4-irregular-audit.log",
+      "bytes": 65,
+      "sha256": "d19ba2b11407c21b7d8484e90a3f9630260c0b06e12f4860a31f9ea6e214e8c3"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/process.json",
+      "bytes": 793,
+      "sha256": "8072c083a292eadee3024e66a322ced65931ebbb57999d3842fa1ac4e39bb708"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/user-data/manual-race-3-race-4.json",
+      "bytes": 5459499,
+      "sha256": "1482145602e2c9bf6ed0223fac0f29ed96b4659458a88fe2391d19d0f9b22ce2"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/user-data/manual-race-3.json",
+      "bytes": 5324733,
+      "sha256": "948b5c029492190a7a909e397edb541b5968a35f72d0237f22417be76d1a5346"
+    },
+    {
+      "private_path": "local/local-fixed-v-preflight-rc6/user-data/manual.json",
+      "bytes": 5376910,
+      "sha256": "c3366faccfcafb3b7506e928661e71aa9a185bf629796c5e7fa4e13de5a6b870"
+    }
+  ]
+}

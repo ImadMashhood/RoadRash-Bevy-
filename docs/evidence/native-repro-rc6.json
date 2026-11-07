@@ -1,0 +1,99 @@
+{
+  "outcome": "passed",
+  "scope": "Local Fedora immutable-source reproducibility/package proof only; not actual Ubuntu download acceptance or owner G5.",
+  "source_revision": "d9dac51433d279c5f6a92a266f2db9fe4a665d42",
+  "source_tree": "39d9fa4c96c3dcbf4ede4cab47cd98dc755b29da",
+  "compiled_crates": [
+    "rr-content",
+    "rr-course",
+    "rr-formats",
+    "rr-game",
+    "rr-import",
+    "rr-input",
+    "rr-media",
+    "rr-presentation",
+    "rr-render",
+    "rr-session",
+    "rr-simulation"
+  ],
+  "all_workspace_crates_recompiled": true,
+  "clean_worktree": true,
+  "binary_comparison": [
+    {
+      "binary": "rr-game",
+      "expected_sha256": "666d897859240b9e929f69d2853d4fcef7513937d30a35359604b0dd523ad683",
+      "clean_source_rebuilt_sha256": "666d897859240b9e929f69d2853d4fcef7513937d30a35359604b0dd523ad683",
+      "identical": true
+    },
+    {
+      "binary": "rr-replay",
+      "expected_sha256": "8f12478ecce2aedecbfc12b30ac601d479bfbabe1dcffc639bd6d9c4a21f8d3e",
+      "clean_source_rebuilt_sha256": "8f12478ecce2aedecbfc12b30ac601d479bfbabe1dcffc639bd6d9c4a21f8d3e",
+      "identical": true
+    },
+    {
+      "binary": "rr-profile-replay",
+      "expected_sha256": "6ff804be187702df09ec102028c069d05a20098957c51b1c62e03abdd8476eca",
+      "clean_source_rebuilt_sha256": "6ff804be187702df09ec102028c069d05a20098957c51b1c62e03abdd8476eca",
+      "identical": true
+    },
+    {
+      "binary": "rr-content",
+      "expected_sha256": "85aacf0575bb667246880026f966823f385010307697189062117a721075c65e",
+      "clean_source_rebuilt_sha256": "85aacf0575bb667246880026f966823f385010307697189062117a721075c65e",
+      "identical": true
+    },
+    {
+      "binary": "rr-import",
+      "expected_sha256": "3aa6a1708495ea67c881a5c6b30a1e20a1a5fa73f81235424f35dee83036459a",
+      "clean_source_rebuilt_sha256": "3aa6a1708495ea67c881a5c6b30a1e20a1a5fa73f81235424f35dee83036459a",
+      "identical": true
+    }
+  ],
+  "archive_reproducibility": {
+    "source_revision": "d9dac51433d279c5f6a92a266f2db9fe4a665d42",
+    "outcome": "passed",
+    "sha256": "bd0ebf933a7126915d528328f5368a95ba50d786564619494b9e325a5a47acdb",
+    "bytes": 29718137,
+    "archives": [
+      "local/rc6-clean-source/local/package-a/RoadRash-Rust-linux-candidate.tar.gz",
+      "local/rc6-clean-source/local/package-b/RoadRash-Rust-linux-candidate.tar.gz"
+    ]
+  },
+  "manifest": {
+    "outcome": "passed",
+    "all_manifest_files_verified": 712,
+    "dependency_notice_count": 369,
+    "embedded_font_notice": true,
+    "private_game_payloads": false,
+    "source_revision": "d9dac51433d279c5f6a92a266f2db9fe4a665d42",
+    "source_files_sha256": "c7923ae098a084240d8fdea81e861323af98151f8f96e81a2c8b90b300bb3f4e",
+    "cargo_lock_sha256": "97b2848e368123f74843b766e670191e00ef2d779c8322f6255226443f990137",
+    "toolchain": "rustc 1.99.1 (58cf8f9c3 2026-10-13)",
+    "game_sha256": "666d897859240b9e929f69d2853d4fcef7513937d30a35359604b0dd523ad683"
+  },
+  "g5_accepted": false,
+  "source_fingerprint": "c7923ae098a084240d8fdea81e861323af98151f8f96e81a2c8b90b300bb3f4e",
+  "artifacts": [
+    {
+      "private_path": "local/rc6-package-checks/clean-build.log",
+      "sha256": "066f39d2ba0b891184b73c1db0a7589bc50a41d77a31c3babe8d7b0285fa6ba6"
+    },
+    {
+      "private_path": "local/rc6-package-checks/package-a.log",
+      "sha256": "899e79b4adea0032cf75f331484a0a08b866a6f0ac9dfdded8fb6874f75d7e50"
+    },
+    {
+      "private_path": "local/rc6-package-checks/package-b.log",
+      "sha256": "c6cafd45fa6d2b0510e7fce51f4fb9368f96eaa9bcea01613264d30e283b17ab"
+    },
+    {
+      "private_path": "local/rc6-package-checks/manifest.json",
+      "sha256": "e3bbe5e2822581e49aaab6756a861e342abd561e9807f9c35f654269d21d6d08"
+    },
+    {
+      "private_path": "local/rc6-package-checks/normalized.json",
+      "sha256": "0ed8dcc12287fd159f46c069bd657ca2337de74992fb96a0c6f0d5500fe8ecb5"
+    }
+  ]
+}

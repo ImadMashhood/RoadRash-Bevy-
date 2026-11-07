@@ -1,0 +1,23 @@
+{
+  "source_revision": "d9dac51433d279c5f6a92a266f2db9fe4a665d42",
+  "release_tag": "native-functional-2026-11-07-rc6",
+  "archive_sha256": "08d7de03ca59e50a4f1cab4d6a0c44d10653771831fed6e5ba3885ad9896d1e6",
+  "archive_bytes": 29746334,
+  "source_files_sha256": "c7923ae098a084240d8fdea81e861323af98151f8f96e81a2c8b90b300bb3f4e",
+  "manifest_files_verified": 712,
+  "dependency_notices": 369,
+  "binary_sha256": "a26b1530633b3f53c6a399d7b401bb17b19358223dc576e6b8433becc21cffea",
+  "actual_binary_bytes": 125333128,
+  "application_read_only": true,
+  "all_manifest_bytes_verified": true,
+  "commercial_payloads": false,
+  "outcome": "passed_archive_manifest_and_read_only_download_validation",
+  "build_request_revision": "7e957c46a15b3dcccdce7ef530b768ab1abb013e",
+  "release_url": "https://github.com/ImadMashhood/RoadRash-Bevy-/releases/tag/native-functional-2026-11-07-rc6",
+  "archive_asset_id": 721048966,
+  "sha256sums_asset_id": 721048964,
+  "sha256sums_sha256": "bb27470cf34d85bd3b79ffbd167b694a6ad21f2b2f16384e88a6925e7ac73a21",
+  "published_release_workflow": 42384585561,
+  "g5_accepted": false,
+  "scope": "Actual Ubuntu-published RC6 bytes, independent of the local Fedora rebuild; owned-data/runtime acceptance is separate."
+}

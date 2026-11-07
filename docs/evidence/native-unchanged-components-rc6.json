@@ -1,0 +1,211 @@
+{
+  "outcome": "passed_static_scope_comparison",
+  "rc5_source": "24d05dcf399035fe6c6e70bb19fe1b12488c1cec",
+  "rc6_source": "d9dac51433d279c5f6a92a266f2db9fe4a665d42",
+  "method": "Read-only Git object/tree equality and previously validated published package manifests only; no binary rehash, application launch or new test execution.",
+  "source_equal_objects": [
+    {
+      "path": "apps/game",
+      "rc5_object": "e2dd200ef91b7df06684c0cee4aab9d5b62f13b0",
+      "rc6_object": "e2dd200ef91b7df06684c0cee4aab9d5b62f13b0",
+      "equal": true
+    },
+    {
+      "path": "crates/content",
+      "rc5_object": "d29c013af47c6341f5e682c9da6475f1632f2398",
+      "rc6_object": "d29c013af47c6341f5e682c9da6475f1632f2398",
+      "equal": true
+    },
+    {
+      "path": "crates/course",
+      "rc5_object": "54f975d85a2d055aa0681e330562dbd19f9e2966",
+      "rc6_object": "54f975d85a2d055aa0681e330562dbd19f9e2966",
+      "equal": true
+    },
+    {
+      "path": "crates/formats",
+      "rc5_object": "bab7e22d374a01d2cbd3e65d56a888e497b7e18b",
+      "rc6_object": "bab7e22d374a01d2cbd3e65d56a888e497b7e18b",
+      "equal": true
+    },
+    {
+      "path": "crates/import",
+      "rc5_object": "417afe08f09b57cb80bea0bc638c81104afd926b",
+      "rc6_object": "417afe08f09b57cb80bea0bc638c81104afd926b",
+      "equal": true
+    },
+    {
+      "path": "crates/input",
+      "rc5_object": "9023ac85eb5af1cf8624e13687dbcc6fb285c732",
+      "rc6_object": "9023ac85eb5af1cf8624e13687dbcc6fb285c732",
+      "equal": true
+    },
+    {
+      "path": "crates/media",
+      "rc5_object": "6501cfb51bad334bfbe3b0c97e97364714746b02",
+      "rc6_object": "6501cfb51bad334bfbe3b0c97e97364714746b02",
+      "equal": true
+    },
+    {
+      "path": "crates/presentation",
+      "rc5_object": "ec90cc2607f881e4eb5248fa4504a112170c3704",
+      "rc6_object": "ec90cc2607f881e4eb5248fa4504a112170c3704",
+      "equal": true
+    },
+    {
+      "path": "crates/render",
+      "rc5_object": "78d2249a65bb626f0ed15b4b39331cfa82bf941e",
+      "rc6_object": "78d2249a65bb626f0ed15b4b39331cfa82bf941e",
+      "equal": true
+    },
+    {
+      "path": "crates/session",
+      "rc5_object": "7a0b79b6b7139a84226f4b41a0a4fff5c8fb0444",
+      "rc6_object": "7a0b79b6b7139a84226f4b41a0a4fff5c8fb0444",
+      "equal": true
+    },
+    {
+      "path": "Cargo.lock",
+      "rc5_object": "36d3297875da63b5e89d068b2a4a585b40609c5b",
+      "rc6_object": "36d3297875da63b5e89d068b2a4a585b40609c5b",
+      "equal": true
+    },
+    {
+      "path": "docs/PLAYER_GUIDE.md",
+      "rc5_object": "7d5ef6d643294936fbf52cdb40ea7e042494d524",
+      "rc6_object": "7d5ef6d643294936fbf52cdb40ea7e042494d524",
+      "equal": true
+    },
+    {
+      "path": "tools",
+      "rc5_object": "ce4c586a4fed65fee7e13075b6ca94197c8fe794",
+      "rc6_object": "ce4c586a4fed65fee7e13075b6ca94197c8fe794",
+      "equal": true
+    }
+  ],
+  "runtime_source_delta": {
+    "path": "crates/simulation/src/encounter.rs",
+    "inserted_lines": 7,
+    "deleted_lines": 0,
+    "scope": "Initialize independent body road configuration when voluntary dismount creates a body after road preparation, before its first movement."
+  },
+  "test_only_delta": {
+    "path": "crates/simulation/src/encounter/roads.rs",
+    "inserted_lines": 140,
+    "scope": "Add fixture and two regressions inside existing cfg(test) cache_tests module."
+  },
+  "other_changes": "README, release/evidence/status and candidate-request documentation changed; this is not whole-repository identity.",
+  "published_manifests": {
+    "verified_entries_each": 712,
+    "unchanged_entries": 711,
+    "changed_paths": [
+      "bin/rr-game"
+    ],
+    "selected_unchanged_components": [
+      {
+        "path": "bin/rr-content",
+        "rc5": {
+          "path": "bin/rr-content",
+          "bytes": 2012848,
+          "sha256": "672bb0533fcbdb3868ca06a753c5fc5be754f2b95f0fb1ed7b12bd1747eece05"
+        },
+        "rc6": {
+          "path": "bin/rr-content",
+          "bytes": 2012848,
+          "sha256": "672bb0533fcbdb3868ca06a753c5fc5be754f2b95f0fb1ed7b12bd1747eece05"
+        },
+        "equal": true
+      },
+      {
+        "path": "bin/rr-import",
+        "rc5": {
+          "path": "bin/rr-import",
+          "bytes": 981888,
+          "sha256": "6ccad916f943fff1e807f2577eea62a5ec83d8e24eba1ea15406b3daa24d8791"
+        },
+        "rc6": {
+          "path": "bin/rr-import",
+          "bytes": 981888,
+          "sha256": "6ccad916f943fff1e807f2577eea62a5ec83d8e24eba1ea15406b3daa24d8791"
+        },
+        "equal": true
+      },
+      {
+        "path": "RoadRash",
+        "rc5": {
+          "path": "RoadRash",
+          "bytes": 61,
+          "sha256": "0953498b7e60f0c83e4836002df45a503f23060171f8e4652bc570cdd1b0f885"
+        },
+        "rc6": {
+          "path": "RoadRash",
+          "bytes": 61,
+          "sha256": "0953498b7e60f0c83e4836002df45a503f23060171f8e4652bc570cdd1b0f885"
+        },
+        "equal": true
+      },
+      {
+        "path": "RoadRash.py",
+        "rc5": {
+          "path": "RoadRash.py",
+          "bytes": 6956,
+          "sha256": "796a05906d6f1f721ddd169f8f190b51a7bbf615717ed2f15165b2b329e77cca"
+        },
+        "rc6": {
+          "path": "RoadRash.py",
+          "bytes": 6956,
+          "sha256": "796a05906d6f1f721ddd169f8f190b51a7bbf615717ed2f15165b2b329e77cca"
+        },
+        "equal": true
+      },
+      {
+        "path": "PLAYER-GUIDE.md",
+        "rc5": {
+          "path": "PLAYER-GUIDE.md",
+          "bytes": 6721,
+          "sha256": "814914b12dc61da06c8a20558944c99403f0fec7f2321ec151100e9a6bbba8f2"
+        },
+        "rc6": {
+          "path": "PLAYER-GUIDE.md",
+          "bytes": 6721,
+          "sha256": "814914b12dc61da06c8a20558944c99403f0fec7f2321ec151100e9a6bbba8f2"
+        },
+        "equal": true
+      },
+      {
+        "path": "README.txt",
+        "rc5": {
+          "path": "README.txt",
+          "bytes": 654,
+          "sha256": "49eda87888d1643c8ad1bb956f33695a865f2a6117a8e2120397e4c398a14384"
+        },
+        "rc6": {
+          "path": "README.txt",
+          "bytes": 654,
+          "sha256": "49eda87888d1643c8ad1bb956f33695a865f2a6117a8e2120397e4c398a14384"
+        },
+        "equal": true
+      },
+      {
+        "path": "LICENSE-SCOPE.txt",
+        "rc5": {
+          "path": "LICENSE-SCOPE.txt",
+          "bytes": 339,
+          "sha256": "711ee0996b6e71872a20cf6019d606957daef272a2ac2419e16f8dbf89d19a84"
+        },
+        "rc6": {
+          "path": "LICENSE-SCOPE.txt",
+          "bytes": 339,
+          "sha256": "711ee0996b6e71872a20cf6019d606957daef272a2ac2419e16f8dbf89d19a84"
+        },
+        "equal": true
+      }
+    ],
+    "all_third_party_files_equal": true,
+    "third_party_entries": 704,
+    "game_binary_identical": false
+  },
+  "reuse_scope": "Supports historical actual RC5 UI/profile/persistence/media/render/import/physical-comparison evidence for unchanged components, alongside fresh actual RC6 package import, ordinary V recovery, full career and graphical-finale proofs. Historical tests are not counted as freshly executed. Does not reuse the failed RC5 V path as acceptance.",
+  "performance_acceptance": false,
+  "g5_accepted": false
+}

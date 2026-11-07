@@ -1,6 +1,35 @@
 # Native performance protocol
 
-The current [downloaded RC5 hour](evidence/native-performance-rc5.md) passes the
+The current candidate is RC6, source
+`d9dac51433d279c5f6a92a266f2db9fe4a665d42`, actual downloaded game
+`a26b1530633b3f53c6a399d7b401bb17b19358223dc576e6b8433becc21cffea`,
+archive `08d7de03ca59e50a4f1cab4d6a0c44d10653771831fed6e5ba3885ad9896d1e6`.
+Its [downloaded-byte preflights](evidence/native-preflight-rc6.md) pass unchanged
+budgets: allocator peak 485.08 MB (conservative upper bound 485.09 MB) against
+768 MiB, ten first frames at 776–942 ms against 5,000 ms, and ten UI cycles at
+15 CPU / 16 GPU image handles against 16, with stable warmed 512 entity-index
+slots. The 12-second owned-audio calibration passes 21 strict routing
+observations, zero exit, unchanged global defaults and preserved preexisting
+stream routes. Requested private shader cache directories remain empty; cache
+hits and individual compilation/upload costs remain unmeasured.
+
+**RC6 actual hour passed.** It completed 3,600.329 real seconds and 3,598.517
+simulated seconds with zero paused frames. All five complete warm-course timing
+gates pass (wall p95 14.151–16.265 ms); peak RSS is 1,126,232,064 bytes with
+11 CPU/GPU image handles. Both laps and prior failures remain published.
+[Final performance receipt](evidence/native-performance-rc6.md). No other
+acceptance app/build/profiler overlapped. Only the owned audio/display resources
+were stopped afterward; original audio defaults are verified after automatic
+policy settling, without restoration commands. Owner G5 remains pending; stop
+before mod support/upscaling.
+
+RC5's following hour remains valid only for its exact bytes and tested scope.
+Subsequent ordinary V dismount/recovery exposed a panic and rejected RC5 as the
+current candidate. The [actual downloaded RC6 recovery proof](evidence/native-voluntary-downloaded-rc6.md)
+passes repeated ordinary V recovery at levels 1 and 5 with eight passive replay
+checks; RC5's passing soak does not erase that later correctness failure.
+
+The historical [downloaded RC5 hour](evidence/native-performance-rc5.md) passes the
 unchanged budgets on the declared platform. Source
 `24d05dcf399035fe6c6e70bb19fe1b12488c1cec` and actual downloaded game
 `4520d5a27a77ba5cbfadf2f2a7045dc206557dbf73be378eb47e67daea499f21`
@@ -67,7 +96,7 @@ completed frame to the window, not AI enhancement of game textures.
 The hour-long soak uses two laps through all five courses, six minutes per course
 per lap. Its pilot ignores physical controls/focus, uses continuous background
 updates, normal controls and real terminal restarts. It is a stability/load test.
-The RC5 hour supplies five complete warm second-lap six-minute timing series.
+The historical RC5 hour supplies five complete warm second-lap six-minute timing series.
 Window focus is not instrumented, and ordinary user desktop applications are
 left untouched. The historical RC4 hour instead reached its global timing cap
 and required a separate Canyon supplement, as documented below.
@@ -153,7 +182,7 @@ python3 tools/verification/lifecycle.py --binary ../target/release/rr-game \
 Use the default predictive pilot without `RR_DRIVER_*` overrides. Reproducing
 the audio scope also requires a process-local configuration targeting a verified
 owned sink; the routing observer checks owned process/client/node/link identity
-and unchanged global defaults. The current
+and unchanged global defaults. The historical
 [RC5 performance receipt](evidence/native-performance-rc5.json) contains the
 complete first- and second-lap results. Validate the declared
 long-run criteria with `python3 tools/verification/performance.py --soak PRIVATE_HOUR
@@ -165,8 +194,8 @@ Keep full replay setups, source frames, sound/video, profiler traces and raw log
 private. Publish aggregate values, hashes, explicit failures/skips and the exact
 candidate identity. [Native acceptance](NATIVE_ACCEPTANCE.md),
 [current CPU stages](evidence/native-cpu-stages-current.json),
-[RC5 heap](evidence/native-heap-rc5.json),
-[RC5 lifecycle](evidence/native-lifecycle-rc5.json).
+[RC6 heap](evidence/native-heap-rc6.json),
+[RC6 lifecycle](evidence/native-lifecycle-rc6.json).
 
 The historical RC4 [downloaded-build short cross-check](evidence/native-delivered-short-profile.json) has mixed results: City/Highway warm segments and Canyon segments miss the wall target. It is retained as an exploratory failure, not silently replaced or labeled a pass. Its one-minute course segments do not satisfy the five-minute sampling requirement; the follow-up uses separate 320-second downloaded-build course runs. Observed competing desktop work is declared without claiming it caused the difference.
 

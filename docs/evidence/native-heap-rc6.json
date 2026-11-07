@@ -1,0 +1,22 @@
+{
+  "outcome": "passed_for_allocator_budget",
+  "source_revision": "d9dac51433d279c5f6a92a266f2db9fe4a665d42",
+  "release_tag": "native-functional-2026-11-07-rc6",
+  "archive_sha256": "08d7de03ca59e50a4f1cab4d6a0c44d10653771831fed6e5ba3885ad9896d1e6",
+  "binary_sha256": "a26b1530633b3f53c6a399d7b401bb17b19358223dc576e6b8433becc21cffea",
+  "tool": "Heaptrack1.5.0 private Fedora tools; space-free copied exactgamebytes; --record-only/CLIanalysis",
+  "duration_s": 60.183597531,
+  "frames": 2933,
+  "source_courses": 5,
+  "course_laps": 2,
+  "peak_heap_display": "485.08M",
+  "conservative_display_rounding_upper_bytes": 485090000.0,
+  "sampled_massif_peak_heap_bytes": 481723098,
+  "heap_budget_bytes": 805306368,
+  "profiler_rss_display": "1.16G",
+  "unreleased_at_process_exit_display": "1.04M",
+  "suppressed_library_allocations_display": "162.26K",
+  "allocation_calls_display": "15356892 (254278/s)",
+  "trace_sha256": "fd5ecf83a342b0f72a1dfcd79df382c1b44e7cb92be3135dee2a481474299a67",
+  "scope": "Actual downloaded immutable game; audio/videooff; two five-course tours. No competing acceptance app/build/profiler. Allocation scope only, profiled FPS excluded. Nonzero process-exit retention includes framework/library caches and persistent raster workers; not a zero-leak claim."
+}

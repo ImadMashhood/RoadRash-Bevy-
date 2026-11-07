@@ -62,18 +62,26 @@
       "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Run the manifest with all enhanced packs disabled. Each required entry has an executable scenario and an expected result; unresolved required functions remain open.",
-      "evidence": "docs/evidence/19.01.md"
+      "evidence": "docs/evidence/19.01.md",
+      "completed_children": [
+        "a",
+        "b",
+        "c"
+      ]
     },
     {
       "id": "19.02",
       "title": "Complete the original player action set",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Exercise press, hold, release, depletion, simultaneous controls and crash/remount transitions. Verify actions through the real input adapter and include their state in replays.",
       "evidence": "docs/evidence/19.02.md",
-      "completed_children": [],
-      "reopened_reason": "Downloaded RC5 exits101 on ordinary stationary V dismount: a LIVE body is created after per-tick source-road preparation, then indexes a missing independent body config in encounter.rs1358. Correct transition initialization, keyboard recovery and a replacement candidate are required; RC5 scoped career/performance passes remain historical evidence."
+      "completed_children": [
+        "a",
+        "b",
+        "c"
+      ]
     },
     {
       "id": "19.03",
@@ -82,18 +90,26 @@
       "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Run the complete actor/state matrix on every course. No invisible collidable actor, missing required transition, incorrect ground contact or unexplained animation gap remains.",
-      "evidence": "docs/evidence/19.03.md"
+      "evidence": "docs/evidence/19.03.md",
+      "completed_children": [
+        "a",
+        "b",
+        "c"
+      ]
     },
     {
       "id": "19.04",
       "title": "Close traffic and police functional gaps",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Drive scripted dense, split-route, intersection and simultaneous-incident cases. Required behaviors work with native graphics, deterministic identities and no stale contacts or sirens.",
       "evidence": "docs/evidence/19.04.md",
-      "completed_children": [],
-      "reopened_reason": "Downloaded RC5 exits101 on ordinary stationary V dismount: a LIVE body is created after per-tick source-road preparation, then indexes a missing independent body config in encounter.rs1358. Correct transition initialization, keyboard recovery and a replacement candidate are required; RC5 scoped career/performance passes remain historical evidence."
+      "completed_children": [
+        "a",
+        "b",
+        "c"
+      ]
     },
     {
       "id": "19.05",
@@ -102,7 +118,12 @@
       "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Complete real command-driven races from countdown through results on the native setup matrix; do not substitute fabricated terminal requests for the end-to-end finish acceptance.",
-      "evidence": "docs/evidence/19.05.md"
+      "evidence": "docs/evidence/19.05.md",
+      "completed_children": [
+        "a",
+        "b",
+        "c"
+      ]
     },
     {
       "id": "19.06",
@@ -111,7 +132,12 @@
       "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Run every offline item and Back/cancel route from a clean profile. Report source-art layout differences separately, but leave no required item inert or replaced by placeholder advice.",
-      "evidence": "docs/evidence/19.06.md"
+      "evidence": "docs/evidence/19.06.md",
+      "completed_children": [
+        "a",
+        "b",
+        "c"
+      ]
     },
     {
       "id": "19.07",
@@ -120,7 +146,12 @@
       "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Exercise each required invocation with the original local corpus. Verify owner/return screen, cue timing, audio completion, subtitle hooks and cleanup; unsupported required media stays open.",
-      "evidence": "docs/evidence/19.07.md"
+      "evidence": "docs/evidence/19.07.md",
+      "completed_children": [
+        "a",
+        "b",
+        "c"
+      ]
     },
     {
       "id": "19.08",
@@ -129,7 +160,12 @@
       "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Complete profile creation, several races, close/reopen, purchase/repair, corruption recovery and settings reset while preserving funds, unlocks and bindings exactly once.",
-      "evidence": "docs/evidence/19.08.md"
+      "evidence": "docs/evidence/19.08.md",
+      "completed_children": [
+        "a",
+        "b",
+        "c"
+      ]
     },
     {
       "id": "19.09",
@@ -149,34 +185,43 @@
       "id": "19.10",
       "title": "Burn down required functionality defects",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "No blocker or required functional gap remains unassigned, waived implicitly or hidden under a completed scaffold receipt. Closed defects have passing regression evidence.",
       "evidence": "docs/evidence/19.10.md",
-      "completed_children": [],
-      "reopened_reason": "Downloaded RC5 exits101 on ordinary stationary V dismount: a LIVE body is created after per-tick source-road preparation, then indexes a missing independent body config in encounter.rs1358. Correct transition initialization, keyboard recovery and a replacement candidate are required; RC5 scoped career/performance passes remain historical evidence."
+      "completed_children": [
+        "a",
+        "b",
+        "c"
+      ]
     },
     {
       "id": "19.11",
       "title": "Demonstrate the game without development tools",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Have a reviewer follow the written clean-profile route and record failures. Resolve every required interruption before handing the candidate to UI and release verification.",
       "evidence": "docs/evidence/19.11.md",
-      "completed_children": [],
-      "reopened_reason": "Downloaded RC5 exits101 on ordinary stationary V dismount: a LIVE body is created after per-tick source-road preparation, then indexes a missing independent body config in encounter.rs1358. Correct transition initialization, keyboard recovery and a replacement candidate are required; RC5 scoped career/performance passes remain historical evidence."
+      "completed_children": [
+        "a",
+        "b",
+        "c"
+      ]
     },
     {
       "id": "19.12",
       "title": "Freeze the functional candidate for native release verification",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
-      "acceptance": "Confirm every required feature has implementation and evidence, that Parts 20\u201322 have explicit acceptance owners, and that Part 24 production is still locked until G5 signoff.",
+      "acceptance": "Confirm every required feature has implementation and evidence, that Parts 20–22 have explicit acceptance owners, and that Part 24 production is still locked until G5 signoff.",
       "evidence": "docs/evidence/19.12.md",
-      "completed_children": [],
-      "reopened_reason": "Downloaded RC5 exits101 on ordinary stationary V dismount: a LIVE body is created after per-tick source-road preparation, then indexes a missing independent body config in encounter.rs1358. Correct transition initialization, keyboard recovery and a replacement candidate are required; RC5 scoped career/performance passes remain historical evidence."
+      "completed_children": [
+        "a",
+        "b",
+        "c"
+      ]
     },
     {
       "id": "20.01",
@@ -185,7 +230,12 @@
       "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Compare displayed values against simulation at checkpoints.",
-      "evidence": "docs/evidence/20.01.md"
+      "evidence": "docs/evidence/20.01.md",
+      "completed_children": [
+        "a",
+        "b",
+        "c"
+      ]
     },
     {
       "id": "20.02",
@@ -194,7 +244,12 @@
       "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Test minimum window size, ultrawide and high-DPI layouts.",
-      "evidence": "docs/evidence/20.02.md"
+      "evidence": "docs/evidence/20.02.md",
+      "completed_children": [
+        "a",
+        "b",
+        "c"
+      ]
     },
     {
       "id": "20.03",
@@ -203,7 +258,12 @@
       "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Complete selection and confirmation flows using keyboard and controller only.",
-      "evidence": "docs/evidence/20.03.md"
+      "evidence": "docs/evidence/20.03.md",
+      "completed_children": [
+        "a",
+        "b",
+        "c"
+      ]
     },
     {
       "id": "20.04",
@@ -212,7 +272,12 @@
       "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Test long labels and minimum supported UI scale.",
-      "evidence": "docs/evidence/20.04.md"
+      "evidence": "docs/evidence/20.04.md",
+      "completed_children": [
+        "a",
+        "b",
+        "c"
+      ]
     },
     {
       "id": "20.05",
@@ -221,7 +286,12 @@
       "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Add shape, icon or text equivalents and verify grayscale readability.",
-      "evidence": "docs/evidence/20.05.md"
+      "evidence": "docs/evidence/20.05.md",
+      "completed_children": [
+        "a",
+        "b",
+        "c"
+      ]
     },
     {
       "id": "20.06",
@@ -230,7 +300,12 @@
       "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Verify disabled effects do not alter simulation or hide required state.",
-      "evidence": "docs/evidence/20.06.md"
+      "evidence": "docs/evidence/20.06.md",
+      "completed_children": [
+        "a",
+        "b",
+        "c"
+      ]
     },
     {
       "id": "20.07",
@@ -239,7 +314,12 @@
       "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Test subtitles at the longest line and during skipped media.",
-      "evidence": "docs/evidence/20.07.md"
+      "evidence": "docs/evidence/20.07.md",
+      "completed_children": [
+        "a",
+        "b",
+        "c"
+      ]
     },
     {
       "id": "20.08",
@@ -248,7 +328,12 @@
       "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Record gaps rather than assuming all screens are translated.",
-      "evidence": "docs/evidence/20.08.md"
+      "evidence": "docs/evidence/20.08.md",
+      "completed_children": [
+        "a",
+        "b",
+        "c"
+      ]
     },
     {
       "id": "20.09",
@@ -257,7 +342,12 @@
       "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Test plural/number formatting and avoid string-concatenation layout assumptions.",
-      "evidence": "docs/evidence/20.09.md"
+      "evidence": "docs/evidence/20.09.md",
+      "completed_children": [
+        "a",
+        "b",
+        "c"
+      ]
     },
     {
       "id": "20.10",
@@ -266,7 +356,12 @@
       "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Verify missing glyph handling and wrapping without clipped controls.",
-      "evidence": "docs/evidence/20.10.md"
+      "evidence": "docs/evidence/20.10.md",
+      "completed_children": [
+        "a",
+        "b",
+        "c"
+      ]
     },
     {
       "id": "20.11",
@@ -275,7 +370,12 @@
       "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Restart the game and verify every option remains active.",
-      "evidence": "docs/evidence/20.11.md"
+      "evidence": "docs/evidence/20.11.md",
+      "completed_children": [
+        "a",
+        "b",
+        "c"
+      ]
     },
     {
       "id": "20.12",
@@ -284,7 +384,12 @@
       "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Record any inaccessible control as a release-blocking UI issue for the chosen target.",
-      "evidence": "docs/evidence/20.12.md"
+      "evidence": "docs/evidence/20.12.md",
+      "completed_children": [
+        "a",
+        "b",
+        "c"
+      ]
     },
     {
       "id": "21.01",
@@ -293,7 +398,12 @@
       "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Repeat an engine baseline capture and quantify measurement variance.",
-      "evidence": "docs/evidence/21.01.md"
+      "evidence": "docs/evidence/21.01.md",
+      "completed_children": [
+        "a",
+        "b",
+        "c"
+      ]
     },
     {
       "id": "21.02",
@@ -302,7 +412,12 @@
       "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Reject comparisons whose initial conditions do not match.",
-      "evidence": "docs/evidence/21.02.md"
+      "evidence": "docs/evidence/21.02.md",
+      "completed_children": [
+        "a",
+        "b",
+        "c"
+      ]
     },
     {
       "id": "21.03",
@@ -311,7 +426,12 @@
       "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Classify arithmetic, scheduling, RNG and content mismatches separately.",
-      "evidence": "docs/evidence/21.03.md"
+      "evidence": "docs/evidence/21.03.md",
+      "completed_children": [
+        "a",
+        "b",
+        "c"
+      ]
     },
     {
       "id": "21.04",
@@ -320,7 +440,12 @@
       "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Justify every mask and avoid masking actual fidelity defects.",
-      "evidence": "docs/evidence/21.04.md"
+      "evidence": "docs/evidence/21.04.md",
+      "completed_children": [
+        "a",
+        "b",
+        "c"
+      ]
     },
     {
       "id": "21.05",
@@ -329,7 +454,12 @@
       "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Record units and reasons for every nonzero tolerance.",
-      "evidence": "docs/evidence/21.05.md"
+      "evidence": "docs/evidence/21.05.md",
+      "completed_children": [
+        "a",
+        "b",
+        "c"
+      ]
     },
     {
       "id": "21.06",
@@ -349,67 +479,85 @@
       "id": "21.07",
       "title": "Measure CPU and GPU frame times separately",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Report percentiles and hardware rather than a single average FPS.",
       "evidence": "docs/evidence/21.07.md",
-      "completed_children": [],
-      "reopened_reason": "Downloaded RC5 exits101 on ordinary stationary V dismount: a LIVE body is created after per-tick source-road preparation, then indexes a missing independent body config in encounter.rs1358. Correct transition initialization, keyboard recovery and a replacement candidate are required; RC5 scoped career/performance passes remain historical evidence."
+      "completed_children": [
+        "a",
+        "b",
+        "c"
+      ]
     },
     {
       "id": "21.08",
       "title": "Measure memory and texture residency",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Run the native asset set on every course, identify the largest contributors and freeze the native residency budget. Enhanced-pack comparisons belong to Part 24 after G5.",
       "evidence": "docs/evidence/21.08.md",
-      "completed_children": [],
-      "reopened_reason": "Downloaded RC5 exits101 on ordinary stationary V dismount: a LIVE body is created after per-tick source-road preparation, then indexes a missing independent body config in encounter.rs1358. Correct transition initialization, keyboard recovery and a replacement candidate are required; RC5 scoped career/performance passes remain historical evidence."
+      "completed_children": [
+        "a",
+        "b",
+        "c"
+      ]
     },
     {
       "id": "21.09",
       "title": "Test repeated native import race and unload cycles",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Confirm counts stabilize instead of increasing after every cycle.",
       "evidence": "docs/evidence/21.09.md",
-      "completed_children": [],
-      "reopened_reason": "Downloaded RC5 exits101 on ordinary stationary V dismount: a LIVE body is created after per-tick source-road preparation, then indexes a missing independent body config in encounter.rs1358. Correct transition initialization, keyboard recovery and a replacement candidate are required; RC5 scoped career/performance passes remain historical evidence."
+      "completed_children": [
+        "a",
+        "b",
+        "c"
+      ]
     },
     {
       "id": "21.10",
       "title": "Test loading stalls and shader warmup",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Repeat on cold and warm caches and set measured budgets.",
       "evidence": "docs/evidence/21.10.md",
-      "completed_children": [],
-      "reopened_reason": "Downloaded RC5 exits101 on ordinary stationary V dismount: a LIVE body is created after per-tick source-road preparation, then indexes a missing independent body config in encounter.rs1358. Correct transition initialization, keyboard recovery and a replacement candidate are required; RC5 scoped career/performance passes remain historical evidence."
+      "completed_children": [
+        "a",
+        "b",
+        "c"
+      ]
     },
     {
       "id": "21.11",
       "title": "Run soak tests on declared hardware",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Document thermal/power settings and any driver-specific failures.",
       "evidence": "docs/evidence/21.11.md",
-      "completed_children": [],
-      "reopened_reason": "Downloaded RC5 exits101 on ordinary stationary V dismount: a LIVE body is created after per-tick source-road preparation, then indexes a missing independent body config in encounter.rs1358. Correct transition initialization, keyboard recovery and a replacement candidate are required; RC5 scoped career/performance passes remain historical evidence."
+      "completed_children": [
+        "a",
+        "b",
+        "c"
+      ]
     },
     {
       "id": "21.12",
       "title": "Publish results with skips and limitations",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Avoid claiming coverage for checks that were not actually executed.",
       "evidence": "docs/evidence/21.12.md",
-      "completed_children": [],
-      "reopened_reason": "Downloaded RC5 exits101 on ordinary stationary V dismount: a LIVE body is created after per-tick source-road preparation, then indexes a missing independent body config in encounter.rs1358. Correct transition initialization, keyboard recovery and a replacement candidate are required; RC5 scoped career/performance passes remain historical evidence."
+      "completed_children": [
+        "a",
+        "b",
+        "c"
+      ]
     },
     {
       "id": "22.01",
@@ -418,7 +566,12 @@
       "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Launch the packaged binary rather than only a development build.",
-      "evidence": "docs/evidence/22.01.md"
+      "evidence": "docs/evidence/22.01.md",
+      "completed_children": [
+        "a",
+        "b",
+        "c"
+      ]
     },
     {
       "id": "22.02",
@@ -427,7 +580,12 @@
       "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Verify missing-disc instructions and successful import without development paths.",
-      "evidence": "docs/evidence/22.02.md"
+      "evidence": "docs/evidence/22.02.md",
+      "completed_children": [
+        "a",
+        "b",
+        "c"
+      ]
     },
     {
       "id": "22.03",
@@ -436,7 +594,12 @@
       "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Verify only permitted authored fixtures and application resources ship.",
-      "evidence": "docs/evidence/22.03.md"
+      "evidence": "docs/evidence/22.03.md",
+      "completed_children": [
+        "a",
+        "b",
+        "c"
+      ]
     },
     {
       "id": "22.04",
@@ -445,7 +608,12 @@
       "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Check required texts and distinguish source licensing from game data.",
-      "evidence": "docs/evidence/22.04.md"
+      "evidence": "docs/evidence/22.04.md",
+      "completed_children": [
+        "a",
+        "b",
+        "c"
+      ]
     },
     {
       "id": "22.05",
@@ -454,7 +622,12 @@
       "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Test unwritable install directory and multiple user accounts.",
-      "evidence": "docs/evidence/22.05.md"
+      "evidence": "docs/evidence/22.05.md",
+      "completed_children": [
+        "a",
+        "b",
+        "c"
+      ]
     },
     {
       "id": "22.06",
@@ -463,7 +636,12 @@
       "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Record resolution, settings and frame-time evidence for that configuration.",
-      "evidence": "docs/evidence/22.06.md"
+      "evidence": "docs/evidence/22.06.md",
+      "completed_children": [
+        "a",
+        "b",
+        "c"
+      ]
     },
     {
       "id": "22.07",
@@ -472,7 +650,12 @@
       "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Verify user saves and separately imported data follow documented behavior.",
-      "evidence": "docs/evidence/22.07.md"
+      "evidence": "docs/evidence/22.07.md",
+      "completed_children": [
+        "a",
+        "b",
+        "c"
+      ]
     },
     {
       "id": "22.08",
@@ -481,40 +664,54 @@
       "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Reproduce each troubleshooting step without exposing private data unnecessarily.",
-      "evidence": "docs/evidence/22.08.md"
+      "evidence": "docs/evidence/22.08.md",
+      "completed_children": [
+        "a",
+        "b",
+        "c"
+      ]
     },
     {
       "id": "22.09",
       "title": "Create release notes and known issues",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Link each material limitation to a tracked issue or evidence record.",
       "evidence": "docs/evidence/22.09.md",
-      "completed_children": [],
-      "reopened_reason": "Downloaded RC5 exits101 on ordinary stationary V dismount: a LIVE body is created after per-tick source-road preparation, then indexes a missing independent body config in encounter.rs1358. Correct transition initialization, keyboard recovery and a replacement candidate are required; RC5 scoped career/performance passes remain historical evidence."
+      "completed_children": [
+        "a",
+        "b",
+        "c"
+      ]
     },
     {
       "id": "22.10",
       "title": "Tag reproducible source revision",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Rebuild from the tag and compare intended reproducibility outputs.",
       "evidence": "docs/evidence/22.10.md",
-      "completed_children": [],
-      "reopened_reason": "Downloaded RC5 exits101 on ordinary stationary V dismount: a LIVE body is created after per-tick source-road preparation, then indexes a missing independent body config in encounter.rs1358. Correct transition initialization, keyboard recovery and a replacement candidate are required; RC5 scoped career/performance passes remain historical evidence."
+      "completed_children": [
+        "a",
+        "b",
+        "c"
+      ]
     },
     {
       "id": "22.11",
       "title": "Attach checksums to release artifacts",
       "required": true,
-      "status": "pending",
+      "status": "passed",
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Verify downloaded bytes against published checksums.",
       "evidence": "docs/evidence/22.11.md",
-      "completed_children": [],
-      "reopened_reason": "Downloaded RC5 exits101 on ordinary stationary V dismount: a LIVE body is created after per-tick source-road preparation, then indexes a missing independent body config in encounter.rs1358. Correct transition initialization, keyboard recovery and a replacement candidate are required; RC5 scoped career/performance passes remain historical evidence."
+      "completed_children": [
+        "a",
+        "b",
+        "c"
+      ]
     },
     {
       "id": "22.12",
@@ -524,9 +721,13 @@
       "owner": "Implementing agent; project owner reviews release",
       "acceptance": "Leave the release gate open for any unresolved blocking scenario.",
       "evidence": "docs/evidence/22.12.md",
-      "completed_children": [],
-      "reopened_reason": "Downloaded RC5 exits101 on ordinary stationary V dismount: a LIVE body is created after per-tick source-road preparation, then indexes a missing independent body config in encounter.rs1358. Correct transition initialization, keyboard recovery and a replacement candidate are required; RC5 scoped career/performance passes remain historical evidence."
+      "completed_children": [
+        "a",
+        "b",
+        "c"
+      ],
+      "pending_reason": "Only project-owner G5 review and signature for the actual downloaded RC6 remain pending; technical checks and children a/b/c passed."
     }
   ],
-  "active_priority": "docs/COMPLETION_EXECUTION.md"
+  "active_priority": "docs/NATIVE_RC6_REVIEW.md"
 }

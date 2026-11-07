@@ -1,0 +1,221 @@
+{
+  "outcome": "passed",
+  "scope": "Actual downloaded RC6 fresh genuine career joined to exact-byte reuse of the accepted post-fix source replay audit. No second independent replay execution is claimed.",
+  "release_tag": "native-functional-2026-11-07-rc6",
+  "source_revision": "d9dac51433d279c5f6a92a266f2db9fe4a665d42",
+  "build_request_revision": "7e957c46a15b3dcccdce7ef530b768ab1abb013e",
+  "github_build_run": 42384585561,
+  "archive_bytes": 29746334,
+  "archive_sha256": "08d7de03ca59e50a4f1cab4d6a0c44d10653771831fed6e5ba3885ad9896d1e6",
+  "binary_sha256": "a26b1530633b3f53c6a399d7b401bb17b19358223dc576e6b8433becc21cffea",
+  "application_binary_sha256": "a26b1530633b3f53c6a399d7b401bb17b19358223dc576e6b8433becc21cffea",
+  "actual_mapped_executable_preserved": true,
+  "actual_career_exit_code": 0,
+  "actual_career_races": 31,
+  "races": 31,
+  "course_level_cases": 25,
+  "native_only": true,
+  "real_controls_only": true,
+  "outcomes": {
+    "Won": 31
+  },
+  "new_independent_replay_executions": 0,
+  "reused_independent_replay_executions": 124,
+  "reused_unique_replay_inputs": 31,
+  "frame_schedules": [
+    "30",
+    "60",
+    "144",
+    "irregular"
+  ],
+  "source_audit_reference": "native-career-source-rc6.json",
+  "source_reference_sha256": "153525ebf877e4338da6971b09797d7dfdf715420ccf1e9a04ae68389485221b",
+  "source_audit_receipt_sha256": "7fee750f716407835b6e7942e7dbcaf98a79a89dea8ed1d5ec1768a5be2f2e1c",
+  "replay_binary_sha256": "8f12478ecce2aedecbfc12b30ac601d479bfbabe1dcffc639bd6d9c4a21f8d3e",
+  "replay_companion_is_packaged": false,
+  "verifier_sha256": "cf2029f18592a5f5cb99dc02d2a63109aefb5c60d7c8e12c82016cbfb74a3ce6",
+  "reuse_checker_sha256": "622d647fc2c71b5f1067d55689fdc71bda19919928ef7ea276e258effdc5ab31",
+  "reuse_proof_sha256": "9f06af467f24e86468752f8a8ff16b4489289dcd1a3b69542a30dc4fecccc86b",
+  "source_fixture": {
+    "install_generation": "install-wb0yuF",
+    "install_receipt_sha256": "5cbd8ae0594be876301d368a2feabed897afa8ed0c78a8584cb212a2c859c102",
+    "source_executable_sha256": "73d7f9744b5b1a9482b3909950cdf3fe34119fe13d023b031e9c6739a60f18a2",
+    "catalog_sha256": "cf7ae62644839f86338904442695e3f450ac9bae5cfe80a053412238d7738c78",
+    "validated_install_files": 341
+  },
+  "campaign": {
+    "alias": "",
+    "bike": 7,
+    "cash": 12797,
+    "character": 3,
+    "completed": true,
+    "condition": 98,
+    "last_settled": 31,
+    "level": 5,
+    "maximum_condition": 100,
+    "next_race": 32,
+    "qualified": 0,
+    "relationships": [
+      [
+        31744,
+        35840,
+        11136
+      ],
+      [
+        11264,
+        7168,
+        32256
+      ],
+      [
+        1024,
+        4096,
+        1280
+      ],
+      [
+        5120,
+        10240,
+        1280
+      ],
+      [
+        2560,
+        5120,
+        23040
+      ],
+      [
+        5120,
+        4096,
+        17408
+      ],
+      [
+        8192,
+        2048,
+        32640
+      ],
+      [
+        2560,
+        5120,
+        5376
+      ],
+      [
+        8192,
+        4096,
+        24576
+      ],
+      [
+        0,
+        0,
+        16128
+      ]
+    ],
+    "revision": 39
+  },
+  "final_cash": 12797,
+  "final_hash": "a0b53f2efaf68bf84735b86964241de23dc6e05b837277607595bc48feae4fd9",
+  "total_native_ticks": 536874,
+  "recovered_crashes": 6,
+  "purchases": 5,
+  "paid_repairs": 3,
+  "campaign_sha256": "da31aba3069219a459a3a26e41cb939cf6f60e523feeca0bd153f46785a29922",
+  "final_save_sha256": "11cd18ca80827ba54ca47d876f50eca116b0d92047540d97ce11ec125b441208",
+  "production_save_reopened_after_each_settlement": true,
+  "reuse_proof_written_utc": "2026-11-07T15:26:53.633423+00:00",
+  "correctness_overlap": "Package agent ordinary downloaded voluntary-recovery UI on :199, root-authorized correctness only",
+  "fps_acceptance_claimed": false,
+  "owner_g5_signed": false,
+  "download_evidence": "native-download-rc6.json",
+  "ordinary_manual_dismount_evidence": "native-voluntary-downloaded-rc6.json",
+  "reuse_proof": {
+    "outcome": "passed",
+    "scope": "Exact-byte evidence reuse; no new engine execution.",
+    "new_independent_replay_executions": 0,
+    "reused_independent_replay_executions": 124,
+    "reused_unique_replay_inputs": 31,
+    "frame_schedules": [
+      "30",
+      "60",
+      "144",
+      "irregular"
+    ],
+    "source_reference_sha256": "153525ebf877e4338da6971b09797d7dfdf715420ccf1e9a04ae68389485221b",
+    "source_audit_receipt_sha256": "7fee750f716407835b6e7942e7dbcaf98a79a89dea8ed1d5ec1768a5be2f2e1c",
+    "source_campaign_sha256": "e086e8b2289cd8e8eb27037013be56403360dcf06296f69e781006a8d431de68",
+    "actual_campaign_sha256": "da31aba3069219a459a3a26e41cb939cf6f60e523feeca0bd153f46785a29922",
+    "replay_sha256": [
+      "9812b2c642c65ba5a7e374a0d04c45debb019a517948f5fadeeccaefb3c3e5d9",
+      "640b2797a7561f2f9f5fa107c1285976bb2cc7ea7447cb0731837ba137a03fc7",
+      "4f4c8c706e5efbf789e60e7ae909f2ffc4245096147c2ede117f57b1c4e06f37",
+      "a4bae3b6ca8ddf684d9e8fbfc73b45b4b3df58437c09ac666fc6d71807f91134",
+      "97d9e2ff31168116ab0174921f17a24c87330fb713d76b8e17a269c14db7b765",
+      "45fd44b8756b1f1f2bdc3c33859b4b2c075f3242f5718a04358560b62a6aa649",
+      "07c27462f97b3607fd24eaef9f04ab77881fbe96cb653ecd486f15671d83962c",
+      "d5774a0a6a32843aa4c423ef51789a18d34e6ceef81fe7d80584b23f424aba28",
+      "0f72f1856327559cb60d613fc3926807ef365dd5e1398a7305f4f0a249d96644",
+      "0b925f0702dcc61f6392d31fdfe417dca54d750b956c2491a568eba8813d243a",
+      "84161a832948e566b201584983ec17f8b33b74cfbf9903e839f629123df6c4a1",
+      "47fc73f9ef8332eeaab193db49eb37035d5b5ebd99ec5cae8559b03506d97b68",
+      "f75c8ff903336ca5548824815a2c4f575821616352674fd840027413313970ca",
+      "55c0d3ce3feacb2d3964c6199efabc2245abb42fe8e4b60aa66a0c31f6aeacd0",
+      "a475d19e596c3224e35bc035b79d375049b40e96089aaa820de3facb9f6b61fb",
+      "0c60527f0c3b84e0607bcc66668399b5bb996eeb189b388439b1b64b09b93dba",
+      "e26e6487632eb1c47ff0fa7212ac10862c0c17bd1b196b8cde69771d79bb1452",
+      "4bd3434e717771abacd643cd5d2cd17a51a642aea805a2370a406d11f9cb60da",
+      "561ec022972c364222c9d8a41dc52fa99d09a764f39a028da752ad515d9e2dbf",
+      "ba53717d00c9044a1a2f2be05f929850f4a2feb95ed892e6289a836a152fcbc5",
+      "8e3c5910db30c0824896f83c92d434e56f27fbd5ac5d24845d81b10a9f00e0d1",
+      "02528717f83349c8c72c439b71125b00f1506fffba7e7d909d1824f5362c96ce",
+      "e2ab200e78f80f3f7211e217350f71cf79bd6ece5e6997192d1134e53c89dde7",
+      "84bba2371604188eccc18fb7f529586bea0e192b77474731b474c39c4443eb33",
+      "356035ae39b9ec80979d87dbd30ae62ae6a051741d005b5eab6b673cb33019b2",
+      "167f510e946813d20f03215284502f1e0de67b766cc681ba325ff31f04a27e03",
+      "0b034e8eeab7325c49dfe649c76a5395baf97ee9a46f0379a55a87ed848fc27e",
+      "68acaf0fb853752eb2f85a1553c16298e575df55a691582e54d254624f7ebef9",
+      "392d89200642f070c377375f8262e9bd51782bace293094e2c635e8f66014289",
+      "71e3a0188d8ec3cfcf7de71c4b25aa27f9f48126056e71465e0e613244904d4c",
+      "b919410cb3a34f8ede4d53fbd29b1878494bde8626cfce926d5135de06a70ba1"
+    ],
+    "save_file_sha256": [
+      "b3e6b7bb7b29b3ad3221fb51709817a5f7d6646ed602d117bb46c91b1427fd8b",
+      "e704967018454c8af7142023152ff4654e5c3e93e0a28db128a61f72163ad3d1",
+      "a4f21d61c154a00a5041694be124362d144d8e53f596fad0b09d9dc203963396",
+      "9ab085bc164597cf200b0ca887287c1b1a5c8a4923dd39c565cf394008e98e9a",
+      "efb45011a64df03b25dffd827491b00332207856e8b674c402937112437fdfa6",
+      "b0ef562e63eb9950c08f04854abb8c7b01e96ef21c9a090780778d69f97186d2",
+      "a8b61c38d98e840eaa5ae3f711ca12e295f373e8489e08b18fb061e63577509e",
+      "9f12acf77783e30e7225ff1151c427b1286cd1aded77d9929d8da42de9289f2c",
+      "efc6125b402a64d026a1006fd0b244e23981b6c725396914f7674c837766cacb",
+      "ec55d389683cfda5980df2aa0441895c23bd9d0293d2e4f6906ffbd70073cf44",
+      "4599d0b25a92c5436738e2f4c41c23c1054ac9f63afc1e33e8db32f0b0358399",
+      "18592df7488d530242ae70a6b493ce8f858a0c864bac6090de8d13581ea23552",
+      "2c2cfc00f969cfd3222cd49434c0a9bbe24d785f5b128c162d342d0076cdfe30",
+      "af53b1dd72d85afb19a5d0d2817cf02474f49352dd84f6aec8372032622fe8db",
+      "e64988d20e539574e1838a9fd6488787becab1672a63185a35dc6f9953e2e09b",
+      "9a6c1b6e99a1f0839b29687c5ca588f507d0b412b98c340be2b37106e40aee69",
+      "22e300a4d84cb9a1ca2e5204af48a306ba418d9dfce1cc95f8290a0fbab1e9d5",
+      "1f326ba18386c812828638da67631e5449645bb6a2b3d89bf39f4214800345c5",
+      "5d229e7ce0f7f41c25d1e5aeea5e99d63751b10c9f76a11fec176898a6e131f8",
+      "173b84e39e57528f3abf901a903f84607e0e97cd7ede76ab0430dbc24783b962",
+      "2a02e1df6e2d97ac3088e97e5bcde9ae7bbe2da1290bfe8412d3e4f59504c4cc",
+      "83de72edea559bdfd3358c4755b13f39a35486e250b2a6a2bef93ca9e9b0afad",
+      "2bcc2dff6f1a1e5e7eca7672fbb17b4fd9ecd54ab39be68aa3c4febdb8238663",
+      "b8a2192a1c32b222d32d6439f7b66afa2133133438d254ec687d7096033f4984",
+      "ae90b56690d7015d73a7480ba3a1f7236caa71f97cb2f96883949c043936cd82",
+      "a6d4b165852e1fb9a06e12b0c8a439a7a071bbbcb24bf55396bdb2d08e123b21",
+      "fdf0b59b5a5635ce3d77c03943392e2b3469e0c056acebd9ddec8015687e391d",
+      "5a7b68f77019033ecf18387be45508f60f211294ae7fc3d955bc758cfa7975fd",
+      "2d23a77cd25dc3ac1f1655d3ba4c6a17efde9eff201bd133826b2a79e85dffd7",
+      "fc617b0255aa44345aa0b6068a596a1f0f7afb9d830cdaf9a2e072750f7af874",
+      "11cd18ca80827ba54ca47d876f50eca116b0d92047540d97ce11ec125b441208"
+    ],
+    "final_save_sha256": "11cd18ca80827ba54ca47d876f50eca116b0d92047540d97ce11ec125b441208",
+    "raw_source_files_verified": 341,
+    "replay_binary_sha256": "8f12478ecce2aedecbfc12b30ac601d479bfbabe1dcffc639bd6d9c4a21f8d3e",
+    "verifier_sha256": "cf2029f18592a5f5cb99dc02d2a63109aefb5c60d7c8e12c82016cbfb74a3ce6",
+    "audit_dependencies": {
+      "tools/verification/campaign.py": "cf2029f18592a5f5cb99dc02d2a63109aefb5c60d7c8e12c82016cbfb74a3ce6",
+      "tools/research_baseline.py": "69601a1c020dd54361195beef7c047910193b934a904be2b4135327406111338",
+      "docs/baseline/required-files.json": "8dcac9871537ef2e97abfec038853929a47f0c6cf865ecd09c2a10657533fafb",
+      "docs/baseline/executable/selectable-actors.json": "726deac39fdcf076c778b779a2010cfd892c166be0b504e550000b7f37ad5496"
+    },
+    "checker_sha256": "622d647fc2c71b5f1067d55689fdc71bda19919928ef7ea276e258effdc5ab31"
+  }
+}

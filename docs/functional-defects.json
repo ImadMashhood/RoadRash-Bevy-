@@ -85,11 +85,18 @@
       "id": "release-verification",
       "task": "21.01",
       "severity": "required",
-      "status": "open",
+      "status": "closed",
       "owner": "Implementing agent",
       "reproducer": "RC4 receipts do not certify the changed building/collision/AI/UI source; replacement-candidate verification is required.",
-      "regression": "docs/evidence/native-gameplay-fixes.md",
-      "acceptance_gate": "G5"
+      "regression": "docs/evidence/native-performance-rc6.json",
+      "acceptance_gate": "G5",
+      "closure_evidence": [
+        "docs/evidence/native-performance-rc6.json",
+        "docs/evidence/native-download-rc6.json",
+        "docs/evidence/native-ci-rc6.json",
+        "docs/evidence/native-packaged-career-rc6.json",
+        "docs/evidence/native-delivered-runtime-rc6.json"
+      ]
     },
     {
       "id": "packaging",
@@ -155,11 +162,17 @@
       "id": "interaction-accuracy-gate",
       "task": "19.04",
       "severity": "required",
-      "status": "open",
+      "status": "closed",
       "owner": "Implementing agent",
       "reproducer": "Scenery, collision/topology, combat/police and detached recovery pass their declared scopes: 1,458,070 matching native observations across61 families. Current full career and ordinary UI now pass. Replacement-release acceptance remains open.",
-      "regression": "docs/COLLISION_COMBAT_PRIORITY.md",
-      "acceptance_gate": "G3F"
+      "regression": "docs/evidence/native-voluntary-downloaded-rc6.json",
+      "acceptance_gate": "G3F",
+      "closure_evidence": [
+        "docs/evidence/native-voluntary-downloaded-rc6.json",
+        "docs/evidence/source-manual-dismount.json",
+        "docs/evidence/native-packaged-career-rc6.json",
+        "docs/evidence/native-performance-rc6.json"
+      ]
     },
     {
       "id": "reverse-recovery-motion",
@@ -265,12 +278,17 @@
       "id": "manual-dismount-body-cache",
       "task": "19.02",
       "severity": "blocker",
-      "status": "open",
+      "status": "closed",
       "owner": "Implementing agent",
       "reproducer": "Downloaded RC5 exits101 on ordinary stationary V dismount: a LIVE body is created after per-tick source-road preparation, then indexes a missing independent body config in encounter.rs1358. Correct transition initialization, keyboard recovery and a replacement candidate are required; RC5 scoped career/performance passes remain historical evidence.",
-      "regression": "docs/evidence/native-ordinary-terminal-rc5.md",
-      "acceptance_gate": "G3F/G5"
+      "regression": "docs/evidence/native-voluntary-downloaded-rc6.json",
+      "acceptance_gate": "G3F/G5",
+      "closure_evidence": [
+        "docs/evidence/native-voluntary-downloaded-rc6.json",
+        "docs/evidence/source-manual-dismount.json",
+        "docs/evidence/native-voluntary-local-rc6.json"
+      ]
     }
   ],
-  "scope_note": "Current component, career and ordinary UI checks pass their linked scopes. Replacement-release verification and project-owner G5 acceptance remain open; old RC4 receipts remain historical."
+  "scope_note": "All required RC6 technical defects are closed with current source/actual-artifact evidence. Only project-owner G5 review remains. Stop before mod support, upscaling and other enhancements; prior-candidate failures and limited scopes remain preserved."
 }

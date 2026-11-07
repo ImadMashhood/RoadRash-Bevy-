@@ -1,0 +1,22 @@
+{
+  "source_revision": "d9dac51433d279c5f6a92a266f2db9fe4a665d42",
+  "game_sha256": "a26b1530633b3f53c6a399d7b401bb17b19358223dc576e6b8433becc21cffea",
+  "archive_sha256": "08d7de03ca59e50a4f1cab4d6a0c44d10653771831fed6e5ba3885ad9896d1e6",
+  "tag": "native-functional-2026-11-07-rc6",
+  "performance_acceptance": false,
+  "g5_accepted": false,
+  "outcome": "passed",
+  "source_hidden": true,
+  "app_read_only": true,
+  "cargo_in_path": null,
+  "ordinary_controls": "XTest keyboard only; V, arrows, normal native menus, normal Quit/Continue and window close",
+  "actual_rc6_repeated": [
+    "Fresh owned ISO import: all341 files, conversion, missing-source guidance, cached reopen",
+    "RC5 to RC6 replacement and uninstall preserve all3 profile JSONs, active pointer and6486 imported/catalog files",
+    "Fresh-profile Thrash CITY level1: two voluntary recoveries, resumed driving, natural BUSTED result",
+    "Restroom Player Level5 selection, Thrash CITY: two voluntary recoveries, resumed driving, normal UI Quit/Continue and exit0"
+  ],
+  "prior_actual_rc5_evidence_scope": "Detailed save/backup-corruption restore, showroom priced denial and preference walkthrough remain historical RC5 evidence; they are not relabeled as a repeated RC6 keyboard walkthrough. RC6 separately reopens the preserved profile through packaged production startup.",
+  "private_evidence": "local/downloaded-voluntary-rc6",
+  "normal_exit": 0
+}

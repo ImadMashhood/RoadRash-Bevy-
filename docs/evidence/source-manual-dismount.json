@@ -1,5 +1,5 @@
 {
-  "outcome": "source_regressions_and_local_keyboard_preflight_passed_delivered_replacement_pending",
+  "outcome": "passed_for_declared_source_and_linked_keyboard_scope",
   "baseline_source_revision": "24d05dcf399035fe6c6e70bb19fe1b12488c1cec",
   "implementation_revision": "Containing source commit; exact blobs below",
   "baseline_actual_failure": "native-ordinary-terminal-rc5.json",
@@ -45,5 +45,6 @@
     "manual-dismount-before.log": "fc4ce11823ba97e7cbae2c9965837dd764a5600ddf8c95b4ea050dbf47d7048d",
     "manual-dismount-after-final.log": "1ca733679202b492ab64caff44c1043298515f01fc8cebb324113fbaa37e289a"
   },
-  "release_status": "RC5 remains blocked. Local fixed binary now passes CITYL1 and confirmed CITYL5 repeated voluntary recovery with normal exit; replacement immutable RC6 verification remains required. G5 not signed."
+  "release_status": "Source correction and actual delivered RC6 recovery/package/career/preflights/real-hour checks pass. Only project-owner G5 decision remains pending; no mod/upscaling changes follow this pass.",
+  "delivered_keyboard_evidence": "native-voluntary-downloaded-rc6.json"
 }

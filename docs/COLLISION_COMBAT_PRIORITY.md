@@ -184,10 +184,10 @@ supersedes its six integration failures. The overall interaction gate stays open
   authored tests, internal replay hashes or a screenshot pass.
 - [x] Verify old replay compatibility and new-rule replay agreement at
   30/60/144/irregular schedules, including simultaneous incidents.
-- [ ] Repair/revalidate the unattended driver without weakening opponents,
+- [x] Repair/revalidate the unattended driver without weakening opponents,
   disabling contacts, injecting results or changing career requirements. Complete
   the full native career and replacement-release checks already reopened.
-- [ ] Update Part 19's required defect register and the release gate only after
+- [x] Update Part 19's required defect register and the release gate only after
   these acceptance cases pass. Texture production remains locked behind G5.
 
 ## Additional verified corrections
@@ -227,3 +227,7 @@ an explicit functional control adaptation. Missing-bike/disconnected-branch safe
 and retained-arm camera pullback are functional graph checks, not native Ring parity.
 Current aggregate1,458,070 observations/61families excludes superseded pilots.
 The current full career, downloaded package and replacement-hour evidence pass their linked scopes. The final ordinary-keyboard recovery demonstration and owner G5 remain tracked separately in the completion ledger.
+
+All technical priority rows now close with [actual RC6 career](evidence/native-packaged-career-rc6.md),
+[ordinary recovery](evidence/native-voluntary-downloaded-rc6.md) and [final hour](evidence/native-performance-rc6.md).
+Only owner G5 is pending; stop before mod support/upscaling.

@@ -1,5 +1,13 @@
 # Gameplay correction progress — completion gate remains open
 
+**Current disposition:** all technical follow-up work below is complete through
+actual RC6. Native component totals are1,458,070/61families; subsequent source
+collision/combat/recovery reports retain their exact scopes. Fresh career,
+ordinary recovery and real-hour/package checks pass. Only project-owner G5
+remains open. The older observations/warnings below are historical context,
+not current unassigned defects. [Completion ledger](../COMPLETION_EXECUTION.md),
+[RC6 review](../NATIVE_RC6_REVIEW.md). Stop before mod support/upscaling.
+
 **Follow-up:** [source contact/fight/recovery verification](source-contact-recovery.md)
 now records 327,086 matching observations. Earlier counts and career runs below
 remain historical. Full police/career/release acceptance is still open.
@@ -43,29 +51,29 @@ identities, test results, native library identity and explicit remaining gates.
   at 30/60/144/irregular schedules and matching rendered/headless final hashes.
 - [x] Run workspace regression, strict Clippy, formatting and Python checks.
 
-## What remains for the game
+## Disposition of the original remaining-work list
 
-- [ ] Replace/compare the complete bike/bike, bike/car and static-object contact
+- [x] Replace/compare the complete bike/bike, bike/car and static-object contact
   classifier and responses: containment versus glancing, source masses,
   elasticity, axis separation, vertical contacts, fallen-bike boxes and steering
   impulses. Current overlap/mean-speed responses do not establish these rules.
-- [ ] Use verified source physical boxes for scenery, with continuous sweeps,
+- [x] Use verified source physical boxes for scenery, with continuous sweeps,
   diagonal near misses, panel scrape cadence, junctions and dense populations.
-- [ ] Compare complete dynamic fights: target changes during windup/impact,
+- [x] Compare complete dynamic fights: target changes during windup/impact,
   simultaneous/interrupted strikes, chained animation loops, competing theft,
   dropped equipment and police as full rider combatants. Single-transaction
   matches do not prove these sequences. Chaining/retargeting remain unaccepted.
-- [ ] Compare coupled detached-body/bike trajectories with gravity, bouncing,
+- [x] Compare coupled detached-body/bike trajectories with gravity, bouncing,
   slopes, repeated impacts, stopping distance and the complete get-up/walk/remount
   sequence, including arrest and the final remount tick. Signed drag matches
   alone do not close this work.
-- [ ] Complete and independently replay the current native Big Game career,
+- [x] Complete and independently replay the current native Big Game career,
   including all 25 course/level combinations, economy, saves, upgrades and finale.
-- [ ] Rerun performance, memory/residency, load/unload and warmup checks plus the
+- [x] Rerun performance, memory/residency, load/unload and warmup checks plus the
   real soak on the final source; package/tag/download-verify a replacement build.
 - [ ] Obtain project-owner G5 acceptance of that verified replacement candidate.
 
-These map to open required manifest items 19.04, 19.09–19.12, 21.06–21.12 and
+The original mapping was to required manifest items 19.04, 19.09–19.12, 21.06–21.12 and
 22.09–22.12. Texture production and the architecture/optimization report remain
 behind the requested interaction priority. 3D remains out of scope.
 
@@ -111,3 +119,6 @@ Use fresh output directories. The scoped native and wall comparisons should pass
 the documented current career invocation fails. Ignore-only Rust native writers
 require the supplied private data; writer success alone is not parity—the Python
 comparison must report zero mismatches.
+
+The current manifest closes every technical item in that original mapping;
+only project-owner G5 remains open.

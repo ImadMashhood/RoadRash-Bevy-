@@ -1,0 +1,111 @@
+{
+  "outcome": "passed",
+  "source_revision": "d9dac51433d279c5f6a92a266f2db9fe4a665d42",
+  "scope": "Fresh processes, private install/catalog disk copies and per-course private cache directory. Cold means fdatasync plus POSIX_FADV_DONTNEED on private files; advisory eviction, not cold physical boot. No global cache drop, settings or power-policy change. Warm uses same files/cache. First-frame aggregate includes verification/decode/device/pipeline work; individual shader compilation/upload attribution and actual cache residency remain unmeasured. Short runs are startup checks, not five-minute frame-time acceptance. Fedora XWayland :0 on actual NVIDIA RTX3080 Vulkan.",
+  "startup_budget_ms": 5000,
+  "rows": [
+    {
+      "course": "CITY",
+      "cache": "cold",
+      "first_frame_ms": 942.220706,
+      "duration_s": 5.170001486,
+      "private_files_advised_cold": 6486,
+      "cache_files_after_run": 0,
+      "binary_sha256": "a26b1530633b3f53c6a399d7b401bb17b19358223dc576e6b8433becc21cffea",
+      "report_sha256": "e0482fb7a4be34c485f511ef190ce26a72452ad656ff7fb67f88e8a4388948e9"
+    },
+    {
+      "course": "CITY",
+      "cache": "warm",
+      "first_frame_ms": 896.3815960000001,
+      "duration_s": 5.155789883,
+      "private_files_advised_cold": 0,
+      "cache_files_after_run": 0,
+      "binary_sha256": "a26b1530633b3f53c6a399d7b401bb17b19358223dc576e6b8433becc21cffea",
+      "report_sha256": "abcef92fb01b434cbbdedec0a3c09e5720f1d8d3b7f1a9471e83cf16c2b372d8"
+    },
+    {
+      "course": "HIWAY",
+      "cache": "cold",
+      "first_frame_ms": 843.619032,
+      "duration_s": 5.155452422,
+      "private_files_advised_cold": 6486,
+      "cache_files_after_run": 0,
+      "binary_sha256": "a26b1530633b3f53c6a399d7b401bb17b19358223dc576e6b8433becc21cffea",
+      "report_sha256": "b91f40cce787ce61ffccc573a6243971db6ad7e03bf182faa408262d2e362e5f"
+    },
+    {
+      "course": "HIWAY",
+      "cache": "warm",
+      "first_frame_ms": 775.941489,
+      "duration_s": 5.175063,
+      "private_files_advised_cold": 0,
+      "cache_files_after_run": 0,
+      "binary_sha256": "a26b1530633b3f53c6a399d7b401bb17b19358223dc576e6b8433becc21cffea",
+      "report_sha256": "935d358aa58aef81ce50dac67a6f33c2f204e5e5a4f78c9e018d42b5894d3276"
+    },
+    {
+      "course": "MEDLY",
+      "cache": "cold",
+      "first_frame_ms": 904.752268,
+      "duration_s": 5.15459537,
+      "private_files_advised_cold": 6486,
+      "cache_files_after_run": 0,
+      "binary_sha256": "a26b1530633b3f53c6a399d7b401bb17b19358223dc576e6b8433becc21cffea",
+      "report_sha256": "82876396aa73a0d5f47e41a3d6cbafaf7e562d371f8b20b1342174514a6c44bd"
+    },
+    {
+      "course": "MEDLY",
+      "cache": "warm",
+      "first_frame_ms": 889.104319,
+      "duration_s": 5.170416782,
+      "private_files_advised_cold": 0,
+      "cache_files_after_run": 0,
+      "binary_sha256": "a26b1530633b3f53c6a399d7b401bb17b19358223dc576e6b8433becc21cffea",
+      "report_sha256": "c158b82f9ec8a6de11fc29259e0a8b862bbe1a48539dc4229769ea7bd42e9836"
+    },
+    {
+      "course": "NAPA",
+      "cache": "cold",
+      "first_frame_ms": 854.3089200000001,
+      "duration_s": 5.166408528,
+      "private_files_advised_cold": 6486,
+      "cache_files_after_run": 0,
+      "binary_sha256": "a26b1530633b3f53c6a399d7b401bb17b19358223dc576e6b8433becc21cffea",
+      "report_sha256": "f4565d7c779c86e5688d7ffa680f5ad8b612b435475fa76b4e3abc0cdb82ffdf"
+    },
+    {
+      "course": "NAPA",
+      "cache": "warm",
+      "first_frame_ms": 805.102083,
+      "duration_s": 5.15895441,
+      "private_files_advised_cold": 0,
+      "cache_files_after_run": 0,
+      "binary_sha256": "a26b1530633b3f53c6a399d7b401bb17b19358223dc576e6b8433becc21cffea",
+      "report_sha256": "3a94eb6edb2f36fbdf73c043553496572cee2c71e1c80bd664e5e71818fb7bd2"
+    },
+    {
+      "course": "CANYN",
+      "cache": "cold",
+      "first_frame_ms": 873.258792,
+      "duration_s": 5.163347003,
+      "private_files_advised_cold": 6486,
+      "cache_files_after_run": 0,
+      "binary_sha256": "a26b1530633b3f53c6a399d7b401bb17b19358223dc576e6b8433becc21cffea",
+      "report_sha256": "10ae4c3bd8f6995b92e022be6968b68af316d5b5f1ce3cc09d6c5dded5d0c964"
+    },
+    {
+      "course": "CANYN",
+      "cache": "warm",
+      "first_frame_ms": 817.219971,
+      "duration_s": 5.165967213,
+      "private_files_advised_cold": 0,
+      "cache_files_after_run": 0,
+      "binary_sha256": "a26b1530633b3f53c6a399d7b401bb17b19358223dc576e6b8433becc21cffea",
+      "report_sha256": "c5930544f48506f64ae41cf2d7de80a21ae8fb124d4fa17422e7508b3d508f6c"
+    }
+  ],
+  "release_tag": "native-functional-2026-11-07-rc6",
+  "archive_sha256": "08d7de03ca59e50a4f1cab4d6a0c44d10653771831fed6e5ba3885ad9896d1e6",
+  "actual_downloaded_binary_sha256": "a26b1530633b3f53c6a399d7b401bb17b19358223dc576e6b8433becc21cffea"
+}

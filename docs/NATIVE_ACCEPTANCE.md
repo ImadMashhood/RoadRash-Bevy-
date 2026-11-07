@@ -1,10 +1,11 @@
 # Native functional candidate: Parts 19–22
 
-**Replacement source:** the dismount cache fix now passes 514 workspace tests and ordinary local City level1/level5 recovery, including repeated episodes and normal exit. A new immutable RC6 and delivered-byte verification are being prepared. The rejected RC5 record below remains preserved.
-
-**Release blocked:** ordinary stationary V dismount crashes RC5 (exit101, missing body configuration). The failure requires a code fix, a new candidate and renewed release checks. Earlier RC5 passes below retain their exact scopes; they are not release acceptance. See [the completion ledger](COMPLETION_EXECUTION.md).
-
-**Current RC5 scope:** native interaction/recovery comparisons, the genuine source and downloaded careers, original-art graphical finale, CI and standalone package/UI checks now pass their linked scopes. Final delivered-byte memory/startup/lifecycle and real-hour checks pass, including all five complete warm-course timing gates and verified isolated audio routing. The last ordinary-keyboard natural-terminal demonstration is in progress, followed by owner G5 review. See [the current review packet](NATIVE_RC5_REVIEW.md). Historical RC4 receipts below retain their original scope.
+**Current RC6:** actual download, fresh career, ordinary keyboard recovery,
+graphical finale, standalone packaging and heap/startup/lifecycle/audio preflights
+pass their linked scopes. The real one-hour run passes all five complete warm-course gates; owner G5
+remains pending. See [the RC6 review packet](NATIVE_RC6_REVIEW.md). RC5's dismount panic
+is preserved in [its failed route](evidence/native-ordinary-terminal-rc5.md);
+older receipts retain their original identities.
 
 The acceptance scope is the modern **offline** Thrash and Big Game game on
 Fedora Linux, using the owner's verified original disc and original graphics.
