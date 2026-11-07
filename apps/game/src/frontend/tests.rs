@@ -675,3 +675,63 @@ fn pointer_menu_uses_camera_viewport_at_normal_hidpi_and_letterboxed_sizes() {
         );
     }
 }
+
+#[test]
+fn original_main_menu_hitboxes_preserve_source_slots_and_skip_network_mode() {
+    let mut app = app();
+    app.insert_resource(original::OriginalUi::default());
+    app.add_systems(
+        Update,
+        |mut commands: Commands, shell: Res<Shell>, ui: Res<original::OriginalUi>| {
+            original::main_menu(&mut commands, &shell, &ui);
+        },
+    );
+    app.update();
+    let mut cells: Vec<_> = app
+        .world_mut()
+        .query::<&view::MenuHitbox>()
+        .iter(app.world())
+        .map(|b| (b.index, b.center.x, b.center.y, b.size))
+        .collect();
+    cells.sort_by_key(|c| c.0);
+    assert_eq!(
+        cells,
+        vec![
+            (0, -240., -210., Vec2::new(160., 60.)),
+            (1, -80., -210., Vec2::new(160., 60.)),
+            (2, 240., -210., Vec2::new(160., 60.))
+        ]
+    );
+}
+
+#[test]
+fn original_restroom_disables_save_without_a_career_visually_and_for_pointer_input() {
+    let mut app = app();
+    app.world_mut().resource_mut::<Shell>().frontend.screen = Screen::Restroom;
+    app.insert_resource(original::OriginalUi::default());
+    app.add_systems(
+        Update,
+        |mut commands: Commands, shell: Res<Shell>, ui: Res<original::OriginalUi>| {
+            assert!(original::source_menu(
+                &mut commands,
+                &shell,
+                &ui,
+                &menu(&shell).1
+            ));
+        },
+    );
+    app.update();
+    let world = app.world_mut();
+    let indices: Vec<_> = world
+        .query::<&view::MenuHitbox>()
+        .iter(world)
+        .map(|b| b.index)
+        .collect();
+    assert!(!indices.contains(&1) && !indices.contains(&2));
+    assert!(
+        world
+            .query::<(&Text2d, &TextColor)>()
+            .iter(world)
+            .any(|(text, color)| text.0 == "Save Game" && color.0 == Color::srgb(0.45, 0.45, 0.45))
+    );
+}

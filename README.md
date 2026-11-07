@@ -4,6 +4,8 @@
 
 **Latest verification: [327,086 native observations match](docs/evidence/source-contact-recovery.md).** Controlled contact classification, physical scenery/building boundaries, complete recovery episodes and two-rider fight chains pass. Full police behavior, dense/simultaneous interactions and current career/release acceptance remain open.
 
+**Original interface:** [Native menus, fonts and all three dashboards](docs/evidence/original-ui.md) now replace the standard modern overlay. Original rider portraits, course postcards and the restroom/street layouts are restored; accessibility alternatives remain available.
+
 > **Current implementation:** 3D is deferred. The active target is the classic game in Rust/Bevy using separate bounded format readers, a renderer-independent simulation, and a 2D presentation plugin. See [implementation status](docs/STATUS.md), [build instructions](docs/GETTING_STARTED.md), and [architecture](docs/ARCHITECTURE.md). The detailed roadmap below includes future preparation; those items do not expand the current scope.
 
 A Rust and Bevy recreation of PC Road Rash with deterministic gameplay, bounded content readers, a separate presentation layer and a modern offline interface.

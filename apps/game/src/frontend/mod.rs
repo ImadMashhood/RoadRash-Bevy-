@@ -1,5 +1,6 @@
 //! Bevy shell: commands create domain transitions; only the factory touches imported assets.
 mod input;
+mod original;
 mod storage;
 #[cfg(test)]
 mod tests;
@@ -42,6 +43,7 @@ pub struct Shell {
     social_events: Vec<(u8, u8)>,
     ui_text: rr_session::ui::Catalog,
     hud_capacity: i32,
+    source_ui_root: Option<PathBuf>,
     presentation_art: std::collections::BTreeMap<String, (String, [u32; 2])>,
 }
 pub fn pause_controls(shell: Option<Res<Shell>>) -> bool {
@@ -65,6 +67,12 @@ impl Shell {
             })
             .unwrap_or_else(Catalog::authored);
         let mut frontend = Frontend::default();
+        frontend.bike = options.bike.saturating_sub(1) as u8;
+        // Use the original uncluttered race display for a fresh imported profile.
+        // Saved accessibility preferences below take precedence.
+        if options.data_root.is_some() {
+            frontend.settings.subtitles = false;
+        }
         frontend.settings.vsync = options.vsync;
         frontend.settings.videos = options.video;
         frontend.settings.effects = options.effects;
@@ -155,6 +163,7 @@ impl Shell {
             })
             .unwrap_or_default();
         Self {
+            source_ui_root: options.data_root.clone(),
             presentation_art,
             frontend,
             catalog,
@@ -371,7 +380,10 @@ impl Plugin for FrontendPlugin {
         app.init_resource::<Script>()
             .init_resource::<storage::PreferenceState>()
             .add_systems(Last, storage::preferences)
-            .add_systems(Startup, (banner, load_script, clear_initial_menu))
+            .add_systems(
+                Startup,
+                (banner, original::setup, load_script, clear_initial_menu),
+            )
             .add_systems(Update, script.before(navigate))
             .add_systems(
                 Update,
@@ -382,6 +394,7 @@ impl Plugin for FrontendPlugin {
                     presentation_preferences,
                     render,
                     view::instrument_panel,
+                    original::update,
                 )
                     .chain()
                     .before(PresentationStage::Prepare),

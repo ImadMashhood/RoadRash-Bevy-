@@ -1,4 +1,14 @@
 use super::*;
+pub(super) fn menu_enabled(shell: &Shell, index: usize) -> bool {
+    if shell.frontend.screen != Screen::Restroom {
+        return true;
+    }
+    match index {
+        1 | 2 => shell.frontend.career.is_some(),
+        5 => shell.frontend.mode == Mode::Thrash,
+        _ => true,
+    }
+}
 pub(super) fn navigate(
     keys: Res<ButtonInput<KeyCode>>,
     pads: Query<&Gamepad>,
@@ -89,16 +99,42 @@ pub(super) fn navigate(
             })
     };
     let pad = |button| pads.iter().any(|p| p.just_pressed(button));
+    let columns = match shell.frontend.screen {
+        Screen::Main | Screen::Street => Some(1),
+        Screen::Courses => Some(2),
+        Screen::Characters => Some(3),
+        _ => None,
+    };
     if edge(rr_input::Action::NavigateDown) || pad(GamepadButton::DPadDown) {
-        shell.focus = (shell.focus + 1) % items.len();
+        for _ in 0..items.len() {
+            shell.focus = (shell.focus + 1) % items.len();
+            if menu_enabled(&shell, shell.focus) {
+                break;
+            }
+        }
     }
     if edge(rr_input::Action::NavigateUp) || pad(GamepadButton::DPadUp) {
-        shell.focus = (shell.focus + items.len() - 1) % items.len();
+        for _ in 0..items.len() {
+            shell.focus = (shell.focus + items.len() - 1) % items.len();
+            if menu_enabled(&shell, shell.focus) {
+                break;
+            }
+        }
+    }
+    if let Some(stride) = columns {
+        if keys.just_pressed(KeyCode::ArrowRight) || pad(GamepadButton::DPadRight) {
+            shell.focus = (shell.focus + stride) % items.len();
+        }
+        if keys.just_pressed(KeyCode::ArrowLeft) || pad(GamepadButton::DPadLeft) {
+            shell.focus = (shell.focus + items.len() - stride.min(items.len())) % items.len();
+        }
     }
     if edge(rr_input::Action::Back) || pad(GamepadButton::East) {
         actions.push(Act::Back);
     }
-    if edge(rr_input::Action::Confirm) || pad(GamepadButton::South) {
+    if (edge(rr_input::Action::Confirm) || pad(GamepadButton::South))
+        && menu_enabled(&shell, shell.focus)
+    {
         actions.push(items[shell.focus].1.clone());
     }
     if let Some(action) = actions.first().cloned() {
@@ -162,7 +198,9 @@ pub(super) fn pointer(
         return;
     };
     if let Some(hit) = hitboxes.iter().find(|h| {
-        h.screen == shell.frontend.screen && (point - h.center).abs().cmple(h.size / 2.).all()
+        h.screen == shell.frontend.screen
+            && menu_enabled(&shell, h.index)
+            && (point - h.center).abs().cmple(h.size / 2.).all()
     }) {
         let (_, items) = menu(&shell);
         if let Some((_, action)) = items.get(hit.index) {

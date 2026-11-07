@@ -155,12 +155,13 @@ impl Frontend {
             ) | (Street, Courses | Club | Showroom | Restroom | Repair)
                 | (Club, Schmooze | Restroom | Courses)
                 | (Jukebox, Tracks | Videos)
-                | (Showroom, Bike)
+                | (Showroom, Bike | Repair)
                 | (Bike, Purchase)
                 | (
                     Restroom,
                     Settings | Controls | Jukebox | Characters | Courses | Credits | Saves
                 )
+                | (Settings, Credits | QuitConfirm)
                 | (Results, Standings)
                 | (Racing, Paused)
                 | (Paused, QuitConfirm)
@@ -254,7 +255,7 @@ impl Frontend {
         }
     }
     pub fn select_level(&mut self, catalog: &Catalog, level: u8) -> Result<()> {
-        if self.screen != Screen::Courses || !(1..=5).contains(&level) {
+        if !matches!(self.screen, Screen::Courses | Screen::Restroom) || !(1..=5).contains(&level) {
             return Err("invalid level selection".into());
         }
         if self.mode == Mode::BigGame {

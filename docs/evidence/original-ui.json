@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-06",
+  "implementation_revision": "Containing Git commit",
+  "outcome": "passed_for_declared_ui_scope",
+  "workspace_tests": {
+    "passed": 387,
+    "failed": 0,
+    "ignored": 14,
+    "ignored_scope": "Private native writers; aggregate comparison is separate"
+  },
+  "strict_clippy": "passed",
+  "formatting": "passed",
+  "original_windows_runtime_compared": false,
+  "fonts": [
+    "TEXT/BADLOC.DLL",
+    "TEXT/FUTB.DLL"
+  ],
+  "dashboard_families": [
+    "RAT",
+    "SUPER",
+    "SPORT"
+  ],
+  "dashboard_layout_va": "0x00474f50 + 2*0xdc",
+  "native_menu_screens": [
+    9,
+    10,
+    14,
+    15,
+    16,
+    27
+  ],
+  "captures": [
+    {
+      "screen": "main",
+      "image_sha256": "587157cacec526e19479c33d3d0475a72cb916196d3143c1ead8b6cad796763f",
+      "agent_visual_review": "passed",
+      "commercial_capture_published": false
+    },
+    {
+      "screen": "restroom",
+      "image_sha256": "bd1264490729ee264f3ef1a7349e595674ecccd5cc1c10326512ad74adeb11b0",
+      "agent_visual_review": "passed",
+      "commercial_capture_published": false
+    },
+    {
+      "screen": "characters",
+      "image_sha256": "56d6f74d00586f1e204737619d7f6ff8c1b75829c1330cbec16556114fc1c85f",
+      "agent_visual_review": "passed",
+      "commercial_capture_published": false
+    },
+    {
+      "screen": "courses",
+      "image_sha256": "8d7e0c73aa9cc40ebe4c6fa68e237b9af01661a9d54b8387e05c8aafa93c43d5",
+      "agent_visual_review": "passed",
+      "commercial_capture_published": false
+    },
+    {
+      "screen": "street",
+      "image_sha256": "ecc363309d40396a45b2954342f9f1f654df73b00d2d484f019d10efb898846f",
+      "agent_visual_review": "passed",
+      "commercial_capture_published": false
+    },
+    {
+      "screen": "settings",
+      "image_sha256": "f8b33651c053ad9f656ffb2091db08d86a13e3689cc5f32207d68374babb183f",
+      "agent_visual_review": "passed",
+      "commercial_capture_published": false
+    },
+    {
+      "screen": "dashboard-1",
+      "image_sha256": "04b229c88dfe42dc38b60939748df9db7149caed9b763e9557dafb0a51254fe3",
+      "agent_visual_review": "passed",
+      "commercial_capture_published": false
+    },
+    {
+      "screen": "dashboard-6",
+      "image_sha256": "2c9e199bc36e74d6df3921c0f1179a16bf20b5d86b6c5182d5d5a2218b1e68a9",
+      "agent_visual_review": "passed",
+      "commercial_capture_published": false
+    },
+    {
+      "screen": "dashboard-11",
+      "image_sha256": "d91654d5807aed99089bf51cfa4f8354dfce7f38b37457549e8b0d350b5da182",
+      "agent_visual_review": "passed",
+      "commercial_capture_published": false
+    },
+    {
+      "screen": "countdown",
+      "agent_visual_review": "passed",
+      "commercial_capture_published": false,
+      "image_sha256": "22b7eeaca0d3d0b813a9f59d86659a4f5d5cf6899937e4b8c51b0e0791cd67bc"
+    },
+    {
+      "screen": "accessibility",
+      "agent_visual_review": "passed",
+      "commercial_capture_published": false,
+      "image_sha256": "76d9b3e1da332d93cc0d4a80520cdac76639dfb9798acddd96421e14467a4d7d"
+    }
+  ],
+  "binary_sha256": "130635be8e42b79e20445ec11547e4d9cd33d91725b44af1bc03589cefa7d60b",
+  "commercial_payload_published": false,
+  "g5_accepted": false,
+  "limitations": [
+    "Bevy font shaping is not Windows/GDI pixel identity",
+    "Extended settings retain paginated native-style controls",
+    "Mano-a-Mano is disabled in offline scope",
+    "Police/campaign/performance/release verification remains open"
+  ],
+  "shared_default_texture_preserved": true,
+  "fresh_imported_profile_sound_captions": false,
+  "native_skin_uses_source_art_and_fonts": true,
+  "source_gameplay_base_tree_sha": "2343e48a5ea6bd4ce060112683c0b24154313263"
+}

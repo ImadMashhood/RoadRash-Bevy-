@@ -81,6 +81,7 @@ pub(super) fn banner(mut commands: Commands) {
 #[allow(clippy::type_complexity)]
 pub(super) fn instrument_panel(
     shell: Res<Shell>,
+    original: Option<Res<original::OriginalUi>>,
     snapshot: Res<PresentedSnapshot>,
     mut bars: Query<(&HudBar, &mut Sprite, &mut Transform, &mut Visibility), Without<HudLabel>>,
     mut labels: Query<(&HudLabel, &mut Text2d, &mut TextFont, &mut Visibility), Without<HudBar>>,
@@ -90,7 +91,11 @@ pub(super) fn instrument_panel(
         .as_ref()
         .map_or(shell.hud_capacity, RaceSession::condition_capacity);
     let values = rr_session::ui::HudValues::from_snapshot(&snapshot.0, capacity);
-    let show = shell.race_active() && values.is_some();
+    let show = shell.race_active()
+        && values.is_some()
+        && (original.is_none_or(|ui| !ui.ready)
+            || shell.frontend.settings.high_contrast
+            || shell.frontend.settings.text_scale != 100);
     for (bar, mut sprite, mut transform, mut visibility) in &mut bars {
         *visibility = if show {
             Visibility::Visible
@@ -160,7 +165,7 @@ pub(super) fn menu(shell: &Shell) -> (String, Vec<(String, Act)>) {
     }
     let title = match f.screen {
         Main => {
-            item!("THRASH / QUICK RACE", Act::Begin(Mode::Thrash));
+            item!("Thrash Mode", Act::Begin(Mode::Thrash));
             item!(
                 if f.career.is_some() {
                     "RESUME BIG GAME"
@@ -170,9 +175,7 @@ pub(super) fn menu(shell: &Shell) -> (String, Vec<(String, Act)>) {
                 Act::Begin(Mode::BigGame)
             );
             item!("RESTROOM / OPTIONS", Act::Open(Restroom));
-            item!("CREDITS", Act::Open(Credits));
-            item!("EXIT", Act::Open(QuitConfirm));
-            "ROAD RASH | RUST".into()
+            "Game Mode".into()
         }
         Characters => {
             for c in &shell.catalog.characters {
@@ -192,23 +195,14 @@ pub(super) fn menu(shell: &Shell) -> (String, Vec<(String, Act)>) {
                     Act::Course(i as u8 + 1)
                 );
             }
-            if f.mode == Mode::Thrash {
-                item!(
-                    format!("LEVEL {}  (cycle 1-5)", f.level),
-                    Act::Level(f.level % 5 + 1)
-                );
-            }
             item!("BACK", Act::Back);
             format!("SELECT COURSE | LEVEL {}", f.level)
         }
         Street => {
-            item!("RACE", Act::Open(Courses));
-            item!("DER PANZER KLUB", Act::Open(Club));
-            item!("OLLEY'S SHOWROOM", Act::Open(Showroom));
-            item!("REPAIR BIKE", Act::Open(Repair));
-            item!("RESTROOM", Act::Open(Restroom));
-            item!("GO HOME", Act::Main);
-            "THE STREET".into()
+            item!("Der Panzer Klub", Act::Open(Club));
+            item!("Olley's Skoot-A-Rama", Act::Open(Showroom));
+            item!("Go Home", Act::Main);
+            "The Street".into()
         }
         Club => {
             item!("SCHMOOZE", Act::Open(Schmooze));
@@ -221,6 +215,7 @@ pub(super) fn menu(shell: &Shell) -> (String, Vec<(String, Act)>) {
             for b in &shell.catalog.bikes {
                 item!(format!("{}  ${}", b.name, b.price), Act::Bike(b.id));
             }
+            item!("REPAIR BIKE", Act::Open(Repair));
             item!("THE STREET", Act::Back);
             "SHOWROOM | TRADE-IN AT HALF PRICE".into()
         }
@@ -268,19 +263,23 @@ pub(super) fn menu(shell: &Shell) -> (String, Vec<(String, Act)>) {
             )
         }
         Restroom => {
-            item!("SAVE BIG GAME", Act::Save);
-            item!("LOAD BIG GAME", Act::BrowseLoads);
-            item!("SAVE AS / SLOTS", Act::SaveAs);
-            item!("RESTORE CAREER BACKUP", Act::RestoreBackup);
-            item!("SELECT CHARACTER / NEW RIDER", Act::Open(Characters));
-            item!("PLAYER NAME", Act::Name);
-            item!("DISPLAY & SOUND", Act::Open(Settings));
-            item!("CONFIGURE INPUT", Act::Open(Controls));
-            item!("JUKEBOX", Act::Open(Jukebox));
-            item!("CREDITS", Act::Open(Credits));
-            item!("DONE", Act::Back);
-            item!("GO HOME", Act::Main);
-            "RESTROOM".into()
+            item!("Load Game", Act::BrowseLoads);
+            item!("Save Game", Act::Save);
+            item!("Save Game As...", Act::SaveAs);
+            item!("Game Mode", Act::Main);
+            item!("Graphics Options", Act::Open(Settings));
+            item!(
+                format!("Player Level: {}", f.level),
+                Act::Level(f.level % 5 + 1)
+            );
+            item!("Player Name", Act::Name);
+            item!("Select Character", Act::Open(Characters));
+            item!("Jukebox", Act::Open(Jukebox));
+            item!("Sound Mix", Act::Open(Settings));
+            item!("Configure Input", Act::Open(Controls));
+            item!("Done", Act::Back);
+            item!("Go Home", Act::Main);
+            "Restroom".into()
         }
         Saves => {
             for slot in 0..5 {
@@ -351,6 +350,9 @@ pub(super) fn menu(shell: &Shell) -> (String, Vec<(String, Act)>) {
             );
             item!("RESET GRAPHICS", Act::ResetGraphics);
             item!("RESTORE PREFERENCES BACKUP", Act::RestorePreferences);
+            item!("RESTORE CAREER BACKUP", Act::RestoreBackup);
+            item!("CREDITS", Act::Open(Credits));
+            item!("QUIT", Act::Open(QuitConfirm));
             item!("DONE", Act::Back);
             "SETTINGS".into()
         }
@@ -379,7 +381,7 @@ pub(super) fn menu(shell: &Shell) -> (String, Vec<(String, Act)>) {
             item!("NEXT PAGE", Act::CreditsNext);
             item!("PREVIOUS PAGE", Act::CreditsPrevious);
             item!("BACK", Act::Back);
-            "ROAD RASH RUST | CREDITS".into()
+            "Credits".into()
         }
         Jukebox => {
             for (i, name) in [
@@ -476,7 +478,17 @@ pub(super) fn menu(shell: &Shell) -> (String, Vec<(String, Act)>) {
     )
 }
 type HudQueries<'w, 's> = (
-    Query<'w, 's, (&'static mut Text2d, &'static mut TextFont), With<RaceBanner>>,
+    Query<
+        'w,
+        's,
+        (
+            &'static mut Text2d,
+            &'static mut TextFont,
+            &'static mut Transform,
+            &'static mut Anchor,
+        ),
+        (With<RaceBanner>, Without<HudBackdrop>),
+    >,
     Query<
         'w,
         's,
@@ -485,13 +497,16 @@ type HudQueries<'w, 's> = (
             &'static mut Transform,
             &'static mut Visibility,
         ),
-        With<HudBackdrop>,
+        (With<HudBackdrop>, Without<RaceBanner>),
     >,
 );
 pub(super) fn render(
     mut commands: Commands,
     shell: Res<Shell>,
-    media: Option<Res<crate::media::Media>>,
+    (media, original): (
+        Option<Res<crate::media::Media>>,
+        Option<Res<original::OriginalUi>>,
+    ),
     (assets, snapshot): (Res<AssetServer>, Res<PresentedSnapshot>),
     existing: Query<Entity, With<MenuEntity>>,
     (mut banner, mut backdrops): HudQueries,
@@ -506,6 +521,9 @@ pub(super) fn render(
         .as_ref()
         .map_or(shell.hud_capacity, RaceSession::condition_capacity);
     let hud = rr_session::ui::HudValues::from_snapshot(&snapshot.0, capacity);
+    let native = original.as_ref().is_some_and(|ui| ui.ready)
+        && !shell.frontend.settings.high_contrast
+        && shell.frontend.settings.text_scale == 100;
     let shown = shell.race_active() && hud.is_some();
     let mut status = String::new();
     if shown {
@@ -545,10 +563,13 @@ pub(super) fn render(
             seconds / 60,
             seconds % 60
         );
+        if native {
+            status.clear();
+        }
         if let Some(count) = countdown {
             status.push_str(&format!("   {count}"));
         }
-        if snapshot.0.road_users.iter().any(|a| a.siren) {
+        if !native && snapshot.0.road_users.iter().any(|a| a.siren) {
             status.push_str("  POLICE");
         }
         if let Some(media) = &media
@@ -562,11 +583,33 @@ pub(super) fn render(
             );
         }
     }
-    for (mut text, mut font) in &mut banner {
+    for (mut text, mut font, mut transform, mut anchor) in &mut banner {
         text.0.clone_from(&status);
+        font.font = original
+            .as_ref()
+            .map_or(default(), |ui| ui.body_font.clone().into());
         font.font_size = bevy::text::FontSize::Px(shell.layout.font);
+        if native && let Some(count) = countdown {
+            text.0 = count.to_string();
+            font.font = original.as_ref().unwrap().font.clone().into();
+            font.font_size = bevy::text::FontSize::Px(112.);
+            *anchor = Anchor::TOP_CENTER;
+            transform.translation = Vec3::new(0., 120., 45.);
+        } else {
+            *anchor = Anchor::TOP_LEFT;
+            transform.translation = Vec3::new(-300., 220., 45.);
+        }
     }
     for (mut sprite, mut transform, mut visibility) in &mut backdrops {
+        if native && countdown.is_some() {
+            sprite.custom_size = Some(Vec2::new(2000., 1000.));
+            sprite.color = Color::srgba(0., 0., 0., 0.45);
+            transform.translation = Vec3::new(0., 0., 43.5);
+            *visibility = Visibility::Visible;
+            continue;
+        }
+        transform.translation.x = 0.;
+        transform.translation.z = 44.;
         let height = (status.lines().count() as f32 * shell.layout.font * 1.25 + 8.).min(430.);
         sprite.custom_size = Some(Vec2::new(600., height));
         sprite.color = Color::srgba(
@@ -580,7 +623,7 @@ pub(super) fn render(
             },
         );
         transform.translation.y = 224. - height / 2.;
-        *visibility = if shown {
+        *visibility = if shown && (!native || !status.is_empty()) {
             Visibility::Visible
         } else {
             Visibility::Hidden
@@ -614,11 +657,63 @@ pub(super) fn render(
         Sprite::from_color(Color::srgb(0.025, 0.035, 0.055), Vec2::new(2000., 1000.)),
         Transform::from_xyz(0., 0., 40.),
     ));
+    let result_art = shell.frontend.summary.as_ref().map(|summary| {
+        let family = match summary.outcome() {
+            rr_session::race::Outcome::Won => "WIN",
+            rr_session::race::Outcome::Wrecked => "WRECK",
+            rr_session::race::Outcome::Arrested => "BUST",
+            _ => "LOSE",
+        };
+        format!(
+            "IMAGES/RESULTS/{family}{}.RRI",
+            summary.identity().seed % 6 + 1
+        )
+    });
+    let level_art = format!(
+        "IMAGES/RESULTS/LEVEL{}.RRI",
+        shell.frontend.level.saturating_sub(1).clamp(1, 4)
+    );
     let art = match shell.frontend.screen {
-        Screen::Main | Screen::Characters | Screen::Courses => "IMAGES/MAIN.RRI",
+        Screen::Main => "IMAGES/MAIN.RRI",
+        Screen::Characters => shell
+            .catalog
+            .characters
+            .get(
+                shell
+                    .focus
+                    .min(shell.catalog.characters.len().saturating_sub(1)),
+            )
+            .map_or("IMAGES/MAIN.RRI", |c| c.portrait.as_str()),
+        Screen::Courses => {
+            let name = ["CITY", "SIERRA", "PENIN", "NAPA", "PCH"][shell.focus.min(4)];
+            match (shell.frontend.mode == Mode::Thrash, name) {
+                (true, "CITY") => "IMAGES/POSTCARD/QCITY.RRI",
+                (true, "SIERRA") => "IMAGES/POSTCARD/QSIERRA.RRI",
+                (true, "PENIN") => "IMAGES/POSTCARD/QPENIN.RRI",
+                (true, "NAPA") => "IMAGES/POSTCARD/QNAPA.RRI",
+                (true, _) => "IMAGES/POSTCARD/QPCH.RRI",
+                (false, "CITY") => "IMAGES/POSTCARD/CITY.RRI",
+                (false, "SIERRA") => "IMAGES/POSTCARD/SIERRA.RRI",
+                (false, "PENIN") => "IMAGES/POSTCARD/PENIN.RRI",
+                (false, "NAPA") => "IMAGES/POSTCARD/NAPA.RRI",
+                (false, _) => "IMAGES/POSTCARD/PCH.RRI",
+            }
+        }
         Screen::Club | Screen::Schmooze => "IMAGES/PANZER.RRI",
-        Screen::Showroom | Screen::Bike | Screen::Purchase => "IMAGES/OLLEYS.RRI",
-        Screen::Street => "IMAGES/POSTCARD/CITY.RRI",
+        Screen::Showroom => "IMAGES/OLLEYS.RRI",
+        Screen::Bike | Screen::Purchase => shell
+            .catalog
+            .bike(shell.frontend.selected_bike)
+            .map_or("IMAGES/OLLEYS.RRI", |b| b.source_image.as_str()),
+        Screen::Results | Screen::Standings => result_art.as_deref().unwrap_or("IMAGES/MAIN.RRI"),
+        Screen::LevelUp => &level_art,
+        Screen::Finale => "IMAGES/RESULTS/FINALE.RRI",
+        Screen::Street => "IMAGES/STREET.RRI",
+        Screen::Restroom | Screen::Settings | Screen::Controls | Screen::Saves => {
+            "IMAGES/RESTROOM/REST1.RRI"
+        }
+        Screen::Jukebox | Screen::Tracks | Screen::Videos => "IMAGES/PANZER.RRI",
+        Screen::Credits => "IMAGES/CREDITS.RRI",
         _ => "IMAGES/MAIN.RRI",
     };
     if !shell.frontend.settings.high_contrast
@@ -629,25 +724,35 @@ pub(super) fn render(
             Sprite {
                 image: assets.load(blob.clone()),
                 custom_size: Some(Vec2::new(640., 480.)),
-                color: Color::srgb(0.7, 0.7, 0.7),
+                color: Color::WHITE,
                 ..default()
             },
             Transform::from_xyz(0., 0., 40.2),
         ));
     }
-    commands.spawn((
-        MenuEntity,
-        Sprite::from_color(
-            Color::srgba(0.015, 0.025, 0.04, 0.68),
-            Vec2::new(600., 440.),
-        ),
-        Transform::from_xyz(0., 0., 40.5),
-    ));
-    commands.spawn((
-        MenuEntity,
-        Sprite::from_color(Color::srgb(1., 0.64, 0.12), Vec2::new(600., 3.)),
-        Transform::from_xyz(0., 220., 41.),
-    ));
+    if native && !shell.frontend.settings.high_contrast {
+        if shell.frontend.screen == Screen::Main && items.len() == 3 {
+            original::main_menu(&mut commands, &shell, original.as_ref().unwrap());
+            return;
+        }
+        if original::source_menu(&mut commands, &shell, original.as_ref().unwrap(), &items) {
+            return;
+        }
+    } else {
+        commands.spawn((
+            MenuEntity,
+            Sprite::from_color(
+                Color::srgba(0.015, 0.025, 0.04, 0.68),
+                Vec2::new(600., 440.),
+            ),
+            Transform::from_xyz(0., 0., 40.5),
+        ));
+        commands.spawn((
+            MenuEntity,
+            Sprite::from_color(Color::srgb(1., 0.64, 0.12), Vec2::new(600., 3.)),
+            Transform::from_xyz(0., 220., 41.),
+        ));
+    }
     if shell.frontend.screen == Screen::Main
         && !shell.layout.compact
         && shell.frontend.settings.text_scale == 100
@@ -873,12 +978,19 @@ pub(super) fn render(
             body.push_str(&format!("({}/{})\n", page + 1, pages));
         }
     }
-    body.push_str(if shell.layout.compact {
-        "U/D Enter/A Esc/B"
-    } else {
-        "\nUp/Down / D-pad | Enter / A | Esc / B"
-    });
+    if !native {
+        body.push_str(if shell.layout.compact {
+            "U/D Enter/A Esc/B"
+        } else {
+            "\nUp/Down / D-pad | Enter / A | Esc / B"
+        });
+    }
     let font = shell.layout.font;
+    let selected_rows: Vec<usize> = hit_rows
+        .iter()
+        .filter(|(i, _, _)| *i == shell.focus)
+        .flat_map(|(_, row, lines)| *row..*row + *lines)
+        .collect();
     for (i, row, lines) in hit_rows {
         let height = lines as f32 * font * 1.25;
         let center = Vec2::new(0., 220. - row as f32 * font * 1.25 - height / 2.);
@@ -891,7 +1003,9 @@ pub(super) fn render(
                 size: Vec2::new(592., height),
             },
             Sprite::from_color(
-                if i == shell.focus {
+                if native && !shell.frontend.settings.high_contrast {
+                    Color::NONE
+                } else if i == shell.focus {
                     Color::srgba(0.27, 0.36, 0.46, 0.95)
                 } else {
                     Color::srgba(0.08, 0.13, 0.18, 0.75)
@@ -900,7 +1014,7 @@ pub(super) fn render(
             ),
             Transform::from_xyz(center.x, center.y, 41.),
         ));
-        if i == shell.focus {
+        if i == shell.focus && !native {
             commands.spawn((
                 MenuEntity,
                 Sprite::from_color(Color::srgb(1., 0.64, 0.12), Vec2::new(3., height)),
@@ -908,23 +1022,63 @@ pub(super) fn render(
             ));
         }
     }
-    commands.spawn((
-        MenuEntity,
-        Text2d::new(rr_session::ui::wrap(&body, shell.layout.columns).join("\n")),
-        bevy::text::LineHeight::RelativeToFont(1.25),
-        TextFont {
-            font_size: bevy::text::FontSize::Px(font),
-            ..default()
-        },
-        TextColor(if shell.frontend.settings.high_contrast {
-            Color::WHITE
-        } else {
-            Color::srgb(0.9, 0.92, 0.95)
-        }),
-        Anchor::TOP_LEFT,
-        Transform::from_xyz(-300., 220., 42.),
-    ));
-    if shell.layout.compact {
+    if native && !shell.frontend.settings.high_contrast {
+        let ui = original.as_ref().unwrap();
+        for (row, line) in rr_session::ui::wrap(&body, shell.layout.columns)
+            .iter()
+            .enumerate()
+        {
+            let selected = selected_rows.contains(&row);
+            for (dx, dy, color, z) in [
+                (2., -2., Color::BLACK, 41.8),
+                (
+                    0.,
+                    0.,
+                    if selected {
+                        Color::srgb(1., 1., 0.)
+                    } else {
+                        Color::WHITE
+                    },
+                    42.,
+                ),
+            ] {
+                commands.spawn((
+                    MenuEntity,
+                    Text2d::new(line.trim_start_matches("> ")),
+                    TextFont {
+                        font: if row == 0 {
+                            ui.font.clone().into()
+                        } else {
+                            ui.body_font.clone().into()
+                        },
+                        font_size: bevy::text::FontSize::Px(font),
+                        ..default()
+                    },
+                    TextColor(color),
+                    Anchor::TOP_LEFT,
+                    Transform::from_xyz(-296. + dx, 220. - row as f32 * font * 1.25 + dy, z),
+                ));
+            }
+        }
+    } else {
+        commands.spawn((
+            MenuEntity,
+            Text2d::new(rr_session::ui::wrap(&body, shell.layout.columns).join("\n")),
+            bevy::text::LineHeight::RelativeToFont(1.25),
+            TextFont {
+                font_size: bevy::text::FontSize::Px(font),
+                ..default()
+            },
+            TextColor(if shell.frontend.settings.high_contrast {
+                Color::WHITE
+            } else {
+                Color::srgb(0.9, 0.92, 0.95)
+            }),
+            Anchor::TOP_LEFT,
+            Transform::from_xyz(-300., 220., 42.),
+        ));
+    }
+    if shell.layout.compact || (native && shell.frontend.screen == Screen::Bike) {
         return;
     }
     // A preview is presentation-only; family identity and gameplay stats remain typed domain records.

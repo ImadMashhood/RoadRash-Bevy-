@@ -737,3 +737,37 @@ fn quick_results_keep_quick_character_and_level_with_an_existing_career() {
     assert_eq!(f.level, 5);
     assert_eq!(f.career, frozen);
 }
+
+#[test]
+fn original_restroom_level_control_keeps_big_game_progress_locked() {
+    let catalog = Catalog::authored();
+    let mut front = Frontend::default();
+    front.screen = Screen::Restroom;
+    front.select_level(&catalog, 3).unwrap();
+    assert_eq!(front.level, 3);
+    front.return_main();
+    front.begin(Mode::BigGame);
+    front.choose_character(&catalog, 1).unwrap();
+    front.open(Screen::Restroom).unwrap();
+    assert!(front.select_level(&catalog, 2).is_err());
+    assert_eq!(front.career.as_ref().unwrap().level, 1);
+}
+
+#[test]
+fn original_menu_routes_keep_repair_credits_and_quit_accessible() {
+    let catalog = Catalog::authored();
+    let mut front = Frontend::default();
+    front.begin(Mode::BigGame);
+    front.choose_character(&catalog, 1).unwrap();
+    front.open(Screen::Showroom).unwrap();
+    front.open(Screen::Repair).unwrap();
+    front.back();
+    front.back();
+    assert_eq!(front.screen, Screen::Street);
+    front.open(Screen::Restroom).unwrap();
+    front.open(Screen::Settings).unwrap();
+    front.open(Screen::Credits).unwrap();
+    front.back();
+    front.open(Screen::QuitConfirm).unwrap();
+    assert!(front.career.is_some());
+}
