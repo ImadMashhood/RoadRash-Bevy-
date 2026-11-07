@@ -43,8 +43,9 @@ Restroom → Settings controls language (English, French, Spanish, German or
 Italian), text scale (75–150%), high contrast, reduced camera motion, reduced
 flashes, sound captions, audio buses, automatic videos and vsync. Modern keyed
 labels and original local dialogue/credits use the selected language; proper
-names and some diagnostic/result prose retain English. Source menu artwork is
-approximated by accessible panels. Sound captions describe gameplay cues; they
+names and some diagnostic/result prose retain English. Original menu artwork is
+used at the standard text settings; scaled text and high contrast use accessible
+panels. Sound captions describe gameplay cues; they
 are **not film speech transcripts**. Reduced flashes suppress automatic films;
 explicit film playback remains available. Films: Space pauses, Enter/Escape or
 controller South/East skips and returns to the owning screen. The jukebox has
@@ -89,3 +90,10 @@ This is an offline recreation candidate with original textures. Network play,
 AI-upscaled production assets, a 3D renderer, original-runtime parity and other
 operating systems are outside this candidate's acceptance. Enhancement production
 stays locked until the native release gate has an explicit recorded signoff.
+
+Driving, contact, combat and recovery use a fixed 60 Hz simulation. Split and
+merge routes use a tested modern graph bridge; exact original scheduler and
+full traffic trajectory parity are not claimed. Police walk and mount using
+original rider artwork recolored for police because the original cop sprite
+sheet has no upright foot animation. Their mounted and falling artwork remains
+the original cop artwork; the foot sequence has a visibly different uniform.
